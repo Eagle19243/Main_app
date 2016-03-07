@@ -11,12 +11,33 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1204824659546785',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
     <header>
+      <div class="generalcontent">
       <%= render 'layouts/navigation' %>
+    </div>
     </header>
+    <%= render 'layouts/messages' %>
+    <%= yield %>
     <main role="main">
-       <%= render 'layouts/messages' %>
-       <%= yield %>
+       
+       <%= debug(params) %>
     </main>
   </body>
 </html>

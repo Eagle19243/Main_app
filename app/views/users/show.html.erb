@@ -1,3 +1,19 @@
-<h3>User</h3>
-<p>Name: <%= @user.name if @user.name %></p>
-<p>Email: <%= @user.email if @user.email %></p>
+<br><div class="row">
+<div class="small-6 columns">
+	<p><h3 class="subheader"><%= @user.name if @user.name %></h3></p>
+	<p>Email: <%= @user.email if @user.email %></p>
+	<p>About me: <%= @user.description%></p>
+	<p><% if @user.admin? %>Admin 
+		<% elsif @user.manager %>Manager
+		<%else%>
+         User
+
+		 <%end%>
+
+</div>
+<div class="small-6 columns">
+
+ <%=link_to "Send a Message", conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: 'post', class:"button right" %>
+</div>
+
+</div>

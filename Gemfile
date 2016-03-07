@@ -7,6 +7,18 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+gem 'country_select'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
+gem 'groupify'
+gem 'foundation-datetimepicker-rails'
+gem 'jquery-ui-rails'
+gem 'tinymce-rails'
+gem 'aasm'
+gem 'social-share-button'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
+
 group :development, :test do
   gem 'byebug'
 end

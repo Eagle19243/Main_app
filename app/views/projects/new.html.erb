@@ -1,0 +1,41 @@
+<%= tinymce_assets %>
+<br>
+
+<div class="middle">
+
+
+
+
+   <% if current_user.admin? || current_user.manager? %>
+    <h3>Create a Project</h3>
+    <%else%>
+
+    <main role="main">
+     <p>
+     	Hello <strong><%=current_user.name %></strong>, <br>
+     	To create a project, you must at least have a <strong>Project Manager Status.</strong><br>
+     	Please introduce yourself and the institution you represent, describe your project, add your contact information to request a Project Manager Status.<br>
+Once your request is accepted and your project approved, you will gain <strong>Project Manager Status.</strong><br>
+Then you will be able to create and manage your projects...</p>
+     </main><hr>
+   <br><br><br>
+    
+
+    
+
+
+<%end%>
+ <%= render 'form' %>
+
+
+
+  </div>
+
+
+
+
+
+
+<%= link_to 'Back', projects_path %>
+
+</div>

@@ -1,0 +1,33 @@
+<br><br>
+
+
+
+<div class="generalcontent">
+
+<h4>YouServe</h4><br>
+
+<h5><em>The Collaborative to-do list</em></h5><br>
+
+ 
+ <div class="jumbo">
+
+<main role="main">
+      
+      <p> Lorem ipsum dolor sit amet, ut pri vero simul vulputate. Ei mei eros aliquip scaevola, an his noster fierent indoctum, eum et labores torquatos. Stet vidisse cu sea. Ad quo quod laudem. Quo officiis insolens euripidis ad, ius et noster eripuit necessitatibus.
+
+Mea in sanctus convenire repudiandae, ei choro percipit sea, per te neglegentur mediocritatem. Populo atomorum pericula nec ne, ne sea eruditi laoreet. Sea ea mandamus temporibus, ne eros iriure ocurreret mei, id mea scripta salutandi definitiones. Cibo iriure nonumes cu ius, te vel etiam exerci graeco. Pri aliquid vituperata concludaturque cu, primis discere id mei.
+
+Est at luptatum expetenda. Cum unum impedit no, ei mea ferri ipsum animal, an munere cetero concludaturque pri. Postea melius liberavisse qui an. Minim intellegebat sea ne, ei per delenit omnesque deleniti. Mucius cotidieque ea sea, te noluisse intellegat vel...
+      </p>
+    </main>
+</div>
+    <br><br><br><hr>
+    
+
+    <% if !current_user %>
+    <div class="signingButton">
+     <br><%=link_to "Sign Up", new_user_registration_path, class:"button tiny radius" %><br>
+     <%= link_to "Sign In", new_user_session_path, class:"button tiny radius" %>
+    </div>
+    <%end%>
+  </div>

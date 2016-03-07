@@ -1,0 +1,19 @@
+<%= simple_form_for(@wiki) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+    <%= f.input :description %>
+
+     Picture1: <%= f.file_field :pictureone %><br>
+     Picture2: <%= f.file_field :picturetwo %><br>
+     Picture3: <%= f.file_field :picturethree %><br>
+     Picture4: <%= f.file_field :picturefour %><br>
+     Picture5: <%= f.file_field :picturefive %><br>
+    <%= f.hidden_field :project_id, value: params[:project_id]%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

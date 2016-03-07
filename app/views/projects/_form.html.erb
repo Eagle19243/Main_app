@@ -1,0 +1,26 @@
+
+<%= simple_form_for(@project, html: { multipart: true }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <% if !current_user.admin? && !current_user.manager? %>
+    <h4 class="subheader"><center> Describe yourself, the institution you represent, add your contact info</center></h4>
+    <%= f.text_area :request_description, :rows => 20, :cols => 20 %>
+    <%end%>
+    <br>
+    <h4 class="subheader"><center>Your Project</center></h4>
+    <%= f.input :title %>
+    <%= f.label :description, "Overview" %>
+    <%= f.text_area :description, :class=>'tinymce', :rows => 20, :cols => 60 %>
+    <%= f.input :country %>
+    <%= f.label :expires_at %>
+    <%= f.text_field :expires_at %>
+  
+
+    Upload Project Picture:<%= f.file_field :picture %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: "button tiny radius" %>
+  </div>
+<% end %>

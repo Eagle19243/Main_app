@@ -1,0 +1,128 @@
+<p id="notice"><%= notice %></p>
+
+  <h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
+    
+    <% if current_user.admin? || (current_user == @task.project.user) %>
+
+<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Delete', edit_task_path(@task) %> |
+<%= link_to 'Back', @task.project %>
+<%end%>
+
+<div class= "row" >
+	<div class="small-3 columns">
+   
+
+    
+    <br>
+    <p><h2><em><%= @task.number_of_participants %> 3 </em></h2>
+   <h6><%= link_to "Collaborators", '#'%></h6>
+    </p>
+   
+     <p><h2><em><%= @task.target_number_of_participants %></em></h2>
+      <h6 class="subheader"> Target </h6></p>
+   
+  
+	</div>
+
+    <div class= "small-3 columns">
+      <br>
+    <p><h2><em>$<%= @task.current_fund %></em></h2>
+         <h6 class="subheader">Raised</h6></p>
+
+         <p>
+     <h2><em>$<%= @task.budget %></em></h2>
+           <h6 class="subheader">Target</h6></p>
+    
+
+
+
+
+
+
+    </div>
+
+
+    <div class="small-6 columns" ><br><br>
+
+      <%= link_to "Do", '#', class:'button radius' %>
+       <%= link_to "Do For Free", '#', class:'button radius' %>
+        <%= link_to "Fund", '#', class:'button radius success' %><br><br>
+
+           <div id="myProgress">
+       <div id="myBar"></div>
+       <div id="label"><%= @task.current_fund/@task.budget %>% funded </div>
+       </div>
+        
+        </div>
+  </div>
+
+
+
+
+
+
+  <br>
+	
+
+
+<p>
+<h4 class="subheader"><u>Task Description:</u></h4>
+  <%= @task.description %>
+</p><br>
+
+
+<p>
+  <h4 class="subheader"><u>Condition of execution:</u></h5>
+  <%= @task.condition_of_execution %>
+</p><br>
+
+<hr>
+
+
+<%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
+ 
+  <p>
+    <%= f.label :body, "Write your comment" %><br/>
+    <%= f.text_area :body, :class => "tinymce" %>
+  </p>
+   <%= f.hidden_field :task_id, value: @task.id %>
+   <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <p>
+    <%= f.submit 'Submit', class: 'btn btn-primary' %>
+  </p>
+<% end %>
+
+<br>
+
+   <% @comments.each do |comment| %>
+     
+
+    <span class="comment"><small><%= comment.body %></small></span>
+     <br/>
+
+     <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
+        
+        <%end%>
+     
+    <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
+     </em></strong></small></h4>
+    </li>
+    <br>
+    <br>
+    <%end%>
+
+
+
+
+
+
+
+
+<% if current_user.admin? || (current_user == @task.project.user) %>
+<%= link_to 'Edit', edit_task_path(@task) %> | <%end%>
+<%= link_to 'Back', @task.project %>
+
+
+

@@ -1,0 +1,28 @@
+<%= simple_form_for(@task) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+ 
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :budget %>
+    <%= f.input :condition_of_execution %>
+    <%= f.label :deadline %>
+    <%= f.text_field :deadline %>
+    
+    <%= f.input :target_number_of_participants %>
+
+    File1: <%= f.file_field :fileone %><br>
+     FIle2: <%= f.file_field :filetwo %><br>
+     File3: <%= f.file_field :filethree %><br>
+     File4: <%= f.file_field :filefour %><br>
+     File5: <%= f.file_field :filefive %><br>
+     <%= f.hidden_field :project_id, value: params[:project_id]%>
+     
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

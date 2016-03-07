@@ -14,6 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require foundation
+//= require foundation-datetimepicker
+//= require jquery-ui/datepicker
+//= require tinymce-jquery
+//= require social-share-button
 //= require_tree .
 $(function() {
   $(document).foundation();

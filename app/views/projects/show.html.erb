@@ -1,0 +1,177 @@
+<p id="notice"><%= notice %></p>
+
+<%= social_share_button_tag("YouServe, the social impact and crowdfunding platform.", :url => "http://youserve.org", :image => @project.picture) %>
+
+<%if @project.pending? %>
+
+<% if current_user.admin? %>
+<%= link_to "Reject request", reject_project_path(@project.id), :data => { :confirm => "Are you sure?" }, class:"button tiny alert radius" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Accept request", accept_project_path(@project.id), class:"button tiny success radius right" %>
+<%end%>
+   <h3 class="subheader"><center>Request pending</center></h3><br>
+
+      <h4><u> Request Description:</u></h4> 
+    <%= @project.request_description %><br><br>
+
+     <hr><h4 class="subheader"><center>Requested Project </center></h4><br>
+   
+
+
+
+
+<%end%>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2><u><%= @project.title %></u></h2> 
+<% if current_user.admin? || (current_user == @project.user) %>
+
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'New Article', '#' %> |
+<%= link_to 'New Task', new_task_path(project_id: @project.id) %> |
+<%= link_to 'Delete', edit_project_path(@project) %> 
+<% end %>
+
+<br>
+<br>
+<div class="row">
+<div class="projectPanel small-8 columns">
+<div class="row">
+<ul class="tabs vertical small-6 columns" data-tab>
+  <li class="tab-title active"><a href="#panel198">Overview</a></li>
+  <li class="tab-title"><a href="#panel189">Team</a></li>
+  <%i = 1%>
+  <% @project.wikis.each do |wiki| %>  
+  <li class="tab-title"><a href=<%="#panel"+ i.to_s %>><%= wiki.title %><!--Article #<%=i%>--></a></li>
+  <%i += 1%>
+  <%end%>
+  <br>
+  <%=link_to "Write a new article", new_wiki_path(project_id: @project.id), class:"button tiny radius" %>
+</ul>
+<div class="tabs-content vertical small-6 columns">
+  <div class="content active" id="panel198">
+     
+
+
+
+     
+      <p><%= image_tag @project.picture.url %></p>
+      <p><%= @project.description.html_safe %></p>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+  </div>
+  <div class="content" id="panel189"></div>
+     <%i=1%>
+  <% @project.wikis.each do |wiki| %>   
+  <div class="content" id=<%="panel"+ i.to_s%>>
+    <h2 class="subheader"><center><%= wiki.title %></center></h2>
+    <center>
+      <% if current_user.admin? || (current_user == @project.user) %>
+      <%= link_to 'Edit Article', edit_project_path(@project) %> |
+      <%= link_to 'Delete Article', new_task_path(project_id: @project.id) %> 
+      <%end%>
+      
+    </center><br>
+    <p><%=wiki.description %></p>
+  </div>
+  <%i += 1 %>
+  <%end%> 
+</div>
+</div>
+</div>
+<span class="small-4 columns ">
+<h3 class="subheader">Tasks</h3>
+<% @project.tasks.each do |task| %>
+ <h5 class="subheader"><em><%= link_to task.title, task %></em></h5>
+ <% if current_user.admin? || (current_user == @project.user) %>
+ <u><%= link_to 'Edit Task', edit_project_path(@project) %></U> |
+ <u><%= link_to 'Delete Task', new_task_path(project_id: @project.id) %></u><br><%end%> 
+ <%= truncate(task.description, :length => 90) %>
+ <div id="myProgress">
+       <div id="myBar"></div>
+       </div>
+       <span class="right">
+       $<%= task.current_fund %> of $<%= task.budget %>&nbsp;(<strong><%= task.current_fund/task.budget %></strong>%)
+       </span>
+ <br><br>
+ <%=link_to "Do", '#', class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", '#', class:"button tiny radius" %> &nbsp;<%=link_to "Fund", '#', class:"button tiny success radius" %><br><br>
+ <br>
+<%end%>
+</span>
+</div>
+
+<hr>
+
+<%= form_for  [@project, @project.project_comments.build] do |f| %>
+ 
+  <p>
+    <%= f.label :body, "Comment on Project" %><br/>
+    <%= f.text_area :body, :class => "tinymce" %>
+  </p>
+   <%= f.hidden_field :project_id, value: @project.id %>
+   <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <p>
+    <%= f.submit 'Submit', class: 'btn btn-primary' %>
+  </p>
+<% end %>
+
+<br>
+
+   <% @comments.each do |comment| %>
+     
+
+    <span class="comment"><small><%= comment.body %></small></span>
+     <br/>
+
+     <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
+        
+        <%end%>
+     
+    <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
+     </em></strong></small></h4>
+    </li>
+    <br>
+    <br>
+    <%end%>
+
+
+   

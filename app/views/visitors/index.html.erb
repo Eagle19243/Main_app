@@ -1,2 +1,77 @@
-<h3>Welcome</h3>
-<p><%= link_to 'Users:', users_path %> <%= User.count %> registered</p>
+<br><br>
+
+
+<div class="generalcontent">
+
+YouServe is a social impact and crowdfunding platform. <% if !user_signed_in? %>  Join us and help solve social issues in your area.<%= link_to "Sign Up", new_user_registration_path %>, <%=link_to "Login", new_user_session_path %>, or <%=link_to" Learn more about YouServe", page_path('discover')  %><%else%>
+Help solve social issues in your area.
+<%end%>
+
+<br><br><br><br>
+
+
+<h2><u>Active Projects:</u></h2><br>
+
+<%if @projects %>
+
+<% @projects.each do |project| %>
+
+<%if project.accepted? %>
+<div class="row">
+
+
+  <div class="small-6 columns">
+   <div class="row">
+   	<div class="small-6 columns">
+  	<% if project.picture? %>
+  	<%= image_tag project.picture.url %>
+  	<%end%>
+  </div>
+
+  <div class="small-6 columns">
+      <h5 class="subheader"><%=link_to project.title, project_path(project) %></h5>
+     Location: <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= project.country %></em><br>  
+     Project Admin: <%= link_to project.user.name, project.user %>  
+     Created on <em>&nbsp;&nbsp;<%= project.created_at.strftime("%m/%d/%Y") %></em><br>
+     Expires on<em>&nbsp;&nbsp;<%= project.expires_at %></em><br><br>
+     
+
+
+  </div>
+</div>
+
+
+
+
+  </div>
+ 
+
+  <div class="small-5 columns">
+    <h5 class="subheader">Task List</h5>
+      <% i = 1 %>
+    <% project.tasks.each do |task| %>
+       <strong>Task #<%=i%></strong>: <%= truncate(task.description) %><br>
+       <div id="myProgress">
+       <div id="myBar"></div>
+       <div id="label"><%= task.current_fund/task.budget %> %</div>
+       </div>
+       <span class="right">
+       <%= task.current_fund %> of $<%= task.budget %> 
+       </span>
+       <br><br>
+       <% i +=1 %>
+        
+    <%end%>
+    <%= link_to "View Project Tasks | Fund or Do", project_path(project) %>
+  </div>
+</div>
+<hr>
+<%end%>
+
+
+
+<%end%>
+<%end%>
+
+
+</div>

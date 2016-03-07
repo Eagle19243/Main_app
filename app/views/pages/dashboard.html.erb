@@ -1,0 +1,54 @@
+
+		<h4 class="subheader"><u>My Profile</u></h4>
+	<%= image_tag(current_user.picture.url, size: "200x200") %>
+	<%= current_user.email %><br><br>
+
+
+
+	<h4 class="subheader"><center><u>Requests</u></center></h4><br><br>
+
+
+	<!--if user is admin -->
+      
+            
+          <!--Project Creation Requests Accept or Reject -->
+             <!--User Status Requests -->
+             <ul>
+             <% Project.all.each do |project| %>
+                
+             <% if project.pending? && current_user.admin? %>
+            <%=link_to project.user.name, project.user %> requested to create project <%=link_to project.title, project_path(project) %> <%= link_to "Reject", reject_project_path(project.id), :data => { :confirm => "Are you sure?" }, class:"button tiny alert radius right" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Accept", accept_project_path(project.id), class:"button tiny success radius right" %>
+                 <hr>
+                <% end%>
+                <%end%>
+         
+
+
+
+             
+       
+
+
+
+
+	<!-- if user is a project manager -->
+	     <!--Task Creation request -->
+     
+
+
+
+         
+
+	<!-- if user is simple user -->
+	      <!-- Join a project request  as admin, collaborator-->
+	      <!-- Volunteer for Project or Task -->
+         
+   
+
+	<!-- if user 
+
+
+
+
+
+
