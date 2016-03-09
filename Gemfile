@@ -17,7 +17,6 @@ gem 'jquery-ui-rails'
 gem 'tinymce-rails'
 gem 'aasm'
 gem 'social-share-button'
-gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 group :development, :test do
   gem 'byebug'

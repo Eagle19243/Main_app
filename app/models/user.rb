@@ -13,6 +13,20 @@ class User < ActiveRecord::Base
 
   has_many :projects, dependent: :destroy
   has_many :project_comments, dependent: :destroy
+  has_many :activities
+  belongs_to :institution 
+
+
+
+  def create_activity(item, action)
+    activity = activities.new
+    activity.targetable = item
+    activity.action = action
+
+    activity.save
+    activity
+
+  end
 
 
 end

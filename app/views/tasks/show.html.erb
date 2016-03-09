@@ -99,7 +99,7 @@
    <% @comments.each do |comment| %>
      
 
-    <span class="comment"><small><%= comment.body %></small></span>
+    <span class="comment"><%= comment.body %></span>
      <br/>
 
      <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>

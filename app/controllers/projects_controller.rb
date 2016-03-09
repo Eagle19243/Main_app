@@ -35,14 +35,11 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
-      if @project.save
-        if @project.state = "pending"
-          format.html { redirect_to @project, notice: 'Your project request was successfully sent.' }
-          format.json { render :show, status: :created, location: @project }
-        else
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
+      if @project.save  
+        activity = current_user.create_activity(@project, 'created')
+        activity.user_id = current_user.id
+        format.html { redirect_to @project, notice: 'Project was created.' }
         format.json { render :show, status: :created, location: @project }
-      end
       else
         format.html { render :new }
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -55,6 +52,8 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
+        activity = current_user.create_activity(@project, 'updated')
+        activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else
@@ -70,6 +69,8 @@ class ProjectsController < ApplicationController
   def accept
     @project = Project.find(params[:id])
      if @project.accept!
+       activity = current_user.create_activity(@project, 'accepted')
+       activity.user_id = current_user.id
         @project.user.update_attribute(:role, 'manager');
         #Change all pending projects for user
       flash[:success] = "Project Request accepted"
@@ -86,6 +87,8 @@ class ProjectsController < ApplicationController
   def reject
     @project = Project.find(params[:id])
     if @project.reject!
+      activity = current_user.create_activity(@project, 'rejected')
+      activity.user_id = current_user.id
       flash[:success] = "Project rejected"
     else
       flash[:error] = "Project could not be rejected"
@@ -99,6 +102,8 @@ class ProjectsController < ApplicationController
   def destroy
     @project.destroy
     respond_to do |format|
+      activity = current_user.create_activity(@project, 'deleted')
+      activity.user_id = current_user.id
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
@@ -112,6 +117,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :description, :country, :picture, :user_id, :state, :expires_at, :request_description)
+      params.require(:project).permit(:title, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description)
     end
 end

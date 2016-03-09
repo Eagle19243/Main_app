@@ -11,13 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306182124) do
+ActiveRecord::Schema.define(version: 20160308200401) do
+
+  create_table "activities", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "action"
+    t.integer  "targetable_id"
+    t.string   "targetable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "activities", ["targetable_type", "targetable_id"], name: "index_activities_on_targetable_type_and_targetable_id"
+  add_index "activities", ["user_id"], name: "index_activities_on_user_id"
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
     t.integer  "recipient_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "institutions", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "country"
+    t.string   "city"
+    t.string   "logo"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "messages", force: :cascade do |t|
@@ -45,13 +67,18 @@ ActiveRecord::Schema.define(version: 20160306182124) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "user_id"
     t.datetime "expires_at"
-    t.integer  "volunteers",          default: 0
+    t.integer  "volunteers",              default: 0
     t.string   "state"
     t.text     "request_description"
+    t.integer  "institution_id"
+    t.string   "institution_name"
+    t.string   "institution_logo"
+    t.text     "institution_description"
+    t.string   "institution_location"
   end
 
   create_table "task_comments", force: :cascade do |t|

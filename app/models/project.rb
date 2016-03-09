@@ -2,10 +2,12 @@ class Project < ActiveRecord::Base
 	include AASM
 default_scope -> { order('created_at DESC') }
 mount_uploader :picture, PictureUploader
+mount_uploader :institution_logo, PictureUploader
 has_many :tasks, dependent: :destroy
 has_many :wikis, dependent: :destroy
 has_many :project_comments, dependent: :destroy
 belongs_to :user
+belongs_to :institution
 
 
   def country_name

@@ -24,7 +24,7 @@ Help solve social issues in your area.
    <div class="row">
    	<div class="small-6 columns">
   	<% if project.picture? %>
-  	<%= image_tag project.picture.url %>
+  	<%= image_tag(project.picture.url, size: "200x200") %>
   	<%end%>
   </div>
 

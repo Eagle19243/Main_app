@@ -1,0 +1,27 @@
+<h1>Activity Feed</h1>
+<%if @activities %>
+<% @activities.each do |activity| %>
+
+	<% if activity.user.picture? %><%= link_to (image_tag activity.user.picture.url, :size => "30x30"), activity.user  %>
+        
+        <%end%>
+
+
+
+	
+		<%= activity.user.name %>
+	<%= render partial: "activities/#{activity.targetable_type.underscore}/#{activity.action}", locals: { activity: activity } %>
+
+
+
+
+<hr>
+<%end%>
+
+<%end%>
+
+
+
+
+
+

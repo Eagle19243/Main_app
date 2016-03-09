@@ -40,14 +40,14 @@
 <%= link_to 'Delete', edit_project_path(@project) %> 
 <% end %>
 
-<br>
+
 <br>
 <div class="row">
 <div class="projectPanel small-8 columns">
 <div class="row">
 <ul class="tabs vertical small-6 columns" data-tab>
   <li class="tab-title active"><a href="#panel198">Overview</a></li>
-  <li class="tab-title"><a href="#panel189">Team</a></li>
+  <li class="tab-title"><a href="#panel189">Admin</a></li>
   <%i = 1%>
   <% @project.wikis.each do |wiki| %>  
   <li class="tab-title"><a href=<%="#panel"+ i.to_s %>><%= wiki.title %><!--Article #<%=i%>--></a></li>
@@ -98,7 +98,49 @@
 
         
   </div>
-  <div class="content" id="panel189"></div>
+  <div class="content" id="panel189">
+    <% if @project.institution_name && @project.institution_logo %>
+  
+    <div class="row">
+
+
+      <div class= "columns small-6">
+       <%= image_tag @project.institution_logo.url, width: 200, height: 200 %>
+
+
+      </div>
+      <div class= "columns small-6"></div>
+
+       <br><br>
+      <h3><%= @project.institution_name %></h3>
+      <h5><%= @project.institution_location %></h3>
+    </div>
+
+    <br><br>
+
+
+   
+    <p>
+    <h4>Admins<hr></h4>
+      <%= image_tag @project.user.picture.url, height: 100, width: 100 %><br>
+      <%= link_to "Contact Me", class:"button tiny radius" %>
+    </p>
+    <br>
+    <p>
+    <h4>Collaborators<hr></h4>
+      <%= image_tag @project.user.picture.url, height: 100, width: 100 %><br>
+      <%= link_to "Contact Me", class:"button tiny radius" %>
+    </p>
+
+
+
+
+    <%end%>
+
+
+
+
+  </div>
      <%i=1%>
   <% @project.wikis.each do |wiki| %>   
   <div class="content" id=<%="panel"+ i.to_s%>>
@@ -159,7 +201,7 @@
    <% @comments.each do |comment| %>
      
 
-    <span class="comment"><small><%= comment.body %></small></span>
+    <span class="comment"><%= comment.body %></span>
      <br/>
 
      <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>

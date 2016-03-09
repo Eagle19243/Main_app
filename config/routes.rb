@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'activities/index'
+  resources :activities, only: [:index]
   resources :wikis
   resources :tasks
   resources :projects do

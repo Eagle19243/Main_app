@@ -18,6 +18,8 @@ class ProjectCommentsController < ApplicationController
   @comment.user_id = current_user.id
   
   if @comment.save
+    activity = current_user.create_activity(@comment, 'created')
+    activity.user_id = current_user.id
     flash[:success] = "Your comment has been submitted"
     redirect_to :back
   else
@@ -34,6 +36,8 @@ end
    def update
       
     if @comment.update_attributes(comment_params)
+      activity = current_user.create_activity(@comment, 'updated')
+      activity.user_id = current_user.id
       flash[:success] = "Comment updated"
       redirect_to @comment.project
     else
@@ -43,6 +47,8 @@ end
 
     def destroy
     	ProjectComment.find(params[:id]).destroy
+      activity = current_user.create_activity(@comment, 'deleted')
+      activity.user_id = current_user.id
         flash[:success] = "Comment deleted"
         redirect_to users_url
     end 

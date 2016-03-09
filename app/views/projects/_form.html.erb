@@ -12,6 +12,17 @@
     <%= f.input :title %>
     <%= f.label :description, "Overview" %>
     <%= f.text_area :description, :class=>'tinymce', :rows => 20, :cols => 60 %>
+    <%= f.label :institution_name, "Institution Name" %>
+    <%= f.text_field :institution_name %>
+    <%= f.label :institution_location %>
+    <%= f.text_field :institution_location, placeholder: "City, Country" %>
+    <%= f.label :institution_description %>
+    <%= f.text_area :institution_description, :rows => 10, :cols => 30 %>
+    <%= f.label :institution_logo %>
+    <%= f.file_field :institution_logo %>
+
+
+
     <%= f.input :country %>
     <%= f.label :expires_at %>
     <%= f.text_field :expires_at %>

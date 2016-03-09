@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(secure_params)
       redirect_to users_path, :notice => "User updated."
+      current_user.create_activities(@user, 'updated')
     else
       redirect_to users_path, :alert => "Unable to update user."
     end
@@ -27,6 +28,7 @@ class UsersController < ApplicationController
   def destroy
     user = User.find(params[:id])
     user.destroy
+    current_user.create_activities(@user, 'deleted')
     redirect_to users_path, :notice => "User deleted."
   end
 

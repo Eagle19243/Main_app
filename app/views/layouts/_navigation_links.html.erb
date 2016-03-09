@@ -3,4 +3,6 @@
 
 <li><%= link_to 'About Us', page_path('discover') %></li>
 
-
+<% if user_signed_in? %>
+<li><%= link_to 'Activity Feed', activities_path %></li>
+<%end%>
