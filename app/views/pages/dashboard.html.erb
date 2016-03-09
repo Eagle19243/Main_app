@@ -1,7 +1,11 @@
 
 		<h4 class="subheader"><u>My Profile</u></h4>
+		<% if current_user.picture? %>
 	<%= image_tag(current_user.picture.url, size: "100x100") %><br>
-	
+	    <% else %>
+        <%= gravatar_for current_user %>
+        <%end%>
+
 	<%= current_user.name %><br>
 
 

@@ -195,6 +195,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    gravatar_image_tag (1.2.0)
     groupify (0.6.1)
     high_voltage (2.4.0)
     hub (1.12.4)
@@ -329,6 +330,7 @@ DEPENDENCIES
   fog
   foundation-datetimepicker-rails
   foundation-rails (~> 5.5)
+  gravatar_image_tag
   groupify
   high_voltage
   hub

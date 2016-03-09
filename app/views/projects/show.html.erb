@@ -63,7 +63,17 @@
 
 
      
-      <p><%= image_tag @project.picture.url %></p>
+      <p>
+
+        <% if @project.picture? %>
+        <%= image_tag @project.picture.url %>
+        <%else%>
+        <%= gravatar_for_project(@project) %>
+        <%end%>
+
+
+
+      </p>
       <p><%= @project.description.html_safe %></p>
 
 
@@ -204,7 +214,8 @@
     <span class="comment"><%= comment.body %></span>
      <br/>
 
-     <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
+     <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %><%else%>
+      <%= gravatar_for_user(comment.user) %>
         
         <%end%>
      

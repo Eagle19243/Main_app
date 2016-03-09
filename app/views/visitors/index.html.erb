@@ -25,6 +25,10 @@ Help solve social issues in your area.
    	<div class="small-6 columns">
   	<% if project.picture? %>
   	<%= image_tag(project.picture.url, size: "200x200") %>
+
+    <%else%>
+
+    <%= gravatar_for_projectdisplay(project) %>
   	<%end%>
   </div>
 
