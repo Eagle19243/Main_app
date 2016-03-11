@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
       :password_confirmation, :current_password, :picture, :company, :country, :description) }
     end
 
+
+
+
+
 end

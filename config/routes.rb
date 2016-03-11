@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
-  get 'activities/index'
+
+  resources :do_for_frees do
+    member do
+      get :accept, :reject
+    end
+  end
+  
+  resources :do_requests do
+  member do
+  get :accept, :reject
+  end
+  end
   resources :activities, only: [:index]
   resources :wikis
   resources :tasks
@@ -10,7 +21,7 @@ Rails.application.routes.draw do
   resources :project_comments
 
   member do
-      get :accept, :reject    
+      put :accept, :reject    
     end
 end
   devise_for :users, :controllers => { registrations: 'registrations' }

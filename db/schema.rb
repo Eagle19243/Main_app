@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308200401) do
+ActiveRecord::Schema.define(version: 20160311012437) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -25,12 +25,44 @@ ActiveRecord::Schema.define(version: 20160308200401) do
   add_index "activities", ["targetable_type", "targetable_id"], name: "index_activities_on_targetable_type_and_targetable_id"
   add_index "activities", ["user_id"], name: "index_activities_on_user_id"
 
+  create_table "assignments", force: :cascade do |t|
+    t.integer  "task_id"
+    t.integer  "user_id"
+    t.boolean  "free"
+    t.datetime "deadline"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id"
+
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
     t.integer  "recipient_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "do_for_frees", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.string   "state"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.text     "application"
+  end
+
+  create_table "do_requests", force: :cascade do |t|
+    t.integer  "task_id"
+    t.string   "state"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.text     "application"
+    t.boolean  "free"
+  end
+
+  add_index "do_requests", ["task_id", "user_id"], name: "index_do_requests_on_task_id_and_user_id"
 
   create_table "institutions", force: :cascade do |t|
     t.string   "name"
@@ -94,8 +126,8 @@ ActiveRecord::Schema.define(version: 20160308200401) do
     t.string   "title"
     t.text     "description"
     t.decimal  "budget"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.datetime "deadline"
     t.integer  "user_id"
     t.decimal  "current_fund",                  default: 0.0
@@ -108,6 +140,7 @@ ActiveRecord::Schema.define(version: 20160308200401) do
     t.string   "state"
     t.integer  "number_of_participants"
     t.integer  "target_number_of_participants"
+    t.boolean  "assigned",                      default: false
   end
 
   create_table "users", force: :cascade do |t|
