@@ -2,6 +2,7 @@
 
 
 <div class="generalcontent">
+  <% if !user_signed_in? %>
 
 YouServe expands your network and turns it into a task-force designed to fix local public issues.<%= link_to "Sign Up", new_user_registration_path %>, <%=link_to "Login", new_user_session_path %>, or <%=link_to" Learn more about YouServe", page_path('discover')  %><%else%>
 YouServe expands your network and turns it into a task-force designed to fix local public issues.
