@@ -1,12 +1,13 @@
 <p id="notice"><%= notice %></p>
 
   <h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
-    
+    <% if user_signed_in? %>
     <% if current_user.admin? || (current_user == @task.project.user) %>
 
 <%= link_to 'Edit', edit_task_path(@task) %> |
 <%= link_to 'Delete', edit_task_path(@task) %> |
 <%= link_to 'Back', @task.project %>
+<%end%>
 <%end%>
 
 <div class= "row" >
@@ -79,7 +80,7 @@
 
 <hr>
 
-
+<% if user_signed_in? %>
 <%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
  
   <p>
@@ -93,9 +94,10 @@
     <%= f.submit 'Submit', class: 'btn btn-primary' %>
   </p>
 <% end %>
+<% end %>
 
 <br>
-
+   
    <% @comments.each do |comment| %>
      
 
@@ -114,6 +116,7 @@
     <br>
     <br>
     <%end%>
+    
 
 
 
@@ -121,9 +124,9 @@
 
 
 
-
+<% if user_signed_in? %>
 <% if current_user.admin? || (current_user == @task.project.user) %>
-<%= link_to 'Edit', edit_task_path(@task) %> | <%end%>
+<%= link_to 'Edit', edit_task_path(@task) %> | <%end%><%end%>
 <%= link_to 'Back', @task.project %>
 
 

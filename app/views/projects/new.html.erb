@@ -6,9 +6,8 @@
 
 
 
-   <% if current_user.admin? || current_user.manager? %>
-    <h3>Create a Project</h3>
-    <%else%>
+   <% if !(current_user.admin? || current_user.manager?) %>
+    
 
     <main role="main">
      <p>

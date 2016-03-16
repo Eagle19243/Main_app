@@ -1,4 +1,5 @@
 class WikisController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_wiki, only: [:show, :edit, :update, :destroy]
 
   # GET /wikis
@@ -20,6 +21,8 @@ class WikisController < ApplicationController
 
   # GET /wikis/1/edit
   def edit
+    @project = Project.find(params[:project_id])
+    @wiki.project_id = params[:project_id]
   end
 
   # POST /wikis
@@ -31,9 +34,9 @@ class WikisController < ApplicationController
 
     respond_to do |format|
       if @wiki.save
-        current_user.create_activities(@wiki, 'created')
-        format.html { redirect_to @wiki, notice: 'Wiki was successfully created.' }
-        format.json { render :show, status: :created, location: @wiki }
+        current_user.create_activity(@wiki, 'created')
+        format.html { redirect_to @wiki.project, notice: 'Wiki was successfully created.' }
+        format.json { render :show, status: :created, location: @wiki.project }
       else
         format.html { render :new }
         format.json { render json: @wiki.errors, status: :unprocessable_entity }
@@ -45,10 +48,12 @@ class WikisController < ApplicationController
   # PATCH/PUT /wikis/1.json
   def update
     respond_to do |format|
+
       if @wiki.update(wiki_params)
-        current_user.create_activities(@wiki, 'updated')
-        format.html { redirect_to @wiki, notice: 'Wiki was successfully updated.' }
-        format.json { render :show, status: :ok, location: @wiki }
+       
+        current_user.create_activity(@wiki, 'updated')
+        format.html { redirect_to @wiki.project, notice: 'Wiki was successfully updated.' }
+        format.json { render :show, status: :ok, location: @wiki.project }
       else
         format.html { render :edit }
         format.json { render json: @wiki.errors, status: :unprocessable_entity }

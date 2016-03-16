@@ -35,7 +35,7 @@ Help solve social issues in your area.
   <div class="small-6 columns">
       <h5 class="subheader"><%=link_to project.title, project_path(project) %></h5>
      Location: <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= project.country %></em><br>  
-     Project Admin: <%= link_to project.user.name, project.user %>  
+     Project Admin: <%= link_to project.user.name, project.user %>  <br>
      Created on <em>&nbsp;&nbsp;<%= project.created_at.strftime("%m/%d/%Y") %></em><br>
      Expires on<em>&nbsp;&nbsp;<%= project.expires_at %></em><br><br>
      
@@ -54,6 +54,7 @@ Help solve social issues in your area.
     <h5 class="subheader">Task List</h5>
       <% i = 1 %>
     <% project.tasks.each do |task| %>
+        <% if i < 3 %>
        <strong>Task #<%=i%></strong>: <%= truncate(task.description) %><br>
        <div id="myProgress">
        <div id="myBar"></div>
@@ -64,6 +65,7 @@ Help solve social issues in your area.
        </span>
        <br><br>
        <% i +=1 %>
+       <%end%>
         
     <%end%>
     <%= link_to "View Project Tasks | Fund or Do", project_path(project) %>

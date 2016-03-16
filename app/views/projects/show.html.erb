@@ -4,9 +4,11 @@
 
 <%if @project.pending? %>
 
+<% if user_signed_in? %>
 <% if current_user.admin? %>
 <%= link_to "Reject request", reject_project_path(@project.id), :data => { :confirm => "Are you sure?" }, class:"button tiny alert radius" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Accept request", accept_project_path(@project.id), class:"button tiny success radius right" %>
 <%end%>
+
    <h3 class="subheader"><center>Request pending</center></h3><br>
 
       <h4><u> Request Description:</u></h4> 
@@ -17,7 +19,7 @@
 
 
 
-
+<%end%>
 <%end%>
 
 
@@ -32,14 +34,15 @@
 
 
 <h2><u><%= @project.title %></u></h2> 
+ <% if user_signed_in? %>
 <% if current_user.admin? || (current_user == @project.user) %>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'New Article', '#' %> |
+<%= link_to 'New Article', new_wiki_path(project_id: @project.id) %> |
 <%= link_to 'New Task', new_task_path(project_id: @project.id) %> |
 <%= link_to 'Delete', edit_project_path(@project) %> 
 <% end %>
-
+<% end %>
 
 <br>
 <div class="row">
@@ -54,7 +57,11 @@
   <%i += 1%>
   <%end%>
   <br>
+   <% if user_signed_in? %>
+<% if current_user.admin? || (current_user == @project.user) %>
   <%=link_to "Write a new article", new_wiki_path(project_id: @project.id), class:"button tiny radius" %>
+  <%end%>
+  <%end%>
 </ul>
 <div class="tabs-content vertical small-6 columns">
   <div class="content active" id="panel198">
@@ -131,13 +138,29 @@
 
    
     <p>
-    <h4>Admins<hr></h4>
-      <%= image_tag @project.user.picture.url, height: 100, width: 100 %><br>
-      <%= link_to "Contact Me", class:"button tiny radius" %>
+    <h4>Admin<hr></h4>
+
+    <% if @project.user.picture? %>
+  <%= image_tag(@project.user.picture.url, size: "100x100") %>
+      <% else %>
+        <%= gravatar_for @project.user %>
+        <%end%><br>
+        <% if user_signed_in? %> 
+      <%= link_to "Contact Me", conversations_path(sender_id: current_user.id, recipient_id: @project.user.id), method: 'post', class:"button tiny radius" %>
+      <%end%>
     </p>
-    <br>
+   
     <p>
-    <h4>Collaborators<hr></h4>
+
+
+      <h5>Auxiliary Admins<hr></h5>
+
+
+
+
+
+
+    <h5>Collaborators<hr></h5>
       <%= image_tag @project.user.picture.url, height: 100, width: 100 %><br>
       <%= link_to "Contact Me", class:"button tiny radius" %>
     </p>
@@ -156,9 +179,11 @@
   <div class="content" id=<%="panel"+ i.to_s%>>
     <h2 class="subheader"><center><%= wiki.title %></center></h2>
     <center>
+      <% if user_signed_in? %>
       <% if current_user.admin? || (current_user == @project.user) %>
-      <%= link_to 'Edit Article', edit_project_path(@project) %> |
-      <%= link_to 'Delete Article', new_task_path(project_id: @project.id) %> 
+      <%= link_to 'Edit Article', edit_wiki_path(wiki, project_id: @project.id) %> |
+      <%= link_to 'Delete Article', wiki_path(wiki), :method => :delete, :data => { :confirm => "Are you sure?" } %> 
+      <%end%>
       <%end%>
       
     </center><br>
@@ -169,13 +194,14 @@
 </div>
 </div>
 </div>
-<span class="small-4 columns ">
+<span class="small-4 columns tasks">
 <h3 class="subheader">Tasks</h3>
 <% @project.tasks.each do |task| %>
  <h5 class="subheader"><em><%= link_to task.title, task %></em></h5>
+ <% if user_signed_in? %>
  <% if current_user.admin? || (current_user == @project.user) %>
- <u><%= link_to 'Edit Task', edit_project_path(@project) %></U> |
- <u><%= link_to 'Delete Task', new_task_path(project_id: @project.id) %></u><br><%end%> 
+ <u><%= link_to 'Edit Task', edit_task_path(task) %></U> |
+ <u><%= link_to 'Delete Task', task_path(task), :method => :delete, :data => { :confirm => "Are you sure?" } %></u><br><%end%><%end%> 
  <%= truncate(task.description, :length => 90) %>
  <div id="myProgress">
        <div id="myBar"></div>
@@ -184,14 +210,14 @@
        $<%= task.current_fund %> of $<%= task.budget %>&nbsp;(<strong><%= task.current_fund/task.budget %></strong>%)
        </span>
  <br><br>
- <%=link_to "Do", '#', class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", '#', class:"button tiny radius" %> &nbsp;<%=link_to "Fund", '#', class:"button tiny success radius" %><br><br>
+ <%=link_to "Do", new_do_request_path(task_id: task.id,free: false), class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", new_do_request_path(task_id: task.id,free: true), class:"button tiny radius" %> &nbsp;<%=link_to "Fund", '#', class:"button tiny success radius" %><br><br>
  <br>
 <%end%>
 </span>
 </div>
 
 <hr>
-
+<% if user_signed_in? %>
 <%= form_for  [@project, @project.project_comments.build] do |f| %>
  
   <p>
@@ -205,6 +231,7 @@
     <%= f.submit 'Submit', class: 'btn btn-primary' %>
   </p>
 <% end %>
+<%end%>
 
 <br>
 

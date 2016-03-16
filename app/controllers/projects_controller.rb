@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   # GET /projects
@@ -38,7 +39,7 @@ class ProjectsController < ApplicationController
       if @project.save  
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
-        format.html { redirect_to @project, notice: 'Project was created.' }
+        format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render :show, status: :created, location: @project }
       else
         format.html { render :new }
@@ -78,7 +79,7 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project could not be accepted"
     end
 
-    redirect_to page_path('dashboard')
+    redirect_to current_user
 
   end
 
@@ -93,7 +94,7 @@ class ProjectsController < ApplicationController
     else
       flash[:error] = "Project could not be rejected"
     end
-    redirect_to page_path('dashboard')
+    redirect_to current_user
 
   end
 
@@ -104,7 +105,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to current_user, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

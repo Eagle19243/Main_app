@@ -4,28 +4,49 @@
 
   <div class="form-inputs">
     <% if !current_user.admin? && !current_user.manager? %>
-    <h4 class="subheader"><center> Describe yourself, the institution you represent, add your contact info</center></h4>
-    <%= f.text_area :request_description, :rows => 20, :cols => 20 %>
+    <h5 class="subheader"><center> Describe yourself, the institution you represent, add your contact info</center></h5>
+    <%= f.text_area :request_description, :rows => 20, :cols => 20, class: 'form-control' %>
     <%end%>
     <br>
     <h4 class="subheader"><center>Your Project</center></h4>
-    <%= f.input :title %>
+
+    <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: 'form-control'%>
+    </div>
+    <div class="form-group">
     <%= f.label :description, "Overview" %>
     <%= f.text_area :description, :class=>'tinymce', :rows => 20, :cols => 60 %>
+</div>
+
+<div class="form-group">
     <%= f.label :institution_name, "Institution Name" %>
     <%= f.text_field :institution_name %>
+</div>
+
+<div class="form-group">
     <%= f.label :institution_location %>
     <%= f.text_field :institution_location, placeholder: "City, Country" %>
+</div>
+
+<div class="form-group">
     <%= f.label :institution_description %>
-    <%= f.text_area :institution_description, :rows => 10, :cols => 30 %>
+    <%= f.text_area :institution_description, :rows => 10, :cols => 30%>
+</div>
+
+<div class="form-group">
     <%= f.label :institution_logo %>
-    <%= f.file_field :institution_logo %>
+    <%= f.file_field :institution_logo%>
+</div>
 
+<div class="form-group">
+    <%= f.input :country%>
+</div>
 
-
-    <%= f.input :country %>
+<div>
     <%= f.label :expires_at %>
-    <%= f.text_field :expires_at %>
+    <%= f.text_field :expires_at%>
+</div>
   
 
     Upload Project Picture:<%= f.file_field :picture %>

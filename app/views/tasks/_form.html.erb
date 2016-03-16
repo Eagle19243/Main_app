@@ -1,24 +1,50 @@
-<%= simple_form_for(@task) do |f| %>
+<div class="authform">
+
+  <%= simple_form_for(@task) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
- 
+  <div class="form-group">
     <%= f.input :title %>
+  </div>
+    <div class="form-group">
     <%= f.input :description %>
+  </div>
+    <div class="form-group">
     <%= f.input :budget %>
+  </div>
+  <div class="form-group">
     <%= f.input :condition_of_execution %>
-    <%= f.label :deadline %>
-    <%= f.text_field :deadline %>
-    
-    <%= f.input :target_number_of_participants %>
+  </div>
 
+  <div>
+    <%= f.label :deadline %>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_field :deadline %>
+  </div>
+    
+    <div class="form-group">
+    <%= f.input :target_number_of_participants %>
+  </div>
+
+   <div class="form-group">
     File1: <%= f.file_field :fileone %><br>
+  </div>
+  <div class="form-group">
      FIle2: <%= f.file_field :filetwo %><br>
+   </div>
+   <div class="form-group">
      File3: <%= f.file_field :filethree %><br>
+   </div>
+   <div>
      File4: <%= f.file_field :filefour %><br>
+   </div>
+   <div class="form-group">
      File5: <%= f.file_field :filefive %><br>
      <%= f.hidden_field :project_id, value: params[:project_id]%>
-     
+     </div>
 
   </div>
 
@@ -26,3 +52,5 @@
     <%= f.button :submit %>
   </div>
 <% end %>
+
+</div>

@@ -16,4 +16,9 @@ module ApplicationHelper
     image_tag gravatar_image_url(project.title, size: size), title: title, class: 'img-rounded'
   end
 
+   def gravatar_for_pro(project, size = 30, title = project.title )
+    image_tag gravatar_image_url(project.title, size: size), title: title, class: 'img-rounded'
+  end
+
+
 end

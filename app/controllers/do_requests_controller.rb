@@ -8,28 +8,35 @@ class DoRequestsController < ApplicationController
   def new
     @task = Task.find(params[:task_id])
     @free = params[:free]
-    @do_request = current_user.do_requests.new
+    @do_request = DoRequest.new
+  
   end
 
   def create
      @do_request = current_user.do_requests.build(request_params)
       if @do_request.save
         flash[:success] = "Request sent to Project Admin"
-    redirect_to :back
+    redirect_to @do_request.task
   else
-    render 'new'
+    
+    flash[:error] = "You cannot apply twice"
+    redirect_to root_url
   end
-
   end
 
 
 
   def update
-
   end
 
 
   def destroy
+    @do_request = DoRequest.find(params[:id])
+     @do_request.destroy
+    respond_to do |format|
+      format.html { redirect_to current_user, notice: 'Task assignment request was successfully destroyed.' }
+      format.json { head :no_content }
+    end
 
   end
 
