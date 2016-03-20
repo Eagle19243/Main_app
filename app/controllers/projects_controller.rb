@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.build(project_params)
     @project.user_id = current_user.id
-    if @project.user.admin? || @project.user.manager?
+    if @project.user.admin? 
       @project.state = "accepted"
     else
       @project.state = "pending"
@@ -105,7 +105,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to current_user, notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to dashboard_path, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

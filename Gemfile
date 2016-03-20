@@ -18,6 +18,8 @@ gem 'jquery-ui-rails'
 gem 'tinymce-rails'
 gem 'aasm'
 gem 'social-share-button'
+ gem 'paypal-sdk-adaptivepayments'
+
 
 group :development, :test do
   gem 'byebug'

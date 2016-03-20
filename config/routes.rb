@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :donations
+
   resources :do_for_frees do
     member do
       get :accept, :reject
@@ -31,6 +33,6 @@ end
   resources :messages
  end
  
-
+get 'dashboard'  => 'visitors#dashboard'
   root to: 'visitors#index'
 end

@@ -48,7 +48,7 @@
 
       <%= link_to "Do", new_do_request_path(task_id: @task.id,free: false), class:'button radius' %>
        <%= link_to "Do For Free", new_do_request_path(task_id: @task.id, free: true), class:'button radius' %>
-        <%= link_to "Fund", '#', class:'button radius success' %><br><br>
+        <%= link_to "Fund", new_donation_path(task_id: @task.id), class:'button radius success' %><br><br>
 
            <div id="myProgress">
        <div id="myBar"></div>

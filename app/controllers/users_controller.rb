@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @projects = Project.all
     @do_requests = DoRequest.all
+    @assignments = Assignment.all
   end
 
   def update

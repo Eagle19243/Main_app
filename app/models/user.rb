@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :do_requests
   has_many :do_for_frees
   has_many :assignments
+  has_many :donations
 
 
   def create_activity(item, action)

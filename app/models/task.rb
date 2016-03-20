@@ -10,6 +10,7 @@ class Task < ActiveRecord::Base
 	belongs_to :user
 	has_many :task_comments
 	has_many :do_requests
+	has_many :donations
 
 	aasm :column => 'state', :whiny_transitions => false do
     state :pending

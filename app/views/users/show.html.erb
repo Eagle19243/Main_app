@@ -14,32 +14,19 @@
 	<p>Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @user.email if @user.email %></p>
 
 	<p>Status:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<% if @user.admin? %>Admin 
-		<% elsif @user.manager %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Manager
+		<% elsif @user.manager? %>&nbsp;Project Admin
 		<%else%>
          User
 
 		 <%end%>
 		 <p>Phone:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=number_to_phone(@user.phone_number, area_code: true) %></p>
-		 <p>Links:    <br>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My LinkedIn", @user.first_link   %></u><br>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My Website", @user.second_link %></u><br>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My Institution", @user.third_link %></u><br>
-		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My Facebook", @user.fourth_link %></u><br>
-
-
-
-		 </p>
-		 <p>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=@user.city %></p>
-		 <p>Country:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=@user.country%></p><br>
+		
 		 
          
-<h5 class="subheader">
-<u>Intro:</u>  </h5> 
-        <p><%= @user.description %></p>
-        <br><br>
+        <p>City:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=@user.city %></p>
+		 <p>Country:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=@user.country%></p><br>
 
-         <%= link_to "Edit my Profile Information", edit_user_registration_path(current_user), class: "button radius" if user_signed_in? && current_user == @user %>
-		 <br><br>
+         
 		 </div>
 		</div>
 
@@ -50,103 +37,89 @@
 
 <div class="small-6 columns">
 	<br>
+<%= link_to "Edit my Profile Information", edit_user_registration_path(current_user), class: "button radius" if user_signed_in? && current_user == @user %>
+		 
+   
+<h5 class="subheader">
+<u>Intro:</u>  </h5> 
+        <p><%= @user.description %></p>
+     
+
+
+         <p>Links:    <br>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My LinkedIn", @user.first_link   %></u><br>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My Website", @user.second_link %></u><br>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My Institution", @user.third_link %></u><br>
+		 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><%= link_to "My Facebook", @user.fourth_link %></u><br>
+
+
+
+		 </p>
+		
+
+
+
+</div>
 
    
-
-
-
-
-
-
-
-
-
-
-
-	<% if user_signed_in? %>
-	<% if current_user == @user %>
-	<h6 class="subheader"><center> Pending Requests </center></h6>
-
-	<% else %>
-	<%= link_to "Message me !", conversations_path(sender_id: current_user.id, recipient_id: @user.id), method: 'post', class: "button radius right" %><br>
-	<%end%>
-	<%end%>
-	<% @projects.each do |project| %>
-         
-         <% if project.pending? && user_signed_in? && (project.user == current_user) && !current_user.admin? %>
-         <% if project.picture? %><%= link_to (image_tag project.picture.url, :size => "30x30"), project  %>
-	<%else%>
-	<%= gravatar_for_pro(project) %>    
-    <%end%>
-         Your request to create Project <%= link_to project.title, project %> is pending for Admin aproval.<br><em><h6 class="subheader">Requested at <%= project.created_at %></h6></em>
-          
-
-        
-        <%= link_to "Cancel Request", project_path(project.id), :method => :delete, :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Edit Request", edit_project_path(project), class: "button radius tiny" %>
-         <hr>
-
-         <%end%>
-
-
-
-         <% if project.pending? && user_signed_in? && current_user.admin? %>
-
-         <% if project.user.picture? %><%= link_to (image_tag project.user.picture.url, :size => "30x30"), project.user  %>
-	<%else%>
-	<%= gravatar_for_user(project.user) %>    
-    <%end%>
-     
-          <%= link_to project.user.name, project.user %> has requested to create project <%= link_to project.title, project %><br>
-<em><h6 class="subheader">Requested at <%= project.created_at %></h6></em>
-          <br>
-
-
-          
-        <%= link_to "Reject", reject_project_path(project.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept", accept_project_path(project.id), class: "button radius tiny" %> <hr>
-
-         <%end%>
-	<%end%>
-
-
-	<% @do_requests.each do |req| %>
-	<% if req.pending? && req.user == current_user && !current_user.admin?%>
-	  Your request to do task <%=link_to req.task.title, req.task %> is pending for Admin aproval. <br><br>
-       <%= link_to "Cancel Request",do_request_path(req.id), :method => :delete, :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %>
-	  <hr>
-	  <%end%>
-
-
-
-
-
-	  <% if req.pending? && (current_user == req.task.user || current_user == req.task.project.user) %>
-        <%= link_to req.user.name, req.user %> has requested to do task <%= link_to req.task.title, req.task %><br><br>
-        <%= link_to "Accept", accept_do_request_path(req.id), class: 'button success tiny radius' %> <%= link_to 'Reject', reject_do_request_path(req.id), :data => { :confirm => "Are you sure?" }, class: 'button radius alert tiny right' %><hr>
-	  <%end%>
-
-	<%end%>
-
-
-
-
-
-
-
-</div>
-
-
 </div>
 </div>
 
 
+<div class= "marginalizing">
+<h4 class="subheader"><u> Projects I am involved in:</u> </h4>
+
+
+<% @projects.each do |project| %>
+
+   <%if project.user == @user %>
+   <div class="vcard">
+   <% if project.picture? %>
+  	<%= image_tag(project.picture.url, size: "30x30") %>
+
+    <%else%>
+
+    <%= gravatar_for_pro(project) %>
+  	<%end%>
+     <br>
+     <%= link_to project.title, project %><br>
+
+     Status: Project Admin
 
 
 
+    </div>
+
+<%end%>
+
+<%end%>
 
 
 
+<% @assignments.each do |assignment| %>
+<% if assignment.user == @user && assignment.task.project.user != @user %>
+  
+       <div class="vcard">
+   <% if assignment.task.project.picture? %>
+  	<%= image_tag(assignment.task.project.picture.url, size: "30x30") %>
+
+    <%else%>
+
+    <%= gravatar_for_pro(assignment.task.project) %>
+  	<%end%>
+     <br>
+     <%= link_to assignment.task.project.title, assignment.task.project %><br>
+
+     Status: Freelancer
 
 
 
+    </div>
 
+<%end%>
+
+
+
+<%end%> 
+</div>
 

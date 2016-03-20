@@ -1,0 +1,21 @@
+
+<div class="authform">
+  <%= form_for(@donation) do |f| %>
+    <h3><center>Please Donate</center></h3><br>
+       <center>
+   Project--<%= link_to @task.project.title, @task.project %><br></center>
+       <center>
+   Task--<%= link_to @task.title, @task %><br></center><br>
+    
+     <div class="form-group">
+      <%= f.label :amount, "Enter donation amount in US dollards ($)" %> 
+      <%= f.number_field :amount %> 
+      <%= f.hidden_field :task_id, value: @task_id, :rows => 2, :cols => 2 %>
+    </div>
+
+    
+
+
+     <center><%= f.submit 'Proceed', :class => 'button' %></center>
+  <% end %>
+</div>

@@ -1,14 +1,7 @@
 <%= tinymce_assets %>
 <br>
-
 <div class="middle">
-
-
-
-
-   <% if !(current_user.admin? || current_user.manager?) %>
-    
-
+   <% if !current_user.admin? %>
     <main role="main">
      <p>
      	Hello <strong><%=current_user.name %></strong>, <br>
@@ -18,23 +11,8 @@ Once your request is accepted and your project approved, you will gain <strong>P
 Then you will be able to create and manage your projects...</p>
      </main><hr>
    <br><br><br>
-    
-
-    
-
-
 <%end%>
  <%= render 'form' %>
-
-
-
   </div>
-
-
-
-
-
-
 <%= link_to 'Back', projects_path %>
-
 </div>

@@ -34,7 +34,7 @@ class DoRequestsController < ApplicationController
     @do_request = DoRequest.find(params[:id])
      @do_request.destroy
     respond_to do |format|
-      format.html { redirect_to current_user, notice: 'Task assignment request was successfully destroyed.' }
+      format.html { redirect_to dashboard_path, notice: 'Task assignment request was successfully destroyed.' }
       format.json { head :no_content }
     end
 
@@ -45,13 +45,16 @@ class DoRequestsController < ApplicationController
   def accept
     @do_request = DoRequest.find(params[:id])
     if @do_request.accept! 
-      @do_request.user.assign(@do_request.task, @do_request.free)  
+      @do_request.user.assign(@do_request.task, @do_request.free) 
+      @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days ) 
        flash[:success] = "Task has been assigned"
+
      else
       flash[:error] = "Task was not assigned to user"
        #assign(@do_request.user, @do_request.task, @do_request.free)
 
     end
+    redirect_to @do_request.task
   end
 
 
@@ -63,6 +66,7 @@ class DoRequestsController < ApplicationController
     else
       flash[:error] = "Was not able to reject request"
     end
+    redirect_to @do_request.task
 
   end
 

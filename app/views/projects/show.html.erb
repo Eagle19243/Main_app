@@ -210,7 +210,7 @@
        $<%= task.current_fund %> of $<%= task.budget %>&nbsp;(<strong><%= task.current_fund/task.budget %></strong>%)
        </span>
  <br><br>
- <%=link_to "Do", new_do_request_path(task_id: task.id,free: false), class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", new_do_request_path(task_id: task.id,free: true), class:"button tiny radius" %> &nbsp;<%=link_to "Fund", '#', class:"button tiny success radius" %><br><br>
+ <%=link_to "Do", new_do_request_path(task_id: task.id,free: false), class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", new_do_request_path(task_id: task.id,free: true), class:"button tiny radius" %> &nbsp;<%=link_to "Fund", new_donation_path(task_id: task.id), class:"button tiny success radius" %><br><br>
  <br>
 <%end%>
 </span>
