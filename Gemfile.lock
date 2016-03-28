@@ -39,6 +39,10 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -64,6 +68,8 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
     coderay (1.1.1)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -80,6 +86,8 @@ GEM
       sort_alphabetical (~> 1.0)
     currencies (0.4.2)
     debug_inspector (0.0.2)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     devise (3.5.6)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -87,6 +95,9 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    domain_name (0.5.20160310)
+      unf (>= 0.0.5, < 1.0.0)
+    equalizer (0.0.11)
     erubis (2.7.0)
     excon (0.45.4)
     execjs (2.6.0)
@@ -208,9 +219,12 @@ GEM
     gravatar_image_tag (1.2.0)
     groupify (0.6.1)
     high_voltage (2.4.0)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     hub (1.12.4)
     i18n (0.7.0)
     i18n_data (0.7.0)
+    ice_nine (0.11.2)
     inflecto (0.0.2)
     ipaddress (0.8.2)
     jbuilder (2.4.1)
@@ -236,6 +250,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.0)
+    netrc (0.11.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
@@ -245,6 +260,10 @@ GEM
       multi_json (~> 1.0)
       xml-simple
     pg (0.18.4)
+    pp-adaptive (1.0.0)
+      json
+      rest-client
+      virtus (~> 1.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -284,6 +303,10 @@ GEM
     rake (10.5.0)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     sass (3.4.21)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -323,11 +346,19 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     unicode_utils (1.4.0)
     unicorn (5.0.1)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (2.3.0)
@@ -364,6 +395,7 @@ DEPENDENCIES
   mini_magick
   paypal-sdk-adaptivepayments
   pg
+  pp-adaptive
   quiet_assets
   rails (= 4.2.5.1)
   rails_12factor
