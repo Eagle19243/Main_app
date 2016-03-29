@@ -10,10 +10,10 @@ class Donation < ActiveRecord::Base
 def payment_url(submission)
 
   client = AdaptivePayments::Client.new(
-  :user_id       => "e.c.mere_api1.gmail.com",
-  :password      => "HS992DBH2UFDKUAU",
-  :signature     => "AFcWxV21C7fd0v3bYYYRCpSSRl31AVNew3w3TLO6iGOm3FunFv3.4Nwp",
-  :app_id        => "your-app-id-left",
+  :user_id       => "ec2699_api1.columbia.edu",
+  :password      => "DPBP5S9EFP6YZWDQ",
+  :signature     => "AFcWxV21C7fd0v3bYYYRCpSSRl31ARu.A6SKwsbj1JpFvVtqefXfrLef",
+  :app_id        => "APP-80W284485P519543T",
   :sandbox       => true
 )
 
