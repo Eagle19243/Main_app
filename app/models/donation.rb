@@ -13,7 +13,7 @@ def payment_url(submission)
   :user_id       => "e.c.mere_api1.gmail.com",
   :password      => "HS992DBH2UFDKUAU",
   :signature     => "AFcWxV21C7fd0v3bYYYRCpSSRl31AVNew3w3TLO6iGOm3FunFv3.4Nwp",
-  :app_id        => "your-app-id",
+  :app_id        => "your-app-id-left",
   :sandbox       => true
 )
 
