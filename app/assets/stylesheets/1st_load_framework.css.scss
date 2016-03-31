@@ -1,15 +1,41 @@
 // import the CSS framework
 @import "foundation";
 @import 'foundation-datetimepicker';
+@import 'colors';
 
 // override for the 'Home' navigation link
+.top-bar {
+  background-color: $white;
+  margin: 0 auto;
+  max-width: 900px;
+  width: 100%;
+
+  .top-bar-section > ul li, ul > li, a {
+    background-color: $white !important;
+    color: $blue;
+  }
+
+  .top-bar-section ul li > a {
+    background-color: $white;
+    color: $blue;
+
+    &:hover {
+      background-color: $opaque-white !important;
+      color: $blue !important;
+      transition: 0.2s ease background-color;
+    }
+  }
+
+  .name a {
+    color: $blue;
+    font-weight: normal;
+    padding: 0 15px;
+  }
+}
 .top-bar .name {
   font-size: rem-calc(32);
   line-height: 45px; }
-.top-bar .name a {
-  font-weight: normal;
-  color: white;
-  padding: 0 15px; }
+
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create mixins using Foundation classes

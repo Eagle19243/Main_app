@@ -1,6 +1,3 @@
-<br><br>
-
-
 <div class="generalcontent">
   <% if !user_signed_in? %>
 
@@ -11,7 +8,7 @@ YouServe expands your network and turns it into a task-force designed to fix loc
 <br><br><br><br>
 
 
-<h2><u>Active Projects:</u></h2><br>
+<!-- <h2><u>Active Projects:</u></h2><br>
 
 <%if @projects %>
 
@@ -35,11 +32,11 @@ YouServe expands your network and turns it into a task-force designed to fix loc
 
   <div class="small-6 columns">
       <h5 class="subheader"><%=link_to project.title, project_path(project) %></h5>
-     Location: <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= project.country %></em><br>  
+     Location: <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= project.country %></em><br>
      Project Admin: <%= link_to project.user.name, project.user %>  <br>
      Created on <em>&nbsp;&nbsp;<%= project.created_at.strftime("%m/%d/%Y") %></em><br>
      Expires on<em>&nbsp;&nbsp;<%= project.expires_at %></em><br><br>
-     
+
 
 
   </div>
@@ -49,7 +46,7 @@ YouServe expands your network and turns it into a task-force designed to fix loc
 
 
   </div>
- 
+
 
   <div class="small-5 columns">
     <h5 class="subheader">Task List</h5>
@@ -62,12 +59,12 @@ YouServe expands your network and turns it into a task-force designed to fix loc
        <div id="label"><%= task.current_fund/task.budget %> %</div>
        </div>
        <span class="right">
-       <%= task.current_fund %> of $<%= task.budget %> 
+       <%= task.current_fund %> of $<%= task.budget %>
        </span>
        <br><br>
        <% i +=1 %>
        <%end%>
-        
+
     <%end%>
     <%= link_to "View Project Tasks | Fund or Do", project_path(project) %>
   </div>
@@ -78,7 +75,7 @@ YouServe expands your network and turns it into a task-force designed to fix loc
 
 
 <%end%>
-<%end%>
+<%end%> -->
 
 
 </div>

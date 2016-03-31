@@ -29,16 +29,12 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
     <header>
-      <div class="generalcontent">
-      <%= render 'layouts/navigation' %>
-    </div>
+      <div class="header-wrapper">
+        <%= render 'layouts/navigation' %>
+      </div>
     </header>
     <%= render 'layouts/messages' %>
     <%= yield %>
-    <main role="main">
-
-
-    </main>
     <%= render 'layouts/footer' %>
   </body>
 </html>

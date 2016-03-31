@@ -16,9 +16,10 @@
  *= require_self
  */
 
+@import 'colors';
+@import 'layout';
+
 body {
-  margin-left: 200px;
-  margin-right: 150px;
 
   .mycontent {
   	margin-left: 40px;
