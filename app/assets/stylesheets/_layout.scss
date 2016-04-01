@@ -1,10 +1,12 @@
 @import 'colors';
+@import 'fonts';
 
 $max-width: 980px;
 
 header {
   background-color: $orange;
   background-image: linear-gradient(rgba(255,255,255,0.5), rgba(0,0,0,0));
+  height: 100px; // trust me
   padding: 2rem 0 1rem;
   text-align: center;
   width: 100%;
@@ -25,9 +27,18 @@ body.landing {
 .content {
   margin: 0 auto;
   max-width: $max-width;
+  padding: 0 !important;
   width: 100%;
 
+  &.landing {
+    max-width: 100%;
+  }
+
   .hero-wrapper {
+    margin: 0 auto 10rem;
+    max-width: $max-width;
+    padding: 0 50px;
+    width: 100%;
     text-align: center;
 
     .hero-text {
@@ -42,18 +53,22 @@ body.landing {
 }
 
 footer {
-  background-image: linear-gradient(rgba(255, 255, 255, 0) 0%,
-    rgba(255,255,255,0.7) 50%,
-    rgba(255,255,255,1) 100%);
+  // background-image: linear-gradient(rgba(255, 255, 255, 0) 0%,
+  //   rgba(255,255,255,0.7) 50%,
+  //   rgba(255,255,255,1) 100%);
+
+  background: $opaque-white;
+  color: $medium-gray;
+  font-family: $sans;
   margin: 0;
-  padding: 10rem 0 4rem;
+  padding: 4rem 0 4rem;
   text-align: center;
   width: 100%;
 
   .footer-content {
     margin: 0 auto;
     max-width: 800px;
-    width: 100%;
+    width: 80%;
 
     .footer-links {
       list-style: none;
@@ -84,5 +99,25 @@ footer {
         padding: 0;
       }
     }
+  }
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//      Media queries
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+@media (max-width: 640px) {
+  .content .hero-wrapper .hero-text {
+    font-size: 2rem;
+    line-height: 3rem;
+    margin: 5rem 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .content .hero-wrapper .hero-text {
+    font-size: 1.8rem;
+    line-height: 2.8rem;
+    margin: 5rem 0;
   }
 }

@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content landing">
   <div class="hero-wrapper">
     <div class="hero-text">Transform your network into a task-force designed to solve local public issues.</div>
 
@@ -9,4 +9,23 @@
     <%end%>
   </div>
 
+  <div class="how-it-works">
+    <div class="give-money">
+      <h3>Help fund projects.</h3>
+      <div class="info">
+        You can make things happen by funding projects that your community needs. You choose the project and the task, and 100% of your money goes directly to the people who complete the tasks.
+      </div>
+      <%= link_to "Get involved today.", projects_path, class: "hide-mobile" %>
+    </div>
+    <div class="separator-or"></div>
+    <div class="give-time">
+      <h3>Do tasks for money.</h3>
+      <div class="info">
+        Put your time towards your community, and you'll be rewarded. Every task you complete will give you a payout, and there's no limit to the number of projects you can get involved in.
+      </div>
+     <%= link_to "See all active projects.", projects_path, class: "hide-mobile" %>
+    </div>
+
+    <%= link_to "See active projects", projects_path, class: "mobile-only hero-button" %>
+  </div>
 </div>

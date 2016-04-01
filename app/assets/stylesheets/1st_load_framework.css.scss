@@ -9,6 +9,7 @@
   background: none !important;
   margin: 0 auto;
   max-width: 900px;
+  padding: 0 50px;
   width: 100%;
 
   .top-bar-section > ul li, ul > li, a {
@@ -38,7 +39,7 @@
       font-family: $display;
       font-size: 2rem;
       font-weight: 800;
-      padding: 0 15px;
+      padding-right: 15px;
     }
   }
 }
@@ -54,6 +55,35 @@
     background-color: $orange-hover !important; //UGH
   }
 }
+
+.top-bar .toggle-topbar.menu-icon a { // oh god
+  line-height: 2.8125rem; // not even gonna ask
+  padding: 0;
+}
+
+@media(max-width: 640px) {
+  .top-bar .name {
+    text-align: left;
+
+    a {
+     padding: 0;
+    }
+  }
+
+  .top-bar.expanded {
+    background-color: $medium-gray;
+
+    .title-area {
+      background: transparent;
+    }
+  }
+
+  .top-bar.expanded .toggle-topbar a {
+    color: $white;
+    content: 'close';
+  }
+}
+
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create mixins using Foundation classes
@@ -135,12 +165,6 @@ section {
   @extend .radius;
   @extend .tiny;
 }
-
-
-
-
-
-
 
 $include-html-tabs-classes: $include-html-classes;
 
