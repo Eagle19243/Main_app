@@ -18,7 +18,8 @@ gem 'jquery-ui-rails'
 gem 'tinymce-rails'
 gem 'aasm'
 gem 'social-share-button'
- gem 'paypal-sdk-adaptivepayments'
+gem 'paypal-sdk-adaptivepayments'
+gem 'pp-adaptive'
 
 
 gem 'capistrano', '~> 3.1.0'
