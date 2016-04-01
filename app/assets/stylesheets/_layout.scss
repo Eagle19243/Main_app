@@ -1,7 +1,88 @@
 @import 'colors';
 
+$max-width: 980px;
+
 header {
-  width: 100%;
+  background-color: $orange;
+  background-image: linear-gradient(rgba(255,255,255,0.5), rgba(0,0,0,0));
+  padding: 2rem 0 1rem;
   text-align: center;
-  background-color: $white;
+  width: 100%;
+
+  &.landing {
+    background-color: transparent;
+  }
+}
+
+body.landing {
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(black-white-city.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: $max-width;
+  width: 100%;
+
+  .hero-wrapper {
+    text-align: center;
+
+    .hero-text {
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 4rem;
+      margin: 10rem auto;
+      text-align: center;
+    }
+  }
+}
+
+footer {
+  background-image: linear-gradient(rgba(255, 255, 255, 0) 0%,
+    rgba(255,255,255,0.7) 50%,
+    rgba(255,255,255,1) 100%);
+  margin: 0;
+  padding: 10rem 0 4rem;
+  text-align: center;
+  width: 100%;
+
+  .footer-content {
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+
+    .footer-links {
+      list-style: none;
+      margin: 0;
+      text-align: right;
+
+      li {
+        display: inline-block;
+        padding: 0 2rem;
+
+        &:last-child {
+          padding-right: 0;
+        }
+
+        a {
+          border-bottom: 2px solid transparent;
+          color: $sky-blue;
+          padding: 2px 0;
+          transition: 0.2s ease all;
+
+          &:hover {
+            border-bottom: 2px solid $sky-blue;
+          }
+        }
+      }
+      .copyright {
+        float: left;
+        padding: 0;
+      }
+    }
+  }
 }

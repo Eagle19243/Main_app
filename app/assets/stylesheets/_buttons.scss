@@ -1,0 +1,17 @@
+@import 'colors';
+
+.hero-button {
+  background-color: $sky-blue;
+  border-radius: 5px;
+  color: $white;
+  font-size: 1.25rem;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+  text-transform: uppercase;
+  transition: 0.2s ease background-color;
+
+  &:hover {
+    background-color: $sky-blue-hover;
+    color: $white;
+  }
+}

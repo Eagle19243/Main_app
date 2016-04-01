@@ -1,4 +1,9 @@
 <footer>
-  <div><%= link_to 'About', page_path('discover') %></div>
-  <div>&copy; YouServe <%= Time.now.year %></div>
+  <div class="footer-content">
+    <ul class="footer-links">
+      <li class="copyright">&copy; YouServe <%= Time.now.year %></li>
+      <li><a href="mailto:info@youserve.co">Contact</a></li>
+      <li><%= link_to 'About', page_path('discover') %></li>
+    </ul>
+  </div>
 </footer>

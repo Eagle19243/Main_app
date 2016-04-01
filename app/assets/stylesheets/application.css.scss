@@ -18,8 +18,11 @@
 
 @import 'colors';
 @import 'layout';
+@import 'fonts';
+@import 'buttons';
 
 body {
+  font-family: $display;
 
   .mycontent {
   	margin-left: 40px;
