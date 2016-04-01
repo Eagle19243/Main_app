@@ -7,9 +7,10 @@
 // override for the 'Home' navigation link
 .top-bar {
   background: none !important;
+  height: 60px;
   margin: 0 auto;
   max-width: 900px;
-  padding: 0 50px;
+  padding: 2rem 4rem 1rem;
   width: 100%;
 
   .top-bar-section > ul li, ul > li, a {
@@ -57,7 +58,7 @@
 }
 
 .top-bar .toggle-topbar.menu-icon a { // oh god
-  line-height: 2.8125rem; // not even gonna ask
+  line-height: 3rem;
   padding: 0;
 }
 
@@ -70,17 +71,37 @@
     }
   }
 
+  .top-bar .title-area {
+    margin-bottom: 2rem;
+  }
+
   .top-bar.expanded {
-    background-color: $medium-gray;
+    background-color: $medium-gray !important;
 
     .title-area {
       background: transparent;
     }
   }
 
+  .top-bar-section ul li > a {
+    padding: 12px 0;
+  }
+
+  .top-bar-section ul li a.sign-up-nav {
+    margin: 0.5rem auto 1rem;
+    padding: 12px 0;
+    width: 100px;
+  }
+
   .top-bar.expanded .toggle-topbar a {
     color: $white;
-    content: 'close';
+    transform: translateX(30%);
+
+    &:before {
+      color: $white;
+      content: 'close';
+      padding-right: 5px;
+    }
   }
 }
 
