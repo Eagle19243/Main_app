@@ -3,6 +3,7 @@
 @import 'foundation-datetimepicker';
 @import 'colors';
 @import 'fonts';
+@import 'layout';
 
 // override for the 'Home' navigation link
 .top-bar {
@@ -102,6 +103,24 @@
       content: 'close';
       padding-right: 5px;
     }
+  }
+}
+
+.alert-box {
+  border: 0;
+  left: 50%;
+  margin: 0 auto;
+  max-width: $max-width;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 90%;
+
+  &.success {
+    background-color: $success-green;
+  }
+
+  div {
+    padding-left: 15px;
   }
 }
 

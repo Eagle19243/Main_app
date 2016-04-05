@@ -6,12 +6,12 @@ $max-width: 980px;
 header {
   background-color: $orange;
   background-image: linear-gradient(rgba(255,255,255,0.5), rgba(0,0,0,0));
-  height: 100px; // trust me
-  // padding: 2rem 0 1rem;
+  height: 75px;
   text-align: center;
   width: 100%;
 
   &.landing {
+    height: 100px; // trust me
     background-color: transparent;
   }
 }
