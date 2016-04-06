@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  resources :assignments
   resources :donations
 
   resources :do_for_frees do
@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :tasks do
   	 resources :task_comments
+     resources :assignments
     end
 
     resources :project_comments

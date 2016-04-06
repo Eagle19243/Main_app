@@ -78,6 +78,15 @@
   <%= @task.condition_of_execution %>
 </p><br>
 
+<div class="invitations">
+
+<strong> Assign people to do Task </strong>
+
+
+
+<br>
+</div>
+
 <hr>
 
 <% if user_signed_in? %>
@@ -97,6 +106,10 @@
 <% end %>
 
 <br>
+
+
+
+
    
    <% @comments.each do |comment| %>
      
@@ -120,14 +133,6 @@
 
 
 
-
-
-
-
-<% if user_signed_in? %>
-<% if current_user.admin? || (current_user == @task.project.user) %>
-<%= link_to 'Edit', edit_task_path(@task) %> | <%end%><%end%>
-<%= link_to 'Back', @task.project %>
 
 
 
