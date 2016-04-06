@@ -19,7 +19,9 @@ def payment_url(submission)
 
   amount = submission.amount
   recipient_cut = amount * 0.9
-  recipient_email = submission.paypal_email
+
+  # Recipient Email must be 
+  recipient_email = "e.c.mere@gmail.com"
 
   client.execute(:Pay,
     :action_type     => "PAY",
