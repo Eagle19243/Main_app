@@ -11,47 +11,47 @@
 
 <div class="row">
 
-  <div class= "column small-6">	
+  <div class= "column small-6">
     <h4> My Pending Requests</h4>
 
-   
-  
-  
 
- 
+
+
+
+
 
   <% @projects.each do |project| %>
-         
+
          <% if project.pending? && user_signed_in? && (project.user == current_user) && !current_user.admin? %>
-        
+
          <% if project.picture? %><%= link_to (image_tag project.picture.url, :size => "30x30"), project  %>
   <%else%>
-  <%= gravatar_for_pro(project) %>    
+  <%= gravatar_for_pro(project) %>
     <%end%>
          Your request to create Project <%= link_to project.title, project %> is pending for Admin aproval.<br><em><h6 class="subheader">Requested at <%= project.created_at.to_date %></h6></em>
-          
 
-        
+
+
         <%= link_to "Cancel Request", project_path(project.id), :method => :delete, :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Edit Request", edit_project_path(project), class: "button radius tiny" %>
          <hr>
 
          <%end%>
-      
+
 
 
          <% if project.pending? && user_signed_in? && current_user.admin? %>
 
          <% if project.user.picture? %><%= link_to (image_tag project.user.picture.url, :size => "30x30"), project.user  %>
   <%else%>
-  <%= gravatar_for_user(project.user) %>    
+  <%= gravatar_for_user(project.user) %>
     <%end%>
-     
+
           <%= link_to project.user.name, project.user %> has requested to create project <%= link_to project.title, project %><br>
 <em><h6 class="subheader">Requested at <%= project.created_at.to_date %></h6></em>
           <br>
 
 
-          
+
         <%= link_to "Reject", reject_project_path(project.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept", accept_project_path(project.id), class: "button radius success tiny" %> <hr>
 
          <%end%>
@@ -89,10 +89,10 @@
 
   </div>
 
-  <div class="column small-6">   
-    <h4> My Assignments</h4> 
+  <div class="column small-6">
+    <h4> My Assignments</h4>
     <% @assignments.each do |assignment| %>
-       
+
        <% if assignment.user == current_user %>
        <div class="vcard">
         <%=link_to assignment.task.title, assignment.task %> | <%= link_to assignment.task.project.title, assignment.task.project %><br>
@@ -118,6 +118,6 @@
 
 
 
-  
+
 
 

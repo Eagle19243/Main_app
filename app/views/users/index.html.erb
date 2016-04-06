@@ -6,52 +6,43 @@
 
 <br>
 <div class="row collapse postfix-round right">
-        <div class="small-9 columns">
-          <input type="text" placeholder="Search">
-        </div>
-        <div class="small-3 columns">
-          <a href="#" class="button postfix">Go</a>
-        </div>
+  <% if current_user.admin? %>
+      <div class="small-9 columns">
+        <input type="text" placeholder="Search">
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="row">
-    <h3>Users</h3>
-    <div class="column">
-      <table class="table">
-        <tbody>
-          <tr>
-              <th>Name </th>
-              <th> City </th>
-              <th>Country</th>
-              <th>Status </th>
-              <% if current_user.admin? %>
-              <th>Change Status</th>
-              <th>Delete User</th>
-                <%end%>
-            </tr>
-          <% @users.each do |user| %>
-            
-            <tr>
-              <%= render user %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div class="small-3 columns">
+        <a href="#" class="button postfix">Go</a>
+      </div>
     </div>
+
+    <div class="row">
+      <h3>Users</h3>
+      <div class="column">
+        <table class="table">
+          <tbody>
+            <tr>
+                <th>Name </th>
+                <th> City </th>
+                <th>Country</th>
+                <th>Status </th>
+                <th>Change Status</th>
+                <th>Delete User</th>
+                  <%end%>
+              </tr>
+            <% @users.each do |user| %>
+
+              <tr>
+                <%= render user %>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+  <% else %>
+    <div class="alert-box round alert">
+      <div>You need to sign in as an admin before continuing.</div>
+      <a href="#" class="close">x</a>
+    </div>
+  <% end %>
+
   </div>
 </div></div>

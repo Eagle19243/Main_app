@@ -1,15 +1,129 @@
 // import the CSS framework
 @import "foundation";
 @import 'foundation-datetimepicker';
+@import 'colors';
+@import 'fonts';
+@import 'layout';
 
 // override for the 'Home' navigation link
-.top-bar .name {
-  font-size: rem-calc(32);
-  line-height: 45px; }
-.top-bar .name a {
-  font-weight: normal;
-  color: white;
-  padding: 0 15px; }
+.top-bar {
+  background: none !important;
+  height: 60px;
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 2rem 4rem 1rem;
+  width: 100%;
+
+  .top-bar-section > ul li, ul > li, a {
+    background: none !important;
+    color: $white;
+    font-size: 0.85rem;
+  }
+
+  .top-bar-section ul li > a {
+    background-color: none;
+    color: $white;
+    font-family: $sans;
+    font-size: 0.85rem;
+
+    &:hover {
+      background-color: rgba(255,255,255,0.3)!important;
+      color: $white !important;
+      transition: 0.2s ease background-color;
+    }
+  }
+
+  .name {
+    line-height: 40px;
+
+    a {
+      color: $white;
+      font-family: $display;
+      font-size: 2rem;
+      font-weight: 800;
+      padding-right: 15px;
+    }
+  }
+}
+
+.top-bar-section ul li a.sign-up-nav {
+  background-color: $orange !important; //ugh
+  border-radius: 3px;
+  margin-left: 5px;
+  padding: 0 25px;
+  transition: 0.15s ease all;
+
+  &:hover {
+    background-color: $orange-hover !important; //UGH
+  }
+}
+
+.top-bar .toggle-topbar.menu-icon a { // oh god
+  line-height: 3rem;
+  padding: 0;
+}
+
+@media(max-width: 640px) {
+  .top-bar .name {
+    text-align: left;
+
+    a {
+     padding: 0;
+    }
+  }
+
+  .top-bar .title-area {
+    margin-bottom: 2rem;
+  }
+
+  .top-bar.expanded {
+    background-color: $medium-gray !important;
+
+    .title-area {
+      background: transparent;
+    }
+  }
+
+  .top-bar-section ul li > a {
+    padding: 12px 0;
+  }
+
+  .top-bar-section ul li a.sign-up-nav {
+    margin: 0.5rem auto 1rem;
+    padding: 12px 0;
+    width: 100px;
+  }
+
+  .top-bar.expanded .toggle-topbar a {
+    color: $white;
+    transform: translateX(30%);
+
+    &:before {
+      color: $white;
+      content: 'close';
+      padding-right: 5px;
+    }
+  }
+}
+
+.alert-box {
+  border: 0;
+  left: 50%;
+  margin: 0 auto;
+  max-width: $max-width;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 90%;
+
+  &.success {
+    background-color: $success-green;
+  }
+
+  div {
+    padding-left: 15px;
+  }
+}
+
 
 // THESE ARE EXAMPLES YOU CAN MODIFY
 // create mixins using Foundation classes
@@ -92,12 +206,6 @@ section {
   @extend .tiny;
 }
 
-
-
-
-
-
-
 $include-html-tabs-classes: $include-html-classes;
 
 $tabs-navigation-padding: rem-calc(2);
@@ -107,7 +215,7 @@ $tabs-navigation-hover-bg-color: scale-color($tabs-navigation-bg-color, $lightne
 $tabs-navigation-font-color: $jet;
 $tabs-navigation-active-font-color: $tabs-navigation-font-color;
 $tabs-navigation-font-size: rem-calc(16);
-$tabs-navigation-font-family: $body-font-family;
+$tabs-navigation-font-family: $sans;
 $tabs-content-margin-left: rem-calc(2);
 $tabs-content-margin-bottom: rem-calc(24);
 $tabs-content-padding: $column-gutter/2;

@@ -4,13 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "You Serve" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "You Serve" %>">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,800|Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%# Modernizr is required for Zurb Foundation %>
     <%= javascript_include_tag 'vendor/modernizr' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
-  <body>
+  <body <% if controller.controller_name.eql?('visitors') %>class="landing"<%end%>>
     <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -28,17 +29,15 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-    <header>
-      <div class="generalcontent">
-      <%= render 'layouts/navigation' %>
-    </div>
+    <header <% if controller.controller_name.eql?('visitors') %>class="landing"<%end%>>
+      <div class="header-wrapper">
+        <%= render 'layouts/navigation' %>
+      </div>
     </header>
     <%= render 'layouts/messages' %>
     <%= yield %>
-    <main role="main">
-       
-     
-    </main>
-    <%= debug(params) if Rails.env.development? %>
+
+    <%= render 'layouts/footer' %>
+    <!-- <%= debug(params) if Rails.env.development? %> -->
   </body>
 </html>
