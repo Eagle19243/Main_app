@@ -9,6 +9,7 @@ class Task < ActiveRecord::Base
 	belongs_to :project
 	belongs_to :user
 	has_many :task_comments
+	has_many :assignments
 	has_many :do_requests
 	has_many :donations
 

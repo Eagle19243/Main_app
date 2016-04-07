@@ -141,6 +141,7 @@
     <h4>Admin<hr></h4>
 
     <% if @project.user.picture? %>
+   
   <%= image_tag(@project.user.picture.url, size: "100x100") %>
       <% else %>
         <%= gravatar_for @project.user %>
@@ -148,8 +149,9 @@
         <% if user_signed_in? %> 
       <%= link_to "Contact Me", conversations_path(sender_id: current_user.id, recipient_id: @project.user.id), method: 'post', class:"button tiny radius" %>
       <%end%>
+
     </p>
-   
+  
     <p>
 
 
@@ -159,12 +161,26 @@
 
 
 
-
+    <% collaborators = [] %>
     <h5>Collaborators<hr></h5>
-      <%= image_tag @project.user.picture.url, height: 100, width: 100 %><br>
-      <%= link_to "Contact Me", class:"button tiny radius" %>
+    <% @assignments.each do |ass| %> 
+    <% if ass.task.project_id == @project.id %>
+    <% collaborators.push(ass.user) %>
+    <%end%>
+    <%end%>
+    <% collaborators = collaborators.uniq %>
+    <% collaborators.each do |freelancer| %>
+    <div class="vcard">
+      <% if freelancer.picture? %>
+       <%= image_tag(freelancer.picture.url, size: "100x100") %>
+      <% else %>
+        <%= gravatar_for freelancer %>
+        <%end%><br>
+        <%= link_to freelancer.name, freelancer %>
+       </div>
+    <%end%>
     </p>
-
+        
 
 
 
@@ -215,6 +231,15 @@
 <%end%>
 </span>
 </div>
+
+
+
+<div class="invitations">
+<strong>Invite Existing User as Auxilliary Admin</strong><br>
+<strong>Invite non-existing User to join as Auxiliary Admin</strong><br>
+
+</div>
+
 
 <hr>
 <% if user_signed_in? %>

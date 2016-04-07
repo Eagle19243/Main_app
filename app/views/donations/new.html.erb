@@ -13,10 +13,6 @@
       <%= f.hidden_field :task_id, value: @task.id, :rows => 2, :cols => 2 %>
     </div>
 
-    <div class="form-group">
-      <%= f.label :paypal_email, "Your Paypal Email" %> 
-      <%= f.email_field :paypal_email %>   
-    </div>
 
      <center><%= f.submit 'Proceed', :class => 'button' %></center>
   <% end %>

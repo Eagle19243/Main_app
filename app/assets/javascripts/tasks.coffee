@@ -5,4 +5,6 @@
 
 
 jQuery ->
+
  $('#task_deadline').datepicker()
+

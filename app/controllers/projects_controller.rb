@@ -12,6 +12,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     @comments = @project.project_comments.all
+    @assignments = Assignment.all
   end
 
   # GET /projects/new
