@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :projects do
     resources :tasks do
   	 resources :task_comments
+
      resources :assignments
     end
 
