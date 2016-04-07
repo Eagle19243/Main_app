@@ -20,6 +20,8 @@ gem 'aasm'
 gem 'social-share-button'
 gem 'paypal-sdk-adaptivepayments'
 gem 'pp-adaptive'
+gem 'jquery-turbolinks'
+gem 'chosen-rails'
 
 
 gem 'capistrano', '~> 3.1.0'

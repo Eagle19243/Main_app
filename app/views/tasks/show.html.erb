@@ -80,8 +80,14 @@
 
 <div class="invitations">
 
-<strong> Assign people to do Task </strong>
+<%= form_tag assignments_path, method: :post do %>
+  <div class="form-group">
+    <%= label_tag 'user_id', 'Choose Freelancer' %>
+    <%= select_tag 'user_id', freelancers_options, multiple: true, class: 'form-control' %>
+  </div>
 
+  <%= submit_tag 'Assign', class: 'btn btn-primary' %>
+<% end %>
 
 
 <br>
