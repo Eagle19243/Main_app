@@ -1,5 +1,5 @@
 class VisitorsController < ApplicationController
 	def index
-    @projects = Project.all
+    @project = Project.find(1)
   end
 end

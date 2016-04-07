@@ -3,6 +3,7 @@
 
 .how-it-works {
   background: $white;
+  border-bottom: 1px solid $light-gray;
   margin-top: 3rem;
   padding: 7rem 0;
   text-align: center;
@@ -74,6 +75,90 @@
   }
 }
 
+.project-wrapper {
+  background-color: #f7faf7;
+  padding: 7rem 0;
+  position: relative;
+  text-align: center;
+
+  .picture-wrapper, .project-info {
+    color: $medium-gray;
+    display: inline-block;
+    font-family: $sans;
+    text-align: left;
+    vertical-align: top;
+    max-width: 40%;
+    width: 400px;
+  }
+
+  .project-info {
+    display: inline-block;
+    padding-left: 20px;
+    text-align: left;
+
+    span {
+      font-size: 0.8125rem;
+    }
+
+    .task {
+      margin-bottom: 3rem;
+      clear: both;
+    }
+
+    .task-description {
+      font-size: 0.875rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .project-title {
+      font-family: $display;
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.25rem;
+      margin: 0;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+
+      .project-country {
+        color: $medium-gray;
+        float: right;
+        font-size: 0.8125rem;
+        font-weight: normal;
+        vertical-align: top;
+
+        &:before {
+          background: url("https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/globe.png");
+          background-size: contain;
+          content: '';
+          display: inline-block;
+          filter: opacity(.3);
+          -webkit-filter: opacity(.3);
+          height: 20px;
+          margin-right: 7px;
+          transform: translateY(-1px); // dat optical alignment
+          width: 20px;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .progress-bar {
+      background: $opaque-white;
+      border-radius: 3px;
+      height: 10px;
+      position: relative;
+
+      .current-progress {
+        background-color: $success-green;
+        border-radius: 3px;
+        height: 100%;
+        position: absolute;
+        width: 0.1%;
+      }
+    }
+  }
+}
+
 // ~~~~~~~~~~~~~~~~~~~~
 //    Media queries
 // ~~~~~~~~~~~~~~~~~~~~
@@ -122,5 +207,24 @@
         border-bottom: 0;
       }
     }
+  }
+
+  .project-wrapper {
+    padding: 4rem 0;
+
+    .picture-wrapper, .project-info {
+      display: block;
+      padding: 0;
+      margin: 1rem auto;
+      max-width: 480px;
+      width: 60%;
+    }
+  }
+}
+
+@media(max-width: 480px) {
+  // .... I realize that this is not ideal
+  .project-wrapper .project-info .project-title .project-country:before {
+    display: none;
   }
 }

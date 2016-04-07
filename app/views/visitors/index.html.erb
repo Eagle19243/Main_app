@@ -28,4 +28,36 @@
 
     <%= link_to "See active projects", projects_path, class: "mobile-only hero-button" %>
   </div>
+
+  <% if @project %>
+    <div class="project-wrapper">
+      <div class="project-showcase">
+        <div class="picture-wrapper">
+            <a href="<%= project_path(@project)%>"><img src="/assets/garbage.jpg"></a>
+        </div>
+
+        <div class="project-info">
+
+          <h4 class="project-title"><%=link_to @project.title, project_path(@project) %><span class="project-country"><%= @project.country %></span></h4>
+          <div class="tasks">
+            <% @project.tasks.each do |task| %>
+            <div class="task">
+              <p class="task-description"><%= task.description %></p>
+              <div class="progress-bar">
+                <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
+              </div>
+              <span class="left">
+                <strong>$<%= task.current_fund.to_i %></strong> funded
+              </span>
+              <span class="right">
+                <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
+              </span>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
 </div>
