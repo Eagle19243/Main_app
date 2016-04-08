@@ -5,5 +5,6 @@ class DashboardController < ApplicationController
     @do_requests = DoRequest.all
     @projects = Project.all
     @assignments = Assignment.all
+    @proj_admins = ProjAdmin.all
   end
 end

@@ -16,7 +16,7 @@ class DoRequestsController < ApplicationController
      @do_request = current_user.do_requests.build(request_params)
       if @do_request.save
         flash[:success] = "Request sent to Project Admin"
-    redirect_to @do_request.task
+        redirect_to @do_request.task
   else
     
     flash[:error] = "You cannot apply twice"
@@ -46,7 +46,8 @@ class DoRequestsController < ApplicationController
     @do_request = DoRequest.find(params[:id])
     if @do_request.accept! 
       @do_request.user.assign(@do_request.task, @do_request.free) 
-      @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days ) 
+      @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days )
+
        flash[:success] = "Task has been assigned"
 
      else

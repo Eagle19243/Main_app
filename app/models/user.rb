@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :do_for_frees
   has_many :assignments
   has_many :donations
+  has_many :proj_admins
 
 
   def create_activity(item, action)
@@ -35,6 +36,7 @@ class User < ActiveRecord::Base
     assignment.task = taskItem
     assignment.free = booleanFree
     assignment.save
+    assignment.accept!    
     assignment
   end
 

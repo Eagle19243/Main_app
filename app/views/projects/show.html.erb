@@ -156,10 +156,44 @@
 
 
       <h5>Auxiliary Admins<hr></h5>
+      
+      <% @proj_admins.each do |admin| %>
+      <% if admin.project == @project && admin.accepted? %>
+      <div class="vcard">
+      <% if admin.user.picture? %>
+      <%= image_tag(admin.user.picture.url, size: "100x100") %>
+      <%else%>
+      <%= gravatar_for_user(admin.user) %><br>
+      <%end%>
+      <%= link_to admin.user.name, admin.user %>
+    </div>
+      <%end%>
+
+      <%end%>
+   
+      <br>
+      <br>
+      <% if user_signed_in? && (current_user == @project.user || current_user.admin?) %>
+      <%= form_for(@proj_admin) do |f| %>
+  <div class="form-group">
+    <%= label_tag 'user_id', 'Add auxiliary Admin' %>
+    <%= f.select :user_id,
+  User.all.map { |u| [u.name, u.id] },
+               { include_blank: true },
+               { class: 'chosen-select' }
+%>
+    <%= f.hidden_field :project_id, value: @project.id %>
+
+  </div>
+
+  <%= submit_tag 'Add auxiliary Admin', class: 'button radius tiny' %>
+<% end %>
+<%end%>
+
+<br>
 
 
-
-
+<br><br><br>
 
     <% collaborators = [] %>
     <h5>Collaborators<hr></h5>
@@ -235,8 +269,7 @@
 
 
 <div class="invitations">
-<strong>Invite Existing User as Auxilliary Admin</strong><br>
-<strong>Invite non-existing User to join as Auxiliary Admin</strong><br>
+
 
 </div>
 

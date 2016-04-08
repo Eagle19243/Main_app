@@ -16,7 +16,7 @@
 
     
     <br>
-    <p><h2><em><%= @task.number_of_participants %> 3 </em></h2>
+    <p><h2><em><%= @task.assignments.count %> </em></h2>
    <h6><%= link_to "Collaborators", '#'%></h6>
     </p>
    
@@ -78,17 +78,23 @@
   <%= @task.condition_of_execution %>
 </p><br>
 
+<% if user_signed_in? && (current_user == @task.project.user || current_user.admin?) %>
 <div class="invitations">
-
-<%= form_tag assignments_path, method: :post do %>
+<%= form_for(@assignment) do |f| %>
   <div class="form-group">
-    <%= label_tag 'user_id', 'Choose Freelancer' %>
-    <%= select_tag 'user_id', freelancers_options, multiple: true, class: 'form-control' %>
+    <%= label_tag 'user_id', 'Assign task to a Freelancer' %>
+    <%= f.select :user_id,
+  User.all.map { |u| [u.name, u.id] },
+               { include_blank: true },
+               { class: 'chosen-select' }
+%>
+    <%= f.hidden_field :task_id, value: @task.id %>
+
   </div>
 
-  <%= submit_tag 'Assign', class: 'btn btn-primary' %>
+  <%= submit_tag 'Assign', class: 'button radius tiny' %>
 <% end %>
-
+<% end %>
 
 <br>
 </div>

@@ -13,6 +13,8 @@ class ProjectsController < ApplicationController
   def show
     @comments = @project.project_comments.all
     @assignments = Assignment.all
+    @proj_admin = ProjAdmin.new
+    @proj_admins = ProjAdmin.all
   end
 
   # GET /projects/new

@@ -7,6 +7,7 @@ has_many :tasks, dependent: :destroy
 has_many :wikis, dependent: :destroy
 has_many :project_comments, dependent: :destroy
 belongs_to :user
+has_many :proj_admins
 
 
 

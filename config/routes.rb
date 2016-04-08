@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
-  resources :assignments
+  get 'proj_admins/new'
+
+  get 'proj_admins/create'
+
+  get 'proj_admins/destroy'
+  resources :proj_admins do
+    member do
+      get :accept, :reject
+    end
+  end
+  resources :assignments do
+    member do
+      get :accept, :reject
+    end
+  end
   resources :donations
 
   resources :do_for_frees do

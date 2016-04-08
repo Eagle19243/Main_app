@@ -16,6 +16,33 @@
 
 
 
+     <% @assignments.each do |assignment| %>
+
+       <% if assignment.user == current_user && assignment.pending? %>
+       You have been assigned to do task <%=link_to assignment.task.title, assignment %><br>
+         <%= link_to "Reject", reject_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",accept_assignment_path(assignment.id), class: "button radius success tiny" %> <hr>
+         <%end%>
+
+         <%end%>
+
+
+
+
+
+         <% @proj_admins.each do |proj_admin| %>
+         <% if proj_admin.user == current_user && proj_admin.pending? %>
+
+           You have been added as auxiliary Admin in project <%= link_to proj_admin.project.title, proj_admin.project %><br>
+         <%= link_to "Reject", reject_proj_admin_path(proj_admin.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",accept_proj_admin_path(proj_admin.id), class: "button radius success tiny" %> <hr>
+         <%end%>
+         <%end%>
+
+         
+
+
+
+
+
 
 
 
@@ -93,7 +120,7 @@
     <h4> My Assignments</h4>
     <% @assignments.each do |assignment| %>
 
-       <% if assignment.user == current_user %>
+       <% if assignment.user == current_user && assignment.accepted? %>
        <div class="vcard">
         <%=link_to assignment.task.title, assignment.task %> | <%= link_to assignment.task.project.title, assignment.task.project %><br>
         Assigned at:  <%= assignment.created_at.to_date %><br>

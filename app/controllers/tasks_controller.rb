@@ -9,7 +9,7 @@ class TasksController < ApplicationController
   # GET /tasks/1.json
   def show
     @comments = @task.task_comments.all
-   
+    @assignment = Assignment.new
 
   end
 

@@ -15,6 +15,8 @@
 //= require turbolinks
 //= require foundation
 //= require foundation-datetimepicker
+//= require chosen-jquery
+//= require scaffold
 //= require jquery-ui/datepicker
 //= require tinymce-jquery
 //= require social-share-button

@@ -22,8 +22,7 @@ gem 'paypal-sdk-adaptivepayments'
 gem 'pp-adaptive'
 gem 'jquery-turbolinks'
 gem 'chosen-rails'
-
-
+gem 'chosen-rails'
 gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-bundler', '~> 1.1.2'
 gem 'capistrano-rails', '~> 1.1.1'
