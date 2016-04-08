@@ -1,106 +1,43 @@
-<p id="notice"><%= notice %></p>
-<div class="generalcontent">
-
-<h2><u>Active Projects:</u></h2><br>
-
-<%if @projects %>
-
-<% @projects.each do |project| %>
-
-
-<div class="row">
-
-
-  <div class="small-6 columns">
-   <div class="row">
-    <div class="small-6 columns">
-    <% if project.picture? %>
-    <%= image_tag(project.picture.url, size: "200x200") %>
-
-    <%else%>
-
-    <%= gravatar_for_projectdisplay(project) %>
-    <%end%>
-  </div>
-
-  <div class="small-6 columns">
-      <h5 class="subheader"><%=link_to project.title, project_path(project) %></h5>
-     Location: <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= project.country %></em><br>
-     Project Admin: <%= link_to project.user.name, project.user %>  <br>
-     Created on <em>&nbsp;&nbsp;<%= project.created_at.strftime("%m/%d/%Y") %></em><br>
-     Expires on<em>&nbsp;&nbsp;<%= project.expires_at %></em><br><br>
-
-
-
-  </div>
+<% if notice %>
+  <p id="notice"><%= notice %></p>
+<% end %>
+<div class="project-page-info">
+  <h3>Active projects</h3>
+  <p>See what other people are doing with YouServe, and get involved.</p>
+  <%= link_to 'Make a new project', new_project_path, class: "hero-button" %>
 </div>
+<div class="separator"></div>
 
+<div class="content projects">
+  <% @projects.each do |project| %>
+  <div class="project-wrapper">
+    <div class="project-showcase">
+      <div class="picture-wrapper">
+          <a href="<%= project_path(project)%>"><img src="/assets/garbage.jpg"></a>
+      </div>
 
+      <div class="project-info">
 
-
+        <h4 class="project-title"><%=link_to project.title, project_path(project) %><span class="project-country"><%= project.country %></span></h4>
+        <div class="tasks hide-mobile">
+          <% project.tasks.take(2).each do |task| %>
+          <div class="task">
+            <p class="task-description"><%= task.description %></p>
+            <div class="progress-bar">
+              <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
+            </div>
+            <span class="left">
+              <strong>$<%= task.current_fund.to_i %></strong> funded
+            </span>
+            <span class="right">
+              <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
+            </span>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
+  <%end%>
 
-
-  <div class="small-5 columns">
-    <h5 class="subheader">Task List</h5>
-      <% i = 1 %>
-    <% project.tasks.each do |task| %>
-        <% if i < 3 %>
-       <strong>Task #<%=i%></strong>: <%= truncate(task.description) %><br>
-       <div id="myProgress">
-       <div id="myBar"></div>
-       <div id="label"><%= task.current_fund/task.budget %> %</div>
-       </div>
-       <span class="right">
-       <%= task.current_fund %> of $<%= task.budget %>
-       </span>
-       <br><br>
-       <% i +=1 %>
-       <%end%>
-
-    <%end%>
-    <%= link_to "View Project Tasks | Fund or Do", project_path(project) %>
-  </div>
 </div>
-<hr>
-
-
-
-
-<%end%>
-<%end%>
-
-
-<!-- <h1>Listing Projects</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Country</th>
-      <th>Picture</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @projects.each do |project| %>
-      <tr>
-        <td><%= project.title %></td>
-        <td><%= project.description %></td>
-        <td><%= project.country %></td>
-        <td><%= image_tag project.picture.url if project.picture?%></td>
-        <td><%= link_to 'Show', project %></td>
-        <td><%= link_to 'Edit', edit_project_path(project) %></td>
-        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Project', new_project_path %>
-</div>
- -->

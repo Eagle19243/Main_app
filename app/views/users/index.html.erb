@@ -6,7 +6,7 @@
 
 <br>
 <div class="row collapse postfix-round right">
-  <% if current_user.admin? %>
+  
       <div class="small-9 columns">
         <input type="text" placeholder="Search">
       </div>
@@ -27,22 +27,19 @@
                 <th>Status </th>
                 <th>Change Status</th>
                 <th>Delete User</th>
-                  <%end%>
+                 
               </tr>
             <% @users.each do |user| %>
 
               <tr>
                 <%= render user %>
               </tr>
+              <%end%>
           </tbody>
         </table>
       </div>
-  <% else %>
-    <div class="alert-box round alert">
-      <div>You need to sign in as an admin before continuing.</div>
-      <a href="#" class="close">x</a>
-    </div>
-  <% end %>
+  
+  
 
   </div>
 </div></div>
