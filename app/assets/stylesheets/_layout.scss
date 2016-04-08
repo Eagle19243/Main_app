@@ -3,19 +3,6 @@
 
 $max-width: 980px;
 
-header {
-  background-color: $orange;
-  background-image: linear-gradient(rgba(255,255,255,0.5), rgba(0,0,0,0));
-  height: 75px;
-  text-align: center;
-  width: 100%;
-
-  &.landing {
-    height: 100px; // trust me
-    background-color: transparent;
-  }
-}
-
 body.landing {
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(black-white-city.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -28,10 +15,16 @@ body.landing {
   margin: 0 auto;
   max-width: $max-width;
   padding: 0 !important;
-  width: 100%;
+  width: 90%;
+
+  &.padded {
+    min-height: calc(100% - 60px);
+    margin-bottom: -121px; // height of footer
+  }
 
   &.landing {
     max-width: 100%;
+    width: 100%;
   }
 
   .hero-wrapper {
@@ -50,6 +43,24 @@ body.landing {
       text-align: center;
     }
   }
+}
+
+p {
+  margin-bottom: 0.5rem;
+}
+
+.separator {
+  border-top: 1px solid $border-dark;
+  border-bottom: 3px solid $border-light;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.notice {
+  background: $opaque-white;
+  border-radius: 5px;
+  margin: 3rem auto;
+  padding: 2rem 3rem;
 }
 
 footer {
@@ -112,6 +123,10 @@ footer {
     line-height: 3rem;
     margin: 5rem 0;
   }
+
+  .content.padded {
+    margin-bottom: -106px;
+  }
 }
 
 @media (max-width: 420px) {
@@ -119,5 +134,9 @@ footer {
     font-size: 1.8rem;
     line-height: 2.8rem;
     margin: 5rem 0;
+  }
+
+  .content.padded {
+    margin-bottom: -98px;
   }
 }

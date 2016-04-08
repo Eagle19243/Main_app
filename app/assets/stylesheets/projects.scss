@@ -1,0 +1,37 @@
+@import 'colors';
+@import 'fonts';
+
+.project-page-info {
+  background-color: $white-green;
+  padding: 3rem 0 4rem;
+  text-align: center;
+  width: 100%;
+
+  h3 {
+    color: $dark-gray;
+    font-family: $sans;
+    font-size: 2.5rem;
+  }
+
+  p {
+    color: $medium-gray;
+    margin: 0 auto;
+    max-width: 640px;
+    width: 80%;
+  }
+
+  .hero-button {
+    display: inline-block;
+    font-size: 0.875rem;
+    margin-top: 3rem;
+    padding: 1rem 2rem;
+  }
+}
+
+@media(max-width: 680px) {
+  .content.projects {
+    .project-wrapper {
+      padding: 2rem 0;
+    }
+  }
+}

@@ -3,7 +3,8 @@
 
 .how-it-works {
   background: $white;
-  border-bottom: 1px solid $light-gray;
+  border-top: 1px solid $border-dark;
+  border-bottom: 1px solid $border-dark;
   margin-top: 3rem;
   padding: 7rem 0;
   text-align: center;
@@ -76,10 +77,28 @@
 }
 
 .project-wrapper {
-  background-color: #f7faf7;
-  padding: 7rem 0;
-  position: relative;
+  padding: 2rem 0;
   text-align: center;
+
+  &.landing {
+    background-color: $white-green;
+    border-top: 3px solid $border-light;
+    padding: 7rem 0;
+    position: relative;
+  }
+
+  h3 {
+    color: $light-gray;
+    font-family: Raleway;
+    font-size: 1.0625rem;
+    font-weight: 800;
+    margin: 0px auto 1.5rem;
+    max-width: 80%;
+    text-align: left;
+    text-transform: uppercase;
+    transform: translateX(-50px);
+    width:  800px;
+  }
 
   .picture-wrapper, .project-info {
     color: $medium-gray;
@@ -211,6 +230,11 @@
 
   .project-wrapper {
     padding: 4rem 0;
+
+    h3 {
+      max-width: 480px;
+      width: 60%;
+    }
 
     .picture-wrapper, .project-info {
       display: block;
