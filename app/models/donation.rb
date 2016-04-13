@@ -4,7 +4,7 @@ class Donation < ActiveRecord::Base
 	belongs_to :task
 
 
-
+ validates_numericality_of :amount, :only_integer => true, :greater_than_or_equal_to => 1
 
 
 def payment_url(submission)

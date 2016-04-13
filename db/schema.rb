@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160408172751) do
+ActiveRecord::Schema.define(version: 20160412213236) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -30,9 +30,10 @@ ActiveRecord::Schema.define(version: 20160408172751) do
     t.integer  "user_id"
     t.boolean  "free"
     t.datetime "deadline"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "state"
+    t.datetime "confirmed_at"
   end
 
   add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id"
@@ -129,6 +130,8 @@ ActiveRecord::Schema.define(version: 20160408172751) do
     t.string   "institution_logo"
     t.text     "institution_description"
     t.string   "institution_location"
+    t.string   "short_description"
+    t.string   "institution_country"
   end
 
   create_table "task_comments", force: :cascade do |t|
@@ -159,6 +162,8 @@ ActiveRecord::Schema.define(version: 20160408172751) do
     t.integer  "number_of_participants"
     t.integer  "target_number_of_participants"
     t.boolean  "assigned",                      default: false
+    t.text     "proof_of_execution"
+    t.text     "short_description"
   end
 
   create_table "users", force: :cascade do |t|

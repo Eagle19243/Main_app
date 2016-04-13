@@ -9,6 +9,9 @@ class Assignment < ActiveRecord::Base
     state :pending
     state :accepted
     state :rejected
+    state :completed
+    state :confirmed
+    state :unconfirmed
     event :accept do
       transitions :from => :pending, :to => :accepted
     end
@@ -16,5 +19,20 @@ class Assignment < ActiveRecord::Base
       transitions :from => :pending, :to => :rejected
 
     end  
+    event :complete do
+        transitions :from =>[:accepted, :unconfirmed], :to =>:completed
+
+    end
+
+   event :verify do
+        transitions :from =>[:completed], :to =>:confirmed
+   end 
+
+   event :unconfirm do   
+    transitions :from =>:completed, :to =>:unconfirmed
+
+   end 
+
+
     end  
 end

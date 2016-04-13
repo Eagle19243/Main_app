@@ -1,3 +1,6 @@
+  <div class="row">
+    <div class="column small-6">
+<br>
   <% if current_user.picture? %>
   <%= image_tag(current_user.picture.url, size: "100x100") %>
       <% else %>
@@ -7,11 +10,35 @@
   <%= current_user.name %><br><br>
 
 
+</div>
 
+<div class="column small-6">
+  <h4>My Completed Assignments</h4>
+
+    <% @assignments.each do |assignment| %>
+
+       <% if assignment.user == current_user && assignment.confirmed?  %>
+       <div class="vcard">
+        <%=link_to assignment.task.title, assignment.task %> | <%= link_to assignment.task.project.title, assignment.task.project %><br>
+        Assigned at:  <%= assignment.created_at.to_date %><br>
+        Was due at:     <%= (assignment.task.deadline).to_date %><br>
+        Confirmed at 
+
+      
+       </div>
+
+
+       <%end%>
+
+
+
+    <%end%>
+</div>
+</div>
 
 <div class="row">
 
-  <div class= "column small-6">
+  <div class= "column small-4">
     <h4> My Pending Requests</h4>
 
 
@@ -23,6 +50,10 @@
          <%= link_to "Reject", reject_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",accept_assignment_path(assignment.id), class: "button radius success tiny" %> <hr>
          <%end%>
 
+         <% if assignment.completed? && (current_user == assignment.task.project.user || current_user.admin?)%>
+            <%= link_to assignment.user.name, assignment.user %> wants you to verify and confirm his completion of task <%= link_to assignment.task.title, assignment.task %><br>
+            <%= link_to "Reject", confirmation_rejected_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",confirmed_assignment_path(assignment.id), class: "button radius success tiny" %> <hr>
+         <%end%>
          <%end%>
 
 
@@ -116,15 +147,17 @@
 
   </div>
 
-  <div class="column small-6">
-    <h4> My Assignments</h4>
+  <div class="column small-4">
+    <h4> My Current Assignments</h4>
     <% @assignments.each do |assignment| %>
 
-       <% if assignment.user == current_user && assignment.accepted? %>
+       <% if assignment.user == current_user && (assignment.accepted? || assignment.unconfirmed?) %>
        <div class="vcard">
         <%=link_to assignment.task.title, assignment.task %> | <%= link_to assignment.task.project.title, assignment.task.project %><br>
         Assigned at:  <%= assignment.created_at.to_date %><br>
-        Due date:     <%= (assignment.created_at + 60.days).to_date %>
+        Due date:     <%= (assignment.task.deadline).to_date %><br>
+
+        <%= link_to "Completed ?", completed_assignment_path(assignment.id), class:'button radius tiny' %>
 
        </div>
 
@@ -138,6 +171,14 @@
 
 </div>
 
+
+
+
+
+
+
+
+</div>
 
 
 

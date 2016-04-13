@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
   resources :assignments do
     member do
-      get :accept, :reject
+      get :accept, :reject, :completed, :confirmed, :confirmation_rejected
     end
   end
   resources :donations

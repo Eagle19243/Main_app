@@ -13,7 +13,17 @@
   <div class="project-wrapper">
     <div class="project-showcase">
       <div class="picture-wrapper">
-          <a href="<%= project_path(project)%>"><img src="/assets/garbage.jpg"></a>
+          <a href="<%= project_path(project)%>">
+
+          <% if project.picture? %>
+          <%= image_tag(project.picture.url, :size =>'400*400') %>
+          <%else%>
+          <%= gravatar_for_project(project) %>
+          <%end%>
+
+
+
+          </a>
       </div>
 
       <div class="project-info">

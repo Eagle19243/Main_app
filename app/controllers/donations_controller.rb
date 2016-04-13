@@ -11,7 +11,12 @@ class DonationsController < ApplicationController
 
   def create
     @donation = Donation.new(donation_params)
+    if @donation.save!
     redirect_to @donation.payment_url(@donation)
+  else
+    redirect_to @donation.task
+    flash[:error] = "Please Enter a valid amount"
+  end
   	   
   end
 

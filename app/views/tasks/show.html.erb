@@ -4,13 +4,19 @@
     <% if user_signed_in? %>
     <% if current_user.admin? || (current_user == @task.project.user) %>
 
-<%= link_to 'Edit', edit_task_path(@task) %> |
+<%= link_to 'Edit', edit_task_path(@task, project_id: @task.project_id) %> |
 <%= link_to 'Delete', edit_task_path(@task) %> |
 <%= link_to 'Back', @task.project %>
 <%end%>
 <%end%>
 
+
+<br><br>
+<strong> Due Date :</strong> <%= @task.deadline.to_date %>
 <div class= "row" >
+
+
+
 	<div class="small-3 columns">
    
 

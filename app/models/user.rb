@@ -12,14 +12,14 @@ class User < ActiveRecord::Base
   mount_uploader :picture, PictureUploader
 
   has_many :projects, dependent: :destroy
-  has_many :project_comments, dependent: :destroy
-  has_many :activities
+  has_many :project_comments, dependent: :delete_all
+  has_many :activities, dependent: :delete_all
   belongs_to :institution 
-  has_many :do_requests
+  has_many :do_requests, dependent: :delete_all
   has_many :do_for_frees
-  has_many :assignments
+  has_many :assignments, dependent: :delete_all
   has_many :donations
-  has_many :proj_admins
+  has_many :proj_admins, dependent: :delete_all
 
 
   def create_activity(item, action)

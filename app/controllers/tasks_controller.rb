@@ -26,6 +26,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
+
     @task = Task.new(task_params)
     @task.user_id = current_user.id
    
@@ -46,7 +47,9 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update
+        
     respond_to do |format|
+        @task.project_id = params[:project_id]
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
         activity.user_id = current_user.id 
@@ -79,6 +82,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:references, :target_number_of_participants, :number_of_participants, :title, :description, :budget, :project_id, :user_id, :condition_of_execution, :fileone, :filetwo, :filethree, :filefour, :filefive)
+      params.require(:task).permit(:references, :deadline, :target_number_of_participants, :project_id, :short_description, :number_of_participants, :proof_of_execution, :title, :description, :budget, :user_id, :condition_of_execution, :fileone, :filetwo, :filethree, :filefour, :filefive)
     end
 end

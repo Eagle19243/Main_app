@@ -26,8 +26,9 @@ class AssignmentsController < ApplicationController
 		if @assignment.accept!
 			flash[:success] = "Assignment accepted"
 		else flash[:error] = "Assignment was not accepted"
-			redirect_to dashboard_path
+			
 		end
+		redirect_to dashboard_path
 
 	end
 
@@ -39,8 +40,47 @@ class AssignmentsController < ApplicationController
 			flash[:success] = "Assignment rejected"
 		else 
 			flash[:error] = "Assignment was not rejected"
-			redirect_to dashboard_path
+			
 		end
+		redirect_to dashboard_path
+	end
+
+
+
+	def completed
+		@assignment = Assignment.find(params[:id])
+		if @assignment.complete!
+			flash[:success] = "Congrats! Admin will verify that assignment has been completed"
+
+		else
+			flash[:error] = "Sorry, something is wrong"
+			end
+		redirect_to dashboard_path
+	end
+
+
+	def confirmed
+		@assignment = Assignment.find(params[:id])
+		if @assignment.verify!
+			@assignment.update_attribute(:confirmed_at, Time.now)
+			flash[:success] = "Completion of assignment verified."
+		else
+			flash[:error] = "Completion of assignment not confirmed"
+		end
+		redirect_to dashboard_path
+	end
+
+
+
+	def confirmation_rejected
+		@assignment = Assignment.find(params[:id])
+		if @assignment.unconfirm!
+			flash[:success] = "Comfirmation of assignment completion was rejected"
+		else
+			flash[:error] = "Comfirmation was not rejected"
+			end
+		redirect_to dashboard_path
+
 	end
 
 
@@ -50,7 +90,7 @@ class AssignmentsController < ApplicationController
 
 private
 def assignment_params
-	params.require(:assignment).permit(:task_id, :user_id, :free)
+	params.require(:assignment).permit(:task_id, :user_id, :free, :id)
 end
 
 end

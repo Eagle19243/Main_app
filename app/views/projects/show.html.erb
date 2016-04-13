@@ -198,7 +198,7 @@
     <% collaborators = [] %>
     <h5>Collaborators<hr></h5>
     <% @assignments.each do |ass| %> 
-    <% if ass.task.project_id == @project.id %>
+    <% if ass && ass.task && ass.task.project_id == @project.id %>
     <% collaborators.push(ass.user) %>
     <%end%>
     <%end%>
@@ -250,7 +250,7 @@
  <h5 class="subheader"><em><%= link_to task.title, task %></em></h5>
  <% if user_signed_in? %>
  <% if current_user.admin? || (current_user == @project.user) %>
- <u><%= link_to 'Edit Task', edit_task_path(task) %></U> |
+ <u><%= link_to 'Edit Task', edit_task_path(task, project_id: @project.id) %></U> |
  <u><%= link_to 'Delete Task', task_path(task), :method => :delete, :data => { :confirm => "Are you sure?" } %></u><br><%end%><%end%> 
  <%= truncate(task.description, :length => 90) %>
  <div id="myProgress">
