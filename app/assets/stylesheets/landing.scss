@@ -97,7 +97,7 @@
     text-align: left;
     text-transform: uppercase;
     transform: translateX(-50px);
-    width:  800px;
+    width: 800px;
   }
 
   .picture-wrapper, .project-info {
@@ -137,6 +137,11 @@
       margin: 0;
       margin-bottom: 1.5rem;
       text-transform: uppercase;
+
+      a {
+        display: inline-block;
+        max-width: 80%;
+      }
 
       .project-country {
         color: $medium-gray;

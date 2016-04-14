@@ -186,7 +186,6 @@ ActiveRecord::Schema.define(version: 20160412213236) do
     t.string   "picture"
     t.string   "company"
     t.boolean  "admin",                            default: false
-    t.boolean  "manager",                          default: false
     t.string   "first_link"
     t.string   "second_link"
     t.string   "third_link"
@@ -203,7 +202,6 @@ ActiveRecord::Schema.define(version: 20160412213236) do
     t.text     "description"
     t.integer  "project_id"
     t.string   "pictureone"
-    t.string   "string"
     t.string   "picturetwo"
     t.string   "picturethree"
     t.string   "picturefour"

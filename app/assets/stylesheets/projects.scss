@@ -1,6 +1,10 @@
 @import 'colors';
 @import 'fonts';
 
+.content.projects {
+  margin-bottom: 2rem;
+}
+
 .project-page-info {
   background-color: $white-green;
   padding: 3rem 0 4rem;
@@ -25,6 +29,35 @@
     font-size: 0.875rem;
     margin-top: 3rem;
     padding: 1rem 2rem;
+  }
+}
+
+.project-hero {
+  background: linear-gradient( rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5) ),url(garden.jpeg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  height: 25rem;
+  position: relative;
+  width: 100%;
+
+  h2 {
+    bottom: 2rem;
+    color: $white;
+    font-family: $display;
+    left: 50%;
+    max-width: 980px;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 80%;
+
+    span {
+      font-family: $sans;
+      font-size: 1rem;
+      padding-left: 0.5rem;
+    }
   }
 }
 
