@@ -110,6 +110,16 @@
     width: 400px;
   }
 
+  .picture-wrapper {
+    height: 250px;
+
+    a {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
   .project-info {
     display: inline-block;
     padding-left: 20px;

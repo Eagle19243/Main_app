@@ -4,8 +4,7 @@
 // Frameworks got me like :/
 
 header {
-  background-color: $opaque-white;
-  background-image: linear-gradient(rgba(255,255,255,0.75), rgba(0,0,0,0));
+  background-color: $white;
   height: 60px;
   text-align: center;
   width: 100%;
@@ -50,7 +49,7 @@ header {
   .top-bar-section ul li > a {
     background: none !important;
     border-bottom: 2px solid transparent;
-    color: $sky-blue-hover !important;
+    color: $medium-gray !important;
     font-family: $sans;
     font-size: 0.85rem;
     line-height: 2rem !important;
@@ -59,7 +58,7 @@ header {
     &:hover {
       border-bottom: 2px solid $sky-blue-hover;
       color: $sky-blue-hover !important;
-      transition: 0.2s ease border-bottom;
+      transition: 0.2s ease all;
     }
   }
 

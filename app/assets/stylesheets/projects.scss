@@ -6,7 +6,8 @@
 }
 
 .project-page-info {
-  background-color: $white-green;
+  background-color: $white-green-alt;
+  border-top: 1px solid $light-gray;
   padding: 3rem 0 4rem;
   text-align: center;
   width: 100%;
@@ -19,7 +20,7 @@
 
   p {
     color: $medium-gray;
-    margin: 0 auto;
+    margin: 1rem auto;
     max-width: 640px;
     width: 80%;
   }
@@ -27,7 +28,7 @@
   .hero-button {
     display: inline-block;
     font-size: 0.875rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
     padding: 1rem 2rem;
   }
 }
@@ -60,6 +61,37 @@
     }
   }
 }
+
+//~~~~~~~~~~~~~~~~~~~~
+//     Edit form
+//~~~~~~~~~~~~~~~~~~~~
+
+.edit-content {
+  background: #eee;
+  margin: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important; // eye roll emoji
+
+  .edit-header {
+    color: $sky-blue;
+    font-family: $display;
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin: 0;
+    padding-top: 2rem;
+    text-align: center;
+  }
+
+  form {
+    max-width: 980px;
+    width: 90%;
+    margin: 2rem auto;
+    padding: 2rem 5rem;
+    background: white;
+    border: 1px solid #ddd;
+  }
+}
+
 
 @media(max-width: 680px) {
   .content.projects {

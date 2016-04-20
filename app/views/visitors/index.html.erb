@@ -3,7 +3,6 @@
 
     <div class="hero-text">Turn your audience into a task force.</div>
 
-
     <% if !user_signed_in? %>
       <%= link_to "Get Started", new_user_registration_path, class: "hero-button sign-up" %>
     <%else%>
@@ -36,12 +35,11 @@
       <h3>Project spotlight</h3>
       <div class="project-showcase">
         <div class="picture-wrapper">
-            <a href="<%= project_path(@project)%>">
-              <% if @project.picture? %>
-              <%= image_tag(@project.picture.url, :size => '400*400')%></a>
-              <%else%>
-              <%= gravatar_for_project(@project)%>
-              <%end%>
+          <% if @project.picture? %>
+            <a href="<%= project_path(@project)%>" style="background: url(<%= @project.picture.url %>) no-repeat center center;"></a>
+          <% else %>
+            <a href="<%= project_path(@project)%>" style="background: url(http://gravatar.com/avatar/ebfb11254db979c223dd184ecf446c99?size=440) no-repeat center center;"></a>
+          <% end %>
         </div>
 
         <div class="project-info">

@@ -13,17 +13,11 @@
   <div class="project-wrapper">
     <div class="project-showcase">
       <div class="picture-wrapper">
-          <a href="<%= project_path(project)%>">
-
           <% if project.picture? %>
-          <%= image_tag(project.picture.url, :size =>'400*400') %>
-          <%else%>
-          <%= gravatar_for_project(project) %>
-          <%end%>
-
-
-
-          </a>
+            <a href="<%= project_path(project)%>" style="background: url(<%= project.picture.url %>) no-repeat center center;"></a>
+          <% else %>
+            <a href="<%= project_path(project)%>" style="background: url(http://gravatar.com/avatar/ebfb11254db979c223dd184ecf446c99?size=440) no-repeat center center;"></a>
+          <% end %>
       </div>
 
       <div class="project-info">
