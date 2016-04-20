@@ -122,58 +122,40 @@
 
   .project-info {
     display: inline-block;
+    height: 250px;
     padding-left: 20px;
+    position: relative;
     text-align: left;
+
+    .short-description {
+      max-height: 50%;
+    }
 
     span {
       font-size: 0.8125rem;
     }
 
+    .tasks {
+      position: absolute;
+      bottom: 0;
+
+      p.example-task {
+        color: $muted-black;
+        font-family: $display;
+        font-size: 0.9rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+    }
+
     .task {
-      margin-bottom: 3rem;
+      margin-bottom: 0;
       clear: both;
     }
 
     .task-description {
       font-size: 0.875rem !important;
       margin-bottom: 0.5rem !important;
-    }
-
-    .project-title {
-      font-family: $display;
-      font-size: 1.25rem;
-      font-weight: 800;
-      line-height: 1.25rem;
-      margin: 0;
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
-
-      a {
-        display: inline-block;
-        max-width: 80%;
-      }
-
-      .project-country {
-        color: $medium-gray;
-        float: right;
-        font-size: 0.8125rem;
-        font-weight: normal;
-        vertical-align: top;
-
-        &:before {
-          background: url("https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/globe.png");
-          background-size: contain;
-          content: '';
-          display: inline-block;
-          filter: opacity(.3);
-          -webkit-filter: opacity(.3);
-          height: 20px;
-          margin-right: 7px;
-          transform: translateY(-1px); // dat optical alignment
-          width: 20px;
-          vertical-align: middle;
-        }
-      }
     }
 
     .progress-bar {
