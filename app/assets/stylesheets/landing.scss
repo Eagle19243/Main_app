@@ -135,6 +135,17 @@
       font-size: 0.8125rem;
     }
 
+    .learn-more {
+      border-bottom: 1px solid $sky-blue;
+      color: $sky-blue;
+      padding-bottom: 5px;
+
+      &:hover, &:active {
+        border-bottom: 2px solid $sky-blue;
+        padding-bottom: 4px;
+      }
+    }
+
     .tasks {
       position: absolute;
       bottom: 0;
@@ -145,6 +156,11 @@
         font-size: 0.9rem;
         font-weight: 800;
         text-transform: uppercase;
+
+        span {
+          color: $medium-gray;
+          font-family: $sans;
+        }
       }
     }
 
@@ -156,6 +172,15 @@
     .task-description {
       font-size: 0.875rem !important;
       margin-bottom: 0.5rem !important;
+
+      a {
+        color: $medium-gray;
+        transition: 0.2s ease color;
+
+        &:hover {
+          color: $sky-blue;
+        }
+      }
     }
 
     .progress-bar {
@@ -230,7 +255,7 @@
 
     h3 {
       max-width: 480px;
-      width: 60%;
+      width: 90%;
     }
 
     .picture-wrapper, .project-info {
@@ -238,7 +263,11 @@
       padding: 0;
       margin: 1rem auto;
       max-width: 480px;
-      width: 60%;
+      width: 90%;
+    }
+
+    .project-info {
+      height: auto;
     }
   }
 }

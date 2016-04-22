@@ -22,11 +22,11 @@
 
   <% if user_signed_in? %>
     <% if current_user.admin? || (current_user == @project.user) %>
-
-      <%= link_to 'Edit', edit_project_path(@project) %> |
-      <%= link_to 'New Article', new_wiki_path(project_id: @project.id) %> |
-      <%= link_to 'New Task', new_task_path(project_id: @project.id) %> |
-      <%= link_to 'Delete', edit_project_path(@project) %>
+      <p>Admin actions</p>
+      <%= link_to 'Edit', edit_project_path(@project), class:"button tiny radius" %>&nbsp;
+      <%= link_to 'New Article', new_wiki_path(project_id: @project.id), class:"button tiny radius" %>&nbsp;
+      <%= link_to 'New Task', new_task_path(project_id: @project.id), class:"button tiny radius" %>&nbsp;
+      <%= link_to 'Delete', edit_project_path(@project), class:"button tiny radius warning" %>
     <% end %>
   <% end %>
 

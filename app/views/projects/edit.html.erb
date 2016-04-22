@@ -3,6 +3,7 @@
 
   <%= render 'form' %>
 
-  <%= link_to 'Show', @project %> |
-  <%= link_to 'Back', projects_path %>
+  <div class="button-wrapper">
+    <%= link_to 'Back to project', @project, :class => "back-button" %>
+  </div>
 </div>

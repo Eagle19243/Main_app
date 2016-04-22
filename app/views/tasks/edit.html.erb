@@ -1,6 +1,7 @@
-<h1>Editing Task</h1>
+<div class="content edit-content">
+  <h1 class="edit-header">Edit "<%= @task.title %>"</h1>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= link_to 'Show', @task %> |
-<%= link_to 'Back', tasks_path %>
+  <%= link_to 'Back to task', @task, :class => "back-button" %>
+</div>

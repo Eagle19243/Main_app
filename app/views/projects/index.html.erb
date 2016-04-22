@@ -14,7 +14,7 @@
     <div class="project-showcase">
       <div class="picture-wrapper">
           <% if project.picture? %>
-            <a class="image-with-title" href="<%= project_path(project)%>" style="background: linear-gradient(rgba(0,0,0,0.5), transparent 20%, transparent 50%, rgba(0,0,0,0.25) 80%, rgba(0, 0, 0, 0.5)), url(<%= @project.picture.url %>) no-repeat center center">
+            <a class="image-with-title" href="<%= project_path(project)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= @project.picture.url %>) no-repeat center center">
           <% else %>
             <a class="image-with-title" href="<%= project_path(project)%>">
           <% end %>
@@ -24,14 +24,14 @@
       </div>
 
      <div class="project-info">
-        <p><%= project.short_description %></p>
+        <p><%= truncate(project.short_description, :length => 175, :omission => '...') %></p>
 
         <% if project.tasks.count > 0 %>
           <% task = project.tasks.first %>
-          <div class="tasks">
-            <p class="example-task">Example task</p>
+          <div class="tasks hide-mobile">
+            <p class="example-task">Example task <span>(<%= project.tasks.count %> total)</span></p>
             <div class="task">
-              <p class="task-description"><%= task.description %></p>
+              <p class="task-description"><%= truncate(task.description, :length => 120, :omission => '...') %></p>
               <div class="progress-bar">
                 <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
               </div>
@@ -44,7 +44,7 @@
             </div>
           </div>
         <% end %>
-        <%= link_to "Learn more.", project_path(project), class: "hide-mobile" %>
+        <%= link_to "Learn more.", project_path(project), class: "learn-more hide-mobile" %>
       </div>
     </div>
   </div>
