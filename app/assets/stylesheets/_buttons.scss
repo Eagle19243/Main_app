@@ -16,6 +16,18 @@
   }
 }
 
-.warning {
-  background-color: $red !important;
+
+.button {
+  &.blue {
+    background-color: $sky-blue;
+  }
+
+  &.green {
+    background-color: $success-green;
+  }
+
+  &.warning {
+    background-color: $red !important;
+  }
 }
+

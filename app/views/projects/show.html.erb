@@ -18,291 +18,76 @@
   </h2>
 </div>
 
-<div class="content">
-
-  <% if user_signed_in? %>
-    <% if current_user.admin? || (current_user == @project.user) %>
-      <p>Admin actions</p>
-      <%= link_to 'Edit', edit_project_path(@project), class:"button tiny radius" %>&nbsp;
-      <%= link_to 'New Article', new_wiki_path(project_id: @project.id), class:"button tiny radius" %>&nbsp;
-      <%= link_to 'New Task', new_task_path(project_id: @project.id), class:"button tiny radius" %>&nbsp;
-      <%= link_to 'Delete', edit_project_path(@project), class:"button tiny radius warning" %>
-    <% end %>
-  <% end %>
-
-  <div class="row">
-    <div class="projectPanel small-8 columns">
-      <div class="row">
-      <ul class="tabs vertical small-6 columns" data-tab>
-        <li class="tab-title active"><a href="#panel198">Overview</a></li>
-        <li class="tab-title"><a href="#panel189">Admin</a></li>
-        <%i = 1%>
-        <% @project.wikis.each do |wiki| %>
-          <li class="tab-title"><a href=<%="#panel"+ i.to_s %>><%= wiki.title %><!--Article #<%=i%>--></a></li>
-          <%i += 1%>
-        <%end%>
-        <br>
-        <% if user_signed_in? %>
-          <% if current_user.admin? || (current_user == @project.user) %>
-            <%=link_to "Write a new article", new_wiki_path(project_id: @project.id), class:"button tiny radius" %>
-          <%end%>
-        <%end%>
-      </ul>
-      <div class="tabs-content vertical small-6 columns">
-        <div class="content active" id="panel198">
-            <p>
-              <% if @project.picture? %>
-                <%= image_tag @project.picture.url %>
-              <%else%>
-                <%= gravatar_for_project(@project) %>
-              <%end%>
-            </p>
-            <p><%= @project.description.html_safe %></p>
-        </div>
-
-        <div class="content" id="panel189">
-          <% if @project.institution_name && @project.institution_logo %>
-            <div class="row">
-              <div class= "columns small-6">
-                <%= image_tag @project.institution_logo.url, width: 200, height: 200 %>
-              </div>
-
-              <div class= "columns small-6"></div>
-              <br><br>
-              <h3><%= @project.institution_name %></h3>
-              <h5><%= @project.institution_location %></h3>
-            </div>
-          <p>
-            <h4>Admin<hr></h4>
-            <% if @project.user.picture? %>
-              <%= image_tag(@project.user.picture.url, size: "100x100") %>
-            <% else %>
-              <%= gravatar_for @project.user %>
-            <%end%>
-            <br>
-            <% if user_signed_in? %>
-              <%= link_to "Contact Me", conversations_path(sender_id: current_user.id, recipient_id: @project.user.id), method: 'post', class:"button tiny radius" %>
-            <%end%>
-          </p>
-
-          <p>
-            <h5>Auxiliary Admins<hr></h5>
-            <% collaborators = [] %>
-            <h5>Collaborators<hr></h5>
-            <% @assignments.each do |ass| %>
-              <% if ass.task.project_id == @project.id %>
-                <% collaborators.push(ass.user) %>
-              <%end%>
-            <%end%>
-
-            <% collaborators = collaborators.uniq %>
-            <% collaborators.each do |freelancer| %>
-              <div class="vcard">
-              <% if freelancer.picture? %>
-                <%= image_tag(freelancer.picture.url, size: "100x100") %>
-              <% else %>
-                <%= gravatar_for freelancer %>
-              <%end%><br>
-              <%= link_to freelancer.name, freelancer %>
-             </div>
-            <%end%>
-          </p>
-
-          <%end%>
-        </div>
-        <%i=1%>
-        <% @project.wikis.each do |wiki| %>
-          <div class="content" id="panel<%=i.to_s%>">
-            <h2 class="subheader"><center><%= wiki.title %></center></h2>
-            <center>
-            <% if user_signed_in? %>
-              <% if current_user.admin? || (current_user == @project.user) %>
-                <%= link_to 'Edit Article', edit_wiki_path(wiki, project_id: @project.id) %> |
-                <%= link_to 'Delete Article', wiki_path(wiki), :method => :delete, :data => { :confirm => "Are you sure?" } %>
-              <%end%>
-            <%end%>
-            </center><br>
-            <p><%=wiki.description %></p>
-          </div>
-          <%i += 1 %>
-        <%end%>
-      </div>
-    </div>
-  </div>
-
-  <span class="small-4 columns tasks">
-    <h3 class="subheader">Tasks</h3>
-    <% @project.tasks.each do |task| %>
-      <h5 class="subheader"><em><%= link_to task.title, task %></em></h5>
-      <% if user_signed_in? %>
-        <% if current_user.admin? || (current_user == @project.user) %>
-          <u><%= link_to 'Edit Task', edit_task_path(task) %></U> |
-          <u><%= link_to 'Delete Task', task_path(task), :method => :delete, :data => { :confirm => "Are you sure?" } %></u><br>
-        <%end%>
-      <%end%>
-      <%= truncate(task.description, :length => 90) %>
-      <div id="myProgress">
-        <div id="myBar"></div>
-      </div>
-      <span class="right">
-         $<%= task.current_fund %> of $<%= task.budget %>&nbsp;(<strong><%= task.current_fund/task.budget %></strong>%)
-      </span>
-      <br><br>
-      <%=link_to "Do", new_do_request_path(task_id: task.id,free: false), class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", new_do_request_path(task_id: task.id,free: true), class:"button tiny radius" %> &nbsp;<%=link_to "Fund", new_donation_path(task_id: task.id), class:"button tiny success radius" %><br><br>
-      <br>
-    <%end%>
-  </span>
-
-</div>
-
-<div class="invitations">
-  <strong>Invite Existing User as Auxilliary Admin</strong><br>
-  <strong>Invite non-existing User to join as Auxiliary Admin</strong><br>
-</div>
-
-<hr>
-
-  <%= social_share_button_tag("YouServe, the social impact and crowdfunding platform.", :url => "http://youserve.org", :image => @project.picture) %>
-
-  <% if user_signed_in? %>
-    <%= form_for [@project, @project.project_comments.build] do |f| %>
-      <p>
-        <%= f.label :body, "Comment on Project" %><br/>
-        <%= f.text_area :body, :class => "tinymce" %>
-      </p>
-      <p>
-        <h5>Auxiliary Admins<hr></h5>
-        <% @proj_admins.each do |admin| %>
-          <% if admin.project == @project && admin.accepted? %>
-            <div class="vcard">
-              <% if admin.user.picture? %>
-                <%= image_tag(admin.user.picture.url, size: "100x100") %>
-              <%else%>
-                <%= gravatar_for_user(admin.user) %><br>
-              <%end%>
-              <%= link_to admin.user.name, admin.user %>
-            </div>
-          <%end%>
-        <%end%>
-
-        <% if user_signed_in? && (current_user == @project.user || current_user.admin?) %>
-          <%= form_for(@proj_admin) do |f| %>
-            <div class="form-group">
-              <%= label_tag 'user_id', 'Add auxiliary Admin' %>
-              <%= f.select :user_id, User.all.map { |u| [u.name, u.id] },
-                         { include_blank: true },
-                         { class: 'chosen-select' } %>
-              <%= f.hidden_field :project_id, value: @project.id %>
-            </div>
-            <%= submit_tag 'Add auxiliary Admin', class: 'button radius tiny' %>
-          <% end %>
-        <% end %>
-      </p>
-    <% end %>
-  <% end %>
-
-  <br><br><br><br>
-
-    <% collaborators = [] %>
-    <h5>Collaborators<hr></h5>
-    <% @assignments.each do |ass| %>
-      <% if ass && ass.task && ass.task.project_id == @project.id %>
-        <% collaborators.push(ass.user) %>
-      <%end%>
-    <%end%>
-    <% collaborators = collaborators.uniq %>
-    <% collaborators.each do |freelancer| %>
-    <div class="vcard">
-      <% if freelancer.picture? %>
-       <%= image_tag(freelancer.picture.url, size: "100x100") %>
-      <% else %>
-        <%= gravatar_for freelancer %>
-      <%end%><br>
-      <%= link_to freelancer.name, freelancer %>
-      </div>
-    <%end%>
-  <br>
-
-  <% @comments.each do |comment| %>
-    <span class="comment"><%= comment.body %></span>
-    <br/>
-    <h4>
-      <small>
-        <% if comment.user.picture? %>
-          <%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
-        <%else%>
-          <%= gravatar_for_user(comment.user) %>
-        <%end%>
-        <strong>
-          <%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago
-        </strong>
-      </small>
-    </h4>
-    <br>
-    <br>
-  <%end%>
-  <br>
-</div>
-
-<span class="small-4 columns tasks">
-  <h3 class="subheader">Tasks</h3>
-  <% @project.tasks.each do |task| %>
-    <h5 class="subheader"><em><%= link_to task.title, task %></em></h5>
-    <% if user_signed_in? %>
-      <% if current_user.admin? || (current_user == @project.user) %>
-        <u><%= link_to 'Edit Task', edit_task_path(task, project_id: @project.id) %></u> |
-        <u><%= link_to 'Delete Task', task_path(task), :method => :delete, :data => { :confirm => "Are you sure?" } %></u><br>
-      <%end%>
-    <%end%>
-    <%= truncate(task.description, :length => 90) %>
-    <div id="myProgress">
-      <div id="myBar"></div>
-    </div>
-
-    <span class="right">
-      $<%= task.current_fund %> of $<%= task.budget %>&nbsp;(<strong><%= task.current_fund/task.budget %></strong>%)
-    </span>
-    <br><br>
-    <%=link_to "Do", new_do_request_path(task_id: task.id,free: false), class:"button tiny radius" %>&nbsp;<%=link_to "Do For Free", new_do_request_path(task_id: task.id,free: true), class:"button tiny radius" %> &nbsp;<%=link_to "Fund", new_donation_path(task_id: task.id), class:"button tiny success radius" %>
-    <br><br><br>
-  <%end%>
-</span>
-
-<div class="invitations">
-
-</div>
-
-<hr>
 <% if user_signed_in? %>
-  <%= form_for  [@project, @project.project_comments.build] do |f| %>
-
-    <p>
-      <%= f.label :body, "Comment on Project" %><br/>
-      <%= f.text_area :body, :class => "tinymce" %>
-    </p>
-    <%= f.hidden_field :project_id, value: @project.id %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
-
-    <p>
-      <%= f.submit 'Submit', class: 'btn btn-primary' %>
-    </p>
+  <% if current_user.admin? || (current_user == @project.user) %>
+    <div class="admin-actions">
+      <div>
+        <p><strong>Admin actions</strong></p>
+        <%= link_to 'Edit project', edit_project_path(@project), class:"button small radius" %>&nbsp;
+        <%= link_to 'Create project article', new_wiki_path(project_id: @project.id), class:"button small radius" %>&nbsp;
+        <%= link_to 'Create task', new_task_path(project_id: @project.id), class:"button small radius" %>&nbsp;
+        <%= link_to 'Delete project', edit_project_path(@project), class:"button small radius warning" %>
+      </div>
+    </div>
   <% end %>
 <% end %>
-<br>
 
-<% @comments.each do |comment| %>
-  <span class="comment"><%= comment.body %></span>
-  <br/>
-  <h4>
-    <small>
-      <% if comment.user.picture? %>
-        <%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
-      <%else%>
-        <%= gravatar_for_user(comment.user) %>
-      <%end%>
-      <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong>
-    </small>
-  </h4>
-  <br>
-  <br>
-<%end%>
+<div class="content">
+  <div class="project-show-info">
+    <div class="admin-info">
+    Created by <%= link_to @project.user.name, user_path(@project.user) %> <% if @project.institution_name %>, <span><%= @project.institution_name %></span><% end %>
+      <br>
+      <div class="prof-pic" src="http://cdn.newsday.com/polopoly_fs/1.11500414.1456241969!/httpImage/image.jpg_gen/derivatives/display_600/image.jpg"></div>
+    </div>
+    <div class="project-show-description">
+        <p><%= @project.description.html_safe %></p>
+    </div>
+  </div>
+</div>
+
+
+<div class="project-tasks-header">
+  <h2>Tasks</h2>
+  <p><span><%= @project.tasks.count %></span> being funded, <span>0</span> completed</p>
+</div>
+
+<div class="project-tasks-show">
+  <% @project.tasks.each do |task| %>
+    <div class="task-view">
+      <h4><%= link_to task.title, task %></h4>
+      <div>
+        <p><%= task.description %></p>
+      </div>
+      <div class="progress-bar">
+        <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
+      </div>
+      <span class="left">
+        <strong>$<%= task.current_fund.to_i %></strong> funded
+      </span>
+      <span class="right">
+        <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
+      </span>
+      <div class="do-buttons">
+       <%=link_to "Do this task", new_do_request_path(task_id: task.id,free: false), class:"button small radius blue" %>&nbsp;<%=link_to "Do for free", new_do_request_path(task_id: task.id,free: true), class:"button small radius blue" %>&nbsp;<%=link_to "Fund this task", new_donation_path(task_id: task.id), class:"button small radius green" %>
+       </div>
+    </div>
+  <% end %>
+</div>
+
+<% if user_signed_in? && false %>
+  <div class="comment-builder">
+    <%= form_for  [@project, @project.project_comments.build] do |f| %>
+
+      <p>
+        <%= f.label :body, "Comment on Project" %>
+        <%= f.text_area :body, :class => "tinymce" %>
+      </p>
+      <%= f.hidden_field :project_id, value: @project.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+
+      <p>
+        <%= f.submit 'Submit', class: 'button small blue radius float-right' %>
+      </p>
+    <% end %>
+  </div>
+<% end %>

@@ -1,5 +1,10 @@
 @import 'colors';
 @import 'fonts';
+@import 'buttons';
+
+// ~~~~~~~~~~~~~~~~~~~~~~
+//  Viewing all projects
+// ~~~~~~~~~~~~~~~~~~~~~~
 
 .content.projects {
   margin-bottom: 5rem;
@@ -33,6 +38,11 @@
   }
 }
 
+// ~~~~~~~~~~~~~~~~~~~~~~
+//  Showing one project
+// ~~~~~~~~~~~~~~~~~~~~~~
+
+
 .project-hero {
   background: linear-gradient( rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5) ),url(garden.jpeg) no-repeat center center;
   -webkit-background-size: cover;
@@ -63,6 +73,134 @@
   }
 }
 
+.admin-actions {
+  width: 100%;
+  background-color: $opaque-white;
+
+  div {
+    margin: 0 auto;
+    max-width: 980px;
+    padding: 2rem 0;
+    text-align: center;
+    width: 90%;
+  }
+}
+
+.project-show-info {
+  margin: 4rem auto;
+}
+
+.admin-info {
+  color: $medium-gray;
+  display: inline-block;
+  font-style: italic;
+  padding-right: 3rem;
+  vertical-align: top;
+  text-align: right;
+  width: 39%; // adds up to 99%
+
+  a {
+    font-style: normal;
+  }
+
+  span {
+    color: $muted-black;
+    font-style: normal;
+  }
+
+  .prof-pic {
+    background: url("http://cdn.newsday.com/polopoly_fs/1.11500414.1456241969!/httpImage/image.jpg_gen/derivatives/display_600/image.jpg") no-repeat center center;
+    background-size: cover;
+    border-radius: 1000px;
+    float: right;
+    height: 100px;
+    margin: 1rem 0;
+    width: 100px;
+  }
+}
+
+.project-show-description {
+  display: inline-block;
+  max-width: 724px;
+  width: 60%;
+
+  &:first-letter {
+    font-size: 1.5rem;
+    line-height: 1rem;
+  }
+}
+
+.project-tasks-header {
+  background-color: $sky-blue;
+  color: $white;
+  padding: 4rem 0;
+  text-align: center;
+  width: 100%;
+
+  h2 {
+    color: white;
+    font-family: $sans;
+    font-size: 3rem;
+  }
+
+  p {
+    color: $opaque-white;
+
+    span {
+      color: $white;
+      font-weight: 800;
+    }
+  }
+}
+
+.project-tasks-show {
+  background-color: $opaque-white;
+  padding: 4rem 0;
+  width: 100%;
+
+  .task-view {
+    background-color: $white;
+    margin: 2rem auto;
+    max-width: 600px;
+    padding: 2rem;
+    width: 90%;
+
+    h4 {
+      font-family: $sans;
+    }
+
+    .do-buttons {
+      clear: both;
+      padding-top: 1rem;
+      text-align: center;
+    }
+  }
+}
+
+.comment-builder {
+  width: 100%;
+
+  form {
+    width: 90%;
+    margin: 2rem auto 6rem;
+    max-width: 600px;
+
+    label {
+      color: $medium-gray;
+      font-style: italic;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .float-right {
+    float: right;
+  }
+}
+
+
+// ~~~~~~~~~~~~~~~~~~~~
+//   Project preview
+// ~~~~~~~~~~~~~~~~~~~~
 .image-with-title {
   background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(garden.jpeg) no-repeat 30% 60%;
   position: relative;
@@ -114,8 +252,6 @@
       vertical-align: middle;
     }
   }
-
-
 }
 
 //~~~~~~~~~~~~~~~~~~~~
@@ -164,6 +300,33 @@
   }
 }
 
+// ~~~~~~~~~~~~~~~~~~~~
+//       Mobile
+// ~~~~~~~~~~~~~~~~~~~~
+
+@media(max-width: 900px) {
+  .admin-info {
+    display: block;
+    margin: 0 auto 2rem;
+    max-width: 600px;
+    padding: 0;
+    text-align: center;
+    width: 90%;
+  }
+
+  .project-show-description {
+    display: block;
+    margin: 0 auto;
+    max-width: 600px;
+    width: 90%;
+  }
+
+  .project-show-info {
+    margin: 3rem auto;
+  }
+
+
+}
 
 @media(max-width: 680px) {
   .content.projects {

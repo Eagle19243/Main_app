@@ -158,6 +158,7 @@ header {
 
   .top-bar.expanded {
     background-color: $opaque-white !important;
+    z-index: 1;
 
     .title-area {
       background: transparent;

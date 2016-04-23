@@ -189,21 +189,21 @@
         }
       }
     }
+  }
+}
 
-    .progress-bar {
-      background: $opaque-white;
-      border-radius: 3px;
-      height: 10px;
-      position: relative;
+.progress-bar {
+  background: $opaque-white;
+  border-radius: 3px;
+  height: 10px;
+  position: relative;
 
-      .current-progress {
-        background-color: $success-green;
-        border-radius: 3px;
-        height: 100%;
-        position: absolute;
-        width: 0.1%;
-      }
-    }
+  .current-progress {
+    background-color: $success-green;
+    border-radius: 3px;
+    height: 100%;
+    position: absolute;
+    width: 0.1%;
   }
 }
 
