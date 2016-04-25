@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get :accept, :reject, :completed, :confirmed, :confirmation_rejected
     end
   end
+  post "/hook" => "donations#hook"
   resources :donations
 
   resources :do_for_frees do

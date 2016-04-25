@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412213236) do
+ActiveRecord::Schema.define(version: 20160423224855) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -70,9 +70,13 @@ ActiveRecord::Schema.define(version: 20160412213236) do
     t.decimal  "amount"
     t.integer  "task_id"
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "paypal_email"
+    t.text     "notification_params"
+    t.string   "status"
+    t.string   "transaction_id"
+    t.datetime "completed_at"
   end
 
   create_table "institutions", force: :cascade do |t|

@@ -1,8 +1,8 @@
 <div class="project-wrapper">
   <div class="project-showcase">
     <div class="picture-wrapper">
-        <% if project.picture? %>
-          <a class="image-with-title" href="<%= project_path(project)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= @project.picture.url %>) no-repeat center center">
+        <% if project && project.picture? %>
+          <a class="image-with-title" href="<%= project_path(project)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= project.picture.url %>) no-repeat center center">
         <% else %>
           <a class="image-with-title" href="<%= project_path(project)%>">
         <% end %>
