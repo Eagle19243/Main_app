@@ -11,11 +11,11 @@
 
    <h3 class="subheader"><center>Request pending</center></h3><br>
 
-      <h4><u> Request Description:</u></h4> 
+      <h4><u> Request Description:</u></h4>
     <%= @project.request_description %><br><br>
 
      <hr><h4 class="subheader"><center>Requested Project </center></h4><br>
-   
+
 
 
 
@@ -33,14 +33,14 @@
 
 
 
-<h2><u><%= @project.title %></u></h2> 
+<h2><u><%= @project.title %></u></h2>
  <% if user_signed_in? %>
 <% if current_user.admin? || (current_user == @project.user) %>
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'New Article', new_wiki_path(project_id: @project.id) %> |
 <%= link_to 'New Task', new_task_path(project_id: @project.id) %> |
-<%= link_to 'Delete', edit_project_path(@project) %> 
+<%= link_to 'Delete', edit_project_path(@project) %>
 <% end %>
 <% end %>
 
@@ -52,7 +52,7 @@
   <li class="tab-title active"><a href="#panel198">Overview</a></li>
   <li class="tab-title"><a href="#panel189">Admin</a></li>
   <%i = 1%>
-  <% @project.wikis.each do |wiki| %>  
+  <% @project.wikis.each do |wiki| %>
   <li class="tab-title"><a href=<%="#panel"+ i.to_s %>><%= wiki.title %><!--Article #<%=i%>--></a></li>
   <%i += 1%>
   <%end%>
@@ -65,11 +65,11 @@
 </ul>
 <div class="tabs-content vertical small-6 columns">
   <div class="content active" id="panel198">
-     
 
 
 
-     
+
+
       <p>
 
         <% if @project.picture? %>
@@ -81,43 +81,17 @@
 
 
       </p>
-      <p><%= @project.description.html_safe %></p>
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+      <p contenteditable="true"><%= @project.description.html_safe %></p>
+      <br />
+      <% if user_signed_in? %>
+        <% if current_user.admin? || (current_user == @project.user) %>
+          <button name="editBtn" class="button tiny radius">Edit</button>
+        <%end%>
+     <%end%>
   </div>
   <div class="content" id="panel189">
     <% if @project.institution_name && @project.institution_logo %>
-  
+
     <div class="row">
 
 
@@ -136,27 +110,27 @@
     <br><br>
 
 
-   
+
     <p>
     <h4>Admin<hr></h4>
 
     <% if @project.user.picture? %>
-   
+
   <%= image_tag(@project.user.picture.url, size: "100x100") %>
       <% else %>
         <%= gravatar_for @project.user %>
         <%end%><br>
-        <% if user_signed_in? %> 
+        <% if user_signed_in? %>
       <%= link_to "Contact Me", conversations_path(sender_id: current_user.id, recipient_id: @project.user.id), method: 'post', class:"button tiny radius" %>
       <%end%>
 
     </p>
-  
+
     <p>
 
 
       <h5>Auxiliary Admins<hr></h5>
-      
+
       <% @proj_admins.each do |admin| %>
       <% if admin.project == @project && admin.accepted? %>
       <div class="vcard">
@@ -170,7 +144,7 @@
       <%end%>
 
       <%end%>
-   
+
       <br>
       <br>
       <% if user_signed_in? && (current_user == @project.user || current_user.admin?) %>
@@ -197,7 +171,7 @@
 
     <% collaborators = [] %>
     <h5>Collaborators<hr></h5>
-    <% @assignments.each do |ass| %> 
+    <% @assignments.each do |ass| %>
     <% if ass && ass.task && ass.task.project_id == @project.id %>
     <% collaborators.push(ass.user) %>
     <%end%>
@@ -214,7 +188,7 @@
        </div>
     <%end%>
     </p>
-        
+
 
 
 
@@ -225,22 +199,22 @@
 
   </div>
      <%i=1%>
-  <% @project.wikis.each do |wiki| %>   
+  <% @project.wikis.each do |wiki| %>
   <div class="content" id=<%="panel"+ i.to_s%>>
     <h2 class="subheader"><center><%= wiki.title %></center></h2>
     <center>
       <% if user_signed_in? %>
       <% if current_user.admin? || (current_user == @project.user) %>
       <%= link_to 'Edit Article', edit_wiki_path(wiki, project_id: @project.id) %> |
-      <%= link_to 'Delete Article', wiki_path(wiki), :method => :delete, :data => { :confirm => "Are you sure?" } %> 
+      <%= link_to 'Delete Article', wiki_path(wiki), :method => :delete, :data => { :confirm => "Are you sure?" } %>
       <%end%>
       <%end%>
-      
+
     </center><br>
     <p><%=wiki.description %></p>
   </div>
   <%i += 1 %>
-  <%end%> 
+  <%end%>
 </div>
 </div>
 </div>
@@ -251,7 +225,7 @@
  <% if user_signed_in? %>
  <% if current_user.admin? || (current_user == @project.user) %>
  <u><%= link_to 'Edit Task', edit_task_path(task, project_id: @project.id) %></U> |
- <u><%= link_to 'Delete Task', task_path(task), :method => :delete, :data => { :confirm => "Are you sure?" } %></u><br><%end%><%end%> 
+ <u><%= link_to 'Delete Task', task_path(task), :method => :delete, :data => { :confirm => "Are you sure?" } %></u><br><%end%><%end%>
  <%= truncate(task.description, :length => 90) %>
  <div id="myProgress">
        <div id="myBar"></div>
@@ -277,7 +251,7 @@
 <hr>
 <% if user_signed_in? %>
 <%= form_for  [@project, @project.project_comments.build] do |f| %>
- 
+
   <p>
     <%= f.label :body, "Comment on Project" %><br/>
     <%= f.text_area :body, :class => "tinymce" %>
@@ -294,22 +268,19 @@
 <br>
 
    <% @comments.each do |comment| %>
-     
+
 
     <span class="comment"><%= comment.body %></span>
      <br/>
 
      <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %><%else%>
       <%= gravatar_for_user(comment.user) %>
-        
+
         <%end%>
-     
+
     <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
      </em></strong></small></h4>
     </li>
     <br>
     <br>
     <%end%>
-
-
-   
