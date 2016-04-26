@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update_attributes(secure_params)
       redirect_to users_path, :notice => "User updated."
-      current_user.create_activities(@user, 'updated')
+      current_user.create_activity(@user, 'updated')
     else
       redirect_to users_path, :alert => "Unable to update user."
     end

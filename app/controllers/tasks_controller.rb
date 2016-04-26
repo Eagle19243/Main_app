@@ -21,11 +21,12 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    @project = Task.find(params[:id]).project
   end
 
   # POST /tasks
   # POST /tasks.json
-  def create
+   def create
 
     @task = Task.new(task_params)
     @task.user_id = current_user.id
@@ -47,19 +48,22 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update
-        
-    respond_to do |format|
-        @task.project_id = params[:project_id]
+        respond_to do |format|
+   
+        @task.project_id = Task.find(params[:id]).project_id
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
         activity.user_id = current_user.id 
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
+      
       else
-        format.html { render :edit }
+        
+        format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
+   
   end
 
   # DELETE /tasks/1

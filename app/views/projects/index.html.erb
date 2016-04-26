@@ -10,44 +10,6 @@
 
 <div class="content projects">
   <% @projects.each do |project| %>
-  <div class="project-wrapper">
-    <div class="project-showcase">
-      <div class="picture-wrapper">
-          <a href="<%= project_path(project)%>">
-
-          <% if project.picture? %>
-          <%= image_tag(project.picture.url, :size =>'400*400') %>
-          <%else%>
-          <%= gravatar_for_project(project) %>
-          <%end%>
-
-
-
-          </a>
-      </div>
-
-      <div class="project-info">
-
-        <h4 class="project-title"><%=link_to project.title, project_path(project) %><span class="project-country"><%= project.country %></span></h4>
-        <div class="tasks hide-mobile">
-          <% project.tasks.take(2).each do |task| %>
-          <div class="task">
-            <p class="task-description"><%= task.description %></p>
-            <div class="progress-bar">
-              <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
-            </div>
-            <span class="left">
-              <strong>$<%= task.current_fund.to_i %></strong> funded
-            </span>
-            <span class="right">
-              <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
-            </span>
-          </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-  <%end%>
-
+    <%= render 'project_preview', project: project %>
+  <% end %>
 </div>

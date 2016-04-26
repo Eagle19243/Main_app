@@ -18,7 +18,7 @@ body.landing {
   width: 90%;
 
   &.padded {
-    min-height: calc(100% - 60px);
+    min-height: calc(100% - 80px);
     margin-bottom: -121px; // height of footer
   }
 
@@ -61,6 +61,10 @@ p {
   border-radius: 5px;
   margin: 3rem auto;
   padding: 2rem 3rem;
+}
+
+.authform {
+  padding-top: 5rem;
 }
 
 footer {

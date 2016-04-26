@@ -1,9 +1,7 @@
-<div class="authform">
-
-  <%= simple_form_for(@task) do |f| %>
+<%= simple_form_for(@task) do |f| %>
   <%= f.error_notification %>
 
-   <%= render 'shared/error_messages', object: f.object %>
+  <%= render 'shared/error_messages', object: f.object %>
 
   <div class="form-inputs">
   <div class="form-group">
@@ -26,20 +24,20 @@
   <div class="form-group">
     <%= f.input :proof_of_execution %>
   </div>
- 
 
- <div class="form-group">
+
+  <div class="form-group">
   <%= f.input :deadline, :ampm => true %>
    </div>
-  
-    
+
+
     <div class="form-group">
     <%= f.input :target_number_of_participants %>
   </div>
-  
+
     <%= f.hidden_field :project_id, value: @task.project_id %>
    <div class="form-group">
-   
+
      <%= f.hidden_field :project_id, value: params[:project_id]%>
      </div>
 
@@ -49,5 +47,3 @@
     <%= f.button :submit %>
   </div>
 <% end %>
-
-</div>
