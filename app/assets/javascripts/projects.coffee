@@ -2,8 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-window.root = 'http://jsonplaceholder.typicode.com';
-
 window.alertSuccess =->
   editSuccessHtml = '<div id="editAlert" data-alert class="alert-box info radius">
     You\'ve successfuly edited the project description.
@@ -22,7 +20,8 @@ window.saveEdit = (projectId)->
   description = $("#proj-desc").text()
   $.ajax({
      url: '/projects/' + projectId,
-     type: 'POST',
+     dataType: "json",
+     method: 'PUT',
      data: { project: {id: projectId, description: description} }
    })
      .then (data)->
@@ -54,10 +53,3 @@ jQuery ->
    console.log projectId
    console.log "clicked on the make editable button"
    makeEditable(projectId)
-
- $.ajax({
-    url: root + '/posts/1',
-    method: 'GET'
-  })
-    .then (data)->
-      console.log(data);
