@@ -14,18 +14,16 @@ window.alertSuccess =->
 
 window.saveEdit = (projectId)->
   alert("running saveEdit")
-  console.log "this saves the edit"
-  #send an ajax call with the data, the call should be an edit, for a project description
-  #set the button to initial state
   $("#proj-desc").attr("contenteditable", false)
   $("#editBtn").css("color", "").css("background", "").text("Edit")
   $("#editBtn").off().on "click", (e)->
     e.preventDefault()
     makeEditable()
+  description = $("#proj-desc").text()
   $.ajax({
-     #url: root + '/posts/1',
-     url: /projects/ + projectId,
-     method: 'GET'
+     url: '/projects/' + projectId,
+     type: 'POST',
+     data: { project: {id: projectId, description: description} }
    })
      .then (data)->
        alertSuccess()
