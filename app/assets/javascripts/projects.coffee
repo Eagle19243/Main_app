@@ -11,7 +11,6 @@ window.alertSuccess =->
 
 
 window.saveEdit = (projectId)->
-  alert("running saveEdit")
   $("#proj-desc").attr("contenteditable", false)
   $("#editBtn").css("color", "").css("background", "").text("Edit")
   $("#editBtn").off().on "click", (e)->
@@ -26,7 +25,6 @@ window.saveEdit = (projectId)->
    })
      .then (data)->
        alertSuccess()
-       console.log(data);
 
 window.closeEditAlert=->
   $("#editAlert").remove()
@@ -36,7 +34,6 @@ window.closeEditAlert=->
 window.makeEditable = (projectId)->
   $("#proj-desc").attr("contenteditable", true)
   $("#editBtn").css("color", "white").css("background", "orange").text("Save")
-  console.log "project description editable"
   $("#editBtn").off().on "click", (e)->
     e.preventDefault()
     saveEdit(projectId)
@@ -49,7 +46,4 @@ jQuery ->
  $("button[data-makes-editable]").off().on "click", (e)->
    e.preventDefault()
    projectId = $(this).data("makes-editable")
-   console.log "edits: "
-   console.log projectId
-   console.log "clicked on the make editable button"
    makeEditable(projectId)
