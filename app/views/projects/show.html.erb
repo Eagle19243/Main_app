@@ -41,8 +41,14 @@
       <br>
       <div class="prof-pic" src="http://cdn.newsday.com/polopoly_fs/1.11500414.1456241969!/httpImage/image.jpg_gen/derivatives/display_600/image.jpg"></div>
     </div>
-    <div class="project-show-description">
-        <p><%= @project.description.html_safe %></p>
+    <div class="project-show-description" data-edit-alert="true">
+        <p id="proj-desc"><%= @project.description.html_safe %></p>
+        <% if user_signed_in? %>
+          <% if current_user.admin? || (current_user == @project.user) %>
+            <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius">Edit</button>
+          <%end%>
+        <%end%>
+
     </div>
   </div>
 </div>
