@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'payment_notifications/create'
+
   get 'proj_admins/new'
 
   get 'proj_admins/create'
@@ -14,7 +16,7 @@ Rails.application.routes.draw do
       get :accept, :reject, :completed, :confirmed, :confirmation_rejected
     end
   end
-  post "/hook" => "donations#hook"
+  resources :payment_notifications
   resources :donations
 
   resources :do_for_frees do
