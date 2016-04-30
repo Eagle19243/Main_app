@@ -25,9 +25,9 @@ class DonationsController < ApplicationController
         client.execute(:Pay,
         :action_type     => "PAY_PRIMARY",
         :currency_code   => "USD",
-        :cancel_url      => "http://youserve.co/tasks/#{@donation.task_id}",
-        :return_url      => "http://youserve.co/tasks/#{@donation.task_id}",
-        :ipnNotificationUrl => "http://youserve.co/hook",
+        :cancel_url      => "http://localhost:3000/tasks/#{@donation.task_id}",
+        :return_url      => "http://localhost:3000/tasks/#{@donation.task_id}",
+        :ipnNotificationUrl => "http://localhost:3000/payment_notifications",
         :receivers       => [
      
       { :email => "e.c.mere@gmail.com", :amount => amount, :primary => true },
@@ -65,17 +65,7 @@ end
 
 
 
-def hook
-    params.permit! # Permit all Paypal input params
-    status = params[:payment_status]
-    if status == "Completed"
-      @donation = Donation.find_by(:PAY_KEY, params[:pay_key])
-      @donation.update_attribute(:current_fund, @donation.task.current_fund + @donation.amount)
-      @donation.update_attributes notification_params: params, status: status, transaction_id: params[:txn_id], completed_at: Time.now
-      
-    end
-    render nothing: true
-  end
+
 
 
 

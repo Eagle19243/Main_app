@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423224855) do
+ActiveRecord::Schema.define(version: 20160425184123) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20160423224855) do
     t.string   "status"
     t.string   "transaction_id"
     t.datetime "completed_at"
+    t.string   "PAYKEY"
   end
 
   create_table "institutions", force: :cascade do |t|
