@@ -6,6 +6,7 @@ mount_uploader :institution_logo, PictureUploader
 has_many :tasks, dependent: :delete_all
 has_many :wikis, dependent: :delete_all
 has_many :project_comments, dependent: :delete_all
+has_many :project_edits, dependent: :destroy
 belongs_to :user
 has_many :proj_admins
 
@@ -14,14 +15,14 @@ validates :title, presence: true, length: { minimum: 2, maximum: 30 },
 
 validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }
 
-validates :description, presence: true, length: { minimum: 2} 
+validates :description, presence: true, length: { minimum: 2}
 
 validates :institution_description, presence: true, length: { minimum: 2}
 
 validates :institution_location, presence: true, length: {minimum: 2}
-    
-validates :institution_country, presence: true,  length: {minimum: 2}  
-validates :picture, presence: true                                                     
+
+validates :institution_country, presence: true,  length: {minimum: 2}
+validates :picture, presence: true
 
 
   def country_name
@@ -46,8 +47,8 @@ validates :picture, presence: true
       transitions :from => :pending, :to => :rejected
 
     end
-      
-    end  
+
+    end
 
 
 
