@@ -18,10 +18,10 @@ window.saveEdit = (projectId)->
     makeEditable()
   description = $("#proj-desc").text()
   $.ajax({
-     url: '/projects/' + projectId,
+     url: '/projects/' + projectId + '/save-edits',
      dataType: "json",
-     method: 'PUT',
-     data: { project: {id: projectId, description: description} }
+     method: 'POST',
+     data: { project: {id: projectId, project_edit: description } }
    })
      .then (data)->
        alertSuccess()

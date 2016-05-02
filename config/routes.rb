@@ -48,6 +48,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/projects/:id/save-edits', to: 'projects#saveEdit'
+
   devise_for :users, :controllers => { registrations: 'registrations' }
   resources :users
 

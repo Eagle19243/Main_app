@@ -23,7 +23,7 @@ validates :institution_location, presence: true, length: {minimum: 2}
 
 validates :institution_country, presence: true,  length: {minimum: 2}
 validates :picture, presence: true
-
+accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
   def country_name
     country = ISO3166::Country[country_code]

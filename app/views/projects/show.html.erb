@@ -48,6 +48,9 @@
             <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius">Edit</button>
           <%end%>
         <%end%>
+        <% @project.project_edits.each do |project_edit| %>
+          <p id="edit-desc">An edit was made here: <%= project_edit.description.try(:html_safe) %></p>
+        <%end%>
 
     </div>
   </div>

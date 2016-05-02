@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit]
 
   # GET /projects
   # GET /projects.json
@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
-   
+
   end
 
   # GET /projects/1/edit
@@ -32,14 +32,14 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.build(project_params)
     @project.user_id = current_user.id
-    if @project.user.admin? 
+    if @project.user.admin?
       @project.state = "accepted"
     else
       @project.state = "pending"
     end
 
     respond_to do |format|
-      if @project.save  
+      if @project.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project request was sent.' }
@@ -67,6 +67,25 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # POST /save-edits
+  # POST /save-edits.json
+  def saveEdit
+    @project_edit = @project.project_edits.create(description: edit_params[:project_edit])
+    #canned_desc = "Let's assume you want to allow particular transitions only if"
+    #@project_edit = @project.project_edits.create(description: canned_desc)
+    @project_edit.user = current_user
+    puts @project_edit.description
+    respond_to do |format|
+      if @project_edit.save
+        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        format.json { render :show, status: :ok, location: @project }
+      else
+        format.html { render :edit }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
 
 
 
@@ -121,6 +140,11 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description)
+      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description,
+        project_edits_attributes: [:id, :_destroy, :description])
+    end
+
+    def edit_params
+      params.require(:project).permit(:id, :project_edit)
     end
 end

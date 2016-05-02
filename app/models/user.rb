@@ -12,9 +12,10 @@ class User < ActiveRecord::Base
   mount_uploader :picture, PictureUploader
 
   has_many :projects, dependent: :destroy
+  has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
   has_many :activities, dependent: :delete_all
-  belongs_to :institution 
+  belongs_to :institution
   has_many :do_requests, dependent: :delete_all
   has_many :do_for_frees
   has_many :assignments, dependent: :delete_all
@@ -36,7 +37,7 @@ class User < ActiveRecord::Base
     assignment.task = taskItem
     assignment.free = booleanFree
     assignment.save
-    assignment.accept!    
+    assignment.accept!
     assignment
   end
 
