@@ -59,5 +59,7 @@ Rails.application.routes.draw do
 
   get 'dashboard' => 'dashboard'
 
+  #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
+  get 'visitors' => 'visitors#restricted'
   root to: 'visitors#index'
 end

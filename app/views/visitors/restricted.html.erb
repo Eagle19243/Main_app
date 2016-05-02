@@ -1,0 +1,28 @@
+<div class="content landing">
+  <div class="hero-wrapper">
+
+    <div class="hero-text">Turn your audience into a task force.</div>
+
+    <% if !user_signed_in? %>
+      <%= link_to "Get Started", new_user_registration_path, class: "hero-button sign-up" %>
+    <%else%>
+      <%= link_to "View Projects", projects_path, class: "hero-button projects" %>
+    <%end%>
+
+    <br />
+    <br />
+
+
+    <% if @project %>
+      <br />
+      <div class="big-white-background-lol">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Pt-EgCfAZuU" frameborder="0" allowfullscreen></iframe>
+      </div>
+    <% end %>
+
+  </div>
+
+
+
+
+</div>
