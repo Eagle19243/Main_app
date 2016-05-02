@@ -11,7 +11,13 @@ class ApplicationController < ActionController::Base
           redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
           flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
         end
+
+        if params[:controller] == "visitors" && params[:action] == "index"
+          redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
+          flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
+        end
       end
+
       puts params
       puts params[:controller] == "devise/sessions"
     end
