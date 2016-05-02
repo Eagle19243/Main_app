@@ -38,6 +38,23 @@ window.makeEditable = (projectId)->
     e.preventDefault()
     saveEdit(projectId)
 
+#update the status of an edit via ajax
+window.updateEdit = (projectEditId, new_state)->
+  projectId = $("button[data-makes-editable]").data("makes-editable")
+  $.ajax({
+     url: '/projects/' + projectId + '/update-edits',
+     dataType: "json",
+     method: 'POST',
+     data: { project: {id: projectId, editItem: {id: projectEditId, new_state: new_state} } }
+   })
+     .then (dt, textStatus, xhr)->
+       console.log(dt)
+       console.log(xhr.status)
+       if xhr.status == 200
+         $("#proj-desc").text(dt.description)
+         alertSuccess()
+
+
 jQuery ->
  $('#project_expires_at').datepicker()
 
@@ -47,3 +64,8 @@ jQuery ->
    e.preventDefault()
    projectId = $(this).data("makes-editable")
    makeEditable(projectId)
+
+ $("button[data-accepts-edit]").off().on "click", (e)->
+   e.preventDefault()
+   projectEditId = $(this).data("accepts-edit")
+   updateEdit(projectEditId, "accepted")

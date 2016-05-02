@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit]
 
   # GET /projects
   # GET /projects.json
@@ -71,8 +71,6 @@ class ProjectsController < ApplicationController
   # POST /save-edits.json
   def saveEdit
     @project_edit = @project.project_edits.create(description: edit_params[:project_edit])
-    #canned_desc = "Let's assume you want to allow particular transitions only if"
-    #@project_edit = @project.project_edits.create(description: canned_desc)
     @project_edit.user = current_user
     puts @project_edit.description
     respond_to do |format|
@@ -84,6 +82,33 @@ class ProjectsController < ApplicationController
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
+
+  end
+
+
+  # POST /update-edits
+  # POST /update-edits.json
+  def updateEdit
+    id_t = params[:project][:editItem][:id]
+    new_state = params[:project][:editItem][:new_state]
+    puts "id_t: " + id_t
+    @project_edit = ProjectEdit.find_by(id: id_t)
+    @project_edit.update(:aasm_state => new_state)
+    puts @project_edit.description
+    if new_state == "accepted"
+      @project.description = @project_edit.description
+
+      respond_to do |format|
+        if @project.save
+          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+          format.json { render json: @project, status: :ok }
+        else
+          format.html { render :edit }
+          format.json { render json: @project.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
 
   end
 
@@ -145,6 +170,6 @@ class ProjectsController < ApplicationController
     end
 
     def edit_params
-      params.require(:project).permit(:id, :project_edit)
+      params.require(:project).permit(:id, :project_edit, :editItem)
     end
 end

@@ -9,7 +9,7 @@ class ProjAdminsController < ApplicationController
 		 @proj_admin = ProjAdmin.new(proj_admin_params)
 		if @proj_admin.save!
 			flash[:success] = "Auxiliary admin assigned"
-			
+
 
 		else
 			flash[:error] = "Auxiliary admin was not assigned"
@@ -42,7 +42,7 @@ class ProjAdminsController < ApplicationController
 
 
 	def destroy
-      
+
 	end
 
 private
