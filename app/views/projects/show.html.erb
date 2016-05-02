@@ -49,7 +49,9 @@
           <%end%>
         <%end%>
         <% @project.project_edits.each do |project_edit| %>
-          <p id="edit-desc">An edit was made here: <%= project_edit.description.try(:html_safe) %></p>
+          <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
+          <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius">Accept</button>
+          <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius">Reject</button>
         <%end%>
 
     </div>
