@@ -60,7 +60,6 @@ window.updateEdit = (projectEditId, new_state)->
 
 jQuery ->
  $('#project_expires_at').datepicker()
- alert("yo we should activate foundation")
  $(document).foundation()
 
  #attach handlers to data attributes
