@@ -110,6 +110,21 @@ class ProjectsController < ApplicationController
     end
 
 
+
+    if new_state == "rejected"
+
+      respond_to do |format|
+        if @project.save
+          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+          format.json { render json: @project, status: :ok }
+        else
+          format.html { render :edit }
+          format.json { render json: @project.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+
   end
 
 

@@ -51,7 +51,10 @@ window.updateEdit = (projectEditId, new_state)->
        console.log(dt)
        console.log(xhr.status)
        if xhr.status == 200
-         $("#proj-desc").text(dt.description)
+         deleteDiv = "project-edit-" + projectEditId
+         $("#" + deleteDiv).remove()
+         if new_state == "accepted"
+           $("#proj-desc").text(dt.description)
          alertSuccess()
 
 
@@ -69,3 +72,8 @@ jQuery ->
    e.preventDefault()
    projectEditId = $(this).data("accepts-edit")
    updateEdit(projectEditId, "accepted")
+
+ $("button[data-rejects-edit]").off().on "click", (e)->
+   e.preventDefault()
+   projectEditId = $(this).data("rejects-edit")
+   updateEdit(projectEditId, "rejected")
