@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require foundation
 //= require foundation-datetimepicker
 //= require chosen-jquery
@@ -20,7 +19,16 @@
 //= require jquery-ui/datepicker
 //= require tinymce-jquery
 //= require social-share-button
+//= require turbolinks
+//= require foundation
 //= require_tree .
-$(function() {
-  $(document).foundation();
+// $(function() {
+//   $(document).foundation();
+// });
+// http://stackoverflow.com/questions/25150922/trouble-using-foundation-and-turbolinks-with-rails-4
+$(document).foundation();
+
+$(document).off().on('page:load', function() {
+    console.log( "ready!" );
+    $(document).foundation();
 });

@@ -60,7 +60,8 @@ window.updateEdit = (projectEditId, new_state)->
 
 jQuery ->
  $('#project_expires_at').datepicker()
-
+ alert("yo we should activate foundation")
+ $(document).foundation()
 
  #attach handlers to data attributes
  $("button[data-makes-editable]").off().on "click", (e)->
@@ -77,3 +78,21 @@ jQuery ->
    e.preventDefault()
    projectEditId = $(this).data("rejects-edit")
    updateEdit(projectEditId, "rejected")
+
+  $(document).on 'page:load', ->
+       console.log( "readyp!" )
+       #attach handlers to data attributes
+       $("button[data-makes-editable]").off().on "click", (e)->
+         e.preventDefault()
+         projectId = $(this).data("makes-editable")
+         makeEditable(projectId)
+
+       $("button[data-accepts-edit]").off().on "click", (e)->
+         e.preventDefault()
+         projectEditId = $(this).data("accepts-edit")
+         updateEdit(projectEditId, "accepted")
+
+       $("button[data-rejects-edit]").off().on "click", (e)->
+         e.preventDefault()
+         projectEditId = $(this).data("rejects-edit")
+         updateEdit(projectEditId, "rejected")
