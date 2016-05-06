@@ -13,6 +13,7 @@ class PaymentNotificationsController < ApplicationController
       @donation = Donation.find_by(:PAY_KEY, params[:pay_key])
       @donation.update_attribute(:current_fund, @donation.task.current_fund + @donation.amount)
       @donation.update_attributes notification_params: params, status: status, transaction_id: params[:txn_id], completed_at: Time.now
+    end
     when "INVALID"
       # log for investigation
       put " Moussa, transaction is invalid"
@@ -20,8 +21,8 @@ class PaymentNotificationsController < ApplicationController
       # error
     end
     render :nothing => true
-  end 
-  protected 
+  end
+  protected
   def validate_IPN_notification(raw)
     uri = URI.parse('https://www.paypal.com/cgi-bin/webscr?cmd=_notify-validate')
     http = Net::HTTP.new(uri.host, uri.port)
@@ -35,4 +36,3 @@ class PaymentNotificationsController < ApplicationController
                        ).body
   end
 end
-
