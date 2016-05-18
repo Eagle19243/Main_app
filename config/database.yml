@@ -21,6 +21,7 @@ test:
 
 production:
   <<: *default
-  database: YouServe_production
+  #database: YouServe_production
+  database: YouServe_development
   username: rails
   password: ERAf9Yt4yK
