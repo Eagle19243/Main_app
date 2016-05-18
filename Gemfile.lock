@@ -285,7 +285,6 @@ GEM
     paypal-sdk-core (0.3.4)
       multi_json (~> 1.0)
       xml-simple
-    pg (0.18.4)
     pp-adaptive (1.0.0)
       json
       rest-client
@@ -428,7 +427,6 @@ DEPENDENCIES
   jquery-ui-rails
   mini_magick
   paypal-sdk-adaptivepayments
-  pg
   pp-adaptive
   quiet_assets
   rails (= 4.2.5.1)
@@ -445,3 +443,6 @@ DEPENDENCIES
   unicorn
   validates_timeliness (~> 4.0)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.11.2
