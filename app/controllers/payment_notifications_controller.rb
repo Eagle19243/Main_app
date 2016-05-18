@@ -16,7 +16,7 @@ class PaymentNotificationsController < ApplicationController
     end
     when "INVALID"
       # log for investigation
-      put " Moussa, transaction is invalid"
+      puts " Moussa, transaction is invalid"
     else
       # error
     end
