@@ -96,5 +96,6 @@ Rails.application.configure do
   # Add React config variant for production
   # https://github.com/reactjs/react-rails
   config.react.variant = :production
+  config.react.addons = true # defaults to false
 
 end
