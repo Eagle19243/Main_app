@@ -14,6 +14,9 @@ Clone this wiki locally
 
 https://github.com/YouServe/YouServe.wiki.git
  Clone in Desktop
+
+https://github.com/YouServe/YouServe/wiki
+
 Welcome to the YouServe release for Summer 2016!
 
 There are four things you need to know.
