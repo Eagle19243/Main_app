@@ -37,6 +37,13 @@ We are going to be using Ruby on Rails, along with ReactJS and Foundation as the
 Feel free to reach out on email: tmutunhire@gmail.com and let me know your thoughts on the project or tasks, or anything related to code or design. Have fun coding!
 
 =================================================
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
+provided by the [RailsApps Project](http://railsapps.github.io/).
+
+Rails Composer is supported by developers who purchase our RailsApps tutorials.
+-------------------
 
 Need help? Ask on Stack Overflow with the tag 'railsapps.'
 
