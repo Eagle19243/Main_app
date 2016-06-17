@@ -19,7 +19,6 @@
 //= require jquery-ui/datepicker
 //= require tinymce-jquery
 //= require social-share-button
-//= require turbolinks
 //= require foundation
 //= require react
 //= require react_ujs

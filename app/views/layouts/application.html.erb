@@ -5,10 +5,10 @@
     <title><%= content_for?(:title) ? yield(:title) : "YouServe" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,800|Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%# Modernizr is required for Zurb Foundation %>
     <%= javascript_include_tag 'vendor/modernizr' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
   <body <% if controller.controller_name.eql?('visitors') %>class="landing"<%end%>>
