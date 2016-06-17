@@ -39,7 +39,7 @@ var Tabs = React.createClass({
             var activeClass = this.state.activeTab === index ? 'active' : ''
             return (
               <dd className={'tab ' + activeClass} key={tab.id} id={tab.id} >
-                <a href={'#Tab' + tab.id} onClick={this.handleClick.bind(this, index)}>{tab.title}</a>
+                <a href={'#' + tab.title} onClick={this.handleClick.bind(this, index)}>{tab.title}</a>
               </dd>
             )
           }, this)}
