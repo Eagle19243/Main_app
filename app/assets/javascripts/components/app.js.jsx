@@ -20,6 +20,7 @@ var Tabs = React.createClass({
     var logedIn = this.props.signInStatus;
     var projectOwner = this.props.projectOwner;
     var project_id = this.props.project.id
+    var user_id = this.props.projectUser.id
 
       if (logedIn) {
         if (projectOwner){
@@ -54,7 +55,7 @@ var Tabs = React.createClass({
 
               <div className={'content ' + activeClass} key={tab.id} >
                 <div className="admin-info">
-                Created by: {this.props.projectUser.name} {institue}
+                Created by: <a href={'/users/'+user_id}>{this.props.projectUser.name}</a> {institue}
                   <div className="prof-pic"></div>
                 </div>
                   <div className="project-show-description" data-edit-alert="true">
