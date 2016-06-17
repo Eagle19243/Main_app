@@ -4,12 +4,19 @@
 .tabs dd > a, .tabs .tab-title > a {
   border: 1px solid rgba(0,0,0,0.1) !important;
 }
-.tabs-override-margin-4rem-left{
-  margin-left: 4rem;
+.tabs-center{
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    width: 527px;
 }
 .tab {
   margin-right: -1px;
 }
 .content {
   margin-top: 3rem !important;
+}
+
+.margin-button{
+  margin-top: 3.8rem;
 }

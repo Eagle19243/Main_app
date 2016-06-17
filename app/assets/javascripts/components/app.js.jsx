@@ -1,16 +1,9 @@
 var data = [
-  { id: '1', title: 'Description', content: 'Content of the first tab.' },
+  { id: '1', title: 'Description', content: 'This is Tab' },
   { id: '2', title: 'Tasks', content: 'Content of the second tab.' },
-  { id: '3', title: 'News Feed', content: 'Content of the third tab.' },
-  { id: '4', title: 'Publish', content: DescriptionContent }
+  { id: '3', title: 'News Feed', content: 'News Feed Content.' },
+  { id: '4', title: 'Publish', content: 'Publish Content' }
 ]
-
-var DescriptionContent = React.createClass({
-  render: function () {
-    return (<div>"Content of the first tab."</div>)
-  }
-})
-
 
 /* Tabs Component Base using Foundation */
 
@@ -23,10 +16,25 @@ var Tabs = React.createClass({
     return false
   },
   render: function () {
+
+    var logedIn = this.props.signInStatus;
+    var projectOwner = this.props.projectOwner;
+    var project_id = this.props.project.id
+
+      if (logedIn) {
+        if (projectOwner){
+          var editButton = <a href={'/projects/'+project_id+'/edit'} id="editBtn" name="editBtn" className="button tiny radius margin-button">Edit</a>
+        } //Inner If condition closed
+      } //If condition closed
+
+      if(this.props.project.institution_name){
+        var institue =  (<span> {', ' + this.props.project.institution_name}</span>)
+      }
+
     return (
       <div className="top-margin">
-        <dl className="tabs tabs-override-margin-4rem-left">
-          {this.props.data.map(function (tab, index) {
+        <dl className="tabs tabs-center">
+        {this.props.data.map(function (tab, index) {
             var activeClass = this.state.activeTab === index ? 'active' : ''
             return (
               <dd className={'tab ' + activeClass} key={tab.id} id={tab.id} >
@@ -35,27 +43,57 @@ var Tabs = React.createClass({
             )
           }, this)}
         </dl>
+
         <div className="tabs-content">
-          {this.props.data.map(function (tab, index) {
-            var activeClass = this.state.activeTab === index ? 'active' : ''
+
+        {this.props.data.map(function (tab, index) {
+          var activeClass = this.state.activeTab === index ? 'active' : ''
+
+          if (tab.title === 'Description'){
+            return (
+
+              <div className={'content ' + activeClass} key={tab.id} >
+                <div className="admin-info">
+                Created by: {this.props.projectUser.name} {institue}
+                  <div className="prof-pic"></div>
+                </div>
+                  <div className="project-show-description" data-edit-alert="true">
+                      <p id="proj-desc">{this.props.project.description}</p>
+                      {editButton}
+                  </div>
+              </div>
+
+                /* Last Portion of this Section is Left */
+
+            )
+          } // Description if Closed
+         else if (tab.title === 'Tasks'){
             return (
               <div className={'content ' + activeClass} key={tab.id} >
-                <p>{tab.content}</p>
+                <span>Hello Tasks</span>
               </div>
             )
-          }, this)}
+          } // Taks if Closed
+        },this)}
         </div>
-      </div>
-    )
-  }
-})
+      </div> //Top Margin Closed
+    ) //Return Close
+  } // Render Function CLoosee
+}) // CLass closed
 
 /*  Main Entry Point of the React Component. */
 
 var ProjectData = React.createClass({
+  getInitialState: function() {
+    console.log("initial");
+    return {project_selected: this.props.project, projectuser: this.props.project_user,
+            userSignedIn: this.props.userSignedIn, projectOwner: this.props.projectOwner}
+  },
   render: function () {
+    console.log("render");
       return (
-        <Tabs data={data} />
+        <Tabs data={data} project={this.state.project_selected} projectUser={this.state.projectuser}
+          signInStatus={this.state.userSignedIn} projectOwner={this.state.projectOwner} />
       )
   }
 })

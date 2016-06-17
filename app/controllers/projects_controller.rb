@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
   before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit]
+  before_action :get_project_user, only: [:show]
 
   # GET /projects
   # GET /projects.json
@@ -182,6 +183,12 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description,
         project_edits_attributes: [:id, :_destroy, :description])
+    end
+
+    def get_project_user
+      set_project
+      @project_user = @project.user
+
     end
 
     def edit_params
