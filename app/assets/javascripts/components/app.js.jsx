@@ -1,8 +1,8 @@
 var data = [
-  { id: '1', title: 'Description', content: 'This is Tab' },
-  { id: '2', title: 'Tasks', content: 'Content of the second tab.' },
-  { id: '3', title: 'News Feed', content: 'News Feed Content.' },
-  { id: '4', title: 'Publish', content: 'Publish Content' }
+  { id: '1', title: 'Description'},
+  { id: '2', title: 'Tasks' },
+  { id: '3', title: 'NewsFeed' },
+  { id: '4', title: 'Publish' }
 ]
 
 /* Tabs Component Base using Foundation */
@@ -69,11 +69,28 @@ var Tabs = React.createClass({
           } // Description if Closed
          else if (tab.title === 'Tasks'){
             return (
-              <div className={'content ' + activeClass} key={tab.id} >
-                <span>Hello Tasks</span>
+              <div className={'content ' + activeClass + ' center'} key={tab.id} >
+                <span>Task Panel (which is right below this text) will Be Displayed Here.</span>
               </div>
             )
-          } // Taks if Closed
+          } // Tasks if Closed
+
+          else if (tab.title === 'NewsFeed'){
+             return (
+               <div className={'content ' + activeClass + ' center'} key={tab.id} >
+                 <span>News Feed will Be Displayed Here.</span>
+               </div>
+             )
+           } // Taks if Closed
+
+           else if (tab.title === 'Publish'){
+              return (
+                <div className={'content ' + activeClass + ' center'} key={tab.id} >
+                  <span>Publish Section will Be Displayed Here.</span>
+                </div>
+              )
+            } // Taks if Closed
+
         },this)}
         </div>
       </div> //Top Margin Closed
