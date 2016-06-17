@@ -71,7 +71,7 @@ var Tabs = React.createClass({
          else if (tab.title === 'Tasks'){
             return (
               <div className={'content ' + activeClass + ' center'} key={tab.id} >
-                <span>Task Panel (which is right below this text) will Be Displayed Here.</span>
+                <span>Task Panel will Be Displayed Here.</span>
               </div>
             )
           } // Tasks if Closed
