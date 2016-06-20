@@ -1,10 +1,12 @@
 default: &default
-  adapter: mysql2
+  adapter: sqlite3
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
-  timeout: 5000
-  username: ammad
-  password: always4488
-  socket: /tmp/mysql.sock
+  host: localhost
+  username: rails
+  password: <%= ENV['APP_DATABASE_PASSWORD'] %>
 
 development:
   <<: *default
@@ -17,9 +19,9 @@ test:
   <<: *default
   database: YouServe_test
 
-# production:
-#   <<: *default
-#   #database: YouServe_production
-#   database: YouServe_development
-#   username: rails
-#   password: ERAf9Yt4yK
+production:
+  <<: *default
+  #database: YouServe_production
+  database: YouServe_development
+  username: rails
+  password: ERAf9Yt4yK
