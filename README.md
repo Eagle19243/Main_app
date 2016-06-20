@@ -46,14 +46,22 @@ Technical Notes And Gotchas
 Integrating Foundation, CoffeeScript, Turbolinks and JQuery
 ---------------------------
 
--this can be a problematic combination to debug. In particular, components made with Foundation and utilizing Foundation's JS functions will simply fail to function.
--the problem seems to be that Turbolinks messes up with the normal chain of page loading events that jQuery expects, and this then messes up Foundation.
--also, when using CoffeeScript, the syntax gets a bit convoluted to work with jQuery events and Turbolinks correctly
--I have documented before a fix to these things, check this commit in particular: https://github.com/YouServe/YouServe/commit/51c525bb8344bd34d1ebd4b218d6fc52ad4546f3
--Here is the gist:
+This can be a problematic combination to debug. In particular, components made with Foundation and utilizing Foundation's JS functions will simply fail to function.
+
+The problem seems to be that Turbolinks messes up with the normal chain of page loading events that jQuery expects, and this then messes up Foundation.
+
+Also, when using CoffeeScript, the syntax gets a bit convoluted to work with jQuery events and Turbolinks correctly
+
+I have documented before a fix to these things, check this commit in particular:
+
+https://github.com/YouServe/YouServe/commit/51c525bb8344bd34d1ebd4b218d6fc52ad4546f3
+
+Here is the gist:
 Place …
 …event handlers and jquery initialization inside a jquery call and condition, not on page ready but rather on $(document).on(page:load, function(){}); where the function is what you want to occur, see the code
-  => In application.js:
+
+ In application.js:
+ ----------------------------------
   // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -89,7 +97,9 @@ $(document).off().on('page:load', function() {
     $(document).foundation();
 });
 
+----------------------------
 =>in your code, with Coffeescript, and using a Foundation component, using JS:
+--------------------------------------------------------------------
 jQuery ->
  $('#project_expires_at').datepicker()
  alert("yo we should activate foundation")
@@ -130,7 +140,7 @@ jQuery ->
          updateEdit(projectEditId, "rejected")
 
 
-
+-------------------------
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
