@@ -41,18 +41,27 @@
   <% else %>
     <% projectOwner = false %>
   <% end %>
-  <%= react_component('ProjectData', {project: @project, project_user: @project_user ,userSignedIn: isSignedin, projectOwner: projectOwner}) %>
 
-      <% @project.project_edits.each do |project_edit| %>
-         <% if project_edit.aasm_state == "pending" %>
-           <div class="admin-actions" id=<%= "project-edit-#{project_edit.id}"%>>
-             <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
-             <button data-accepts-edit='<%= project_edit.id %>' id="acceptEditBtn" class="button tiny radius success">Accept</button>
-             <button data-rejects-edit='<%= project_edit.id %>' id="rejectEditBtn" class="button tiny radius alert">Reject</button>
-           </div>
-           <br />
-         <% end %>
-       <%end%>
+  <div class="items">
+    <%= react_component('ProjectData', {project: @project, project_user: @project_user ,userSignedIn: isSignedin, projectOwner: projectOwner}) %>
+    <% if user_signed_in? %>
+      <% if current_user.admin? || (current_user == @project.user) %>
+          <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius edit-btn">Edit</button>
+      <%end%>
+    <%end%>
+  </div>
+  <div style="clear:both"></div>
+    <% @project.project_edits.each do |project_edit| %>
+      <% if project_edit.aasm_state == "pending" %>
+        <div class="admin-actions actions" id=<%= "project-edit-#{project_edit.id}"%>>
+          <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
+          <button data-accepts-edit='<%= project_edit.id %>' id="acceptEditBtn" class="button tiny radius success">Accept</button>
+          <button data-rejects-edit='<%= project_edit.id %>' id="rejectEditBtn" class="button tiny radius alert">Reject</button>
+        </div>
+        <br />
+      <% end %>
+    <%end%>
+
 
 <!-- END  -->
 

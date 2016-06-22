@@ -18,9 +18,20 @@
 }
 
 .margin-button{
-  margin-top: 3.8rem;
+  margin-top: 1.8rem;
 }
 
 .center {
   text-align: center;
+}
+
+.items {
+  position: relative;
+}
+.edit-btn {
+  position: absolute;
+  left: 45%;
+}
+.actions {
+  margin-top: 85px;
 }

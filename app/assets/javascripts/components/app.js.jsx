@@ -15,6 +15,7 @@ var Tabs = React.createClass({
     this.setState({activeTab: index})
     return false
   },
+
   render: function () {
 
     var logedIn = this.props.signInStatus;
@@ -24,7 +25,9 @@ var Tabs = React.createClass({
 
       if (logedIn) {
         if (projectOwner){
-          var editButton = <a href={'/projects/'+project_id+'/edit'} id="editBtn" name="editBtn" className="button tiny radius margin-button">Edit</a>
+          console.log(this.props.project.id);
+          var editButton = <button data-makes-editable="{this.props.project.id}" id="editBtn"
+            name="editBtn" className="button tiny radius margin-button">Edit</button>
         } //Inner If condition closed
       } //If condition closed
 
@@ -60,7 +63,8 @@ var Tabs = React.createClass({
                 </div>
                   <div className="project-show-description" data-edit-alert="true">
                       <p id="proj-desc">{this.props.project.description}</p>
-                      {editButton}
+
+
                   </div>
               </div>
 
