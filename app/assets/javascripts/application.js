@@ -20,7 +20,6 @@
 //= require tinymce-jquery
 //= require social-share-button
 //= require turbolinks
-//= require foundation
 //= require react
 //= require react_ujs
 //= require components
@@ -31,7 +30,7 @@
 // http://stackoverflow.com/questions/25150922/trouble-using-foundation-and-turbolinks-with-rails-4
 $(document).foundation();
 
-$(document).off().on('page:load', function() {
+$(document).off('page:load').on('page:load', function() {
     console.log( "ready!" );
     $(document).foundation();
 });
