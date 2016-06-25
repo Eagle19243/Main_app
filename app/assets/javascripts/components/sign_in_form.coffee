@@ -16,16 +16,16 @@
               user: {
                       email: @state.email,
                       password: @state.password,
-                      remember_me: @state.remember_me },
-        commit: "Sign in"
+                      remember_me: @state.remember_me
+              },
+              commit: "Sign in"
             }
       dataType: 'JSON'
-      complete: (response) =>
-        if @isResponseSuccess(response)
-          window.location.replace window.location.origin + '/projects'
-        else
-          @performNotSuccessResult response
-        return
+      success: () =>
+        window.location.replace window.location.origin + '/projects'
+      error: (response) =>
+        @performNotSuccessResult response
+
   inputChanged: (e) ->
     name = e.target.name
     @setState "#{ name }": e.target.value
@@ -34,12 +34,9 @@
     name = e.target.name
     @setState "#{ name }": 1^@state.remember_me
 
-  isResponseSuccess: (response) ->
-    response.status < 300 && response.status >= 200
-
   performNotSuccessResult: (response) ->
-    message = JSON.parse(response.responseText)
-    $('#signInBox').text(message.error)
+    error = response.responseJSON.error
+    $('#signInBox').text(error)
     $('#signInBox').parent().show()
 
   render: ->

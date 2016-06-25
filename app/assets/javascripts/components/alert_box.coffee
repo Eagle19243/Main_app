@@ -8,7 +8,7 @@
 
   render: ->
     React.DOM.div
-      style: {"display": "none", "margin-bottom" : "10px"}
+      style: {"display": "none", "marginBottom" : "10px"}
       ref: "hope"
       className: "alert-box round alert"
       React.DOM.div
