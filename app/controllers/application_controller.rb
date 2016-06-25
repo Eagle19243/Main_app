@@ -17,9 +17,6 @@ class ApplicationController < ActionController::Base
           flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
         end
       end
-
-      puts params
-      puts params[:controller] == "devise/sessions"
     end
 
     def configure_permitted_parameters
