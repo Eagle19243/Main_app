@@ -94,9 +94,10 @@
   color: $medium-gray;
   display: inline-block;
   font-style: italic;
-  padding-right: 3rem;
+  padding-right: 1rem;
   vertical-align: top;
   text-align: right;
+  padding-left: 8rem;
   width: 39%; // adds up to 99%
 
   a {
@@ -114,7 +115,7 @@
     border-radius: 1000px;
     float: right;
     height: 100px;
-    margin: 1rem 0;
+    margin: 2rem 1rem;
     width: 100px;
   }
 }
@@ -123,6 +124,7 @@
   display: inline-block;
   max-width: 724px;
   width: 60%;
+  padding-left: 40px;
 
   &:first-letter {
     font-size: 1.5rem;
