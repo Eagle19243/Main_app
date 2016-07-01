@@ -34,37 +34,39 @@
   <% end %>
 <% end %>
 
-<div class="content">
-  <div class="project-show-info">
-    <div class="admin-info">
-    Created by <%= link_to @project.user.name, user_path(@project.user) %> <% if @project.institution_name %>, <span><%= @project.institution_name %></span><% end %>
-      <br>
-      <div class="prof-pic" src="http://cdn.newsday.com/polopoly_fs/1.11500414.1456241969!/httpImage/image.jpg_gen/derivatives/display_600/image.jpg"></div>
-    </div>
-    <div class="project-show-description" data-edit-alert="true">
-        <p id="proj-desc"><%= @project.description.html_safe %></p>
-        <% if user_signed_in? %>
-          <% if current_user.admin? || (current_user == @project.user) %>
-            <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius">Edit</button>
-          <%end%>
-        <%end%>
-        <% @project.project_edits.each do |project_edit| %>
-          <% if project_edit.aasm_state == "pending" %>
-            <div class="admin-actions" id=<%= "project-edit-#{project_edit.id}"%>>
-              <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
-              <button data-accepts-edit='<%= project_edit.id %>' id="acceptEditBtn" class="button tiny radius success">Accept</button>
-              <button data-rejects-edit='<%= project_edit.id %>' id="rejectEditBtn" class="button tiny radius alert">Reject</button>
-            </div>
-            <br />
-          <% end %>
-        <%end%>
+<!-- React Tabs Render -->
+  <% isSignedin = user_signed_in? %>
+  <% if current_user == @project.user%>
+    <% projectOwner = current_user %>
+  <% else %>
+    <% projectOwner = false %>
+  <% end %>
 
-    </div>
+  <div class="items">
+    <%= react_component('ProjectData', {project: @project, project_user: @project_user ,userSignedIn: isSignedin, projectOwner: projectOwner}) %>
+    <% if user_signed_in? %>
+      <% if current_user.admin? || (current_user == @project.user) %>
+          <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius edit-btn">Edit</button>
+      <%end%>
+    <%end%>
   </div>
-</div>
+  <div style="clear:both"></div>
+    <% @project.project_edits.each do |project_edit| %>
+      <% if project_edit.aasm_state == "pending" %>
+        <div class="admin-actions actions" id=<%= "project-edit-#{project_edit.id}"%>>
+          <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
+          <button data-accepts-edit='<%= project_edit.id %>' id="acceptEditBtn" class="button tiny radius success">Accept</button>
+          <button data-rejects-edit='<%= project_edit.id %>' id="rejectEditBtn" class="button tiny radius alert">Reject</button>
+        </div>
+        <br />
+      <% end %>
+    <%end%>
 
 
-<div class="project-tasks-header">
+<!-- END  -->
+
+
+<!-- <div class="project-tasks-header">
   <h2>Tasks</h2>
   <p><span><%= @project.tasks.count %></span> being funded, <span>0</span> completed</p>
 </div>
@@ -90,7 +92,7 @@
        </div>
     </div>
   <% end %>
-</div>
+</div> -->
 
 <% if user_signed_in? && false %>
   <div class="comment-builder">

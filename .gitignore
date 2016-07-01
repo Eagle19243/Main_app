@@ -21,8 +21,8 @@ db/*.sqlite3
 /log/*
 /tmp/*
 
-# add /config/database.yml if it contains passwords
-# /config/database.yml
+# Mysql Database yml used during React integration.
+/config/database.yml
 
 # various artifacts
 **.war
@@ -88,3 +88,8 @@ pickle-email-*.html
 
 # Ignore uploaded test images.
 /public/uploads
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

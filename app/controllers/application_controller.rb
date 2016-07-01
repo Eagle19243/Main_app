@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     #a filter to enable private mode in which the app is available only to admins
     def admin_only_mode
       unless current_user.try(:admin?)
-        unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "devise/sessions"
+        unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "sessions"
           redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
           flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
         end

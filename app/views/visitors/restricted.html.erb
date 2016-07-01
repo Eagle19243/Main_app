@@ -4,7 +4,11 @@
     <div class="hero-text">Turn your audience into a task force.</div>
 
     <% if !user_signed_in? %>
-      <%= link_to "Get Started", new_user_registration_path, class: "hero-button sign-up" %>
+      <div id="AthenticationModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <%= react_component 'AthenticationModal', {authenticity_token: form_authenticity_token}%>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+      </div>
+      <a href="#" data-reveal-id="AthenticationModal" class="hero-button sign-up">Get Started</a>
     <%else%>
       <%= link_to "View Projects", projects_path, class: "hero-button projects" %>
     <%end%>

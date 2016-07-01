@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
-  devise_for :users, :controllers => { registrations: 'registrations' }
+  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations' }
   resources :users
 
   resources :conversations do
