@@ -21,7 +21,6 @@ var Tabs = React.createClass({
         }
     },
     render: function () {
-        debugger;
         var projectAdminsIds = this.props.projectAdminsIds;
         var currentUserId = this.props.currentUserId;
         var projectOwner = this.props.projectOwner;
