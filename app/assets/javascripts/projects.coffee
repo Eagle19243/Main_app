@@ -57,13 +57,13 @@ window.updateEdit = (projectEditId, new_state)->
            $("#proj-desc").text(dt.description)
          alertSuccess()
 
-
 jQuery ->
  $('#project_expires_at').datepicker()
  $(document).foundation()
 
  #attach handlers to data attributes
  $("button[data-makes-editable]").off().on "click", (e)->
+   debugger;
    e.preventDefault()
    projectId = $(this).data("makes-editable")
    makeEditable(projectId)

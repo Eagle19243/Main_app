@@ -13,9 +13,12 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     @comments = @project.project_comments.all
-    @assignments = Assignment.all
-    @proj_admin = ProjAdmin.new
-    @proj_admins = ProjAdmin.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+
   end
 
   # GET /projects/new
@@ -110,10 +113,7 @@ class ProjectsController < ApplicationController
       end
     end
 
-
-
     if new_state == "rejected"
-
       respond_to do |format|
         if @project.save
           format.html { redirect_to @project, notice: 'Project was successfully updated.' }
@@ -124,11 +124,7 @@ class ProjectsController < ApplicationController
         end
       end
     end
-
-
   end
-
-
 
   def accept
     @project = Project.find(params[:id])
