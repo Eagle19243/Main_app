@@ -1,29 +1,24 @@
 <p id="notice"><%= notice %></p>
+<h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
+<% if user_signed_in? %>
+  <% if current_user.admin? || (current_user == @task.project.user) %>
 
-  <h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
-    <% if user_signed_in? %>
-    <% if current_user.admin? || (current_user == @task.project.user) %>
-
-<%= link_to 'Edit', edit_task_path(@task, project_id: @task.project_id) %> |
-<%= link_to 'Delete', edit_task_path(@task) %> |
-<%= link_to 'Back', @task.project %>
+    <%= link_to 'Edit', edit_task_path(@task, project_id: @task.project_id) %> |
+    <%= link_to 'Delete', edit_task_path(@task) %> |
+    <%= link_to 'Back', @task.project %>
+  <%end%>
 <%end%>
-<%end%>
-
 
 <br><br>
-<strong> Due Date :</strong> <%= @task.deadline.to_date %>
+<strong> Due Date :</strong>
+<%= @task.deadline.to_date %>
 <div class= "row" >
-
-
-
 	<div class="small-3 columns">
-   
 
-    
     <br>
-    <p><h2><em><%= @task.assignments.count %> </em></h2>
-   <h6><%= link_to "Collaborators", '#'%></h6>
+    <p>
+      <h2><em><%= @task.assignments.count %> </em></h2>
+      <h6><%= link_to "Collaborators", '#'%></h6>
     </p>
    
      <p><h2><em><%= @task.target_number_of_participants %></em></h2>
@@ -80,7 +75,7 @@
 
 
 <p>
-  <h4 class="subheader"><u>Condition of execution:</u></h5>
+  <h4 class="subheader"><u>Condition of execution:</u></h4>
   <%= @task.condition_of_execution %>
 </p><br>
 
@@ -141,8 +136,8 @@
         
         <%end%>
      
-    <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
-     </em></strong></small></h4>
+      <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
+     </h4>
     </li>
     <br>
     <br>

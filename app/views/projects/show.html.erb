@@ -1,8 +1,3 @@
-<% if notice %>
-  <p id="notice"><%= notice %></p>
-<% end %>
-
-
 <%if @project.pending? %>
 
   <% if user_signed_in? %>
@@ -35,7 +30,7 @@
 <% end %>
 
 <!-- React Tabs Render -->
-  <% isSignedin = user_signed_in? %>
+
   <% if current_user == @project.user%>
     <% projectOwner = current_user %>
   <% else %>
@@ -43,13 +38,9 @@
   <% end %>
 
   <div class="items">
-    <%= react_component('ProjectData', {project: @project, project_user: @project_user ,userSignedIn: isSignedin, projectOwner: projectOwner}) %>
-    <% if user_signed_in? %>
-      <% if current_user.admin? || (current_user == @project.user) %>
-          <button data-makes-editable='<%= @project.id %>' id="editBtn" name="editBtn" class="button tiny radius edit-btn">Edit</button>
-      <%end%>
-    <%end%>
+    <%= react_component('ProjectData', {projectAdminsIds: @proj_admins_ids, currentUserId: @current_user_id, project: @project, projectUser: @project_user, projectOwner: projectOwner}) %>
   </div>
+
   <div style="clear:both"></div>
     <% @project.project_edits.each do |project_edit| %>
       <% if project_edit.aasm_state == "pending" %>

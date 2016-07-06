@@ -10,7 +10,7 @@ default: &default
 
 development:
   <<: *default
-  database: YouServe_development_local
+  database: YouServe_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
