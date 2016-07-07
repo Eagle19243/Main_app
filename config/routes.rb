@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :cards
   resources :teams
   resources :work_records
   get 'payment_notifications/create'
