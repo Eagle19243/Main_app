@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :plans
-  resources :notifications
+  resources :notifications do
+    member do
+      get :htmlindex 
+    end
+  end
   resources :cards
   resources :teams
   resources :work_records
