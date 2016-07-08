@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :plans
   resources :notifications do
-    member do
-      get :htmlindex 
+    collection do
+      get :htmlindex
     end
   end
   resources :cards
