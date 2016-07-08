@@ -1,3 +1,11 @@
+<link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+<link href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
+
+
+
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Notifications</h1>
@@ -29,3 +37,187 @@
 <br>
 
 <%= link_to 'New Notification', new_notification_path %>
+
+<div class="top-bar">
+  <div class="row">
+    <div class="top-bar-left">
+      <ul class="dropdown menu" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-dropdownmenu">
+        <li class="menu-text" role="menuitem" tabindex="0"><h3>WeServe</h3></li>
+        <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Start a project</a></li>
+        <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Active projects</a></li>
+      </ul>
+    </div>
+    <div class="top-bar-right">
+      <i class="fa fa-bell"></i>
+      <span class="number-notification">3</span>
+      <img src="dicaprio.jpg" alt="" class="avatar">
+    </div>
+  </div>
+</div>
+<!-- End Top Bar -->
+
+<div class="row container">
+  <div class="medium-2 columns sidebar">
+    <ul class="menu vertical">
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Profile</a></li>
+      <li><a href="#">Projects</a></li>
+      <li class="active">
+        <a href="#">
+          Notifications
+          <span>(3)</span>
+        </a>
+      </li>
+      <li><a href="#">
+          Messages
+          <span>(3)</span>
+          </a>
+      </li>
+      <li><a href="#">Logout</a></li>
+    </ul>
+  </div>
+  <div class="medium-3 columns notifications">
+    <div class="content-header">
+      <p>
+        <i class="fa fa-bell-o"></i>
+        Notifications
+        <i class="fa fa-cog"></i>
+      </p>
+    </div>
+    <ul>
+      <li>
+        <p class="notification-header">PROJECT ALERT</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+           sed diam nonummy nibh euismod</p>
+        <span class="left-label">WE SERVE</span>
+        <span class="right-date">MAY 29TH</span>
+      </li>
+      <li>
+        <p class="notification-header">TEAM INVITATION</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+           sed diam nonummy nibh euismod</p>
+        <span class="left-label">WE SERVE</span>
+        <span class="right-date">MAY 29TH</span>
+      </li>
+      <li class="active">
+        <p class="notification-header">TEAM INVITATION</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+           sed diam nonummy nibh euismod</p>
+        <span class="left-label">WE SERVE</span>
+        <span class="right-date">MAY 29TH</span>
+      </li>
+      <li>
+        <p class="notification-header">PROJECT ALERT</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+           sed diam nonummy nibh euismod</p>
+        <span class="left-label">WE SERVE</span>
+        <span class="right-date">MAY 29TH</span>
+      </li>
+    </ul>
+  </div>
+  <div class="medium-7 columns invitations">
+    <div class="invitation-item">
+      <div class="row invitation-header">
+        <div class="medium-1 column">
+          <img src="dicaprio.jpg" alt="" class="avatar">
+        </div>
+        <div class="medium-10 columns">
+          <p>
+            <span class="username">CAJU</span>
+            <span class="invitation-date">&#183; MAY 29TH</span>
+          </p>
+          <p class="invitation-title">
+            Invitation to join a Project / Task
+          </p>
+        </div>
+        <div class="medium-1 column">
+          <i class="fa fa-trash-o"></i>
+        </div>
+      </div>
+      <div class="row invitation-content">
+        <p class="invitation-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo doloribus fugit soluta. Voluptate doloribus, eos odio molestiae. Voluptatibus animi vero soluta non quas ut molestias quibusdam. Distinctio, doloremque sit minus neque laborum nemo facere dolor. Fugiat soluta ipsa eos nihil voluptates facere blanditiis et voluptatem suscipit officiis voluptatum, nemo in.</p>
+      </div>
+      <br>
+      <div class="invitation-action-buttons">
+        <button class="accept">
+          <i class="fa fa-check"></i>
+          ACCEPT INVITATION
+        </button>
+        <button class="decly">
+          <i class="fa fa-times"></i>
+          DECLY AND REPLY
+        </button>
+      </div>
+      <br><br>
+      <form action="" class="reply-form row">
+        <div class="medium-11 columns">
+          <input type="text" class="reply-field" placeholder="Reply to @Caju">
+        </div>
+        <div class="medium-1 column">
+          <label for="file-input" class="file-upload-label">
+            <i class="fa fa-paperclip"></i>
+          </label>
+          <input type="file" class="file-upload">
+        </div>
+      </form>
+      <p class="submit-reply-form">
+        Hit "Enter" to send
+      </p>
+    </div>
+    <div class="invitation-item">
+      <div class="row invitation-header">
+        <div class="medium-1 column">
+          <img src="dicaprio.jpg" alt="" class="avatar">
+        </div>
+        <div class="medium-10 columns">
+          <p>
+            <span class="username">CAJU</span>
+            <span class="invitation-date">&#183; MAY 29TH</span>
+          </p>
+          <p class="invitation-title">
+            Suggested Edit on a Project / Task
+          </p>
+        </div>
+        <div class="medium-1 column">
+          <i class="fa fa-trash-o"></i>
+        </div>
+      </div>
+      <div class="row invitation-content">
+        <p>
+          Caju suggested this editing on the project
+          <span class="project-title">
+            Build a Library on Paraisopolis
+          </span>
+        </p>
+        <p class="invitation-body link">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo doloribus fugit soluta. Voluptate doloribus, eos odio molestiae. Voluptatibus animi vero soluta non quas ut molestias quibusdam. Distinctio, doloremque sit minus neque laborum nemo facere dolor. Fugiat soluta ipsa eos nihil voluptates facere blanditiis et voluptatem suscipit officiis voluptatum, nemo in.</p>
+      </div>
+      <br>
+      <div class="invitation-action-buttons">
+        <button class="accept">
+          <i class="fa fa-check"></i>
+          ACCEPT INVITATION
+        </button>
+        <button class="decly">
+          <i class="fa fa-times"></i>
+          DECLY AND REPLY
+        </button>
+      </div>
+      <br><br>
+      <form action="" class="reply-form row">
+        <div class="medium-11 columns">
+          <input type="text" class="reply-field" placeholder="Reply to @Caju">
+        </div>
+        <div class="medium-1 column">
+          <label for="file-input" class="file-upload-label">
+            <i class="fa fa-paperclip"></i>
+          </label>
+          <input type="file" class="file-upload">
+        </div>
+      </form>
+      <p class="submit-reply-form">
+        Hit "Enter" to send
+      </p>
+    </div>
+  </div>
+</div>
