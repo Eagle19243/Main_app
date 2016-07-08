@@ -7,6 +7,11 @@ class NotificationsController < ApplicationController
     @notifications = Notification.all
   end
 
+  # GET /notifications
+  def htmlindex
+    @notifications = Notification.all
+  end
+
   # GET /notifications/1
   # GET /notifications/1.json
   def show
