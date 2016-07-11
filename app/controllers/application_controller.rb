@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_filter :admin_only_mode
+  #before_filter :admin_only_mode
 
     #a filter to enable private mode in which the app is available only to admins
     def admin_only_mode
