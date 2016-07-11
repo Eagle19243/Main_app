@@ -1,0 +1,153 @@
+
+
+@media screen and (max-width: 768px){
+	.top-bar {
+    padding: 0px 0px 0px 0px;
+}
+.top-bar-section .left {
+    padding-left: 0px;
+}
+}
+@media only screen and (min-width: 40.0625em){
+.top-bar-section li:not(.has-form) a:not(.button) {
+    background:#232323;
+    }}
+@media screen and (max-width: 1024px){
+	.box {
+    padding: 10px 20px 10px 20px;
+}
+.social-net-links {
+    padding-left: 19%;
+}
+}
+@media screen and (max-width: 768px){
+	.box {
+    padding: 10px 20px 10px 20px;
+}
+.social-net-links {
+    padding-left: 21%;
+}
+}
+@media screen and (max-width: 435px){
+	.box {
+    padding: 10px 25px 10px 25px;
+}
+.social-net-links {
+    padding-left: 22%;
+}
+}
+@media screen and (max-width: 360px){
+.social-net-links {
+    padding-left: 15%;
+}}
+
+
+@media only screen and (min-width: 64.0625em){
+.column, .columns {
+    padding-left: 10px;
+    padding-right: 10px;
+    }}
+@media screen and (max-width: 640px){
+        ul.right > li:nth-child(1){
+        	float: left;
+    padding-left: 38%;
+    padding-right: 10px;
+    padding-top: 9px;
+}
+ul.left > li:nth-child(1) > a , ul.left > li:nth-child(2) > a{
+text-align: center;
+}
+}
+@media screen and (max-width: 1024px){
+    #panel2-3 > div > div:nth-child(4){
+        float:left;
+    }
+    #panel2-3 > div > div:nth-child(3){
+        float:right;
+    }
+    .comment-text h6, .activity-block h6{
+        padding-left:0px;
+    }
+    .post-comment button{
+    margin-left: 3%;
+}
+}
+
+/* taks details */
+@media screen and (max-width: 647px){
+.post-comment textarea {
+    width: 90%;
+    }
+}
+@media screen and (max-width: 591px){
+.post-comment textarea {
+        width: 89%;
+    }
+}
+@media screen and (max-width: 546px){
+.post-comment textarea {
+        width: 88%;
+    }
+}
+@media screen and (max-width: 508px){
+.post-comment textarea {
+        width: 87%;
+    }
+}
+@media screen and (max-width: 476px){
+.post-comment textarea {
+        width: 86%;
+    }
+}
+@media screen and (max-width: 449px){
+.post-comment textarea {
+        width: 85%;
+    }
+}
+@media screen and (max-width: 425px){
+.post-comment textarea {
+        width: 84%;
+    }
+}
+@media screen and (max-width: 414px){
+.post-comment textarea {
+        width: 83%;
+    }
+}
+@media screen and (max-width: 406px){
+.comment-text h6, .activity-block h6 {
+    padding-left: 50px;
+}
+}
+@media screen and (max-width: 405px){
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding:0;
+    border: 1px solid #888;
+    border-radius: 5px;
+    width: 100%;
+}
+}
+@media screen and (max-width: 349px){
+.task-details .row {
+    padding: 0px;
+}
+@media screen and (max-width: 375px){
+.post-comment textarea {
+        width: 82%;
+    }
+}
+@media screen and (max-width: 360px){
+.post-comment textarea {
+        width: 81%;
+    }
+}
+@media screen and (max-width: 320px){
+.post-comment textarea {
+        width: 77%;
+    }
+    .post-comment button {
+    padding: 12px 29px;
+            margin-left: 12px;
+}
