@@ -1,0 +1,4 @@
+bitgo_admin:
+  api_address: "http://localhost:3080/api/v1"
+  access_token: "febed0d6f310110e4ed7ca376a585061096607c8a36323fed0247bda30f3ff37"
+
