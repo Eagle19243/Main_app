@@ -55,6 +55,14 @@ Rails.application.routes.draw do
     member do
       get :accept, :reject
     end
+
+    collection do
+      get :htmlindex
+    end
+
+    member do
+      get :htmlshow
+    end
   end
 
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
