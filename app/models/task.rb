@@ -58,7 +58,7 @@ class Task < ActiveRecord::Base
 			Rails.logger.info new_wallet_address_receiver.inspect
 			Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
 			Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
-			unless new_address.blank? or new_address.blank?
+			unless new_address.blank?
 				WalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , task_id: self.id, wallet_id:new_address_id)
 			else
 				WalletAddress.create(address:nil, task_id: self.id)
