@@ -1,12 +1,28 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit]
-  before_action :get_project_user, only: [:show]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
+  before_action :get_project_user, only: [:show, :htmlshow]
 
   # GET /projects
   # GET /projects.json
   def index
     @projects = Project.all
+  end
+
+  # GET /notifications
+  def htmlindex
+    @notifications = Notification.all
+  end
+
+  # GET /notifications
+  def htmlshow
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+
   end
 
   # GET /projects/1
