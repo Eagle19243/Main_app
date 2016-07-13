@@ -11,7 +11,7 @@ class ProjectsController < ApplicationController
 
   # GET /notifications
   def htmlindex
-    @notifications = Notification.all
+    @projects = Project.all
   end
 
   # GET /notifications
