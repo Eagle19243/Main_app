@@ -186,3 +186,29 @@ Credits
 
 License
 -------
+
+1: git clone https://github.com/BitGo/BitGoJS.git
+
+2: cd BitgoJs
+
+3: npm install
+
+4: cd BitgoJs/bin
+
+5: Run  ./bin/bitgo-express --debug --port 3080 --env prod --bind localhost
+
+if you see following error:
+
+(http://stackoverflow.com/questions/30281057/node-forever-usr-bin-env-node-no-such-file-or-directory)
+
+Then
+
+sudo ln -s "$(which nodejs)" /usr/bin/node
+
+And Again:
+
+ ./bitgo-express --debug --port 3080 --env prod --bind localhost
+
+
+ and  paste your bitgo access token in  /config/application.yml
+   access_token: "paste here"
