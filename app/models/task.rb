@@ -1,4 +1,5 @@
 class Task < ActiveRecord::Base
+	include ApplicationHelper
 	include AASM
 	default_scope -> { order('created_at DESC') }
 	mount_uploader :fileone, PictureUploader

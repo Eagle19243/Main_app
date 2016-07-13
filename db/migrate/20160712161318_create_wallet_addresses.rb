@@ -7,6 +7,7 @@ class CreateWalletAddresses < ActiveRecord::Migration
       t.string :wallet_addresses, :receiver_address
       t.float :wallet_addresses, :current_balance, default: 0.0
       t.string :wallet_addresses, :pass_phrase
+      t.timestamps null: false
     end
   end
 end
