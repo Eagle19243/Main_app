@@ -1,5 +1,117 @@
 <div class="no-js" lang="en">
 
+  <!-- COPIED OVER FROM OLD SHOW PAGE -->
+  <%if @project.pending? %>
+
+    <% if user_signed_in? %>
+      <% if current_user.admin? %>
+      <%= link_to "Reject request", reject_project_path(@project.id), :data => { :confirm => "Are you sure?" }, class:"button tiny alert radius" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Accept request", accept_project_path(@project.id), class:"button tiny success radius right" %>
+      <%end%>
+    <%end%>
+  <%end%>
+
+  <div class="project-hero">
+    <h2>
+      <%= @project.title %>
+      <% if @project.pending? %><span>Pending</span><% end %>
+    </h2>
+  </div>
+
+  <% if user_signed_in? %>
+    <% if current_user.admin? || (current_user == @project.user) %>
+      <div class="admin-actions">
+        <div>
+          <p><strong>Admin actions</strong></p>
+          <%= link_to 'Edit project', edit_project_path(@project), class:"button small radius" %>&nbsp;
+          <%= link_to 'Create project article', new_wiki_path(project_id: @project.id), class:"button small radius" %>&nbsp;
+          <%= link_to 'Create task', new_task_path(project_id: @project.id), class:"button small radius" %>&nbsp;
+          <%= link_to 'Delete project', project_path(@project),method: :delete, data: { confirm: 'Are You Sure ? If project tasks have already been funded, you will have to delete the tasks first and donors will be refunded'}, class:"button small radius warning" %>
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+
+  <!-- React Tabs Render -->
+
+    <% if current_user == @project.user%>
+      <% projectOwner = current_user %>
+    <% else %>
+      <% projectOwner = false %>
+    <% end %>
+
+    <div class="items">
+      <%= react_component('ProjectData', {projectAdminsIds: @proj_admins_ids, currentUserId: @current_user_id, project: @project, projectUser: @project_user, projectOwner: projectOwner}) %>
+    </div>
+
+    <div style="clear:both"></div>
+      <% @project.project_edits.each do |project_edit| %>
+        <% if project_edit.aasm_state == "pending" %>
+          <div class="admin-actions actions" id=<%= "project-edit-#{project_edit.id}"%>>
+            <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
+            <button data-accepts-edit='<%= project_edit.id %>' id="acceptEditBtn" class="button tiny radius success">Accept</button>
+            <button data-rejects-edit='<%= project_edit.id %>' id="rejectEditBtn" class="button tiny radius alert">Reject</button>
+          </div>
+          <br />
+        <% end %>
+      <%end%>
+
+
+  <!-- END  -->
+
+
+  <!-- <div class="project-tasks-header">
+    <h2>Tasks</h2>
+    <p><span><%= @project.tasks.count %></span> being funded, <span>0</span> completed</p>
+  </div>
+
+  <div class="project-tasks-show">
+    <% @project.tasks.each do |task| %>
+      <div class="task-view">
+        <h4><%= link_to task.title, task %></h4>
+        <div>
+          <p><%= task.description %></p>
+        </div>
+        <div class="progress-bar">
+          <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
+        </div>
+        <span class="left">
+          <strong>$<%= task.current_fund.to_i %></strong> funded
+        </span>
+        <span class="right">
+          <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
+        </span>
+        <div class="do-buttons">
+         <%=link_to "Do this task", new_do_request_path(task_id: task.id,free: false), class:"button small radius blue" %>&nbsp;<%=link_to "Do for free", new_do_request_path(task_id: task.id,free: true), class:"button small radius blue" %>&nbsp;<%=link_to "Fund this task", new_donation_path(task_id: task.id), class:"button small radius green" %>
+         </div>
+      </div>
+    <% end %>
+  </div> -->
+
+  <% if user_signed_in? && false %>
+    <div class="comment-builder">
+      <%= form_for  [@project, @project.project_comments.build] do |f| %>
+
+
+        <p>
+          <%= f.label :body, "Comment on Project" %>
+          <%= f.text_area :body, :class => "tinymce" %>
+        </p>
+        <%= f.hidden_field :project_id, value: @project.id %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+
+        <p>
+          <%= f.submit 'Submit', class: 'button small blue radius float-right' %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+
+
+
+  <!-- END OLD SHOW PAGE SECTION -->
+
+
 <link href='http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
 <link href="/static/projects/css/foundation.css"rel="stylesheet">
 <link href="/static/projects/css/font-awesome.css"rel="stylesheet">
@@ -255,6 +367,7 @@
                   <a href="#" class="pull-right button round task_btn fund_btn">FUND</a>
                   <a href="#" class="pull-right button round task_btn do_btn">DO</a>
                 </div>
+
               </div>
               <hr class="custom_hr">
               <div class="row">
