@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :cards
   resources :teams
   resources :work_records
+  get 'wallet_transactions/new'
+  post 'wallet_transactions/create'
   get 'payment_notifications/create'
 
   get 'proj_admins/new'

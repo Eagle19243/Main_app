@@ -32,7 +32,17 @@ module ApplicationHelper
       Rails.logger.info e.message
     end
   end
-  
+  def convert_usd_to_btc_and_then_satoshi(usd)
+    begin
+      response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
+      @get_current_rate = JSON.parse(response)['last'] rescue 0.0
+      usd_to_btc = (usd.to_f/@get_current_rate.to_f)
+      satoshi_amount = usd_to_btc.to_f * (10 ** 8)
+      satoshi_amount = satoshi_amount.to_i
+    rescue => e
+      "error"
+    end
+  end
   def get_current_btc_rate
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
