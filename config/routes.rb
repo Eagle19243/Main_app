@@ -79,5 +79,6 @@ Rails.application.routes.draw do
 
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
+  # root to: 'visitors#index'
   root to: 'visitors#index'
 end
