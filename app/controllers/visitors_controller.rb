@@ -3,6 +3,10 @@ class VisitorsController < ApplicationController
     @project = Project.find_by(id: 1)
   end
 
+	def landing
+    @project = Project.find_by(id: 1)
+  end
+
 	def restricted
 		@project = Project.find_by(id: 1)
 	end
