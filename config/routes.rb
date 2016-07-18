@@ -69,7 +69,11 @@ Rails.application.routes.draw do
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
   devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations' }
-  resources :users
+  resources :users do
+    member do
+      get :profile
+    end
+  end
 
   resources :conversations do
     resources :messages
