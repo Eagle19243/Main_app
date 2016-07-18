@@ -2,7 +2,7 @@
   <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
       <li class="name logo ">
-        <h1><a href="/"><img src="/static/users/img/logo.png" alt="logo"></a></h1>
+        <h1><a href="/" data-no-turbolinks="true"><img src="/static/users/img/logo.png" alt="logo"></a></h1>
       </li>
        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
       <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -34,6 +34,13 @@
       <ul class="left">
         <li class="active"><%= link_to 'Start a Project', new_project_path,  data: { no_turbolink: true }  %></li>
         <li class="active"><%= link_to 'Active Projects', projects_path,  data: { no_turbolink: true }  %></li>
+
+        <!-- USER DIRECTORY -->
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <li class="active"><%= link_to 'Directory', users_path, data: { no_turbolink: true }  %></li>
+          <%end%>
+        <%end%>
       </ul>
     </section>
   </nav>
