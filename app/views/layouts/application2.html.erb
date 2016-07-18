@@ -1,0 +1,45 @@
+<!-- THIS LAYOUT IS FOR INTEGRATING THE NEW DESIGN, AND DOES NOT IMPORT THE OLD STYLESHEETS -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "WeServe" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,800|Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+    <%# Modernizr is required for Zurb Foundation %>
+    <%= javascript_include_tag 'vendor/modernizr' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body <% if controller.controller_name.eql?('visitors') %>class="landing"<%end%>>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1204824659546785',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+    <header <% if controller.controller_name.eql?('visitors') %>class="landing"<%end%>>
+      <div class="header-wrapper">
+        <%= render 'layouts/navigation' %>
+      </div>
+    </header>
+
+    <%= render 'layouts/messages' %>
+
+    <%= yield %>
+
+    <%= render 'layouts/footer' %>
+    <%= debug(params) if Rails.env.development? %>
+  </body>
+</html>
