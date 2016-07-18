@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+   layout "application2", only: [:profile]
   before_action :authenticate_user!, :except => :show
   before_action :admin_only, :except => [:show, :index]
 
@@ -7,6 +8,13 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(params[:id])
+    @projects = Project.all
+    @do_requests = DoRequest.all
+    @assignments = Assignment.all
+  end
+
+  def profile
     @user = User.find(params[:id])
     @projects = Project.all
     @do_requests = DoRequest.all
