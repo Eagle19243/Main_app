@@ -1,13 +1,19 @@
 class VisitorsController < ApplicationController
-	def index
-    @project = Project.find_by(id: 1)
+  before_action :first_project
+
+  def index
   end
 
-	def landing
-    @project = Project.find_by(id: 1)
+  def landing
+    @featured_projects = Project.last(3)
   end
 
-	def restricted
-		@project = Project.find_by(id: 1)
-	end
+  def restricted
+  end
+
+  private
+
+  def first_project
+    @project = Project.first
+  end
 end

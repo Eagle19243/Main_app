@@ -163,7 +163,7 @@ h1.text_feats { font-size: 26px; }
 
 .image_contents{ margin-top: 90px; }
 
-.monah_img { width: 100%; }
+.feature_project_picture { width: 100%; }
 
 .projects{
   background-color: #000;
@@ -344,6 +344,10 @@ h1.text_feats { font-size: 26px; }
 tbody.feature_progress th, tbody.feature_progress td { padding: 0; }
 
 tbody.feature_progress th { text-align: left; }
+
+.fa-map-marker {
+  padding-right: 10px;
+}
 
 .map_name {
   color:gray;
