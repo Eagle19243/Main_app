@@ -20,5 +20,11 @@ module ApplicationHelper
     image_tag gravatar_image_url(project.title, size: size), title: title, class: 'img-rounded'
   end
 
+  def landing_page?
+    controller.controller_name.eql?('visitors') && !controller.action_name.eql?('landing')
+  end
 
+  def landing_class
+    'class=landing' if landing_page?
+  end
 end

@@ -1,0 +1,54 @@
+<div class="top-bar top-bar-landing">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
+      <li>
+        <%= link_to root_path, class: 'weserve' do %>
+          <h3>WeServe</h3>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_project_path do %>
+          Start a project
+        <% end %>
+      </li>
+      <% if user_signed_in? %>
+        <li><%= link_to 'Dashboard', dashboard_path %></li>
+      <% end %>
+      <li>
+        <%= link_to projects_path do %>
+          Active projects
+        <% end %>
+      </li>
+      <% if current_user.try(:admin?) %>
+        <li><%= link_to 'Directory', users_path %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="dropdown menu" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx- dropdownmenu">
+      <li>
+        <form action="" method="post" id="search">
+          <div class="large-12 columns">
+            <input type="text" name="" placeholder="Search" class="input" />
+            <i class="fa fa-search"></i>
+          </div>
+        </form>
+      </li>
+      <% if user_signed_in? %>
+        <li><%= link_to current_user.name.split(' ')[0], current_user %></li>
+        <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'signup_buttons' %></li>
+      <% else %>
+        <li>
+          <a href="#" data-reveal-id="SignInModal" class="signup_buttons">
+            Sign In
+          </a>
+        </li>
+        <li>
+          <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">
+            Sign Up
+          </a>
+        </li>
+      <%end%>
+    </ul>
+  </div>
+</div>
