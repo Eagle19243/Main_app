@@ -41,8 +41,15 @@ class User < ActiveRecord::Base
     assignment
   end
 
+  def location
+    [city, country].compact.join(' / ')
+  end
 
+  def completed_tasks_count
+    assignments.completed.count
+  end
 
-
-
+  def funded_projects_count
+    donations.joins(:task).pluck('tasks.project_id').uniq.count
+  end
 end

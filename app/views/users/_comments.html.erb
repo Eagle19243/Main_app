@@ -1,0 +1,35 @@
+<div class="small-12 medium-6 columns">
+  <h1><i class="icon-user"></i>Comments</h1>
+  <% @user.project_comments.each do |comment| %>
+    <div class="row comment-box">
+      <div class="medium-2 columns">
+        <% if comment.user.picture? %>
+          <%= image_tag(comment.user.picture.url, size: "69x69") %>
+        <% else %>
+          <%= gravatar_for(comment.user, 69)%>
+        <%end%>
+        <span class="name"><%= comment.user.name %></span>
+      </div>
+      <div class="medium-10 columns">
+        <p><%= comment.body %></p>
+        <span class="date"><%= comment.created_at.strftime('%B %Y') %></span>
+      </div>
+    </div>
+  <% end %>
+  <ul class="pagination">                
+    <li class="current"><a href="">1</a></li>
+    <li><a href="">2</a></li>
+    <li><a href="">3</a></li>
+    <li><a href="">4</a></li>                
+    <li><a href="">5</a></li>
+    <li><a href="">6</a></li>                
+  </ul>
+  <form>
+    <div class="row">                  
+      <label>
+        <textarea placeholder="Add a Comment..."></textarea>
+      </label>                  
+    </div>
+    <a href="#" class="button secondary float-right">Send</a>
+  </form>
+</div>

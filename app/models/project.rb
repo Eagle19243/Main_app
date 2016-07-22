@@ -52,4 +52,8 @@ class Project < ActiveRecord::Base
   def location
     "#{institution_location} - #{institution_country}"
   end
+
+  def needed_budget
+    tasks.sum(:budget)
+  end
 end
