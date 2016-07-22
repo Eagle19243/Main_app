@@ -12,6 +12,7 @@
 
 <div>
   <%= render 'top_bar' %>
+<% unless user_signed_in? %>
   <div class="large-12 columns row1">
     <div class="large-8 medium-10 medium-push-2 columns">
       <center>
@@ -41,6 +42,7 @@
       <img class = "image_content" src="/static/visitors/images/content.png">
     </div>
   </div>
+<% end %>
   <div class="large-12 columns row_content">
     <div class="large-5 medium-4 medium-push-1 columns content_projects">
       <img class = "image_contents" src="/static/visitors/images/content_image.png">
