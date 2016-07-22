@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-   layout "application2", only: [:profile]
+  layout "application2", only: [:profile]
   before_action :authenticate_user!, :except => :show
   before_action :admin_only, :except => [:show, :index]
 
