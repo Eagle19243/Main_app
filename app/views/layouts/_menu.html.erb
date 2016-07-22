@@ -33,7 +33,7 @@
         </ul>
         </li>
          <li class="has-dropdown">
-          <a href="#">
+          <a href="<%= user_path(current_user) %>">
             <% if current_user.picture? %>
               <%= image_tag(current_user.picture.url, size: "35x35") %>
             <% else %>
