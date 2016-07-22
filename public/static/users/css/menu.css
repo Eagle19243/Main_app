@@ -1,7 +1,7 @@
 @font-face { font-family: 'Roboto'; src: url('../fonts/Roboto-Regular.ttf'); }
 @font-face { font-family: 'Roboto-Light'; src: url('../fonts/Roboto-Light.ttf'); }
 @font-face { font-family: 'Typo Grotesk Rounded'; src: url('../fonts/typo-round.otf'); }
-.top_banner { background: url('../img/PROJECT-PAGE.jpg') no-repeat center center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; height: 470px; background-repeat: no-repeat; text-align: center; }
+.top_banner { background: url('/static/users/img/PROJECT-PAGE.jpg') no-repeat center center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; height: 470px; background-repeat: no-repeat; text-align: center; }
 .top_nav { padding: 0px 45px; }
 /*.social_bar { text-align: center; }*/
 .banner_button { margin-top: 25px; }
