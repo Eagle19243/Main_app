@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718143610) do
+ActiveRecord::Schema.define(version: 20160721091559) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -241,9 +241,11 @@ ActiveRecord::Schema.define(version: 20160718143610) do
     t.string   "city"
     t.string   "fourth_link"
     t.string   "phone_number",           limit: 8
+    t.integer  "institution_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["institution_id"], name: "index_users_on_institution_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "wikis", force: :cascade do |t|

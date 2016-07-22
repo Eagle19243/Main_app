@@ -1,0 +1,52 @@
+<header class="user-menu">
+  <nav class="top-bar" data-topbar role="navigation">  
+    <ul class="title-area">
+      <li class="name logo ">
+        <%= link_to root_path do %>
+          <%= image_tag 'logo' %>
+        <% end %>
+      </li>
+       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+      <!-- Right Nav Section -->
+      <ul class="right">
+       <li class="has-dropdown ">
+        <a href="#" class="no-line-height">
+          <div class="badge-wrap">
+            <i class="icon-bell-alt" aria-hidden="true"></i>
+            <span class="count">3</span>
+          </div>
+        </a>
+        <ul class="dropdown">
+          <li><a href="#">First link in dropdown</a></li>
+          <li class="active"><a href="#">Active link in dropdown</a></li>
+        </ul>
+        </li>       
+         <li class="has-dropdown">
+          <a href="#">
+            <% if user.picture? %>
+              <%= image_tag(user.picture.url, size: "35x35") %>
+            <% else %>
+              <%= gravatar_for(user, 35)%>
+            <%end%>
+          </a>
+          <ul class="dropdown">
+            <li><a href="#">First link in dropdown</a></li>
+            <li class="active"><a href="#">Active link in dropdown</a></li>
+          </ul>
+        </li> 
+      </ul>
+      <!-- Left Nav Section -->
+      <ul class="left">
+        <li class="active">
+          <%= link_to 'Start a Project', new_project_path %>
+        </li>
+        <li class="active">
+          <%= link_to 'Active Projects', projects_path %>
+        </li>
+      </ul>
+    </section>
+  </nav>
+</header>

@@ -1,0 +1,10 @@
+<div class="small-12 medium-2 columns user-sidebar" data-equalizer-watch>
+  <ul class="tabs vertical tabs-index hidden-for-small-only" data-tab>
+    <li class="tab-title is-active"><a href="#dashboard" aria-selected="true">Dashboard</a></li>
+    <li class="tab-title"><%= link_to 'Profile', profile_user_path(@user) %></li>
+    <li class="tab-title"><a href="#projects">Projects</a></li>
+    <li class="tab-title"><a href="#notifications">Notifications</a></li>
+    <li class="tab-title"><a href="#messages">Messages</a></li>
+    <li class="tab-title"><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+  </ul>
+</div>
