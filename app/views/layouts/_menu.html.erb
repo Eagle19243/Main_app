@@ -33,6 +33,7 @@
         </ul>
         </li>
          <li class="has-dropdown">
+        <% if user_signed_in? %>
           <a href="<%= user_path(current_user) %>">
             <% if current_user.picture? %>
               <%= image_tag(current_user.picture.url, size: "35x35") %>
@@ -40,9 +41,16 @@
               <%= gravatar_for(current_user, 35)%>
             <%end%>
           </a>
+        <% else %>
+          <a href="/">Home</a>
+        <% end %>
           <ul class="dropdown">
-            <li><a href="#">Edit Profile</a></li>
-            <li class="active"><a href="#">Logout</a></li>
+            <% if user_signed_in? %>
+              <li><%= link_to 'Edit Profile', edit_user_registration_path %></li>
+              <li class="active"><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+            <% else %>
+              <li class="active"><%= link_to 'Sign in', new_user_session_path %></li>
+            <% end %>
           </ul>
         </li>
       </ul>
