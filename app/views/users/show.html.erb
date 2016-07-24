@@ -66,15 +66,23 @@
       <div class="content" id="profile">
         Profile
       </div>
+
       <div class="content" id="projects">
-       Projects
+       <h3>Projects</h3>
+       <div class="row">
+         <%= render 'comments' %>
+         <%= render 'projects' %>
+       </div>
       </div>
+
       <div class="content" id="notifications">
         Notifications
       </div>
+
       <div class="content" id="messages">
         Messages
       </div>
+      
       <div class="content" id="logout">
         Logout
       </div>
