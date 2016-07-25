@@ -37,6 +37,12 @@ ul.Notifi li {
 	font-size:.9rem;
 	line-height:1.2rem;
 }
+
+.pro-text a {
+  color: #39c0ff;
+  background-color: #f6f6f6;
+}
+
 .pro-we span{
 	float:right;
 }
@@ -315,4 +321,13 @@ button.btn.btn-default.subscribe {
     padding-top: 10px;
     padding-bottom: 10px;
     float: left;
+}
+
+#notifications {
+  float: left;
+  margin-top: 0 !important;
+}
+
+#notifications .columns {
+  padding-left: 0;
 }
