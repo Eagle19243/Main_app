@@ -46,7 +46,7 @@
               <li><%= link_to 'Edit Profile', edit_user_registration_path, data: { no_turbolink: true } %></li>
               <li class="active"><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
             <% else %>
-              <li class="active"><%= link_to 'Sign in', new_user_session_path %></li>
+              <li class="active"><%= link_to 'Sign in', new_user_session_path, data: { no_turbolink: true } %></li>
             <% end %>
           </ul>
         </li>
@@ -57,7 +57,7 @@
       </a>
       <ul class="left title-area">
         <li class="active">
-          <%= link_to 'Start a Project', new_project_path %>
+          <%= link_to 'Start a Project', new_project_path, data: { no_turbolink: true } %>
         </li>
         <li class="active">
           <%= link_to 'Active Projects', projects_path %>
