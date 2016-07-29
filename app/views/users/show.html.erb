@@ -57,7 +57,7 @@
         </div>
         <section class="bio">
           <h1><i class="icon-user"></i>Bio</h1>
-          <% if !@user.institution %>
+          <!-- begin user bio -->
             <h2><strong>Institution: <span><%= @user.institution.try(:name) %></span></strong></h2>
             <p><%= @user.institution.try(:description) %></p>
             <h4>
@@ -66,7 +66,7 @@
               He's no gypsy my father she said, but lord of all these lands. And with my gypsy rover I'll stay, til the sun come up over these hills.
             </h4>
             <br>
-          <% end %>
+          <!-- end user bio  -->
         </section>
         <section class="comments">
           <div class="row">
