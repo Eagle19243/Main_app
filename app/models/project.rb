@@ -14,19 +14,19 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
-  validates :title, presence: true, length: { minimum: 2, maximum: 30 },
+  validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
 
-  validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }
-
-  validates :description, presence: true, length: { minimum: 2}
-
-  validates :institution_description, presence: true, length: { minimum: 2}
-
-  validates :institution_location, presence: true, length: {minimum: 2}
-
-  validates :institution_country, presence: true,  length: {minimum: 2}
-  validates :picture, presence: true
+  # validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }
+  #
+  # validates :description, presence: true, length: { minimum: 2}
+  #
+  # validates :institution_description, presence: true, length: { minimum: 2}
+  #
+  # validates :institution_location, presence: true, length: {minimum: 2}
+  #
+  # validates :institution_country, presence: true,  length: {minimum: 2}
+  # validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
