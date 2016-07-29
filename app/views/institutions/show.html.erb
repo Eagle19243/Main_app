@@ -1,3 +1,5 @@
+<%= render 'layouts/menu' %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -23,6 +25,11 @@
 <p>
   <strong>Logo:</strong>
   <%= @institution.logo %>
+</p>
+
+<p>
+  <strong>Website:</strong>
+  <%= link_to "#{@institution.url}", url_for "#{@institution.url}" %>
 </p>
 
 <%= link_to 'Edit', edit_institution_path(@institution) %> |
