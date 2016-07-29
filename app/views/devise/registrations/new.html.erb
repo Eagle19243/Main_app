@@ -1,3 +1,7 @@
+<% content_for :title do %>
+  Sign Up For WeServe
+<% end %>
+
 <div class="authform">
   <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :role => 'form',:multipart => true}) do |f| %>
     <h3>Sign up</h3>
@@ -20,41 +24,41 @@
     </div>
     <div class="form-group">
       <%= f.label :city %>
-      <%= f.text_field :city%> 
+      <%= f.text_field :city%>
     </div>
 
     <div class="form-group">
       <%= f.label :country %>
-      <%= country_select(resource_name, "country")%> 
+      <%= country_select(resource_name, "country")%>
     </div>
      <div class="form-group">
       <%= f.label :phone_number %>
-      <%= f.number_field :phone_number %> 
+      <%= f.number_field :phone_number %>
     </div>
 
     <div class="form-group">
       <%= f.label :first_link, "My LinkedIn profile" %>
-      <%= f.text_field :first_link%> 
+      <%= f.text_field :first_link%>
     </div>
 
      <div class="form-group">
       <%= f.label :second_link, "My Website"%>
-      <%= f.text_field :second_link%> 
+      <%= f.text_field :second_link%>
     </div>
 
-    
+
      <div class="form-group">
       <%= f.label :third_link,"My Institution link" %>
-      <%= f.text_field :third_link%> 
+      <%= f.text_field :third_link%>
     </div>
 
      <div class="form-group">
       <%= f.label :fourth_link, "My Facebook profile link" %>
-      <%= f.text_field :fourth_link%> 
+      <%= f.text_field :fourth_link%>
     </div>
-      
 
-      
+
+
      <div class="form-group">
       <%= f.label :description, "Bio" %>
       <%= f.text_area :description, class: 'form-control', cols: "30", rows: "10" %>
