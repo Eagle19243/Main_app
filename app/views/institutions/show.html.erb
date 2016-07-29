@@ -29,7 +29,7 @@
 
 <p>
   <strong>Website:</strong>
-  <%= link_to "#{@institution.url}", url_for "#{@institution.url}" %>
+  <%= link_to "#{@institution.url}", url_for("http://#{@institution.url}") %>
 </p>
 
 <%= link_to 'Edit', edit_institution_path(@institution) %> |
