@@ -57,9 +57,15 @@
         </div>
         <section class="bio">
           <h1><i class="icon-user"></i>Bio</h1>
-          <% if @user.institution %>
-            <h2><strong>Institution: <span><%= @user.institution.name %></span></strong></h2>
-            <p><%= @user.institution.description %></p>
+          <% if !@user.institution %>
+            <h2><strong>Institution: <span><%= @user.institution.try(:name) %></span></strong></h2>
+            <p><%= @user.institution.try(:description) %></p>
+            <h4>
+              A gypsy would come rolling over the hill. He whistled and he sang as he went on along, and he won the heart of a lady.
+              <br />
+              He's no gypsy my father she said, but lord of all these lands. And with my gypsy rover I'll stay, til the sun come up over these hills.
+            </h4>
+            <br>
           <% end %>
         </section>
         <section class="comments">
