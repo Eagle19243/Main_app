@@ -21,6 +21,9 @@ class User < ActiveRecord::Base
   has_many :assignments, dependent: :delete_all
   has_many :donations
   has_many :proj_admins, dependent: :delete_all
+  # a user can belong to many institutions, the join table for this has been named :institution_users
+  has_many :institution_users
+  has_many :institutions, :through => :institution_users
 
 
   def create_activity(item, action)
