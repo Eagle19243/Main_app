@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160729194748) do
+ActiveRecord::Schema.define(version: 20160730115351) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -87,6 +87,15 @@ ActiveRecord::Schema.define(version: 20160729194748) do
     t.datetime "completed_at"
     t.string   "PAYKEY"
   end
+
+  create_table "institution_users", force: :cascade do |t|
+    t.integer "institution_id"
+    t.integer "user_id"
+    t.string  "position"
+  end
+
+  add_index "institution_users", ["institution_id"], name: "index_institution_users_on_institution_id"
+  add_index "institution_users", ["user_id"], name: "index_institution_users_on_user_id"
 
   create_table "institutions", force: :cascade do |t|
     t.string   "name"
