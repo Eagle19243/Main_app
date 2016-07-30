@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   end
   resources :cards
   resources :institutions
+  # institutions and users are associated via a join model and table named
+  # InsitutionUser, and we would occasionally like to see all such associations at a glance
+  resources :institution_users
   resources :teams
   resources :work_records
   get 'payment_notifications/create'
