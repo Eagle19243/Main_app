@@ -12,7 +12,8 @@ class RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:name, :email, :password,
       :password_confirmation, :current_password, :picture, :company,
       :country, :description, :first_link, :second_link, :third_link,
-      :fourth_link, :city, :phone_number, :bio)
+      :fourth_link, :city, :phone_number, :bio, :facebook_url, :twitter_url,
+      :linkedin_url)
   end
 
 end
