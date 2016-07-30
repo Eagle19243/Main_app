@@ -13,6 +13,7 @@ class Project < ActiveRecord::Base
   has_many :proj_admins
 
   belongs_to :user
+  belongs_to :institution
 
   validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
