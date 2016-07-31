@@ -58,7 +58,14 @@
         <section class="bio">
           <h1><i class="icon-user"></i>Bio</h1>
           <!-- begin user bio -->
-            <h2><strong>Institution: <span><%= @user.institution.try(:name) %></span></strong></h2>
+            <h2>
+              <strong>Institution:
+                <% @user.institutions.to_a.each do |institution| %>
+                  <span><%= link_to "#{institution.try(:name)}  ", institution_path(institution) %></span>
+                  &nbsp
+                <% end %>
+              </strong>
+            </h2>
             <p><%= @user.institution.try(:description) %></p>
             <h4>
               <% if @user.bio.nil? %>
