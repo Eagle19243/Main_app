@@ -32,5 +32,14 @@
   <%= link_to "#{@institution.url}", url_for("http://#{@institution.url}") %>
 </p>
 
+<br>
+
+<h2>Members of <%= @institution.name %></h2>
+<br>
+<% @institution.users.all.to_a.each do |user| %>
+  <h3><%= link_to "#{user.name}", user_path(user) %></h3>
+  <br>
+<% end %>
+
 <%= link_to 'Edit', edit_institution_path(@institution) %> |
 <%= link_to 'Back', institutions_path %>
