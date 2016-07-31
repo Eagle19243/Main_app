@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730215216) do
+ActiveRecord::Schema.define(version: 20160731005904) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -139,6 +139,17 @@ ActiveRecord::Schema.define(version: 20160730215216) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "profile_comments", force: :cascade do |t|
+    t.integer  "commenter_id"
+    t.integer  "receiver_id"
+    t.text     "comment_text"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "profile_comments", ["commenter_id"], name: "index_profile_comments_on_commenter_id"
+  add_index "profile_comments", ["receiver_id"], name: "index_profile_comments_on_receiver_id"
 
   create_table "proj_admins", force: :cascade do |t|
     t.integer  "user_id"
