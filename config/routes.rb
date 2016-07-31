@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :profile_comments
   resources :plans
   resources :notifications do
     collection do
