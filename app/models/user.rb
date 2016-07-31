@@ -24,7 +24,8 @@ class User < ActiveRecord::Base
   # a user can belong to many institutions, the join table for this has been named :institution_users
   has_many :institution_users
   has_many :institutions, :through => :institution_users
-
+  # users can send each other profile comments
+  has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
 
   def create_activity(item, action)
     activity = activities.new
