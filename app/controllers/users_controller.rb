@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   def secure_params
     params.require(:user).permit(:role, :picture, :name, :email, :password, :bio,
     :city, :phone_number, :bio, :facebook_url, :twitter_url,
-    :linkedin_url)
+    :linkedin_url, {:institution_ids => [] }, :picture_cache)
   end
 
 end
