@@ -2,7 +2,7 @@
   <h1><i class="icon-file-text-alt"></i>Projects</h1>
   <% @user.projects.each do |project| %>
     <div class="project-wrap">
-      <p class="big-tx"><%= project.title %></p>
+      <a href="/projects/<%= project.id %>"><p class="big-tx"><%= project.title %></p></a>
       <div class="progress task_bar">
         <span class="meter" style="width:75%"></span>
       </div>
