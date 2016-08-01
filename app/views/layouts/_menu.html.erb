@@ -58,11 +58,11 @@
       <ul class="left title-area">
         <% if user_signed_in? %>
         <li class="active">
-          <%= link_to 'WeServe Dashboard', user_path(current_user), data: { no_turbolink: true } %>
+          <%= link_to "<strong>WeServe Dashboard</strong>".html_safe, user_path(current_user), data: { no_turbolink: true } %>
         </li>
         <% end %>
         <li class="active">
-          <%= link_to 'Start a Project', new_project_path, data: { no_turbolink: true } %>
+          <%= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
         </li>
         <li class="active">
           <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
