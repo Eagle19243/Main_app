@@ -1,4 +1,4 @@
-<h1>Profile</h1>
+<h1>Notifications</h1>
 <div class="lin2 row">
   <div class="lin2-media small-12 medium-2 columns">
     <% if @user.picture? %>
@@ -37,32 +37,27 @@
   </div>
 </div>
 <section class="bio">
-  <h1><i class="icon-user"></i>Bio</h1>
-  <!-- begin user bio -->
-    <h2>
-      <strong>Institution:
-        <% @user.institutions.to_a.each do |institution| %>
-          <span><%= link_to "#{institution.try(:name)}  ", institution_path(institution) %></span>
-          &nbsp
-        <% end %>
-      </strong>
-    </h2>
-    <p><%= @user.institution.try(:description) %></p>
-    <h4>
-      <% if @user.bio.nil? %>
-        A gypsy would come rolling over the hill. He whistled and he sang as he went on along, and he won the heart of a lady.
-        <br />
-        He's no gypsy my father she said, but lord of all these lands. And with my gypsy rover I'll stay, til the sun come up over these hills.
-      <% else %>
-        <%= "#{@user.bio}" %>
-      <% end %>
-    </h4>
+
     <br>
   <!-- end user bio  -->
-</section>
-<section class="comments">
-  <div class="row">
-    <%= render 'comments' %>
-    <%= render 'projects' %>
-  </div>
+        <ul class="Notifi">
+          <li class="not"><h4 class="header"> <i class="fa fa-bell-o" aria-hidden="true"></i>Notificatons <i class="fa fa-cog" aria-hidden="true"></i></h4> </li>
+        </ul>
+        <% @user.activities.each_with_index do |activity, i| %>
+          <ul class="Notifi-1">
+            <li class="not">
+              <a href="#">
+                <div class="pro"><%= activity_title(activity) %>
+                  ALERT
+                </div>
+                <%= activity_text(activity) %>
+                <div class="pro-we">WE SERVE
+                  <span><%= activity.created_at.strftime('%b %dTH') %></span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        <% end %>
+
+  <!-- END NOTIFICATIONS -->
 </section>
