@@ -404,3 +404,21 @@ progress.success { background: #00A0F4 !important; display: block; margin: 0 aut
   padding-left: 0.9375rem;
   padding-right: 0.9375rem;
 }
+
+/* Content Box modifications*/
+
+.content {
+  margin: 0;
+  margin-top: 0 !important;
+  margin-bottom: 0;
+  max-width: 100%;
+  padding: 30px !important;
+}
+
+.content .lin2-contents p {
+  margin-bottom: 1.25rem;
+}
+
+.content .lin2-contents .button-send {
+  color: #fff;
+}
