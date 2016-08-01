@@ -1,7 +1,12 @@
 <h2>haha, the dashboard</h2>
 
-<% content_for :head do %>
+<% content_for :customhead do %>
   <title>I'm a nifty little title!</title>
+  <style media="screen">
+    html {
+      background: #f00 !important;
+    }
+  </style>
 <% end %>
 
 <div class="lin2 row">
