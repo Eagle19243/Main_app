@@ -16,7 +16,7 @@
 <div class="row expanded collapse" data-equalizer data-equalizer-mq="large-up">
   <%= render 'sidebar' %>
   <div class="small-12 medium-10 columns" data-equalizer-watch>
-    <div class="tabs-content">
+    <div class="tabs-content" id="tabcontentdiv">
       <div class="content active" id="dashboard">
         <div class="lin2 row">
           <div class="lin2-media small-12 medium-2 columns">
@@ -98,7 +98,7 @@
        </div>
       </div>
 
-      <div class="content" id="notifications">
+      <div class="content" id="notifications" data-equalizer-watch>
         <%= render 'users/tabcontent/notifications' %>
       </div>
 
