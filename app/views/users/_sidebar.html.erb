@@ -17,18 +17,18 @@ $("#notificationtab").click(function() {
   $("#sidelist").height($("#tabcontentdiv").height());
 });
 
-function reseizeSideBar() {
+function resizeSideBar() {
   setTimeout(function(){
-    alert("ResizeSideBar 4 seconds after click");
+    alert("ResizeSideBar 3 seconds after click");
     $("#sidelist").height($("#tabcontentdiv").height());
   }, 3000);
   $("#sidelist").height($("#tabcontentdiv").height() + 200);
 }
 
-$("#notificationtab").click(reseizeSideBar);
-$("#dashboardtab").click(reseizeSideBar);
-$("#profiletab").click(reseizeSideBar);
-$("#projecttab").click(reseizeSideBar);
-$("#messagetab").click(reseizeSideBar);
+$("#notificationtab").click(resizeSideBar);
+$("#dashboardtab").click(resizeSideBar);
+$("#profiletab").click(resizeSideBar);
+$("#projecttab").click(resizeSideBar);
+$("#messagetab").click(resizeSideBar);
 
 </script>
