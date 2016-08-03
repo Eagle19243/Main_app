@@ -1,4 +1,3 @@
 bitgo_admin:
   api_address: "http://localhost:3080/api/v1"
-  access_token: "b99a9ca6f1242c65b9d675f9ee25e45003cc994c3e3f0e61020fb5d946b2d469"
-
+  access_token: "818fb2a39341a71a3a103a9ab8ee0992feb3d02e958811202cae8a42b5f2f4e2"

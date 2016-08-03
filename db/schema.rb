@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708130327) do
+ActiveRecord::Schema.define(version: 20160714170616) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -86,6 +86,13 @@ ActiveRecord::Schema.define(version: 20160708130327) do
     t.string   "transaction_id"
     t.datetime "completed_at"
     t.string   "PAYKEY"
+  end
+
+  create_table "generate_addresses", force: :cascade do |t|
+    t.string   "address"
+    t.boolean  "is_available"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "institutions", force: :cascade do |t|
@@ -245,6 +252,31 @@ ActiveRecord::Schema.define(version: 20160708130327) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "wallet_addresses", force: :cascade do |t|
+    t.string   "sender_address"
+    t.integer  "task_id"
+    t.string   "wallet_addresses"
+    t.string   "wallet_id"
+    t.string   "receiver_address"
+    t.float    "current_balance",  default: 0.0
+    t.string   "pass_phrase"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "wallet_addresses", ["task_id"], name: "index_wallet_addresses_on_task_id"
+
+  create_table "wallet_transactions", force: :cascade do |t|
+    t.decimal  "amount"
+    t.string   "user_wallet"
+    t.string   "tx_hash"
+    t.integer  "task_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id"
 
   create_table "wikis", force: :cascade do |t|
     t.string   "title"
