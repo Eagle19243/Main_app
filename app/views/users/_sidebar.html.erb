@@ -1,10 +1,10 @@
 <div class="small-12 medium-2 columns user-sidebar" data-equalizer-watch>
   <ul id="sidelist" class="tabs vertical tabs-index hidden-for-small-only sideul" data-tab>
-    <li class="tab-title"><a href="#dashboard" aria-selected="false">Dashboard</a></li>
-    <li class="tab-title is-active"><a href="#profile" aria-selected="true">Profile</a></li>
-    <li class="tab-title"><a href="#projects">Projects</a></li>
+    <li class="tab-title"><a href="#dashboard" aria-selected="false" id="dashboardtab">Dashboard</a></li>
+    <li class="tab-title is-active"><a href="#profile" aria-selected="true" id="profiletab">Profile</a></li>
+    <li class="tab-title"><a href="#projects" id="projecttab">Projects</a></li>
     <li class="tab-title"><a href="#notifications" data-no-turbolink="true" id="notificationtab">Notifications</a></li>
-    <li class="tab-title"><a href="#messages">Messages</a></li>
+    <li class="tab-title"><a href="#messages" id="messagetab">Messages</a></li>
     <li class="tab-title"><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
   </ul>
 </div>
@@ -16,5 +16,19 @@ $("#notificationtab").click(function() {
   }, 3000);
   $("#sidelist").height($("#tabcontentdiv").height());
 });
+
+function reseizeSideBar() {
+  setTimeout(function(){
+    alert("ResizeSideBar 4 seconds after click");
+    $("#sidelist").height($("#tabcontentdiv").height());
+  }, 3000);
+  $("#sidelist").height($("#tabcontentdiv").height() + 200);
+}
+
+$("#notificationtab").click(reseizeSideBar);
+$("#notificationtab").click(reseizeSideBar);
+$("#notificationtab").click(reseizeSideBar);
+$("#notificationtab").click(reseizeSideBar);
+$("#notificationtab").click(reseizeSideBar);
 
 </script>
