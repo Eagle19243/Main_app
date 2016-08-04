@@ -20,6 +20,14 @@ module ApplicationHelper
     image_tag gravatar_image_url(project.title, size: size), title: title, class: 'img-rounded'
   end
 
+  def landing_page?
+    controller.controller_name.eql?('visitors') && !controller.action_name.eql?('landing')
+  end
+
+  def landing_class
+    'class=landing' if landing_page?
+  end
+
   def access_wallet
     begin
       settings = YAML.load_file("#{Rails.root}/config/application.yml")
@@ -32,6 +40,7 @@ module ApplicationHelper
       Rails.logger.info e.message
     end
   end
+
   def convert_usd_to_btc_and_then_satoshi(usd)
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
@@ -43,6 +52,7 @@ module ApplicationHelper
       "error"
     end
   end
+
   def get_current_btc_rate
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
@@ -52,7 +62,4 @@ module ApplicationHelper
       "error"
     end
   end
-
-
-
 end

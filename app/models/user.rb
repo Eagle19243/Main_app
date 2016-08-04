@@ -21,7 +21,11 @@ class User < ActiveRecord::Base
   has_many :assignments, dependent: :delete_all
   has_many :donations
   has_many :proj_admins, dependent: :delete_all
-
+  # a user can belong to many institutions, the join table for this has been named :institution_users
+  has_many :institution_users
+  has_many :institutions, :through => :institution_users
+  # users can send each other profile comments
+  has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
 
   def create_activity(item, action)
     activity = activities.new
@@ -41,8 +45,15 @@ class User < ActiveRecord::Base
     assignment
   end
 
+  def location
+    [city, country].compact.join(' / ')
+  end
 
+  def completed_tasks_count
+    assignments.completed.count
+  end
 
-
-
+  def funded_projects_count
+    donations.joins(:task).pluck('tasks.project_id').uniq.count
+  end
 end

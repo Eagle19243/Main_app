@@ -1,0 +1,17 @@
+<%# navigation styled for Zurb Foundation 5 %>
+<nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <strong><%= link_to 'WeServe', root_path, data: { no_turbolink: true } %></strong>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+  </ul>
+  <div class="top-bar-section">
+    <ul>
+      <%= render 'layouts/no_turbolinks_navigation_links' %>
+    </ul>
+    <ul class="right">
+        <%= render 'layouts/no_turbolinks_nav_links_for_auth' %>
+    </ul>
+  </div>
+</nav>
