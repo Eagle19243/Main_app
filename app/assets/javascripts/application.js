@@ -41,18 +41,18 @@ $(document).off('page:load').on('page:load', function() {
 // https://coderwall.com/p/ii0a_g/page-reload-refresh-every-5-sec-using-turbolinks-js-rails-jquery
 // this code may be removed without harmful side effects
 // https://engineering.onlive.com/2014/02/14/turbolinks-the-best-thing-you-wont-ever-use-in-rails-4/
-$(document).on('ready page:load', function() {
-    var REFRESH_INTERVAL_IN_MILLIS = 5000;
-     if ($('.f-pending-message').length >= 0) {
-       setTimeout(function(){
-        //disable page scrolling to top after loading page content
-        Turbolinks.enableTransitionCache(true);
-
-        // pass current page url to visit method
-        Turbolinks.visit(location.toString());
-
-        //enable page scroll reset in case user clicks other link
-        Turbolinks.enableTransitionCache(false);
-         }, REFRESH_INTERVAL_IN_MILLIS);
-    }
-});
+// $(document).on('ready page:load', function() {
+//     var REFRESH_INTERVAL_IN_MILLIS = 5000;
+//      if ($('.f-pending-message').length >= 0) {
+//        setTimeout(function(){
+//         //disable page scrolling to top after loading page content
+//         Turbolinks.enableTransitionCache(true);
+//
+//         // pass current page url to visit method
+//         Turbolinks.visit(location.toString());
+//
+//         //enable page scroll reset in case user clicks other link
+//         Turbolinks.enableTransitionCache(false);
+//          }, REFRESH_INTERVAL_IN_MILLIS);
+//     }
+// });
