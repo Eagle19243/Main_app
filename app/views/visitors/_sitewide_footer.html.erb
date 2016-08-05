@@ -1,3 +1,15 @@
+<% unless user_signed_in? %>
+  <div id="SignInModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+  <div id="SignUpModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+<% end %>
+
 
 <header class="user-menu">
   <nav class="top-bar" data-topbar role="navigation">
@@ -60,13 +72,16 @@
           <h1 style="font-weight:bold; color: white;">WeServe</h1>
         </li>
         <li class="active">
-          <p style="font-weight:bold; color: white;">2016</p>
+          <h1 style="font-weight:bold; color: white;">2016</h1>
         </li>
       </ul>
     </section>
   </nav>
 </header>
 <br>
+
+
+
 
 <!-- <link rel="stylesheet" href="/static/footer/css/foundation.css"> -->
 <link rel="stylesheet" href="/static/footer/css/style.css">
