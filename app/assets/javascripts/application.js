@@ -23,6 +23,7 @@
 //= require react
 //= require react_ujs
 //= require components
+//= require zeroclipboard
 //= require_tree .
 // $(function() {
 //   $(document).foundation();

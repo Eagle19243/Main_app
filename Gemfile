@@ -30,6 +30,8 @@ gem 'validates_timeliness', '~> 4.0'
 gem 'puma'
 
 gem 'react-rails'
+gem 'zeroclipboard-rails'
+gem 'rufus-scheduler'
 
 # Add this if you're using rbenv
 # gem 'capistrano-rbenv', github: "capistrano/rbenv"
