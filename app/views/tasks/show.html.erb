@@ -32,6 +32,7 @@
     <p><h2><em>$<%= @task.current_fund %></em></h2>
          <h6 class="subheader">Raised</h6></p>
 
+
          <p>
      <h2><em>$<%= @task.budget %></em></h2>
            <h6 class="subheader">Target</h6></p>
@@ -59,9 +60,26 @@
         </div>
   </div>
 
-
-
-
+<div class="row" style=" text-align: left;float:right;margin-right: 4% ;  border: 2px;border-style: solid;padding: 10px">
+<p>
+  <strong>Task Specific Bit Coin Address:</strong>
+<p id='fe_text'><%=@task.wallet_address.sender_address rescue 'Available soon'%></p>
+</p>
+<p>
+  <strong>Balance:</strong>
+  <% satoshi_to_btc = @task.wallet_address.current_balance.to_f/10**8.to_f rescue nil %>
+  <% btc_to_usd = satoshi_to_btc* get_current_btc_rate rescue nil %>
+  <%= satoshi_to_btc rescue '0.0' %>BTC
+  <sup style="color: #006400"><%= btc_to_usd.round(3) rescue nil %>  USD</sup>  </p>
+  <button class='btn btn-primary' data-clipboard-target='fe_text' data-clipboard-text='Default clipboard text from attribute' id='d_clip_button' title='copy to clipboard.'>
+    <b>Copy To Clipboard</b>
+  </button>
+  <a href=<%= wallet_transactions_new_path + '?id=' + @task.id.to_s %> >
+  <button class='btn btn-primary'>
+    <b>Release Funds</b>
+  </button>
+  </a>
+</div>
 
 
   <br>
@@ -142,10 +160,10 @@
     <br>
     <br>
     <%end%>
-    
 
+<script>
+  $(document).ready(function() {
+    var clip = new ZeroClipboard($("#d_clip_button"))
+  });
 
-
-
-
-
+</script>
