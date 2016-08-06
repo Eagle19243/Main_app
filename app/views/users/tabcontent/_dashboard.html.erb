@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>We Serve</title>
   <link rel="stylesheet" href="/static/userdashboard/css/foundation.css">
   <link rel="stylesheet" href="/static/userdashboard/css/app.css">
   <link rel="stylesheet" type="text/css" href="/static/userdashboard/css/font-awesome/css/font-awesome.min.css">
@@ -62,6 +61,20 @@
           <td><a href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Edit </a></td>
           <td><a href="#"><i class="fa fa-external-link" aria-hidden="true"></i> See Project</a></td>
         </tr>
+
+        <% @user.projects.each do |project| %>
+        <tr>
+          <td><%= project.title %></td>
+          <td><span class="green_font">$ 1000 </span>/ $ 8000</td>
+          <td><span class="green_font">3 </span>/ 10</td>
+          <td><span class="green_font">4 </span>/ 10</td>
+          <td>
+            <a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a>
+          </td>
+          <td><a href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Edit </a></td>
+          <td><a href="#"><i class="fa fa-external-link" aria-hidden="true"></i> See Project</a></td>
+        </tr>
+        <% end %>
       </table>
     </div>
     </div>
