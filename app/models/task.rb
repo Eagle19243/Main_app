@@ -50,10 +50,10 @@ class Task < ActiveRecord::Base
 			secure_label = SecureRandom.hex(5)
 			new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
 			Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
-			new_address_id = new_address["wallet"]["id"] rescue nil
+			new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID" unless Rails.env == "development"
 			puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
-			new_wallet_address_sender = api.create_address(wallet_id:new_address_id, chain: "0", access_token: access_token) rescue nil
-			new_wallet_address_receiver = api.create_address(wallet_id:new_address_id, chain: "1", access_token: access_token) rescue nil
+			new_wallet_address_sender = api.create_address(wallet_id:new_address_id, chain: "0", access_token: access_token) rescue "create address" unless Rails.env == "development"
+			new_wallet_address_receiver = api.create_address(wallet_id:new_address_id, chain: "1", access_token: access_token) rescue "address receiver" unless Rails.env == "development"
 			Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
 			Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
 			Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'  unless Rails.env == "development"

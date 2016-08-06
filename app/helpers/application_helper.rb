@@ -37,7 +37,7 @@ module ApplicationHelper
         access_token = settings['bitgo_admin']['access_token']
       end
     rescue => e
-      Rails.logger.info e.message
+      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
     end
   end
 

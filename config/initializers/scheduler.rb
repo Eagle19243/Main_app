@@ -11,7 +11,7 @@ scheduler.every '30s' do
 
     puts 'initializebitgo' unless Rails.env == "development"
 
-    puts api.inspect
+    puts api.inspect unless Rails.env == "development"
     # puts wallet.inspect
     puts 'inspecting' unless Rails.env == "development"
     batch_of_addresses = WalletAddress.all
