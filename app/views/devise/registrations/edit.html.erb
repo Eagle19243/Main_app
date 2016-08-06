@@ -1,6 +1,6 @@
 <%= render 'layouts/menu' %>
 
-<%= render "users/form" %>
+<%#= render "users/form" %>
 
 <div class="content edit-content">
   <h1 class="edit-header">Create new task</h1>
@@ -9,7 +9,7 @@
 
 
 <%#= render "users/oldform" %>
-<div class="authform column">
+<div class="authform">
 <h3>Cancel Account</h3>
 <p>Unhappy? We'll be sad to see you go.</p>
 <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button right' %>
