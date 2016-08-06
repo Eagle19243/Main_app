@@ -1,28 +1,64 @@
-<% content_for :customhead do %>
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foundation | Welcome</title>  
   <link href='http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
-  <link href="/static/project_page/css/foundation.css"rel="stylesheet">
-  <link href="/static/project_page/css/font-awesome.css"rel="stylesheet">
-  <link href="/static/project_page/css/style.css"rel="stylesheet">
+  <link href="css/foundation.css"rel="stylesheet"> 
+  <link href="css/font-awesome.css"rel="stylesheet">  
+  <link href="css/style.css"rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-  <script src="/static/project_page/js/vendor/modernizr.js"></script>
-<% end %>
-
-
-<% content_for :title do %>
-  WeServe > Project <%= @project.title %>
-<% end %>
-
-
-
-
-    <div class="top_banner text-center">
-      <div class="clearfix"></div>
-      <div class="banner_content text-center">
+  <script src="js/vendor/modernizr.js"></script>
+</head>
+<body>
+  <header>
+    <nav class="top-bar" data-topbar role="navigation">  
+      <ul class="title-area">
+        <li class="name logo ">
+          <h1><a href="#"><img src="./img/logo.png" alt="logo"></a></h1>
+        </li>
+         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      </ul>
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+         <li class="has-dropdown ">
+          <a href="#" class="no-line-height">
+            <div class="badge-wrap">
+              <i class="icon-bell-alt" aria-hidden="true"></i>
+              <span class="count">3</span>
+            </div>
+          </a>
+          <ul class="dropdown">
+            <li><a href="#">First link in dropdown</a></li>
+            <li class="active"><a href="#">Active link in dropdown</a></li>
+          </ul>
+          </li>       
+           <li class="has-dropdown">
+            <a href="#"><img src="./img/profilepic.png" alt="logo"></a>
+            <ul class="dropdown">
+              <li><a href="#">First link in dropdown</a></li>
+              <li class="active"><a href="#">Active link in dropdown</a></li>
+            </ul>
+          </li> 
+        </ul>
+        <!-- Left Nav Section -->
+        <ul class="left">
+          <li class="active"><a href="#">Start a Project</a></li>
+          <li class="active"><a href="#">Active Projects</a></li>
+        </ul>
+      </section>
+    </nav>
+  </header>
+    <div class="top_banner">
+      <div class="banner_content">        
         <div class="row">
-          <div class="medium-8 medium-offset-5">
+          <div class="medium-8 medium-offset-2">
             <div class="sub-title">
-              <span>By Caju <img src="/static/project_page/img/user.png">&nbsp;<i class="icon-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;Sao Paulo-BR</span>
+              <span>By Caju <img src="img/user.png">&nbsp;<i class="icon-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;Sao Paulo-BR</span>
             </div>
             <h2>Here goes the Project Title, the background image is the project image</h2>
             <div class="progress-widget progress-widget-lg">
@@ -60,10 +96,10 @@
           </div><!-- progress_widget -->
         </div>
       </div>
-    </div>
+    </div>        
     <div class="clearfix"></div>
     <a href="#" class="button round banner_button">Get Involved</a>
-  </div>
+    </div>
    <!-- Header banner end -->
     <dl class="tabs tabs-home" data-tab>
       <dd>
@@ -86,7 +122,7 @@
               <!-- A default button-group -->
               <ul class="button-group radius ">
                 <li><a href="#" class="button"><i class="icon-edit"></i>Edit</a></li>
-                <li><a href="#" class="button"><img src="/static/project_page/img/fund.png" alt="fund icon">Fund</a></li>
+                <li><a href="#" class="button"><img src="./img/fund.png" alt="fund icon">Fund</a></li>
                 <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
                 <li><a href="#" class="button">
                 <div class="star-rating-sm">
@@ -99,9 +135,9 @@
                 <li><a href="#" class="button add-fav"><i class="icon-star" aria-hidden="true"></i>&nbsp;Add to Favorites</a></li>
                 <li><a href="#" class="button">Share:
                 <div class="share_img" style="display: inline-block;">
-                  <img src="/static/project_page/img/fb.jpg">
-                  <img src="/static/project_page/img/twitter.jpg">
-                  <img src="/static/project_page/img/linkedin.jpg">
+                  <img src="img/fb.jpg">
+                  <img src="img/twitter.jpg">
+                  <img src="img/linkedin.jpg">
                 </div>
                 </a></li>
               </ul>
@@ -120,7 +156,7 @@
             <div class="small-12 medium-5 columns">
               <div class="flex-video">
                 <iframe width="460" height="250" src="https://www.youtube.com/embed/sBWPCvdv8Bk?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-              </div>
+              </div>                            
             </div>
           </div>
         </section>
@@ -298,10 +334,12 @@
       </div>
     </div>
 
-    <script src="/static/project_page/js/vendor/jquery.js"></script>
-    <script src="/static/project_page/js/foundation.min.js"></script>
-    <script src="/static/project_page/js/foundation/foundation.topbar.js"></script>
-    <script src="/static/project_page/js/foundation/foundation.tab.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="js/foundation/foundation.topbar.js"></script>
+    <script src="js/foundation/foundation.tab.js"></script>
     <script>
       $(document).foundation();
     </script>
+  </body>
+</html>
