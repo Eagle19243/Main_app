@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.boolean  "assigned",                      default: false
     t.text     "proof_of_execution"
     t.text     "short_description"
+    t.boolean  "marker",                        default: false
   end
 
   create_table "teams", force: :cascade do |t|
