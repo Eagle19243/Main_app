@@ -4,4 +4,10 @@ module UsersHelper
     result += ' - ' if result.present?
     result += "Member since #{@user.created_at.strftime('%B %Y')}"
   end
+
+  def project_budget(project)
+    budget = 0
+    project.tasks.to_a.each { |task|  budget += task }
+    budget
+  end
 end
