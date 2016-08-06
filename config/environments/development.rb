@@ -61,4 +61,8 @@ Rails.application.configure do
   # https://github.com/reactjs/react-rails
   config.react.variant  = :development
   config.react.addons = true # defaults to false
+
+  # temporarily disable activerecord logging
+  # this should be switched back on once we figure out a way for it to play nice with the Bitcoin
+  config.active_record.logger = nil
 end
