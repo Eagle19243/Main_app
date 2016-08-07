@@ -64,5 +64,5 @@ Rails.application.configure do
 
   # temporarily disable activerecord logging
   # this should be switched back on once we figure out a way for it to play nice with the Bitcoin
-  config.active_record.logger = nil
+  # config.active_record.logger = nil
 end

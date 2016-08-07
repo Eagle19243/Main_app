@@ -14,7 +14,13 @@ scheduler.every '30s' do
     puts api.inspect unless Rails.env == "development"
     # puts wallet.inspect
     puts 'inspecting' unless Rails.env == "development"
-    batch_of_addresses = WalletAddress.all
+
+    ActiveRecord::Base.logger.silence do
+      # do a lot of querys without noisy logs
+      batch_of_addresses = WalletAddress.all
+      puts "this is where we would have some nasty logs"
+    end
+
     # puts batch_of_addresses
     unless batch_of_addresses.blank?
       batch_of_addresses.each do|this_address|
