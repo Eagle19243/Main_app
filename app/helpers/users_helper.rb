@@ -10,4 +10,8 @@ module UsersHelper
     project.tasks.to_a.each { |task|  budget += task }
     budget
   end
+
+  def aliases_as
+    "Silva, haha"
+  end
 end

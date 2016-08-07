@@ -1,3 +1,5 @@
+include UsersHelper
+
 class UsersController < ApplicationController
   layout "application2", only: [:profile]
   before_action :authenticate_user!, :except => :show
