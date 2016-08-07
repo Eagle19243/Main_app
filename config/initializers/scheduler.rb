@@ -18,7 +18,6 @@ scheduler.every '30s' do
     ActiveRecord::Base.logger.silence do
       # do a lot of querys without noisy logs
       batch_of_addresses = WalletAddress.all
-      puts "this is where we would have some nasty logs"
     end
 
     # puts batch_of_addresses
