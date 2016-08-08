@@ -7,14 +7,14 @@ module UsersHelper
 
   def project_budget(project)
     budget = 0
-    project.tasks.to_a.each { |task|  budget += task }
+    project.tasks.to_a.each { |task|  budget += task.budget.to_i }
     budget
   end
 
   def project_funded(project)
     funded = 0
-    project.tasks.to_a.each { |task|  budget += task }
-    budget
+    project.tasks.to_a.each { |task|  budget += task.current_fund.to_i }
+    funded
   end
 
   def aliases_as
