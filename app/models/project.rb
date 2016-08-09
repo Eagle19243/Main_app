@@ -11,7 +11,7 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :delete_all
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
-
+  has_one :chat_room
   belongs_to :user
   belongs_to :institution
 

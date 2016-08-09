@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'chat_rooms/create_room'
+  get 'assignments/update_collaborator_invitation_status'
+
+
   resources :profile_comments
   resources :plans
   resources :notifications do
@@ -82,10 +86,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :conversations do
+ # resources :conversations do
     resources :messages
-  end
-
+ # end
+  get 'messages/create_chat_room'
   get 'dashboard' => 'dashboard'
 
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed

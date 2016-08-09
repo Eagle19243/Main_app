@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   mount_uploader :picture, PictureUploader
-
+  after_create :populate_guid_and_token
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
@@ -55,5 +55,14 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
+    end
+  def populate_guid_and_token
+    random = SecureRandom.uuid()
+    arbitraryAuthPayload = { :uid => random,:auth_data => random, :other_auth_data => self.created_at.to_s}
+    generator = Firebase::FirebaseTokenGenerator.new("ZWx3jy7jaz8IuPXjJ8VNlOMlOMGFEIj0aHNE7tMt")
+    random2 = generator.create_token(arbitraryAuthPayload)
+    self.guid = random
+    self.chat_token = random2
+    self.save
   end
 end
