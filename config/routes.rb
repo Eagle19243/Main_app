@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'projects/featured'
   resources :do_requests do
     member do
       get :accept, :reject
@@ -50,6 +51,8 @@ Rails.application.routes.draw do
   resources :activities, only: [:index]
   resources :wikis
   resources :tasks
+
+
   resources :projects do
     resources :tasks do
   	 resources :task_comments

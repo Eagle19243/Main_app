@@ -158,8 +158,6 @@ class ProjectsController < ApplicationController
 
   end
 
-
-
   def reject
     @project = Project.find(params[:id])
     if @project.reject!
@@ -170,7 +168,6 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project could not be rejected"
     end
     redirect_to current_user
-
   end
 
   # DELETE /projects/1
@@ -183,6 +180,10 @@ class ProjectsController < ApplicationController
       format.html { redirect_to dashboard_path, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def featured
+
   end
 
   private
