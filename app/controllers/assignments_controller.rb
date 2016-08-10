@@ -22,7 +22,7 @@ class AssignmentsController < ApplicationController
 def update_collaborator_invitation_status
  unless params[:collaborator_ids].blank?
 	 params[:collaborator_ids].each do |user_id|
-		 user = Assignment.where(user_id: user_id.to_i).first rescue nil
+		 user = Assignment.where(user_id: user_id.to_i  ).last rescue nil
 		 unless user.blank?
 			 user.update_attribute('invitation_sent', true)
 		 end
