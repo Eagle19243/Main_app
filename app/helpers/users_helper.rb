@@ -23,6 +23,13 @@ module UsersHelper
     members_count
   end
 
+  # different from the actual count, how many team members would the project owner like to have
+  def team_members_count_target(project)
+    members_count = 0
+    members_count = project.team.member_count_target
+    members_count
+  end
+
   def aliases_as
     "Silva, haha"
   end
