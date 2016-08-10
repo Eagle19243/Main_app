@@ -1,4 +1,6 @@
 
+<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+<%= javascript_include_tag 'firechat_merged' %>
 
 <script type='text/javascript'>
 
@@ -25,7 +27,7 @@
     console.log('Sending invitation to collaborators')
     <%@task.assignments.each do |collaborater|%>
     <%if collaborater.invitation_sent.blank?%>
-    chat.inviteUser('<%= collaborater.user_id%>', '<%= @task.project.chat_room.room_id %>');
+    chat.inviteUser(<%= collaborater.user_id%>, '<%= @task.project.chat_room.room_id %>');
     <%end%>
     <%end%>
   });
