@@ -17,6 +17,12 @@ module UsersHelper
     funded
   end
 
+  def team_members_count(project)
+    members_count = 0
+    members_count = project.team.members.count
+    members_count
+  end
+
   def aliases_as
     "Silva, haha"
   end
