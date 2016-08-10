@@ -6,7 +6,7 @@
 
     <script type='text/javascript'>
 
-  alert('executing code');
+  //alert('executing code');
 
   var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
   firechatRef.auth('<%= current_user.chat_token %>');
@@ -24,15 +24,15 @@
           type: "get", //send it through get method
           data:{project_id:<%=@project.id %>, room_id: roomId },
           success: function(response) {
-            $("chat_success").innerHTML='<p> seccessfully create chat room </p>';
+            $("chat_success").innerHTML='seccessfully create chat room ';
           },
           error: function(xhr) {
-            $("chat_success").innerHTML='<p>  Error in  chat room creation </p>';
+            $("chat_success").innerHTML=' Error in  chat room creation ';
           }
         });
         console.log("Created room "+roomId);
         chat.enterRoom(roomId)
-        console.log('Sending invitation to collaborators')
+ //       console.log('Sending invitation to collaborators')
 //        chat.inviteUser('1', roomId, function(invitation_id){
 //          if(invitation_id){
 //            console.log(invitation_id)
@@ -45,11 +45,11 @@
     });
   });
 
-  alert('executing code');
+ // alert('executing code');
 </script>
     <% end %>
 
-<div id="chat_success">ali jbdjkshj</div>
+<div id="chat_success"></div>
 <%if @project.pending? %>
 
   <% if user_signed_in? %>
