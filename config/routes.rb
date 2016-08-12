@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   end
 
   get 'projects/featured'
+  get '/projects/:id/old', to: 'projects#old_show'
   resources :do_requests do
     member do
       get :accept, :reject

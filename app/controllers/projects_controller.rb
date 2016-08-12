@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
-  before_action :get_project_user, only: [:show, :htmlshow]
+  before_action :set_project, only: [:show, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
+  before_action :get_project_user, only: [:show, :htmlshow, :old_show]
 
   # GET /projects
   # GET /projects.json
@@ -35,6 +35,17 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
     end
 
+  end
+
+  # old project page
+  # GET /projects/1/old 
+  def old_show
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
   end
 
   # GET /projects/new
@@ -183,7 +194,7 @@ class ProjectsController < ApplicationController
   end
 
   def featured
-
+    @featured_projects = Project.get_featured_projects
   end
 
   private
