@@ -1,21 +1,10 @@
-
+<% if  current_user.id == @task.user_id    &&  @task.assignments.last.invitation_sent.blank? %>
 <script src="https://cdn.firebase.com/v0/firebase.js"></script>
 <%= javascript_include_tag 'firechat_merged' %>
 
 <script type='text/javascript'>
 
 
-  $.ajax({
-    url: "/assignments/update_collaborator_invitation_status",
-    type: "get", //send it through get method
-    data:{collaborator_ids:<%= @task.assignments.collect(&:user_id)%> },
-    success: function(response) {
-//      Show success Div if collaborative added
-    },
-    error: function(xhr) {
-//      Error Div
-    }
-  });
 
   var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
   firechatRef.auth('<%= current_user.chat_token %>');
@@ -23,19 +12,28 @@
 
   var chat = new Firechat(firechatRef);
   chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
-    chat.enterRoom('<%= @task.project.chat_room.room_id %>')
-    console.log('Sending invitation to collaborators')
-    <%@task.assignments.each do |collaborater|%>
-    <%if collaborater.invitation_sent.blank?%>
-    chat.inviteUser(<%= collaborater.user_id%>, '<%= @task.project.chat_room.room_id %>');
-    <%end%>
+    chat.enterRoom('<%= @task.project.chat_room.room_id %>');
+    console.log('Sending invitation to collaborators');
+    <%if @task.assignments &&  @task.assignments.last.invitation_sent.blank?  %>
+      chat.inviteUser(<%= @task.assignments.last.user_id%>, '<%= @task.project.chat_room.room_id %>');
+      $.ajax({
+        url: "/assignments/update_collaborator_invitation_status",
+        type: "get", //send it through get method
+        data:{collaborator_ids:<%= @task.assignments.last.user_id rescue nil  %> },
+        success: function(response) {
+
+        },
+        error: function(xhr) {
+        }
+      });
+
     <%end%>
   });
 
 
 
 </script>
-
+<% end %>
 
 
 
