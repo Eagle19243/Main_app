@@ -33,6 +33,7 @@ gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
 
+gem 'video_info'
 # Add this if you're using rbenv
 # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 

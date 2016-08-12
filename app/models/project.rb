@@ -31,6 +31,15 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
+  def video_url
+    video_id ||= "H30roqZiHRQ"
+    "https://www.youtube.com/embed/#{video_id}"
+  end
+
+  def self.get_featured_projects
+    Project.last(5)
+  end
+
   def country_name
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name

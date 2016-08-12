@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731005904) do
+ActiveRecord::Schema.define(version: 20160812211627) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.string   "institution_location"
     t.string   "short_description"
     t.string   "institution_country"
+    t.string   "video_id"
   end
 
   create_table "task_comments", force: :cascade do |t|
