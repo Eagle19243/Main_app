@@ -41,9 +41,9 @@ module UsersHelper
   end
 
   def project_calculus
-    
-    '
 
+    '
+    <% task = Task.last %>
     <div class="progress-bar">
       <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
     </div>
