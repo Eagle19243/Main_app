@@ -67,7 +67,7 @@
         <% @user.projects.each do |project| %>
         <tr>
           <td><%= project.title %></td>
-          <td><span class="green_font">$ 1000 </span>/ $ 8000</td>
+          <td><span class="green_font">$ <%= project_funded(project) %> </span>/ $ 8000</td>
           <td><span class="green_font">3 </span>/ 10</td>
           <td><span class="green_font">4 </span>/ 10</td>
           <td>
