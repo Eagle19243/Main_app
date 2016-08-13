@@ -13,7 +13,7 @@ module UsersHelper
 
   def project_funded(project)
     funded = 0
-    project.tasks.to_a.each { |task|  budget += task.current_fund.to_i }
+    project.tasks.to_a.each { |task|  budget += task.current_fund.try(:to_i) }
     funded
   end
 
