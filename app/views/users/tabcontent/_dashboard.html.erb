@@ -1,6 +1,6 @@
 <h1>Dashboard by <%= aliases_as %></h1>
-
-<%= project_calculus.html_safe %>
+<% task = Task.last %>
+<%= render inline: project_calculus, task: task %>
 
 <% content_for :customhead do %>
   <meta charset="utf-8">

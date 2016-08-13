@@ -41,7 +41,7 @@ module UsersHelper
   end
 
   def project_calculus
-    task = Task.last
+    
     '
 
     <div class="progress-bar">
