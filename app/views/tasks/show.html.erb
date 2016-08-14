@@ -1,4 +1,4 @@
-<% if  current_user.id == @task.user_id    &&  @task.assignments.last.invitation_sent.blank? %>
+<% if @task.assignments.present? && current_user.id == @task.user_id    &&  @task.assignments.last.invitation_sent.blank? %>
 <script src="https://cdn.firebase.com/v0/firebase.js"></script>
 <%= javascript_include_tag 'firechat_merged' %>
 
@@ -14,7 +14,7 @@
   chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
     chat.enterRoom('<%= @task.project.chat_room.room_id %>');
     console.log('Sending invitation to collaborators');
-    <%if @task.assignments &&  @task.assignments.last.invitation_sent.blank?  %>
+    <%if    @task.assignments.last.invitation_sent.blank?  %>
       chat.inviteUser(<%= @task.assignments.last.user_id%>, '<%= @task.project.chat_room.room_id %>');
       $.ajax({
         url: "/assignments/update_collaborator_invitation_status",
@@ -24,6 +24,7 @@
 
         },
         error: function(xhr) {
+          
         }
       });
 
