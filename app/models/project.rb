@@ -31,20 +31,6 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
-  def video_url
-    video_id ||= "H30roqZiHRQ"
-    "https://www.youtube.com/embed/#{video_id}"
-  end
-
-  def self.get_featured_projects
-    Project.last(5)
-  end
-
-  def country_name
-    country = ISO3166::Country[country_code]
-    country.translations[I18n.locale.to_s] || country.name
-  end
-
   aasm column: 'state', whiny_transitions: false do
     state :pending
     state :accepted
@@ -59,11 +45,45 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def video_url
+    video_id ||= "H30roqZiHRQ"
+    "https://www.youtube.com/embed/#{video_id}"
+  end
+
+  def self.get_featured_projects
+    Project.last(6)
+  end
+
+  def country_name
+    country = ISO3166::Country[country_code]
+    country.translations[I18n.locale.to_s] || country.name
+  end
+
   def location
     "#{institution_location} - #{institution_country}"
   end
 
   def needed_budget
     tasks.sum(:budget)
+  end
+
+  def funded_budget
+    tasks.sum(:current_fund)
+  end
+
+  def funded_percentages
+    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + "%"   
+  end
+
+  def accepted_tasks
+    tasks.where(state: 'accepted')
+  end
+
+  def tasks_relations_string 
+    accepted_tasks.count.to_s + "/" + tasks.count.to_s
+  end
+
+  def team_relations_string
+    tasks.sum(:number_of_participants).to_s + "/" + tasks.sum(:target_number_of_participants).to_s
   end
 end
