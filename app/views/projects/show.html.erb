@@ -1,111 +1,218 @@
 <%= render 'layouts/menu' %>
-<%if @project.pending? %>
-
-  <% if user_signed_in? %>
-    <% if current_user.admin? %>
-    <%= link_to "Reject request", reject_project_path(@project.id), :data => { :confirm => "Are you sure?" }, class:"button tiny alert radius" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Accept request", accept_project_path(@project.id), class:"button tiny success radius right" %>
-    <%end%>
-  <%end%>
-<%end%>
-
-<div class="project-hero">
-  <h2>
-    <%= @project.title %>
-    <% if @project.pending? %><span>Pending</span><% end %>
-  </h2>
-</div>
-
-<% if user_signed_in? %>
-  <% if current_user.admin? || (current_user == @project.user) %>
-    <div class="admin-actions">
-      <div>
-        <p><strong>Admin actions</strong></p>
-        <%= link_to 'Edit project', edit_project_path(@project), class:"button small radius" %>&nbsp;
-        <%= link_to 'Create project article', new_wiki_path(project_id: @project.id), class:"button small radius" %>&nbsp;
-        <%= link_to 'Create task', new_task_path(project_id: @project.id), class:"button small radius" %>&nbsp;
-        <%= link_to 'Delete project', project_path(@project),method: :delete, data: { confirm: 'Are You Sure ? If project tasks have already been funded, you will have to delete the tasks first and donors will be refunded'}, class:"button small radius warning" %>
-      </div>
-    </div>
-
-  <% end %>
-<% end %>
-
-<!-- React Tabs Render -->
-
-  <% if current_user == @project.user%>
-    <% projectOwner = current_user %>
-  <% else %>
-    <% projectOwner = false %>
-  <% end %>
-
-  <div class="items">
-    <%= react_component('ProjectData', {projectAdminsIds: @proj_admins_ids, currentUserId: @current_user_id, project: @project, projectUser: @project_user, projectOwner: projectOwner}) %>
-  </div>
-
-  <div style="clear:both"></div>
-    <% @project.project_edits.each do |project_edit| %>
-      <% if project_edit.aasm_state == "pending" %>
-        <div class="admin-actions actions" id=<%= "project-edit-#{project_edit.id}"%>>
-          <p id="edit-desc"><strong>Suggested Version by <%= link_to project_edit.user.name, project_edit.user %>:</strong><br /> <%= project_edit.description.try(:html_safe) %></p>
-          <button data-accepts-edit='<%= project_edit.id %>' id="acceptEditBtn" class="button tiny radius success">Accept</button>
-          <button data-rejects-edit='<%= project_edit.id %>' id="rejectEditBtn" class="button tiny radius alert">Reject</button>
+    <div class="top_banner" id="top_banner" style="background: url(<%= @project.picture%>)">
+      <div class="banner_content" style="text-align: center;">        
+        <div class="row">
+          <div class="medium-8 medium-offset-2">
+            <div class="sub-title">
+              <span>
+                By <%= @project.user.name %> 
+                <% if @project.user.picture? %>
+                  <%= image_tag(@project.user.picture.url, size: "35x35") %>
+                <% else %>
+                  <%= gravatar_for(@project.user, 35)%>
+                <%end%>      
+                <i class="icon-map-marker" aria-hidden="true"></i>
+                &nbsp;&nbsp;<%= @project.location%>
+              </span>
+            </div>
+            <h2><%= @project.title%></h2>
+            <div class="progress-widget progress-widget-lg">
+              <div class="progress progress-home task_bar">
+                <span class="meter" style="<%= @project.funded_percentages%>"></span>
+              </div>
+              <div class="row prgress-values-wrapper">
+                <div class="prgress_values_block small-6  medium-2 columns">
+                  <div class="progress_values ">
+                    <p><%= @project.funded_percentages%>
+                    <span>Funded</span></p>
+                  </div>
+                </div>
+              <div class="prgress_values_block small-6  medium-2 columns no-pad">
+                <div class="progress_values">
+                  <p><%= @project.tasks_relations_string %>
+                  <span>Completed Task</span></p>
+                </div>
+              </div>
+              <div class="prgress_values_block small-6  medium-2 columns">
+                <div class="progress_values">
+                  <p><%= @project.team_relations_string %>
+                  <span>Teamates</span></p>
+                </div>
+              </div>
+              <div class="prgress_values_block small-6  medium-2 columns">
+                <div class="progress_values">
+                  <p>$<%= @project.funded_budget %>
+                  <span>Raised</span></p>
+                </div>
+              </div>
+              <div class="medium-2 columns"></div>
+              <div class="medium-2 columns"></div>
+            </div>
+          </div><!-- progress_widget -->
         </div>
-        <br />
-      <% end %>
-    <%end%>
-
-
-<!-- END  -->
-
-
-<div class="project-tasks-header">
-  <h2>Tasks</h2>
-  <p><span><%= @project.tasks.count %></span> being funded, <span>0</span> completed</p>
-</div>
-
-<div class="project-tasks-show">
-  <% @project.tasks.each do |task| %>
-    <div class="task-view">
-      <h4><%= link_to task.title, task %></h4>
-      <div>
-        <p><%= task.description %></p>
       </div>
-      <div class="progress-bar">
-        <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
-      </div>
-      <span class="left">
-        <strong>$<%= task.current_fund.to_i %></strong> funded
-      </span>
-      <span class="right">
-        <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
-      </span>
-      <div class="do-buttons">
-       <%=link_to "Do this task", new_do_request_path(task_id: task.id,free: false), class:"button small radius blue" %>&nbsp;<%=link_to "Do for free", new_do_request_path(task_id: task.id,free: true), class:"button small radius blue" %>&nbsp;<%=link_to "Fund this task", new_donation_path(task_id: task.id), class:"button small radius green" %>
-       </div>
+    </div>        
+    <a href="#" class="button round banner_button">Get Involved</a>
     </div>
-  <% end %>
-</div>
+   <!-- Header banner end -->
+    <div id="project_menu">
+      <dl class="tabs tabs-home" data-tab>
+        <dd>
+          <a class="project_menu_btn" href="#panel1">
+            <span class="project_title">Project Menu <i class="icon-double-angle-right"></i></span>
+          </a>
+        </dd>
+        <dd class="active active_tab">
+          <a class="active_tab" href="#panel2">Plan</a>
+        </dd>
+        <dd class="active active_tab">
+          <a class="active_tab" href="#panel3">
+            Tasks
+            <span>
+              <%= @project.tasks_relations_string %>
+            </span>
+          </a>
+        </dd>
+        <dd class="active active_tab">
+          <a class="active_tab" href="#panel4">Team<span>(<%= @project.team_relations_string %>)</span></a>
+        </dd>
+      </dl>
+    </div>
+    <div class="tabs-content">
+      <div class="content" id="panel1">
+        <h2>Comming Soon</h2>
+      </div>
+      <div class="content active" id="panel2">
+        <div class="row">
+          <div class="medium-12 columns">
+            <div class="social_bar">
+              <!-- A default button-group -->
+              <ul class="button-group radius ">
+                <li>
+                  <%= link_to edit_project_path(@project), :class => "button" do %>
+                    <i class="icon-edit"></i>
+                    Edit
+                  <% end %>
+                </li>
+                <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
+                <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
+                <li><a href="#" class="button">
+                <div class="star-rating-sm">
+                  <i class="icon-star seleted" aria-hidden="true"></i>
+                  <i class="icon-star seleted" aria-hidden="true"></i>
+                  <i class="icon-star seleted" aria-hidden="true"></i>
+                  <i class="icon-star seleted" aria-hidden="true"></i>
+                  <i class="icon-star" aria-hidden="true"></i>
+                </div>&nbsp;Rank it</a></li>
+                <li><a href="#" class="button">Share:
+                <div class="share_img" style="display: inline-block;">
+                  <img src="/assets/fb.jpg">
+                  <img src="/assets/twitter.jpg">
+                  <img src="/assets/linkedin.jpg">
+                </div>
+                </a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <section class="blog" id="project_description">
+          <div class="row">
+            <div class="small-12 medium-7 columns">
+            <div class="text_blog">
+              <%= @project.description%>
+              </div>
+            </div>
+            <div id="project_video" class="small-12 medium-5 columns">
+              <div class="flex-video">
+                <iframe width="460" height="250" src="<%= @project.video_url%>" frameborder="0" allowfullscreen></iframe>
+              </div>                            
+            </div>
+          </div>
+        </section>
+        <br />
+        <div class="row">
+          <div class="small-12 medium-8 columns">
+            <div class="table_contents">
+              <h3 class="table_border">Table of Contents</h3>
+              <div class="table_body">
+                <ul>
+                  <li>
+                    <a href="#project_menu">Project Menu</a>
+                  </li>
+                  <li>
+                    <a href="#top_banner">Get Involved</a>
+                  </li>
+                  <li>
+                    <a href="#project_tasks">Tasks</a>
+                  </li>
+                  <li>
+                    <a href="#project_description">Description</a>
+                  </li>
+                  <li>
+                    <a href="#project_video">Project Video</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="small-12 medium-4 columns" id="project_tasks">
+            <div class="task_border ">
+              <h3 class="task_title left">Tasks</h3>
+              <a href="#panel3" class="button round task_btn btn-see-all right">See all</a>
+            </div>
+            <% @project.tasks.each do |task| %>
+              <div class="task_content clearfix">
+                <h3><%= task.title%></h3>
+                <p><%=task.description %></p>
 
-<% if user_signed_in? && false %>
-  <div class="comment-builder">
-    <%= form_for  [@project, @project.project_comments.build] do |f| %>
-
-
-      <p>
-        <%= f.label :body, "Comment on Project" %>
-        <%= f.text_area :body, :class => "tinymce" %>
-      </p>
-      <%= f.hidden_field :project_id, value: @project.id %>
-      <%= f.hidden_field :user_id, value: current_user.id %>
-
-      <p>
-        <%= f.submit 'Submit', class: 'button small blue radius float-right' %>
-      </p>
-    <% end %>
-  </div>
-<% end %>
-
-
-<br>
-<%= render 'project_details' %>
+                <div class="row">
+                  <div class="small-12 medium-9 columns">
+                    <div class="progress task_bar">
+                      <span class="meter" style="width:<%= task.funded%>"></span>
+                    </div>
+                    <div class="prgress_values_block">
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">$<%= task.funded%>
+                        <span>Funded</span></p>
+                      </div>
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">State
+                          <span><%= task.state%></span>
+                        </p>
+                      </div>
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">
+                          <%= task.team_relations_string%>
+                          <span>Teamates</span>
+                        </p>
+                      </div>
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">
+                          <%= task.budget%>  
+                          <span>Needed</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-12 medium-3 columns">
+                    <a href="#" class="pull-right button round task_btn fund_btn">FUND</a>
+                    <a href="#" class="pull-right button round task_btn do_btn">DO</a>
+                  </div>
+                </div>
+              </div>
+              <hr class="custom_hr">
+            <% end %>   
+            <% if @project.tasks.count == 0 %>
+              <h4>There are no tasks yet!</h4>
+            <% end %>          
+          </div>
+        </div>
+      </div>
+      <div class="content" id="panel3">
+        <h2>Comming Soon</h2>
+      </div>
+      <div class="content" id="panel4">
+        <h2>Comming Soon</h2>
+      </div>
+    </div>
 <%= render 'visitors/sitewide_footer' %>
