@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160812211627) do
+ActiveRecord::Schema.define(version: 20160814131024) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -230,8 +230,8 @@ ActiveRecord::Schema.define(version: 20160812211627) do
     t.string   "filefour"
     t.string   "filefive"
     t.string   "state"
-    t.integer  "number_of_participants"
-    t.integer  "target_number_of_participants"
+    t.integer  "number_of_participants",        default: 0
+    t.integer  "target_number_of_participants", default: 0
     t.boolean  "assigned",                      default: false
     t.text     "proof_of_execution"
     t.text     "short_description"
