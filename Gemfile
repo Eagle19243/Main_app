@@ -32,7 +32,10 @@ gem 'puma'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
-
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
 # Add this if you're using rbenv
 # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 
