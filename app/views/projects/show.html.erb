@@ -97,13 +97,14 @@
                 <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
                 <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
                 <li><a href="#" class="button">
-                <div class="star-rating-sm">
-                  <i class="icon-star seleted" aria-hidden="true"></i>
-                  <i class="icon-star seleted" aria-hidden="true"></i>
-                  <i class="icon-star seleted" aria-hidden="true"></i>
-                  <i class="icon-star seleted" aria-hidden="true"></i>
-                  <i class="icon-star" aria-hidden="true"></i>
-                </div>&nbsp;Rank it</a></li>
+                  <div class="star-rating-sm">
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star" aria-hidden="true"></i>
+                  </div>&nbsp;Rank it
+                </a></li>
                 <li><a href="#" class="button">Share:
                 <div class="share_img" style="display: inline-block;">
                   <img src="/assets/fb.jpg">
@@ -111,6 +112,10 @@
                   <img src="/assets/linkedin.jpg">
                 </div>
                 </a></li>
+                <li>
+                  <%= render 'favorite_projects/favorite_button' %>
+                  
+                </li>
               </ul>
             </div>
           </div>
