@@ -7,9 +7,6 @@
 
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f| %>
     <h3>Sign in</h3>
-      <%= link_to image_tag("facebook.jpg",:size => "30x30"), user_omniauth_authorize_path(:facebook) %>|
-     <%= link_to image_tag("twitter.jpg",:size => "30x30"), user_omniauth_authorize_path(:twitter) %> |
-       <%= link_to image_tag("gmail.jpg",:size => "30x30"), user_omniauth_authorize_path(:google_oauth2) %>  |
     <%= devise_error_messages! %>
     <div class="form-group">
       <%- if devise_mapping.registerable? %>
