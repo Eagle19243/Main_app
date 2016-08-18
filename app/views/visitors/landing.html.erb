@@ -4,7 +4,8 @@
     <ul>
     <li>   <%= link_to image_tag("fb.jpg",:size => "30x30"), user_omniauth_authorize_path(:facebook) %></li>
     <li>  <%= link_to image_tag("twitter.jpg",:size => "30x30"), user_omniauth_authorize_path(:twitter) %> </li>
-    <li> <%= link_to image_tag("gmail.jpg",:size => "30x30"), user_omniauth_authorize_path(:google_oauth2) %> </li></ul>
+    <li> <%= link_to image_tag("gmail.jpg",:size => "30x30"), user_omniauth_authorize_path(:google_oauth2) %> </li>
+    </ul>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
   </div>
 
@@ -16,6 +17,35 @@
 
 <div>
   <%= render 'top_bar' %>
+  <div id="facebook_invite">
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <a href="#" onclick="FBInvite()">Invite Facebook Friends</a>
+    <script>
+      FB.init({
+        appId:'1741496422758329',
+        cookie:true,
+        status:true,
+        xfbml:true
+      });
+    </script>
+    <script>
+      function FBInvite(){
+        FB.ui({
+          method: 'apprequests',
+          message: 'Invite your Facebook Friends'
+        },function(response) {
+          if (response) {
+            alert('Successfully Invited');
+          } else {
+            alert('Failed To Invite');
+          }
+        });
+      }
+    </script>
+  </div>
+  <!--<a href="#" onclick="InviteF();">
+    Click Here
+  </a>-->
 <% unless user_signed_in? %>
   <div class="large-12 columns row1">
     <div class="large-8 medium-10 medium-push-2 columns">
@@ -142,7 +172,12 @@
         <% end %>
       </li>
       <li>
-        <%= link_to new_project_path do %>
+        <%= link_to new_project_path do %><!--<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"popInvite
+  data-show-faces="true">
+  </div>-->
           Start a project
         <% end %>
       </li>
@@ -181,3 +216,4 @@
 <link href="http://allfont.ru/allfont.css?fonts=roboto-condensed-light" rel="stylesheet" type="text/css" />
 <link href="http://allfont.ru/allfont.css?fonts=ds-narrow-extra-condensed-medium" rel="stylesheet" type="text/css" />
 <link href="http://allfont.ru/allfont.css?fonts=open-sans-bold" rel="stylesheet" type="text/css" />
+
