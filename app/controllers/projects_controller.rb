@@ -2,17 +2,45 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
   before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
   before_action :get_project_user, only: [:show, :htmlshow]
-
+  autocomplete :projects, :title, :full => true
+  autocomplete :users, :name, :full => true
+  autocomplete :tasks, :title, :full => true
   # GET /projects
   # GET /projects.json
   def index
     @projects = Project.all
   end
 
+  def autocomplete_project_name
+    term = params[:term]
+    @projects = Project.order(:title).where("title LIKE ?", "%#{params[:term]}%").map(&:title)
+    @projects = @projects + Task.order(:title).where("title LIKE ?", "%#{params[:term]}%").map(&:title)
+    @projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map(&:name)
+    respond_to do |format|
+      format.html
+      format.json {
+        #render json: @products.map(&:title).to_json
+        render json: @projects.to_json,status: :ok
+      }
+      end
+  end
   # GET /notifications
   def htmlindex
     @projects = Project.all
   end
+
+  def search_projects
+    @search = Sunspot.search(Project,Task,User) do
+      fulltext params[:title] do
+        query_phrase_slop 1
+      end
+    end
+    @results = @search.results
+    respond_to do |format|
+      format.html {redirect_to root_path}
+    end
+  end
+
 
   # GET /notifications
   def htmlshow
@@ -124,7 +152,8 @@ class ProjectsController < ApplicationController
           format.json { render json: @project, status: :ok }
         else
           format.html { render :edit }
-          format.json { render json: @project.errors, status: :unprocessable_entity }
+          format.json { rende
+r json: @project.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -135,7 +164,8 @@ class ProjectsController < ApplicationController
           format.html { redirect_to @project, notice: 'Project was successfully updated.' }
           format.json { render json: @project, status: :ok }
         else
-          format.html { render :edit }
+          format.html { rende
+r :edit }
           format.json { render json: @project.errors, status: :unprocessable_entity }
         end
       end
@@ -200,7 +230,6 @@ class ProjectsController < ApplicationController
     def get_project_user
       set_project
       @project_user = @project.user
-
     end
 
     def edit_params

@@ -16,11 +16,9 @@ Rails.application.routes.draw do
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
   get 'payment_notifications/create'
-
   get 'proj_admins/new'
-
+  get "/users/:provider/callback" => "visitors#landing"
   get 'proj_admins/create'
-
   get 'proj_admins/destroy'
   resources :proj_admins do
     member do
@@ -42,6 +40,7 @@ Rails.application.routes.draw do
   end
 
   resources :do_requests do
+    get :autocomplete_project_name, :on => :collection
     member do
       get :accept, :reject
     end
@@ -52,7 +51,7 @@ Rails.application.routes.draw do
   resources :tasks
   resources :projects do
     resources :tasks do
-  	 resources :task_comments
+      resources :task_comments
 
      resources :assignments
     end
@@ -64,6 +63,10 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get :autocomplete_project_name
+    end
+
+    collection do
       get :htmlindex
     end
 
@@ -71,7 +74,7 @@ Rails.application.routes.draw do
       get :htmlshow
     end
   end
-
+  post '/projects/search_projects', to: 'projects#search_projects'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 

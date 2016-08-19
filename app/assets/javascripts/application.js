@@ -24,6 +24,8 @@
 //= require react_ujs
 //= require components
 //= require zeroclipboard
+//= require jquery-ui
+//= require autocomplete-rails
 //= require_tree .
 // $(function() {
 //   $(document).foundation();
