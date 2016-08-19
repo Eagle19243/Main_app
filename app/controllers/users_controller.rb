@@ -11,6 +11,10 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @conversations = []
+    #if (current_user && current_user.id == @user.id)
+      @conversations = Conversation.where("recipient_id = ? OR sender_id = ?", params[:id], params[:id])
+    #end
     @projects = Project.all
     @do_requests = DoRequest.all
     @assignments = Assignment.all
