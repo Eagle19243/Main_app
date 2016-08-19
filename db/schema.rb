@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817180548) do
+ActiveRecord::Schema.define(version: 20160819204904) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20160817180548) do
     t.boolean  "read",            default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image"
   end
 
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
