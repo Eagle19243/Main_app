@@ -58,9 +58,9 @@ window.updateEdit = (projectEditId, new_state)->
          alertSuccess()
 
 jQuery ->
- $('#project_expires_at').datepicker()
  $(document).foundation()
-
+ #$('#project_expires_at').datepicker()
+ 
  #attach handlers to data attributes
  $("button[data-makes-editable]").off().on "click", (e)->
    debugger;
