@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   mount_uploader :picture, PictureUploader
 
+  has_many :favorite_projects, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all

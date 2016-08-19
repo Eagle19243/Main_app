@@ -52,7 +52,7 @@ Rails.application.routes.draw do
   resources :activities, only: [:index]
   resources :wikis
   resources :tasks
-
+  resources :favorite_projects, only: [:create, :destroy]
 
   resources :projects do
     resources :tasks do
