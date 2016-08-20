@@ -32,7 +32,7 @@ module UsersHelper
 
   def completed_task_count(project)
     task_count = 0
-    project.tasks.each { |task| task_count+= 1 unless !task.completed }
+    project.tasks.each { |task| task_count+= 1 unless !task.completed? }
     task_count
   end
 
