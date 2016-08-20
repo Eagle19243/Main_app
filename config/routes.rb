@@ -89,6 +89,8 @@ Rails.application.routes.draw do
   resources :conversations do
     resources :messages
   end
+  # also make messages available as a resource
+  resources :messages
 
   get 'dashboard' => 'dashboard'
 
