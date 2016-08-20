@@ -75,7 +75,6 @@ class ProjectsController < ApplicationController
       if @project.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
-        @project.team.create(name: "Team#{@project.id}", mission: "Your Mission Here", slots: 10)
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render :show, status: :created, location: @project }
       else
@@ -208,7 +207,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description,
+      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
         project_edits_attributes: [:id, :_destroy, :description])
     end
 

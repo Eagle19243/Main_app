@@ -1,16 +1,16 @@
 <%= render 'layouts/menu' %>
     <div class="top_banner" id="top_banner" style="background: url(<%= @project.picture%>)">
-      <div class="banner_content" style="text-align: center;">        
+      <div class="banner_content" style="text-align: center;">
         <div class="row">
           <div class="medium-8 medium-offset-2">
             <div class="sub-title">
               <span>
-                By <%= @project.user.name %> 
+                By <%= @project.user.name %>
                 <% if @project.user.picture? %>
                   <%= image_tag(@project.user.picture.url, size: "35x35") %>
                 <% else %>
                   <%= gravatar_for(@project.user, 35)%>
-                <%end%>      
+                <%end%>
                 <i class="icon-map-marker" aria-hidden="true"></i>
                 &nbsp;&nbsp;<%= @project.location%>
               </span>
@@ -51,7 +51,7 @@
           </div><!-- progress_widget -->
         </div>
       </div>
-    </div>        
+    </div>
     <a href="#" class="button round banner_button">Get Involved</a>
     </div>
    <!-- Header banner end -->
@@ -129,7 +129,7 @@
             <div id="project_video" class="small-12 medium-5 columns">
               <div class="flex-video">
                 <iframe width="460" height="250" src="<%= @project.video_url%>" frameborder="0" allowfullscreen></iframe>
-              </div>                            
+              </div>
             </div>
           </div>
         </section>
@@ -158,6 +158,18 @@
                 </ul>
               </div>
             </div>
+            <section class="section_content_box">
+              <h2>Section1</h2>
+              <p>
+                <%= @project.section1 %>
+              </p>
+            </section>
+            <section class="section_content_box">
+              <h2>Section2</h2>
+              <p>
+                <%= @project.section2 %>
+              </p>
+            </section>
           </div>
           <div class="small-12 medium-4 columns" id="project_tasks">
             <div class="task_border ">
@@ -192,7 +204,7 @@
                       </div>
                       <div class="progress_values tasks_values">
                         <p style="float: none;">
-                          <%= task.budget%>  
+                          <%= task.budget%>
                           <span>Needed</span>
                         </p>
                       </div>
@@ -205,10 +217,10 @@
                 </div>
               </div>
               <hr class="custom_hr">
-            <% end %>   
+            <% end %>
             <% if @project.tasks.count == 0 %>
               <h4>There are no tasks yet!</h4>
-            <% end %>          
+            <% end %>
           </div>
         </div>
       </div>
