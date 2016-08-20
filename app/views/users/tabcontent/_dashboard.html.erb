@@ -50,7 +50,7 @@
           <tr>
             <td><%= project.title %></td>
             <td><span class="green_font">$ 1000</span> / $ 8000</td>
-            <td><span class="green_font"><%= team_members_count(project) %> </span>/ <%= project.team.slots %></td>
+            <td><span class="green_font"><%= team_members_count(project) %> </span>/ <%= team_members_count_target(project) %></td>
             <td><span class="green_font"><%= completed_task_count(project) %> </span>/ <%= project.tasks.count %></td>
             <td>
               <a href="#">
