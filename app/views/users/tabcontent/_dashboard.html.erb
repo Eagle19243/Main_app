@@ -50,8 +50,8 @@
           <tr>
             <td><%= project.title %></td>
             <td><span class="green_font">$ 1000</span> / $ 8000</td>
-            <td><span class="green_font">3 </span>/ 10</td>
-            <td><span class="green_font">4 </span>/ 10</td>
+            <td><span class="green_font"><%= team_members_count(project) %> </span>/ <%= team_members_count_target(project) %></td>
+            <td><span class="green_font"><%= completed_task_count(project) %> </span>/ <%= project.tasks.count %></td>
             <td>
               <a href="#">
                 <i class="fa fa-bell" aria-hidden="true">
@@ -61,17 +61,17 @@
             </td>
             <td>
               <%= link_to edit_project_path(project) do %>
-                <i class="fa fa-pencil" aria-hidden="true"></i> 
-                Edit 
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Edit
               <% end %>
             </td>
             <td>
               <%= link_to project_path(project) do %>
-                <i class="fa fa-external-link" aria-hidden="true"></i> 
+                <i class="fa fa-external-link" aria-hidden="true"></i>
                 See Project
               <% end %>
             </td>
-          </tr> 
+          </tr>
         <% end %>
       </table>
     </div>
@@ -196,14 +196,14 @@
             </td>
             <td>
               <%= link_to project_path(favorite_project.project) do %>
-                <i class="fa fa-external-link" aria-hidden="true"></i> 
+                <i class="fa fa-external-link" aria-hidden="true"></i>
                 See Project
               <% end %>
             </td>
-            <td> 
+            <td>
               <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a>
             </td>
-          </tr> 
+          </tr>
         <% end %>
       </table>
 
