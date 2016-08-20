@@ -84,46 +84,9 @@
 
         <hr>
         <!-- Messages box. includes messages and new message form -->
-        <div id="conversation_messages">
-          <%= render conversations.first%>
-          <!-- Represents single message -->
-        </div>
+        <%= render conversations.first%>
         <hr>
-
-       <!--  <form class="new-message-form">
-          <div class="small-11 columns">
-            <textarea placeholder="Type message"></textarea>
-          </div>
-          <div class="small-1 columns">
-            <span class="postfix">
-              <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
-            </span>
-          </div>
-          <span class="send-hint">
-            Hit "Enter" to send
-          </span>
-        </form> -->
-        <%= form_for [conversations.first, conversations.first.messages.new], html: {class: "new-message-form"} do |f| %>
-          <div class="small-11 columns">
-           <%= f.text_area :body, class: "form-control", placeholder: "Type message" %>
-          </div>
-            <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
-          <!-- <div class="small-1 columns">
-            <label for="message_image">
-              <span class="postfix">
-                <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
-              </span>
-            </label>
-            <input type="file" name="message[image]" id="message_image" style="display: none">
-          </div> -->
-          <%= f.file_field :image %>
-          <div>
-           <%= f.submit "Send", class: "ui blue labeled submit icon button" %>
-          </div>
-          <span class="send-hint">
-            Hit "Enter" to send
-          </span>
-        <% end %>
+        <%= render partial: "messages/new_message_form", locals: { conversation: conversations.first} %>
       </div>
     </div>
   </div>

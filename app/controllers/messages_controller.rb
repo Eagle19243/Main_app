@@ -28,11 +28,16 @@ class MessagesController < ApplicationController
   end
   
   def create
-   @message = @conversation.messages.new(message_params)
-   if @message.save
-    redirect_to :back
-    #redirect_to conversation_messages_path(@conversation)
-   end
+    @message = @conversation.messages.new(message_params)
+    respond_to do |format|
+      if @message.save 
+        format.html {redirect_to conversation_messages_path(@conversation)}
+        format.js {}
+      else
+        format.html {redirect_to :back}
+        format.js {}
+      end
+    end
   end
   
   private

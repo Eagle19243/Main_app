@@ -1,22 +1,5 @@
 <div id="conversation_messages">
   <% conversation.messages.last(6).each do |message| %>
-    <div class="row conversation_message">
-      <div class="small-1 columns">
-        <a href="#"><%= gravatar_for(message.user) %></a>
-      </div>
-      <div class="small-11 columns message-content">
-        <div>
-          <%= link_to message.user.name, user_path(message.user)%>
-        </div>
-        <span>
-          <%= message.body %>
-        </span>
-        <% if !message.image.url.nil? %>
-          <br>
-          <%= image_tag(message.image) %>
-        <% end %>
-        <div class="message-date"><%= message.message_time %></div>
-      </div>
-    </div>
+    <%= render message %>
   <% end %>
 </div>
