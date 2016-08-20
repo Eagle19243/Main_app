@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
   end
 
   # old project page
-  # GET /projects/1/old 
+  # GET /projects/1/old
   def old_show
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
@@ -73,6 +73,7 @@ class ProjectsController < ApplicationController
       if @project.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
+        @project.team.create(name: "Team#{@project.id}", mission: "Your Mission Here", slots: 10)
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render :show, status: :created, location: @project }
       else
