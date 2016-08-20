@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   has_many :institutions, :through => :institution_users
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
+  has_many :team_memberships
+  has_many :teams, :through => :team_memberships
 
   def create_activity(item, action)
     activity = activities.new
