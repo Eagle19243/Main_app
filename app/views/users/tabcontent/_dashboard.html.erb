@@ -101,7 +101,7 @@
         </tr>
 
         <% @user.activities.each_with_index do |activity, i| %>
-          
+
           <tr>
             <td><%= activity_title(activity) %><%= activity_text(activity) %></td>
             <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
@@ -127,6 +127,11 @@
       </ul>
 
       <table border="2" class="notifi-table">
+        <% @user.conversations.each do |conversation| %>
+          <% conversation.messages.each do |message| %>
+            <%= message %>
+          <% end %>
+        <% end %>
         <tr>
           <td>Funding Alert - Build a libraray in Parahpd...</td>
           <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>

@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
   has_many :team_memberships, foreign_key: "team_member_id"
   has_many :teams, :through => :team_memberships
+  has_many :conversations, foreign_key: "sender_id"
 
   def create_activity(item, action)
     activity = activities.new
