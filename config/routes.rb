@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'projects/featured'
+  get 'projects/featured', as: :featured_projects
   get '/projects/:id/old', to: 'projects#old_show'
   resources :do_requests do
     member do
