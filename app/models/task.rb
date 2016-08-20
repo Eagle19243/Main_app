@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
 	mount_uploader :filethree, PictureUploader
 	mount_uploader :filefour, PictureUploader
 	mount_uploader :filefive, PictureUploader
-	
+
   belongs_to :project
 	belongs_to :user
 	has_one :wallet_address
@@ -15,12 +15,22 @@ class Task < ActiveRecord::Base
 	has_many :assignments, dependent: :delete_all
 	has_many :do_requests, dependent: :delete_all
 	has_many :donations, dependent: :delete_all
-	
+
   after_create :assign_address
 	aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :accepted
     state :rejected
+		state :completed
+		event :accept do
+      transitions :from => :pending, :to => :accepted
+    end
+		event :reject do
+      transitions :from => :pending, :to => :rejected
+    end
+		event :complete do
+      transitions :from => :accepted, :to => :completed
+    end
   end
 
   validates :proof_of_execution, presence: true
