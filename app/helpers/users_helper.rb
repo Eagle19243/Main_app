@@ -19,14 +19,14 @@ module UsersHelper
 
   def team_members_count(project)
     members_count = 0
-    members_count = project.team.members.count
+    members_count = project.team.team_members.count
     members_count
   end
 
   # different from the actual count, how many team members would the project owner like to have
   def team_members_count_target(project)
     members_count = 0
-    members_count = project.team.member_count_target
+    members_count = project.team.slots
     members_count
   end
 
