@@ -118,7 +118,7 @@
             Hit "Enter" to send
           </span>
         </form> -->
-        <%= form_for [conversations.first, conversations.first.messages.new], html: {class: "new-message-form"} do |f| %>
+        <%= form_for [Message.new], html: {class: "new-message-form"} do |f| %>
           <div class="small-11 columns">
            <%= f.text_area :body, class: "form-control", placeholder: "Type message" %>
           </div>
