@@ -49,9 +49,13 @@
         <% @user.projects.each do |project| %>
           <tr>
             <td><%= project.title %></td>
-            <td><span class="green_font">$ 1000</span> / $ 8000</td>
-            <td><span class="green_font">3 </span>/ 10</td>
-            <td><span class="green_font">4 </span>/ 10</td>
+            <td>
+              <span class="green_font">$ <%= project_funded(project)%></span> 
+              / $ <%= project_budget(project) %></td>
+            <td>
+              <%= project.team_relations_string %>
+            </td>
+            <td><span class="green_font"><%= project.accepted_tasks.count %> </span>/ <%= project.tasks.count%></td>
             <td>
               <a href="#">
                 <i class="fa fa-bell" aria-hidden="true">
@@ -95,35 +99,21 @@
 
 
       <table border="2" class="notifi-table">
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-
+        <% @user.activities.last(5).each_with_index do |activity, i| %>
+          <tr>
+            <td><%= activity_text(activity) %></td>
+            <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
+          </tr>
+        <% end %>
       </table>
     </div>
+
     <div class="large-6 medium-6 small-12 columns">
       <h4 class="header"> <i class="fa fa-envelope-o" aria-hidden="true"></i> Messages</h4>
       <ul class="see-all">
         <li><a href="#">See all</a></li>
         <li><a href="#">Prefenrences</a></li>
-        <li><a href="#" class="button compose-btn">Compose</a></li>
+        <li><%= link_to "Compose", conversations_path, {class: "button compose-btn"} %></li>
       </ul>
 
       <!-- drop down in mobile view -->
@@ -135,27 +125,15 @@
       </ul>
 
       <table border="2" class="notifi-table">
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-        <tr>
-          <td>Funding Alert - Build a libraray in Parahpd...</td>
-          <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
-        </tr>
-
+        <% conversations.last(5).each do |conversation| %>
+          <tr>
+            <td>
+                <%= conversation_companion_name(@user, conversation) %> 
+                (<%= conversation.unread_messages_count(@user) %>)
+            </td>
+            <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
+          </tr>
+        <% end %>
       </table>
 
     </div>
@@ -184,9 +162,16 @@
         <% @user.favorite_projects.each do |favorite_project| %>
           <tr>
             <td><%= favorite_project.project.title %></td>
-            <td><span class="green_font">$ 1000</span> / $ 8000</td>
-            <td><span class="green_font">3 </span>/ 10</td>
-            <td><span class="green_font">4 </span>/ 10</td>
+            <td>
+              <span class="green_font">$ <%= project_funded(favorite_project.project)%></span> 
+              / $ <%= project_budget(favorite_project.project) %></td>
+            <td>
+              <%= favorite_project.project.team_relations_string %>
+            </td>
+            <td>
+              <span class="green_font"><%= favorite_project.project.accepted_tasks.count %> </span>
+              /<%= favorite_project.project.tasks.count%></td>
+            <td>
             <td>
               <a href="#">
                 <i class="fa fa-bell" aria-hidden="true">

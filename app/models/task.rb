@@ -65,7 +65,7 @@ class Task < ActiveRecord::Base
 				WalletAddress.create(address:nil, task_id: self.id)
 			end
 		end
-	end
+	end 
 
   def funded
     budget == 0 ? "100%" : (current_fund/budget*100).round.to_s + "%"
