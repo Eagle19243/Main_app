@@ -1,4 +1,4 @@
-  
+
   <div class="main">
     <div class="row messages-page-row">
       <!-- Messages and projects nav -->
@@ -10,7 +10,7 @@
         </div>
         <div class="messages-menu">
           <div class="messages-submenu">
-            <div class="submenu-title">          
+            <div class="submenu-title">
               <span class="menu-subtitle">
                 PROJECTS (<%= @user.projects.count %>)
               </span>
@@ -28,14 +28,14 @@
           </div>
           <hr>
           <div class="messages-submenu">
-            <div class="submenu-title">  
+            <div class="submenu-title">
               <span class="menu-subtitle">DIRECT MESSAGES</span>
               <%= link_to conversations_path do %>
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> 
-              <% end %>              
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              <% end %>
             </div>
             <ul class="circle">
-              <% @conversations.each do |conversation| %>
+              <% conversations.each do |conversation| %>
                 <li><a href="#"><%= conversation_companion_name(@user, conversation) %></a></li>
               <% end %>
               <li class="active"><a href="#">Caju</a></li>
@@ -51,10 +51,10 @@
           <!-- Conversation name -->
           <div class="small-6 columns">
             <h4 id="conversation-name">
-              <%= @conversations.first.sender.name %>
+              <%= conversations.first.try(:sender).try(:name) %>
             </h4>
           </div>
-        
+
           <div class="small-6 columns">
             <!-- Search box -->
             <div class="small-8 columns">
@@ -75,7 +75,7 @@
                 <i class="fa fa-cog fa-2x" title="Settings" aria-hidden="true"></i>
               </span>
               <span>
-                <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>  
+                <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
               </span>
             </div>
           </div>
@@ -84,7 +84,7 @@
         <hr>
         <!-- Messages box. includes messages and new message form -->
         <div id="conversation_messages">
-          <% @conversations.first.messages.each do |message| %>
+          <% conversations.first.try(:messages).try(:each) do |message| %>
             <div class="row conversation_message">
               <div class="small-1 columns">
                 <a href="#"><%= gravatar_for(message.user) %></a>
@@ -96,15 +96,15 @@
                 <% if !message.image.url.nil? %>
                   <br>
                   <%= image_tag(message.image) %>
-                <% end %>  
+                <% end %>
                 <div class="message-date"><%= message.message_time %></div>
-              </div>  
+              </div>
             </div>
           <% end %>
           <!-- Represents single message -->
-        </div>  
+        </div>
         <hr>
-        
+
        <!--  <form class="new-message-form">
           <div class="small-11 columns">
             <textarea placeholder="Type message"></textarea>
@@ -118,7 +118,7 @@
             Hit "Enter" to send
           </span>
         </form> -->
-        <%= form_for [@conversations.first, @conversations.first.messages.new], html: {class: "new-message-form"} do |f| %>
+        <%= form_for [conversations.first, conversations.first.messages.new], html: {class: "new-message-form"} do |f| %>
           <div class="small-11 columns">
            <%= f.text_area :body, class: "form-control", placeholder: "Type message" %>
           </div>

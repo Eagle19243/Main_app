@@ -37,7 +37,7 @@
       </div>
 
       <div class="content" id="messages">
-        <%= render 'users/tabcontent/messages' %>
+        <%= render partial: "users/tabcontent/messages", locals: { conversations: @conversations} %>
       </div>
 
       <div class="content" id="logout">
