@@ -1,0 +1,5 @@
+$("#conversation-name").text("<%= escape_javascript(conversation_companion_name(@user, @conversation)) %>")
+$("#conversation_messages").replaceWith("<%= escape_javascript(render @conversation) %>");
+var conversationId = <%= @conversation.id %>;
+$("li[conversation-id].active").removeClass("active");
+$("li[conversation-id='" + conversationId +"']").addClass("active");
