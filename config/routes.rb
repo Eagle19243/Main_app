@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 
     member do
       get :accept, :reject
+      post :follow
     end
 
     collection do

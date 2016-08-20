@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow]
   before_action :get_project_user, only: [:show, :htmlshow]
 
   # GET /projects
@@ -30,11 +30,21 @@ class ProjectsController < ApplicationController
   def show
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
+    @followed = false
     @current_user_id = 0
     if user_signed_in?
+      @followed = @project.followed_users.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
     end
+  end
 
+  def follow
+    if params[:follow] == 'true'
+      current_user.followed_projects << @project
+    else
+      current_user.followed_projects.delete @project
+    end
+    redirect_to @project
   end
 
   # GET /projects/new

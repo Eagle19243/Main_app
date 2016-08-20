@@ -96,7 +96,15 @@
                   <i class="icon-star seleted" aria-hidden="true"></i>
                   <i class="icon-star" aria-hidden="true"></i>
                 </div>&nbsp;Rank it</a></li>
-                <li><a href="#" class="button add-fav"><i class="icon-star" aria-hidden="true"></i>&nbsp;Add to Favorites</a></li>
+                <% if @project.user_id != @current_user_id %>
+                  <li>
+                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'button add-fav', method: :post do %>
+                      <i class="icon-star" aria-hidden="true"></i>
+                      &nbsp;
+                      <%= @followed ? "Unfollow" : "Follow" %>
+                      <% end %>
+                  </li>
+                <% end %>
                 <li><a href="#" class="button">Share:
                 <div class="share_img" style="display: inline-block;">
                   <img src="/static/project_page/img/fb.jpg">
