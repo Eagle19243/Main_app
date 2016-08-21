@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.all
     Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
-    @featured_projects = Project.get_featured_projects
+    @featured_projects = Project.page params[:page]
   end
 
   # GET /projects
