@@ -10,6 +10,7 @@
           <!--Funding / Sourcing Column -->
           <div class="medium-5 small-12 small-offset-1 columns" style="padding-bottom:20px;">
             <h1 class="heading1">Browse All Projects</h1>
+            <%= paginate @featured_projects %>
           </div>
           <!--Funding / Sourcing Column -->
           <div class="medium-4 small-12 columns end" style="padding-bottom:20px;">
@@ -24,6 +25,7 @@
             <!--Funding / Sourcing Column -->
             <div class="small-11 small-offset-1  columns">
               <!-- repeating member task box -->
+
               <% @featured_projects.each do |project| %>
                   <div class="task-box small-11 medium-5 large-3 columns" style="float: left">
                     <div class="img-res">
