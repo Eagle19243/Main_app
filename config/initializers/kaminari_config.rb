@@ -7,4 +7,8 @@ Kaminari.configure do |config|
   # config.right = 0
   # config.page_method_name = :page
   # config.param_name = :page
+
+  # config customizations
+  # we want to see e.g 6 per page
+  config.default_per_page = 6
 end
