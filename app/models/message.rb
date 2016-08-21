@@ -3,7 +3,7 @@ class Message < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :body, :conversation_id, :user_id
 
-  mount_uploader :image, PictureUploader
+  mount_uploader :image, MessagePictureUploader
 
   def message_time
     created_at.strftime("%m/%d/%y at %l:%M %p")
