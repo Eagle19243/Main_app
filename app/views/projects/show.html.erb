@@ -67,7 +67,7 @@
         </dd>
         <dd class="active active_tab">
           <!-- <a class="active_tab" href="#panel3"> -->
-          <a class="my_active_tab" target="_blank" href=<%= "/projects/#{@project.id}/taskstab" %>>
+          <a class="my_active_tab" id="tasks-tab-link" href=<%= "/projects/#{@project.id}/taskstab" %>>
             Tasks
             <span>
               <%= @project.tasks_relations_string %>
@@ -234,3 +234,17 @@
       </div>
     </div>
 <%= render 'visitors/sitewide_footer' %>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $("#tasks-tab-link").click(function() {
+    window.location = "http://" + window.location.host + "/projects/<%= @project.id %>/taskstab";
+  });
+  window.mycheck = function () {
+    console.log("this checks some stuff");
+  };
+
+});
+</script>
