@@ -67,3 +67,6 @@ group :production do
   # use unicorn in production on digital ocean. On AWS we will config with puma
   gem 'unicorn'
 end
+
+# use the wonderful kaminari gem for pagination
+gem 'kaminari'
