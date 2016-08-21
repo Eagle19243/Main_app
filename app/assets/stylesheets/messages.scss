@@ -217,3 +217,21 @@ h4.message-break span {
   background: rgba(6, 10, 62, 0.44);
   border-right: 7px solid #2098d1;
 }
+
+.message-form-div {
+  padding-left: 0 !important;
+}
+
+#new-message-form .attach-file-icon {
+  padding: 0;
+}
+
+#uploaded-file-name {
+  float: right;
+}
+
+.new-message-form textarea {
+  border-width: 1px;
+  border-style: solid;  
+  border-color: #cccccc;
+}
