@@ -74,6 +74,7 @@ Rails.application.routes.draw do
 
     member do
       get :htmlshow
+      get :taskstab, as: :taskstab
     end
   end
 
