@@ -10,5 +10,5 @@ Kaminari.configure do |config|
 
   # config customizations
   # we want to see e.g 6 per page
-  config.default_per_page = 6
+  config.default_per_page = 3
 end
