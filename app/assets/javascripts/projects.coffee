@@ -81,7 +81,7 @@ $(document).on "click", ".star-rating-sm > i", (e) ->
   ).done (rate) ->
     $this.parent().data('rate', rate.rate)
   .error (e) ->
-    console.log(e)
+    window.location = '/users/sign_in' if e.status == 401
 
 $('#project_expires_at').datepicker()
 $(document).foundation()
