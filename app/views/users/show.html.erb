@@ -18,7 +18,7 @@
     <div class="tabs-content" id="tabcontentdiv">
       <div class="content active" id="dashboard">
         <%#= render "users/tabcontent/backup_dashboard" %>
-        <%= render "users/tabcontent/dashboard" %>
+        <%= render partial: "users/tabcontent/dashboard", locals: { conversations: @conversations} %>
       </div>
       <div class="content" id="profile">
         <%= render "users/tabcontent/profile" %>
@@ -46,11 +46,3 @@
     </div>
   </div>
 </div>
-
-<script src="/static/users/js/vendor/modernizr.js"></script>
-<script src="/static/users/js/vendor/jquery.js"></script>
-<script src="/static/users/js/foundation.min.js"></script>
-<script src="/static/users/js/foundation/foundation.equalizer.js"></script>
-<script>
-  $(document).foundation();
-</script>

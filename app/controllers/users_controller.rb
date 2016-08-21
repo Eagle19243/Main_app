@@ -24,6 +24,7 @@ class UsersController < ApplicationController
         end
       end
     #end
+    @notifications = Notification.last(5)
     @projects = Project.all
     @do_requests = DoRequest.all
     @assignments = Assignment.all

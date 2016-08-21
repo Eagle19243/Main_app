@@ -36,9 +36,10 @@
             </div>
             <ul class="circle">
               <% conversations.each do |conversation| %>
-                <li><a href="#"><%= conversation_companion_name(@user, conversation) %></a></li>
+                <li conversation-id="<%= conversation.id%>">
+                  <%= link_to conversation_companion_name(@user, conversation), conversation, remote: true %>
+                </li>
               <% end %>
-              <li class="active"><a href="#">Caju</a></li>
             </ul>
           </div>
           <hr>
@@ -51,7 +52,7 @@
           <!-- Conversation name -->
           <div class="small-6 columns">
             <h4 id="conversation-name">
-              <%= conversations.first.try(:sender).try(:name) %>
+              <%= conversation_companion_name(@user, conversations.first) %>
             </h4>
           </div>
 
@@ -74,7 +75,7 @@
               <span style="margin-right: 8px;">
                 <i class="fa fa-cog fa-2x" title="Settings" aria-hidden="true"></i>
               </span>
-              <span>
+              <span class="attach-file-icon">
                 <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
               </span>
             </div>
@@ -83,62 +84,13 @@
 
         <hr>
         <!-- Messages box. includes messages and new message form -->
-        <div id="conversation_messages">
-          <% conversations.first.try(:messages).try(:each) do |message| %>
-            <div class="row conversation_message">
-              <div class="small-1 columns">
-                <a href="#"><%= gravatar_for(message.user) %></a>
-              </div>
-              <div class="small-11 columns message-content">
-                <span>
-                  <%= message.body %>
-                </span>
-                <% if !message.image.url.nil? %>
-                  <br>
-                  <%= image_tag(message.image) %>
-                <% end %>
-                <div class="message-date"><%= message.message_time %></div>
-              </div>
-            </div>
-          <% end %>
-          <!-- Represents single message -->
-        </div>
+        <%= render conversations.first%>
         <hr>
-
-       <!--  <form class="new-message-form">
-          <div class="small-11 columns">
-            <textarea placeholder="Type message"></textarea>
-          </div>
-          <div class="small-1 columns">
-            <span class="postfix">
-              <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
-            </span>
-          </div>
-          <span class="send-hint">
-            Hit "Enter" to send
-          </span>
-        </form> -->
-        <%= form_for [Message.new], html: {class: "new-message-form"} do |f| %>
-          <div class="small-11 columns">
-           <%= f.text_area :body, class: "form-control", placeholder: "Type message" %>
-          </div>
-            <%= f.text_field :user_id, value: current_user.id, type: "hidden" %>
-          <!-- <div class="small-1 columns">
-            <label for="message_image">
-              <span class="postfix">
-                <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
-              </span>
-            </label>
-            <input type="file" name="message[image]" id="message_image" style="display: none">
-          </div> -->
-          <%= f.file_field :image %>
-          <div>
-           <%= f.submit "Send", class: "ui blue labeled submit icon button" %>
-          </div>
-          <span class="send-hint">
-            Hit "Enter" to send
-          </span>
-        <% end %>
+        <%= render partial: "messages/new_message_form", locals: { conversation: conversations.first} %>
       </div>
     </div>
   </div>
+
+  <script type="text/javascript">
+    $("li[conversation-id]").first().addClass("active");
+  </script>
