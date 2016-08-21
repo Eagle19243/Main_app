@@ -3,3 +3,11 @@
     <%= render message %>
   <% end %>
 </div>
+
+<script type="text/javascript">
+  $( window ).resize(function() {
+    $("#conversation_messages").height(window.innerHeight*0.6);
+  });
+  $("#conversation_messages").height(window.innerHeight*0.6);
+  $("#conversation_messages").scrollTop($("#conversation_messages").prop("scrollHeight"));
+</script>

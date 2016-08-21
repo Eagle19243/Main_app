@@ -1,2 +1,3 @@
 $("<%= escape_javascript(render @message) %>").appendTo("#conversation_messages");
 $(".new-message-form textarea").val("");
+$("#conversation_messages").scrollTop($("#conversation_messages").prop("scrollHeight"));

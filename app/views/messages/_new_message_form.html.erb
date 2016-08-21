@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
   $('#new-message-form textarea').keypress(function(e){
-    if(e.which == 13){
+    if(e.which == 13 && !e.shiftKey){
       $(this).closest('form').submit();
     }
   });
