@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
   before_action :get_project_user, only: [:show, :htmlshow]
+  skip_before_action :verify_authenticity_token, only: [:rate]
 
   # GET /projects
   # GET /projects.json
@@ -32,9 +33,11 @@ class ProjectsController < ApplicationController
     @proj_admins_ids = @project.proj_admins.ids
     @followed = false
     @current_user_id = 0
+    @rate = 0
     if user_signed_in?
       @followed = @project.followed_users.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
   end
 
@@ -45,6 +48,14 @@ class ProjectsController < ApplicationController
       current_user.followed_projects.delete @project
     end
     redirect_to @project
+  end
+
+  def rate
+    @rate = @project.project_rates.find_or_create_by(user_id: current_user.id)
+    @rate.rate = params[:rate]
+    @rate.save
+
+    render json: @rate
   end
 
   # GET /projects/new

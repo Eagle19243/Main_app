@@ -62,6 +62,7 @@ Rails.application.routes.draw do
     member do
       get :accept, :reject
       post :follow
+      post :rate
     end
 
     collection do
