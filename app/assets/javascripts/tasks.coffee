@@ -6,5 +6,5 @@
 
 jQuery ->
 
- $('#task_deadline').datepicker()
+ #$('#task_deadline').datepicker()
 

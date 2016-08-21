@@ -1,14 +1,27 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
-  before_action :get_project_user, only: [:show, :htmlshow]
+  before_action :set_project, only: [:show, :taskstab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
+  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab]
   skip_before_action :verify_authenticity_token, only: [:rate]
+  layout "manish", only: [:taskstab]
 
   # GET /projects
   # GET /projects.json
   def index
     @projects = Project.all
+    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
+    @featured_projects = Project.page params[:page]
   end
+
+  # GET /projects
+  # GET /projects.json
+  def oldindex
+    @projects = Project.all
+    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
+
+  end
+
+
 
   # GET /notifications
   def htmlindex
@@ -56,6 +69,29 @@ class ProjectsController < ApplicationController
     @rate.save
 
     render json: @rate
+  end
+
+  # GET /projects/1/tasks
+  # GET /projects/1.json
+  def taskstab
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+
+  end
+
+  # old project page
+  # GET /projects/1/old
+  def old_show
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
   end
 
   # GET /projects/new
@@ -179,8 +215,6 @@ class ProjectsController < ApplicationController
 
   end
 
-
-
   def reject
     @project = Project.find(params[:id])
     if @project.reject!
@@ -191,7 +225,6 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project could not be rejected"
     end
     redirect_to current_user
-
   end
 
   # DELETE /projects/1
@@ -206,6 +239,10 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def featured
+    @featured_projects = Project.get_featured_projects
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
@@ -214,7 +251,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description,
+      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
         project_edits_attributes: [:id, :_destroy, :description])
     end
 

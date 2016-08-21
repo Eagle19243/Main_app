@@ -7,30 +7,41 @@ class Task < ActiveRecord::Base
 	mount_uploader :filethree, PictureUploader
 	mount_uploader :filefour, PictureUploader
 	mount_uploader :filefive, PictureUploader
-	belongs_to :project
+
+  belongs_to :project
 	belongs_to :user
 	has_one :wallet_address
 	has_many :task_comments, dependent: :delete_all
 	has_many :assignments, dependent: :delete_all
 	has_many :do_requests, dependent: :delete_all
 	has_many :donations, dependent: :delete_all
-	after_create :assign_address
+
+  after_create :assign_address
 	aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :accepted
     state :rejected
+		state :completed
+		event :accept do
+      transitions :from => :pending, :to => :accepted
     end
-    validates :proof_of_execution, presence: true
-    validates :title, presence: true, length: { minimum: 2, maximum: 30 }
-    validates :condition_of_execution, presence: true
-    validates :short_description, presence: true, length: { minimum: 20, maximum: 100 }
-    validates :description, presence: true
-    validates_numericality_of :budget, :only_integer => false, :greater_than_or_equal_to => 1
-    validates :budget, presence: true
+		event :reject do
+      transitions :from => :pending, :to => :rejected
+    end
+		event :complete do
+      transitions :from => :accepted, :to => :completed
+    end
+  end
 
-    validates :target_number_of_participants, presence: true
-    validates_numericality_of :target_number_of_participants, :only_integer => true, :greater_than_or_equal_to => 1
-
+  validates :proof_of_execution, presence: true
+  validates :title, presence: true, length: { minimum: 2, maximum: 30 }
+  validates :condition_of_execution, presence: true
+  validates :short_description, presence: true, length: { minimum: 20, maximum: 100 }
+  validates :description, presence: true
+  validates_numericality_of :budget, :only_integer => false, :greater_than_or_equal_to => 1
+  validates :budget, presence: true
+  validates :target_number_of_participants, presence: true
+  validates_numericality_of :target_number_of_participants, :only_integer => true, :greater_than_or_equal_to => 1
 
 	def assign_address
 		if_address_available = GenerateAddress.where(is_available: true)
@@ -64,7 +75,13 @@ class Task < ActiveRecord::Base
 				WalletAddress.create(address:nil, task_id: self.id)
 			end
 		end
-	end
+	end 
 
+  def funded
+    budget == 0 ? "100%" : (current_fund/budget*100).round.to_s + "%"
+  end
 
+  def team_relations_string
+    number_of_participants.to_s + "/" + target_number_of_participants.to_s
+  end
 end

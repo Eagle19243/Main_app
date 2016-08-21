@@ -7,32 +7,32 @@ module UsersHelper
 
   def project_budget(project)
     budget = 0
-    project.tasks.to_a.each { |task|  budget += task.budget.to_i }
+    project.tasks.to_a.each { |task|  budget += task.budget.try(:to_i) }
     budget
   end
 
   def project_funded(project)
     funded = 0
-    project.tasks.to_a.each { |task|  budget += task.current_fund.to_i }
+    project.tasks.to_a.each { |task|  funded += task.current_fund.try(:to_i) }
     funded
   end
 
   def team_members_count(project)
     members_count = 0
-    members_count = project.team.members.count
+    members_count = project.team.team_members.count
     members_count
   end
 
   # different from the actual count, how many team members would the project owner like to have
   def team_members_count_target(project)
     members_count = 0
-    members_count = project.team.member_count_target
+    members_count = project.team.slots
     members_count
   end
 
   def completed_task_count(project)
     task_count = 0
-    project.tasks.each { |task| task_count+= 1 unless !task.completed }
+    project.tasks.each { |task| task_count+= 1 unless !task.completed? }
     task_count
   end
 
@@ -40,10 +40,18 @@ module UsersHelper
     "Silva, haha"
   end
 
-  def project_calculus
-    task = Task.last
-    '
+  def user_favorite_project?(user, project)
+    user.favorite_projects.where(project_id: project.id).count != 0
+  end
 
+  def conversation_companion_name(user, conversation)
+    user.id != conversation.sender.id ? conversation.sender.name : conversation.recipient.name
+  end
+
+  def project_calculus
+
+    '
+    <% task = Task.last %>
     <div class="progress-bar">
       <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
     </div>

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'projects/featured', as: :featured_projects
+  get '/projects/:id/old', to: 'projects#old_show'
   resources :do_requests do
     member do
       get :accept, :reject
@@ -50,6 +52,8 @@ Rails.application.routes.draw do
   resources :activities, only: [:index]
   resources :wikis
   resources :tasks
+  resources :favorite_projects, only: [:create, :destroy]
+
   resources :projects do
     resources :tasks do
   	 resources :task_comments
@@ -67,10 +71,12 @@ Rails.application.routes.draw do
 
     collection do
       get :htmlindex
+      get :oldindex
     end
 
     member do
       get :htmlshow
+      get :taskstab, as: :taskstab
     end
   end
 
@@ -87,6 +93,8 @@ Rails.application.routes.draw do
   resources :conversations do
     resources :messages
   end
+  # also make messages available as a resource
+  resources :messages
 
   get 'dashboard' => 'dashboard'
 
