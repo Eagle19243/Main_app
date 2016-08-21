@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit]
   before_action :set_project, only: [:show, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
   before_action :get_project_user, only: [:show, :htmlshow, :old_show]
-  layout "manish", only: [:show]
+  layout "manish", only: [:taskstab]
 
   # GET /projects
   # GET /projects.json
