@@ -5,11 +5,24 @@
     <title><%= content_for?(:title) ? yield(:title) : "WeServe" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,800|Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-  
+
     <%# Modernizr is required for Zurb Foundation %>
     <%= javascript_include_tag 'vendor/modernizr' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tags %>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>We Serve</title>
+    <link rel="stylesheet" href="/static/manish-layout/css/foundation.css">
+    <link rel="stylesheet" href="/static/manish-layout/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/static/manish-layout/css/font-awesome/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Slabo+27px|Acme|Oswald:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/static/manish-layout/css/glyphicon-only/glyphicon.css">
+    <link rel="stylesheet" type="text/css" href="/static/manish-layout/css/Hover/css/hover-min.css">
+    <link rel="stylesheet" type="text/css" href="/static/manish-layout/css/custom.css">
+    <link rel="stylesheet" href="/static/manish-layout/css/media-queries.css">
+    <script src="/static/manish-layout/js/vendor/modernizr.js"></script>
     <%= yield :customhead %>
   </head>
   <body <%= landing_class %>>
