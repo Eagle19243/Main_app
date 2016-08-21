@@ -5,7 +5,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "WeServe" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,800|Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
+  
     <%# Modernizr is required for Zurb Foundation %>
     <%= javascript_include_tag 'vendor/modernizr' %>
     <%= javascript_include_tag 'application' %>
