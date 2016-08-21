@@ -50,6 +50,18 @@ class ProjectsController < ApplicationController
 
   end
 
+  # GET /projects/1/tasks
+  # GET /projects/1.json
+  def taskstab
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+
+  end
+
   # old project page
   # GET /projects/1/old
   def old_show
