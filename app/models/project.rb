@@ -18,6 +18,10 @@ class Project < ActiveRecord::Base
   validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
 
+  searchable do
+    text :title
+  end
+
   # validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }
   #
   # validates :description, presence: true, length: { minimum: 2}

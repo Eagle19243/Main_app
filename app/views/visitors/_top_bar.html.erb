@@ -29,9 +29,6 @@
       <li>
         <%= form_tag projects_search_projects_path , :method => :post , :id => 'search-form' do  %>
           <div class="large-12 columns">
-            <!--<div class="large-6 columns">
-              <%= select_tag "data", "<option>User</option><option>Task</option><option>Project</option>".html_safe %>
-            </div>-->
             <div class="large-8 columns">
               <%= autocomplete_field_tag :title ,nil,autocomplete_project_name_projects_path%>
             </div>
@@ -52,7 +49,6 @@
             Sign In
           </a>
         </li>
-
         <li>
           <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">
             Sign Up
@@ -62,10 +58,3 @@
     </ul>
   </div>
 </div>
-
-<script type="text/javascript" charset="utf-8">
-  $('#search').bind('railsAutocomplete.select', function(event, data){
-    alert();
-    $('#search-form').submit()
-  });
-</script>

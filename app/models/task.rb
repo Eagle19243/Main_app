@@ -31,6 +31,9 @@ class Task < ActiveRecord::Base
     validates :target_number_of_participants, presence: true
     validates_numericality_of :target_number_of_participants, :only_integer => true, :greater_than_or_equal_to => 1
 
+	searchable do
+		text :title
+	end
 
 	def assign_address
 		if_address_available = GenerateAddress.where(is_available: true)

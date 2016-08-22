@@ -12,6 +12,12 @@
 
 <div>
   <%= render 'top_bar' %>
+  <%#= if user_signed_in? %>
+      <!--<div id="facebook_invite">-->
+        <!--<script src="http://connect.facebook.net/en_US/all.js"></script>-->
+        <!--<a href="#" onclick="FBInvite()">Invite Facebook Friends</a>-->
+      <!--</div>-->
+  <%#= end  %>
 <% unless user_signed_in? %>
   <div class="large-12 columns row1">
     <div class="large-8 medium-10 medium-push-2 columns">
@@ -179,3 +185,28 @@
 <link href="http://allfont.ru/allfont.css?fonts=roboto-condensed-light" rel="stylesheet" type="text/css" />
 <link href="http://allfont.ru/allfont.css?fonts=ds-narrow-extra-condensed-medium" rel="stylesheet" type="text/css" />
 <link href="http://allfont.ru/allfont.css?fonts=open-sans-bold" rel="stylesheet" type="text/css" />
+
+<script>
+  FB.init({
+    appId:'1741496422758329',
+    cookie:true,
+    status:true,
+    xfbml:true,
+    version    : 'v2.7'
+  });
+</script>
+
+<script>
+  function FBInvite(){
+    FB.ui({
+      method: 'apprequests',
+      message: 'Invite your Facebook Friends'
+    },function(response) {
+      if (response) {
+        alert('Successfully Invited');
+      } else {
+        alert('Failed To Invite');
+      }
+    });
+  }
+</script>
