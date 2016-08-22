@@ -5,7 +5,7 @@
           <div class="medium-8 medium-offset-2">
             <div class="sub-title">
               <span>
-                By <%= @project.user.name %>
+                By <%= link_to @project.user.name, user_path(@project.user), style: 'color:white' %>
                 <% if @project.user.picture? %>
                   <%= image_tag(@project.user.picture.url, size: "35x35") %>
                 <% else %>
