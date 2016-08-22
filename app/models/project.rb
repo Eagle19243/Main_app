@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
   include AASM
 
-  default_scope -> { order('created_at DESC') }
+  default_scope -> { order('projects.created_at DESC') }
 
   mount_uploader :picture, PictureUploader
   mount_uploader :institution_logo, PictureUploader
@@ -11,6 +11,8 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :delete_all
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
+  has_many :project_rates
+  has_and_belongs_to_many :followed_users, join_table: :project_users, class_name: 'User'
   has_one :team
 
   belongs_to :user

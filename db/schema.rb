@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160820221009) do
+ActiveRecord::Schema.define(version: 20160821215142) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -192,6 +192,21 @@ ActiveRecord::Schema.define(version: 20160820221009) do
     t.integer  "user_id"
     t.integer  "project_id"
     t.text     "description"
+  end
+
+  create_table "project_rates", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.integer  "rate",       default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "project_users", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "projects", force: :cascade do |t|

@@ -97,15 +97,21 @@
                 </li>
                 <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
                 <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
-                <li><a href="#" class="button">
-                  <div class="star-rating-sm">
-                    <i class="icon-star seleted" aria-hidden="true"></i>
-                    <i class="icon-star seleted" aria-hidden="true"></i>
-                    <i class="icon-star seleted" aria-hidden="true"></i>
-                    <i class="icon-star seleted" aria-hidden="true"></i>
-                    <i class="icon-star" aria-hidden="true"></i>
-                  </div>&nbsp;Rank it
-                </a></li>
+                <li><a href="javascript:void(0)" class="button">
+                <div class="star-rating-sm" data-rate="<%= @rate %>">
+                  <% 5.times do |i| %>
+                    <i class="icon-star <%= 'seleted' if i < @rate %>" aria-hidden="true"></i>
+                  <% end %>
+                </div>&nbsp;Rank it</a></li>
+                <% if @project.user_id != @current_user_id %>
+                  <li>
+                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'button add-fav', method: :post do %>
+                      <i class="icon-star" aria-hidden="true"></i>
+                      &nbsp;
+                      <%= @followed ? "Unfollow" : "Follow" %>
+                      <% end %>
+                  </li>
+                <% end %>
                 <li><a href="#" class="button">Share:
                 <div class="share_img" style="display: inline-block;">
                   <img src="/assets/fb.jpg">
@@ -113,9 +119,11 @@
                   <img src="/assets/linkedin.jpg">
                 </div>
                 </a></li>
-                <li>
-                  <%= render 'favorite_projects/favorite_button' %>
-                </li>
+                <% if user_signed_in? %>
+                  <li>
+                    <%= render 'favorite_projects/favorite_button' %>
+                  </li>
+                <% end %>
               </ul>
             </div>
           </div>
@@ -247,4 +255,5 @@ $(document).ready(function(){
   };
 
 });
+projectId = <%= @project.id%>;
 </script>

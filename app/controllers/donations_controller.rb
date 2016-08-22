@@ -12,7 +12,6 @@ class DonationsController < ApplicationController
 
       @api = PayPal::SDK::AdaptivePayments.new
       amount = @donation.amount
-
       @pay = @api.build_pay({
                                 :actionType => "PAY",
                                 :cancelUrl => request.base_url + "/tasks/#{@donation.task_id}",
