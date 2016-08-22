@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :taskstab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
-  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
+  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
-  layout "manish", only: [:taskstab]
+  layout "manish", only: [:taskstab, :teamtab]
 
   # GET /projects
   # GET /projects.json
@@ -71,8 +71,7 @@ class ProjectsController < ApplicationController
     render json: @rate
   end
 
-  # GET /projects/1/tasks
-  # GET /projects/1.json
+  # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
@@ -81,6 +80,17 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
     end
 
+  end
+
+  # GET /projects/1/teamtab
+  # View the teamtab, same logic as the taskstab
+  def teamtab
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
   end
 
   # old project page
