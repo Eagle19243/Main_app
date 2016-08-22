@@ -114,7 +114,7 @@ table tr.even, table tr.alt, table tr:nth-of-type(even) {
     background: none;
 }
 table tr th, table tr td {
-    color: #ffffff !important;
+    color: #ffff00 !important;
     font-size: 0.875rem;
     padding: 5px 15px;
     text-align: left;
@@ -284,7 +284,7 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
 .taskbox-wrap .task-box p{
     color:#000 !important;
     line-height: 20px;
-    font-size: 19px; 
+    font-size: 19px;
   font-weight: 400;
   padding: 10px 20px 0px;
   font-family: 'Dosis', sans-serif;
@@ -322,7 +322,7 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
 .taskbox-wrap .task-box-icons{
     margin-left: 0px;
   padding: 10px 20px 0px;
-  
+
 }
 .task-box .progress {
     background-color: #F6F6F6;
@@ -421,7 +421,7 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
     width: 100%;
     background-color:transparent;
     border: #c1bfbf solid 1.5px;
-    color: #a7a4a4;    
+    color: #a7a4a4;
     transition: background-color 300ms ease-out;
 
 }
@@ -740,7 +740,7 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
 .project-search input[type="search"] {
    border: 1px solid black;
    padding: 7px 15px;
-  
+
 }
 .project-search button {
   top: 3px;
@@ -749,7 +749,7 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
   right: 5px;
   padding-right: 5px;
 }
-  
+
 @media (max-width:1024px) {
   .column + .column:last-child, .columns + .column:last-child, .column + .columns:last-child, .columns + .columns:last-child {
     float: left;
