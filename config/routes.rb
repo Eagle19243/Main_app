@@ -63,7 +63,7 @@ Rails.application.routes.draw do
     end
 
     collection do
-      get :autocomplete_project_name
+      get :autocomplete_user_search
     end
 
     collection do
@@ -72,9 +72,10 @@ Rails.application.routes.draw do
 
     member do
       get :htmlshow
-    end
+      end
   end
-  post '/projects/search_projects', to: 'projects#search_projects'
+  get '/projects/search_results', to: 'projects#search_results'
+  post '/projects/user_search', to: 'projects#user_search'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 

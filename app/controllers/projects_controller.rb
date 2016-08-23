@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow]
   before_action :get_project_user, only: [:show, :htmlshow]
   autocomplete :projects, :title, :full => true
-  #autocomplete :users, :name, :full => true
+  autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
   # GET /projects
   # GET /projects.json
@@ -13,17 +13,15 @@ class ProjectsController < ApplicationController
 
   def autocomplete_project_name
     term = params[:term]
-    @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title} | Project"}
-    @results = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title} | Task"}
-    #@projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map{|user|"#{user.name}"}
-=begin
-    @projects = Project.order(:title).where("title LIKE ?", "%#{params[:term]}%").map{|p|"#{p.title} | /projects/#{p.id}"}
-    @projects = @projects + Task.order(:title).where("title LIKE ?", "%#{params[:term]}%").map{|t|"#{t.title} | /tasks/#{t.id}"}
-    @projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map{|user|"#{user.name} | /users/#{user.id}"}
-=end
-      respond_to do |format|
-      format.html {render text: @results}
-      format.json { render json: @results.to_json,status: :ok}
+    @projects = Project.order(:title).where("title LIKE ?", "%#{params[:term]}%").map(&:title)
+    @projects = @projects + Task.order(:title).where("title LIKE ?", "%#{params[:term]}%").map(&:title)
+    @projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map(&:name)
+    respond_to do |format|
+      format.html
+      format.json {
+        #render json: @products.map(&:title).to_json
+        render json: @projects.to_json,status: :ok
+      }
       end
   end
   # GET /notifications
@@ -32,36 +30,15 @@ class ProjectsController < ApplicationController
   end
 
   def search_projects
-    @search = Sunspot.search(Project,Task) do
+    @search = Sunspot.search(Project,Task,User) do
       fulltext params[:title] do
         query_phrase_slop 1
       end
     end
     @results = @search.results
-    unless @results.blank?
-      respond_to do |format|
-        @results.each do |res|
-          if res.class.to_s.eql?('Project')
-            @project = res
-            format.html { redirect_to @project}
-            format.json { render :show, status: :created, location: @project }
-          else
-            if res.class.to_s.eql?('Task')
-              @task = res
-              format.html { redirect_to @task, notice: 'Task was successfully created.' }
-              format.json { render :show, status: :created, location: @task }
-            else
-              format.html { redirect_to root_path ,alert: 'no results match your search'}
-            end
-            format.html { redirect_to root_path }
-          end
-        end
-        puts 'abc'
-      end
-    else
-      redirect_to root_path ,alert: 'sorry no results match with your search'
+    respond_to do |format|
+      format.html {redirect_to root_path}
     end
-    puts 'abc'
   end
 
 

@@ -20,6 +20,7 @@ class Project < ActiveRecord::Base
 
   searchable do
     text :title
+    text :description
   end
 
   # validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }

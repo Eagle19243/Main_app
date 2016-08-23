@@ -33,6 +33,7 @@ class Task < ActiveRecord::Base
 
 	searchable do
 		text :title
+		text :description
 	end
 
 	def assign_address
