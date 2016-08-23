@@ -171,8 +171,8 @@
               <!-- repeating member task box -->
         			<div class="dragbox">
                 <!-- repeating member task boxes -->
-                <% 5.times do %>
-                  <%= render "projects/cards/task" %>
+                <% @project.tasks.each do |task| %>
+                  <%= render "projects/cards/task", task: task %>
                 <% end %>
           			<div class="clear"></div>
                 <!-- add button -->
