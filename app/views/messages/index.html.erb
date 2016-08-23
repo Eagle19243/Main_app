@@ -12,46 +12,16 @@
 
 </head>
 <body>
+<%= render 'layouts/menu' %>
 
-<nav class="top-bar" data-topbar role="navigation">
-  <ul class="title-area">
-    <li class="name">
-      <h1><a href="#">WeServe</a></h1>
-    </li>
-    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-  </ul>
 
-  <section class="top-bar-section">
-    <!-- Right Nav Section -->
-    <ul class="right">
-      <li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">3</span></i></a></li>
-      <li><a href="#"><img src="images/profile-image.jpg"></a></li>
-    </ul>
-
-    <!-- Left Nav Section -->
-    <ul class="left">
-      <li><a href="#">Start a Project</a></li>
-      <li><a href="#">Active Projects</a></li>
-    </ul>
-  </section>
-</nav>
 
 <div class="main">
   <div class="row messages-page-row">
     <!-- Main nav -->
-    <div class="small-2 columns full-page" id="left-nav">
-      <nav>
-        <ul class="side-nav">
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Projects</a></li>
-          <li><a href="#">Notifications ( 3 )</a></li>
-          <li class="active"><a href="#">Messages ( 3 )</a></li>
-          <li><a href="#">Logout</a></li>
-        </ul>
-      </nav>
-    </div>
+    <!--users/_sidebar.html.erb-->
+    <%= render 'users/sidebar' %>
+
     <!-- Messages and projects nav -->
     <div class="small-2 columns full-page" id="messages-nav">
       <br>
@@ -62,12 +32,15 @@
       <div class="messages-menu">
         <div class="messages-submenu">
           <div class="submenu-title">
-            <span class="menu-subtitle">PROJECTS (2)</span>
+            <span class="menu-subtitle">PROJECTS (<%= @projects.count %>)</span>
             <i class="fa fa-plus-circle" aria-hidden="true"></i>
           </div>
           <ul class="circle">
-            <li><a href="#">Building a Library</a></li>
-            <li><a href="#">Help comunity</a></li>
+            <% @projects.each do |project| %>
+                <li><a href='#' id="<%= project.cha room_id %>" %>> <%= project.title %></a></li>
+
+          <% end %>
+
           </ul>
         </div>
         <hr>
@@ -124,15 +97,11 @@
       </div>
 
       <hr>
-      <!-- Messages box. includes messages and new message form -->
-      <!--<div id="messages">-->
-      <!--&lt;!&ndash; Represents single message &ndash;&gt;-->
-      <!--<div class="row message">-->
 
 
 
       <div id="firechat-wrapper">
-        <!--<a href=" /chats/createroom_project"> umjgfkjkljair</a>-->
+
       </div>
       <script type='text/javascript'>
         var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
@@ -140,89 +109,7 @@
         var chat = new FirechatUI(firechatRef, document.getElementById("firechat-wrapper"));
         chat.setUser('<%= current_user.id %>', '<%= current_user.name %>');
       </script>
-      <!--<div class="small-1 columns">-->
-      <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
-      <!--</div>-->
-      <!--<div class="small-11 columns message-content">-->
-      <!--<span>This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--</span>-->
-      <!--<div class="message-date">june 2016</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row message">-->
-      <!--<div class="small-1 columns">-->
-      <!--<a href="#"><img class="profile-image" src="images/profile-image2.jpg"></a>-->
-      <!--</div>-->
-      <!--<div class="small-11 columns message-content">-->
-      <!--<span>This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--</span>-->
-      <!--<div class="message-date">june 2016</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row message">-->
-      <!--<div class="small-1 columns">-->
-      <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
-      <!--</div>-->
-      <!--<div class="small-11 columns message-content">-->
-      <!--<span>This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--</span>-->
-      <!--<div class="message-date">june 2016</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<h4 class="message-break">-->
-      <!--<span>June 21th</span>-->
-      <!--</h4>-->
-      <!--<div class="row message">-->
-      <!--<div class="small-1 columns">-->
-      <!--<a href="#"><img class="profile-image" src="images/profile-image2.jpg"></a>-->
-      <!--</div>-->
-      <!--<div class="small-11 columns message-content">-->
-      <!--<span>This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--</span>-->
-      <!--<div class="message-date">june 2016</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row message">-->
-      <!--<div class="small-1 columns">-->
-      <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
-      <!--</div>-->
-      <!--<div class="small-11 columns message-content">-->
-      <!--<span>This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--This is a test message to the person.This is a test message to the person.-->
-      <!--</span>-->
-      <!--<div class="message-date">june 2016</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <hr>
 
-      <!--<form class="new-message-form">-->
-      <!--<div class="small-11 columns">-->
-      <!--<textarea placeholder="Type message"></textarea>-->
-      <!--</div>-->
-      <!--<div class="small-1 columns">-->
-      <!--<span class="postfix">-->
-      <!--<i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>-->
-      <!--</span>-->
-      <!--</div>=lo-->
-      <!--o          <span class="send-hint">-->
-      <!--Hit "Enter" to send-->
-      <!--</span>-->
-      <!--</form>-->
    <span class="send-hint">
     Hit "Enter" to send
       </span>
@@ -233,7 +120,7 @@
 <%#= javascript_include_tag 'messagescreen' %>
 <%#= javascript_include_tag 'firechat_merged' %>
 
-
+<%= render 'layouts/footer' %>
 
 <script>
   $(document).foundation();
