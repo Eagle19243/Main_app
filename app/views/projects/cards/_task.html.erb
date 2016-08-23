@@ -3,13 +3,13 @@
     <div class="btn_movecard">
       <%= task.title || "Move Card Tindo" %>
     </div>
-    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum </p>
+    <p><%= task.description[0..80].concat("...") %> </p>
     <ul class="task-box-icons">
       <li><i class="fa fa-comment-o" aria-hidden="true"></i> 3</li>
       <li><i class="fa fa-paperclip" aria-hidden="true"></i> 2</li>
     </ul>
     <div class="nice round progress alert large-12 medium-12 small-12">
-      <span class="meter" style="width: 70%"></span>
+      <span class="meter" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></span>
     </div>
     <div class="row task-4rd-row">
       <center>
