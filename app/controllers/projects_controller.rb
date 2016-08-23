@@ -144,6 +144,9 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        @project_team = @project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10)
+        @project_team.save
+        first_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project.team.id) 
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project request was sent.' }
