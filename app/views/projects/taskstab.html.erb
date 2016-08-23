@@ -247,15 +247,20 @@
 
 
             	<div class="dragbox">
-                          <!-- repeating member task box -->
-
-
-                          <!-- repeating member task box -->
+                <!-- repeating member task box -->
+                <% @project.tasks.each do |task| %>
+                  <%= render "projects/cards/task", task: task %>
+                <% end %>
+  		          <div class="clear"></div>
+                <!-- add button -->
+                <div class="add-btn large-12 medium-12 small-12 columns portlet">
+                  <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class="button expand portlet-content btn_addtask"><i class="fa fa-plus" aria-hidden="true"></i> Add a Task</a>
+                </div>
 
             	</div>
 
             </div>
-            
+
           </div>
         </section>
 
