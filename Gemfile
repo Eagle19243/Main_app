@@ -28,7 +28,9 @@ gem 'capistrano-rails', '~> 1.1.1'
 gem 'validates_timeliness', '~> 4.0'
 # use puma on AWS http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Ruby_rails.html
 gem 'puma'
-
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+gem 'rails4-autocomplete'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
