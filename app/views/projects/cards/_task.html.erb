@@ -15,10 +15,10 @@
       <center>
         <table>
           <tr>
-            <th>40%</th>
+            <th><%= 100 * (task.current_fund/task.budget) %>%</th>
             <th>55/80</th>
-            <th>19/30</th>
-            <th>$8000</th>
+            <th><%= task.assignments.count %>/<%= task.target_number_of_participants %></th>
+            <th>$<%= task.budget %></th>
           </tr>
           <tr>
             <td>Funded</td>
