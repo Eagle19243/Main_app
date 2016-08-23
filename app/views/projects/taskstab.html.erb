@@ -171,7 +171,7 @@
               <!-- repeating member task box -->
         			<div class="dragbox">
                 <!-- repeating member task boxes -->
-                <% @project.tasks.each do |task| %>
+                <% @sourcing_tasks.each do |task| %>
                   <%= render "projects/cards/task", task: task %>
                 <% end %>
           			<div class="clear"></div>
@@ -195,7 +195,7 @@
               </div>
 	            <div class="dragbox">
                 <!-- repeating member task box -->
-                <% @project.tasks.each do |task| %>
+                <% @doing_tasks.each do |task| %>
                   <%= render "projects/cards/task", task: task %>
                 <% end %>
   			        <div class="clear"></div>
@@ -221,7 +221,7 @@
             </div>
             <div class="dragbox">
               <!-- repeating member task box -->
-              <% @project.tasks.each do |task| %>
+              <% @reviewing_tasks.each do |task| %>
                 <%= render "projects/cards/task", task: task %>
               <% end %>
 		          <div class="clear"></div>
@@ -246,7 +246,7 @@
               </div>
             	<div class="dragbox">
                 <!-- repeating member task box -->
-                <% @project.tasks.each do |task| %>
+                <% @done_tasks.each do |task| %>
                   <%= render "projects/cards/task", task: task %>
                 <% end %>
   		          <div class="clear"></div>
