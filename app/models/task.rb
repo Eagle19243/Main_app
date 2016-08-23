@@ -16,7 +16,8 @@ class Task < ActiveRecord::Base
 	has_many :do_requests, dependent: :delete_all
 	has_many :donations, dependent: :delete_all
 
-  after_create :assign_address
+	# after create, assign a Bitcoin address to the task, toggle the comment below to enable
+  #after_create :assign_address
 	aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :accepted
@@ -75,7 +76,7 @@ class Task < ActiveRecord::Base
 				WalletAddress.create(address:nil, task_id: self.id)
 			end
 		end
-	end 
+	end
 
   def funded
     budget == 0 ? "100%" : (current_fund/budget*100).round.to_s + "%"
