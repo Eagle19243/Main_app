@@ -37,9 +37,10 @@
           </div>
           <ul class="circle">
             <% @projects.each do |project| %>
-                <li><a href='#' id="<%= project.cha room_id %>" %>> <%= project.title %></a></li>
+                <li><a href='#' id="<%= project.chat_room.room_id %>" onclick="Enter_Room('<%= project.chat_room.room_id %>')"> <%= project.title %></a></li>
 
           <% end %>
+
 
           </ul>
         </div>
@@ -109,7 +110,11 @@
         var chat = new FirechatUI(firechatRef, document.getElementById("firechat-wrapper"));
         chat.setUser('<%= current_user.id %>', '<%= current_user.name %>');
       </script>
-
+      <script>
+        function  Enter_Room(room_id){
+          chat.enterRoom(room_id);
+        }
+      </script>
    <span class="send-hint">
     Hit "Enter" to send
       </span>
