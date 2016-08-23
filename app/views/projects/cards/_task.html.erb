@@ -1,7 +1,7 @@
 <div class="task-box portlet">
   <div class="portlet-content">
     <div class="btn_movecard">
-      <%= task.title || "Move Card Tindo" %>
+      <%= task.title || "Move Card Tindo" %><span><a href="#" class="button">More</a></span>
     </div>
     <p><%= task.description[0..80].concat("...") %> </p>
     <ul class="task-box-icons">
@@ -33,3 +33,20 @@
 
 <!-- repeating member task box ends -->
 </div>
+
+<script type="text/javascript">
+// Open the modal and render the task details via AJAX
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+</script>
