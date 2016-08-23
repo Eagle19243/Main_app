@@ -79,7 +79,13 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @current_user_id = current_user.id
     end
-
+    @followed = false
+    @rate = 0
+    if user_signed_in?
+      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
+    end
   end
 
   # GET /projects/1/teamtab
