@@ -86,6 +86,10 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
+    @sourcing_tasks = @project.tasks.where(state: "pending").all
+    @doing_tasks = @project.tasks.where(state: "doing").all
+    @reviewing_tasks = @project.tasks.where(state: "reviewing").all
+    @done_tasks = @project.tasks.where(state: "done").all
   end
 
   # GET /projects/1/teamtab
