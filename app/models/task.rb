@@ -22,7 +22,10 @@ class Task < ActiveRecord::Base
     state :pending
     state :accepted
     state :rejected
+		state :doing
+		state :reviewing
 		state :completed
+
 		event :accept do
       transitions :from => :pending, :to => :accepted
     end
