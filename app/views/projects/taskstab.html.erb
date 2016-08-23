@@ -194,8 +194,10 @@
                 </ul>
               </div>
 	            <div class="dragbox">
-
                 <!-- repeating member task box -->
+                <% @project.tasks.each do |task| %>
+                  <%= render "projects/cards/task", task: task %>
+                <% end %>
   			        <div class="clear"></div>
 
                 <!-- add button -->
@@ -205,7 +207,7 @@
 			        </div>
 
             </div>
-            
+
             <!-- Reviewing column -->
             <div class="large-3 medium-6 small-12 columns">
               <div class="task-box-header">
