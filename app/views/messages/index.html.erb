@@ -36,10 +36,10 @@
             <i class="fa fa-plus-circle" aria-hidden="true"></i>
           </div>
           <ul class="circle">
-            <!--<%# @projects.each do |project| %>-->
-                <!--<li><a href='#' id="<%#= project.chat_room.room_id %>" onclick="Enter_Room('<%#= project.chat_room.room_id %>')"> <%= project.title %></a></li>-->
+            <% @projects.each do |project| %>
+                <li><a href="<%= project.chat_room.room_id %>" > <%= project.title %></a></li>
 
-          <!--<% #end %>-->
+          <% end %>
 
 
           </ul>
@@ -114,7 +114,7 @@
       <script>
 //        function  Enter_Room(room_id){
 //          chat.resumeSession();
-//
+//onclick="Enter_Room('<%#= project.chat_room.room_id %>')"
 ////          chat.enterRoom(room_id);
 //        }
       </script>
