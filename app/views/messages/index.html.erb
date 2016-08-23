@@ -36,10 +36,10 @@
             <i class="fa fa-plus-circle" aria-hidden="true"></i>
           </div>
           <ul class="circle">
-            <% @projects.each do |project| %>
-                <li><a href='#' id="<%= project.chat_room.room_id %>" onclick="Enter_Room('<%= project.chat_room.room_id %>')"> <%= project.title %></a></li>
+            <!--<%# @projects.each do |project| %>-->
+                <!--<li><a href='#' id="<%#= project.chat_room.room_id %>" onclick="Enter_Room('<%#= project.chat_room.room_id %>')"> <%= project.title %></a></li>-->
 
-          <% end %>
+          <!--<% #end %>-->
 
 
           </ul>
@@ -110,10 +110,13 @@
         var chat = new FirechatUI(firechatRef, document.getElementById("firechat-wrapper"));
         chat.setUser('<%= current_user.id %>', '<%= current_user.name %>');
       </script>
+
       <script>
-        function  Enter_Room(room_id){
-          chat.enterRoom(room_id);
-        }
+//        function  Enter_Room(room_id){
+//          chat.resumeSession();
+//
+////          chat.enterRoom(room_id);
+//        }
       </script>
    <span class="send-hint">
     Hit "Enter" to send
