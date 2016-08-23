@@ -39,7 +39,7 @@ class Task < ActiveRecord::Base
 			transitions :from => [:accepted, :pending, :completed, :doing], :to => :reviewing
 		end
 		event :complete do
-      transitions :from => [:accepted, :pending, :completed, :doing], :to => :completed
+      transitions :from => [:accepted, :pending, :doing, :reviewing], :to => :completed
     end
 
   end
