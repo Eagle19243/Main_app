@@ -183,7 +183,7 @@
           <div class="small-12 medium-4 columns" id="project_tasks">
             <div class="task_border ">
               <h3 class="task_title left">Tasks</h3>
-              <a href="#panel3" class="button round task_btn btn-see-all right">See all</a>
+              <a href=<%= "/projects/#{@project.id}/taskstab" %> class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
             </div>
             <% @project.tasks.each do |task| %>
               <div class="task_content clearfix">
