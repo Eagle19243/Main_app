@@ -32,9 +32,16 @@ class Task < ActiveRecord::Base
 		event :reject do
       transitions :from => :pending, :to => :rejected
     end
+		event :start_doing do
+			transitions :from => :accepted, :to => :doing
+		end
+		event :reviewing do
+			transitions :from => :doing, :to => :reviewing
+		end
 		event :complete do
       transitions :from => :accepted, :to => :completed
     end
+
   end
 
   validates :proof_of_execution, presence: true
