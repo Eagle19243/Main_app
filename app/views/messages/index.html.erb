@@ -23,51 +23,51 @@
     <%= render 'users/sidebar' %>
 
     <!-- Messages and projects nav -->
-    <div class="small-2 columns full-page" id="messages-nav">
-      <br>
-      <div class="messages-nav-title">
-        <i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i>
-        <span>Messages</span>
-      </div>
-      <div class="messages-menu">
-        <div class="messages-submenu">
-          <div class="submenu-title">
-            <span class="menu-subtitle">PROJECTS (<%= @projects.count %>)</span>
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-          </div>
-          <ul class="circle">
-            <% @projects.each do |project| %>
-                <li><a href="<%= project.chat_room.room_id %>" > <%= project.title %></a></li>
-
-          <% end %>
+    <!--<div class="small-2 columns full-page" id="messages-nav">-->
+      <!--<br>-->
+      <!--&lt;!&ndash;<div class="messages-nav-title">&ndash;&gt;-->
+        <!--&lt;!&ndash;<i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i>&ndash;&gt;-->
+        <!--&lt;!&ndash;<span>Messages</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="messages-menu">&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<div class="messages-submenu">&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<div class="submenu-title">&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<span class="menu-subtitle">PROJECTS (<%#= @projects.count %>)</span>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-plus-circle" aria-hidden="true"></i>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<ul class="circle">&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;&ndash;&gt;&ndash;&gt;-->
 
 
-          </ul>
-        </div>
-        <hr>
-        <div class="messages-submenu">
-          <div class="submenu-title">
-            <span class="menu-subtitle">DIRECT MESSAGES (3)</span>
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-          </div>
-          <ul class="circle">
-            <li><a href="#">Eric</a></li>
-            <li class="active"><a href="#">Caju</a></li>
-            <li><a href="#">Tendai</a></li>
-            <li><a href="#">#Group Message</a></li>
-          </ul>
-        </div>
-        <hr>
-      </div>
-    </div>
+          <!--&lt;!&ndash;&lt;!&ndash;</ul>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<hr>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="messages-submenu">&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<div class="submenu-title">&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<span class="menu-subtitle">DIRECT MESSAGES (3)</span>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-plus-circle" aria-hidden="true"></i>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<ul class="circle">&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<li><a href="#">Eric</a></li>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<li class="active"><a href="#">Caju</a></li>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<li><a href="#">Tendai</a></li>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<li><a href="#">#Group Message</a></li>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;</ul>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--<hr>-->
+      <!--</div>-->
+    <!--</div>-->
 
-    <div class="small-7 columns" id="page-message-content">
+    <div class="small-10 columns" id="page-message-content">
       <br>
       <div>
         <!-- Conversation name -->
         <div class="small-6 columns">
           <h4>
-            #Caju Costa
+            <div class="messages-nav-title">
+              <i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i>
+              <span>Messages</span>
+            </div>
           </h4>
         </div>
 
@@ -109,15 +109,23 @@
         firechatRef.auth('<%= current_user.chat_token %>');
         var chat = new FirechatUI(firechatRef, document.getElementById("firechat-wrapper"));
         chat.setUser('<%= current_user.id %>', '<%= current_user.name %>');
-      </script>
-
-      <script>
 //        function  Enter_Room(room_id){
-//          chat.resumeSession();
-//onclick="Enter_Room('<%#= project.chat_room.room_id %>')"
-////          chat.enterRoom(room_id);
+//          room_id="#"+room_id
+//          room_id = room_id.replace(/\s+/g, '');
+//         //$( "input[name='first_name']" )
+//         // alert( $('input[data-room-id= room_id]'));
+//         // $('input[data-room-id= room_id]').click();
+//          $('a[href=room_id ]').first().click()
+//            //  [<a href=​"#-KPvbTAm4zdsbskNPulQ" data-toggle=​"tab" title=​"2 project">​2 project​</a>​]
+//        //  var chat_room = new Firechat(firechatRef);
+//         // chat_room .resumeSession(room_id);
+//         // chat_room .resumeSession(room_id);
+//         // chat_room .enterRoom(room_id);
+//          //getRoomList
+//          console.log(room_id);
 //        }
       </script>
+
    <span class="send-hint">
     Hit "Enter" to send
       </span>
