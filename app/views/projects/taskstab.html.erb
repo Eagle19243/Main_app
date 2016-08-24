@@ -358,92 +358,9 @@
 
           <!-- one row of team members starts here -->
           <div class="row">
-            <div class="large-3 medium-6 small-12 columns">
-              <div class="box">
-                <center><div class="team-member-img"><img src="/static/manish-layout/images/profile-image.jpg"></div></center>
-                <center><h5>Caju Costa</h5></center>
-                <center><h6>Project Owner/ Administrator <a href="#">Edit role</a></h6></center>
-                <center><h4>Institution Name</h4></center>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since..<a href="#"> See full bio</a>
-                </p>
-
-                <center>
-                  <ul class="inline-list social-net-links">
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-link" aria-hidden="true"></i></a></li>
-                  </ul>
-                </center>
-              </div>
-            </div>
-
-
-            <div class="large-3 medium-6 small-12 columns">
-              <div class="box">
-                <center><div class="team-member-img"><img src="/static/manish-layout/images/profile-image.jpg"></div></center>
-                <center><h5>Caju Costa</h5></center>
-                <center><h6>Project Owner/ Administrator <a href="#">Edit role</a></h6></center>
-                <center><h4>Institution Name</h4></center>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since..<a href="#"> See full bio</a>
-                </p>
-
-                <center>
-                  <ul class="inline-list social-net-links">
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-link" aria-hidden="true"></i></a></li>
-                  </ul>
-                </center>
-              </div>
-            </div>
-
-
-            <div class="large-3 medium-6 small-12 columns">
-              <div class="box">
-                <center><div class="team-member-img"><img src="/static/manish-layout/images/profile-image.jpg"></div></center>
-                <center><h5>Caju Costa</h5></center>
-                <center><h6>Project Owner/ Administrator <a href="#">Edit role</a></h6></center>
-                <center><h4>Institution Name</h4></center>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since..<a href="#"> See full bio</a>
-                </p>
-
-                <center>
-                  <ul class="inline-list social-net-links">
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-link" aria-hidden="true"></i></a></li>
-                  </ul>
-                </center>
-              </div>
-            </div>
-
-
-            <div class="large-3 medium-6 small-12 columns">
-              <div class="box">
-                <center><div class="team-member-img"><img src="/static/manish-layout/images/profile-image.jpg"></div></center>
-                <center><h5>Caju Costa</h5></center>
-                <center><h6>Project Owner/ Administrator <a href="#">Edit role</a></h6></center>
-                <center><h4>Institution Name</h4></center>
-                <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since..<a href="#"> See full bio</a>
-                </p>
-
-                <center>
-                  <ul class="inline-list social-net-links">
-                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                    <li><a href="#"><i class="fa fa-link" aria-hidden="true"></i></a></li>
-                  </ul>
-                </center>
-              </div>
-            </div>
+            <% 3.times do |team_member| %>
+              <%= render "projects/cards/team_member", team_member: team_member %>
+            <% end %>
           </div>
           <!-- end of row-->
 
