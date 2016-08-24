@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # InsitutionUser, and we would occasionally like to see all such associations at a glance
   resources :institution_users
   resources :teams
+  post 'team_memberships/:project_id', to: 'teams#team_memberships'
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
