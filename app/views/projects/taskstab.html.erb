@@ -129,7 +129,7 @@
       </div>
 
       <div class="row">
-        <center><a href="#" id="myBtn" class="button round get-invo-btn"><%= @project.team.team_members.include?(current_user) ? "Leave Project" : "Join Project" %></a></center>
+        <center><a href=<%= "/projects/#{@project.id}/team_memberships" %> id="myBtn" class="button round get-invo-btn" data-remote="true"><%= @project.team.team_members.include?(current_user) ? "Leave Project" : "Join Project" %></a></center>
       </div>
 
     </div>
