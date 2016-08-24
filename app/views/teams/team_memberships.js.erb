@@ -1,9 +1,9 @@
 //change the color of the Join Project/Leave Project button
 // change the text of the Join Project/Leave Project button
 <% if @add_member == true %>
-  alert("we are rockin chico! You just joined this project team");
+  alert("You are joining this project team");
   $("#myBtn").text("Leave Team").addClass("alert");
 <% else %>
-  alert("We just deleted a lousy membership!");
+  alert("You are leaving this team");
   $("#myBtn").text("Join Team").addClass("success").removeClass("alert");
 <% end %>
