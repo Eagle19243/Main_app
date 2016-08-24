@@ -73,14 +73,17 @@ class TeamsController < ApplicationController
       first_member = TeamMembership.create(team_member_id: @project.user_id, team_id: @project_team.id)
       first_member.save
     end
-    @project_team = Team.where(project_id: @project.id)
-    case params[:follow]
+    @project_team = Team.where(project_id: @project.id).first
+    @add_member = true
+    case @project_team.team_members.include?(current_user)
     when true
+      @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
+      @project_team.team_memberships.destroy(@team_membership) unless @team_membership.nil?
+      @add_member = false
+    else
       new_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
       new_member.save
-    else
-      @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
-      @project.team_memberships.destroy(@team_membership) unless   @team_membership.nil?
+      @add_member = true
     end
     respond_to do |format|
       format.html {redirect_to :back}
