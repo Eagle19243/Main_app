@@ -19,6 +19,9 @@
       <!--</div>-->
   <%#= end  %>
 <% unless user_signed_in? %>
+  </div>
+  <div class="large-12 columns row2">
+    <br>
   <div class="large-12 columns row1">
     <div class="large-8 medium-10 medium-push-2 columns">
       <center>
@@ -92,12 +95,11 @@
       <h1 class="text_feats">Featured Projects</h1>
     </div>
     <div class="large-6 medium-9 columns content_pro">
-      <form action="" method="post" id="search_feat">
-        <div class="large-12 columns">
-          <input type="text" name="" placeholder="Search causes, places, or keywords" onblur="if(this.value=='') ;" onfocus="if(this. value=='Search causes, places, or keywords') this.value='';" class="input" />
-          <i class="fa fa-search"></i>
-        </div>
-      </form>
+      <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form' do  %>
+          <div class="large-12 columns">
+            <input type="text" name="title" id="title" data-autocomplete="/projects/autocomplete_user_search" autocomplete="off" placeholder="Search causes, places, or keywords" onblur="if(this.value=='') ;" onfocus="if(this. value=='Search causes, places, or keywords') this.value='';" class="input" />
+          </div>
+      <% end %>
     </div>
   </div>
   <div class="large-12 columns row2">
