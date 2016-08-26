@@ -36,6 +36,12 @@ $(document).off('page:load').on('page:load', function() {
     $(document).foundation();
 });
 
+$(function() {
+    var maxHeight = 0;
+    $('.task-box')
+      .each(function() { maxHeight = Math.max(maxHeight, $(this).height()); })
+      .height(maxHeight);
+  });
 
 
 // enhance Turbolinks when necessary

@@ -1,15 +1,82 @@
 <%= render 'layouts/menu' %>
-<div class="project-page-info">
-  <h3>Active projects</h3>
-  <p>See what other people are doing with YouServe, and get involved.</p>
-  <%= link_to 'Make a new project', new_project_path, class: "hero-button" %>
-</div>
-<div class="separator"></div>
+<!-- Tab section -->
+<div class="tabs tabwrap">
+  <div class="row" style="max-width: none;">
+    <div class="small-12 columns">
+      <div class="tabs-content task-tabs-content">
+        <!--Task tab -->
+        <div role="tabpanel">
+          <div class="row">
+          <!--Funding / Sourcing Column -->
+          <div class="medium-5 small-12 small-offset-1 columns" style="padding-bottom:20px;">
+            <h1 class="heading1">Browse All Projects</h1>
+            <%= paginate @featured_projects %>
+          </div>
+          <!--Funding / Sourcing Column -->
+          <div class="medium-4 small-12 columns end" style="padding-bottom:20px;">
+            <form class="left top-searchbox project-search">
+              <input type="search" name="" placeholder="Search Causes, Places, or Keyword" />
+              <button type="button" name="">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+          <div class="row taskbox-wrap">
+            <!--Funding / Sourcing Column -->
+            <div class="small-11 small-offset-1  columns">
+              <!-- repeating member task box -->
 
-<div class="content projects">
-  <% @projects.each do |project| %>
-    <%= render 'project_preview', project: project %>
-  <% end %>
+              <% @featured_projects.each do |project| %>
+                  <div class="task-box small-11 medium-5 large-3 columns" style="float: left">
+                    <div class="img-res">
+                      <%= link_to project_path(project) do%>
+                        <%= image_tag(project.picture) %>
+                      <% end %>
+                    </div>
+                    <p>
+                      <%= link_to project.title, project_path(project)%>
+                    </p>
+                    <ul class="task-box-icons">
+                      <li>
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <%= project.institution_location%>
+                      </li>
+                      <li>
+                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                        <%= link_to project.user.name, user_path(project.user)%>
+                      </li>
+                    </ul>
+                    <p class="clr1">
+                      <%= project.short_description%>
+                    </p>
+                    <div class="nice round progress alert large-12 medium-12 small-12">
+                      <span class="meter" style="width: <%= project.funded_percentages%>"></span>
+                    </div>
+                    <div class="row task-4rd-row">
+                      <center>
+                        <table>
+                          <tr>
+                            <th><%= project.funded_percentages %></th>
+                            <th><%= project.tasks_relations_string%></th>
+                            <th><%= project.team_relations_string%></th>
+                            <th>$<%= project.funded_budget %></th>
+                          </tr>
+                          <tr>
+                            <td>Funded</td>
+                            <td>Tasks</td>
+                            <td>Teamates</td>
+                            <td>Raised</td>
+                          </tr>
+                        </table>
+                      </center>
+                    </div>
+                  </div>
+              <% end %>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%= render 'visitors/sitewide_footer' %>

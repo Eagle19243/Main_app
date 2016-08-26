@@ -3,7 +3,6 @@
 <link href="/static/users/css/style.css"rel="stylesheet">
 <link rel="stylesheet" href="/static/ManishNotifications/css/style.css">
 <link rel="stylesheet" type="text/css" href="/static/ManishNotifications/css/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="static/users/css/menu.css" />
 <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 
@@ -19,7 +18,7 @@
     <div class="tabs-content" id="tabcontentdiv">
       <div class="content active" id="dashboard">
         <%#= render "users/tabcontent/backup_dashboard" %>
-        <%= render "users/tabcontent/dashboard" %>
+        <%= render partial: "users/tabcontent/dashboard", locals: { conversations: @conversations} %>
       </div>
       <div class="content" id="profile">
         <%= render "users/tabcontent/profile" %>
@@ -38,7 +37,7 @@
       </div>
 
       <div class="content" id="messages">
-        <%= render 'users/tabcontent/messages' %>
+        <%= render partial: "users/tabcontent/messages", locals: { conversations: @conversations} %>
       </div>
 
       <div class="content" id="logout">
@@ -47,11 +46,3 @@
     </div>
   </div>
 </div>
-
-<script src="/static/users/js/vendor/modernizr.js"></script>
-<script src="/static/users/js/vendor/jquery.js"></script>
-<script src="/static/users/js/foundation.min.js"></script>
-<script src="/static/users/js/foundation/foundation.equalizer.js"></script>
-<script>
-  $(document).foundation();
-</script>

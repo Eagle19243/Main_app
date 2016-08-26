@@ -22,9 +22,9 @@
         <p class="inhead2">join and help solving public issues in your area</p>
         <button class="secondary button sign" data-reveal-id="SignUpModal">Sign up</button>
         <br>
-        <button class="button facebut">
-          <img src="/static/visitors/images/facebook.png">
-        </button>
+        <%= link_to image_tag("facebook.png"), user_omniauth_authorize_path(:facebook) %>
+        <%= link_to image_tag("signup-twitter.png"), user_omniauth_authorize_path(:twitter) %>
+        <%= link_to image_tag("google.png"), user_omniauth_authorize_path(:google_oauth2) %>
       </center>
     </div>
   </div>

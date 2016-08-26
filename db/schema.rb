@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731005904) do
+ActiveRecord::Schema.define(version: 20160821215142) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.string   "PAYKEY"
   end
 
+  create_table "favorite_projects", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "favorite_projects", ["project_id"], name: "index_favorite_projects_on_project_id"
+  add_index "favorite_projects", ["user_id"], name: "index_favorite_projects_on_user_id"
+
   create_table "generate_addresses", force: :cascade do |t|
     t.string   "address"
     t.boolean  "is_available"
@@ -124,6 +134,7 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.boolean  "read",            default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image"
   end
 
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
@@ -183,6 +194,21 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.text     "description"
   end
 
+  create_table "project_rates", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.integer  "rate",       default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "project_users", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -202,6 +228,9 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.string   "institution_location"
     t.string   "short_description"
     t.string   "institution_country"
+    t.string   "video_id"
+    t.text     "section1"
+    t.text     "section2"
   end
 
   create_table "task_comments", force: :cascade do |t|
@@ -229,22 +258,35 @@ ActiveRecord::Schema.define(version: 20160731005904) do
     t.string   "filefour"
     t.string   "filefive"
     t.string   "state"
-    t.integer  "number_of_participants"
-    t.integer  "target_number_of_participants"
+    t.integer  "number_of_participants",        default: 0
+    t.integer  "target_number_of_participants", default: 0
     t.boolean  "assigned",                      default: false
     t.text     "proof_of_execution"
     t.text     "short_description"
     t.boolean  "marker",                        default: false
   end
 
+  create_table "team_memberships", force: :cascade do |t|
+    t.integer  "team_id",        null: false
+    t.integer  "team_member_id", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true
+  add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id"
+  add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id"
+
   create_table "teams", force: :cascade do |t|
     t.string   "name"
-    t.integer  "number_of_members"
-    t.integer  "number_of_projects"
     t.text     "mission"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "slots"
+    t.integer  "project_id"
   end
+
+  add_index "teams", ["project_id"], name: "index_teams_on_project_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "",    null: false

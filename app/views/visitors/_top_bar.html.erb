@@ -35,7 +35,8 @@
         </form>
       </li>
       <% if user_signed_in? %>
-        <li><%= link_to current_user.name.split(' ')[0], current_user %></li>
+          <% unless current_user.name.blank? %>
+        <li><%= link_to current_user.name.split(' ')[0] , current_user %></li> <% end %>
         <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'signup_buttons' %></li>
       <% else %>
         <li>
@@ -43,6 +44,7 @@
             Sign In
           </a>
         </li>
+
         <li>
           <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">
             Sign Up
