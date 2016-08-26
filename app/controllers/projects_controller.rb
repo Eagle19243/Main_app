@@ -11,34 +11,40 @@ class ProjectsController < ApplicationController
     @projects = Project.all
   end
 
-  def autocomplete_project_name
+  def autocomplete_user_search
     term = params[:term]
-    @projects = Project.order(:title).where("title LIKE ?", "%#{params[:term]}%").map(&:title)
-    @projects = @projects + Task.order(:title).where("title LIKE ?", "%#{params[:term]}%").map(&:title)
-    @projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map(&:name)
-    respond_to do |format|
-      format.html
-      format.json {
-        #render json: @products.map(&:title).to_json
-        render json: @projects.to_json,status: :ok
-      }
+    @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
+    @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
+    #@projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map{|user|"#{user.name}"}
+      respond_to do |format|
+      format.html {render text: @result}
+      format.json { render json: @result.to_json,status: :ok}
       end
   end
   # GET /notifications
   def htmlindex
-    @projects = Project.all
+  test  @projects = Project.all
   end
 
-  def search_projects
-    @search = Sunspot.search(Project,Task,User) do
+  def user_search
+    #User search has been disabled because we don't have user's public profile or show page yet available in application we will just add Sunspot.search(Project,Task,User) later
+    @search = Sunspot.search(Task,Project) do
       fulltext params[:title] do
         query_phrase_slop 1
       end
     end
     @results = @search.results
-    respond_to do |format|
-      format.html {redirect_to root_path}
+    unless @results.blank?
+      respond_to do |format|
+       format.html {render  :search_results}
+      end
+    else
+      redirect_to root_path ,alert: 'sorry no results match with your search'
     end
+  end
+
+  def search_results
+    #display solar search results
   end
 
 
