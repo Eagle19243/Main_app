@@ -13,7 +13,7 @@
     <center><h6>Project Owner/ Administrator <a href="#">Edit role</a></h6></center>
     <center><h4><%= "#{team_member.institution.try(:name) }" %></h4></center>
     <p>
-      <%= team_member.try(:bio)[0..80] %>..<%= link_to "See full bio", user_path(team_member) %>
+      <%= team_member.try(:bio)[0..80] rescue nil %>..<%= link_to "See full bio", user_path(team_member) %>
     </p>
 
     <center>
