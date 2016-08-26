@@ -85,7 +85,7 @@ Rails.application.routes.draw do
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
-  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations' }
+  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
   resources :users do
     member do
       get :profile
@@ -102,6 +102,7 @@ Rails.application.routes.draw do
 
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
+
   # root to: 'visitors#index'
   root to: 'visitors#landing'
 end

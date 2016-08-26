@@ -32,6 +32,10 @@ gem 'puma'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
 
 # gem 'video_info'
 # Add this if you're using rbenv
