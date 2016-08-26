@@ -2,10 +2,10 @@ require 'rufus-scheduler'
 include ApplicationHelper
 scheduler = Rufus::Scheduler::singleton
  #My Jobs
-scheduler.every '30s' do
+scheduler.every '2m' do
 
   begin
-    puts 'Fetching user Balance' unless Rails.env == "development"
+    puts 'Fetching task Balance' unless Rails.env == "development"
     access_token= access_wallet
     api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
 
@@ -15,10 +15,10 @@ scheduler.every '30s' do
     # puts wallet.inspect
     puts 'inspecting' unless Rails.env == "development"
 
-    ActiveRecord::Base.logger.silence do
+    #ActiveRecord::Base.logger.silence do
       # do a lot of querys without noisy logs
       batch_of_addresses = WalletAddress.all
-    end
+    #end
 
     # puts batch_of_addresses
     unless batch_of_addresses.blank?
@@ -48,32 +48,38 @@ begin
   available_wallet_addresses = GenerateAddress.where(is_available:true)
   if available_wallet_addresses.blank? or available_wallet_addresses.count < 50
     puts 'Generating new wallet_Addresses' unless Rails.env == "development"
-    wallet = access_wallet
-    api = Bitgo::V1::Api.new(Bitgo::V1::Api::LIVE)
+    access_token = access_wallet
+    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
     for i in 1..5 do
       secure_passphrase = SecureRandom.hex(5)
       secure_label = SecureRandom.hex(5)
-      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: wallet["access_token"])
-      puts "#{i} Bitgo Wallet_id #{new_address["wallet"]["id"]}" unless Rails.env == "development"
-      puts "#{i} Bitgo Wallet_Address #{new_address["wallet"]["id"]}"  unless Rails.env == "development"
+      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
+      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
+      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
+      new_wallet_address_sender = api.create_address(wallet_id:new_address_id, chain: "0", access_token: access_token) rescue "create address"
+      new_wallet_address_receiver = api.create_address(wallet_id:new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
+      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
+      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
+      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'  unless Rails.env == "development"
+      Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created' unless Rails.env == "development"
       unless new_address.blank? or new_address["wallet"]["id"].blank?
-        GenerateAddress.create!(address: new_address["wallet"]["address"],wallet_id:new_address["wallet"]["id"], is_available:true)
+        GenerateAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , wallet_id:new_address_id ,is_available:true)
+
       end
     end
 
-    # Assign Wallet addresses to users having no address attached
-
-    puts 'Missing user address inspection and Address Assignment!!' unless Rails.env == "development"
-    users_without_wallets = WalletAddress.where(address:nil)
-    unless users_without_wallets.blank?
-      users_without_wallets.each do|missing_user_wallet|
+    puts 'Missing task address inspection and Address Assignment!!' unless Rails.env == "development"
+    tasks_without_wallets = WalletAddress.where(sender_address:nil)
+    unless tasks_without_wallets.blank?
+      tasks_without_wallets.each do|missing_task_wallet|
         if_address_available = GenerateAddress.where(is_available: true)
         unless if_address_available.blank?
           begin
-            missing_user_wallet.update_attribute('address', if_address_available.first.address)
+            missing_task_wallet.update_attribute(:sender_address => if_address_available.first.sender_address,:receiver_address => if_address_available.first.receiver_address , :pass_phrase => if_address_available.first.pass_phrase,:wallet_id => if_address_available.first.wallet_id)
             update_address_availability = if_address_available.first
             update_address_availability.update_attribute('is_available', 'false')
-            puts 'Missing user Addressed Fixed.' unless Rails.env == "development"
+            puts 'Missing task Addressed Fixed.' unless Rails.env == "development"
           rescue => e
             puts e.message unless Rails.env == "development"
           end

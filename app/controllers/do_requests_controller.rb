@@ -1,6 +1,6 @@
 class DoRequestsController < ApplicationController
   before_filter :authenticate_user!
-  
+
 
   def index
   end
@@ -9,7 +9,7 @@ class DoRequestsController < ApplicationController
     @task = Task.find(params[:task_id])
     @free = params[:free]
     @do_request = DoRequest.new
-  
+
   end
 
   def create
@@ -18,7 +18,7 @@ class DoRequestsController < ApplicationController
         flash[:success] = "Request sent to Project Admin"
         redirect_to @do_request.task
   else
-    
+
     flash[:error] = "You cannot apply twice"
     redirect_to root_url
   end
@@ -44,9 +44,11 @@ class DoRequestsController < ApplicationController
 
   def accept
     @do_request = DoRequest.find(params[:id])
-    if @do_request.accept! 
-      @do_request.user.assign(@do_request.task, @do_request.free) 
+    if @do_request.accept!
+      @do_request.user.assign(@do_request.task, @do_request.free)
+      @current_number_of_participants = @do_request.task.try(:number_of_participants) || 0
       @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days )
+      @do_request.task.update_attribute(:current_number_of_participants, @current_number_of_participants + 1)
 
        flash[:success] = "Task has been assigned"
 
@@ -73,10 +75,10 @@ class DoRequestsController < ApplicationController
 
 
 
-  private 
+  private
 
   def request_params
     params.require(:do_request).permit(:application, :task_id, :user_id, :free)
   end
-  
+
 end

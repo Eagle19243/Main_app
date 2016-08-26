@@ -1,0 +1,235 @@
+<%= render 'layouts/menu' %>
+    <div class="top_banner" id="top_banner" style="background: url(<%= @project.picture%>) no-repeat center center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; height: 470px; background-repeat: no-repeat; text-align: center; ">
+      <div class="banner_content" style="text-align: center;">
+        <div class="row">
+          <div class="medium-8 medium-offset-2">
+            <div class="sub-title">
+              <span>
+                By <%= @project.user.name %>
+                <% if @project.user.picture? %>
+                  <%= image_tag(@project.user.picture.url, size: "35x35") %>
+                <% else %>
+                  <%= gravatar_for(@project.user, 35)%>
+                <%end%>
+                <i class="icon-map-marker" aria-hidden="true"></i>
+                &nbsp;&nbsp;<%= @project.location%>
+              </span>
+            </div>
+            <h2><%= @project.title%></h2>
+            <div class="progress-widget progress-widget-lg">
+              <div class="progress progress-home task_bar">
+                <span class="meter" style="<%= @project.funded_percentages%>"></span>
+              </div>
+              <div class="row prgress-values-wrapper">
+                <div class="prgress_values_block small-6  medium-2 columns">
+                  <div class="progress_values ">
+                    <p><%= @project.funded_percentages%>
+                    <span>Funded</span></p>
+                  </div>
+                </div>
+              <div class="prgress_values_block small-6  medium-2 columns no-pad">
+                <div class="progress_values">
+                  <p><%= @project.tasks_relations_string %>
+                  <span>Completed Task</span></p>
+                </div>
+              </div>
+              <div class="prgress_values_block small-6  medium-2 columns">
+                <div class="progress_values">
+                  <p><%= @project.team_relations_string %>
+                  <span>Teamates</span></p>
+                </div>
+              </div>
+              <div class="prgress_values_block small-6  medium-2 columns">
+                <div class="progress_values">
+                  <p>$<%= @project.funded_budget %>
+                  <span>Raised</span></p>
+                </div>
+              </div>
+              <div class="medium-2 columns"></div>
+              <div class="medium-2 columns"></div>
+            </div>
+          </div><!-- progress_widget -->
+        </div>
+      </div>
+    </div>
+    <a href="#" class="button round banner_button">Get Involved</a>
+    </div>
+   <!-- Header banner end -->
+    <div id="project_menu">
+      <dl class="tabs tabs-home" data-tab>
+        <dd>
+          <a class="project_menu_btn" href="#panel1">
+            <span class="project_title">Project Menu <i class="icon-double-angle-right"></i></span>
+          </a>
+        </dd>
+        <dd class="active active_tab">
+          <a class="active_tab" href="#panel2">Plan</a>
+        </dd>
+        <dd class="active active_tab">
+          <a class="active_tab" href="#panel3">
+            Tasks
+            <span>
+              <%= @project.tasks_relations_string %>
+            </span>
+          </a>
+        </dd>
+        <dd class="active active_tab">
+          <a class="active_tab" href="#panel4">Team<span>(<%= @project.team_relations_string %>)</span></a>
+        </dd>
+      </dl>
+    </div>
+    <div class="tabs-content">
+      <div class="content" id="panel1">
+        <h2>Comming Soon</h2>
+      </div>
+      <div class="content active" id="panel2">
+        <div class="row">
+          <div class="medium-12 columns">
+            <div class="social_bar">
+              <!-- A default button-group -->
+              <ul class="button-group radius ">
+                <li>
+                  <%= link_to edit_project_path(@project), :class => "button" do %>
+                    <i class="icon-edit"></i>
+                    Edit
+                  <% end %>
+                </li>
+                <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
+                <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
+                <li><a href="#" class="button">
+                  <div class="star-rating-sm">
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star seleted" aria-hidden="true"></i>
+                    <i class="icon-star" aria-hidden="true"></i>
+                  </div>&nbsp;Rank it
+                </a></li>
+                <li><a href="#" class="button">Share:
+                <div class="share_img" style="display: inline-block;">
+                  <img src="/assets/fb.jpg">
+                  <img src="/assets/twitter.jpg">
+                  <img src="/assets/linkedin.jpg">
+                </div>
+                </a></li>
+                <li>
+                  <%= render 'favorite_projects/favorite_button' %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <section class="blog" id="project_description">
+          <div class="row">
+            <div class="small-12 medium-7 columns">
+            <div class="text_blog">
+              <%= @project.description%>
+              </div>
+            </div>
+            <div id="project_video" class="small-12 medium-5 columns">
+              <div class="flex-video">
+                <iframe width="460" height="250" src="<%= @project.video_url%>" frameborder="0" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+        <br />
+        <div class="row">
+          <div class="small-12 medium-8 columns">
+            <div class="table_contents">
+              <h3 class="table_border">Table of Contents</h3>
+              <div class="table_body">
+                <ul>
+                  <li>
+                    <a href="#project_menu">Project Menu</a>
+                  </li>
+                  <li>
+                    <a href="#top_banner">Get Involved</a>
+                  </li>
+                  <li>
+                    <a href="#project_tasks">Tasks</a>
+                  </li>
+                  <li>
+                    <a href="#project_description">Description</a>
+                  </li>
+                  <li>
+                    <a href="#project_video">Project Video</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <section class="section_content_box">
+              <h2>Section1</h2>
+              <p>
+                <%= @project.section1 %>
+              </p>
+            </section>
+            <section class="section_content_box">
+              <h2>Section2</h2>
+              <p>
+                <%= @project.section2 %>
+              </p>
+            </section>
+          </div>
+          <div class="small-12 medium-4 columns" id="project_tasks">
+            <div class="task_border ">
+              <h3 class="task_title left">Tasks</h3>
+              <a href="#panel3" class="button round task_btn btn-see-all right">See all</a>
+            </div>
+            <% @project.tasks.each do |task| %>
+              <div class="task_content clearfix">
+                <h3><%= task.title%></h3>
+                <p><%=task.description %></p>
+
+                <div class="row">
+                  <div class="small-12 medium-9 columns">
+                    <div class="progress task_bar">
+                      <span class="meter" style="width:<%= task.funded%>"></span>
+                    </div>
+                    <div class="prgress_values_block">
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">$<%= task.funded%>
+                        <span>Funded</span></p>
+                      </div>
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">State
+                          <span><%= task.state%></span>
+                        </p>
+                      </div>
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">
+                          <%= task.team_relations_string%>
+                          <span>Teamates</span>
+                        </p>
+                      </div>
+                      <div class="progress_values tasks_values">
+                        <p style="float: none;">
+                          <%= task.budget%>
+                          <span>Needed</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-12 medium-3 columns">
+                    <a href="#" class="pull-right button round task_btn fund_btn">FUND</a>
+                    <a href="#" class="pull-right button round task_btn do_btn">DO</a>
+                  </div>
+                </div>
+              </div>
+              <hr class="custom_hr">
+            <% end %>
+            <% if @project.tasks.count == 0 %>
+              <h4>There are no tasks yet!</h4>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="content" id="panel3">
+        <h2>Comming Soon: I have a feeling there should be tasks here!</h2>
+        <%= render "projects/tabcontent/tasks", layout: "manish", locals: {project: @project} %>
+      </div>
+      <div class="content" id="panel4">
+        <h2>Comming Soon</h2>
+      </div>
+    </div>
+<%= render 'visitors/sitewide_footer' %>
