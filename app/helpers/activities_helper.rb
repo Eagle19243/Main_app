@@ -3,6 +3,14 @@ module ActivitiesHelper
     activity.targetable_type.underscore.split('_').map!(&:upcase).join(' ')
   end
 
+  def wiki_notifier(activity)
+    "Wiki " + activity.action
+  end
+
+  def task_comment_notifier(activity)
+    "Task comment " + activity.action
+  end
+
   def activity_text(activity)
     send("#{activity.targetable_type.underscore}_notifier", activity)
   end
