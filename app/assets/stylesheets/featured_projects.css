@@ -114,7 +114,7 @@ table tr.even, table tr.alt, table tr:nth-of-type(even) {
     background: none;
 }
 table tr th, table tr td {
-    color: #ffff00 !important;
+    /*color: #ffff00 !important;*/
     font-size: 0.875rem;
     padding: 5px 15px;
     text-align: left;
@@ -141,7 +141,7 @@ table tr th{
     font-size: 19px;
     background-color: #ed7f16;
     border-color: #ed7f16;
-    color: #FFFFFF;
+    color: #FFFFFF ;
     transition: background-color 300ms ease-out;
 
     -webkit-box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
