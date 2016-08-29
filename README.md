@@ -1,7 +1,7 @@
 Youserve
 ================
 Please read the Developer's Guidebook to understand how to make contributions on the YouServe codebase. This information is to be found on the YouServe wiki hosted on Github.
-Please request access to the refference doc about features/user stories: https://docs.google.com/document/d/17Zy7x8xDhCyibCr8wtJC6JZ-J2lUmbB6lT8AmUVkqvo/edit?usp=sharing
+Please request access to the refference doc about features/user stories: https://docs.google.com/document/d/1hgRE3P5RhVoR1c-WEvv1zhl8NwZ9GZ_opgaC52zBAWQ/edit?usp=sharing
 -----------
 Developer's Guidebook: Roadmap YouServe Production Release Summer 2016
 ========================================================================
