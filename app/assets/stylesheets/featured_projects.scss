@@ -753,11 +753,13 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
 @media (max-width:1024px) {
   .column + .column:last-child, .columns + .column:last-child, .column + .columns:last-child, .columns + .columns:last-child {
     float: left;
+  }
 }
 
 @media (max-width:640px) {
   .tbs_mn ul ul li .top-searchbox {
-  margin-top: 15px;
+    margin-top: 15px;
+  }
 }
 .tbs_mn ul ul li:first-child {
     width: 100%;
