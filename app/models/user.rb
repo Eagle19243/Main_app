@@ -127,6 +127,7 @@ class User < ActiveRecord::Base
             provider:access_token.provider,
             email: data["email"],
             uid: access_token.uid ,
+            name: access_token.info.name,
             password: Devise.friendly_token[0,20],
         )
       end
