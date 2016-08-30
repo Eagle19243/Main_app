@@ -10,7 +10,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   mount_uploader :picture, PictureUploader
+  after_create :populate_guid_and_token
 
+  has_many :favorite_projects, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
@@ -26,6 +28,11 @@ class User < ActiveRecord::Base
   has_many :institutions, :through => :institution_users
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
+  has_many :project_rates
+  has_many :team_memberships, foreign_key: "team_member_id"
+  has_many :teams, :through => :team_memberships
+  has_many :conversations, foreign_key: "sender_id"
+  has_and_belongs_to_many :followed_projects, join_table: :project_users, class_name: 'Project'
 
   def create_activity(item, action)
     activity = activities.new
@@ -55,6 +62,15 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
+    end
+  def populate_guid_and_token
+    random = SecureRandom.uuid()
+    arbitraryAuthPayload = { :uid => random,:auth_data => random, :other_auth_data => self.created_at.to_s}
+    generator = Firebase::FirebaseTokenGenerator.new("ZWx3jy7jaz8IuPXjJ8VNlOMlOMGFEIj0aHNE7tMt")
+    random2 = generator.create_token(arbitraryAuthPayload)
+    self.guid = random
+    self.chat_token = random2
+    self.save
   end
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'chat_rooms/create_room'
+  get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments
   resources :plans
   resources :notifications do
@@ -12,6 +14,7 @@ Rails.application.routes.draw do
   # InsitutionUser, and we would occasionally like to see all such associations at a glance
   resources :institution_users
   resources :teams
+  get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
@@ -39,8 +42,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'projects/featured', as: :featured_projects
+  get '/projects/:id/old', to: 'projects#old_show'
   resources :do_requests do
-    get :autocomplete_project_name, :on => :collection
     member do
       get :accept, :reject
     end
@@ -49,6 +53,8 @@ Rails.application.routes.draw do
   resources :activities, only: [:index]
   resources :wikis
   resources :tasks
+  resources :favorite_projects, only: [:create, :destroy]
+
   resources :projects do
     resources :tasks do
       resources :task_comments
@@ -60,6 +66,8 @@ Rails.application.routes.draw do
 
     member do
       get :accept, :reject
+      post :follow
+      post :rate
     end
 
     collection do
@@ -68,11 +76,14 @@ Rails.application.routes.draw do
 
     collection do
       get :htmlindex
+      get :oldindex
     end
 
     member do
       get :htmlshow
-      end
+      get :taskstab, as: :taskstab
+      get :teamtab, as: :teamtab
+    end
   end
   get '/projects/search_results', to: 'projects#search_results'
   post '/projects/user_search', to: 'projects#user_search'
@@ -86,9 +97,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :conversations do
-    resources :messages
-  end
+ # resources :conversations do
+    #resources :messages
+  #end
+  # also make messages available as a resource
+  resources :messages
 
   get 'dashboard' => 'dashboard'
 

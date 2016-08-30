@@ -9,7 +9,7 @@ class AssignmentsController < ApplicationController
 		 @assignment = Assignment.new(assignment_params)
 		if @assignment.save!
 			flash[:success] = "Task assigned"
-			
+
 
 		else
 			flash[:error] = "Task was not assigned"
@@ -19,7 +19,11 @@ class AssignmentsController < ApplicationController
 	end
 
 
-
+def update_collaborator_invitation_status
+		unless params[:collaborator_ids].blank?
+			Assignment.where(user_id: params[:collaborator_ids] ).last.update_attribute('invitation_sent', true) rescue nil
+		end
+end
 
 	def accept
 		@assignment = Assignment.find(params[:id])

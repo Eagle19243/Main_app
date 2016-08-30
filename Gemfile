@@ -31,13 +31,18 @@ gem 'puma'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails4-autocomplete'
+# Firebase Security Token Generator
+gem  "firebase_token_generator"
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
+gem "font-awesome-rails"
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
+
+# gem 'video_info'
 # Add this if you're using rbenv
 # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 
@@ -71,3 +76,6 @@ group :production do
   # use unicorn in production on digital ocean. On AWS we will config with puma
   gem 'unicorn'
 end
+
+# use the wonderful kaminari gem for pagination
+gem 'kaminari'

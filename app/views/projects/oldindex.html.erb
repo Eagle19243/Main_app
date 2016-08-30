@@ -1,0 +1,15 @@
+<%= render 'layouts/menu' %>
+<div class="project-page-info">
+  <h3>Active projects</h3>
+  <p>See what other people are doing with YouServe, and get involved.</p>
+  <%= link_to 'Make a new project', new_project_path, class: "hero-button" %>
+</div>
+<div class="separator"></div>
+
+<div class="content projects">
+  <% @projects.each do |project| %>
+    <%= render 'project_preview', project: project %>
+  <% end %>
+</div>
+
+<%= render 'visitors/sitewide_footer' %>

@@ -6,6 +6,14 @@ class ConversationsController < ApplicationController
     @conversations = Conversation.all
   end
 
+  def show 
+    @user = current_user
+    @conversation = Conversation.find(params[:id]) 
+    respond_to do |format|
+      format.js   {}
+    end
+  end
+
   def create
     if Conversation.between(params[:sender_id],params[:recipient_id]).present?
       @conversation = Conversation.between(params[:sender_id], params[:recipient_id]).first

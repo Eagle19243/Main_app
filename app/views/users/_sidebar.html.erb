@@ -4,12 +4,13 @@
     <li class="tab-title is-active"><a href="#profile" aria-selected="true" id="profiletab">Profile</a></li>
     <li class="tab-title"><a href="#projects" id="projecttab">Projects</a></li>
     <li class="tab-title"><a href="#notifications" data-no-turbolink="true" id="notificationtab">Notifications</a></li>
-    <li class="tab-title"><a href="#messages" id="messagetab">Messages</a></li>
+    <li class="tab-title"><a href="/messages" id="messagetab">Messages</a></li>
     <li class="tab-title"><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
   </ul>
 </div>
 <script>
 $("#notificationtab").click(function() {
+  debugger;
   setTimeout(function(){
     // alert("Hello 4 seconds after click");
     $("#sidelist").height($("#tabcontentdiv").height());
@@ -18,6 +19,7 @@ $("#notificationtab").click(function() {
 });
 
 function resizeSideBar() {
+  debugger;
   setTimeout(function(){
     //alert("ResizeSideBar 3 seconds after click");
     $("#sidelist").height($("#tabcontentdiv").height());
@@ -30,5 +32,10 @@ $("#dashboardtab").click(resizeSideBar);
 $("#profiletab").click(resizeSideBar);
 $("#projecttab").click(resizeSideBar);
 $("#messagetab").click(resizeSideBar);
+
+$(document).ready(function() {
+  console.log("hey, resize this!");
+  resizeSideBar();
+});
 
 </script>
