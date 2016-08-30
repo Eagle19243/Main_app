@@ -78,8 +78,8 @@ $(document).on "click", ".star-rating-sm > i", (e) ->
     method: "POST"
     data:
       rate: rate
-  ).done (rate) ->
-    $this.parent().data('rate', rate.rate)
+  ).done (data) ->
+    $this.parent().data('rate', data.average)
   .error (e) ->
     window.location = '/users/sign_in' if e.status == 401
 

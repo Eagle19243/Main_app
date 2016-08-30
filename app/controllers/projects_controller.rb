@@ -46,11 +46,10 @@ class ProjectsController < ApplicationController
     @proj_admins_ids = @project.proj_admins.ids
     @followed = false
     @current_user_id = 0
-    @rate = 0
+    @rate = @project.rate_avg
     if user_signed_in?
       @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
-      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
   end
 
@@ -68,8 +67,11 @@ class ProjectsController < ApplicationController
     @rate = @project.project_rates.find_or_create_by(user_id: current_user.id)
     @rate.rate = params[:rate]
     @rate.save
-    
-    render json: @rate
+
+    render json: {
+      rate: @rate,
+      average: @project.rate_avg
+    }
   end
 
   # GET /projects/1/tasks

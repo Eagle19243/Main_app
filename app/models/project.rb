@@ -76,19 +76,23 @@ class Project < ActiveRecord::Base
   end
 
   def funded_percentages
-    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + "%"   
+    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + "%"
   end
 
   def accepted_tasks
     tasks.where(state: 'accepted')
   end
 
-  def tasks_relations_string 
+  def tasks_relations_string
     accepted_tasks.count.to_s + " / " + tasks.count.to_s
   end
 
   def team_relations_string
     tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+  end
+
+  def rate_avg
+    project_rates.average(:rate).to_i
   end
 
 end
