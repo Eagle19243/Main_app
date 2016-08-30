@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :taskstab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
-  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
+  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
-  layout "manish", only: [:taskstab]
+  layout "manish", only: [:taskstab, :teamtab]
 
   # GET /projects
   # GET /projects.json
@@ -74,8 +74,7 @@ class ProjectsController < ApplicationController
     }
   end
 
-  # GET /projects/1/tasks
-  # GET /projects/1.json
+  # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
@@ -83,7 +82,28 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @current_user_id = current_user.id
     end
+    @followed = false
+    @rate = 0
+    if user_signed_in?
+      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
+    end
+    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
+    @doing_tasks = @project.tasks.where(state: "doing").all
+    @reviewing_tasks = @project.tasks.where(state: "reviewing").all
+    @done_tasks = @project.tasks.where(state: "done").all
+  end
 
+  # GET /projects/1/teamtab
+  # View the teamtab, same logic as the taskstab
+  def teamtab
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
   end
 
   # old project page
@@ -94,6 +114,13 @@ class ProjectsController < ApplicationController
     @current_user_id = 0
     if user_signed_in?
       @current_user_id = current_user.id
+    end
+    @followed = false
+    @rate = 0
+    if user_signed_in?
+      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
   end
 
@@ -120,6 +147,10 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        @project_team = @project.create_team(name: "Team#{@project.id}", mission: "More rock and roll", slots: 10)
+        @project_team.save
+        first_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
+        first_member.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project request was sent.' }

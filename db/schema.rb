@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821215142) do
+ActiveRecord::Schema.define(version: 20160825153701) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -111,10 +111,13 @@ ActiveRecord::Schema.define(version: 20160821215142) do
   add_index "favorite_projects", ["user_id"], name: "index_favorite_projects_on_user_id"
 
   create_table "generate_addresses", force: :cascade do |t|
-    t.string   "address"
+    t.string   "sender_address"
     t.boolean  "is_available"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "wallet_id"
+    t.string   "receiver_address"
+    t.string   "pass_phrase"
   end
 
   create_table "institution_users", force: :cascade do |t|
@@ -331,13 +334,10 @@ ActiveRecord::Schema.define(version: 20160821215142) do
     t.string   "facebook_url"
     t.string   "twitter_url"
     t.string   "linkedin_url"
-<<<<<<< Updated upstream
-=======
     t.string   "provider"
     t.string   "uid"
     t.string   "chat_token"
     t.string   "guid"
->>>>>>> Stashed changes
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

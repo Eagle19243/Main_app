@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'chat_rooms/create_room'
+  get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments
   resources :plans
   resources :notifications do
@@ -12,6 +14,7 @@ Rails.application.routes.draw do
   # InsitutionUser, and we would occasionally like to see all such associations at a glance
   resources :institution_users
   resources :teams
+  get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
@@ -77,22 +80,23 @@ Rails.application.routes.draw do
     member do
       get :htmlshow
       get :taskstab, as: :taskstab
+      get :teamtab, as: :teamtab
     end
   end
 
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
-  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations' }
+  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
   resources :users do
     member do
       get :profile
     end
   end
 
-  resources :conversations do
-    resources :messages
-  end
+ # resources :conversations do
+    #resources :messages
+  #end
   # also make messages available as a resource
   resources :messages
 
@@ -100,6 +104,7 @@ Rails.application.routes.draw do
 
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
+
   # root to: 'visitors#index'
   root to: 'visitors#landing'
 end

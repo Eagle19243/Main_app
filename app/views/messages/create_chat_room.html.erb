@@ -1,0 +1,31 @@
+<div id="firechat-wrapper"></div>
+
+<script type='text/javascript'>
+  var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
+  firechatRef.auth('<%= current_user.chat_token %>');
+  var chat = new FirechatUI(firechatRef, document.getElementById("firechat-wrapper"));
+  chat.setUser('<%= current_user.id %>', '<%= current_user.name %>');
+
+  var chat = new Firechat(firechatRef);
+  chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
+
+    console.log("Creating chatroom...");
+    chat.createRoom(<%= @project_name %>, "private", function(roomId) {
+      if(roomId){
+
+        console.log("Created room "+roomId);
+        chat.enterRoom(roomId)
+        console.log('Sending invitation to collaborators')
+              chat.inviteUser('1', roomId, function(invitation_id){
+                  if(invitation_id){
+                      console.log(invitation_id)
+                      console.log('sent invitation')
+                  }
+
+              });
+      }
+
+    });
+  });
+
+</script>

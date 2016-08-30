@@ -7,6 +7,7 @@ class TeamsController < ApplicationController
     @teams = Team.all
   end
 
+
   # GET /teams/1
   # GET /teams/1.json
   def show
@@ -60,6 +61,36 @@ class TeamsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST /team_memberships
+  # POST /team_memberships.json
+  def team_memberships
+    @project = Project.find(params[:project_id])
+    @team = @project.team
+    if @team.nil?
+      @project_team = @project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10)
+      @project_team.save
+      first_member = TeamMembership.create(team_member_id: @project.user_id, team_id: @project_team.id)
+      first_member.save
+    end
+    @project_team = Team.where(project_id: @project.id).first
+    @add_member = true
+    case @project_team.team_members.include?(current_user)
+    when true
+      @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
+      @project_team.team_memberships.destroy(@team_membership) unless @team_membership.nil?
+      @add_member = false
+    else
+      new_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
+      new_member.save
+      @add_member = true
+    end
+    respond_to do |format|
+      format.html {redirect_to :back}
+      format.js
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

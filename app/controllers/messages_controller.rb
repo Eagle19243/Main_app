@@ -1,53 +1,20 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_conversation
 
-  def index
-    @messages = @conversation.messages
-    if @messages.length > 10
-      @over_ten = true
-      @messages = @messages[-10..-1]
-    end
+ before_action :authenticate_user!
+ layout false
 
-    if params[:m]
-      @over_ten = false
-      @messages = @conversation.messages
-    end
-
-    if @messages.last
-      if @messages.last.user_id != current_user.id
-        @messages.last.read = true;
-      end
-    end
-
-    @message = @conversation.messages.new
+ def index
+  project_ids= Array.[]
+  all_Assignments =current_user.assignments.all
+  all_Assignments.each do |ass|
+   task = Task.find(ass.task_id)
+   project_ids << task.project_id
   end
-  
-  def new
-   @message = @conversation.messages.new
-  end
-  
-  def create
-    @message = @conversation.messages.new(message_params)
-    respond_to do |format|
-      if @message.save 
-        format.html {redirect_to conversation_messages_path(@conversation)}
-        format.js {}
-      else
-        format.html {redirect_to :back}
-        format.js {}
-      end
-    end
-  end
-  
-  private
-   
-  def message_params
-    params.require(:message).permit(:body, :user_id, :image)
-  end
+  project_ids = project_ids.uniq
+  @projects= current_user.projects|Project.where(id: project_ids)
+   puts ''
+ end
 
-  def set_conversation
-    @conversation = Conversation.find(params[:conversation_id])
+  def create_chat_room
   end
-
 end

@@ -28,10 +28,16 @@ gem 'capistrano-rails', '~> 1.1.1'
 gem 'validates_timeliness', '~> 4.0'
 # use puma on AWS http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Ruby_rails.html
 gem 'puma'
-
+# Firebase Security Token Generator
+gem  "firebase_token_generator"
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
+gem "font-awesome-rails"
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
 
 # gem 'video_info'
 # Add this if you're using rbenv
