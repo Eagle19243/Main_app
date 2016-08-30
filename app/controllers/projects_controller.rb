@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
        format.html {render  :search_results}
       end
     else
-      redirect_to root_path ,alert: 'sorry no results match with your search'
+      redirect_to root_path ,alert: 'Sorry no results match with your search'
     end
   end
 
