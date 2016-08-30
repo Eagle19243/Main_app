@@ -129,6 +129,7 @@ GEM
     excon (0.45.4)
     execjs (2.6.0)
     ffi (1.9.10)
+    firebase_token_generator (2.0.0)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.36.0)
@@ -237,6 +238,8 @@ GEM
     fog-xml (0.1.2)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
+    font-awesome-rails (4.6.3.1)
+      railties (>= 3.2, < 5.1)
     formatador (0.2.5)
     foundation-datetimepicker-rails (0.2.1)
     foundation-rails (5.5.3.2)
@@ -433,7 +436,9 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   country_select
   devise
+  firebase_token_generator
   fog
+  font-awesome-rails
   foundation-datetimepicker-rails
   foundation-rails (~> 5.5)
   gravatar_image_tag

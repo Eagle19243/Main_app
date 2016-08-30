@@ -31,7 +31,8 @@ class User < ActiveRecord::Base
   has_many :team_memberships, foreign_key: "team_member_id"
   has_many :teams, :through => :team_memberships
   has_many :conversations, foreign_key: "sender_id"
-  has_and_belongs_to_many :followed_projects, join_table: :project_users, class_name: 'Project'
+  has_many :project_users
+  has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
 
   def create_activity(item, action)
     activity = activities.new

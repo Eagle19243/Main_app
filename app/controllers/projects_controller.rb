@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
     @current_user_id = 0
     @rate = 0
     if user_signed_in?
-      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
@@ -56,7 +56,8 @@ class ProjectsController < ApplicationController
 
   def follow
     if params[:follow] == 'true'
-      current_user.followed_projects << @project
+      follow_project = current_user.project_users.build project_id: @project.id
+      flash[:alert] = follow_project.errors.full_messages.to_sentence unless follow_project.save
     else
       current_user.followed_projects.delete @project
     end
@@ -67,7 +68,7 @@ class ProjectsController < ApplicationController
     @rate = @project.project_rates.find_or_create_by(user_id: current_user.id)
     @rate.rate = params[:rate]
     @rate.save
-
+    
     render json: @rate
   end
 

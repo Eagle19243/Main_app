@@ -30,10 +30,11 @@ ActiveRecord::Schema.define(version: 20160821215142) do
     t.integer  "user_id"
     t.boolean  "free"
     t.datetime "deadline"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "state"
     t.datetime "confirmed_at"
+    t.boolean  "invitation_sent"
   end
 
   add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id"
@@ -45,6 +46,17 @@ ActiveRecord::Schema.define(version: 20160821215142) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string   "chat_rooms"
+    t.string   "room_id"
+    t.string   "string"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id"
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
@@ -319,6 +331,13 @@ ActiveRecord::Schema.define(version: 20160821215142) do
     t.string   "facebook_url"
     t.string   "twitter_url"
     t.string   "linkedin_url"
+<<<<<<< Updated upstream
+=======
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "chat_token"
+    t.string   "guid"
+>>>>>>> Stashed changes
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -12,7 +12,8 @@ class Project < ActiveRecord::Base
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
   has_many :project_rates
-  has_and_belongs_to_many :followed_users, join_table: :project_users, class_name: 'User'
+  has_many :project_users
+  has_many :followers, through: :project_users, class_name: 'User', source: :follower
   has_one :team
 
   belongs_to :user
@@ -89,4 +90,5 @@ class Project < ActiveRecord::Base
   def team_relations_string
     tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
   end
+
 end
