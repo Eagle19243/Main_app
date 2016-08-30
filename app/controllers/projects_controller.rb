@@ -247,8 +247,7 @@ class ProjectsController < ApplicationController
           format.json { render json: @project, status: :ok }
         else
           format.html { render :edit }
-          format.json { rende
-r json: @project.errors, status: :unprocessable_entity }
+          format.json { render json: @project.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -259,8 +258,7 @@ r json: @project.errors, status: :unprocessable_entity }
           format.html { redirect_to @project, notice: 'Project was successfully updated.' }
           format.json { render json: @project, status: :ok }
         else
-          format.html { rende
-r :edit }
+          format.html { render :edit }
           format.json { render json: @project.errors, status: :unprocessable_entity }
         end
       end
