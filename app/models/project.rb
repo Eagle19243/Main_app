@@ -1,4 +1,6 @@
 class Project < ActiveRecord::Base
+  paginates_per 12
+
   include AASM
 
   default_scope -> { order('projects.created_at DESC') }
