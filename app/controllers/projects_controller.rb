@@ -81,17 +81,18 @@ class ProjectsController < ApplicationController
     @proj_admins_ids = @project.proj_admins.ids
     @followed = false
     @current_user_id = 0
-    @rate = 0
+    @rate = @project.rate_avg
     if user_signed_in?
-      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
-      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
   end
 
   def follow
+    redirect_to @project and return if current_user.id == @project.user_id
     if params[:follow] == 'true'
-      current_user.followed_projects << @project
+      follow_project = current_user.project_users.build project_id: @project.id
+      flash[:alert] = follow_project.errors.full_messages.to_sentence unless follow_project.save
     else
       current_user.followed_projects.delete @project
     end
@@ -103,7 +104,10 @@ class ProjectsController < ApplicationController
     @rate.rate = params[:rate]
     @rate.save
 
-    render json: @rate
+    render json: {
+      rate: @rate,
+      average: @project.rate_avg
+    }
   end
 
   # GET /projects/1/taskstab

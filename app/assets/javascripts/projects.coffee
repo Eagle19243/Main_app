@@ -55,7 +55,7 @@ window.updateEdit = (projectEditId, new_state)->
          if new_state == "accepted"
            $("#proj-desc").text(dt.description)
          alertSuccess()
-         
+
 jQuery ->
   $(document).foundation()
   $(document).on "mouseenter", ".star-rating-sm > i", (e) ->
@@ -80,10 +80,19 @@ jQuery ->
       method: "POST"
       data:
         rate: rate
-    ).done (rate) ->
-      $this.parent().data('rate', rate.rate)
+    ).done (data) ->
+      $this.parent().data('rate', data.average)
     .error (e) ->
       window.location = '/users/sign_in' if e.status == 401
+
+$('#project_expires_at').datepicker()
+$(document).foundation()
+
+#attach handlers to data attributes
+$("button[data-makes-editable]").off().on "click", (e)->
+  e.preventDefault()
+  projectId = $(this).data("makes-editable")
+  makeEditable(projectId)
 
   $('#project_expires_at').datepicker()
 
