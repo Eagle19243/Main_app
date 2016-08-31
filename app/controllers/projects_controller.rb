@@ -121,7 +121,7 @@ class ProjectsController < ApplicationController
     @followed = false
     @rate = 0
     if user_signed_in?
-      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @followed = @project.project_users.pluck(:user_id).include? current_user.id
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end

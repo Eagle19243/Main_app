@@ -19,129 +19,17 @@
 </head>
 <body>
 
-  <nav class="top-bar" data-topbar role="navigation">
-    <ul class="title-area">
-      <li class="name">
-        <h1><a href="/">WeServe</a></h1>
-      </li>
-      <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-    </ul>
+  <%= render 'layouts/menu' %>
 
-    <section class="top-bar-section">
-      <!-- Right Nav Section -->
-      <ul class="right">
-
-        <!-- replicate this part from the main layout menu -->
-        <li class="has-dropdown ">
-         <a href="#" class="no-line-height">
-           <div class="badge-wrap">
-             <i class="icon-bell-alt" aria-hidden="true"></i>
-             <span class="count">3</span>
-           </div>
-         </a>
-         <ul class="dropdown">
-           <li><a href="#">Notifications</a></li>
-           <li class="active"><a href="#">Messages</a></li>
-         </ul>
-         </li>
-          <li class="has-dropdown">
-         <% if user_signed_in? %>
-           <a href="<%= user_path(current_user) %>">
-             <% if current_user.picture? %>
-               <%= image_tag(current_user.picture.url, size: "35x35") %>
-             <% else %>
-               <%= gravatar_for(current_user, 35)%>
-             <%end%>
-           </a>
-         <% else %>
-           <a href="/" data-no-turbolink="true">Home</a>
-         <% end %>
-           <ul class="dropdown right">
-             <% if user_signed_in? %>
-               <li><%= link_to 'My Profile', user_path(current_user), data: { no_turbolink: true } %></li>
-               <li><%= link_to 'Edit Profile', edit_user_registration_path, data: { no_turbolink: true } %></li>
-               <li class="active"><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
-             <% else %>
-               <li class="active"><%= link_to 'Sign in', new_user_session_path, data: { no_turbolink: true } %></li>
-             <% end %>
-           </ul>
-         </li>
-      </ul>
-
-      <!-- Left Nav Section -->
-      <ul class="left">
-        <li><a href="#" id="myBtn2" >Start a Project</a></li>
-        <li><a href="/projects" data-no-turbolink="true">Active Projects</a></li>
-      </ul>
-    </section>
-  </nav>
-
-  <!-- Banner -->
-  <section class="welcome-banner" style="background: url(<%= @project.picture%>) no-repeat center center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; height: 470px; background-repeat: no-repeat; text-align: center; ">
-    <div class="middle-sec">
-      <!--first row-->
-      <div class="row">
-        <center>
-          <ul class="line1">
-            <li><h4>By <%= link_to @project.user.name, user_path(@project.user), style: 'color:white' %></h4></li>
-            <li>
-              <% if @project.user.picture? %>
-                <%= image_tag(@project.user.picture.url, size: "35x35") %>
-              <% else %>
-                <%= gravatar_for(@project.user, 35)%>
-              <%end%>
-            </li>
-            <li> <h4> <i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.institution_location || "London" %></h4></li>
-          </ul>
-        </center>
-      </div>
-      <!--2nd row-->
-      <div class="row banner-header">
-        <center><h2><%= @project.title %></h2></center>
-      </div>
-      <!--3rd row -->
-      <div class="row">
-        <center>
-          <div class="nice round progress alert large-5 medium-5 small-5">
-            <span class="meter" style="<%= @project.funded_percentages%>"></span>
-          </div>
-        </center>
-      </div>
-
-      <div class="row 4rd-row">
-        <center>
-          <table>
-            <tr>
-              <th><%= @project.funded_percentages || "40%" %></th>
-              <th><%= @project.tasks_relations_string || "55/80" %></th>
-              <th><%= @project.team_relations_string || "19/30" %></th>
-              <th>$<%= @project.funded_budget || "8000" %></th>
-            </tr>
-            <tr>
-              <td>Funded</td>
-              <td>Completed Tasks</td>
-              <td>Teamates</td>
-              <td>Raised</td>
-            </tr>
-          </table>
-        </center>
-      </div>
-
-      <div class="row">
-        <center><a href=<%= "/projects/#{@project.id}/team_memberships" %> id="myBtn" class="button round get-invo-btn" data-remote="true"><%= @project.team.team_members.include?(current_user) ? "Leave Project" : "Join Project" %></a></center>
-      </div>
-
-    </div>
-  </section>
+  <%= render 'project_top_banner' %>
 
   <!-- Tab section -->
   <section class="tabs">
     <div class="row">
       <ul class="tabs" data-tab role="tablist">
         <li class="tab-title tab-title-class" role="presentation"><a id="project-tab-link" href="" role="tab" tabindex="0" aria-selected="true" aria-controls="panel2-1">Project Menu <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></li>
-        <li class="tab-title" role="presentation"><a id="plan-tab-link" href="#panel2-2" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-2">Plan</a></li>
-        <li class="tab-title active" role="presentation"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-3">Tasks <small>(353)</small></a></li>
+        <li class="tab-title" role="presentation"><a id="plan-tab-link" href="#panel2-2" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-2">Vision</a></li>
+        <li class="tab-title" role="presentation"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-3">Actions <small>(353)</small></a></li>
         <li class="tab-title" role="presentation"><a href="#panel2-4" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-4">Team <small>(434)</small></a></li>
       </ul>
       <div class="tabs-content task-tabs-content">
