@@ -109,5 +109,7 @@ Rails.application.routes.draw do
   get 'visitors' => 'visitors#restricted'
 
   # root to: 'visitors#index'
-  root to: 'visitors#landing'
+  # root to: 'visitors#landing'
+  # show active projects as the landing page
+  root to: 'projects#index'
 end
