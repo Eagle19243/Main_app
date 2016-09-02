@@ -1,0 +1,21 @@
+<%= render 'layouts/menu' %>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Institution:</strong>
+  <%= @institution_user.institution %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @institution_user.user %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @institution_user.position %>
+</p>
+
+<%= link_to 'Edit', edit_institution_user_path(@institution_user) %> |
+<%= link_to 'Back', institution_users_path %>

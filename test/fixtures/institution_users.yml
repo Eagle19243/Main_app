@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  institution_id: 
+  user_id: 
+  position: MyString
+
+two:
+  institution_id: 
+  user_id: 
+  position: MyString

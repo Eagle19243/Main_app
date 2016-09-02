@@ -1,29 +1,64 @@
+<% if @task.assignments.present? && current_user.id == @task.user_id    &&  @task.assignments.last.invitation_sent.blank? %>
+<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+<%= javascript_include_tag 'firechat_merged' %>
+
+<script type='text/javascript'>
+
+
+
+  var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
+  firechatRef.auth('<%= current_user.chat_token %>');
+
+
+  var chat = new Firechat(firechatRef);
+  chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
+    chat.enterRoom('<%= @task.project.chat_room.room_id %>');
+    console.log('Sending invitation to collaborators');
+    <%if    @task.assignments.last.invitation_sent.blank?  %>
+      chat.inviteUser(<%= @task.assignments.last.user_id%>, '<%= @task.project.chat_room.room_id %>');
+      $.ajax({
+        url: "/assignments/update_collaborator_invitation_status",
+        type: "get", //send it through get method
+        data:{collaborator_ids:<%= @task.assignments.last.user_id rescue nil  %> },
+        success: function(response) {
+
+        },
+        error: function(xhr) {
+          
+        }
+      });
+
+    <%end%>
+  });
+
+
+
+</script>
+<% end %>
+
+
+
 <p id="notice"><%= notice %></p>
+<h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
+<% if user_signed_in? %>
+  <% if current_user.admin? || (current_user == @task.project.user) %>
 
-  <h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
-    <% if user_signed_in? %>
-    <% if current_user.admin? || (current_user == @task.project.user) %>
-
-<%= link_to 'Edit', edit_task_path(@task, project_id: @task.project_id) %> |
-<%= link_to 'Delete', edit_task_path(@task) %> |
-<%= link_to 'Back', @task.project %>
+    <%= link_to 'Edit', edit_task_path(@task, project_id: @task.project_id) %> |
+    <%= link_to 'Delete', edit_task_path(@task) %> |
+    <%= link_to 'Back', @task.project %>
+  <%end%>
 <%end%>
-<%end%>
-
 
 <br><br>
-<strong> Due Date :</strong> <%= @task.deadline.to_date %>
+<strong> Due Date :</strong>
+<%= @task.deadline.to_date %>
 <div class= "row" >
-
-
-
 	<div class="small-3 columns">
-   
 
-    
     <br>
-    <p><h2><em><%= @task.assignments.count %> </em></h2>
-   <h6><%= link_to "Collaborators", '#'%></h6>
+    <p>
+      <h2><em><%= @task.assignments.count %> </em></h2>
+      <h6><%= link_to "Collaborators", '#'%></h6>
     </p>
    
      <p><h2><em><%= @task.target_number_of_participants %></em></h2>
@@ -36,6 +71,7 @@
       <br>
     <p><h2><em>$<%= @task.current_fund %></em></h2>
          <h6 class="subheader">Raised</h6></p>
+
 
          <p>
      <h2><em>$<%= @task.budget %></em></h2>
@@ -64,9 +100,26 @@
         </div>
   </div>
 
-
-
-
+<div class="row" style=" text-align: left;float:right;margin-right: 4% ;  border: 2px;border-style: solid;padding: 10px">
+<p>
+  <strong>Task Specific Bit Coin Address:</strong>
+<p id='fe_text'><%=@task.wallet_address.sender_address rescue 'Available soon'%></p>
+</p>
+<p>
+  <strong>Balance:</strong>
+  <% satoshi_to_btc = @task.wallet_address.current_balance.to_f/10**8.to_f rescue nil %>
+  <% btc_to_usd = satoshi_to_btc* get_current_btc_rate rescue nil %>
+  <%= satoshi_to_btc rescue '0.0' %>BTC
+  <sup style="color: #006400"><%= btc_to_usd.round(3) rescue nil %>  USD</sup>  </p>
+  <button class='btn btn-primary' data-clipboard-target='fe_text' data-clipboard-text='Default clipboard text from attribute' id='d_clip_button' title='copy to clipboard.'>
+    <b>Copy To Clipboard</b>
+  </button>
+  <a href=<%= wallet_transactions_new_path + '?id=' + @task.id.to_s %> >
+  <button class='btn btn-primary'>
+    <b>Release Funds</b>
+  </button>
+  </a>
+</div>
 
 
   <br>
@@ -80,7 +133,7 @@
 
 
 <p>
-  <h4 class="subheader"><u>Condition of execution:</u></h5>
+  <h4 class="subheader"><u>Condition of execution:</u></h4>
   <%= @task.condition_of_execution %>
 </p><br>
 
@@ -141,16 +194,16 @@
         
         <%end%>
      
-    <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
-     </em></strong></small></h4>
+      <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
+     </h4>
     </li>
     <br>
     <br>
     <%end%>
-    
 
+<script>
+  $(document).ready(function() {
+    var clip = new ZeroClipboard($("#d_clip_button"))
+  });
 
-
-
-
-
+</script>

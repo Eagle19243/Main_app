@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502093621) do
+ActiveRecord::Schema.define(version: 20160825153701) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -30,13 +30,33 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.integer  "user_id"
     t.boolean  "free"
     t.datetime "deadline"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "state"
     t.datetime "confirmed_at"
+    t.boolean  "invitation_sent"
   end
 
   add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id"
+
+  create_table "cards", force: :cascade do |t|
+    t.string   "title"
+    t.string   "status"
+    t.string   "list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string   "chat_rooms"
+    t.string   "room_id"
+    t.string   "string"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id"
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
@@ -80,6 +100,37 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.string   "PAYKEY"
   end
 
+  create_table "favorite_projects", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "favorite_projects", ["project_id"], name: "index_favorite_projects_on_project_id"
+  add_index "favorite_projects", ["user_id"], name: "index_favorite_projects_on_user_id"
+
+  create_table "generate_addresses", force: :cascade do |t|
+    t.string   "sender_address"
+    t.boolean  "is_available"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "wallet_id"
+    t.string   "receiver_address"
+    t.string   "pass_phrase"
+  end
+
+  create_table "institution_users", force: :cascade do |t|
+    t.integer  "institution_id"
+    t.integer  "user_id"
+    t.string   "position"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "institution_users", ["institution_id"], name: "index_institution_users_on_institution_id"
+  add_index "institution_users", ["user_id"], name: "index_institution_users_on_user_id"
+
   create_table "institutions", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
@@ -88,6 +139,7 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.string   "logo"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "url"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -97,10 +149,40 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.boolean  "read",            default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image"
   end
 
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
+  create_table "notifications", force: :cascade do |t|
+    t.string   "type"
+    t.string   "summary"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plans", force: :cascade do |t|
+    t.text     "notes"
+    t.text     "todos"
+    t.string   "owner"
+    t.string   "status"
+    t.text     "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "profile_comments", force: :cascade do |t|
+    t.integer  "commenter_id"
+    t.integer  "receiver_id"
+    t.text     "comment_text"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "profile_comments", ["commenter_id"], name: "index_profile_comments_on_commenter_id"
+  add_index "profile_comments", ["receiver_id"], name: "index_profile_comments_on_receiver_id"
 
   create_table "proj_admins", force: :cascade do |t|
     t.integer  "user_id"
@@ -127,6 +209,21 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.text     "description"
   end
 
+  create_table "project_rates", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.integer  "rate",       default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "project_users", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -146,6 +243,9 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.string   "institution_location"
     t.string   "short_description"
     t.string   "institution_country"
+    t.string   "video_id"
+    t.text     "section1"
+    t.text     "section2"
   end
 
   create_table "task_comments", force: :cascade do |t|
@@ -173,12 +273,35 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.string   "filefour"
     t.string   "filefive"
     t.string   "state"
-    t.integer  "number_of_participants"
-    t.integer  "target_number_of_participants"
+    t.integer  "number_of_participants",        default: 0
+    t.integer  "target_number_of_participants", default: 0
     t.boolean  "assigned",                      default: false
     t.text     "proof_of_execution"
     t.text     "short_description"
+    t.boolean  "marker",                        default: false
   end
+
+  create_table "team_memberships", force: :cascade do |t|
+    t.integer  "team_id",        null: false
+    t.integer  "team_member_id", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true
+  add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id"
+  add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id"
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.text     "mission"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "slots"
+    t.integer  "project_id"
+  end
+
+  add_index "teams", ["project_id"], name: "index_teams_on_project_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "",    null: false
@@ -206,10 +329,45 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.string   "city"
     t.string   "fourth_link"
     t.string   "phone_number",           limit: 8
+    t.integer  "institution_id"
+    t.text     "bio"
+    t.string   "facebook_url"
+    t.string   "twitter_url"
+    t.string   "linkedin_url"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "chat_token"
+    t.string   "guid"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["institution_id"], name: "index_users_on_institution_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "wallet_addresses", force: :cascade do |t|
+    t.string   "sender_address"
+    t.integer  "task_id"
+    t.string   "wallet_addresses"
+    t.string   "wallet_id"
+    t.string   "receiver_address"
+    t.float    "current_balance",  default: 0.0
+    t.string   "pass_phrase"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "wallet_addresses", ["task_id"], name: "index_wallet_addresses_on_task_id"
+
+  create_table "wallet_transactions", force: :cascade do |t|
+    t.decimal  "amount"
+    t.string   "user_wallet"
+    t.string   "tx_hash"
+    t.integer  "task_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id"
 
   create_table "wikis", force: :cascade do |t|
     t.string   "title"
@@ -224,6 +382,11 @@ ActiveRecord::Schema.define(version: 20160502093621) do
     t.datetime "updated_at",   null: false
     t.integer  "user_id"
     t.string   "state"
+  end
+
+  create_table "work_records", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

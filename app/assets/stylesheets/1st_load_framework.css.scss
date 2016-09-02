@@ -10,11 +10,7 @@ $max-width: 980px;
 
 .alert-box {
   border: 0;
-  left: 50%;
-  margin: 0 auto;
   max-width: $max-width - 100px;
-  position: absolute;
-  transform: translateX(-50%);
   width: 90%;
 
   &.success {

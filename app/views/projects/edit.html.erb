@@ -1,3 +1,4 @@
+<%= render 'layouts/menu' %>
 <div class="content edit-content">
   <h1 class="edit-header">Edit "<%= @project.title %>"</h1>
 
@@ -7,3 +8,6 @@
     <%= link_to 'Back to project', @project, :class => "back-button" %>
   </div>
 </div>
+
+
+<%= render 'visitors/sitewide_footer' %>

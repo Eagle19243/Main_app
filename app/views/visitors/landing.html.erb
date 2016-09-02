@@ -1,0 +1,212 @@
+<% unless user_signed_in? %>
+  <div id="SignInModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+  <div id="SignUpModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+<% end %>
+
+<div>
+  <%= render 'top_bar' %>
+  <%#= if user_signed_in? %>
+      <!--<div id="facebook_invite">-->
+        <!--<script src="http://connect.facebook.net/en_US/all.js"></script>-->
+        <!--<a href="#" onclick="FBInvite()">Invite Facebook Friends</a>-->
+      <!--</div>-->
+  <%#= end  %>
+<% unless user_signed_in? %>
+  </div>
+  <div class="large-12 columns row2">
+    <br>
+  <div class="large-12 columns row1">
+    <div class="large-8 medium-10 medium-push-2 columns">
+      <center>
+        <h4 class="head1">THE WORLD'S FIRST NETWORK FOR CIVIC LEADERS</h4>
+        <br>
+        <p class="inhead1">WeServe is a community impact and crowdfunding platform;</p>
+        <p class="inhead2">join and help solving public issues in your area</p>
+        <button class="secondary button sign" data-reveal-id="SignUpModal">Sign up</button>
+        <br>
+        <%= link_to image_tag("facebook.png"), user_omniauth_authorize_path(:facebook) %>
+        <%= link_to image_tag("signup-twitter.png"), user_omniauth_authorize_path(:twitter) %>
+        <%= link_to image_tag("google.png"), user_omniauth_authorize_path(:google_oauth2) %>
+      </center>
+    </div>
+  </div>
+  <div class="large-12 columns pict">
+    <img class = "header_img" src="/static/visitors/images/header.png">
+  </div>
+  <div class="large-12 columns row2">
+    <div class="large-5 medium-7 medium-push-1 columns content">
+      <h5 class="head_what">WHAT IS WESERVE?</h5>
+        <p class="text_platform">A platform to implement and fund</p>
+        <p class="text_platform">public action in your area</p>
+        <p class="text_platforms">On WeServe, you can take immediate action out of the net, directly into the world. So tou stop feeling frustrated about reading and commenting on past news, you can just change the news, you can just change the news rigth now.</p>
+    </div>
+    <div class="large-5 medium-4 columns">
+      <img class = "image_content" src="/static/visitors/images/content.png">
+    </div>
+  </div>
+<% end %>
+  <div class="large-12 columns row_content">
+    <div class="large-5 medium-4 medium-push-1 columns content_projects">
+      <img class = "image_contents" src="/static/visitors/images/content_image.png">
+    </div>
+    <div class="large-5 medium-7 columns">
+      <h5 class="head_what">CONNECT AND COLLABORATE</h5>
+      <p class="text_platform">Connect to your community</p>
+      <p class="text_platform">to Build Public Projects</p>
+      <p class="text_platforms">WeServe makes it easy to find neardy people who are passionate about the same local issues that you are, so you can implemment Projects and change your communities together</p>
+      <a href="/projects" class="start_projects">Find Active Projects</a>
+    </div>
+  </div>
+  <div class="large-12 columns row2">
+    <div class="large-5 medium-7 medium-push-1 columns content">
+      <h5 class="head_what">MAKE A CHANGE</h5>
+        <p class="text_platform">Start with an idea and get your</p>
+        <p class="text_platform">communities work on it</p>
+        <p class="text_platforms">You want to take action and solve a public issue, but you need collaboration to implement your solution. Post your project idea, invite people to participate and lead the collaboration.</p>
+        <button class="start_projects"><a href="/projects/new">Start a Project</a></button>
+    </div>
+    <div class="large-5 medium-4 columns">
+      <img class = "image_content" src="/static/visitors/images/content_task.png">
+    </div>
+  </div>
+  <div class="large-12 columns row_content">
+    <div class="large-5 medium-4 medium-push-1 columns content_found">
+      <img class = "image_found" src="/static/visitors/images/content_found.png">
+    </div>
+    <div class="large-5 medium-7 columns content">
+      <h5 class="head_what">MAKE A REAL IMPACT</h5>
+        <p class="text_platform">Emerge as an independent leader</p>
+        <p class="text_platforms">Public action is Political Legitimacy. By leading successful projects, you will be recognized as a unique leader, free from political or financial partisanship. Inspire other leader to follow your example towards more transparent actions.</p>
+        <a href="/projects" class="start_projects"><button class="start_projects">Share your vision</button></a>
+    </div>
+  </div>
+  <div class="large-12 columns row2">
+    <br>
+    <div class="large-6 medium-3 columns content_pro">
+      <h1 class="text_feats">Featured Projects</h1>
+    </div>
+    <div class="large-6 medium-9 columns content_pro">
+      <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form' do  %>
+          <div class="large-12 columns">
+            <input type="text" name="title" id="title" data-autocomplete="/projects/autocomplete_user_search" autocomplete="off" placeholder="Search causes, places, or keywords" onblur="if(this.value=='') ;" onfocus="if(this. value=='Search causes, places, or keywords') this.value='';" class="input" />
+          </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="large-12 columns row2">
+    <% @featured_projects.each do |project| %>
+      <div class="large-4 medium-6 columns content_block">
+        <div class="callout">
+          <%= image_tag project.picture.medium.url, class: 'feature_project_picture' %>
+          <div class="blokcont">
+            <a href="<%= project_path(project) %>"><h4 class="text_feat"><%= project.title %></h4></a>
+            <p class="map_name"><i class="fa fa-map-marker" aria-hidden="true"></i><%= project.location %></p>
+            <p class="text_content"><%= truncate(project.short_description, length: 200) %></p>
+            <div class="progress" role="progressbar" tabindex="0" aria-valuenow="50" aria-valuemin="0"   aria-valuetext="50 percent" aria-valuemax="100">
+              <div class="progress-meter" style="width: 70%"></div>
+            </div>
+            <table class="feature_progress">
+              <tbody>
+                <tr>
+                  <th><b>40%</b></th>
+                  <th><b>50/80</b></th>
+                  <th><b>19/30</b></th>
+                  <th><b>$8.000</b></th>
+                </tr>
+                <tr class="feature_row">
+                  <td>Funded</td>
+                  <td>Completed Tasks</td>
+                  <td>Teamates</td>
+                  <td>Raised</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="large-12 columns">
+      <div class="large-4 large-offset-4 columns">
+        <a href="/projects" class="large button button_discover">Discover projects in your area</a><br/>
+      </div>
+    </div>
+  </div>
+  <div class="large-12 columns footer_body ">
+    <ul class="dropdown menu  footer_menu text_feat" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
+      <li>
+        <%= link_to projects_path do %>
+          Active projects
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_project_path do %>
+          Start a project
+        <% end %>
+      </li>
+      <li>
+        <a href="#" data-reveal-id="SignInModal" class="signup_buttons">
+          Sign In
+        </a>
+      </li>
+      <li>
+        <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">
+          Sign Up
+        </a>
+      </li>
+    </ul>
+    <ul class="dropdown menu  footer_menu text_platforms" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
+      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">What is WeServe?</a></li>
+      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Who we are</a></li>
+      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">FAQ</a></li>
+      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Terms of Use</a></li>
+      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Contact</a></li>
+    </ul>
+    <hr class ="my_hr">
+    <ul class="dropdown menu  footer_menu copyrigth_platforms" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
+      <li role="menuitem" tabindex="0"><h3 class="name_site">WeServe</h3></li>
+      <li role="menuitem" tabindex="0"><div class="year">2016</div></li>
+    </ul>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/static/visitors/css/foundation.css">
+<link rel="stylesheet" href="/static/visitors/css/style.css">
+<link href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" />
+<link href="http://allfont.ru/allfont.css?fonts=roboto-condensed-light" rel="stylesheet" type="text/css" />
+<link href="http://allfont.ru/allfont.css?fonts=ds-narrow-extra-condensed-medium" rel="stylesheet" type="text/css" />
+<link href="http://allfont.ru/allfont.css?fonts=open-sans-bold" rel="stylesheet" type="text/css" />
+
+<script>
+  FB.init({
+    appId:'1741496422758329',
+    cookie:true,
+    status:true,
+    xfbml:true,
+    version    : 'v2.7'
+  });
+</script>
+
+<script>
+  function FBInvite(){
+    FB.ui({
+      method: 'apprequests',
+      message: 'Invite your Facebook Friends'
+    },function(response) {
+      if (response) {
+        alert('Successfully Invited');
+      } else {
+        alert('Failed To Invite');
+      }
+    });
+  }
+</script>

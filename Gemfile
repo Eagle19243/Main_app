@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.1'
+ruby '2.3.1'
 gem 'rails', '4.2.5.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -26,7 +26,23 @@ gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-bundler', '~> 1.1.2'
 gem 'capistrano-rails', '~> 1.1.1'
 gem 'validates_timeliness', '~> 4.0'
+# use puma on AWS http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Ruby_rails.html
+gem 'puma'
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+gem 'rails4-autocomplete'
+# Firebase Security Token Generator
+gem  "firebase_token_generator"
+gem 'react-rails'
+gem 'zeroclipboard-rails'
+gem 'rufus-scheduler'
+gem "font-awesome-rails"
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
 
+# gem 'video_info'
 # Add this if you're using rbenv
 # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 
@@ -57,5 +73,9 @@ group :production do
   #gem 'pg'
   gem 'sqlite3'
   gem 'rails_12factor'
+  # use unicorn in production on digital ocean. On AWS we will config with puma
   gem 'unicorn'
 end
+
+# use the wonderful kaminari gem for pagination
+gem 'kaminari'

@@ -1,0 +1,25 @@
+ <div class="small-12 medium-6 columns">
+  <h1><i class="icon-file-text-alt"></i>Projects</h1>
+  <% @user.projects.each do |project| %>
+    <div class="project-wrap">
+      <a href="/projects/<%= project.id %>"><p class="big-tx"><%= project.title %></p></a>
+      <div class="progress task_bar">
+        <span class="meter" style="width:75%"></span>
+      </div>
+      <div class="row percentages">
+        <div class="small-6 medium-2 columns no-pad-left"><div class="stats">40% <span>Funded</span></div></div>
+        <div class="small-6 medium-2 columns no-pad-left"><div class="stats">70% <span>Finished</span></div></div>
+        <div class="small-6 medium-2 columns no-pad-left"><div class="stats">19/30 <span>Templates</span></div></div>
+        <div class="small-6 medium-2 columns no-pad-left"><div class="stats"><%= number_to_currency(project.needed_budget)  %><span>Needed</span></div></div>
+        <div class="small-6 medium-2 columns no-pad-left"></div>
+      </div>
+      <div class="star-rating">
+        <i class="icon-star seleted" aria-hidden="true"></i>
+        <i class="icon-star seleted" aria-hidden="true"></i>
+        <i class="icon-star seleted" aria-hidden="true"></i>
+        <i class="icon-star seleted" aria-hidden="true"></i>
+        <i class="icon-star" aria-hidden="true"></i>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,67 @@
+<%= render 'layouts/menu' %>
+<div class="project-page-info">
+  <h3>Search Results</h3>
+  <p>See what other people are doing with YouServe, and get involved.</p>
+  <%#= link_to 'Make a new project', new_project_path, class: "hero-button" %>
+</div>
+<div class="separator"></div>
+<div class="content projects">
+  <% @results.each do |result| %>
+      <div class="project-wrapper">
+        <div class="project-showcase">
+        <% if (result.class.to_s.eql?('Project')) %>
+              <div class="picture-wrapper">
+                  <% if result && result.picture? %>
+                    <a class="image-with-title" href="<%= project_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.picture.url %>) no-repeat center center">
+                    </a>
+                  <% else %>
+                    <a class="image-with-title" href="<%= project_path(result)%>">
+                  <% end %>
+                  <h4 class="project-title"><%= result.title %></h4>
+                  <span class="project-country"><%= result.country %></span>
+                  </a>
+                </div>
+                <div class="project-info">
+                  <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
+
+                  <% if result.tasks.count > 0 %>
+                      <% task = result.tasks.first %>
+                      <div class="tasks hide-mobile">
+                        <p class="example-task">Example task <span>(<%= result.tasks.count %> total)</span></p>
+                        <div class="task">
+                          <p class="task-description"><%= truncate(task.description, :length => 120, :omission => '...') %></p>
+                          <div class="progress-bar">
+                            <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
+                          </div>
+                            <span class="left">
+                              <strong>$<%= task.current_fund.to_i %></strong> funded
+                            </span>
+                            <span class="right">
+                              <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
+                            </span>
+                        </div>
+                      </div>
+                      </div>
+              <% end %>
+      <% end %>
+        <% if (result.class.to_s.eql?('Task')) %>
+              <div class="picture-wrapper">
+                <% if result && result.project.picture? %>
+                    <a class="image-with-title" href="<%= tasks_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.picture.url %>) no-repeat center center">
+                    </a>
+                <% else %>
+                    <a class="image-with-title" href="<%= task_path(result)%>">
+                <% end %>
+                <h4 class="project-title"><%= result.title %></h4>
+                </a>
+              </div>
+              <div class="project-info">
+                <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
+                <%#=link_to result.title ,task_path(result.id) %>
+        <% end %>
+            </div>
+      </div>
+      </div>
+  <% end %>
+</div>
+<%= render 'visitors/sitewide_footer' %>

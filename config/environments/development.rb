@@ -52,7 +52,17 @@ Rails.application.configure do
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
+  config.serve_static_assets = true
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # configure ReactJS variant
+  # https://github.com/reactjs/react-rails
+  config.react.variant  = :development
+  config.react.addons = true # defaults to false
+
+  # temporarily disable activerecord logging
+  # this should be switched back on once we figure out a way for it to play nice with the Bitcoin
+  # config.active_record.logger = nil
 end

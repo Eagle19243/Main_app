@@ -1,3 +1,8 @@
+<%= render 'layouts/menu' %>
+
+<% content_for :title do %>
+  WeServe > Directory
+<% end %>
 
 <div class="generalcontent">
 
@@ -6,7 +11,7 @@
 
 <br>
 <div class="row collapse postfix-round right">
-  
+
       <div class="small-9 columns">
         <input type="text" placeholder="Search">
       </div>
@@ -27,7 +32,7 @@
                 <th>Status </th>
                 <th>Change Status</th>
                 <th>Delete User</th>
-                 
+
               </tr>
             <% @users.each do |user| %>
 
@@ -38,8 +43,10 @@
           </tbody>
         </table>
       </div>
-  
-  
+
+
 
   </div>
 </div></div>
+
+<%= render 'visitors/sitewide_footer' %>

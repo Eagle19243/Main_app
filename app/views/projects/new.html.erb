@@ -1,3 +1,9 @@
+<%= render 'layouts/menu' %>
+
+<% content_for :title do %>
+  WeServe > New Project
+<% end %>
+
 <%= tinymce_assets %>
 <div class="content">
   <% if !current_user.admin? %>
@@ -15,3 +21,5 @@
   <%= render 'form' %>
   </div>
 </div>
+
+<%= render 'visitors/sitewide_footer' %>
