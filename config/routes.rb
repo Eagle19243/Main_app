@@ -52,14 +52,18 @@ Rails.application.routes.draw do
 
   resources :activities, only: [:index]
   resources :wikis
-  resources :tasks
+  resources :tasks do
+  member do
+    get :accept, :reject
+  end
+  end
+
   resources :favorite_projects, only: [:create, :destroy]
 
   resources :projects do
     resources :tasks do
       resources :task_comments
-
-     resources :assignments
+      resources :assignments
     end
 
     resources :project_comments

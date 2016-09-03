@@ -20,6 +20,7 @@ class Task < ActiveRecord::Base
   after_create :assign_address
 	aasm :column => 'state', :whiny_transitions => false do
     state :pending
+		state :suggested_task
     state :accepted
     state :rejected
 		state :doing
@@ -27,10 +28,10 @@ class Task < ActiveRecord::Base
 		state :completed
 
 		event :accept do
-      transitions :from => :pending, :to => :accepted
-    end
+      transitions :from => [:pending,:suggested_task], :to => :accepted
+		end
 		event :reject do
-      transitions :from => :pending, :to => :rejected
+      transitions :from => [:pending, :suggested_task],:to => :rejected
     end
 		event :start_doing do
 			transitions :from => [:accepted, :pending, :reviewing, :completed], :to => :doing

@@ -30,7 +30,9 @@ class TasksController < ApplicationController
 
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-   
+   if @task.project.user_id != current_user.id
+     @task.state='suggested_task'
+   end
 
     respond_to do |format|
       if @task.save
@@ -76,6 +78,29 @@ class TasksController < ApplicationController
       format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def accept
+    @task = Task.find(params[:id])
+    if @task.accept!
+      flash[:success] = "Task accepted"
+    else flash[:error] = "Task was not accepted"
+
+    end
+    redirect_to   taskstab_project_path(@task.project_id)
+
+
+  end
+
+  def reject
+    @task = Task.find(params[:id])
+    if @task.reject!
+      flash[:success] = "Task Rejected"
+    else flash[:error] = "Task was not Rejected "
+
+    end
+    redirect_to  taskstab_project_path(@task.project_id)
+
   end
 
   private

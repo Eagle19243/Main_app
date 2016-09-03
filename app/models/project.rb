@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :delete_all
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
-  has_one :chat_room
+  has_one  :chat_room
   has_many :project_rates
   has_many :project_users
   has_many :followers, through: :project_users, class_name: 'User', source: :follower
