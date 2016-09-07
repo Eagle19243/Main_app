@@ -1,6 +1,8 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject ]
   before_action :validate_user, only:[:accept, :reject ]
+  layout false, only: [:show]
+
   # GET /tasks
   # GET /tasks.json
 
@@ -8,8 +10,29 @@ class TasksController < ApplicationController
   # GET /tasks/1
   # GET /tasks/1.json
   def show
-    @comments = @task.task_comments.all
-    @assignment = Assignment.new
+    @task_comments = @task.task_comments.all
+    #@assignment = Assignment.new
+
+    @task=Task.find(params[:id]) rescue (redirect_to  '/')
+    @project=@task.project
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+    @followed = false
+    @rate = 0
+    if user_signed_in?
+      @followed = @project.project_users.pluck(:user_id).include? current_user.id
+      @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
+    end
+    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
+    @doing_tasks = @project.tasks.where(state: "doing").all
+    @suggested_tasks = @project.tasks.where(state: "suggested_task").all
+    @reviewing_tasks = @project.tasks.where(state: "reviewing").all
+    @done_tasks = @project.tasks.where(state: "done").all
 
   end
 
@@ -89,7 +112,7 @@ class TasksController < ApplicationController
       flash[:success] = "Task accepted "
 
       if previous
-        @task.assign_address
+       @task.assign_address
       end
     else
       flash[:error] = "Task was not accepted"
@@ -107,6 +130,10 @@ class TasksController < ApplicationController
     end
     redirect_to  taskstab_project_path(@task.project_id)
 
+  end
+  def add_attachment
+    puts ''
+    ksj
   end
 
   private

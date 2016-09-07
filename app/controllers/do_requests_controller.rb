@@ -1,12 +1,15 @@
 class DoRequestsController < ApplicationController
   before_filter :authenticate_user!
-
-
+  
   def index
   end
 
   def new
     @task = Task.find(params[:task_id])
+    if @task.suggested_task?
+      flash[:error] = "You can not Apply For Suggested Task "
+      redirect_to task_path(@task.id)
+    end
     @free = params[:free]
     @do_request = DoRequest.new
 
@@ -76,6 +79,7 @@ class DoRequestsController < ApplicationController
 
 
   private
+
 
   def request_params
     params.require(:do_request).permit(:application, :task_id, :user_id, :free)

@@ -62,4 +62,9 @@ module ApplicationHelper
       "error"
     end
   end
+  def  curent_bts_to_usd(id)
+    satoshi_to_btc = Task.find(id).wallet_address.current_balance.to_f/10**8.to_f
+    btc_to_usd = satoshi_to_btc * get_current_btc_rate
+    btc_to_usd.round(3)
+  end
 end
