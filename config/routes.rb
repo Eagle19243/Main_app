@@ -103,7 +103,7 @@ Rails.application.routes.draw do
   # also make messages available as a resource
   resources :messages
 
-  get 'dashboard' => 'dashboard'
+  get 'dashboard' => 'dashboard', as: 'dashboard'
 
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
