@@ -1,4 +1,4 @@
-<% if @project.chat_room.blank?%>
+<% if current_user && @project.chat_room.blank?%>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <%= javascript_include_tag 'firechat_merged' %>
 
@@ -59,6 +59,12 @@
                   <i class="icon-edit"></i>
                   Edit
               <% end %>
+              <%if current_user && @project.filtered_discussions.exists?%>
+                  <%= link_to '#', :class => "button", id:'discussion-dialog-link' do %>
+                      <i class="icon-comments"></i>
+                      Suggest
+                  <% end %>
+              <%end%>
             </li>
             <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
             <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
@@ -134,13 +140,13 @@
         </div>
         <section class="section_content_box">
           <h2>Section1</h2>
-          <p>
+          <p class="section1-content">
             <%= @project.section1 %>
           </p>
         </section>
         <section class="section_content_box">
           <h2>Section2</h2>
-          <p>
+          <p class="section2-content">
             <%= @project.section2 %>
           </p>
         </section>
@@ -207,7 +213,7 @@
   </div>
 </div>
 <%= render 'visitors/sitewide_footer' %>
-
+<%= render 'projects/discussions/discussion_dialog' if current_user%>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -217,6 +223,16 @@
     window.mycheck = function () {
       console.log("this checks some stuff");
     };
+    $(".discussion-dialog").dialog({
+      dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 700,  modal: true,autoOpen:false,
+      open: function(){
+        $('.ui-widget-overlay').bind('click',function(){ $('.discussion-dialog').dialog('close'); })
+      }
+    });
+    $("#discussion-dialog-link").click(function(e) {
+      e.preventDefault();
+      $(".discussion-dialog").dialog("open");
+    });
   });
   projectId = <%= @project.id%>;
 </script>

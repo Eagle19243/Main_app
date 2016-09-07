@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825153701) do
+ActiveRecord::Schema.define(version: 20160906152535) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -64,6 +64,18 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "discussions", force: :cascade do |t|
+    t.integer  "discussable_id"
+    t.string   "discussable_type"
+    t.integer  "user_id"
+    t.string   "field_name"
+    t.text     "context"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "discussions", ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id"
 
   create_table "do_for_frees", force: :cascade do |t|
     t.integer  "user_id"

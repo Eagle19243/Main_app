@@ -55,6 +55,12 @@ Rails.application.routes.draw do
   resources :tasks
   resources :favorite_projects, only: [:create, :destroy]
 
+  resources :discussions, only: [:destroy, :accept] do
+    member do
+      get :accept
+    end
+  end
+
   resources :projects do
     resources :tasks do
       resources :task_comments

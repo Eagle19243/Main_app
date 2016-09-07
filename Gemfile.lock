@@ -122,6 +122,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    differ (0.1.2)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
@@ -481,6 +482,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   country_select
   devise
+  differ
   firebase_token_generator
   fog
   font-awesome-rails

@@ -4,7 +4,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   #before_filter :admin_only_mode
 
-    #a filter to enable private mode in which the app is available only to admins
+  around_filter :set_current_user
+
+  def set_current_user
+    User.current_user = current_user
+    yield
+  ensure
+    # to address the thread variable leak issues in Puma/Thin webserver
+    User.current_user = nil
+  end
+
+  #a filter to enable private mode in which the app is available only to admins
     def admin_only_mode
       unless current_user.try(:admin?)
         unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "sessions"
