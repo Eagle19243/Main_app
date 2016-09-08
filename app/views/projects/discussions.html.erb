@@ -7,15 +7,15 @@
       <%= link_to 'Suggest edit', edit_project_path(@project,anchor:'sections'), class:  "button tiny rigth", style:'margin-top: 10px'%>
     </div>
 
-    <%= render 'projects/discussions/discussed_section', name:'First Details Section', field_name: 'section1'%>
+    <%= render 'projects/discussions/discussed_section', field_name: 'section1'%>
     <hr>
-    <%= render 'projects/discussions/discussed_section', name:'Second Details Section', field_name: 'section2'%>
+    <%= render 'projects/discussions/discussed_section', field_name: 'section2'%>
   </div>
 
   <div class="medium-4 columns" style="background-color: #f2f2f2; height: 700px; border-left: #b2b2b2 solid 2px;overflow-y: auto">
     <% @discussions.order(:field_name, :created_at).each do |discussion| %>
         <div id='<%="discussion-#{discussion.id}"%>' style="margin: 12px; background-color: white ;border-left: #00a0f3 solid 4px; padding: 5px;">
-          <span style="font-size: 14px;"><%=discussion.field_name.capitalize%></span>
+          <span style="font-size: 14px;"><%=Project.human_attribute_name discussion.field_name%></span>
 
           <table style="width:100%;margin-bottom: 0px;">
             <tr>
