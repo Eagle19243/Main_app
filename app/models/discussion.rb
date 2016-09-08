@@ -6,6 +6,7 @@ class Discussion < ActiveRecord::Base
 
   scope :of_field, ->(f){ where field_name: f if f }
   scope :of_user, ->(u){ where user_id: u.id if u }
+  scope :of_discussable, ->(d){ where discussable: d if d }
 
   def accept_context
     discussable.send(:write_attribute, field_name, self.context)

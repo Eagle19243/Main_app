@@ -15,7 +15,7 @@ class DiscussionsController < ApplicationController
   end
 
   # DELETE /discussions/1
-  # DELETE /discussions/1.js
+  # DELETE /discussions/1.json
 
   def destroy
     @discussion.destroy

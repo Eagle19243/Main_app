@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="medium-8 columns" style="overflow-y: auto; height: 700px;">
+    <div class="medium-9 columns">
+      <h3><%= @project.title%></h3>
+    </div>
+    <div class="medium-3 columns">
+      <%= link_to 'Suggest edit', edit_project_path(@project,anchor:'sections'), class:  "button tiny rigth", style:'margin-top: 10px'%>
+    </div>
+
+    <%= render 'projects/discussions/discussed_section', name:'First Details Section', field_name: 'section1'%>
+    <hr>
+    <%= render 'projects/discussions/discussed_section', name:'Second Details Section', field_name: 'section2'%>
+  </div>
+
+  <div class="medium-4 columns" style="background-color: #f2f2f2; height: 700px; border-left: #b2b2b2 solid 2px;overflow-y: auto">
+    <% @discussions.order(:field_name, :created_at).each do |discussion| %>
+        <div id='<%="discussion-#{discussion.id}"%>' style="margin: 12px; background-color: white ;border-left: #00a0f3 solid 4px; padding: 5px;">
+          <span style="font-size: 14px;"><%=discussion.field_name.capitalize%></span>
+
+          <table style="width:100%;margin-bottom: 0px;">
+            <tr>
+              <td><%=image_tag(discussion.user.picture_url(:thumb), height: '32', width: '32')  %></td>
+              <td>
+                <div style="font-size: 10px; color: grey"><%=discussion.user.name%></div>
+                <div style="font-size: 10px; color: grey"> <%=discussion.created_at.strftime("%m/%d/%y at %l:%M %p")%></div>
+              </td>
+              <td style="text-align:right;">
+                <%if current_user.is_admin_for?(@project)%>
+                  <%=link_to image_tag('accept-icon.png', size: '24x24'), '#', onclick: "acceptDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
+                <%end%>
+                <%=link_to image_tag('close-icon.png', size: '24x24'), '#', onclick: "rejectDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
+              </td>
+            </tr>
+          </table>
+
+          <div style="font-size: 12px;">
+            <%= discussion_change_tag(discussion.context, @project.send(discussion.field_name)||'')%>
+          </div>
+        </div>
+    <%end%>
+  </div>
+</div>

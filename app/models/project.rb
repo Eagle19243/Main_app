@@ -106,8 +106,8 @@ class Project < ActiveRecord::Base
     project_rates.average(:rate).to_i
   end
 
-  def filtered_discussions
-    User.current_user.is_admin_for?(self) ? discussions : discussions.of_user(User.current_user)
+  def filtered_discussions(usr)
+    usr.is_admin_for?(self) ? discussions : discussions.of_user(usr)
   end
 
   def discussed_section1= value

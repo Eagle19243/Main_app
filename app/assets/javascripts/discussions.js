@@ -2,11 +2,11 @@ function rejectDiscussion(id) {
     $.ajax({
         url: '/discussions/'+id,
         type: 'DELETE',
-        success: function() {
+        success: function(data) {
             $('#discussion-'+id).remove();
         },
         contentType: false,
-        dataType: 'script'
+        dataType: 'json'
     });
 }
 

@@ -59,7 +59,7 @@
                   <i class="icon-edit"></i>
                   Edit
               <% end %>
-              <%if current_user && @project.filtered_discussions.exists?%>
+              <%if current_user && @project.filtered_discussions(current_user).exists?%>
                   <%= link_to '#', :class => "button", id:'discussion-dialog-link' do %>
                       <i class="icon-comments"></i>
                       Suggest
@@ -213,7 +213,8 @@
   </div>
 </div>
 <%= render 'visitors/sitewide_footer' %>
-<%= render 'projects/discussions/discussion_dialog' if current_user%>
+
+<div class="discussion-dialog hide">Loading...</div>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -225,7 +226,9 @@
     };
     $(".discussion-dialog").dialog({
       dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 700,  modal: true,autoOpen:false,
+      beforeClose: function( event, ui ) {  $('.discussion-dialog').empty(); },
       open: function(){
+        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions');
         $('.ui-widget-overlay').bind('click',function(){ $('.discussion-dialog').dialog('close'); })
       }
     });

@@ -2,8 +2,8 @@ class ProjectsController < ApplicationController
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate, :discussions]
   before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
   layout "manish", only: [:taskstab, :teamtab]
@@ -16,6 +16,13 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
+  # GET /discussions
+  # GET /discussions.json
+  def discussions
+    @discussions = @project.filtered_discussions(current_user).includes(:user)
+    render layout: false
+  end
+
   # GET /projects
   # GET /projects.json
   def oldindex
@@ -23,8 +30,6 @@ class ProjectsController < ApplicationController
     Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
 
   end
-
-
 
   def autocomplete_user_search
     term = params[:term]
