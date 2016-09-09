@@ -4,18 +4,38 @@
       <h3><%= @project.title%></h3>
     </div>
     <div class="medium-3 columns">
-      <%= link_to 'Suggest edit', edit_project_path(@project,anchor:'sections'), class:  "button tiny rigth", style:'margin-top: 10px'%>
+      <%= link_to 'Suggest edit', '#', id: 'discussion-edit-link', class:  "button tiny rigth", style:'margin-top: 10px'%>
     </div>
-
-    <%= render 'projects/discussions/discussed_section', field_name: 'section1'%>
-    <hr>
-    <%= render 'projects/discussions/discussed_section', field_name: 'section2'%>
+    <%=form_for @project, remote: true, html:{id: 'discussions-form'} do |f|%>
+      <div style="min-height: 300px; padding: 10px;">
+        <%@section_details.each do |section_detail|%>
+          <h4><%= section_detail.title %></h4>
+          <div id="section-detail-<%=section_detail.id%>" class="discussion-content">
+            <%= discussion_context_tag section_detail, :context %>
+          </div>
+          <div class="discussion-edit hide">
+            <%=f.fields_for :section_details, section_detail do |section_detail_fields| %>
+                <div class="form-group">
+                  <%= section_detail_fields.text_area :discussed_context, :class=>'tinymce section-detail-context', :rows => 5 %>
+                </div>
+            <%end%>
+          </div>
+          <hr>
+        <%end%>
+      </div>
+      <div class="form-actions hide discussions-actions" >
+        <%= f.button 'Save', class: "button tiny radius", id: 'disscussions-submit'%>
+        <%= link_to 'Cancel','#', class: "button tiny radius", id: 'discussions-cancel'%>
+      </div>
+    <%end%>
   </div>
 
   <div class="medium-4 columns" style="background-color: #f2f2f2; height: 700px; border-left: #b2b2b2 solid 2px;overflow-y: auto">
-    <% @discussions.order(:field_name, :created_at).each do |discussion| %>
+    <%@section_details.each do |section_detail|%>
+      <% section_detail.discussions.order(:created_at).each do |discussion| %>
         <div id='<%="discussion-#{discussion.id}"%>' style="margin: 12px; background-color: white ;border-left: #00a0f3 solid 4px; padding: 5px;">
-          <span style="font-size: 14px;"><%=Project.human_attribute_name discussion.field_name%></span>
+
+          <span style="font-size: 14px;"><%=section_detail.title%></span>
 
           <table style="width:100%;margin-bottom: 0px;">
             <tr>
@@ -28,15 +48,36 @@
                 <%if current_user.is_admin_for?(@project)%>
                   <%=link_to image_tag('accept-icon.png', size: '24x24'), '#', onclick: "acceptDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
                 <%end%>
-                <%=link_to image_tag('close-icon.png', size: '24x24'), '#', onclick: "rejectDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
+                <%if current_user.id == discussion.user_id%>
+                  <%=link_to image_tag('close-icon.png', size: '24x24'), '#', onclick: "rejectDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
+                <%end%>
               </td>
             </tr>
           </table>
 
           <div style="font-size: 12px;">
-            <%= discussion_change_tag(discussion.context, @project.send(discussion.field_name)||'')%>
+            <%= discussion_change_tag(discussion.context, section_detail.send(discussion.field_name)||'')%>
           </div>
         </div>
+      <%end%>
     <%end%>
   </div>
 </div>
+<%=javascript_tag do%>
+    $("#discussions-cancel").click(function(e) {
+      e.preventDefault();
+      $('.discussion-content').show();
+      $('.discussion-edit').hide();
+      $('.discussions-actions').hide();
+    });
+    $("#discussion-edit-link").click(function(e) {
+      e.preventDefault();
+      tinyMCE.init({  selector: 'textarea.tinymce', menubar:false,  statusbar: false  });
+      $('.discussion-content').hide();
+      $('.discussion-edit').show();
+      $('.discussions-actions').show();
+    });
+    $("#discussions-form").on("ajax:success", function(e, data, status, xhr) {
+        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions');
+    })
+<%end%>

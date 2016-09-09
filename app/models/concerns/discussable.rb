@@ -9,4 +9,12 @@ module Discussable
     self.discussions.of_field(field_name).of_user(user)
   end
 
+  def filtered_discussions(usr)
+    usr.is_admin_for?(self) ? discussions : discussions.of_user(usr)
+  end
+
+  def can_update?
+    true
+  end
+
 end

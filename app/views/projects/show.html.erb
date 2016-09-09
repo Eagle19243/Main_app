@@ -59,7 +59,7 @@
                   <i class="icon-edit"></i>
                   Edit
               <% end %>
-              <%if current_user && @project.filtered_discussions(current_user).exists?%>
+              <%if user_signed_in? && @project.section_details.exists?%>
                   <%= link_to '#', :class => "button", id:'discussion-dialog-link' do %>
                       <i class="icon-comments"></i>
                       Suggest
@@ -135,26 +135,32 @@
               <li>
                 <a href="#project_video">Project Video</a>
               </li>
+              <li type="1">
+                <a href="#project_video">Project Details</a>
+                <ol>
+                  <%@project.section_details.each do |section_detail|%>
+                    <li><a href="#section-detail-<%=section_detail.id%>"><%=section_detail.title %></a></li>
+                  <%end%>
+                </ol>
+              </li>
             </ul>
           </div>
         </div>
-        <section class="section_content_box">
-          <h2>Section1</h2>
-          <p class="section1-content">
-            <%= @project.section1 %>
-          </p>
-        </section>
-        <section class="section_content_box">
-          <h2>Section2</h2>
-          <p class="section2-content">
-            <%= @project.section2 %>
-          </p>
-        </section>
+        <%@project.section_details.each do |section_detail|%>
+            <section class="section_content_box">
+              <a name="section-detail-<%=section_detail.id%>"/>
+              <h2><%=section_detail.title%></h2>
+              <hr>
+              <p id="section-detail-<%=section_detail.id%>" class="section-detail-content">
+                <%= section_detail.context.html_safe %>
+              </p>
+            </section>
+        <%end%>
       </div>
       <div class="small-12 medium-4 columns" id="project_tasks">
         <div class="task_border ">
           <h3 class="task_title left">Tasks</h3>
-          <a href=<%= "/projects/#{@project.id}/taskstab" %> class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
+          <a href="/projects/<%=@project.id%>/taskstab" class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
         </div>
         <% @project.tasks.each do |task| %>
             <div class="task_content clearfix">
@@ -228,7 +234,9 @@
       dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 700,  modal: true,autoOpen:false,
       beforeClose: function( event, ui ) {  $('.discussion-dialog').empty(); },
       open: function(){
-        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions');
+        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions', function() {
+
+        });
         $('.ui-widget-overlay').bind('click',function(){ $('.discussion-dialog').dialog('close'); })
       }
     });

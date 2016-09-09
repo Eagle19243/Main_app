@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   # GET /discussions
   # GET /discussions.json
   def discussions
-    @discussions = @project.filtered_discussions(current_user).includes(:user)
+    @section_details = @project.section_details.order(:order).includes(:discussions)
     render layout: false
   end
 
@@ -212,9 +212,11 @@ class ProjectsController < ApplicationController
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
+        format.js { head :no_content, status: :ok}
       else
         format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.js { head :no_content, status: 422}
       end
     end
   end
@@ -329,8 +331,8 @@ class ProjectsController < ApplicationController
       params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture,
                                       :user_id, :institution_location, :state, :expires_at, :request_description,
                                       :institution_name, :institution_logo, :institution_description,
-                                      :section1, :section2, :discussed_section1, :discussed_section2,
-                                      project_edits_attributes: [:id, :_destroy, :description])
+                                      project_edits_attributes: [:id, :_destroy, :description],
+                                      section_details_attributes: [:id, :order, :title, :discussed_context])
     end
 
     def get_project_user

@@ -1,11 +1,17 @@
 module ProjectsHelper
-  def discussion_context_tag(field_name, format = :html)
+  def config_project
+    @project.tap do |p|
+      p.section_details.build(title: 'First Section Details') if current_user.is_admin_for?(@project) && p.section_details.blank?
+    end
+  end
+
+  def discussion_context_tag(section_detail, field_name, format = :html)
     Differ.format = format
-    changed_context = @discussions.of_field(field_name).first
+    changed_context = section_detail.discussions.of_field(field_name).first#.find{|d| d.field_name == field_name}
     if changed_context
-      Differ.diff_by_char(changed_context.context, @project.send(field_name)||'').to_s.html_safe
+      Differ.diff_by_char(changed_context.context, section_detail.send(field_name)||'').to_s.html_safe
     else
-      @project.send(field_name)
+      section_detail.send(field_name).html_safe
     end
   end
 

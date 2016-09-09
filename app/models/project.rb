@@ -2,9 +2,6 @@ class Project < ActiveRecord::Base
   paginates_per 12
 
   include AASM
-  include Discussable
-
-  attr_accessor :discusses_section1, :discussed_section2
 
   default_scope -> { order('projects.created_at DESC') }
 
@@ -19,6 +16,7 @@ class Project < ActiveRecord::Base
   has_one :chat_room
   has_many :project_rates
   has_many :project_users
+  has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower
   has_one :team
 
@@ -27,6 +25,8 @@ class Project < ActiveRecord::Base
 
   validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
+
+  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: :all_blank
 
   searchable do
     text :title
@@ -104,42 +104,6 @@ class Project < ActiveRecord::Base
 
   def rate_avg
     project_rates.average(:rate).to_i
-  end
-
-  def filtered_discussions(usr)
-    usr.is_admin_for?(self) ? discussions : discussions.of_user(usr)
-  end
-
-  def discussed_section1= value
-    if User.current_user.is_admin_for?(self)
-      self.send(:write_attribute, :section1, value)
-    else
-      unless value == self.section1.to_s
-        Discussion.find_or_initialize_by(discussable:self, user_id: User.current_user.id, field_name: 'section1').update_attributes(context: value)
-      end
-    end
-  end
-
-  def discussed_section1
-    User.current_user.is_admin_for?(self) ?
-      self.send(:read_attribute, :section1).to_s :
-      discussions.of_field(:section1).of_user(User.current_user).last.try(:context) || self.send(:read_attribute, :section1)
-  end
-
-  def discussed_section2= value
-    if User.current_user.is_admin_for?(self)
-      self.send(:write_attribute, :section2, value)
-    else
-      unless value == self.section2.to_s
-        Discussion.find_or_initialize_by(discussable:self, user_id: User.current_user.id, field_name: 'section2').update_attributes(context: value)
-      end
-    end
-  end
-
-  def discussed_section2
-    User.current_user.is_admin_for?(self) ?
-      self.send(:read_attribute, :section2).to_s :
-      discussions.of_field(:section2).of_user(User.current_user).last.try(:context) || self.send(:read_attribute, :section2)
   end
 
 end
