@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  # get 'task_attachments/index'
+  #
+  # get 'task_attachments/new'
+  #
+  # get 'task_attachments/create'
+  #
+  # get 'task_attachments/destroy'
+ # resources :task_attachments, only: [:index, :new, :create, :destroy]
+  post 'task_attachments/create'
+  post 'task_attachments/destroy_attachment'
   get 'chat_rooms/create_room'
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments
@@ -54,7 +64,7 @@ Rails.application.routes.draw do
   resources :wikis
   resources :tasks do
   member do
-    get :accept, :reject
+    get :accept, :reject, :doing
   end
   end
 

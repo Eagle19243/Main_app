@@ -15,6 +15,7 @@ class Task < ActiveRecord::Base
 	has_many :assignments, dependent: :delete_all
 	has_many :do_requests, dependent: :delete_all
 	has_many :donations, dependent: :delete_all
+	has_many :task_attachments, dependent: :delete_all
 
 	# after create, assign a Bitcoin address to the task, toggle the comment below to enable
 	#after_create :assign_address

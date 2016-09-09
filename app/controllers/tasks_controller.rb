@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject ]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing ]
   before_action :validate_user, only:[:accept, :reject ]
   layout false, only: [:show]
 
@@ -28,6 +28,8 @@ class TasksController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
+    @task_attachment=TaskAttachment.new
+    @task_attachments=TaskAttachment.where(task_id: @task.id)
     @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
     @doing_tasks = @project.tasks.where(state: "doing").all
     @suggested_tasks = @project.tasks.where(state: "suggested_task").all
@@ -121,6 +123,20 @@ class TasksController < ApplicationController
 
 
   end
+  def doing
+   if @task.suggested_task?
+     flash[:error] = "You can't Do this Task"
+   else
+   # check User if he is member of team or not
+     if  @task.start_doing!
+       flash[:success] = "Task Status changed to Doing "
+     else
+       flash[:error] = "Error in Moving  Task"
+     end
+   end
+    redirect_to   taskstab_project_path(@task.project_id)
+
+  end
 
   def reject
 
@@ -131,10 +147,7 @@ class TasksController < ApplicationController
     redirect_to  taskstab_project_path(@task.project_id)
 
   end
-  def add_attachment
-    puts ''
-    ksj
-  end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.
