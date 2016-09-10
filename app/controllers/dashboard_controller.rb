@@ -3,5 +3,6 @@ class DashboardController < ApplicationController
 
   def dashboard
     @user = current_user
+    @profile_comments = @user.profile_comments.page(params[:page]).per(2)
   end
 end

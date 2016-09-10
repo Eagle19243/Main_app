@@ -1,31 +1,18 @@
-<p id="notice"><%= notice %></p>
+<%= render 'layouts/menu', user: @user %>
 
-<h1>Listing Notifications</h1>
+<% content_for :title do %>
+  My notifications
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Summary</th>
-      <th>Content</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="row expanded collapse" data-equalizer data-equalizer-mq="large-up">
+  <%= render 'users/sidebar' %>
+  <div class="small-12 medium-10 columns" data-equalizer-watch>
+    <div id="tabcontentdiv">
+      
+      <div class="content">
+        <%= render "notifications" %>
+      </div>
 
-  <tbody>
-    <% @notifications.each do |notification| %>
-      <tr>
-        <td><%= notification.type %></td>
-        <td><%= notification.summary %></td>
-        <td><%= notification.content %></td>
-        <td><%= link_to 'Show', notification %></td>
-        <td><%= link_to 'Edit', edit_notification_path(notification) %></td>
-        <td><%= link_to 'Destroy', notification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Notification', new_notification_path %>
+    </div>
+  </div>
+</div>

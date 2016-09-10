@@ -1,7 +1,6 @@
 include UsersHelper
 
 class UsersController < ApplicationController
-  layout "application2", only: [:profile]
   before_action :authenticate_user!, :except => :show
   before_action :admin_only, :except => [:show, :index]
 
@@ -11,13 +10,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @profile_comments = @user.profile_comments.page(params[:page]).per(2)
   end
 
-  def profile
-    @user = User.find(params[:id])
-    @projects = Project.all
-    @do_requests = DoRequest.all
-    @assignments = Assignment.all
+  def my_projects
+    @user = current_user
   end
 
   def update

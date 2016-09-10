@@ -1,7 +1,7 @@
 <%= render 'layouts/menu', user: @user %>
 
 <% content_for :title do %>
-  <%= @user.name %>
+  My projects
 <% end %>
 
 <div class="row expanded collapse" data-equalizer data-equalizer-mq="large-up">
@@ -9,8 +9,8 @@
   <div class="small-12 medium-10 columns" data-equalizer-watch>
     <div id="tabcontentdiv">
       
-      <div class="content" class="active" id="profile">
-        <%= render "profile" %>
+      <div class="content">
+        <%= render "my_projects" %>
       </div>
 
     </div>
