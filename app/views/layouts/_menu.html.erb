@@ -7,73 +7,9 @@
 
 
 <header class="user-menu">
-  <nav class="top-bar" data-topbar role="navigation">
-    <ul class="title-area">
-
-       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-    </ul>
-    <section class="top-bar-section">
-      <!-- Right Nav Section -->
-      <ul class="right">
-       <li class="has-dropdown ">
-        <a href="#" class="no-line-height">
-          <div class="badge-wrap">
-            <i class="icon-bell-alt" aria-hidden="true"></i>
-            <span class="count">3</span>
-          </div>
-        </a>
-        <ul class="dropdown">
-          <li><a href="#">Notifications</a></li>
-          <li class="active"><a href="#">Messages</a></li>
-        </ul>
-        </li>
-         <li class="has-dropdown">
-        <% if user_signed_in? %>
-          <a href="<%= user_path(current_user) %>">
-            <% if current_user.picture? %>
-              <%= image_tag(current_user.picture.url, size: "35x35") %>
-            <% else %>
-              <%= gravatar_for(current_user, 35)%>
-            <%end%>
-          </a>
-        <% else %>
-          <a href="/" data-no-turbolink="true">Home</a>
-        <% end %>
-          <ul class="dropdown">
-            <% if user_signed_in? %>
-              <li><%= link_to 'My Profile', user_path(current_user), data: { no_turbolink: true } %></li>
-              <li><%= link_to 'Edit Profile', edit_user_registration_path, data: { no_turbolink: true } %></li>
-              <li class="active"><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
-            <% else %>
-              <li class="active"><%= link_to 'Sign in', new_user_session_path, data: { no_turbolink: true } %></li>
-            <% end %>
-          </ul>
-        </li>
-      </ul>
-      <!-- Left Nav Section -->
-      <a href="/" class="left" data-no-turbolink="true">
-        <%= image_tag 'logo.png', style: "height:100%" %>
-      </a>
-      <ul class="left title-area">
-        <% if user_signed_in? %>
-        <li class="active">
-          <%= link_to "<strong>WeServe Dashboard</strong>".html_safe, dashboard_path, data: { no_turbolink: true } %>
-        </li>
-        <% end %>
-        <li class="active">
-          <%= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
-        </li>
-        <li class="active">
-          <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
-        </li>
-        <li class="active">
-          <%= link_to 'Directory', users_path, data: { no_turbolink: true } %>
-        </li>
-        <li class="active">
-          <%= link_to 'Institutions', institutions_path, data: { no_turbolink: true } %>
-        </li>
-      </ul>
-    </section>
-  </nav>
+  <% if user_signed_in? %>
+    <%= render "layouts/users_menu" %>
+  <% else %>
+    <%= render "layouts/visitors_menu" %>
+  <% end %>
 </header>
