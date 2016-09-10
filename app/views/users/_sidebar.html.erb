@@ -1,6 +1,6 @@
 <div class="small-12 medium-2 columns user-sidebar" data-equalizer-watch>
   <ul id="sidelist" class="tabs vertical tabs-index hidden-for-small-only sideul">
-    <li class="tab-title active is-active">
+    <li class="tab-title">
       <%= link_to "Profile", user_path(current_user), data: { no_turbolink: true } %>
     </li>
     <li class="tab-title">
@@ -12,6 +12,6 @@
     <li class="tab-title">
       <%= link_to "Messages", messages_path, data: { no_turbolink: true } %>
     </li>
-    <li class="tab-title"><%= link_to 'Logout', destroy_user_session_path, method: :delete, :confirm => 'Are you sure?' %></li>
+    <li class="tab-title"><%= link_to 'Logout', destroy_user_session_path, method: :delete,  data: { confirm: 'Are you sure?' } %></li>
   </ul>
 </div>

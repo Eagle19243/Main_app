@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @profile_comments = @user.profile_comments.page(params[:page]).per(2)
+    @profile_comments = @user.profile_comments.limit(1)
   end
 
   def my_projects

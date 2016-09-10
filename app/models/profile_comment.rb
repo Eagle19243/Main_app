@@ -1,5 +1,5 @@
 class ProfileComment < ActiveRecord::Base
-  paginates_per 5
+  default_scope { order('created_at DESC') }
 
   belongs_to :commenter, class_name: "User"
   belongs_to :receiver, class_name: "User"

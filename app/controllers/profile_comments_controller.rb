@@ -4,7 +4,14 @@ class ProfileCommentsController < ApplicationController
   # GET /profile_comments
   # GET /profile_comments.json
   def index
-    @profile_comments = ProfileComment.all
+    @page_user = User.find(params[:user_id])
+    @new_profile_comments = @page_user.profile_comments.where('id < ?', params[:last_comment_id]).limit(1)
+    puts @new_profile_comments.count
+    puts "FSDFDS"
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /profile_comments/1

@@ -1,0 +1,48 @@
+<div class="small-12 medium-6 columns">
+  <h1><i class="icon-user"></i>Comments</h1>
+  <div>
+    <div class="profile-comments">
+      <%= render @profile_comments %>
+    </div>
+    <%= link_to "Upload more", profile_comments_path(user_id: @user.id, last_comment_id: @profile_comments.last.id), remote: true %>
+    <div class="row">
+      <%= render "users/comment_form" %>
+    </div>
+  </div>
+</div>
+
+<script>
+ $(function () {
+    $('.uploadMore').click(function (e) {
+        e.preventDefault();
+
+        // get the last id and save it in a variable 'last-id'
+        var last_id = $('.comment-box').last().attr('data-id');
+
+        // make an ajax call passing along our last user id
+        $.ajax({
+
+            // make a get request to the server
+            type: "GET",
+            // get the url from the href attribute of our link
+            url: "/profile_comments/index",
+            // send the last id to our rails app
+            data: {
+                last_comment_id: last_id,
+                user_id: 2
+            },
+            
+            dataType: "script",
+
+            success: function () {
+                alert("In success");
+                // hide the loading gif
+                // $('.loading-gif').hide();
+                // // show our load more link
+                // $('.load-more').show();
+            }
+        });
+
+    });
+});
+</script>
