@@ -310,7 +310,16 @@ a.banner_button:visited {
 }
 
 .discussion-dialog {
-
+  hr {
+    margin: 5px !important;
+  }
+  #discussion-edit-link {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+  .remove_fields {
+    margin-bottom: 0;
+  }
 }
 
 .no-dialog-padding,
@@ -318,7 +327,9 @@ a.banner_button:visited {
    border: none;
    padding: 0;
  }
-
+.no-dialog-padding .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  font-size: 0.875rem;
+}
 .no-dialog-padding, .ui-dialog-titlebar {display: none }
 
 del {

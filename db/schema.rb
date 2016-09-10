@@ -260,6 +260,8 @@ ActiveRecord::Schema.define(version: 20160909184359) do
 
   create_table "section_details", force: :cascade do |t|
     t.integer  "project_id"
+    t.integer  "parent_id"
+    t.integer  "order"
     t.string   "title"
     t.text     "context",    default: ""
     t.datetime "created_at",              null: false

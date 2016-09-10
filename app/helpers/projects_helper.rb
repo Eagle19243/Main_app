@@ -23,4 +23,19 @@ module ProjectsHelper
     end
     html.html_safe
   end
+
+  def section_details_tag(parent = nil)
+    content_tag :ul do
+      html_ul = ActiveSupport::SafeBuffer.new
+      SectionDetail.completed.of_parent(parent).ordered.each do |child|
+        html_ul << content_tag(:li) do
+          html_li = link_to(child.title, "#section-detail-#{child.id}")
+          html_li << section_details_tag(child) if child.childs.exists?
+          html_li
+        end
+      end
+      html_ul
+    end
+
+  end
 end

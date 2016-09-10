@@ -3,12 +3,22 @@ class SectionDetail < ActiveRecord::Base
 
   belongs_to :project
 
+  belongs_to :parent, class_name: 'SectionDetail', foreign_key: 'parent_id'
+
+  has_many :childs, class_name: 'SectionDetail', foreign_key: 'parent_id', dependent: :nullify
+
+  scope :of_parent, ->(p){ p ? p.childs : where(parent_id: nil)}
+
+  scope :ordered, ->{order(:order,:title)}
+
+  scope :completed, ->{where.not(context: '')}
+
   attr_accessor :discussed_context
 
-  validates :context, :title, presence: true
+  validates :title, presence: true
 
   def can_update?
-    User.current_user.is_admin_for?(project)
+    User.current_user.is_admin_for?(self.project)
   end
 
   def discussed_context= value

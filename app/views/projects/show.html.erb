@@ -55,16 +55,21 @@
           <!-- A default button-group -->
           <ul class="button-group radius ">
             <li>
-              <%= link_to edit_project_path(@project), :class => "button" do %>
+              <%if user_signed_in? %>
+                <%= link_to '#', :class => "button", id:'discussion-dialog-link' do %>
                   <i class="icon-edit"></i>
                   Edit
-              <% end %>
-              <%if user_signed_in? && @project.section_details.exists?%>
-                  <%= link_to '#', :class => "button", id:'discussion-dialog-link' do %>
-                      <i class="icon-comments"></i>
-                      Suggest
-                  <% end %>
+                <%end%>
+                <%if current_user.is_admin_for?(@project)%>
+                  <%= link_to 'Additional', edit_project_path(@project), :class => "button"%>
+                <%end%>
+              <%else%>
+                <%= link_to edit_project_path(@project), :class => "button" do %>
+                  <i class="icon-edit"></i>
+                  Edit
+                <%end%>
               <%end%>
+
             </li>
             <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
             <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
@@ -135,18 +140,14 @@
               <li>
                 <a href="#project_video">Project Video</a>
               </li>
-              <li type="1">
+              <li>
                 <a href="#project_video">Project Details</a>
-                <ol>
-                  <%@project.section_details.each do |section_detail|%>
-                    <li><a href="#section-detail-<%=section_detail.id%>"><%=section_detail.title %></a></li>
-                  <%end%>
-                </ol>
+                <%= section_details_tag%>
               </li>
             </ul>
           </div>
         </div>
-        <%@project.section_details.each do |section_detail|%>
+        <%@project.section_details.completed.ordered.each do |section_detail|%>
             <section class="section_content_box">
               <a name="section-detail-<%=section_detail.id%>"/>
               <h2><%=section_detail.title%></h2>
@@ -231,8 +232,8 @@
       console.log("this checks some stuff");
     };
     $(".discussion-dialog").dialog({
-      dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 700,  modal: true,autoOpen:false,
-      beforeClose: function( event, ui ) {  $('.discussion-dialog').empty(); },
+      dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 900,  modal: true,autoOpen:false,
+      beforeClose: function( event, ui ) { tinymce.remove(); $('.discussion-dialog').empty(); },
       open: function(){
         $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions', function() {
 

@@ -19,7 +19,7 @@ class ProjectsController < ApplicationController
   # GET /discussions
   # GET /discussions.json
   def discussions
-    @section_details = @project.section_details.order(:order).includes(:discussions)
+    @section_details = @project.section_details.order(:order, :title).includes(:discussions)
     render layout: false
   end
 
@@ -332,7 +332,7 @@ class ProjectsController < ApplicationController
                                       :user_id, :institution_location, :state, :expires_at, :request_description,
                                       :institution_name, :institution_logo, :institution_description,
                                       project_edits_attributes: [:id, :_destroy, :description],
-                                      section_details_attributes: [:id, :order, :title, :discussed_context])
+                                      section_details_attributes: [:id,:project_id, :parent_id, :order, :title, :discussed_context])
     end
 
     def get_project_user

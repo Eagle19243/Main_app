@@ -1,17 +1,27 @@
 <div class ="nested-fields">
+  <%= f.hidden_field :project_id, value: f.object.project_id%>
   <div class="form-group ">
     <div class="control-group" style="display: inline-block;">
       <%= f.label :order %>
       <%= f.text_field :order, class: 'form-control', style:'width:50px;'%>
     </div>
-    <div class="control-group" style="display: inline-block;">
+    <div class="control-group" style="display: inline-block;  width: 40%;">
       <%= f.label :title %>
-      <%= f.text_field :title, class: 'form-control', style:'width:400px;'%>
+      <%= f.text_field :title, class: 'form-control'%>
     </div>
+    <%if f.object.new_record? || f.object.parent_id%>
+      <div class="control-group" style="display: inline-block; width: 40%;">
+        <%= f.label :parent %>
+        <%if f.object.persisted?%>
+            <%= f.text_field :parent_title, value: f.object.parent.title, disabled:true, class: 'form-control'%>
+        <%else%>
+          <%= f.select(:parent_id, SectionDetail.completed.ordered.collect{|s|[s.title, s.id]}, {include_blank: 'Contents'}, { })%>
+        <%end%>
+      </div>
+    <%end%>
   </div>
   <div class="form-group">
-    <%= f.label :context%>
     <%= f.text_area :discussed_context, :class=>'tinymce section-detail-context', :rows => 10, :cols => 60 %>
   </div>
-  <%= link_to_remove_association("Remove section", f, class:'button tiny') %>
+  <%= link_to_remove_association("Remove section", f, class:'button tiny') if f.object.new_record? || f.object.can_update? %>
 </div>
