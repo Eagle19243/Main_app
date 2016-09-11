@@ -10,6 +10,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    puts "AAAAAAAAAA"
+    puts @user.id
+    puts "BBBBBBBBBBB"
     @profile_comments = @user.profile_comments.limit(1)
   end
 
