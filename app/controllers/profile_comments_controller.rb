@@ -5,7 +5,7 @@ class ProfileCommentsController < ApplicationController
   # GET /profile_comments.json
   def index
     @user = User.find(params[:user_id])
-    @profile_comments = @user.profile_comments.where('id < ?', params[:last_comment_id]).limit(1)
+    @profile_comments = @user.profile_comments.where('id < ?', params[:last_comment_id]).limit(3)
     @all_comments_displaied = @profile_comments.last.id == @user.profile_comments.last.id ? true : false;
     respond_to do |format|
       format.html
