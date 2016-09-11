@@ -60,10 +60,13 @@
         <center><h6>Type in the e-mail address of the person you like to invite</h6></center>
 
         <div class="large-1 medium-1 small-0 columns"></div>
+        <%= form_tag(:controller => "tasks", :action => "send_email") do %>
 
-        <div class="large-10 medium-10 small-12 columns cold">
+      <div class="large-10 medium-10 small-12 columns cold">
           <div class="large-8 medium-12 small-12 columns cold">
-            <input type="text" placeholder="E-mail address" class="add-email">
+            <input type="hidden" name="task_id" value="<%=@task.id %>">
+
+            <input type="email" name="email" placeholder="E-mail address" class="add-email">
           </div>
           <div class="large-4 medium-12 small-12 columns cold">
             <button class="button round expand modal-btn1 btn-add">Add / Invite</button>
@@ -116,7 +119,7 @@
 
 
         </div>
-
+<%end %>
         <div class="large-1 medium-1 small-0 columns"></div>
       </div> <!--row ends -->
 

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   #
   # get 'task_attachments/create'
   #
-  # get 'task_attachments/destroy'
+  post 'tasks/send_email'
  # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'

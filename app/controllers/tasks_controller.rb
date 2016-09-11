@@ -2,6 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing ]
   before_action :validate_user, only:[:accept, :reject ]
   layout false, only: [:show]
+  before_action :authenticate_user! ,only: [:send_email ]
 
   # GET /tasks
   # GET /tasks.json
@@ -147,7 +148,11 @@ class TasksController < ApplicationController
     redirect_to  taskstab_project_path(@task.project_id)
 
   end
+  def send_email
 
+    InvitationMailer.invite_user( params['email'],current_user.name,Task.find(params['task_id']).title );
+    redirect_to task_path(params['task_id'])
+  end
 
   private
   # Use callbacks to share common setup or constraints between actions.
