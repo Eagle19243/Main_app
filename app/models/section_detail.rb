@@ -33,7 +33,7 @@ class SectionDetail < ActiveRecord::Base
 
   def discussed_context
     can_update? ?
-        self.send(:context) :
+        self.send(:read_attribute, 'context') :
         discussions.of_field('context').of_user(User.current_user).last.try(:context) || self.send(:read_attribute, 'context')
   end
 

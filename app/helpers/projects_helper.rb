@@ -7,11 +7,11 @@ module ProjectsHelper
 
   def discussion_context_tag(section_detail, field_name, format = :html)
     Differ.format = format
-    changed_context = section_detail.discussions.of_field(field_name).first#.find{|d| d.field_name == field_name}
+    changed_context = section_detail.discussions.of_field(field_name).first
     if changed_context
-      Differ.diff_by_char(changed_context.context, section_detail.send(field_name)||'').to_s.html_safe
+      Differ.diff_by_char(changed_context.context, section_detail.send(field_name).to_s).to_s.html_safe
     else
-      section_detail.send(field_name).html_safe
+      section_detail.send(field_name).to_s.html_safe
     end
   end
 
