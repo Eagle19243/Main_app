@@ -1,11 +1,30 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:show, :edit, :update, :destroy]
-
+  layout false , only: [:index]
   # GET /notifications
   # GET /notifications.json
-  def index
-    @notifications = Notification.all
-  end
+
+
+    def index
+        @notifications = Notification.all
+        #@task = Task.all
+        @users = User.all
+        if current_user.admin == true
+          @array=Project.where(:state => 'pending')
+        else
+          @array_tasks = Array.new
+          @array_projects=Project.where(:user_id => current_user.id)
+            @array_projects.each do|d|
+              @array_tasks.concat d.tasks.where(:state => 'suggested_task')
+              #    @array_tasks = @array_tasks.flatten
+            end
+        end
+
+
+        @pro=Project.find(params["format"]) rescue nil
+        @tsk=Task.find(params["format"]) rescue nil
+
+     end
 
   # GET /notifications
   def htmlindex
