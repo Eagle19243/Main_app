@@ -1,13 +1,25 @@
-<%= simple_form_for(ProfileComment.new) do |f| %>
-  <%= f.error_notification %>
-
+<%= simple_form_for(ProfileComment.new, :remote => true) do |f| %>
+  <div class="form-errors"></div>
   <div class="form-inputs">
     <%= f.input :commenter_id, as: :hidden, input_html: { value: current_user.try(:id) } %>
-    <%= f.input :receiver_id, as: :hidden, input_html: { value: params[:id] } %>
+    <%= f.input :receiver_id, as: :hidden, input_html: { value: @user.id } %>
     <%= f.input :comment_text, placeholder: "Type a comment" %>
   </div>
-
   <div class="form-actions">
     <%= f.button :submit, "Send Comment" %>
   </div>
 <% end %>
+
+<style>
+  label[for='profile_comment_comment_text'] {
+    display: none;
+  }
+  #new_profile_comment .button:focus {
+    outline: none;
+  }
+
+  .form-errors {
+    color: red;
+    margin-bottom: 5px;
+  }
+</style>

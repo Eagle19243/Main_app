@@ -34,10 +34,10 @@ class ProfileCommentsController < ApplicationController
 
     respond_to do |format|
       if @profile_comment.save
-        format.html { redirect_to @profile_comment, notice: 'Profile comment was successfully created.' }
+        format.js
         format.json { render :show, status: :created, location: @profile_comment }
       else
-        format.html { render :new }
+        format.js
         format.json { render json: @profile_comment.errors, status: :unprocessable_entity }
       end
     end
