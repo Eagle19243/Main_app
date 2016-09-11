@@ -4,10 +4,9 @@ class ProfileCommentsController < ApplicationController
   # GET /profile_comments
   # GET /profile_comments.json
   def index
-    @page_user = User.find(params[:user_id])
-    @new_profile_comments = @page_user.profile_comments.where('id < ?', params[:last_comment_id]).limit(1)
-    puts @new_profile_comments.count
-    puts "FSDFDS"
+    @user = User.find(params[:user_id])
+    @profile_comments = @user.profile_comments.where('id < ?', params[:last_comment_id]).limit(1)
+    @all_comments_displaied = @profile_comments.last.id == @user.profile_comments.last.id ? true : false;
     respond_to do |format|
       format.html
       format.js
