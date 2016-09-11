@@ -16,8 +16,8 @@
   <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/custom.css">
   <link rel="stylesheet" href="/static/task_show_page/css/media-queries.css">
   <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
-  <%#= stylesheet_link_tag 'task_show_application' %>
-  <%#= javascript_include_tag 'task_show_application' -%>
+  <%= stylesheet_link_tag 'social-share' %>
+  <%= javascript_include_tag 'social-share' %>
 </head>
 <body>
 
@@ -110,46 +110,10 @@
             </ul>
             <!-- Pinterest Button End //-->
           </div>
-          <%= social_share_button_tag(@task.title, :url => "http://myapp.com/foo/bar") %>
-
-          <div class="social-icons">
-            <!-- Facebook Button Start //-->
-            <ul>
-              <li>
-                <div class="facebook-wrapper">
-                  <a href="http://facebook.com">
-                    <i class="fa fa-facebook"></i>
-                    <span>Add from Facebook</span>
-                  </a>
-                </div>
-              </li>
-              <!-- Facebook Button End //-->
+          <h1>Share :</h1>
+          <%= social_share_button_tag(@task.title, :url => task_path(@task.id)) %>
 
 
-
-              <!-- Linkedin Button Start //-->
-              <li>
-                <div class="linkedin-wrapper">
-                  <a href="http://linkedin.com">
-                    <i class="fa fa-linkedin"></i>
-                    <span>Add from Linkedin</span>
-                  </a>
-                </div>
-              </li>
-              <!-- Linkedin Button End //-->
-
-              <!-- Pinterest Button Start //-->
-              <li>
-                <div class="pinterest-wrapper">
-                  <a href="http://pinterest.com">
-                    <i class="fa fa-google-plus"></i>
-                    <span>Add from Google Plus</span>
-                  </a>
-                </div>
-              </li>
-            </ul>
-            <!-- Pinterest Button End //-->
-          </div>
 
         </div>
 
