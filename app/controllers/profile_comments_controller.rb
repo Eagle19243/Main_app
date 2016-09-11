@@ -4,7 +4,13 @@ class ProfileCommentsController < ApplicationController
   # GET /profile_comments
   # GET /profile_comments.json
   def index
-    @profile_comments = ProfileComment.all
+    @user = User.find(params[:user_id])
+    @profile_comments = @user.profile_comments.where('id < ?', params[:last_comment_id]).limit(3)
+    @all_comments_displaied = @profile_comments.last.id == @user.profile_comments.last.id ? true : false;
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /profile_comments/1
@@ -28,10 +34,10 @@ class ProfileCommentsController < ApplicationController
 
     respond_to do |format|
       if @profile_comment.save
-        format.html { redirect_to @profile_comment, notice: 'Profile comment was successfully created.' }
+        format.js
         format.json { render :show, status: :created, location: @profile_comment }
       else
-        format.html { render :new }
+        format.js
         format.json { render json: @profile_comment.errors, status: :unprocessable_entity }
       end
     end

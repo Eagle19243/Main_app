@@ -1,7 +1,6 @@
 include UsersHelper
 
 class UsersController < ApplicationController
-  layout "application2", only: [:profile]
   before_action :authenticate_user!, :except => :show
   before_action :admin_only, :except => [:show, :index]
 
@@ -11,30 +10,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @conversations = []
-    #if (current_user && current_user.id == @user.id)
-      @conversations = Conversation.where("recipient_id = ? OR sender_id = ?", params[:id], params[:id])
-      if @conversations.count == 0
-        first_user_with_conversations = User.first
-        recipient = first_user_with_conversations
-        cfirst = Conversation.new(sender_id: current_user.id, recipient_id: recipient.id)
-        if cfirst.save
-          cfirst.messages.create(body: "A test message", user_id: current_user, read: false)
-          @conversations.push(cfirst)
-        end
-      end
-    #end
-    @notifications = Notification.last(5)
-    @projects = Project.all
-    @do_requests = DoRequest.all
-    @assignments = Assignment.all
+    @profile_comments = @user.profile_comments.limit(3)
   end
 
-  def profile
-    @user = User.find(params[:id])
-    @projects = Project.all
-    @do_requests = DoRequest.all
-    @assignments = Assignment.all
+  def my_projects
+    @user = current_user
   end
 
   def update

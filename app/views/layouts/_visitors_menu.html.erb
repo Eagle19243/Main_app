@@ -1,0 +1,26 @@
+<nav class="top-bar" data-topbar role="navigation">
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+     <li>
+        <a href="#" data-reveal-id="SignInModal" class="signup_buttons">Sign In</a>
+      </li>
+      <li>
+        <a href="#" data-reveal-id="socialSignIn">Social sign In</a>
+      </li>
+      <li>
+        <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">Sign Up</a>
+      </li>
+      <%= render "layouts/social_auth_container" %>
+    </ul>
+    <!-- Left Nav Section -->
+    <a href="/" class="left" data-no-turbolink="true">
+      <%= image_tag 'logo.png', style: "height:100%" %>
+    </a>
+    <ul class="left title-area">
+      <li class="active">
+        <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
+      </li>
+    </ul>
+  </section>
+</nav>

@@ -16,16 +16,6 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
-  # GET /projects
-  # GET /projects.json
-  def oldindex
-    @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
-
-  end
-
-
-
   def autocomplete_user_search
     term = params[:term]
     @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
@@ -35,10 +25,6 @@ class ProjectsController < ApplicationController
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
       end
-  end
-  # GET /notifications
-  def htmlindex
-  test  @projects = Project.all
   end
 
   def user_search
@@ -60,18 +46,6 @@ class ProjectsController < ApplicationController
 
   def search_results
     #display solar search results
-  end
-
-
-  # GET /notifications
-  def htmlshow
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-
   end
 
   # GET /projects/1

@@ -2,9 +2,7 @@ class DashboardController < ApplicationController
   before_action :authenticate_user!, :except => :show
 
   def dashboard
-    @do_requests = DoRequest.all
-    @projects = Project.all
-    @assignments = Assignment.all
-    @proj_admins = ProjAdmin.all
+    @user = current_user
+    @profile_comments = @user.profile_comments.page(params[:page]).per(2)
   end
 end

@@ -3,11 +3,7 @@ Rails.application.routes.draw do
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments
   resources :plans
-  resources :notifications do
-    collection do
-      get :htmlindex
-    end
-  end
+  resources :notifications
   resources :cards
   resources :institutions
   # institutions and users are associated via a join model and table named
@@ -74,41 +70,28 @@ Rails.application.routes.draw do
       get :autocomplete_user_search
     end
 
-    collection do
-      get :htmlindex
-      get :oldindex
-    end
 
     member do
-      get :htmlshow
       get :taskstab, as: :taskstab
       get :teamtab, as: :teamtab
     end
   end
+
   get '/projects/search_results', to: 'projects#search_results'
   post '/projects/user_search', to: 'projects#user_search'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
   devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
-  resources :users do
-    member do
-      get :profile
-    end
-  end
 
- # resources :conversations do
-    #resources :messages
-  #end
-  # also make messages available as a resource
+  resources :users
   resources :messages
 
-  get 'dashboard' => 'dashboard'
-
+  get 'dashboard' => 'dashboard', as: 'dashboard'
+  get 'my_projects', to: 'users#my_projects', as: :my_projects
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
 
-  # root to: 'visitors#index'
   # root to: 'visitors#landing'
   # show active projects as the landing page
   root to: 'projects#index'

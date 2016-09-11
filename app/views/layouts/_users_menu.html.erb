@@ -1,0 +1,55 @@
+<nav class="top-bar" data-topbar role="navigation">
+    <section class="top-bar-section">
+      <!-- Right Nav Section -->
+      <ul class="right">
+       <li class="has-dropdown ">
+        <a href="#" class="no-line-height">
+          <div class="badge-wrap">
+            <i class="icon-bell-alt" aria-hidden="true"></i>
+            <span class="count">0</span>
+          </div>
+        </a>
+        <ul class="dropdown">
+          <li>
+            <%= link_to "Notifications", notifications_path, data: { no_turbolink: true }  %>
+          </li>
+          <li class="active">
+            <%= link_to "Messages", messages_path, data: { no_turbolink: true }  %>
+          </li>
+        </ul>
+        </li>
+         <li class="has-dropdown">
+          <a href="<%= user_path(current_user) %>">
+            <% if current_user.picture? %>
+              <%= image_tag(current_user.picture.url, size: "35x35") %>
+            <% else %>
+              <%= gravatar_for(current_user, 35)%>
+            <%end%>
+          </a>
+          <ul class="dropdown">
+            <li><%= link_to 'My Profile', user_path(current_user), data: { no_turbolink: true } %></li>
+            <li><%= link_to 'Edit Profile', edit_user_registration_path, data: { no_turbolink: true } %></li>
+            <li class="active"><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+          </ul>
+        </li>
+      </ul>
+      <!-- Left Nav Section -->
+      <a href="/" class="left" data-no-turbolink="true">
+        <%= image_tag 'logo.png', style: "height:100%" %>
+      </a>
+      <ul class="left title-area">
+        <li class="active">
+          <%= link_to "<strong>WeServe Dashboard</strong>".html_safe, user_path(current_user), data: { no_turbolink: true } %>
+        </li>
+        <li class="active">
+          <%= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
+        </li>
+        <li class="active">
+          <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
+        </li>
+        <li class="active">
+          <%= link_to 'Directory', users_path, data: { no_turbolink: true } %>
+        </li>
+      </ul>
+    </section>
+  </nav>
