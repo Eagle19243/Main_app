@@ -5,7 +5,7 @@ class TaskAttachmentsController < ApplicationController
 
   def create
     @task_attachment = TaskAttachment.new(resume_params)
-
+    @task_attachment.user_id=current_user.id
     if @task_attachment.save
       redirect_to task_path(@task_attachment.task_id), notice: "The Task Attachment #{@task_attachment.task_id} has been uploaded."
     else
@@ -17,11 +17,11 @@ class TaskAttachmentsController < ApplicationController
     @task_attachment = TaskAttachment.find(params[:id])
     if  @task_attachment.user_id == current_user.id
       #Task.find(@task_attachment.id).project.user_id   || current_user.id == @task_attachment.task.project.user_id ||
-      ids=@task_attachment.task_id
+     # ids=@task_attachment.task_id
       @task_attachment.destroy
-      "The Task Attachment  has been deleted."
+      true
     else
-        "Invlid Opration "
+        false
     end
   end
 

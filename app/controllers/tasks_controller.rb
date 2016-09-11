@@ -29,7 +29,7 @@ class TasksController < ApplicationController
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
     @task_attachment=TaskAttachment.new
-    @task_attachments=TaskAttachment.where(task_id: @task.id)
+    @task_attachments=TaskAttachment.where(task_id: @task.id) rescue nil
     @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
     @doing_tasks = @project.tasks.where(state: "doing").all
     @suggested_tasks = @project.tasks.where(state: "suggested_task").all
