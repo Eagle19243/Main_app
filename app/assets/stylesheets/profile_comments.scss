@@ -5,3 +5,16 @@
   text-align: center;
   margin-bottom: 10px;
 }
+
+label[for='profile_comment_comment_text'] {
+  display: none;
+}
+
+#new_profile_comment .button:focus {
+  outline: none;
+}
+
+#new_profile_comment .form-errors {
+  color: red;
+  margin-bottom: 5px;
+}

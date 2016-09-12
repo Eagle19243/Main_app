@@ -5,21 +5,14 @@
     <%= f.input :receiver_id, as: :hidden, input_html: { value: @user.id } %>
     <%= f.input :comment_text, placeholder: "Type a comment" %>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, "Send Comment" %>
-  </div>
 <% end %>
 
-<style>
-  label[for='profile_comment_comment_text'] {
-    display: none;
-  }
-  #new_profile_comment .button:focus {
-    outline: none;
-  }
-
-  .form-errors {
-    color: red;
-    margin-bottom: 5px;
-  }
-</style>
+<script>
+  $('#new_profile_comment textarea').keypress(function(e) {
+    if (e.which === 13 && !e.shiftKey) {
+      e.preventDefault();
+      $(this).blur();
+      $(this).closest('form').submit();
+    }
+  });
+</script>

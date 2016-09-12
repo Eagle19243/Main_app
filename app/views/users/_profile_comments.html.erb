@@ -1,6 +1,9 @@
 <div class="small-12 medium-6 columns">
   <h1><i class="icon-user"></i>Comments</h1>
   <div>
+    <div class="row">
+      <%= render "users/comment_form" %>
+    </div>
     <div class="profile-comments">
       <%= render @profile_comments %>
     </div>
@@ -9,8 +12,5 @@
         <%= link_to "Upload more", profile_comments_path(user_id: @user.id, last_comment_id: @profile_comments.last.id), remote: true %>
       </div>
     <% end %>
-    <div class="row">
-      <%= render "users/comment_form" %>
-    </div>
   </div>
 </div>
