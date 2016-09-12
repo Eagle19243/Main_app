@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825153701) do
+ActiveRecord::Schema.define(version: 20160909184359) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -64,6 +64,18 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "discussions", force: :cascade do |t|
+    t.integer  "discussable_id"
+    t.string   "discussable_type"
+    t.integer  "user_id"
+    t.string   "field_name"
+    t.text     "context"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "discussions", ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id"
 
   create_table "do_for_frees", force: :cascade do |t|
     t.integer  "user_id"
@@ -244,9 +256,19 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.string   "short_description"
     t.string   "institution_country"
     t.string   "video_id"
-    t.text     "section1"
-    t.text     "section2"
   end
+
+  create_table "section_details", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "parent_id"
+    t.integer  "order"
+    t.string   "title",      default: ""
+    t.text     "context",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "section_details", ["project_id"], name: "index_section_details_on_project_id"
 
   create_table "task_comments", force: :cascade do |t|
     t.text     "body"

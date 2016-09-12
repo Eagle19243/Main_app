@@ -309,6 +309,35 @@ a.banner_button:visited {
   }
 }
 
+.discussion-dialog {
+  hr {
+    margin: 5px !important;
+  }
+  #discussion-edit-link {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+  .remove_fields {
+    margin-bottom: 0;
+  }
+}
+
+.no-dialog-padding,
+ .no-dialog-padding .ui-dialog-content{
+   border: none;
+   padding: 0;
+ }
+.no-dialog-padding.ui-widget, .no-dialog-padding.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  font-size: 12px;
+}
+.no-dialog-padding, .ui-dialog-titlebar {display: none }
+
+del {
+  color: #ce8483;
+}
+ins {
+  color: green;
+}
 // ~~~~~~~~~~~~~~~~~~~~
 //       Mobile
 // ~~~~~~~~~~~~~~~~~~~~
