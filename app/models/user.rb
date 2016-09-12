@@ -147,7 +147,7 @@ class User < ActiveRecord::Base
   end
 
   def is_admin_for? proj
-    admin? || proj_admins.where(project_id: proj.id).exists?
+    proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
 
 end

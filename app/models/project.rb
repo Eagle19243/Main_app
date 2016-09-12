@@ -115,7 +115,7 @@ class Project < ActiveRecord::Base
 
   def section_details_list parent = nil
     result = []
-    section_details.of_parent(parent).completed.ordered.each do |child|
+    section_details.of_parent(parent).ordered.each do |child|
       result << child
       result += section_details_list(child) if child.childs.exists?
     end

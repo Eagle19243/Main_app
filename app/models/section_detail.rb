@@ -17,6 +17,10 @@ class SectionDetail < ActiveRecord::Base
 
   delegate :can_update?, to: :project
 
+  def completed?
+    self.title.present? && self.context.present?
+  end
+
   def discussed_title= value
     if can_update?
       self.send(:write_attribute, 'title', value)

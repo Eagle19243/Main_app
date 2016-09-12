@@ -62,10 +62,10 @@
               </td>
               <td style="text-align:right;">
                 <%if current_user.is_admin_for?(@project)%>
-                    <%=link_to image_tag('accept-icon.png', size: '24x24'), '#', onclick: "acceptDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
+                    <%=link_to image_tag('accept-icon.png', size: '24x24'), '#', title: 'Accept suggestion', onclick: "acceptDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
                 <%end%>
                 <%if current_user.id == discussion.user_id%>
-                    <%=link_to image_tag('close-icon.png', size: '24x24'), '#', onclick: "rejectDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
+                    <%=link_to image_tag('close-icon.png', size: '24x24'), '#', title: 'Reject suggestion', onclick: "rejectDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
                 <%end%>
               </td>
             </tr>
@@ -91,7 +91,7 @@
                 <div style="font-size: 10px; color: grey"> <%=discussion.created_at.strftime("%m/%d/%y at %l:%M %p")%></div>
               </td>
               <td style="text-align:right;">
-                <%if current_user.is_admin_for?(@project)%>
+                <%if @project.can_update?%>
                   <%=link_to image_tag('accept-icon.png', size: '24x24'), '#', onclick: "acceptDiscussion(#{discussion.id});$('.discussion-dialog').load('/projects/#{@project.id}/discussions');return false;"%>
                 <%end%>
                 <%if @project.can_update? || (current_user.id == discussion.user_id)%>

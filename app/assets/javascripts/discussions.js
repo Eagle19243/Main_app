@@ -1,4 +1,7 @@
 function rejectDiscussion(id) {
+    var response = confirm('Are you sure?');
+
+    if (!response) { return; }
     $.ajax({
         url: '/discussions/'+id,
         type: 'DELETE',

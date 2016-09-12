@@ -107,7 +107,7 @@
     <section class="blog" id="project_description">
       <div class="row">
         <div class="small-12 medium-7 columns">
-          <div class="text_blog">
+          <div class="text_blog project-description-context">
             <%= @project.description%>
           </div>
         </div>
@@ -141,13 +141,13 @@
                 <a href="#project_video">Project Video</a>
               </li>
               <li class="section-details-content">
-                <%=render 'project_section_details_content'%>
+                <%=section_details_content_tag%>
               </li>
             </ul>
           </div>
         </div>
 
-        <div class="section-details">
+        <div class="section-details-context">
           <%=render 'project_section_details'%>
         </div>
       </div>
