@@ -2,7 +2,7 @@
   <%= f.hidden_field :project_id, value: f.object.project_id%>
   <div class="form-group ">
     <div class="control-group" style="display: inline-block;  width: 40%;">
-      <%= f.label :title %>
+      <%= f.label :title, required: true %>
       <%= f.text_field :discussed_title, class: 'form-control'%>
     </div>
     <%if f.object.new_record? || f.object.parent_id%>

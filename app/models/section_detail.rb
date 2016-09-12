@@ -15,7 +15,7 @@ class SectionDetail < ActiveRecord::Base
 
   attr_accessor :discussed_context, :discussed_title
 
-  validates :title, presence: true,  allow_blank: false, uniqueness: {scope:[:parent_id]}
+  #validates :title, presence: true,  allow_blank: true, uniqueness: {scope:[:parent_id]}
 
   delegate :can_update?, to: :project
 

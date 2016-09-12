@@ -91,6 +91,10 @@ class ProjectsController < ApplicationController
       @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
     end
+    respond_to do |format|
+      format.html
+      format.js {render(layout: false)}
+    end
   end
 
   def follow

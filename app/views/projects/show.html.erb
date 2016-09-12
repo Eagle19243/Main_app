@@ -140,23 +140,16 @@
               <li>
                 <a href="#project_video">Project Video</a>
               </li>
-              <li>
-                <a href="#project_video">Project Details</a>
-                <%= section_details_tag%>
+              <li class="section-details-content">
+                <%=render 'project_section_details_content'%>
               </li>
             </ul>
           </div>
         </div>
-        <%@project.section_details.completed.ordered.each do |section_detail|%>
-            <section class="section_content_box">
-              <a name="section-detail-<%=section_detail.id%>"/>
-              <h2><%=section_detail.title%></h2>
-              <hr>
-              <p id="section-detail-<%=section_detail.id%>" class="section-detail-content">
-                <%= section_detail.context.html_safe %>
-              </p>
-            </section>
-        <%end%>
+
+        <div class="section-details">
+          <%=render 'project_section_details'%>
+        </div>
       </div>
       <div class="small-12 medium-4 columns" id="project_tasks">
         <div class="task_border ">
@@ -233,11 +226,9 @@
     };
     $(".discussion-dialog").dialog({
       dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 900,  modal: true,autoOpen:false,
-      beforeClose: function( event, ui ) { tinymce.remove(); $('.discussion-dialog').empty(); },
+      beforeClose: function( event, ui ) { tinymce.remove(); $('.discussion-dialog').empty();  $('#refresh').load('/projects/<%=@project.id%>.js');},
       open: function(){
-        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions', function() {
-
-        });
+        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions.js');
         $('.ui-widget-overlay').bind('click',function(){ $('.discussion-dialog').dialog('close'); })
       }
     });
@@ -248,3 +239,4 @@
   });
   projectId = <%= @project.id%>;
 </script>
+<div id="refresh" class="hide"></div>

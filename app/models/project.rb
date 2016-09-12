@@ -113,6 +113,15 @@ class Project < ActiveRecord::Base
     User.current_user.is_admin_for?(self)
   end
 
+  def section_details_list parent = nil
+    section_details = []
+    SectionDetail.completed.of_parent(parent).ordered.each do |child|
+      section_details << child
+      section_details += section_details_list(child) if child.childs.exists?
+    end
+    section_details
+  end
+
   def discussed_description= value
     if can_update?
       self.send(:write_attribute, 'description', value)
