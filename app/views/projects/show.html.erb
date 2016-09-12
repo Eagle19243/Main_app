@@ -225,8 +225,11 @@
       console.log("this checks some stuff");
     };
     $(".discussion-dialog").dialog({
-      dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 900,  modal: true,autoOpen:false,
-      beforeClose: function( event, ui ) { tinymce.remove(); $('.discussion-dialog').empty();  $('#refresh').load('/projects/<%=@project.id%>.js');},
+      dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 800,  modal: true,autoOpen:false,
+      beforeClose: function( event, ui ) {
+        //tinymce.remove();
+        $('.discussion-dialog').empty();
+        $('#refresh').load('/projects/<%=@project.id%>.js');},
       open: function(){
         $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions.js');
         $('.ui-widget-overlay').bind('click',function(){ $('.discussion-dialog').dialog('close'); })

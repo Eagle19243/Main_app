@@ -29,7 +29,7 @@ class Project < ActiveRecord::Base
   validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
 
-  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
 
   searchable do
     text :title
@@ -114,12 +114,12 @@ class Project < ActiveRecord::Base
   end
 
   def section_details_list parent = nil
-    section_details = []
-    SectionDetail.completed.of_parent(parent).ordered.each do |child|
-      section_details << child
-      section_details += section_details_list(child) if child.childs.exists?
+    result = []
+    section_details.of_parent(parent).completed.ordered.each do |child|
+      result << child
+      result += section_details_list(child) if child.childs.exists?
     end
-    section_details
+    result
   end
 
   def discussed_description= value

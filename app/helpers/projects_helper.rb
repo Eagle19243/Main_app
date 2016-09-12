@@ -18,6 +18,7 @@ module ProjectsHelper
   def discussion_change_tag(context1, context2)
     Differ.format = Differ::Format::Custom
     html = ""
+    puts Differ.diff_by_char(context1, context2).send(:raw_array)
     Differ.diff_by_char(context1, context2).send(:raw_array).each do |item|
       html << item.to_s.html_safe if item.is_a?(Differ::Change) && (item.insert? || item.delete?)
     end
@@ -27,7 +28,7 @@ module ProjectsHelper
   def section_details_content_tag(parent = nil)
     content_tag :ul do
       html_ul = ActiveSupport::SafeBuffer.new
-      SectionDetail.completed.of_parent(parent).ordered.each do |child|
+      @project.section_details.of_parent(parent).completed.ordered.each do |child|
         html_ul << content_tag(:li) do
           html_li = link_to(child.title, "#section-detail-#{child.id}")
           html_li << section_details_content_tag(child) if child.childs.exists?

@@ -327,8 +327,8 @@ a.banner_button:visited {
    border: none;
    padding: 0;
  }
-.no-dialog-padding .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-size: 0.875rem;
+.no-dialog-padding.ui-widget, .no-dialog-padding.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  font-size: 12px;
 }
 .no-dialog-padding, .ui-dialog-titlebar {display: none }
 

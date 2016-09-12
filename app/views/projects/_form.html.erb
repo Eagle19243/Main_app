@@ -1,6 +1,6 @@
 <%= tinymce_assets %>
 
-<%= simple_form_for(config_project, html: { multipart: true }) do |f| %>
+<%= simple_form_for(config_project, html: { id: 'project-form', multipart: true }) do |f| %>
   <%= f.error_notification %>
 
    <%= render 'shared/error_messages', object: f.object %>
@@ -77,10 +77,11 @@
 <% end %>
 <%=javascript_tag do%>
     $(document).ready(function() {
-      tinyMCE.init({  selector: 'textarea.tinymce', menubar:false,  statusbar: false  });
+      $('#project-form').validate();
+      //tinyMCE.init({  selector: 'textarea.tinymce', menubar:false,  statusbar: false  });
 
       $('#section-details').on('cocoon:after-insert', function() {
-        tinyMCE.init({  selector: 'textarea.tinymce', menubar:false,  statusbar: false  });
+        //tinyMCE.init({  selector: 'textarea.tinymce', menubar:false,  statusbar: false  });
       })
     });
 <%end%>

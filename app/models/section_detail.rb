@@ -11,11 +11,9 @@ class SectionDetail < ActiveRecord::Base
 
   scope :ordered, ->{order(:order,:title)}
 
-  scope :completed, ->{where.not(context: '')}
+  scope :completed, ->{where.not(context: '').where.not(title: '')}
 
   attr_accessor :discussed_context, :discussed_title
-
-  #validates :title, presence: true,  allow_blank: true, uniqueness: {scope:[:parent_id]}
 
   delegate :can_update?, to: :project
 

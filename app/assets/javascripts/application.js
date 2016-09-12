@@ -26,6 +26,7 @@
 //= require zeroclipboard
 //= require jquery-ui
 //= require autocomplete-rails
+//= require jquery.validate.min
 //= require cocoon
 //= require_tree .
 // $(function() {
