@@ -216,7 +216,7 @@ class ProjectsController < ApplicationController
       else
         format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
-        format.js { head :no_content, status: 422}
+        format.js { render text: @project.errors.full_messages.uniq.join(','), status: 422}
       end
     end
   end
@@ -330,9 +330,9 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture,
                                       :user_id, :institution_location, :state, :expires_at, :request_description,
-                                      :institution_name, :institution_logo, :institution_description,
+                                      :institution_name, :institution_logo, :institution_description, :discussed_description,
                                       project_edits_attributes: [:id, :_destroy, :description],
-                                      section_details_attributes: [:id,:project_id, :parent_id, :order, :title, :discussed_context])
+                                      section_details_attributes: [:id,:project_id, :parent_id, :order, :discussed_title, :discussed_context, :_destroy])
     end
 
     def get_project_user

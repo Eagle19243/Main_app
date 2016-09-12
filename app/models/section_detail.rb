@@ -13,12 +13,26 @@ class SectionDetail < ActiveRecord::Base
 
   scope :completed, ->{where.not(context: '')}
 
-  attr_accessor :discussed_context
+  attr_accessor :discussed_context, :discussed_title
 
-  validates :title, presence: true
+  validates :title, presence: true,  allow_blank: false, uniqueness: {scope:[:parent_id]}
 
-  def can_update?
-    User.current_user.is_admin_for?(self.project)
+  delegate :can_update?, to: :project
+
+  def discussed_title= value
+    if can_update?
+      self.send(:write_attribute, 'title', value)
+    else
+      unless value == self.title.to_s
+        Discussion.find_or_initialize_by(discussable:self, user_id: User.current_user.id, field_name: 'title').update_attributes(context: value)
+      end
+    end
+  end
+
+  def discussed_title
+    can_update? ?
+        self.send(:read_attribute, 'title') :
+        discussions.of_field('title').of_user(User.current_user).last.try(:context) || self.send(:read_attribute, 'title')
   end
 
   def discussed_context= value

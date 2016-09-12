@@ -1,13 +1,9 @@
-<div class ="nested-fields">
+<div class ="nested-fields discussion-edit">
   <%= f.hidden_field :project_id, value: f.object.project_id%>
   <div class="form-group ">
-    <div class="control-group" style="display: inline-block;">
-      <%= f.label :order %>
-      <%= f.text_field :order, class: 'form-control', style:'width:50px;'%>
-    </div>
     <div class="control-group" style="display: inline-block;  width: 40%;">
       <%= f.label :title %>
-      <%= f.text_field :title, class: 'form-control'%>
+      <%= f.text_field :discussed_title, class: 'form-control'%>
     </div>
     <%if f.object.new_record? || f.object.parent_id%>
       <div class="control-group" style="display: inline-block; width: 40%;">
@@ -23,5 +19,6 @@
   <div class="form-group">
     <%= f.text_area :discussed_context, :class=>'tinymce section-detail-context', :rows => 10, :cols => 60 %>
   </div>
-  <%= link_to_remove_association("Remove section", f, class:'button tiny') if f.object.new_record? || f.object.can_update? %>
+  <%= link_to_remove_association("Remove section", f, class:'button tiny',data: { confirm: "Are you sure?" })
+  %>
 </div>
