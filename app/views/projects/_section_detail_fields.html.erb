@@ -19,6 +19,6 @@
   <div class="form-group">
     <%= f.text_area :discussed_context, required: true, class: 'tinymce section-detail-context', rows: 5, cols: 60 %>
   </div>
-  <%= link_to_remove_association("Remove section", f, class:'button tiny', data: { confirm: "Are you sure?" }) if f.object.new_record? || current_user.is_admin_for?(@project)%>
+  <%= link_to_remove_association("Remove section", f, class:'button tiny', data: { confirm: "Are you sure you want to permanently remove the section section-title? If you remove the section, it will be permanently lost." }) if f.object.new_record? || current_user.is_admin_for?(@project)%>
   <hr/>
 </div>
