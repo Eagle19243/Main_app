@@ -2,7 +2,7 @@
   <section class="top-bar-section">
     <!-- Right Nav Section -->
     <ul class="right">
-     <li>
+      <li>
         <a href="#" data-reveal-id="SignInModal" class="signup_buttons">Sign In</a>
       </li>
       <li>
@@ -14,10 +14,13 @@
       <%= render "layouts/social_auth_container" %>
     </ul>
     <!-- Left Nav Section -->
-    <a href="/" class="left" data-no-turbolink="true">
-      <%= image_tag 'logo.png', style: "height:100%" %>
-    </a>
+    <div class="left">
+      <%= image_tag 'logo.png', style: "height:100%; padding-left: 5px;" %>
+    </div>
     <ul class="left title-area">
+      <li class="active">
+        <%= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
+      </li>
       <li class="active">
         <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
       </li>
