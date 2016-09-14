@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   mount_uploader :picture, PictureUploader
   after_create :populate_guid_and_token
 
-  has_many :favorite_projects, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
