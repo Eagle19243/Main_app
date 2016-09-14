@@ -15,7 +15,7 @@ class SectionDetail < ActiveRecord::Base
 
   attr_accessor :discussed_context, :discussed_title
 
-  delegate :can_update?, to: :project
+  delegate :can_update?, to: :project, allow_nil: true
 
   def completed?
     self.title.present? && self.context.present?
