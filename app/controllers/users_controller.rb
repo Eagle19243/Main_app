@@ -19,11 +19,17 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(secure_params)
-      redirect_to users_path, :notice => "User updated."
-      current_user.create_activity(@user, 'updated')
-    else
-      redirect_to users_path, :alert => "Unable to update user."
+    respond_to do |format|
+      if @user.update_attributes(secure_params)
+        format.html { 
+          current_user.create_activity(@user, 'updated')
+          redirect_to(@user, :notice => 'User was successfully updated.')
+        }
+        format.json { respond_with_bip(@user) }
+      else
+        redirect_to users_path, :alert => "Unable to update user."
+        format.json { respond_with_bip(@user) }
+      end
     end
   end
 

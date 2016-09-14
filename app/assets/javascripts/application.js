@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require best_in_place
 //= require foundation
 //= require foundation-datetimepicker
 //= require chosen-jquery
@@ -25,6 +26,7 @@
 //= require components
 //= require zeroclipboard
 //= require jquery-ui
+//= require best_in_place.jquery-ui
 //= require autocomplete-rails
 //= require jquery.validate.min
 //= require cocoon
