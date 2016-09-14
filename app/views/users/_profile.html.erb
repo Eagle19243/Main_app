@@ -37,28 +37,16 @@
   </div>
 </div>
 <section class="bio">
-  <h1><i class="icon-user"></i>Bio</h1>
-  <!-- begin user bio -->
-    <h2>
-      <strong>Institution:
-        <% @user.institutions.to_a.each do |institution| %>
-          <span><%= link_to "#{institution.try(:name)}  ", institution_path(institution) %></span>
-          &nbsp
-        <% end %>
-      </strong>
-    </h2>
-    <p><%= @user.institution.try(:description) %></p>
-    <h4>
-      <% if @user.bio.nil? %>
-        A gypsy would come rolling over the hill. He whistled and he sang as he went on along, and he won the heart of a lady.
-        <br />
-        He's no gypsy my father she said, but lord of all these lands. And with my gypsy rover I'll stay, til the sun come up over these hills.
-      <% else %>
-        <%= "#{@user.bio}" %>
-      <% end %>
+    <h1>
+      <i class="icon-user"></i>
+      <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
+      <i class="fa fa-pencil" id="bio-edit-pencil"></i>
+      Bio
+    </h1>
+    <h4 class="profile-bio">
+      <%= best_in_place @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
     </h4>
     <br>
-  <!-- end user bio  -->
 </section>
 <section class="comments">
   <div class="row">
@@ -66,3 +54,19 @@
     <%= render 'users/profile_projects' %>
   </div>
 </section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    jQuery(".best_in_place").best_in_place();
+  });
+
+  $('.profile-bio .best_in_place').focusin(function(){
+    $("#bio-edit-pencil").hide();
+    $("#bio-edit-save").show();
+  });
+  
+  $('.profile-bio .best_in_place').focusout(function(){
+    $("#bio-edit-save").hide();
+    $("#bio-edit-pencil").show();
+  });
+</script>
