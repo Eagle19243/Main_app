@@ -39,12 +39,14 @@
 <section class="bio">
     <h1>
       <i class="icon-user"></i>
-      <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
-      <i class="fa fa-pencil" id="bio-edit-pencil"></i>
+      <% if (current_user && current_user.id == @user.id) %>
+        <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
+        <i class="fa fa-pencil" id="bio-edit-pencil"></i>
+      <% end %>
       Bio
     </h1>
     <h4 class="profile-bio">
-      <%= best_in_place @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
+      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
     </h4>
     <br>
 </section>
