@@ -7,7 +7,6 @@ class Project < ActiveRecord::Base
   default_scope -> { order('projects.created_at DESC') }
 
   mount_uploader :picture, PictureUploader
-  mount_uploader :institution_logo, PictureUploader
 
   attr_accessor :discussed_description
 
@@ -24,7 +23,6 @@ class Project < ActiveRecord::Base
   has_one :team
 
   belongs_to :user
-  belongs_to :institution
 
   validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
@@ -40,11 +38,6 @@ class Project < ActiveRecord::Base
   #
   # validates :description, presence: true, length: { minimum: 2}
   #
-  # validates :institution_description, presence: true, length: { minimum: 2}
-  #
-  # validates :institution_location, presence: true, length: {minimum: 2}
-  #
-  # validates :institution_country, presence: true,  length: {minimum: 2}
   # validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
@@ -75,10 +68,6 @@ class Project < ActiveRecord::Base
   def country_name
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name
-  end
-
-  def location
-    "#{institution_location} - #{institution_country}"
   end
 
   def needed_budget

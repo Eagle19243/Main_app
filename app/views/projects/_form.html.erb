@@ -45,30 +45,6 @@
       <%= f.datetime_field :expires_at, :ampm => true %>
     </div>
 
-    <h4 class="subheader"><center>Your institution</center></h4>
-    <div class="form-group">
-      <%= f.label :institution_location, "Insitution City" %>
-      <%= f.text_field :institution_location, placeholder: "City" %>
-    </div>
-    <div class="form-group">
-      <%= f.label :institution_country, "Institution Country" %>
-      <%= f.text_field :institution_country %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :institution_name, "Institution Name" %>
-      <%= f.text_field :institution_name %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :institution_description %>
-      <%= f.text_area :institution_description, :rows => 10, :cols => 30%>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :institution_logo %>
-      <%= f.file_field :institution_logo%>
-    </div>
     Upload Project Picture:<%= f.file_field :picture %>
   </div>
   <div class="form-actions">

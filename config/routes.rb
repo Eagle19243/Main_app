@@ -5,10 +5,7 @@ Rails.application.routes.draw do
   resources :plans
   resources :notifications
   resources :cards
-  resources :institutions
-  # institutions and users are associated via a join model and table named
-  # InsitutionUser, and we would occasionally like to see all such associations at a glance
-  resources :institution_users
+
   resources :teams
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :work_records

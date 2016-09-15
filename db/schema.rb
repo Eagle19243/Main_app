@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914222429) do
+ActiveRecord::Schema.define(version: 20160915111955) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -122,28 +122,6 @@ ActiveRecord::Schema.define(version: 20160914222429) do
     t.string   "pass_phrase"
   end
 
-  create_table "institution_users", force: :cascade do |t|
-    t.integer  "institution_id"
-    t.integer  "user_id"
-    t.string   "position"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "institution_users", ["institution_id"], name: "index_institution_users_on_institution_id"
-  add_index "institution_users", ["user_id"], name: "index_institution_users_on_user_id"
-
-  create_table "institutions", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "country"
-    t.string   "city"
-    t.string   "logo"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "url"
-  end
-
   create_table "messages", force: :cascade do |t|
     t.text     "body"
     t.integer  "conversation_id"
@@ -231,20 +209,14 @@ ActiveRecord::Schema.define(version: 20160914222429) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "user_id"
     t.datetime "expires_at"
-    t.integer  "volunteers",              default: 0
+    t.integer  "volunteers",          default: 0
     t.string   "state"
     t.text     "request_description"
-    t.integer  "institution_id"
-    t.string   "institution_name"
-    t.string   "institution_logo"
-    t.text     "institution_description"
-    t.string   "institution_location"
     t.string   "short_description"
-    t.string   "institution_country"
     t.string   "video_id"
   end
 
@@ -341,7 +313,6 @@ ActiveRecord::Schema.define(version: 20160914222429) do
     t.string   "city"
     t.string   "fourth_link"
     t.string   "phone_number",           limit: 8
-    t.integer  "institution_id"
     t.text     "bio"
     t.string   "facebook_url"
     t.string   "twitter_url"
@@ -353,7 +324,6 @@ ActiveRecord::Schema.define(version: 20160914222429) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["institution_id"], name: "index_users_on_institution_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "wallet_addresses", force: :cascade do |t|

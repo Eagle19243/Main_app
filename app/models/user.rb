@@ -18,15 +18,12 @@ class User < ActiveRecord::Base
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
   has_many :activities, dependent: :delete_all
-  belongs_to :institution
   has_many :do_requests, dependent: :delete_all
   has_many :do_for_frees
   has_many :assignments, dependent: :delete_all
   has_many :donations
   has_many :proj_admins, dependent: :delete_all
-  # a user can belong to many institutions, the join table for this has been named :institution_users
-  has_many :institution_users
-  has_many :institutions, :through => :institution_users
+
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
   has_many :project_rates
