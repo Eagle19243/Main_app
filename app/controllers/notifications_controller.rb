@@ -8,17 +8,27 @@ class NotificationsController < ApplicationController
     def index
         @notifications = Notification.all
         #@task = Task.all
-        @users = User.all
+        #@users = User.all
         if current_user.admin == true
           @array=Project.where(:state => 'pending')
         else
           @array_tasks = Array.new
+          @pendding_do_request = Array.new
           @array_projects=Project.where(:user_id => current_user.id)
             @array_projects.each do|d|
               @array_tasks.concat d.tasks.where(:state => 'suggested_task')
-              #    @array_tasks = @array_tasks.flatten
+
             end
         end
+
+
+        current_user.projects.each do |p|
+           all_project_tasks_ids << p.tasks.collect(&:id)
+         end
+        all_project_tasks_ids.flatten
+       # @pendding_do_request=DoRequest.where(task_id: all_project_taks_ids AND state:'pending' )
+        @pendding_do_request=DoRequest.where( "task_id = ? AND status = ?", all_project_tasks_ids, 'Pending')
+
 
 
         @pro=Project.find(params["format"]) rescue nil

@@ -113,7 +113,6 @@
       <ul class="see-all">
         <li><a href="#">See all</a></li>
         <li><a href="#">Prefenrences</a></li>
-        <li><%= link_to "Compose", conversations_path, {class: "button compose-btn"} %></li>
       </ul>
 
       <!-- drop down in mobile view -->
@@ -125,15 +124,14 @@
       </ul>
 
       <table border="2" class="notifi-table">
-        <% conversations.last(5).each do |conversation| %>
           <tr>
             <td>
-                <%= conversation_companion_name(@user, conversation) %>
-                (<%= conversation.unread_messages_count(@user) %>)
+                <%#= conversation_companion_name(@user, conversation) %>
+                (<%#= conversation.unread_messages_count(@user) %>)
             </td>
             <td> <a href="#"><i class="fa fa-times" aria-hidden="true"></i></a> </td>
           </tr>
-        <% end %>
+
       </table>
 
     </div>

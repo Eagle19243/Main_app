@@ -150,7 +150,7 @@ class TasksController < ApplicationController
   end
   def send_email
 
-    InvitationMailer.invite_user( params['email'],current_user.name,Task.find(params['task_id']).title ).deliver_later
+    InvitationMailer.invite_user( params['email'],current_user.name, Task.find(params['task_id']) ).deliver_later
     redirect_to task_path(params['task_id'])
   end
 
