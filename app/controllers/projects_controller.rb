@@ -3,8 +3,8 @@ class ProjectsController < ApplicationController
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate, :discussions]
-  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :get_project_user, only: [:show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
   layout "manish", only: [:taskstab, :teamtab]
 
@@ -21,14 +21,6 @@ class ProjectsController < ApplicationController
   def discussions
     @section_details = @project.section_details.order(:order, :title).includes(:discussions)
     render layout: false
-  end
-
-  # GET /projects
-  # GET /projects.json
-  def oldindex
-    @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
-
   end
 
   def autocomplete_user_search
@@ -135,28 +127,9 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # old project page
-  # GET /projects/1/old
-  def old_show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-    @followed = false
-    @rate = 0
-    if user_signed_in?
-      @followed = @project.followed_users.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-    end
-  end
-
   # GET /projects/new
   def new
     @project = Project.new
-
   end
 
   # GET /projects/1/edit
