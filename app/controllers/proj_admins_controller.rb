@@ -1,7 +1,6 @@
 class ProjAdminsController < ApplicationController
-  def new
-		@proj_admin = ProjAdmin.new
-	end
+	load_and_authorize_resource
+	before_action :set_proj_admin, only: [:accept, :reject]
 
 	def create
 		@proj_admin = ProjAdmin.new(proj_admin_params)
@@ -13,9 +12,7 @@ class ProjAdminsController < ApplicationController
 		redirect_to @proj_admin.project
 	end
 
-
 	def accept
-		@proj_admin = ProjAdmin.find(params[:id])
 		if @proj_admin.accept!
 			flash[:success] = "Auxiliary Admin request accepted"
 		else
@@ -24,23 +21,24 @@ class ProjAdminsController < ApplicationController
 		redirect_to dashboard_path
 	end
 
-
 	def reject
-		@proj_admin = ProjAdmin.find(params[:id])
 		if @proj_admin.reject!
 			flash[:success] = "Auxiliary Admin request rejected"
 		else
-            flash[:error] = "Auxiliary Admin request not rejected"
+      flash[:error] = "Auxiliary Admin request not rejected"
 		end
 		redirect_to dashboard_path
 	end
 
-
 	def destroy
-
 	end
 
 private
+
+	def set_proj_admin
+		@proj_admin = ProjAdmin.find(params[:id])
+	end
+
 	def proj_admin_params
 		params.require(:proj_admin).permit(:project_id, :user_id)
 	end
