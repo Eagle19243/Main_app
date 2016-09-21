@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
+  load_and_authorize_resource
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
   before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
   before_action :get_project_user, only: [:show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]

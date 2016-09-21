@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'chat_rooms/create_room'
   get 'assignments/update_collaborator_invitation_status'
-  resources :profile_comments
+  resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
   resources :notifications
   resources :cards
@@ -73,7 +73,6 @@ Rails.application.routes.draw do
       get :autocomplete_user_search
     end
 
-
     member do
       get :taskstab, as: :taskstab
       get :teamtab, as: :teamtab
@@ -90,7 +89,6 @@ Rails.application.routes.draw do
   resources :users
   resources :messages
 
-  get 'dashboard' => 'dashboard', as: 'dashboard'
   get 'my_projects', to: 'users#my_projects', as: :my_projects
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'

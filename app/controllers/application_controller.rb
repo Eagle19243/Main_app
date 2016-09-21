@@ -1,8 +1,11 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to main_app.root_url, notice: exception.message
+  end
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    redirect_to main_app.root_url, notice: exception.message
+  end
   protect_from_forgery with: :exception
-  #before_filter :admin_only_mode
 
   around_filter :set_current_user
 
@@ -38,10 +41,7 @@ class ApplicationController < ActionController::Base
         :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }      
     end
 
-
-
-
-def default_api_value
+    def default_api_value
       t("#{service_name}.#{service_action}", :default => {})
     end
 
@@ -53,8 +53,5 @@ def default_api_value
       params[:action]
     end
     helper_method :service_action, :service_name
-
-
-
 
 end

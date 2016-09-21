@@ -1,9 +1,8 @@
 include UsersHelper
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!, :except => :show
-  before_action :admin_only, :except => [:show, :index]
-
+  load_and_authorize_resource
+  
   def index
     @users = User.all
   end
@@ -20,7 +19,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     respond_to do |format|
-      if @user.update_attributes(secure_params)
+      if @user.update_attributes(update_params)
         format.html { 
           current_user.create_activity(@user, 'updated')
           redirect_to(@user, :notice => 'User was successfully updated.')
@@ -42,10 +41,10 @@ class UsersController < ApplicationController
 
   private
 
-  def admin_only
-    unless current_user.admin?
-      redirect_to :back, :alert => "Access denied."
-    end
+  def update_params
+    params.require(:user).permit(:picture, :name, :email, :password, :bio,
+    :city, :phone_number, :bio, :facebook_url, :twitter_url,
+    :linkedin_url, :picture_cache)
   end
 
   def secure_params
