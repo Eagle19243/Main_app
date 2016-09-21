@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   resources :wikis
   resources :tasks do
   member do
-    get :accept, :reject, :doing
+    get :accept, :reject, :doing,:reviewing,:complete
   end
   end
 

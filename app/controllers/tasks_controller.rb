@@ -148,6 +148,23 @@ class TasksController < ApplicationController
     redirect_to  taskstab_project_path(@task.project_id)
 
   end
+
+  def reviewing
+    if  @task.begin_review!
+      flash[:success] = "Task Submitted for Review"
+    else flash[:error] = "Task Was Not  Submitted for Review"
+    end
+    redirect_to  taskstab_project_path(@task.project_id)
+  end
+
+  def completed
+    if  @task.complete!
+      flash[:success] = "Task Completed"
+    else flash[:error] = 'Task was not Completed '
+    end
+    redirect_to  taskstab_project_path(@task.project_id)
+  end
+
   def send_email
 
     InvitationMailer.invite_user( params['email'],current_user.name, Task.find(params['task_id']) ).deliver_later
