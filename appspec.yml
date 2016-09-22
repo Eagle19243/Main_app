@@ -10,8 +10,10 @@ permissions:
      group: ubuntu
      mode: 775
      type:
-       - file
+      - file
 
-   RAILS_ENV=production bundle exec rake db:migrate
-   RAILS_ENV=production bundle exec rake db:seed
-   RAILS_ENV=production bundle exec rake assets:precompile
+hooks:
+
+ ApplicationStart:
+  - location: Scripts/RunDatabase.sh
+timeout:3600
