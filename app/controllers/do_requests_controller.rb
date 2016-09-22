@@ -17,6 +17,8 @@ class DoRequestsController < ApplicationController
 
   def create
      @do_request = current_user.do_requests.build(request_params)
+     task=Task.find (request_params['task_id'])
+     @do_request.project_id =   task.project_id
       if @do_request.save
         flash[:success] = "Request sent to Project Admin"
         redirect_to @do_request.task

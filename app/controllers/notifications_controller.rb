@@ -22,12 +22,12 @@ class NotificationsController < ApplicationController
         end
 
 
-        current_user.projects.each do |p|
-           all_project_tasks_ids << p.tasks.collect(&:id)
-         end
-        all_project_tasks_ids.flatten
+      # .each do |p|
+      #      all_project_tasks_ids
+      #    end
+      #   all_project_tasks_ids.flatten
        # @pendding_do_request=DoRequest.where(task_id: all_project_taks_ids AND state:'pending' )
-        @pendding_do_request=DoRequest.where( "task_id = ? AND status = ?", all_project_tasks_ids, 'Pending')
+        @pendding_do_request=DoRequest.where( "task_id = ? AND status = ?",   current_user.projects, 'Pending')
 
 
 
