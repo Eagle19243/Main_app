@@ -93,14 +93,7 @@
                       <%= link_to  x , notifications_path(d.id)%>
                   <% end %>
               <%end %>
-        <%if ! @pendding_do_request.nil? %>
-            <%  @pendding_do_request.each do |d| %>
-                `<li class="not"></li>
-                </ul>
-                <% x= d.title %>
-                <%= link_to  x , notifications_path(d.id)%>
-            <% end %>
-        <%end %>
+
               </ul>
       </div>
     </div>
@@ -133,20 +126,60 @@
               <div class="caj-text">
                 <%= render 'notifications/project_accept' %>
               </div>
+
+
               <% if @pro.nil? == false && current_user.admin == true  %>
                   <div class="caj-tab">
                     <%= link_to "ACCEPT INVITATION",accept_project_path(@pro.id), class: "button compose-btn accept fa fa-fa fa-check"  %>
                     <%=  link_to "DECLINE AND REPLY", reject_project_path(@pro.id), class: " button compose-btn decline fa fa-close"%>
-              <%end%>
+                  </div>
+
+            <%end%>
               <% if @tsk.nil? == false && current_user.admin == false %>
                   <div class="caj-tab">
                     <%= link_to "ACCEPT INVITATION", accept_task_path(@tsk.id), class: "button compose-btn accept fa fa-fa fa-check"  %>
                     <%=  link_to "DECLINE AND REPLY", reject_task_path(@tsk.id), class: " button compose-btn decline fa fa-close"%>
-              <%end %>
+                  </div>
+
+            <%end %>
               
-              </div>
-              </div>
             </div>
+            <div class="invi-head">
+
+              <div class="caj-text">
+                <%if ! @pendding_do_request.nil? %>
+                    <%  @pendding_do_request.each do |task| %>
+                        <div class="simp">
+                          <p class="img-caj"><span>
+
+
+                                <% if task.user.picture? %><%= link_to (image_tag task.user.picture.url, :size => "30x30"), task.user  %>
+                    <%else%>
+                        <%= gravatar_for_user(task.user) %>
+                    <%end%>
+                            <%= task.user.name %> .
+                            <%= "#{task.created_at.strftime(" %b")} #{task.created_at.day.ordinalize}"  rescue nil%>
+                          <p class="img-cajing"> Request to join team of <%= task.task.title %> </p>
+                        </div>
+
+                       <hr>
+                        <%= link_to  task.task.title , notifications_path(task.task_id)%>
+                        <%= task.task.short_description %>
+                        <br>
+                        <br>
+                        <%= link_to "ACCEPT INVITATION",accept_do_request_path(task.id), class: "button compose-btn accept fa fa-fa fa-check"  %>
+                        <%=  link_to "DECLINE AND REPLY", reject_do_request_path(task.id), class: " button compose-btn decline fa fa-close"%>
+                                    <br>
+                    <% end %>
+                <%end %>
+
+              </div>
+
+
+
+
+            </div>
+
           </div>
 
           </hr>

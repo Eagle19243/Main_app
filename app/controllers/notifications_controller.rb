@@ -1,5 +1,6 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
   layout false , only: [:index]
   # GET /notifications
   # GET /notifications.json
@@ -17,22 +18,18 @@ class NotificationsController < ApplicationController
           @array_projects=Project.where(:user_id => current_user.id)
             @array_projects.each do|d|
               @array_tasks.concat d.tasks.where(:state => 'suggested_task')
-
             end
         end
 
+        projects_ids = current_user.projects.collect(&:id)
+        p_ids = projects_ids.flatten
 
-      # .each do |p|
-      #      all_project_tasks_ids
-      #    end
-      #   all_project_tasks_ids.flatten
-       # @pendding_do_request=DoRequest.where(task_id: all_project_taks_ids AND state:'pending' )
-        @pendding_do_request=DoRequest.where( "task_id = ? AND status = ?",   current_user.projects, 'Pending')
+        @pendding_do_request = DoRequest.where( "project_id IN (?) AND state = ?",  projects_ids, 'pending')
 
-
+        # DoRequest.where(:project_id => p_ids,:status => 'pending')
 
         @pro=Project.find(params["format"]) rescue nil
-        @tsk=Task.find(params["format"]) rescue nil
+        @tsk = Task.find(params["format"]) rescue nil
 
      end
 
