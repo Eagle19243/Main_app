@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825153701) do
+ActiveRecord::Schema.define(version: 20160915111955) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -65,6 +65,18 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.datetime "updated_at"
   end
 
+  create_table "discussions", force: :cascade do |t|
+    t.integer  "discussable_id"
+    t.string   "discussable_type"
+    t.integer  "user_id"
+    t.string   "field_name"
+    t.text     "context"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "discussions", ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id"
+
   create_table "do_for_frees", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "task_id"
@@ -100,16 +112,6 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.string   "PAYKEY"
   end
 
-  create_table "favorite_projects", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "project_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "favorite_projects", ["project_id"], name: "index_favorite_projects_on_project_id"
-  add_index "favorite_projects", ["user_id"], name: "index_favorite_projects_on_user_id"
-
   create_table "generate_addresses", force: :cascade do |t|
     t.string   "sender_address"
     t.boolean  "is_available"
@@ -118,28 +120,6 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.string   "wallet_id"
     t.string   "receiver_address"
     t.string   "pass_phrase"
-  end
-
-  create_table "institution_users", force: :cascade do |t|
-    t.integer  "institution_id"
-    t.integer  "user_id"
-    t.string   "position"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "institution_users", ["institution_id"], name: "index_institution_users_on_institution_id"
-  add_index "institution_users", ["user_id"], name: "index_institution_users_on_user_id"
-
-  create_table "institutions", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "country"
-    t.string   "city"
-    t.string   "logo"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "url"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -229,24 +209,28 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "user_id"
     t.datetime "expires_at"
-    t.integer  "volunteers",              default: 0
+    t.integer  "volunteers",          default: 0
     t.string   "state"
     t.text     "request_description"
-    t.integer  "institution_id"
-    t.string   "institution_name"
-    t.string   "institution_logo"
-    t.text     "institution_description"
-    t.string   "institution_location"
     t.string   "short_description"
-    t.string   "institution_country"
     t.string   "video_id"
-    t.text     "section1"
-    t.text     "section2"
   end
+
+  create_table "section_details", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "parent_id"
+    t.integer  "order"
+    t.string   "title",      default: ""
+    t.text     "context",    default: ""
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "section_details", ["project_id"], name: "index_section_details_on_project_id"
 
   create_table "task_comments", force: :cascade do |t|
     t.text     "body"
@@ -329,7 +313,6 @@ ActiveRecord::Schema.define(version: 20160825153701) do
     t.string   "city"
     t.string   "fourth_link"
     t.string   "phone_number",           limit: 8
-    t.integer  "institution_id"
     t.text     "bio"
     t.string   "facebook_url"
     t.string   "twitter_url"
@@ -341,7 +324,6 @@ ActiveRecord::Schema.define(version: 20160825153701) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["institution_id"], name: "index_users_on_institution_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "wallet_addresses", force: :cascade do |t|

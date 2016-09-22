@@ -34,10 +34,6 @@ var Tabs = React.createClass({
             }
         }
 
-        if(this.props.project.institution_name){
-            var institue =  (<span> {', ' + this.props.project.institution_name}</span>)
-        }
-
         return (
             <div className="top-margin">
                 <dl className="tabs tabs-center">

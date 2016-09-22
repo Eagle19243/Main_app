@@ -1,16 +1,12 @@
 class TasksController < ApplicationController
+  load_and_authorize_resource
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
-  # GET /tasks
-  # GET /tasks.json
-
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
     @comments = @task.task_comments.all
     @assignment = Assignment.new
-
   end
 
   # GET /tasks/new
@@ -26,12 +22,9 @@ class TasksController < ApplicationController
 
   # POST /tasks
   # POST /tasks.json
-   def create
-
+  def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-   
-
     respond_to do |format|
       if @task.save
         current_user.create_activity(@task, 'created')
@@ -48,22 +41,18 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update
-        respond_to do |format|
-   
-        @task.project_id = Task.find(params[:id]).project_id
+    respond_to do |format|
+      @task.project_id = Task.find(params[:id]).project_id
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
         activity.user_id = current_user.id 
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
-      
-      else
-        
+      else 
         format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
     end
-   
   end
 
   # DELETE /tasks/1

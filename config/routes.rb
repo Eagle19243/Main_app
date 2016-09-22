@@ -1,18 +1,11 @@
 Rails.application.routes.draw do
   get 'chat_rooms/create_room'
   get 'assignments/update_collaborator_invitation_status'
-  resources :profile_comments
+  resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
-  resources :notifications do
-    collection do
-      get :htmlindex
-    end
-  end
+  resources :notifications
   resources :cards
-  resources :institutions
-  # institutions and users are associated via a join model and table named
-  # InsitutionUser, and we would occasionally like to see all such associations at a glance
-  resources :institution_users
+
   resources :teams
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :work_records
@@ -53,7 +46,12 @@ Rails.application.routes.draw do
   resources :activities, only: [:index]
   resources :wikis
   resources :tasks
-  resources :favorite_projects, only: [:create, :destroy]
+
+  resources :discussions, only: [:destroy, :accept] do
+    member do
+      get :accept
+    end
+  end
 
   resources :projects do
     resources :tasks do
@@ -68,46 +66,34 @@ Rails.application.routes.draw do
       get :accept, :reject
       post :follow
       post :rate
+      get :discussions
     end
 
     collection do
       get :autocomplete_user_search
     end
 
-    collection do
-      get :htmlindex
-      get :oldindex
-    end
-
     member do
-      get :htmlshow
       get :taskstab, as: :taskstab
       get :teamtab, as: :teamtab
     end
   end
+
   get '/projects/search_results', to: 'projects#search_results'
   post '/projects/user_search', to: 'projects#user_search'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
   devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
-  resources :users do
-    member do
-      get :profile
-    end
-  end
 
- # resources :conversations do
-    #resources :messages
-  #end
-  # also make messages available as a resource
+  resources :users
   resources :messages
 
-  get 'dashboard' => 'dashboard'
-
+  get 'my_projects', to: 'users#my_projects', as: :my_projects
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
 
-  # root to: 'visitors#index'
-  root to: 'visitors#landing'
+  # root to: 'visitors#landing'
+  # show active projects as the landing page
+  root to: 'projects#index'
 end

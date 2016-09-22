@@ -1,10 +1,10 @@
 class ProjectsController < ApplicationController
+  load_and_authorize_resource
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
-  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :get_project_user, only: [:show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
   layout "manish", only: [:taskstab, :teamtab]
 
@@ -16,15 +16,12 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
-  # GET /projects
-  # GET /projects.json
-  def oldindex
-    @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
-
+  # GET /discussions
+  # GET /discussions.json
+  def discussions
+    @section_details = @project.section_details.order(:order, :title).includes(:discussions)
+    render layout: false
   end
-
-
 
   def autocomplete_user_search
     term = params[:term]
@@ -35,10 +32,6 @@ class ProjectsController < ApplicationController
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
       end
-  end
-  # GET /notifications
-  def htmlindex
-  test  @projects = Project.all
   end
 
   def user_search
@@ -62,18 +55,6 @@ class ProjectsController < ApplicationController
     #display solar search results
   end
 
-
-  # GET /notifications
-  def htmlshow
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-
-  end
-
   # GET /projects/1
   # GET /projects/1.json
   def show
@@ -85,6 +66,10 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
+    end
+    respond_to do |format|
+      format.html
+      format.js {render(layout: false)}
     end
   end
 
@@ -142,28 +127,9 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # old project page
-  # GET /projects/1/old
-  def old_show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-    @followed = false
-    @rate = 0
-    if user_signed_in?
-      @followed = @project.followed_users.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-    end
-  end
-
   # GET /projects/new
   def new
     @project = Project.new
-
   end
 
   # GET /projects/1/edit
@@ -207,9 +173,11 @@ class ProjectsController < ApplicationController
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
+        format.js { head :no_content, status: :ok}
       else
         format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.js { render text: @project.errors.full_messages.uniq.join(','), status: 422}
       end
     end
   end
@@ -321,8 +289,10 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
-        project_edits_attributes: [:id, :_destroy, :description])
+      params.require(:project).permit(:title, :short_description, :description, :country, :picture,
+                                      :user_id, :state, :expires_at, :request_description,
+                                      :discussed_description, project_edits_attributes: [:id, :_destroy, :description],
+                                      section_details_attributes: [:id,:project_id, :parent_id, :order, :discussed_title, :discussed_context, :_destroy])
     end
 
     def get_project_user

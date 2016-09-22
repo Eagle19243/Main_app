@@ -28,6 +28,13 @@
 body {
   font-family: $sans;
 
+  .flash-messages .alert-box {
+    display: block;
+    text-align: center;
+    width: 100%;
+    max-width: none;
+  } 
+
   a {
     color: $sky-blue;
 

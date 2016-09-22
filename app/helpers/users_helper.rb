@@ -40,10 +40,6 @@ module UsersHelper
     "Silva, haha"
   end
 
-  def user_favorite_project?(user, project)
-    user.favorite_projects.where(project_id: project.id).count != 0
-  end
-
   def conversation_companion_name(user, conversation)
     user.id != conversation.sender.id ? conversation.sender.name : conversation.recipient.name
   end

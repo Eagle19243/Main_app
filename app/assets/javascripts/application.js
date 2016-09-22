@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require best_in_place
 //= require foundation
 //= require foundation-datetimepicker
 //= require chosen-jquery
@@ -25,25 +26,34 @@
 //= require components
 //= require zeroclipboard
 //= require jquery-ui
+//= require best_in_place.jquery-ui
 //= require autocomplete-rails
+//= require jquery.validate.min
+//= require cocoon
 //= require_tree .
 // $(function() {
 //   $(document).foundation();
 // });
 // http://stackoverflow.com/questions/25150922/trouble-using-foundation-and-turbolinks-with-rails-4
+
 $(document).foundation();
 
-$(document).off('page:load').on('page:load', function() {
-    console.log( "ready!" );
-    $(document).foundation();
+$(document).on('page:load', function() {
+  $(document).foundation();
 });
 
 $(function() {
-    var maxHeight = 0;
-    $('.task-box')
-      .each(function() { maxHeight = Math.max(maxHeight, $(this).height()); })
-      .height(maxHeight);
+  $('img').one('error', function() { 
+    this.src = 'assets/no_image.png'; 
   });
+  $('.task-box').matchHeight();
+  $(document).foundation();
+});
+
+$(function() {
+    $('.task-box').matchHeight();
+});
+
 
 
 // enhance Turbolinks when necessary
