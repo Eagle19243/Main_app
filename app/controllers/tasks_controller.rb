@@ -1,6 +1,25 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing ]
-  before_action :validate_user, only:[:accept, :reject ]
+  before_action :validate_user, only:[:accept, :reject, :doing ]
+  before_action :validate_team_member, only:[:reviewing ]
+  before_action :validate_admin, only:[:completed ]
+
+  def validate_team_member
+    task= Task.find(params[:id])
+    if ! (task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )
+      flash[:error]= " you are not allowed to do this opration "
+      redirect_to task_path(task.id)
+    end
+
+  end
+  def validate_admin
+    task= Task.find(params[:id])
+    if ! (current_user.id == task.project.user_id || task.reviewing? )
+      flash[:error]= " you are not allowed to do this opration "
+      redirect_to '/'#task_path(task.id)
+    end
+
+  end
   layout false, only: [:show]
   before_action :authenticate_user! ,only: [:send_email ]
 
@@ -120,7 +139,7 @@ class TasksController < ApplicationController
     else
       flash[:error] = "Task was not accepted"
     end
-    redirect_to   taskstab_project_path(@task.project_id)
+    redirect_to   task_path(@task.id)
 
 
   end
@@ -135,7 +154,7 @@ class TasksController < ApplicationController
        flash[:error] = "Error in Moving  Task"
      end
    end
-    redirect_to   taskstab_project_path(@task.project_id)
+    redirect_to  task_path(@task.id)
 
   end
 
@@ -145,7 +164,7 @@ class TasksController < ApplicationController
       flash[:success] = "Task Rejected"
     else flash[:error] = "Task was not Rejected "
     end
-    redirect_to  taskstab_project_path(@task.project_id)
+    redirect_to  task_path (@task.id)
 
   end
 
@@ -154,7 +173,7 @@ class TasksController < ApplicationController
       flash[:success] = "Task Submitted for Review"
     else flash[:error] = "Task Was Not  Submitted for Review"
     end
-    redirect_to  taskstab_project_path(@task.project_id)
+    redirect_to  task_path(@task.id)
   end
 
   def completed
@@ -162,7 +181,7 @@ class TasksController < ApplicationController
       flash[:success] = "Task Completed"
     else flash[:error] = 'Task was not Completed '
     end
-    redirect_to  taskstab_project_path(@task.project_id)
+    redirect_to  task_path(@task.id)
   end
 
   def send_email

@@ -47,6 +47,11 @@ class User < ActiveRecord::Base
   def assign(taskItem, booleanFree)
     assignment = assignments.new
     assignment.task = taskItem
+    assignment.project_id= assignment.task.project_id
+    #team = Team.find_or_create_by(project_id: assignment.project_id)
+    #TeamMemberships.create(team_member_id:  assignment.user_id,team_id:team.id)
+    #@tw=TeamMemberships.new
+    #@tw .update(:team_member_id => assignment.user_id , :team_id => team.id)
     assignment.free = booleanFree
     assignment.save
     assignment.accept!

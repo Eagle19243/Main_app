@@ -174,7 +174,7 @@
                     <div class="facebook-wrapper" >
                       <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
                         <i class="fa fa-facebook"></i>
-                        <span>Add from Facebook</span>
+                        <span>share on Facebook</span>
                       </a>
                     </div>
                   </li>
@@ -187,7 +187,7 @@
                     <div class="twitter-wrapper">
                       <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
                         <i class="fa fa-twitter"></i>
-                        <span>Add from twitter</span>
+                        <span>Share on twitter</span>
                       </a>
                     </div>
                   </li>
@@ -198,7 +198,7 @@
                     <div class="pinterest-wrapper">
                       <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
                         <i class="fa fa-google-plus"></i>
-                        <span>Add from Google Plus</span>
+                        <span>Share on Google Plus</span>
                       </a>
                     </div>
                   </li>
@@ -1140,7 +1140,7 @@
 
 
             <div class="dragbox ui-sortable">
-              <% @doing_tasks.each do |task| %>
+              <% @done_tasks.each do |task| %>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
                       <p><%= task.description %> </p>
@@ -1333,7 +1333,7 @@
                   <%= f.submit "upload", class: "btn btn-primary" %>
                 <% end %>
                 <button id="invbtn" ><i class="fa fa-users" aria-hidden="true"   ></i> Add / Invite People</button>
-                <button ><i class="fa fa-check" aria-hidden="true"></i> Mark As Completed</button>
+                <button ><i class="fa fa-check" aria-hidden="true"></i><%= link_to "Mark As Completed",completed_task_path(@task.id) %></button>
 
               </div>
               <div class="btn-right">
@@ -1556,10 +1556,17 @@
         type: "post", //send it through get method
         data:{id:id},
         success: function(response) {
-        alert('Successfully destroy ')
+          if( response== true )
+          {
+            alert('Successfully destroy ');
+          location.reload();}
+          else
+          {
+            alert('You are not authorized  to remove');
+          }
         },
         error: function(xhr) {
-          alert(id);
+          alert('You are not authorized  to remove');
         }
       });
     });
