@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915111955) do
+ActiveRecord::Schema.define(version: 20160923072152) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20160915111955) do
     t.string   "state"
     t.datetime "confirmed_at"
     t.boolean  "invitation_sent"
+    t.integer  "project_id"
   end
 
   add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id"
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(version: 20160915111955) do
     t.datetime "updated_at",  null: false
     t.text     "application"
     t.boolean  "free"
+    t.integer  "project_id"
   end
 
   add_index "do_requests", ["task_id", "user_id"], name: "index_do_requests_on_task_id_and_user_id"
@@ -231,6 +233,14 @@ ActiveRecord::Schema.define(version: 20160915111955) do
   end
 
   add_index "section_details", ["project_id"], name: "index_section_details_on_project_id"
+
+  create_table "task_attachments", force: :cascade do |t|
+    t.integer  "task_id"
+    t.string   "attachment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+  end
 
   create_table "task_comments", force: :cascade do |t|
     t.text     "body"
