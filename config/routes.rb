@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  # get 'task_attachments/index'
+  #
+  # get 'task_attachments/new'
+  #
+  # get 'task_attachments/create'
+  #
+  post 'tasks/send_email'
+ # resources :task_attachments, only: [:index, :new, :create, :destroy]
+  post 'task_attachments/create'
+  post 'task_attachments/destroy_attachment'
   get 'chat_rooms/create_room'
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
@@ -45,7 +55,11 @@ Rails.application.routes.draw do
 
   resources :activities, only: [:index]
   resources :wikis
-  resources :tasks
+  resources :tasks do
+    member do
+      get :accept, :reject, :doing,:reviewing,:completed
+    end
+  end
 
   resources :discussions, only: [:destroy, :accept] do
     member do
@@ -53,11 +67,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :favorite_projects, only: [:create, :destroy]
+
   resources :projects do
     resources :tasks do
       resources :task_comments
-
-     resources :assignments
+      resources :assignments
     end
 
     resources :project_comments

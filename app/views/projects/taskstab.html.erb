@@ -58,7 +58,15 @@
                 <% @sourcing_tasks.each do |task| %>
                   <%= render "projects/cards/task", task: task %>
                 <% end %>
-          			<div class="clear"></div>
+                <% @suggested_tasks.each do |task| %>
+                    <%= render "projects/cards/task", task: task %>
+                    <% unless task.project.user_id != current_user.id %>
+                        <%= task.user.name rescue nil %>  Suggested   This Task     <br>
+                        <%= link_to "Reject", reject_task_path(task.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",accept_task_path(task.id), class: "button radius success tiny" %> <hr>
+                    <%end%>
+                <% end %>
+
+                <div class="clear"></div>
                 <!-- add button -->
                 <div class="add-btn large-12 medium-12 small-12 columns portlet">
                   <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class="button expand portlet-content btn_addtask"><i class="fa fa-plus" aria-hidden="true"></i> Add a Task</a>

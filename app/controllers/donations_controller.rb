@@ -1,7 +1,12 @@
 class DonationsController < ApplicationController
   include PayPal::SDK::AdaptivePayments
   def new
+
     @task = Task.find(params[:task_id])
+    if @task.suggested_task?
+      flash[:error] = "You can not Apply For Suggested Task "
+      redirect_to task_path(@task.id)
+    end
     @donation = Donation.new
   end
 

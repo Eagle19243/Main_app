@@ -1,209 +1,1741 @@
-<% if @task.assignments.present? && current_user.id == @task.user_id    &&  @task.assignments.last.invitation_sent.blank? %>
-<script src="https://cdn.firebase.com/v0/firebase.js"></script>
-<%= javascript_include_tag 'firechat_merged' %>
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+<!--Front-end Developed by DulanUX |2016| dulanux@gmail.com -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We Serve</title>
+  <link rel="stylesheet" href="/static/task_show_page/css/foundation.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/font-awesome/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Slabo+27px|Acme|Oswald:300,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/glyphicon-only/glyphicon.css">
+  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/Hover/css/hover-min.css">
+  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/custom.css">
+  <link rel="stylesheet" href="/static/task_show_page/css/media-queries.css">
+  <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
+  <%= stylesheet_link_tag 'social-share' %>
+  <%= javascript_include_tag 'social-share' %>
+</head>
+<body>
 
-<script type='text/javascript'>
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#">WeServe</a></h1>
+    </li>
+    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
 
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>
+      <li><a href="#"><img src="images/profile-image.jpg"></a></li>
+    </ul>
 
-
-  var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
-  firechatRef.auth('<%= current_user.chat_token %>');
-
-
-  var chat = new Firechat(firechatRef);
-  chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
-    chat.enterRoom('<%= @task.project.chat_room.room_id %>');
-    console.log('Sending invitation to collaborators');
-    <%if    @task.assignments.last.invitation_sent.blank?  %>
-      chat.inviteUser(<%= @task.assignments.last.user_id%>, '<%= @task.project.chat_room.room_id %>');
-      $.ajax({
-        url: "/assignments/update_collaborator_invitation_status",
-        type: "get", //send it through get method
-        data:{collaborator_ids:<%= @task.assignments.last.user_id rescue nil  %> },
-        success: function(response) {
-
-        },
-        error: function(xhr) {
-          
-        }
-      });
-
-    <%end%>
-  });
-
-
-
-</script>
-<% end %>
-
-
-
-<p id="notice"><%= notice %></p>
-<h2><u><%= link_to @task.project.title, @task.project %> &lt <%= @task.title%></u></h2>
-<% if user_signed_in? %>
-  <% if current_user.admin? || (current_user == @task.project.user) %>
-
-    <%= link_to 'Edit', edit_task_path(@task, project_id: @task.project_id) %> |
-    <%= link_to 'Delete', edit_task_path(@task) %> |
-    <%= link_to 'Back', @task.project %>
-  <%end%>
-<%end%>
-
-<br><br>
-<strong> Due Date :</strong>
-<%= @task.deadline.to_date %>
-<div class= "row" >
-	<div class="small-3 columns">
-
-    <br>
-    <p>
-      <h2><em><%= @task.assignments.count %> </em></h2>
-      <h6><%= link_to "Collaborators", '#'%></h6>
-    </p>
-   
-     <p><h2><em><%= @task.target_number_of_participants %></em></h2>
-      <h6 class="subheader"> Target </h6></p>
-   
-  
-	</div>
-
-    <div class= "small-3 columns">
-      <br>
-    <p><h2><em>$<%= @task.current_fund %></em></h2>
-         <h6 class="subheader">Raised</h6></p>
-
-
-         <p>
-     <h2><em>$<%= @task.budget %></em></h2>
-           <h6 class="subheader">Target</h6></p>
-    
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li><a href="#" >ADD / INVITE PEOPLE</a></li>
+      <li><a href="#" >Start a Project</a></li>
+      <li><a href="#">Active Projects</a></li>
+    </ul>
+  </section>
+</nav>
 
 
 
 
+<div id="InviteModel" class="modal">
 
+  <!-- Modal content -->
+  <div class="modal-content2 yes">
+    <span class="closeinvite">×</span>
+    <div class="fund-do">
+      <div class="row">
+        <center><h4>Add / Invite People</h4></center>
+        <center><h6>Type in the e-mail address of the person you like to invite</h6></center>
+
+        <div class="large-1 medium-1 small-0 columns"></div>
+        <%= form_tag(:controller => "tasks", :action => "send_email") do %>
+
+      <div class="large-10 medium-10 small-12 columns cold">
+          <div class="large-8 medium-12 small-12 columns cold">
+            <input type="hidden" name="task_id" value="<%=@task.id %>">
+
+            <input type="email" name="email" placeholder="E-mail address" class="add-email">
+          </div>
+          <div class="large-4 medium-12 small-12 columns cold">
+            <button lass="button round expand modal-btn1 btn-add"  >Add / Invite</button>
+          </div>
+
+          <div class="override">
+            <h2 class="background"><span>OR</span></h2>
+          </div>
+
+          <div class="social-icons" data-title="<%= @task.title %>" data-url="<%= task_path(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="" >
+            <!-- Facebook Button Start //-->
+            <ul>
+              <li>
+                <div class="facebook-wrapper" >
+                  <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                    <i class="fa fa-facebook"></i>
+                    <span>Add from Facebook</span>
+                  </a>
+                </div>
+              </li>
+              <!-- Facebook Button End //-->
+
+
+
+              <!-- Linkedin Button Start //-->
+              <li>
+                <div class="twitter-wrapper">
+                  <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                    <i class="fa fa-twitter"></i>
+                    <span>Add from twitter</span>
+                  </a>
+                </div>
+              </li>
+              <!-- Linkedin Button End //-->
+
+              <!-- Pinterest Button Start //-->
+              <li>
+                <div class="pinterest-wrapper">
+                  <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                    <i class="fa fa-google-plus"></i>
+                    <span>Add from Google Plus</span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+            <%#= social_share_button_tag(@task.title, :url => task_path(@task.id)) %>
+
+            <!-- Pinterest Button End //-->
+          </div>
+
+
+
+        </div>
+<%end %>
+        <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!--row ends -->
+
+    </div> <!-- task details ends -->
+  </div>
+
+</div>
+
+
+
+
+<div id="team" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content2 yes">
+    <span class="closeteam">×</span>
+    <div class="fund-do">
+      <div class="row">
+        <center><h4>Teams</h4></center>
+
+        <% @project.team.team_members.each do |team_member| %>
+            <%= render "projects/cards/team_member", team_member: team_member %>
+        <% end %>
+      </div> <!--row ends -->
+
+    </div> <!-- task details ends -->
+  </div>
+
+</div>
+
+<div id="share" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content2 yes">
+    <span class="closeshare">×</span>
+    <div class="fund-do">
+      <div class="row">
+
+        <div class="large-1 medium-1 small-0 columns"></div>
+
+            <div class="large-10 medium-10 small-12 columns cold">
+
+
+
+
+
+              <div class="social-icons" data-title="<%= @task.title %>" data-url="<%= task_path(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="" >
+                <!-- Facebook Button Start //-->
+                <ul>
+                  <li>
+                    <div class="facebook-wrapper" >
+                      <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                        <i class="fa fa-facebook"></i>
+                        <span>share on Facebook</span>
+                      </a>
+                    </div>
+                  </li>
+                  <!-- Facebook Button End //-->
+
+
+
+                  <!-- Linkedin Button Start //-->
+                  <li>
+                    <div class="twitter-wrapper">
+                      <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                        <i class="fa fa-twitter"></i>
+                        <span>Share on twitter</span>
+                      </a>
+                    </div>
+                  </li>
+                  <!-- Linkedin Button End //-->
+
+                  <!-- Pinterest Button Start //-->
+                  <li>
+                    <div class="pinterest-wrapper">
+                      <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                        <i class="fa fa-google-plus"></i>
+                        <span>Share on Google Plus</span>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+                <%#= social_share_button_tag(@task.title, :url => task_path(@task.id)) %>
+
+                <!-- Pinterest Button End //-->
+              </div>
+
+
+
+            </div>
+
+        <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!--row ends -->
+
+    </div> <!-- task details ends -->
+  </div>
+
+</div>
+
+
+<!-- Banner -->
+<%= render 'tasks/banner' %>
+
+
+<!-- Tab section -->
+<section class="tabs">
+  <div class="row">
+    <ul class="tabs" data-tab role="tablist">
+      <li class="tab-title tab-title-class" role="presentation"><a href="" role="tab" tabindex="0" aria-selected="true" aria-controls="panel2-1">Project Menu <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></li>
+      <li class="tab-title active" role="presentation"><a href="#panel2-2" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-2">Plan</a></li>
+      <li class="tab-title" role="presentation"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-3">Tasks <small>(353)</small></a></li>
+      <li class="tab-title" role="presentation"><a href="#panel2-4" role="tab" tabindex="0" aria-selected="false" aria-controls="panel2-4">Team <small>(434)</small></a></li>
+    </ul>
+    <div class="tabs-content task-tabs-content">
+      <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+
+        <div class="row">
+          <!--Funding / Sourcing Column -->
+          <div class="large-12 medium-12 small-12 columns pb0">
+
+            <div class="plantop_main">
+
+              <div class="large-12 medium-12 small-12 columns pb0">
+                <div class="plantop_wrap">
+                  <ul class="efd">
+                    <li>
+                      <a href="#" class="md-trigger" data-modal="modal-1">
+                        <img src="images/edit-icon.png" alt="">
+                        <span>Edit</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="images/dollar-icon.png" alt="">
+                        <span>Fund</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="images/task-icon.png" alt="">
+                        <span>Do a Task</span>
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="rank_it">
+
+                    <ul>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                    </ul>
+
+                    <div class="rankit_text">
+                      <a href="#">Rank it</a>
+                    </div>
+                  </div>
+
+
+                  <div class="social_sharelink">
+
+                    <ul>
+                      <li>
+                        <a href="#">
+                          <span>Share:</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-facebook"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-twitter"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-linkedin"></i>
+                        </a>
+                      </li>
+                    </ul>
+
+                  </div>
+
+
+                  <div class="add_fav">
+                    <a href="#">
+                      <i class="fa fa-star"></i>
+                      <span>Add to Favorites</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <!--Funding / Sourcing Column -->
+          <div class="large-12 medium-12 small-12 columns pb0">
+            <div class="plan_block2">
+              <div class="large-7 medium-6 small-12 columns pb0">
+                <div class="paragraph1">
+                  <p>Our goal is to provide clean water to all the people that lives on the comunity of Santo Amaro, using Home made Filters and recycled materials.  </p>
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.</p>
+                </div>
+              </div>
+              <div class="large-5 medium-6 small-12 columns pb0">
+                <div class="youtube-video">
+                  <img src="images/youtube-img.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="row">
+          <!--Funding / Sourcing Column -->
+          <div class="large-12 medium-12 small-12 columns pb0">
+
+            <div class="plan_block3">
+
+              <div class="large-7 medium-12 small-12 columns pb0">
+                <div class="table_content_box">
+                  <h1>Table of Contents</h1>
+
+                  <div class="tbcontent_list">
+                    <ul>
+                      <li>
+                        <h3>Section 1</h3>
+                        <ul>
+                          <li>
+                            <a href="#">SubSection 1</a>
+                          </li>
+                          <li>
+                            <a href="#">SubSection 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <h3>Section 2</h3>
+                        <ul>
+                          <li>
+                            <a href="#">SubSection 1</a>
+                          </li>
+                          <li>
+                            <a href="#">SubSection 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <h3>Section 3</h3>
+                        <ul>
+                          <li>
+                            <a href="#">SubSection 1</a>
+                          </li>
+                          <li>
+                            <a href="#">SubSection 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+
+
+                <div class="section_box">
+                  <h2>Section 1</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+                  </p>
+                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
+                </div>
+
+
+                <div class="section_box">
+                  <h2>Section 2</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+                  </p>
+                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
+                </div>
+
+
+              </div>
+
+              <div class="large-5 medium-12 small-12 columns pb0">
+                <div class="alltask_main">
+                  <div class="alltask_top">
+                    <h4>Tasks</h4>
+                    <a href="#" class="btn_all">See all</a>
+                  </div>
+
+                  <div class="alltask_mid_main">
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+      </section>
+
+      <!-- Plan TAB -->
+      <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+
+
+        <div class="row">
+          <!--Funding / Sourcing Column -->
+          <div class="large-12 medium-12 small-12 columns pb0">
+
+            <div class="plantop_main">
+
+              <div class="large-12 medium-12 small-12 columns pb0">
+                <div class="plantop_wrap">
+                  <ul class="efd">
+                    <li>
+                      <a href="#" class="md-trigger" data-modal="modal-1">
+                        <img src="images/edit-icon.png" alt="" />
+                        <span>Edit</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="images/dollar-icon.png" alt="" />
+                        <span>Fund</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <img src="images/task-icon.png" alt="" />
+                        <span>Do a Task</span>
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="rank_it">
+
+                    <ul>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-star"></i>
+                        </a>
+                      </li>
+                    </ul>
+
+                    <div class="rankit_text">
+                      <a href="#">Rank it</a>
+                    </div>
+                  </div>
+
+
+                  <div class="social_sharelink">
+
+                    <ul>
+                      <li>
+                        <a href="#">
+                          <span>Share:</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-facebook"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-twitter"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <i class="fa fa-linkedin"></i>
+                        </a>
+                      </li>
+                    </ul>
+
+                  </div>
+
+
+                  <div class="add_fav">
+                    <a href="#">
+                      <i class="fa fa-star"></i>
+                      <span>Add to Favorites</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <!--Funding / Sourcing Column -->
+          <div class="large-12 medium-12 small-12 columns pb0">
+            <div class="plan_block2">
+              <div class="large-7 medium-6 small-12 columns pb0">
+                <div class="paragraph1">
+                  <p>Our goal is to provide clean water to all the people that lives on the comunity of Santo Amaro, using Home made Filters and recycled materials.  </p>
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.</p>
+                </div>
+              </div>
+              <div class="large-5 medium-6 small-12 columns pb0">
+                <div class="youtube-video">
+                  <img src="images/youtube-img.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="row">
+          <!--Funding / Sourcing Column -->
+          <div class="large-12 medium-12 small-12 columns pb0">
+
+            <div class="plan_block3">
+
+              <div class="large-7 medium-12 small-12 columns pb0">
+                <div class="table_content_box">
+                  <h1>Table of Contents</h1>
+
+                  <div class="tbcontent_list">
+                    <ul>
+                      <li>
+                        <h3>Section 1</h3>
+                        <ul>
+                          <li>
+                            <a href="#">SubSection 1</a>
+                          </li>
+                          <li>
+                            <a href="#">SubSection 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <h3>Section 2</h3>
+                        <ul>
+                          <li>
+                            <a href="#">SubSection 1</a>
+                          </li>
+                          <li>
+                            <a href="#">SubSection 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <h3>Section 3</h3>
+                        <ul>
+                          <li>
+                            <a href="#">SubSection 1</a>
+                          </li>
+                          <li>
+                            <a href="#">SubSection 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+
+
+                <div class="section_box">
+                  <h2>Section 1</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+                  </p>
+                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
+                </div>
+
+
+                <div class="section_box">
+                  <h2>Section 2</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+                  </p>
+                  <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
+                </div>
+
+
+              </div>
+
+              <div class="large-5 medium-12 small-12 columns pb0">
+                <div class="alltask_main">
+                  <div class="alltask_top">
+                    <h4>Tasks</h4>
+                    <a href="#" class="btn_all">See all</a>
+                  </div>
+
+                  <div class="alltask_mid_main">
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+                    <div class="alltask_mid">
+                      <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
+                      <div class="progressbar_left">
+                        <div class="nice round progress alert large-12 medium-12 small-12">
+                          <span class="meter" style="width: 70%"></span>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="task-4rd-row">
+                          <center>
+                            <table align="left">
+                              <tbody><tr>
+                                <th>40%</th>
+                                <th>55/80</th>
+                                <th>19/30</th>
+                                <th>$8000</th>
+                              </tr>
+                              <tr>
+                                <td>Funded</td>
+                                <td>Finished</td>
+                                <td>Tearmates</td>
+                                <td>Needed</td>
+                              </tr>
+                              </tbody></table>
+                          </center>
+                        </div>
+                      </div>
+                      <div class="progressbar_right">
+                        <div class="btn_fund"><a href="#">Fund</a></div>
+                        <div class="btn_do"><a href="#">Do</a></div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="clear"></div>
+
+      </section>
+
+      <!--Task tab -->
+      <section role="tabpanel" aria-hidden="false" class="content task draggle-set active" id="panel2-3">
+        <div class="row">
+          <!--Funding / Sourcing Column -->
+          <div class="large-3 medium-6 small-12 columns">
+
+            <div class="task-box-header">
+              <h6><a href="">Funding/Sourcing</a></h6>
+              <button data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">...</button><br>
+              <ul id="drop1" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+                <li><a href="#">This is a link</a></li>
+                <li><a href="#">This is another</a></li>
+                <li><a href="#">Yet another</a></li>
+              </ul>
+            </div>
+            <!-- repeating member task box -->
+            <div class="dragbox ui-sortable">
+              <% @sourcing_tasks.each do |task| %>
+              <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
+                  <p><%= task.description %> </p>
+                  <ul class="task-box-icons">
+                    <li><i class="fa fa-comment-o" aria-hidden="true"></i> <%= task.task_comments.count %></li>
+                    <li><i class="fa fa-paperclip" aria-hidden="true"></i> <%= task.task_attachments.count %></li>
+                  </ul>
+                  <div class="nice round progress alert large-12 medium-12 small-12">
+                    <span class="meter" style="width:<%= task.funded %>"></span>
+                  </div>
+                  <div class="row task-4rd-row">
+                    <center>
+                      <table>
+                        <tbody><tr>
+                          <th><%= task.funded %></th>
+                          <th>55/80</th>
+                          <th><%= task.assignments.count %>/<%= task.target_number_of_participants %></th>
+                          <th>$<%= task.budget %></th>
+                        </tr>
+                        <tr>
+                          <td>Funded</td>
+                          <td>Finished</td>
+                          <td>Tearmates</td>
+                          <td>Needed</td>
+                        </tr>
+                        </tbody></table>
+                    </center>
+                  </div>
+                </div>
+
+
+                <!-- repeating member task box ends -->
+              </div>
+              <% end %>
+
+              <div class="clear"></div>
+
+
+              <!-- add button -->
+              <div class="add-btn large-12 medium-12 small-12 columns portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                <button class="button portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span><i class="fa fa-plus" aria-hidden="true"></i> Add a Task</button>
+              </div>
+
+            </div>
+          </div>
+          <!-- Doing column -->
+          <div class="large-3 medium-6 small-12 columns">
+            <div class="task-box-header">
+              <h6>Doing</h6>
+              <button href="#" data-dropdown="drop2" aria-controls="drop2" aria-expanded="false" class="button dropdown">...</button><br>
+              <ul id="drop2" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+                <li><a href="#">This is a link</a></li>
+                <li><a href="#">This is another</a></li>
+                <li><a href="#">Yet another</a></li>
+              </ul>
+            </div>
+            <div class="dragbox ui-sortable">
+
+              <% @doing_tasks.each do |task| %>
+                  <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                    <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
+                      <p><%= task.description %> </p>
+                      <ul class="task-box-icons">
+                        <li><i class="fa fa-comment-o" aria-hidden="true"></i> <%= task.task_comments.count %></li>
+                        <li><i class="fa fa-paperclip" aria-hidden="true"></i> <%= task.task_attachments.count %></li>
+                      </ul>
+                      <div class="nice round progress alert large-12 medium-12 small-12">
+                        <span class="meter" style="width:<%= task.funded %>"></span>
+                      </div>
+                      <div class="row task-4rd-row">
+                        <center>
+                          <table>
+                            <tbody><tr>
+                              <th><%= task.funded %></th>
+                              <th>55/80</th>
+                              <th><%= task.assignments.count %>/<%= task.target_number_of_participants %></th>
+                              <th>$<%= task.budget %></th>
+                            </tr>
+                            <tr>
+                              <td>Funded</td>
+                              <td>Finished</td>
+                              <td>Tearmates</td>
+                              <td>Needed</td>
+                            </tr>
+                            </tbody></table>
+                        </center>
+                      </div>
+                    </div>
+
+
+                    <!-- repeating member task box ends -->
+                  </div>
+              <% end %>
+
+
+
+
+              <div class="clear"></div>
+
+              <!-- add button -->
+              <div class="add-btn large-12 medium-12 small-12 columns portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                <button class="button portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span><i class="fa fa-plus" aria-hidden="true"></i> Add to Reviewing</button>
+              </div>
+            </div>
+
+          </div>
+          <!-- Reviewing column -->
+          <div class="large-3 medium-6 small-12 columns">
+            <div class="task-box-header">
+              <h6>Reviewing</h6>
+              <button href="#" data-dropdown="drop3" aria-controls="drop3" aria-expanded="false" class="button dropdown">...</button><br>
+              <ul id="drop3" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+                <li><a href="#">This is a link</a></li>
+                <li><a href="#">This is another</a></li>
+                <li><a href="#">Yet another</a></li>
+              </ul>
+            </div>
+
+            <div class="dragbox ui-sortable">
+
+              <!-- repeating member task box -->
+              <% @reviewing_tasks.each do |task| %>
+                  <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                    <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
+                      <p><%= task.description %> </p>
+                      <ul class="task-box-icons">
+                        <li><i class="fa fa-comment-o" aria-hidden="true"></i> <%= task.task_comments.count %></li>
+                        <li><i class="fa fa-paperclip" aria-hidden="true"></i> <%= task.task_attachments.count %></li>
+                      </ul>
+                      <div class="nice round progress alert large-12 medium-12 small-12">
+                        <span class="meter" style="width:<%= task.funded %>"></span>
+                      </div>
+                      <div class="row task-4rd-row">
+                        <center>
+                          <table>
+                            <tbody><tr>
+                              <th><%= task.funded %></th>
+                              <th>55/80</th>
+                              <th><%= task.assignments.count %>/<%= task.target_number_of_participants %></th>
+                              <th>$<%= task.budget %></th>
+                            </tr>
+                            <tr>
+                              <td>Funded</td>
+                              <td>Finished</td>
+                              <td>Tearmates</td>
+                              <td>Needed</td>
+                            </tr>
+                            </tbody></table>
+                        </center>
+                      </div>
+                    </div>
+
+
+                    <!-- repeating member task box ends -->
+                  </div>
+              <% end %>
+
+
+
+
+              <!-- repeating member task box -->
+
+
+              <div class="clear"></div>
+
+              <!-- add button -->
+              <div class="add-btn large-12 medium-12 small-12 columns portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                <button class="button portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span><i class="fa fa-plus" aria-hidden="true"></i> Add to Complete</button>
+              </div>
+            </div>
+
+          </div>
+          <!-- Done Column -->
+          <div class="large-3 medium-6 small-12 columns">
+            <div class="task-box-header">
+              <h6>Done</h6>
+              <button href="#" data-dropdown="drop4" aria-controls="drop4" aria-expanded="false" class="button dropdown">...</button><br>
+              <ul id="drop4" data-dropdown-content="" class="f-dropdown" aria-hidden="true">
+                <li><a href="#">This is a link</a></li>
+                <li><a href="#">This is another</a></li>
+                <li><a href="#">Yet another</a></li>
+              </ul>
+            </div>
+
+
+            <div class="dragbox ui-sortable">
+              <% @done_tasks.each do |task| %>
+                  <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
+                    <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
+                      <p><%= task.description %> </p>
+                      <ul class="task-box-icons">
+                        <li><i class="fa fa-comment-o" aria-hidden="true"></i> <%= task.task_comments.count %></li>
+                        <li><i class="fa fa-paperclip" aria-hidden="true"></i> <%= task.task_attachments.count %></li>
+                      </ul>
+                      <div class="nice round progress alert large-12 medium-12 small-12">
+                        <span class="meter" style="width:<%= task.funded %>"></span>
+                      </div>
+                      <div class="row task-4rd-row">
+                        <center>
+                          <table>
+                            <tbody><tr>
+                              <th><%= task.funded %></th>
+                              <th>55/80</th>
+                              <th><%= task.assignments.count %>/<%= task.target_number_of_participants %></th>
+                              <th>$<%= task.budget %></th>
+                            </tr>
+                            <tr>
+                              <td>Funded</td>
+                              <td>Finished</td>
+                              <td>Tearmates</td>
+                              <td>Needed</td>
+                            </tr>
+                            </tbody></table>
+                        </center>
+                      </div>
+                    </div>
+
+
+                    <!-- repeating member task box ends -->
+                  </div>
+              <% end %>
+              <div class="clear"></div>
+
+              <!-- add button -->
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!--Team tab-->
+      <section role="tabpanel" aria-hidden="true" class="content" id="panel2-4">
+        <!-- one row of team members starts here -->
+        <div class="row">
+          <% @project.team.team_members.each do |team_member| %>
+              <%= render "projects/cards/team_member", team_member: team_member %>
+          <% end %>
+        </div>
+        <!-- end of row-->
+
+      </section>
 
     </div>
+  </div>
+</section>
 
 
-    <div class="small-6 columns" ><br><br>
+<!-- Task Details Window -->
+<div id="myModal" class="modal">
 
-      <%= link_to "Do", new_do_request_path(task_id: @task.id,free: false), class:'button radius' %>
-       <%= link_to "Do For Free", new_do_request_path(task_id: @task.id, free: true), class:'button radius' %>
-        <%= link_to "Fund", new_donation_path(task_id: @task.id), class:'button radius success' %><br><br>
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
 
-           <div id="myProgress">
-       <div id="myBar"></div>
-       <div id="label"><%= @task.current_fund/@task.budget %>% funded </div>
-       </div>
-        
+    <div class="task-details">
+      <div class="row">
+
+        <!--left side -->
+        <div class="large-8 medium-12 small-12 columns">
+          <div class="task-details-left-side">
+            <div class="task-desc">
+              <h3><%= @task.title %></h3>
+              <p><%= @task.description  %></p>
+              <h4>Condition of Execution</h4>
+              <p><%= @task.condition_of_execution %></p>
+              <h4>Proof of Execution</h4>
+              <p><%= @task.proof_of_execution %></p>
+
+              <%= link_to 'Edit', edit_task_path(@task.id)%>
+
+              <hr>
+
+              <div class="comment">
+                <h3><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h3>
+                <% @task_comments.each do |comment| %>
+
+              <div class="comment-view">
+                  <div class="profile-image">
+                    <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
+                    <%else%>
+                        <%= gravatar_for_user(comment.user) %>
+                    <%end%>
+                  </div>
+                  <div class="comment-text">
+                    <P><%= comment.body %></P>
+                    <h6><%=comment.created_at.to_formatted_s(:long) if !comment.created_at.nil?%></h6>
+                    <!--<a href="#">Reply</a>-->
+                  </div>
+                </div>
+                    <hr>
+                <%end%>
+              </div>
+              <hr>
+
+              <% if user_signed_in? %>
+                  <%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
+                      <div class="post-comment">
+
+                        <%= f.text_area :body%>
+                        <%= f.hidden_field :task_id, value: @task.id %>
+                        <%= f.hidden_field :user_id, value: current_user.id %>
+                        <button type="submit" name="commit" value="Send"> Send</button> &nbsp;&nbsp;
+
+                        <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                      </div>
+                  <% end %>
+              <% end %>
+            </div>
+
+            <hr>
+
+            <div class="activity">
+              <h3><i class="fa fa-list" aria-hidden="true"></i> Activity</h3>
+
+              <div class="activity-block">
+                <img src="images/profile-image.jpg">
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
+                <h6>May 26, 2015</h6>
+                <a href="#">Reply</a>
+              </div>
+
+              <div class="activity-block">
+                <img src="images/profile-image.jpg">
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
+                <h6>May 26, 2015</h6>
+                <a href="#">Reply</a>
+              </div>
+
+              <div class="activity-block">
+                <img src="images/profile-image.jpg">
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
+                <h6>May 26, 2015</h6>
+                <a href="#">Reply</a>
+              </div>
+            </div>
+
+          </div> <!-- end of task-details-left-side -->
         </div>
-  </div>
 
-<div class="row" style=" text-align: left;float:right;margin-right: 4% ;  border: 2px;border-style: solid;padding: 10px">
-<p>
-  <strong>Task Specific Bit Coin Address:</strong>
-<p id='fe_text'><%=@task.wallet_address.sender_address rescue 'Available soon'%></p>
-</p>
-<p>
-  <strong>Balance:</strong>
-  <% satoshi_to_btc = @task.wallet_address.current_balance.to_f/10**8.to_f rescue nil %>
-  <% btc_to_usd = satoshi_to_btc* get_current_btc_rate rescue nil %>
-  <%= satoshi_to_btc rescue '0.0' %>BTC
-  <sup style="color: #006400"><%= btc_to_usd.round(3) rescue nil %>  USD</sup>  </p>
-  <button class='btn btn-primary' data-clipboard-target='fe_text' data-clipboard-text='Default clipboard text from attribute' id='d_clip_button' title='copy to clipboard.'>
-    <b>Copy To Clipboard</b>
-  </button>
-  <a href=<%= wallet_transactions_new_path + '?id=' + @task.id.to_s %> >
-  <button class='btn btn-primary'>
-    <b>Release Funds</b>
-  </button>
-  </a>
+        <!-- right side -->
+        <div class="large-4 medium-12 small-12 columns">
+          <div class="task-details-right-side">
+            <div class="fund">
+              <center>
+                <% unless  @task.suggested_task? %>
+                <button><%= link_to "Fund", new_donation_path(task_id: @task.id) ,{:style=> "color:white"}%></button>
+                <button id="myBtn2" >DO</button>
+                <% else%>
+                <button> This is Sugggested Task and  Waiting For Admin Approval  </button>
+                <% end %>
+              </center>
+              <h6>Deadline :<span><%= @task.deadline.strftime("%d/%m/%Y") %></span></h6>
+              <h6>Funded : <span class="light-blue">$<%= @task.current_fund + curent_bts_to_usd(@task.id) rescue 0.0 %></span> / Needed : <span>$<%= @task.budget %></span></h6>
+              <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0  %></span> / Needed : <span><%= @task.target_number_of_participants %></span></h6>
+
+              <div class="nice round progress alert large-12 medium-12 small-12">
+                <span class="meter" style="width:<%= @task.funded   %>"></span>
+              </div>
+              <h6><%= @task.funded %><span>funded.</span></h6>
+            </div>
+            <hr>
+            <strong>Task Specific Bit Coin Address:</strong>
+
+            <p id='fe_text'><%=@task.wallet_address.sender_address rescue 'Available soon'%></p>
+            </p>
+            <hr>
+            <div class="button-set">
+
+              <div class="btn-left">
+                <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), html: { multipart: true } do |f| %>
+                    <%= f.hidden_field :task_id ,:value => @task.id %>
+
+
+
+              <input type="file" name="task_attachment[attachment]" id="file1" />
+                  <button type="button" class="attachment"><i class="fa fa-paperclip" aria-hidden="true"></i> Add Attachment</button>
+                  <%= f.submit "upload", class: "btn btn-primary" %>
+                <% end %>
+                <button id="invbtn" ><i class="fa fa-users" aria-hidden="true"   ></i> Add / Invite People</button>
+                <button ><i class="fa fa-check" aria-hidden="true"></i><%= link_to "Mark As Completed",completed_task_path(@task.id) %></button>
+
+              </div>
+              <div class="btn-right">
+                <button id="sharebtn" ><i class="fa fa-external-link" aria-hidden="true"></i> Share</button>
+                <button id="teambtn"><i class="fa fa-user" aria-hidden="true" ></i> Teams</button>
+                <button><i class="fa fa-arrow-right" aria-hidden="true"></i>  <%= link_to "Move",doing_task_path(@task.id) %></button>
+              </div>
+
+            </div>
+            <hr>
+
+            <div class="attachments">
+              <h5><i class="fa fa-paperclip" aria-hidden="true"></i> Attachments</h5>
+              <% @task_attachments.each do |attachment| %>
+              <div class="attachment">
+                <img src="http://placehold.it/150x150">
+                <!--<h4>Project_Overview.ppt</h4>-->
+                <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
+                <div class="attachment-actions">
+                  <%= link_to "Open", attachment.attachment_url %>
+                  <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
+                </div>
+              </div>
+              <hr>
+              <% end %>
+
+
+
+            </div>
+          </div>
+
+
+
+
+        </div> <!--row ends -->
+
+      </div> <!-- task details ends -->
+
+    </div>
+  </div>
+</div>
+
+<!-- Task Details Window -->
+<div id="myModal2" class="modal2">
+
+  <!-- Modal content -->
+  <div class="modal-content2">
+    <span class="close2">x</span>
+
+    <div class="fund-do">
+      <div class="row">
+        <center><h4>Here goes the title of this task</h4></center>
+        <center><h6>Choose the best option for you to do this task.</h6></center>
+
+        <div class="large-1 medium-1 small-0 columns"></div>
+        <div class="large-5 medium-5 small-12 columns">
+          <button class="button round expand modal-btn1" id="free" onclick="setfree()">Do this task for FREE</button>
+          <p>By choosing this option, you will become a team member and you will recieve an e-mail, confirming that you joined this team.</p>
+        </div>
+        <div class="large-5 medium-5 small-12 columns">
+          <button class="button round expand modal-btn2" id="paid" onclick="setpaid()">Get compensation to do this task</button>
+          <p>Your individual compensation for this task will be <strong>$200</strong> divided by number of compensated teammates.</p>
+        </div>
+        <script>
+          function setpaid() {
+            document.getElementById("do_request_free").value= "false";
+          }
+          function setfree() {
+            document.getElementById("do_request_free").value= "true";
+          }
+        </script>
+        <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!--row ends -->
+      <div class="row">
+        <div class="post-comment columns">
+
+                  <%= form_for @do_request=DoRequest.new, method: :post do |form| %>
+
+                      <%= form.hidden_field :task_id, value: @task.id %>
+                      <%= form.text_area :application %>
+                      <%= form.hidden_field :free, value: true %>
+                      <img src="images/profile-image.jpg" id="cover_letter_img"  >
+            <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
+              <% end %>
+            <!--<input type="file" name="file1" id="file1" />-->
+
+            <!--<a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>-->
+          </form>
+        </div>
+      </div><!--row ends -->
+      <div class="large-1 medium-1 small-0 columns"></div>
+
+    </div>
+  </div> <!-- task details ends -->
+
+</div>
 </div>
 
 
-  <br>
-	
+
+<div class="md-modal md-effect-1" id="modal-1">
+  <div class="md-content">
+
+    <div class="modal_box">
+      <div id="testDiv">
+        <div class="modal_left">
+          <div class="modal_lefttop">
+            <h1>Here goes the Project Name</h1>
+            <a href="#">Suggest edit</a>
+          </div>
+
+          <div class="section_box modal_secbox">
+            <h2>Section 1</h2>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod <span>tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</span> ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+            </p>
+            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
+          </div>
+
+          <div class="section_box modal_secbox">
+            <h2>Section 2</h2>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod <span>tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</span> ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+            </p>
+            <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
+          </div>
+
+        </div>
+        <div class="modal_right">
+          <button class="md-close"><img src="images/btn-close.png" alt="" /></button>
+          <div class="clear"></div>
+          <div class="modal-right-top">
+            <h1>Suggested Editions</h1>
+
+            <div class="commentbox">
+              <div class="comments_icon">
+                <img src="images/comment-icon.jpg" alt="" />
+              </div>
+              <div class="cmbox_header">
+                <img class="persin-img" src="images/autor.png" alt="" />
+                <div class="ntd">
+                  Caju Costa... <br>
+                  <span>12:00 am Today</span>
+                </div>
+                <div class="cm_options">
+                  <ul>
+                    <li>
+                      <a href="#"><img src="images/check-icon.png" alt="" /></a>
+                    </li>
+                    <li>
+                      <a href="#"><img src="images/red-close-icon.png" alt="" /></a>
+                    </li>
+                    <li>
+                      <a href="#"><img src="images/more-option-icon.png" alt="" /></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="cmbox_text">
+                  <p><strong>Add:</strong> "tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nos.d exerci tation " </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="commentbox">
+              <div class="comments_icon">
+                <img src="images/comment-icon.jpg" alt="" />
+              </div>
+              <div class="cmbox_header">
+                <img class="persin-img" src="images/autor.png" alt="" />
+                <div class="ntd">
+                  Caju Costa... <br>
+                  <span>12:00 am Today</span>
+                </div>
+                <div class="cm_options">
+                  <ul>
+                    <li>
+                      <a href="#"><img src="images/check-icon.png" alt="" /></a>
+                    </li>
+                    <li>
+                      <a href="#"><img src="images/red-close-icon.png" alt="" /></a>
+                    </li>
+                    <li>
+                      <a href="#"><img src="images/more-option-icon.png" alt="" /></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="cmbox_text">
+                  <p><strong>Add:</strong> "tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nos.d exerci tation " </p>
+                </div>
+              </div>
+            </div>
 
 
-<p>
-<h4 class="subheader"><u>Task Description:</u></h4>
-  <%= @task.description %>
-</p><br>
+          </div>
+        </div>
+      </div>
 
-
-<p>
-  <h4 class="subheader"><u>Condition of execution:</u></h4>
-  <%= @task.condition_of_execution %>
-</p><br>
-
-<% if user_signed_in? && (current_user == @task.project.user || current_user.admin?) %>
-<div class="invitations">
-<%= form_for(@assignment) do |f| %>
-  <div class="form-group">
-    <%= label_tag 'user_id', 'Assign task to a Freelancer' %>
-    <%= f.select :user_id,
-  User.all.map { |u| [u.name, u.id] },
-               { include_blank: true },
-               { class: 'chosen-select' }
-%>
-    <%= f.hidden_field :task_id, value: @task.id %>
-
+    </div>
+    <div class="clear"></div>
   </div>
-
-  <%= submit_tag 'Assign', class: 'button radius tiny' %>
-<% end %>
-<% end %>
-
-<br>
 </div>
-
-<hr>
-
-<% if user_signed_in? %>
-<%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
- 
-  <p>
-    <%= f.label :body, "Write your comment" %><br/>
-    <%= f.text_area :body, :class => "tinymce" %>
-  </p>
-   <%= f.hidden_field :task_id, value: @task.id %>
-   <%= f.hidden_field :user_id, value: current_user.id %>
-
-  <p>
-    <%= f.submit 'Submit', class: 'btn btn-primary' %>
-  </p>
-<% end %>
-<% end %>
-
-<br>
+<div class="md-overlay"></div><!-- the overlay element -->
 
 
-
-
-   
-   <% @comments.each do |comment| %>
-     
-
-    <span class="comment"><%= comment.body %></span>
-     <br/>
-
-     <h4><small><% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
-      <%else%>
-      <%= gravatar_for_user(comment.user) %>
-        
-        <%end%>
-     
-      <strong><%=time_ago_in_words(comment.created_at) if !comment.created_at.nil?%> ago</strong></small>
-     </h4>
-    </li>
-    <br>
-    <br>
-    <%end%>
-
+<script src="/static/task_show_page/js/vendor/jquery.js"></script>
+<script src="/static/task_show_page/js/foundation.min.js"></script>
+<script src="/static/task_show_page/js/custom.js"></script>
 <script>
-  $(document).ready(function() {
-    var clip = new ZeroClipboard($("#d_clip_button"))
-  });
+  $(document).foundation();
+</script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script type="text/javascript">
+
+
+  $(document).ready(function(){
+    $('a[name=delete_attachment]').click(function() {
+      //alert($(this).attr('id'));
+      var id= $(this).attr('id')
+      $.ajax({
+        url: "/task_attachments/destroy_attachment",
+        type: "post", //send it through get method
+        data:{id:id},
+        success: function(response) {
+          if( response== true )
+          {
+            alert('Successfully destroy ');
+          location.reload();}
+          else
+          {
+            alert('You are not authorized  to remove');
+          }
+        },
+        error: function(xhr) {
+          alert('You are not authorized  to remove');
+        }
+      });
+    });
+
+
+    $( ".dragbox" ).sortable({
+      connectWith: ".dragbox",
+      handle: ".portlet-content",
+      cancel: ".portlet-toggle",
+      placeholder: "portlet-placeholder ui-corner-all"
+    });
+
+    $( ".portlet" )
+        .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+        .find( ".portlet-content" )
+        .addClass( "ui-widget-header ui-corner-all" )
+        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+
+    $( ".portlet-toggle" ).on( "click", function() {
+      var icon = $( this );
+      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+      icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
+    });
+  } );
+
 
 </script>
+
+<style type="text/css">
+  #InviteModel {
+    z-index:2 ;
+  }
+  #team {
+    z-index:2 ;
+  }
+  #share {
+    z-index:2 ;
+  }
+
+  .portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 233px;
+    width: 100%;
+  }
+
+
+  .dragbox {
+    min-height: 233px;
+    width: 100%;
+    padding-bottom: 100px;
+  }
+  .draggle-set .column,
+  .draggle-set .columns {
+    position: inherit;
+  }
+  .add-btn button {
+    margin-bottom: 10px;
+    display: block;
+    float: left;
+    width: 100%;
+  }
+  .clear {
+    clear: both;
+  }
+  .task-box {
+    clear: both;
+  }
+
+</style>
+
+<script src="/static/task_show_page/js/classie.js"></script>
+<script src="/static/task_show_page/js/modalEffects.js"></script>
+<script src="/static/task_show_page/js/cssParser.js"></script>
+<script src="/static/task_show_page/js/jquery.slimscroll.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $(function(){
+
+    $('#testDiv').slimScroll();
+
+    $('#testDiv2').slimScroll({
+      allowPageScroll: true
+    });
+
+  });
+</script>
+
+
+<script>
+  // Get the modal
+  var modalinvite = document.getElementById('InviteModel');
+
+  // Get the button that opens the modal
+  var btninvite = document.getElementById("invbtn");
+
+  // Get the <span> element that closes the modal
+  var spaninvite = document.getElementsByClassName("closeinvite")[0];
+
+  // When the user clicks the button, open the modal
+  btninvite.onclick = function() {
+    modalinvite.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  spaninvite.onclick = function() {
+    modalinvite.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modalinvite) {
+      modalinvite.style.display = "none";
+    }
+  }
+</script>
+<script>
+  // Get the modal
+  var modalshare = document.getElementById('share');
+
+  // Get the button that opens the modal
+  var btnshare = document.getElementById("sharebtn");
+
+  // Get the <span> element that closes the modal
+  var spanshare = document.getElementsByClassName("closeshare")[0];
+
+  // When the user clicks the button, open the modal
+  btnshare.onclick = function() {
+    modalshare.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  spanshare.onclick = function() {
+    modalshare.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modalshare) {
+      modalshare.style.display = "none";
+    }
+  }
+</script>
+<script>
+  // Get the modal
+  var modalteam = document.getElementById('team');
+
+  // Get the button that opens the modal
+  var btnteam = document.getElementById("teambtn");
+
+  // Get the <span> element that closes the modal
+  var spanteam = document.getElementsByClassName("closeteam")[0];
+
+  // When the user clicks the button, open the modal
+  btnteam.onclick = function() {
+    modalteam.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  spanteam.onclick = function() {
+    modalteam.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modalinvite) {
+      modalteam.style.display = "none";
+    }
+  }
+</script>
+
+</body>
+</html>

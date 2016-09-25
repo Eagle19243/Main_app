@@ -15,11 +15,13 @@ class Task < ActiveRecord::Base
 	has_many :assignments, dependent: :delete_all
 	has_many :do_requests, dependent: :delete_all
 	has_many :donations, dependent: :delete_all
+	has_many :task_attachments, dependent: :delete_all
 
 	# after create, assign a Bitcoin address to the task, toggle the comment below to enable
-  after_create :assign_address
+	#after_create :assign_address
 	aasm :column => 'state', :whiny_transitions => false do
     state :pending
+		state :suggested_task
     state :accepted
     state :rejected
 		state :doing
@@ -27,19 +29,19 @@ class Task < ActiveRecord::Base
 		state :completed
 
 		event :accept do
-      transitions :from => :pending, :to => :accepted
-    end
+      transitions :from => [:pending,:suggested_task], :to => :accepted
+		end
 		event :reject do
-      transitions :from => :pending, :to => :rejected
+      transitions :from => [:pending, :suggested_task],:to => :rejected
     end
 		event :start_doing do
 			transitions :from => [:accepted, :pending, :reviewing, :completed], :to => :doing
 		end
 		event :begin_review do
-			transitions :from => [:accepted, :pending, :completed, :doing], :to => :reviewing
+			transitions :from => [ :doing], :to => :reviewing
 		end
 		event :complete do
-      transitions :from => [:accepted, :pending, :doing, :reviewing], :to => :completed
+      transitions :from => [ :reviewing], :to => :completed
     end
 
   end
@@ -94,8 +96,8 @@ class Task < ActiveRecord::Base
 	end
 
   def funded
-    budget == 0 ? "100%" : (current_fund/budget*100).round.to_s + "%"
-  end
+		budget == 0 ? "100%" : ((current_fund/budget*100) + (curent_bts_to_usd(id) rescue 0)).round.to_s + "%"
+	end
 
   def team_relations_string
     number_of_participants.to_s + "/" + target_number_of_participants.to_s

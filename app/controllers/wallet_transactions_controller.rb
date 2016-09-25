@@ -6,6 +6,10 @@ class WalletTransactionsController < ApplicationController
       if( @task.nil? )
         redirect_to '/', alert: 'Invalid Task Id'
       end
+      if @task.suggested_task?
+        flash[:error] = "You can not Apply For Suggested Task "
+        redirect_to task_path(@task.id)
+      end
       @wallet_transaction=WalletTransaction.new
     end
 
