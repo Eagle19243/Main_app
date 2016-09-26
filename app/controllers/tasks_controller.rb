@@ -1,24 +1,30 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing ]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing]
   before_action :validate_user, only:[:accept, :reject, :doing ]
   before_action :validate_team_member, only:[:reviewing ]
   before_action :validate_admin, only:[:completed ]
 
   def validate_team_member
-    task= Task.find(params[:id])
-    if ! (task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )
+  @task= Task.find(params[:id]) rescue nil
+  if @task.blank?
+    redirect_to '/'
+  else
+    if ! (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id && @task.doing? ) || @task.blank?
       flash[:error]= " you are not allowed to do this opration "
-      redirect_to task_path(task.id)
+      redirect_to task_path(@task.id)
     end
-
+    end
   end
   def validate_admin
-    task= Task.find(params[:id])
-    if ! (current_user.id == task.project.user_id || task.reviewing? )
+   @task= Task.find(params[:id]) rescue nil
+   if @task.blank?
+     redirect_to '/'
+   else
+    if ! (current_user.id == @task.project.user_id && @task.reviewing? )
       flash[:error]= " you are not allowed to do this opration "
       redirect_to '/'#task_path(task.id)
     end
-
+end
   end
   layout false, only: [:show]
   before_action :authenticate_user! ,only: [:send_email ]

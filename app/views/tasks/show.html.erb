@@ -1325,15 +1325,19 @@
               <div class="btn-left">
                 <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), html: { multipart: true } do |f| %>
                     <%= f.hidden_field :task_id ,:value => @task.id %>
-
-
-
               <input type="file" name="task_attachment[attachment]" id="file1" />
                   <button type="button" class="attachment"><i class="fa fa-paperclip" aria-hidden="true"></i> Add Attachment</button>
                   <%= f.submit "upload", class: "btn btn-primary" %>
                 <% end %>
                 <button id="invbtn" ><i class="fa fa-users" aria-hidden="true"   ></i> Add / Invite People</button>
+
+
+                <% if @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id && @task.doing? %>
+                <button ><i class="fa fa-check" aria-hidden="true"></i><%= link_to "Submit for Review", reviewing_task_path(@task.id) %></button>
+                <% end  %>
+                <% if  current_user.id == @task.project.user_id && @task.reviewing? %>
                 <button ><i class="fa fa-check" aria-hidden="true"></i><%= link_to "Mark As Completed",completed_task_path(@task.id) %></button>
+                <% end %>
 
               </div>
               <div class="btn-right">
