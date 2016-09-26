@@ -12,8 +12,8 @@ permissions:
      - file
 
   AfterInstall:
-    - location: script/AfterInstall.sh
+    - location: AfterInstall.sh
       runas: ubuntu
   ApplicationStart:
-    - location: script/ApplicationStart.sh
+    - location: ApplicationStart.sh
       runas: ubuntu
