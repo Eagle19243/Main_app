@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-   - source: /
-     destination: /home/ubuntu/appname/
+  - source: /
+    destination: /home/ubuntu/appname/
 permissions:
    - object: /home/ubuntu/appname/
      pattern: "**"
