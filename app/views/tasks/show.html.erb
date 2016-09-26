@@ -140,8 +140,11 @@
     <div class="fund-do">
       <div class="row">
         <center><h4>Teams</h4></center>
-
+<!---->
         <% @project.team.team_members.each do |team_member| %>
+            <% if current_user.id == @task.project.user_id %>
+                <%= link_to "Remove from Team" , teams_remove_membership_path(id: team_member)  %>
+            <% end %>
             <%= render "projects/cards/team_member", team_member: team_member %>
         <% end %>
       </div> <!--row ends -->
