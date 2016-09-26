@@ -1,20 +1,13 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-destination: /home/ubuntu/appname/
+   - source: /
+     destination: /home/ubuntu/appname/public
 permissions:
-   - object: /home/ubuntu/appname/
+   - object: /home/ubuntu/appname/public
      pattern: "**"
      owner: ubuntu
      group: ubuntu
      mode: 775
      type:
        - file
-hooks:
-   AfterInstall:
-    - location: AfterInstall.sh
-      runas: ubuntu
-  ApplicationStart:
-    - location: ApplicationStart.sh
-      runas: ubuntu
