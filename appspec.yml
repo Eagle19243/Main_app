@@ -2,15 +2,11 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/appname/public
+    destination: /home/ubuntu/appname
 permissions:
-  - object: /home/ubuntu/appname/public
+  - object: /home/ubuntu/appname
     owner: ubuntu
     group: ubuntu
-    mode: 755
-    type:
-     - file
-
   AfterInstall:
     - location: AfterInstall.sh
       runas: ubuntu
