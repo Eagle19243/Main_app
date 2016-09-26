@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 files:
    - source: /
-     destination: /home/ubuntu/appname/public
+     destination: /home/ubuntu/appname/
 permissions:
-   - object: /home/ubuntu/appname/public
+   - object: /home/ubuntu/appname/
      pattern: "**"
      owner: ubuntu
      group: ubuntu
