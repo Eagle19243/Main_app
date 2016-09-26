@@ -1,19 +1,15 @@
 version: 0.0
 os: linux
 files:
-   - source: /
-     destination: /home/ubuntu/appname/
+  - source: /
+    destination: /home/ubuntu/appname/
 permissions:
-   - object: /home/ubuntu/appname/
-     pattern: "**"
-     owner: ubuntu
-     group: ubuntu
-     mode: 775
-     type:
-       - file
+  - object: /home/ubuntu/appname/
+    owner: ubuntu
+    group: ubuntu
   AfterInstall:
-    - location: AfterInstall.sh
+    - location: script/AfterInstall.sh
       runas: ubuntu
   ApplicationStart:
-    - location: ApplicationStart.sh
+    - location: script/ApplicationStart.sh
       runas: ubuntu
