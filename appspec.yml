@@ -11,3 +11,10 @@ permissions:
      mode: 775
      type:
        - file
+hooks:
+AfterInstall:
+    - location: AfterInstall.sh
+      runas: ubuntu
+  ApplicationStart:
+    - location: ApplicationStart.sh
+      runas: ubuntu
