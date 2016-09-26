@@ -3,21 +3,17 @@ class ProjectsController < ApplicationController
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
-  before_action :get_project_user, only: [:show, :taskstab, :teamtab]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
-  layout "manish", only: [:taskstab, :teamtab]
+  layout "manish", only: [:taskstab]
 
-  # GET /projects
-  # GET /projects.json
   def index
     @projects = Project.all
     Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
   end
 
-  # GET /discussions
-  # GET /discussions.json
   def discussions
     @section_details = @project.section_details.order(:order, :title).includes(:discussions)
     render layout: false
@@ -55,8 +51,6 @@ class ProjectsController < ApplicationController
     #display solar search results
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
   def show
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
@@ -95,7 +89,6 @@ class ProjectsController < ApplicationController
     }
   end
 
-  # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
@@ -117,28 +110,19 @@ class ProjectsController < ApplicationController
     @done_tasks = @project.tasks.where(state: "done").all
   end
 
-  # GET /projects/1/teamtab
-  # View the teamtab, same logic as the taskstab
-  def teamtab
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
+  def show_project_team
+    respond_to do |format|
+      format.js
     end
   end
 
-  # GET /projects/new
   def new
     @project = Project.new
   end
 
-  # GET /projects/1/edit
   def edit
   end
 
-  # POST /projects
-  # POST /projects.json
   def create
     @project = current_user.projects.build(project_params)
     @project.user_id = current_user.id
@@ -165,8 +149,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /projects/1
-  # PATCH/PUT /projects/1.json
   def update
     respond_to do |format|
       if @project.update(project_params)
@@ -183,8 +165,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # POST /save-edits
-  # POST /save-edits.json
   def saveEdit
     @project_edit = @project.project_edits.create(description: edit_params[:project_edit])
     @project_edit.user = current_user
@@ -201,9 +181,6 @@ class ProjectsController < ApplicationController
 
   end
 
-
-  # POST /update-edits
-  # POST /update-edits.json
   def updateEdit
     id_t = params[:project][:editItem][:id]
     new_state = params[:project][:editItem][:new_state]
@@ -266,8 +243,6 @@ class ProjectsController < ApplicationController
     redirect_to current_user
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
     @project.destroy
     respond_to do |format|

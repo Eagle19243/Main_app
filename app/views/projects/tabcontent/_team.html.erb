@@ -1,1 +1,3 @@
-<h1>I'm rocking with the team!</h1>
+<% @project.team.team_members.each do |team_member| %>
+  <%= render "projects/cards/team_member", team_member: team_member %>
+<% end %>

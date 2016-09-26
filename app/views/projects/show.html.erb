@@ -44,10 +44,7 @@
 <%= render 'project_menu' %>
 
 <div class="tabs-content">
-  <div class="content" id="panel1">
-    <h2>Comming Soon</h2>
-  </div>
-  <div class="content active" id="panel2">
+  <div class="content active renderingpoint" id="panel2">
     <div class="row">
       <div class="medium-12 columns">
         <div class="social_bar">
@@ -201,9 +198,6 @@
   <div class="content" id="panel3">
     <h2>Comming Soon: I have a feeling there should be tasks here!</h2>
     <%= render "projects/tabcontent/tasks", layout: "manish", locals: {project: @project} %>
-  </div>
-  <div class="content" id="panel4">
-    <h2>Comming Soon</h2>
   </div>
 </div>
 <%= render 'visitors/sitewide_footer' %>

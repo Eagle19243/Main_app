@@ -90,7 +90,7 @@ Rails.application.routes.draw do
 
     member do
       get :taskstab, as: :taskstab
-      get :teamtab, as: :teamtab
+      get :show_project_team, as: :show_project_team
     end
   end
 
