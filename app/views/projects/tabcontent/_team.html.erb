@@ -1,3 +1,3 @@
-<% @project.team.team_members.each do |team_member| %>
-  <%= render "projects/cards/team_member", team_member: team_member %>
+<% @project.team.team_memberships.each do |team_membership| %>
+  <%= render "projects/cards/team_member", team_membership: team_membership %>
 <% end %>

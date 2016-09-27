@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923072152) do
+ActiveRecord::Schema.define(version: 20160927212850) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -276,10 +276,11 @@ ActiveRecord::Schema.define(version: 20160923072152) do
   end
 
   create_table "team_memberships", force: :cascade do |t|
-    t.integer  "team_id",        null: false
-    t.integer  "team_member_id", null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "team_id",                    null: false
+    t.integer  "team_member_id",             null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "role",           default: 0
   end
 
   add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true

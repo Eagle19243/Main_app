@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   resources :teams
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
+  resources :team_memberships
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
