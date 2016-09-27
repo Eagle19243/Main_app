@@ -10,8 +10,7 @@
       </div>
     </center>
     <center><h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5></center>
-    <center><h6><%= team_membership.role %>
-    <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.roles.map { |key, value| [value, key.humanize] } %>
+    <center><h6><%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.roles.map { |key, value| [key, key.humanize] } %>
     </h6></center>
     <p>
       <%= team_membership.team_member.try(:bio)[0..80] rescue nil %>..<%= link_to "See full bio", user_path(team_membership.team_member) %>
@@ -29,8 +28,5 @@
 </div>
 
 <script>
-  $(document).ready(function() {
-    debugger;
-    jQuery(".best_in_place").best_in_place();
-  });
+  $(".best_in_place").best_in_place();
 </script>
