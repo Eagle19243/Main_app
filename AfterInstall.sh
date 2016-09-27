@@ -9,5 +9,3 @@ RAILS_ENV=production bundle exec rake assets:precompile
 echo "after install rake precompile executed" >> /home/ubuntu/log
 bundle install
 echo " after install bundle executed" >> /home/ubuntu/log
-
-
