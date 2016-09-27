@@ -27,7 +27,7 @@ class TasksController < ApplicationController
 end
   end
   layout false, only: [:show]
-  before_action :authenticate_user! ,only: [:send_email ]
+  before_action :authenticate_user! ,only: [:send_email, :create,:new , :edit, :destroy, :accept, :reject, :doing, :reviewing,:completed]
 
   # GET /tasks
   # GET /tasks.json
@@ -153,8 +153,8 @@ end
    if @task.suggested_task?
      flash[:error] = "You can't Do this Task"
    else
-   # check User if he is member of team or not
-     if  @task.start_doing!
+
+     if current_user.id == @task.project.user_id && @task.start_doing!
        flash[:success] = "Task Status changed to Doing "
      else
        flash[:error] = "Error in Moving  Task"
@@ -191,8 +191,8 @@ end
   end
 
   def send_email
-
     InvitationMailer.invite_user( params['email'],current_user.name, Task.find(params['task_id']) ).deliver_later
+    flash[:success] = "Task link has been send to #{params[:email]}"
     redirect_to task_path(params['task_id'])
   end
 
