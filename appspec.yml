@@ -16,9 +16,9 @@ permissions:
 hooks:
 AfterInstall:
     - 
-      location: AfterInstall.sh
+      location: /home/ubuntu/AfterInstall.sh
       runas: ubuntu
 ApplicationStart:
     - 
-      location: ApplicationStart.sh
+      location: /home/ubuntu/ApplicationStart.sh
       runas: ubuntu
