@@ -10,8 +10,12 @@
       </div>
     </center>
     <center><h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5></center>
-    <center><h6><%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.roles.map { |key, value| [key, key.humanize] } %>
-    </h6></center>
+    <center>
+      <h5>
+        <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.roles.map { |key, value| [key, key.humanize] }, activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
+        <i class="fa fa-pencil role-edit-pencil-<%=team_membership.id%>"></i>
+      </h5>
+    </center>
     <p>
       <%= team_membership.team_member.try(:bio)[0..80] rescue nil %>..<%= link_to "See full bio", user_path(team_membership.team_member) %>
     </p>
@@ -28,5 +32,12 @@
 </div>
 
 <script>
-  $(".best_in_place").best_in_place();
+  debugger;
+  $(".role_in_place-<%=team_membership.id%>.best_in_place").best_in_place();
+  $(".role-edit-pencil-<%=team_membership.id%>").click(toggleRoleEditPencil);
+  $(".role_in_place-<%=team_membership.id%>").change(toggleRoleEditPencil);
+  
+  function toggleRoleEditPencil(){
+    $(".role-edit-pencil-<%=team_membership.id%>").toggle();
+  }
 </script>
