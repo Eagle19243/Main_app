@@ -29,14 +29,14 @@
       <center>
         <table>
           <tr>
-            <% @projec_conut= @project.tasks.count %>
+            <% @projec_conut= @project.tasks.count rescue 0 %>
             <th><%= (@sourcing_tasks.count / @projec_conut )*100  %> %</th>
             <th><%= @done_tasks.count.to_s + "/" + @projec_conut.to_s  %></th>
             <% @particpent=0 %>
             <% @budget=0 %>
 
             <%@project.tasks.each do  |p|%>
-                <%  @particpent=@particpent+ p.number_of_participants  %>
+                <%  @particpent=@particpent+ p.number_of_participants rescue 0 %>
                 <%  @budget=@budget+ p.budget  %>
 
           <%end  %>
