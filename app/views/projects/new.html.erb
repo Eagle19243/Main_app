@@ -1,25 +1,113 @@
-<%= render 'layouts/menu' %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Start New Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<% content_for :title do %>
-  WeServe > New Project
-<% end %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<%= tinymce_assets %>
-<div class="content">
-  <% if !current_user.admin? %>
-    <div class="notice">
-     <p>
-      Hey <%= current_user.name.split(" ")[0] %>, <br> <br>
-      To create a project, you must have <strong>Project Manager Status.</strong>
-      Please introduce yourself and complete the following form to request a Project Manager Status.
-      Once your request is accepted and your project approved, you will gain Project Manager Status.
-      Then you will be able to create and manage your projects.
-      </p>
+  <style>
+   html{
+      font-size: 16px !important;
+    }
+  </style>
+  <script>$(document).keydown(function(e) {
+    // ESCAPE key pressed
+    if (e.keyCode == 27) {
+      $("#myModal").modal('hide');
+    }
+  });
+
+  $( document ).ready(function() {
+    $('html body').css({'font-size':'16px !important'});
+    $('#project-status').hide();
+    $('form').submit(function() {
+      $('#project-status').html('');
+      $('#project-status').hide();
+
+      var valuesToSubmit = $(this).serialize();
+      $.ajax({
+        type: "POST",
+        url: $(this).attr('action'), //sumbits it to the given url of the form
+        data: valuesToSubmit,
+        dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+        console.log("success", json);
+        $('#project-status').html("");
+        $('#project-status').show();
+        $('#project-status').html(json);
+      });
+      $('#project-status').html("");
+      $('#project-status').show();
+      $('#project-status').html('Project has been created Successsfully');
+
+//      Open second popup!
+
+      return false; // prevents normal behaviour
+    });
+
+  });
+
+
+
+  </script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Modal Example</h2>
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#create-new-project-popup">Create Project</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="create-new-project-popup" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&#10006</button>
+          <h4 class="modal-title">Start New Project</h4>
+        </div>
+        <div class="modal-body">
+          <div id="project-status" class="alert alert-danger">
+          </div>
+          <%= simple_form_for(config_project,html: { id: 'project-form', multipart: true }) do |f| %>
+              <%= f.error_notification %>
+
+              <%#= render 'shared/error_messages', object: f.object %>
+              <div class="form-group">
+                  <%= f.label :title%>
+                  <%= f.text_field :title, class: 'form-control', required: 'true' %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :short_description, "Short description for Project"%>
+                  <%= f.text_area :short_description,size: "15x5",  class: 'form-control', required: 'true'%>
+                </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <div class="form-actions" style="float: right; margin-right: 1% ">
+            <%= f.button :submit, class: "btn-lg radius" %>
+          </div>
+        </div>
+          <% end %>
+
+
+      </div>
+
     </div>
-  <% end %>
-
-  <%= render 'form' %>
   </div>
+
 </div>
 
-<%= render 'visitors/sitewide_footer' %>
+</body>
+</html>
+
+

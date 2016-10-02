@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  include Discussable
   paginates_per 12
 
   include AASM
@@ -6,7 +7,8 @@ class Project < ActiveRecord::Base
   default_scope -> { order('projects.created_at DESC') }
 
   mount_uploader :picture, PictureUploader
-  mount_uploader :institution_logo, PictureUploader
+
+  attr_accessor :discussed_description
 
   has_many :tasks, dependent: :delete_all
   has_many :wikis, dependent: :delete_all
@@ -16,14 +18,16 @@ class Project < ActiveRecord::Base
   has_one  :chat_room
   has_many :project_rates
   has_many :project_users
-  has_many :followers, through: :project_users, class_name: 'User', source: :follower
+  has_many :section_details, dependent: :destroy
+  has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
   has_one :team
 
   belongs_to :user
-  belongs_to :institution
 
   validates :title, presence: true, length: { minimum: 1, maximum: 60 },
                       uniqueness: true
+
+  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
 
   searchable do
     text :title
@@ -34,11 +38,6 @@ class Project < ActiveRecord::Base
   #
   # validates :description, presence: true, length: { minimum: 2}
   #
-  # validates :institution_description, presence: true, length: { minimum: 2}
-  #
-  # validates :institution_location, presence: true, length: {minimum: 2}
-  #
-  # validates :institution_country, presence: true,  length: {minimum: 2}
   # validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
@@ -71,10 +70,6 @@ class Project < ActiveRecord::Base
     country.translations[I18n.locale.to_s] || country.name
   end
 
-  def location
-    "#{institution_location} - #{institution_country}"
-  end
-
   def needed_budget
     tasks.sum(:budget)
   end
@@ -101,6 +96,35 @@ class Project < ActiveRecord::Base
 
   def rate_avg
     project_rates.average(:rate).to_i
+  end
+
+  def can_update?
+    User.current_user.is_admin_for?(self)
+  end
+
+  def section_details_list parent = nil
+    result = []
+    section_details.of_parent(parent).ordered.each do |child|
+      result << child
+      result += section_details_list(child) if child.childs.exists?
+    end
+    result
+  end
+
+  def discussed_description= value
+    if can_update?
+      self.send(:write_attribute, 'description', value)
+    else
+      unless value == self.description.to_s
+        Discussion.find_or_initialize_by(discussable:self, user_id: User.current_user.id, field_name: 'description').update_attributes(context: value)
+      end
+    end
+  end
+
+  def discussed_description
+    can_update? ?
+        self.send(:read_attribute, 'description') :
+        discussions.of_field('description').of_user(User.current_user).last.try(:description) || self.send(:read_attribute, 'description')
   end
 
 end

@@ -1,41 +1,18 @@
 <div class="small-12 medium-2 columns user-sidebar" data-equalizer-watch>
-  <ul id="sidelist" class="tabs vertical tabs-index hidden-for-small-only sideul" data-tab>
-    <li class="tab-title"><a href="#dashboard" aria-selected="false" id="dashboardtab">Dashboard</a></li>
-    <li class="tab-title is-active"><a href="#profile" aria-selected="true" id="profiletab">Profile</a></li>
-    <li class="tab-title"><a href="#projects" id="projecttab">Projects</a></li>
-    <li class="tab-title"><a href="#notifications" data-no-turbolink="true" id="notificationtab">Notifications</a></li>
-    <li class="tab-title"><a href="/messages" id="messagetab">Messages</a></li>
-    <li class="tab-title"><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
-  </ul>
+  <% if current_user %>
+    <ul id="sidelist" class="tabs vertical tabs-index hidden-for-small-only sideul">
+      <li class="tab-title">
+        <%= link_to "Profile", user_path(current_user), data: { no_turbolink: true } %>
+      </li>
+      <li class="tab-title">
+        <%= link_to "Projects", my_projects_path, data: { no_turbolink: true } %>
+      </li>
+      <li class="tab-title">
+        <%= link_to "Notifications", notifications_path, data: { no_turbolink: true } %>
+      </li>
+      <li class="tab-title">
+        <%= link_to "Messages", messages_path, data: { no_turbolink: true } %>
+      </li>
+    </ul>
+  <% end %>
 </div>
-<script>
-$("#notificationtab").click(function() {
-  debugger;
-  setTimeout(function(){
-    // alert("Hello 4 seconds after click");
-    $("#sidelist").height($("#tabcontentdiv").height());
-  }, 3000);
-  $("#sidelist").height($("#tabcontentdiv").height());
-});
-
-function resizeSideBar() {
-  debugger;
-  setTimeout(function(){
-    //alert("ResizeSideBar 3 seconds after click");
-    $("#sidelist").height($("#tabcontentdiv").height());
-  }, 3000);
-  $("#sidelist").height($("#tabcontentdiv").height() + 200);
-}
-
-$("#notificationtab").click(resizeSideBar);
-$("#dashboardtab").click(resizeSideBar);
-$("#profiletab").click(resizeSideBar);
-$("#projecttab").click(resizeSideBar);
-$("#messagetab").click(resizeSideBar);
-
-$(document).ready(function() {
-  console.log("hey, resize this!");
-  resizeSideBar();
-});
-
-</script>

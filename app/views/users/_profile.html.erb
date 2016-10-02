@@ -1,0 +1,74 @@
+<h1>Profile</h1>
+<div class="lin2 row">
+  <div class="lin2-media small-12 medium-2 columns">
+    <% if @user.picture? %>
+      <%= image_tag(@user.picture.url, size: "123x123") %>
+    <% else %>
+      <%= gravatar_for(@user, 123)%>
+    <%end%>
+  </div>
+  <div class="lin2-contents medium-10 columns">
+    <h1><%= @user.name %></h1>
+    <div class="lin2-social ">
+      <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank"><i class="icon-facebook"></i></a>
+      <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank"><i class="icon-linkedin"></i></a>
+      <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank"><i class="icon-link"></i></a>
+      <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank"><i class="icon-envelope-alt"></i></a>
+    </div>
+    <p>
+      <i class="icon-map-marker margin-right-5"></i>
+      <%= user_short_info(@user) %>
+    </p>
+    <a href="#" class="button button-send"><i class="icon-comment"></i>Send Message</a>
+  </div>
+</div>
+<div class="lin3">
+  <div class="lin-inner">
+    <span class="no"><%= @user.projects.count %></span>
+    <span class="tx">Project </br>Leads</span>
+  </div>
+  <div class="lin-inner">
+    <span class="no"><%= @user.completed_tasks_count %></span>
+    <span class="tx">Completed </br>Tasks</span>
+  </div>
+  <div class="lin-inner">
+    <span class="no"><%= @user.funded_projects_count %></span>
+    <span class="tx">Funded </br>Projects</span>
+  </div>
+</div>
+<section class="bio">
+    <h1>
+      <i class="icon-user"></i>
+      <% if (current_user && current_user.id == @user.id) %>
+        <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
+        <i class="fa fa-pencil" id="bio-edit-pencil"></i>
+      <% end %>
+      Bio
+    </h1>
+    <h4 class="profile-bio">
+      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
+    </h4>
+    <br>
+</section>
+<section class="comments">
+  <div class="row">
+    <%= render 'users/profile_comments' %>
+    <%= render 'users/profile_projects' %>
+  </div>
+</section>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    jQuery(".best_in_place").best_in_place();
+  });
+
+  $('.profile-bio .best_in_place').focusin(function(){
+    $("#bio-edit-pencil").hide();
+    $("#bio-edit-save").show();
+  });
+  
+  $('.profile-bio .best_in_place').focusout(function(){
+    $("#bio-edit-save").hide();
+    $("#bio-edit-pencil").show();
+  });
+</script>

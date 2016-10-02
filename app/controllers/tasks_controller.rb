@@ -29,13 +29,11 @@ end
   layout false, only: [:show]
   before_action :authenticate_user! ,only: [:send_email, :create,:new , :edit, :destroy, :accept, :reject, :doing, :reviewing,:completed]
 
-  # GET /tasks
-  # GET /tasks.json
-
-
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+    @comments = @task.task_comments.all
+    @assignment = Assignment.new
     @task_comments = @task.task_comments.all
     #@assignment = Assignment.new
 
@@ -78,7 +76,6 @@ end
   # POST /tasks
   # POST /tasks.json
   def create
-
     @task = Task.new(task_params)
     @task.user_id = current_user.id
     if @task.project.user_id != current_user.id
@@ -112,9 +109,7 @@ end
         activity.user_id = current_user.id
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
-
       else
-
         format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
@@ -146,9 +141,8 @@ end
       flash[:error] = "Task was not accepted"
     end
     redirect_to   task_path(@task.id)
-
-
   end
+
   def doing
    if @task.suggested_task?
      flash[:error] = "You can't Do this Task"

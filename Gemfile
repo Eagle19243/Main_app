@@ -26,6 +26,9 @@ gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-bundler', '~> 1.1.2'
 gem 'capistrano-rails', '~> 1.1.1'
 gem 'validates_timeliness', '~> 4.0'
+#test
+gem "interactor-rails", "~> 2.0"
+
 # use puma on AWS http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Ruby_rails.html
 gem 'puma'
 gem 'sunspot_rails'
@@ -41,6 +44,11 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
+gem 'differ'
+gem 'cocoon'
+gem 'best_in_place', '~> 3.0.1'
+gem 'cancancan', '~> 1.10'
+gem 'bootstrap-sass'
 
 # gem 'video_info'
 # Add this if you're using rbenv

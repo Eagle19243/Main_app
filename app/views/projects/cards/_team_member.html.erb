@@ -11,7 +11,6 @@
     </center>
     <center><h5><%= link_to team_member.name, user_path(team_member) %></h5></center>
     <center><h6>Project Owner/ Administrator <a href="#">Edit role</a></h6></center>
-    <center><h4><%= "#{team_member.institution.try(:name) }" %></h4></center>
     <p>
       <%= team_member.try(:bio)[0..80] rescue nil %>..<%= link_to "See full bio", user_path(team_member) %>
     </p>
