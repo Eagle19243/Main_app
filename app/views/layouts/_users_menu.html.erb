@@ -56,7 +56,7 @@
     <div class="modal-body">
       <div id="project-status" class="alert alert-danger">
       </div>
-      <%= simple_form_for(Project.new ,html: { id: 'project-form', multipart: true }) do |f| %>
+      <%= simple_form_for(Project.new ,html: { id: 'project-form', multipart: true })do |f| %>
           <%= f.error_notification %>
 
           <%#= render 'shared/error_messages', object: f.object %>
@@ -163,7 +163,7 @@ $( document ).ready(function() {
   $('html body').css({'font-size':'16px !important'});
   $('#project-status').hide();
 
-  $('form').submit(function() {
+  $('project-form').submit(function() {
     $('#project-status').html('');
     $('#project-status').hide();
 

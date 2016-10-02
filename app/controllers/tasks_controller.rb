@@ -11,7 +11,7 @@ class TasksController < ApplicationController
   else
     if ! (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id && @task.doing? ) || @task.blank?
       flash[:error]= " you are not allowed to do this opration "
-      redirect_to task_path(@task.id)
+      redirect_to taskstab_project_path(@task.project.id)
     end
     end
   end
@@ -22,7 +22,7 @@ class TasksController < ApplicationController
    else
     if ! (current_user.id == @task.project.user_id && @task.reviewing? )
       flash[:error]= " you are not allowed to do this opration "
-      redirect_to '/'#task_path(task.id)
+      redirect_to taskstab_project_path(@task.project.id)
     end
 end
   end
@@ -89,7 +89,7 @@ end
         end
         current_user.create_activity(@task, 'created')
 
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
+        format.html { redirect_to taskstab_project_path(@task.project.id), notice: 'Task was successfully created.' }
         format.json { render :show, status: :created, location: @task }
       else
         format.html { render :new }
@@ -107,7 +107,7 @@ end
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
         activity.user_id = current_user.id
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
+        format.html { redirect_to taskstab_project_path(@task.project.id), notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
         format.html  { render :edit }
@@ -120,11 +120,12 @@ end
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
+    id = @task.project.id;
     @task.destroy
     respond_to do |format|
       activity = current_user.create_activity(@task, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to taskstab_project_path(id), notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -140,7 +141,7 @@ end
     else
       flash[:error] = "Task was not accepted"
     end
-    redirect_to   task_path(@task.id)
+    redirect_to   taskstab_project_path(@task.project.id)
   end
 
   def doing
@@ -154,7 +155,7 @@ end
        flash[:error] = "Error in Moving  Task"
      end
    end
-    redirect_to  task_path(@task.id)
+    redirect_to  taskstab_project_path(@task.project.id)
 
   end
 
@@ -164,7 +165,7 @@ end
       flash[:success] = "Task Rejected"
     else flash[:error] = "Task was not Rejected "
     end
-    redirect_to  task_path (@task.id)
+    redirect_to  taskstab_project_path(@task.project.id)
 
   end
 
@@ -173,7 +174,7 @@ end
       flash[:success] = "Task Submitted for Review"
     else flash[:error] = "Task Was Not  Submitted for Review"
     end
-    redirect_to  task_path(@task.id)
+    redirect_to  taskstab_project_path(@task.project.id)
   end
 
   def completed
@@ -181,13 +182,13 @@ end
       flash[:success] = "Task Completed"
     else flash[:error] = 'Task was not Completed '
     end
-    redirect_to  task_path(@task.id)
+    redirect_to  taskstab_project_path(@task.project.id)
   end
 
   def send_email
     InvitationMailer.invite_user( params['email'],current_user.name, Task.find(params['task_id']) ).deliver_later
     flash[:success] = "Task link has been send to #{params[:email]}"
-    redirect_to task_path(params['task_id'])
+    redirect_to taskstab_project_path(@task.project.id)
   end
 
   private
