@@ -78,9 +78,9 @@ group :development, :test do
   gem 'sqlite3'
 end
 group :production do
-  #gem 'pg'
-  gem 'sqlite3'
-  gem 'rails_12factor'
+  gem 'pg'
+  #gem 'sqlite3'
+  #gem 'rails_12factor'
   # use unicorn in production on digital ocean. On AWS we will config with puma
   gem 'unicorn'
 end
