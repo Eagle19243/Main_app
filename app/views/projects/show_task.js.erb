@@ -25,7 +25,11 @@ $('a[name=delete_attachment]').click(function() {
     }
   });
 });
-
+$('input[id^=file]').hide();
+$('.fa-paperclip, .attachment').click(function () {
+  console.log(this);
+  $(this).closest('form').find('input[id^=file]').click();
+})
   // Get the modal
   var modalinvite = document.getElementById('InviteModel');
 

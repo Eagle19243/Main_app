@@ -202,6 +202,7 @@
               <div class="btn-left">
                 <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), html: { multipart: true } do |f| %>
                     <%= f.hidden_field :task_id ,:value => @task.id %>
+                    <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
                     <input type="file" name="task_attachment[attachment]" id="file1" />
                     <button type="button" class="attachment"><i class="fa fa-paperclip" aria-hidden="true"></i> Add Attachment</button>
                     <%= f.submit "upload", class: "btn btn-primary" %>
@@ -321,7 +322,7 @@
       <div class="row">
         <center><h4>Teams</h4></center>
         <!---->
-        <% @project.team.team_members.each do |team_member| %>
+        <% @task_team.each do |team_member| %>
             <% if current_user.id == @task.project.user_id %>
                 <%= link_to "Remove from Team" , teams_remove_membership_path(id: team_member)  %>
             <% end %>

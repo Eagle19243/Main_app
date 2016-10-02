@@ -23,32 +23,15 @@ class ProjectsController < ApplicationController
     Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
 
   end
-def show_task
-  @project=Project.find(1);
-  @comments = @project.project_comments.all
-  @proj_admins_ids = @project.proj_admins.ids
-  @current_user_id = 0
-  if user_signed_in?
-    @current_user_id = current_user.id
+  def show_task
+
+    @task=Task.find(params[:id])
+    @task_comments=@task.task_comments
+    @task_attachment=TaskAttachment.new
+    @task_attachments=@task.task_attachments
+    @task_team=TeamMembership.where(task_id: @task.id)
+    respond_to :js
   end
-  @task=Task.find(1);
-  @task_comments=@task.task_comments
-  @task_attachment=TaskAttachment.new
-  @task_attachments=@task.task_attachments
-  @followed = false
-  @rate = 0
-  if user_signed_in?
-    @followed = @project.project_users.pluck(:user_id).include? current_user.id
-    @current_user_id = current_user.id
-    @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-  end
-  @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
-  @doing_tasks = @project.tasks.where(state: "doing").all
-  @suggested_tasks = @project.tasks.where(state: "suggested_task").all
-  @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-  @done_tasks = @project.tasks.where(state: "done").all
-  respond_to :js
-end
 
 
   def autocomplete_user_search
@@ -144,10 +127,7 @@ end
     if user_signed_in?
       @current_user_id = current_user.id
     end
-    @task=Task.find(1);
-    @task_comments=@task.task_comments
-    @task_attachment=TaskAttachment.new
-    @task_attachments=@task.task_attachments
+
     @followed = false
     @rate = 0
     if user_signed_in?
