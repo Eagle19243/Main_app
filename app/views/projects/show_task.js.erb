@@ -1,0 +1,160 @@
+$("#product-modal").html("<%= escape_javascript(render :partial => 'task_details') %>")
+$("#myModal").css("display","block");
+$("#close").click(function(){
+  $("#myModal").hide();
+});
+$('a[name=delete_attachment]').click(function() {
+  //alert($(this).attr('id'));
+  var id= $(this).attr('id')
+  $.ajax({
+    url: "/task_attachments/destroy_attachment",
+    type: "post", //send it through get method
+    data:{id:id},
+    success: function(response) {
+      if( response== true )
+      {
+        alert('Successfully destroy ');
+        location.reload();}
+      else
+      {
+        alert('You are not authorized  to remove');
+      }
+    },
+    error: function(xhr) {
+      alert('You are not authorized  to remove');
+    }
+  });
+});
+$('input[id^=file]').hide();
+$('.fa-paperclip, .attachment').click(function () {
+  console.log(this);
+  $(this).closest('form').find('input[id^=file]').click();
+})
+  // Get the modal
+  var modalinvite = document.getElementById('InviteModel');
+
+  // Get the button that opens the modal
+  var btninvite = document.getElementById("invbtn");
+
+  // Get the <span> element that closes the modal
+  var spaninvite = document.getElementById("inviteclose");
+
+  // When the user clicks the button, open the modal
+  btninvite.onclick = function() {
+      modalinvite.style.display = "block";
+      }
+
+  // When the user clicks on <span> (x), close the modal
+    spaninvite.onclick = function() {
+        modalinvite.style.display = "none";
+        }
+
+
+
+  // Get the modal
+  var modalshare = document.getElementById('share');
+
+  // Get the button that opens the modal
+  var btnshare = document.getElementById("sharebtn");
+
+  // Get the <span> element that closes the modal
+  var spanshare = document.getElementById("shareclose");
+
+  // When the user clicks the button, open the modal
+  btnshare.onclick = function() {
+      modalshare.style.display = "block";
+      }
+
+  // When the user clicks on <span> (x), close the modal
+    spanshare.onclick = function() {
+        modalshare.style.display = "none";
+        }
+
+    // When the user clicks anywhere outside of the modal, close it
+
+
+  // Get the modal
+  var modalteam = document.getElementById('team');
+
+  // Get the button that opens the modal
+  var btnteam = document.getElementById("teambtn");
+
+  // Get the <span> element that closes the modal
+  var spanteam = document.getElementById("teamclose");
+
+  // When the user clicks the button, open the modal
+  btnteam.onclick = function() {
+      modalteam.style.display = "block";
+      }
+
+  // When the user clicks on <span> (x), close the modal
+    spanteam.onclick = function() {
+        modalteam.style.display = "none";
+        }
+
+    // When the user clicks anywhere outside of the modal, close it
+
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementById("myModalclose");
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+
+
+// Get the modal
+var modal2 = document.getElementById('myModal2');
+
+// Get the button that opens the modal
+var btn2 = document.getElementById("myBtn2");
+
+// Get the <span> element that closes the modal
+var span2 = document.getElementById("myModal2close");
+
+// When the user clicks on the button, open the modal
+btn2.onclick = function() {
+  modal2.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span2.onclick = function() {
+  modal2.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close i
+
+
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+  if (event.target == modalinvite) {
+    modalinvite.style.display = "none";
+  }
+  if (event.target == modalshare) {
+    modalshare.style.display = "none";
+  }
+  if (event.target == modalteam) {
+    modalteam.style.display = "none";
+  }
+  if (event.target == modal2) {
+    modal2.style.display = "none";
+  }
+}
