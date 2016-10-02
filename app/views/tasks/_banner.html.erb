@@ -1,7 +1,7 @@
 <section class="welcome-banner">
   <div class="middle-sec">
     <!--first row-->
-    <% @projec_conut= @project.tasks.count %>
+    <% @projec_conut=  if @project.tasks.count==0 then 1 else @project.tasks.count end%>
 
     <div class="row">
       <center>
@@ -29,7 +29,7 @@
       <center>
         <table>
           <tr>
-            <% @projec_conut= @project.tasks.count rescue 0 %>
+
             <th><%= (@sourcing_tasks.count / @projec_conut )*100  %> %</th>
             <th><%= @done_tasks.count.to_s + "/" + @projec_conut.to_s  %></th>
             <% @particpent=0 %>
