@@ -173,27 +173,23 @@ $( document ).ready(function() {
       type: "POST", //send it through get method
       data:valuesToSubmit,
       dataType: "JSON",
-      success: function(json) {
-        console.log("success", json);
+    }).always(function(response){
+      debugger;
+
         $('#project-status').html("");
         $('#project-status').show();
-        $('#project-status').html(json);
-        return false;
-      },
-      error: function(xhr) {
-        $('#project-status').html("");
-        $('#project-status').show();
-        $('#project-status').html('Project has been created Successsfully');
-        ////    Close previous popup
-        var close_new_projecT_popup = document.getElementById('start-new-project-popup');
-        close_new_projecT_popup.style.display = "none";
+        $('#project-status').html(response.responseText);
+      if (response.status == 200 ){
+        $('#project-status').html(response.responseText + ". Redirecting  ...");
+        setTimeout(
+            function()
+            {
+              //do something special
+            }, 4000);
+        window.location.href = "/projects/"+response.id+"/taskstab";
 
-
-        var modalteam = document.getElementById('social-invite-popup');
-        modalteam.style.display = "block";
-
-        return false;
       }
+      console.log(response);
 
     });
 
