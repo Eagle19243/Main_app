@@ -202,10 +202,10 @@ class ProjectsController < ApplicationController
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project request was sent.' }
-        format.json { render :show, status: :created, location: @project }
+        format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end
     end
   end

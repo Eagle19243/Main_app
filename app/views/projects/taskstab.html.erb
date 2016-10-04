@@ -1,11 +1,5 @@
-<!doctype html>
-<html class="no-js" lang="en" dir="ltr">
-<!--Front-end Developed by DulanUX |2016| dulanux@gmail.com -->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>We Serve</title>
+
+
   <link rel="stylesheet" href="/static/task_show_page/css/foundation.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/font-awesome/css/font-awesome.min.css">
@@ -18,19 +12,29 @@
   <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
   <%= stylesheet_link_tag 'social-share' %>
   <%= javascript_include_tag 'social-share' %>
-</head>
-<body>
+  <style>
+    #loading-mask1 {
+    background-color: white;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    margin-top:50%;
+    width: 100%;
+    z-index: 9999;
+
+
+
+
+    }</style>
+<div id="loading-mask1" align="center">
+<h4>Loading...</h4>
+
+<%= image_tag("hourglass.gif")%>
+  </div>
+  <script>
+
+    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }</script>
 <%# Rails flash messages styled for Zurb Foundation %>
-<div>
-  <% flash.each do |name, msg| %>
-      <% if msg.is_a?(String) %>
-          <div data-alert class="alert-box round <%= name.to_s == 'notice' ? 'success' : 'alert' %>">
-            <%= content_tag :div, msg %>
-            <a href="#" class="close">&times;</a>
-          </div>
-      <% end %>
-  <% end %>
-</div>
 
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
@@ -59,12 +63,8 @@
 
 <div id="product-modal"></div>
 
-
-
-
 <!-- Banner -->
 <%= render 'tasks/banner' %>
-
 
 <!-- Tab section -->
 <section class="tabs">
@@ -1060,10 +1060,87 @@
   </div>
 </section>
 
-
 </div>
 
+  <div id="Project-Invite-Model" class="modal">
 
+    <!-- Modal content -->
+    <div class="modal-content2 yes">
+      <b> <span id="inviteclose" class="close">×</span></b>
+      <div class="fund-do">
+        <div class="row">
+          <center><h4>Invite People To Participate</h4></center>
+          <!--<center><h6>Type in the e-mail address of the person you like to invite</h6></center>-->
+          <div class="large-1 medium-1 small-0 columns"></div>
+          <%= form_tag(:controller => "tasks", :action => "send_email") do %>
+
+              <div class="large-10 medium-10 small-12 columns cold">
+                <div class="large-8 medium-12 small-12 columns cold">
+                  <input type="hidden" name="task_id" value="<%=@project.id rescue nil%>">
+
+                  <input type="email" name="email" placeholder="E-mail address" class="add-email">
+                </div>
+                <div class="large-4 medium-12 small-12 columns cold">
+                  <button lass="button round expand modal-btn1 btn-add"  >Add / Invite</button>
+                </div>
+
+                <div class="override">
+                  <h2 class="background"><span>OR</span></h2>
+                </div>
+
+                <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
+                  <!-- Facebook Button Start //-->
+                  <ul>
+                    <li>
+                      <div class="facebook-wrapper" >
+                        <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                          <i class="fa fa-facebook"></i>
+                          <span>Add from Facebook rc</span>
+                        </a>
+                      </div>
+                    </li>
+                    <!-- Facebook Button End //-->
+
+
+
+                    <!-- Linkedin Button Start //-->
+                    <li>
+                      <div class="twitter-wrapper">
+                        <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                          <i class="fa fa-twitter"></i>
+                          <span>Add from twitter</span>
+                        </a>
+                      </div>
+                    </li>
+                    <!-- Linkedin Button End //-->
+
+                    <!-- Pinterest Button Start //-->
+                    <li>
+                      <div class="pinterest-wrapper">
+                        <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                          <i class="fa fa-google-plus"></i>
+                          <span>Add from Google Plus</span>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="row">
+                    <h2 class="background"><span>-</span></h2>
+                    <b>URL: </b><span id="project-url"></span>
+                </div>
+                </div>
+
+
+
+              </div>
+          <%end %>
+          <div class="large-1 medium-1 small-0 columns"></div>
+        </div> <!--row ends -->
+
+      </div> <!-- task details ends -->
+    </div>
+
+  </div>
 
 <div class="md-modal md-effect-1" id="modal-1">
   <div class="md-content">
@@ -1164,9 +1241,10 @@
     <div class="clear"></div>
   </div>
 </div>
+
+
+
 <div class="md-overlay"></div><!-- the overlay element -->
-
-
 <script src="/static/task_show_page/js/vendor/jquery.js"></script>
 <script src="/static/task_show_page/js/foundation.min.js"></script>
 <script src="/static/task_show_page/js/custom.js"></script>
@@ -1179,6 +1257,18 @@
 
 
   $(document).ready(function(){
+    $('#project-url').html(window.location.href);
+    var modalteam = document.getElementById('Project-Invite-Model');
+    modalteam.style.display = "block";
+
+
+    // Get the <span> element that closes the modal
+    var project_span_team= document.getElementById("inviteclose");
+
+    // When the user clicks on <span> (x), close the modal
+    project_span_team.onclick = function() {
+      modalteam.style.display = "none";
+    }
 
 
     $( ".dragbox" ).sortable({
@@ -1262,8 +1352,3 @@
 
   });
 </script>
-
-
-
-</body>
-</html>

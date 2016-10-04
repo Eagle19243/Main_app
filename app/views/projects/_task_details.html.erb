@@ -176,7 +176,7 @@
             <div class="fund">
               <center>
                 <% unless  @task.suggested_task? %>
-                    <button><%= link_to "Fund", new_donation_path(task_id: @task.id) ,{:style=> "color:white"}%></button>
+                    <%= link_to  new_donation_path(task_id: @task.id) ,{:style=> "color:white"} do %> <button> Fund</button><%end%>
                     <button id="myBtn2" >DO</button>
                 <% else%>
                     <button> This is Sugggested Task and  Waiting For Admin Approval  </button>

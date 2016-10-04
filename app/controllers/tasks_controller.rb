@@ -29,37 +29,9 @@ end
   layout false, only: [:show]
   before_action :authenticate_user! ,only: [:send_email, :create,:new , :edit, :destroy, :accept, :reject, :doing, :reviewing,:completed]
 
-  # GET /tasks/1
-  # GET /tasks/1.json
   def show
-    # @comments = @task.task_comments.all
-    # @assignment = Assignment.new
-    # @task_comments = @task.task_comments.all
-    # #@assignment = Assignment.new
-    #
-    # @task=Task.find(params[:id]) rescue (redirect_to  '/')
-    # @project=@task.project
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @current_user_id = 0
-    # if user_signed_in?
-    #   @current_user_id = current_user.id
-    # end
-    # @followed = false
-    # @rate = 0
-    # if user_signed_in?
-    #   @followed = @project.project_users.pluck(:user_id).include? current_user.id
-    #   @current_user_id = current_user.id
-    #   @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-    # end
-    # @task_attachment=TaskAttachment.new
-    # @task_attachments=TaskAttachment.where(task_id: @task.id) rescue nil
-    # @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
-    # @doing_tasks = @project.tasks.where(state: "doing").all
-    # @suggested_tasks = @project.tasks.where(state: "suggested_task").all
-    # @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    # @done_tasks = @project.tasks.where(state: "done").all
-    taskstab_project_path(@task.project.id)
+
+    redirect_to taskstab_project_path(@task.project.id)
 
   end
 
@@ -69,13 +41,10 @@ end
     @task =  @project.tasks.build
   end
 
-  # GET /tasks/1/edit
   def edit
     @project = Task.find(params[:id]).project
   end
 
-  # POST /tasks
-  # POST /tasks.json
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
@@ -99,8 +68,6 @@ end
     end
   end
 
-  # PATCH/PUT /tasks/1
-  # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
 
@@ -118,8 +85,6 @@ end
 
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
     @task.destroy
     respond_to do |format|
@@ -199,13 +164,14 @@ end
       redirect_to '/'
     end
   end
+
   def validate_user
     unless  current_user.id == @task.project.user_id
       flash[:error] = "You are Not authorized  to do this operation "
       redirect_to   taskstab_project_path(@task.project_id)
     end
   end
-  # Never trust parameters from the scary internet, only allow the white list through.
+
   def task_params
     params.require(:task).permit(:references, :deadline, :target_number_of_participants, :project_id, :short_description, :number_of_participants, :proof_of_execution, :title, :description, :budget, :user_id, :condition_of_execution, :fileone, :filetwo, :filethree, :filefour, :filefive)
   end
