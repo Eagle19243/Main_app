@@ -15,25 +15,27 @@
   <style>
     #loading-mask1 {
     background-color: white;
+
     height: 100%;
     left: 0;
     position: fixed;
-    margin-top:50%;
+    margin-top:0;
     width: 100%;
     z-index: 9999;
-
-
-
+     // opacity: 0.5;
 
     }</style>
-<div id="loading-mask1" align="center">
-<h4>Loading...</h4>
+<div id="loading-mask1" align="center" >
+<h4 style="margin-top: 15%;">Loading...</h4>
 
-<%= image_tag("hourglass.gif")%>
+<%= image_tag("hourglass.gif") %>
   </div>
-  <script>
+  <!--<script>-->
 
-    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }</script>
+//    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }
+//
+//
+  <!--</script>-->
 <%# Rails flash messages styled for Zurb Foundation %>
 
 <nav class="top-bar" data-topbar role="navigation">
@@ -796,7 +798,7 @@
             <div class="dragbox ui-sortable">
               <% @sourcing_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -860,7 +862,7 @@
 
               <% @doing_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -927,7 +929,7 @@
               <!-- repeating member task box -->
               <% @reviewing_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -996,7 +998,7 @@
             <div class="dragbox ui-sortable">
               <% @done_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -1249,6 +1251,8 @@
 <script src="/static/task_show_page/js/foundation.min.js"></script>
 <script src="/static/task_show_page/js/custom.js"></script>
 <script>
+  document.getElementById("loading-mask1").style.display = "none";
+
   $(document).foundation();
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -1257,6 +1261,10 @@
 
 
   $(document).ready(function(){
+    $('a[name=show-task-link]').click(function(){
+      $("#loading-mask1").show();
+    });
+
     $('#project-url').html(window.location.href);
     var modalteam = document.getElementById('Project-Invite-Model');
     modalteam.style.display = "block";

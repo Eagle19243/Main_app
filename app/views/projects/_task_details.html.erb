@@ -277,35 +277,11 @@
         </div>
         <div class="large-5 medium-5 small-12 columns">
           <button class="button round expand modal-btn2" id="paid" onclick="setpaid()">Get compensation to do this task</button>
-          <p>Your individual compensation for this task will be <strong>$200</strong> divided by number of compensated teammates.</p>
+          <p>Your individual compensation for this task will be <strong>$<%= @task.budget rescue 0 %></strong> divided by number of compensated teammates.</p>
         </div>
-        <script>
-          function setpaid() {
-            document.getElementById("do_request_free").value= "false";
-          }
-          function setfree() {
-            document.getElementById("do_request_free").value= "true";
-          }
-        </script>
         <div class="large-1 medium-1 small-0 columns"></div>
       </div> <!--row ends -->
-      <div class="row">
-        <div class="post-comment columns">
 
-          <%= form_for @do_request=DoRequest.new, method: :post do |form| %>
-
-              <%= form.hidden_field :task_id, value: @task.id %>
-              <%= form.text_area :application %>
-              <%= form.hidden_field :free, value: true %>
-              <img src="images/profile-image.jpg" id="cover_letter_img"  >
-              <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
-          <% end %>
-          <!--<input type="file" name="file1" id="file1" />-->
-
-          <!--<a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>-->
-          </form>
-        </div>
-      </div><!--row ends -->
       <div class="large-1 medium-1 small-0 columns"></div>
 
     </div>
@@ -417,6 +393,9 @@
   #share {
     z-index:2 ;
   }
+  #popup-for-free-paid{
+    z-index:4 ;
+  }
 
   .portlet-placeholder {
     border: 1px dotted black;
@@ -451,4 +430,38 @@
 </style>
 
 
+<div id="popup-for-free-paid" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content2">
+    <b><span id="popup-for-free-paidclose" class="close">x</span></b>
+
+    <div class="fund-do">
+      <div class="row">
+        <center><h4 id="cover-leter-header-text">Here goes the title of this task</h4></center>
+
+
+        <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!--row ends -->
+      <div class="row">
+        <div class="post-comment columns">
+        <p id="Do-request-form-response" style="color: red"></p>
+          <%= form_for @do_request=DoRequest.new, :remote => true,html: { id: 'Do-request-form', multipart: true } ,method: :post do |form| %>
+
+              <%= form.hidden_field :task_id, value: @task.id %>
+              <%= form.text_area :application %>
+              <%= form.hidden_field :free, value: true %>
+              <img src="images/profile-image.jpg" id="cover_letter_img"  >
+              <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
+          <% end %>
+          <
+          </form>
+        </div>
+      </div><!--row ends -->
+      <div class="large-1 medium-1 small-0 columns"></div>
+
+    </div>
+  </div> <!-- task details ends -->
+
+</div>
 
