@@ -10,6 +10,10 @@
     <div class="modal-body">
       <div id="project-status" class="alert alert-danger">
       </div>
+
+      <div id="project-success" style="display: none">
+        <%= image_tag("loading.gif", :alt => "rss feed") %>
+      </div>
       <%= simple_form_for(Project.new ,html: { id: 'project-form', multipart: true })do |f| %>
           <%= f.error_notification %>
 
@@ -29,8 +33,11 @@
           </div>
           <div class="modal-footer">
             <div class="form-actions" style="float: right; margin-right: 1% ">
-              <%= f.button :submit, class: "btn-lg radius" %>
+              <%= f.button :submit, class: "btn-lg radius", id:'project-form-id' %>
             </div>
+
+
+
           </div>
       <% end %>
 
@@ -50,6 +57,7 @@
     <div class="modal-body">
       <div id="project-status" class="alert alert-danger">
       </div>
+
 
 
     </div>
@@ -116,29 +124,42 @@
 
     $('html body').css({'font-size':'16px !important'});
     $('#project-status').hide();
+    $('#project-success').hide();
+
 
     $('#project-form').submit(function() {
+      $("#project-form-id").attr("disabled", true);
+
       $('#project-status').html('');
       $('#project-status').hide();
+      $('#project-success').show();
 
       var valuesToSubmit = $(this).serialize();
+      debugger
       $.ajax({
         url:  $(this).attr('action'),
         type: "POST", //send it through get method
         data:valuesToSubmit,
         dataType: "JSON",
       }).always(function(response){
-        debugger;
 
         $('#project-status').html("");
+        $('#project-success').hide();
+        $("#project-form-id").attr("disabled", false);
+
         $('#project-status').show();
         $('#project-status').html(response.responseText);
+
+
         if (response.status == 200 ){
+
           $('#project-status').html(response.responseText + ". Redirecting  ...");
+          $('#project-success').show();
+
           setTimeout(
               function()
               {
-                //do something special
+
               }, 4000);
           window.location.href = "/projects/"+response.id+"/taskstab";
 

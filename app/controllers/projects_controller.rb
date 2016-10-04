@@ -205,7 +205,7 @@ class ProjectsController < ApplicationController
         format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end
     end
   end
