@@ -445,7 +445,7 @@
       </div> <!--row ends -->
       <div class="row">
         <div class="post-comment columns">
-        <p id="Do-request-form-response"> </p>
+        <p id="Do-request-form-response" style="color: red"></p>
           <%= form_for @do_request=DoRequest.new, :remote => true,html: { id: 'Do-request-form', multipart: true } ,method: :post do |form| %>
 
               <%= form.hidden_field :task_id, value: @task.id %>

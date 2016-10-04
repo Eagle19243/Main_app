@@ -15,12 +15,14 @@
   <style>
     #loading-mask1 {
     background-color: white;
+
     height: 100%;
     left: 0;
     position: fixed;
     margin-top:0;
     width: 100%;
     z-index: 9999;
+     // opacity: 0.5;
 
     }</style>
 <div id="loading-mask1" align="center" >
@@ -28,12 +30,12 @@
 
 <%= image_tag("hourglass.gif") %>
   </div>
-  <script>
+  <!--<script>-->
 
-    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }
-
-
-  </script>
+//    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }
+//
+//
+  <!--</script>-->
 <%# Rails flash messages styled for Zurb Foundation %>
 
 <nav class="top-bar" data-topbar role="navigation">
@@ -1249,6 +1251,8 @@
 <script src="/static/task_show_page/js/foundation.min.js"></script>
 <script src="/static/task_show_page/js/custom.js"></script>
 <script>
+  document.getElementById("loading-mask1").style.display = "none";
+
   $(document).foundation();
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

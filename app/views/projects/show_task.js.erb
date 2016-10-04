@@ -3,9 +3,9 @@ $("#myModal").css("display","block");
 $("#close").click(function(){
   $("#myModal").hide();
 });
-//$( "form" ).submit(function( ) {
-//  $('#ajax_output').html("loading...")
-//});
+$( "Do-request-form" ).submit(function( ) {
+  $('#Do-request-form-response').html(" Requesting ...")
+});
 $("#loading-mask1").hide();
 $('a[name=delete_attachment]').click(function() {
   //alert($(this).attr('id'));
