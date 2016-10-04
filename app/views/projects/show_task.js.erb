@@ -3,6 +3,10 @@ $("#myModal").css("display","block");
 $("#close").click(function(){
   $("#myModal").hide();
 });
+//$( "form" ).submit(function( ) {
+//  $('#ajax_output').html("loading...")
+//});
+$("#loading-mask1").hide();
 $('a[name=delete_attachment]').click(function() {
   //alert($(this).attr('id'));
   var id= $(this).attr('id')
@@ -137,7 +141,9 @@ span2.onclick = function() {
 }
 
 // When the user clicks anywhere outside of the modal, close i
-
+document.getElementById("popup-for-free-paidclose").onclick = function() {
+  $("#popup-for-free-paid").hide();
+}
 
 
 // When the user clicks anywhere outside of the modal, close it
@@ -158,3 +164,31 @@ window.onclick = function(event) {
     modal2.style.display = "none";
   }
 }
+
+
+
+  function setpaid() {
+    debugger
+    //$("# popup-for-free-paidclose")
+    $("#cover-leter-header-text").html("");
+    $("#cover-leter-header-text").html("You will do this task for Compensation");
+
+    document.getElementById("do_request_free").value= "false";
+    $("#popup-for-free-paid").show();
+
+   // x.style.display = "block";
+
+
+  }
+  function setfree() {
+    debugger
+    $("#cover-leter-header-text").html("");
+    document.getElementById("do_request_free").value= "true";
+    $("#cover-leter-header-text").html("You will do this task for FREE");
+    $("#popup-for-free-paid").show();
+
+    //x=$("#popup-for-free-paid");
+
+    //x.style.display = "block";
+
+  }
