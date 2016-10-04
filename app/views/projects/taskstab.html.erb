@@ -33,7 +33,24 @@
   </div>
   <script>
 
-    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }</script>
+    window.onload = function() {
+      debugger
+      $('#project-url').html(window.location.href);
+      var modalteam = document.getElementById('Project-Invite-Model');
+      modalteam.style.display = "block";
+
+
+      // Get the <span> element that closes the modal
+      var project_span_team = document.getElementById("inviteclose");
+
+      // When the user clicks on <span> (x), close the modal
+      project_span_team.onclick = function () {
+        modalteam.style.display = "none";
+      }
+
+      document.getElementById("loading-mask1").style.display = "none";
+    }
+  </script>
 <%# Rails flash messages styled for Zurb Foundation %>
 
 <nav class="top-bar" data-topbar role="navigation">
@@ -1084,6 +1101,37 @@
                   <button lass="button round expand modal-btn1 btn-add"  >Add / Invite</button>
                 </div>
 
+                <div class="row" style="text-align: initial; margin-left: 3.2%">
+                  <div class="contact-importers">
+          <span>Import your contacts from:
+            <span class="contact-importer">
+               <span class="loading-trigger" data-source="gmail" style="margin-left:1%">
+
+                <%=  image_tag("gmail.png", :alt => "Image Description", :class => "css") %>
+                 <a href="#" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
+               </span>
+            </span>
+
+            <span class="mini-divider"></span>
+               <span class="contact-importer">
+                 <span class="loading-trigger" data-source="yahoo" style="margin-left:1%">
+                                    <%= image_tag("yahoo.png" ,:class => "img_preview") %>
+
+                   <a href="#/" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
+                </span>
+               </span>
+            <span class="mini-divider"></span>
+            <span class="contact-importer">
+                <span class="loading-trigger" data-source="windowslive" style="margin-left:1%">
+                                   <%= image_tag("outlook.png" ,:class => "img_preview") %>
+
+                  <a href="#/" class="loading-indicator email-import-btn windowslive-icon">Outlook Mail</a>
+                </span>
+            </span>
+          </span>
+                  </div>
+                </div>
+
                 <div class="override">
                   <h2 class="background"><span>OR</span></h2>
                 </div>
@@ -1257,18 +1305,18 @@
 
 
   $(document).ready(function(){
-    $('#project-url').html(window.location.href);
-    var modalteam = document.getElementById('Project-Invite-Model');
-    modalteam.style.display = "block";
-
-
-    // Get the <span> element that closes the modal
-    var project_span_team= document.getElementById("inviteclose");
-
-    // When the user clicks on <span> (x), close the modal
-    project_span_team.onclick = function() {
-      modalteam.style.display = "none";
-    }
+//    $('#project-url').html(window.location.href);
+//    var modalteam = document.getElementById('Project-Invite-Model');
+//    modalteam.style.display = "block";
+//
+//
+//    // Get the <span> element that closes the modal
+//    var project_span_team= document.getElementById("inviteclose");
+//
+//    // When the user clicks on <span> (x), close the modal
+//    project_span_team.onclick = function() {
+//      modalteam.style.display = "none";
+//    }
 
 
     $( ".dragbox" ).sortable({
