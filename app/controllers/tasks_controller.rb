@@ -59,7 +59,7 @@ end
     # @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     # @reviewing_tasks = @project.tasks.where(state: "reviewing").all
     # @done_tasks = @project.tasks.where(state: "done").all
-    taskstab_project_path(@task.project.id)
+   redirect_to taskstab_project_path(@task.project.id)
 
   end
 
