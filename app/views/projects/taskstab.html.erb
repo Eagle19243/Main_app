@@ -1,11 +1,5 @@
-<!doctype html>
-<html class="no-js" lang="en" dir="ltr">
-<!--Front-end Developed by DulanUX |2016| dulanux@gmail.com -->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>We Serve</title>
+
+
   <link rel="stylesheet" href="/static/task_show_page/css/foundation.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/font-awesome/css/font-awesome.min.css">
@@ -18,19 +12,29 @@
   <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
   <%= stylesheet_link_tag 'social-share' %>
   <%= javascript_include_tag 'social-share' %>
-</head>
-<body>
+  <style>
+    #loading-mask1 {
+    background-color: white;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    margin-top:50%;
+    width: 100%;
+    z-index: 9999;
+
+
+
+
+    }</style>
+<div id="loading-mask1" align="center">
+<h4>Loading...</h4>
+
+<%= image_tag("hourglass.gif")%>
+  </div>
+  <script>
+
+    window.onload = function() { document.getElementById("loading-mask1").style.display = "none"; }</script>
 <%# Rails flash messages styled for Zurb Foundation %>
-<div>
-  <% flash.each do |name, msg| %>
-      <% if msg.is_a?(String) %>
-          <div data-alert class="alert-box round <%= name.to_s == 'notice' ? 'success' : 'alert' %>">
-            <%= content_tag :div, msg %>
-            <a href="#" class="close">&times;</a>
-          </div>
-      <% end %>
-  <% end %>
-</div>
 
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
@@ -1262,8 +1266,3 @@
 
   });
 </script>
-
-
-
-</body>
-</html>
