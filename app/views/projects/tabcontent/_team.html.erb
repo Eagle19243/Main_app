@@ -1,3 +1,7 @@
 <% @project.team.team_memberships.each do |team_membership| %>
   <%= render "projects/cards/team_member", team_membership: team_membership %>
 <% end %>
+
+<script>
+  $('.team-member .box').matchHeight();
+</script>
