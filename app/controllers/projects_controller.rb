@@ -16,6 +16,18 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
+  def contacts_callback
+    @contacts = request.env['omnicontacts.contacts']
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def failure
+    redirect_to root_path
+    flash[:error] = "Contacts are not Imported"
+  end
+
   # GET /projects
   # GET /projects.json
   def oldindex
@@ -46,7 +58,7 @@ class ProjectsController < ApplicationController
   end
   # GET /notifications
   def htmlindex
-  test  @projects = Project.all
+    @projects = Project.all
   end
 
   def user_search

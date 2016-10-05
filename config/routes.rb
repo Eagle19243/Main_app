@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   #
   # get 'task_attachments/create'
   #
+   get '/contacts/gmail'
+
   post 'tasks/send_email'
   get 'teams/remove_membership'
   get 'projects/show_task'
@@ -100,8 +102,10 @@ Rails.application.routes.draw do
   post '/projects/user_search', to: 'projects#user_search'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
+  get "/oauth2callback" => "projects#contacts_callback"
+   get '/contacts/failure' => "projects#failure"
 
-  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
+   devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
 
   resources :users
   resources :messages
