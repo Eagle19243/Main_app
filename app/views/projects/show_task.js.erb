@@ -3,9 +3,14 @@ $("#myModal").css("display","block");
 $("#close").click(function(){
   $("#myModal").hide();
 });
-$( "Do-request-form" ).submit(function( ) {
+$( "#Do-request-form" ).submit(function( ) {
   $('#Do-request-form-response').html(" Requesting ...")
 });
+$( "#comment-form" ).submit(function( ) {
+  debugger;
+  $('#task_comment_body').val('');
+});
+
 $("#loading-mask1").hide();
 $('a[name=delete_attachment]').click(function() {
   //alert($(this).attr('id'));

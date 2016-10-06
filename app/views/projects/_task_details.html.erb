@@ -103,30 +103,12 @@
 
               <hr>
 
-              <div class="comment">
-                <h3><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h3>
-                <% @task_comments.each do |comment| %>
-
-                    <div class="comment-view">
-                      <div class="profile-image">
-                        <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
-                        <%else%>
-                            <%= gravatar_for_user(comment.user) %>
-                        <%end%>
-                      </div>
-                      <div class="comment-text">
-                        <P><%= comment.body %></P>
-                        <h6><%=comment.created_at.to_formatted_s(:long) if !comment.created_at.nil?%></h6>
-                        <!--<a href="#">Reply</a>-->
-                      </div>
-                    </div>
-                    <hr>
-                <%end%>
-              </div>
+             <%= render ("projects/task_comment") %>
               <hr>
 
               <% if user_signed_in? %>
-                  <%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
+                  <h5>Write a Comment</h5>
+                  <%= form_for  [@task.project, @task, @task.task_comments.build],remote:true ,html: { id: 'comment-form'}  do |f| %>
                       <div class="post-comment">
 
                         <%= f.text_area :body%>
@@ -430,10 +412,10 @@
 </style>
 
 
-<div id="popup-for-free-paid" class="modal">
+<div id="popup-for-free-paid" class="modal" >
 
   <!-- Modal content -->
-  <div class="modal-content2">
+  <div class="modal-content2" style="width:60%">
     <b><span id="popup-for-free-paidclose" class="close">x</span></b>
 
     <div class="fund-do">
@@ -454,7 +436,6 @@
               <img src="images/profile-image.jpg" id="cover_letter_img"  >
               <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
           <% end %>
-          <
           </form>
         </div>
       </div><!--row ends -->
