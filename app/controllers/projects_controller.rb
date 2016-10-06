@@ -16,6 +16,20 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
+
+
+  def original_url
+    request.base_url + request.original_fullpath
+  end
+
+  def send_project_email
+    @array = params[:emails].split(',')
+    @array.each do|key|
+      InvitationMailer.invite_user(key , original_url , "project").deliver_now!
+    end
+    redirect_to root_path
+  end
+
   def contacts_callback
     @contacts = request.env['omnicontacts.contacts']
     respond_to do |format|

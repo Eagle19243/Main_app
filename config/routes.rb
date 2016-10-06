@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # get 'task_attachments/create'
   #
    get '/contacts/gmail'
-
+  post 'projects/send_project_email'
   post 'tasks/send_email'
   get 'teams/remove_membership'
   get 'projects/show_task'
