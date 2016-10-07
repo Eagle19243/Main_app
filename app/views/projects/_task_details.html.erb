@@ -95,7 +95,7 @@
               <!--<input type="text" value="<%#= @task.title %>" class="task-desc">​-->
 
 
-
+<div>
               <h3 class="task-proof" id="task-title"><%= @task.title %></h3>
               <a href="#" id="edit-title"> Edit</a>
               <%= form_for @task ,:remote => true ,html:{id: "task-update-title-form" , class: "hide-input"} do |f| %>
@@ -103,38 +103,47 @@
                   <button name="button" type="submit"  id="task-update-title">save</button> <button type="reset" id="cancel-title">X</button>
             <% end %>
 
+</div>
+              <hr>
+              <div>
 
               <p class="task-proof" id="task-description"><%= @task.description  %></p>
-              <a href="#" id="edit-title"> Edit</a>
+              <a href="#" id="edit-description"> Edit</a>
               <%= form_for @task ,:remote => true ,html:{id: "task-update-description-form",class: "hide-input"} do |f| %>
 
             <%= f.text_area :description , id:"input-task-description" %>
-                  <button name="button" type="submit"  id="task-update-description">save</button> <button type="reset" id="cancel-description">X</button>
+                  <button name="button" type="submit"  id="task-update-description">save</button>
+                    <button type="reset" id="cancel-description">X</button>
             <% end %>
 
-
+            </div>
+              <hr>            <div>
 
             <h4>Condition of Execution</h4>
 
             <p  class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
-              <a href="#" id="edit-title"> Edit</a>
+              <a href="#" id="edit-condition"> Edit</a>
               <%= form_for @task ,:remote => true ,html:{id: "task-update-condition-form" , class: "hide-input"} do |f| %>
 
             <%= f.text_area :condition_of_execution ,id:"input-task-condition"  %>
-                  <button name="button" type="submit"  id="task-update-condition">save</button> <button type="reset" id="cancel-condition">X</button>
+                  <button name="button" type="submit"  id="task-update-condition">save</button>
+                  <button type="reset" id="cancel-condition">X</button>
 
 
             <% end%>
+          </div><hr>
+        <div>
               <h4>Proof of Execution</h4>
               <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
-              <a href="#" id="edit-title"> Edit</a>
+              <a href="#" id="edit-proof"> Edit</a>
               <%= form_for @task ,:remote => true ,html:{id: "task-update-proof-form" , class: "hide-input" } do |f| %>
 
             <%= f.text_area :proof_of_execution  , id:"input-task-proof" %>
-                  <button name="button" type="submit"  id="task-update-proof">save</button> <button type="reset"  id="cancel-proof">X</button>
+                  <button name="button" type="submit"  id="task-update-proof">save</button>
+              <button type="reset"  id="cancel-proof">X</button>
 
             <% end%>
-
+        </div>
 
               <hr>
 
