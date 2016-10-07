@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927212850) do
+ActiveRecord::Schema.define(version: 20161007223508) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -138,11 +138,13 @@ ActiveRecord::Schema.define(version: 20160927212850) do
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
   create_table "notifications", force: :cascade do |t|
-    t.string   "type"
+    t.integer  "type",        default: 0
     t.string   "summary"
     t.text     "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.text     "view_params"
+    t.integer  "user_id"
   end
 
   create_table "plans", force: :cascade do |t|
