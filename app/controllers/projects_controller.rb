@@ -22,12 +22,23 @@ class ProjectsController < ApplicationController
     request.base_url + request.original_fullpath
   end
 
-  def send_project_email
+  def send_project_invite_email
+    session[:success_contacts] = nil
     @array = params[:emails].split(',')
     @array.each do|key|
-      InvitationMailer.invite_user(key , original_url , "project").deliver_now!
+      InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
     end
-    redirect_to root_path
+    session[:success_contacts] = "Contacts are Imported Successfully"
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+
+  end
+
+  def send_project_email
+    InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+    Project.find(params['project_id']).title , params['project_id']).deliver_later
+    flash[:success] = "Project link has been sent to #{params[:email]}"
+    redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
   end
 
   def contacts_callback
@@ -38,8 +49,10 @@ class ProjectsController < ApplicationController
   end
 
   def failure
-    redirect_to root_path
-    flash[:error] = "Contacts are not Imported"
+    session[:failure_contacts] = nil
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+    session[:failure_contacts] = "Contacts are not Imported"
   end
 
   # GET /projects
@@ -227,8 +240,10 @@ class ProjectsController < ApplicationController
         first_member.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
+
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
+        session[:project_id] = @project.id
       else
         format.html { render :new }
         format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }

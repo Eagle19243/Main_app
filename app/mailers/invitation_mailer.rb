@@ -5,4 +5,11 @@ class InvitationMailer < ApplicationMailer
     mail(to: email, subject: 'invitation For Task')
   end
 
+  def invite_user_for_project(email,user_name,title,project_id)
+    @title=title
+    @user_name =user_name
+    @orignal_url = 'http://weserve.io'
+    @URL = project_id
+    mail(to: email, subject: 'invitation For Project')
+    end
 end

@@ -7,22 +7,15 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("#gmail-invite-modal").modal('show');
-  });
-</script>
-
 <div id="gmail-invite-modal" class="modal">
   <div class="modal-dialog">
     <div class="modal-content" style="font-size: 20px">
       <div class="modal-header">
         <button type="button" class="close" aria-hidden="true">×</button>
-        <h4 class="modal-title">Invite 3 Friends To Upgrade Your Account</h4>
+        <h4 class="modal-title">Invite Your Friends To This Project <%= @contacts.count.to_s.concat('  Emails found') unless @contacts.blank? %></h4>
       </div>
-      <script>
-        var arr=[]
-      </script>
+      <script>var arr=[]</script>
+
       <% if !@contacts.nil?%>
           <% @contacts.each do |c|%>
               <% @contacts.count %>
@@ -33,6 +26,8 @@
           <%end%>
       <%end%>
 
+
+
       <script>
         $(document).ready(function() {
           document.getElementById("emails").value = arr;
@@ -42,17 +37,18 @@
               arr.push(ema)
               document.getElementById("emails").value = arr;
             }
-            else
-            {
+            else {
               var email = $(this).attr('value');
               var index = arr.indexOf(email)
               arr.splice(index, 1)
               document.getElementById("emails").value = arr;
             }
           });
+
+          $("#gmail-invite-modal").modal('show');
         });
       </script>
-      <%= form_tag  '/projects/send_project_email' do%>
+      <%= form_tag  '/projects/send_project_invite_email' do%>
           <%= hidden_field_tag 'emails' %>
           <%= submit_tag "Send Email", class: "btn-primary btn-block ripple-effect" %>
       <%end %>
