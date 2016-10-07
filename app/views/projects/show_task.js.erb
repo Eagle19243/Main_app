@@ -10,7 +10,7 @@ $( "#comment-form" ).submit(function( ) {
   debugger;
   $('#task_comment_body').val('');
 });
-
+$('.hide-input').hide()
 $("#loading-mask1").hide();
 $('a[name=delete_attachment]').click(function() {
   //alert($(this).attr('id'));
@@ -39,6 +39,79 @@ $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
 })
+
+$("#task-title" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-title-form").show();
+  $("#input-task-title").show();
+  $("#task-update-title").hide();
+  $("#task-update-title").next().hide();
+
+});
+$("#task-description" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-description-form").show();
+  $("#input-task-description").show();
+  $("#task-update-description").hide();
+  $("#task-update-description").next().hide();
+
+});
+$("#task-condition" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-condition-form").show();
+
+  $("#input-task-condition").show();
+  $("#task-update-condition").hide();
+  $("#task-update-condition").next().hide();
+
+});
+$("#task-proof" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-proof-form").show();
+
+  $("#input-task-proof").show();
+  $("#task-update-proof").hide();
+  $("#task-update-proof").next().hide();
+
+});
+
+$('#input-task-title').keypress(function (e) {
+  if (e.which == 13) {
+    debugger
+    //$('#task-update-form').submit();
+    $("#task-update-title").click();
+    $("#task-update-title-form").hide();
+    $("#task-title").show();
+  }
+});
+
+$('#input-task-description').keypress(function (e) {
+  if (e.which == 13) {
+
+    //$('#task-update-form').submit();
+    $("#task-update-description").click();
+    $("#task-update-description-form").hide();
+    $("#task-description").show();
+  }
+});
+$('#input-task-proof').keypress(function (e) {
+  if (e.which == 13) {
+
+    //$('#task-update-form').submit();
+    $("#task-update-proof").click();
+    $("task-update-proof-form").hide();
+    $("#task-proof").show();
+  }
+});
+$('#input-task-condition').keypress(function (e) {
+  if (e.which == 13) {
+    debugger
+    //$('#task-update-form').submit();
+    $("#task-update-condition").click();
+    $("#task-update-condition-form").hide();
+    $("#task-condition").show();
+  }
+});
   // Get the modal
   var modalinvite = document.getElementById('InviteModel');
 
