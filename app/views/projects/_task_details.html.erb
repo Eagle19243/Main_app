@@ -92,41 +92,71 @@
         <div class="large-8 medium-12 small-12 columns">
           <div class="task-details-left-side">
             <div class="task-desc">
-              <h3><%= @task.title %></h3>
-              <p><%= @task.description  %></p>
-              <h4>Condition of Execution</h4>
-              <p><%= @task.condition_of_execution %></p>
-              <h4>Proof of Execution</h4>
-              <p><%= @task.proof_of_execution %></p>
+              <!--<input type="text" value="<%#= @task.title %>" class="task-desc">​-->
 
-              <%= link_to 'Edit', edit_task_path(@task.id)%>
+
+<div>
+              <h3 class="task-proof" id="task-title"><%= @task.title %></h3>
+              <a href="#" id="edit-title"> Edit</a>
+              <%= form_for @task ,:remote => true ,html:{id: "task-update-title-form" , class: "hide-input"} do |f| %>
+              <%= f.text_field :title , id:"input-task-title"%>
+                  <button name="button" type="submit"  id="task-update-title">save</button> <button type="reset" id="cancel-title">X</button>
+            <% end %>
+
+</div>
+              <hr>
+              <div>
+
+                <h4 style=" display: inline-block;">Task Description</h4> <a href="#" id="edit-description"> Edit</a>
+
+              <p class="task-proof" id="task-description"><%= @task.description  %></p>
+
+              <%= form_for @task ,:remote => true ,html:{id: "task-update-description-form",class: "hide-input"} do |f| %>
+
+            <%= f.text_area :description , id:"input-task-description" %>
+                  <button name="button" type="submit"  id="task-update-description">save</button>
+                    <button type="reset" id="cancel-description">X</button>
+            <% end %>
+
+            </div>
+              <hr>            <div>
+
+            <h4 style=" display: inline-block;">Condition of Execution</h4>
+              <a href="#" id="edit-condition"> Edit</a>
+
+
+              <p  class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
+              <%= form_for @task ,:remote => true ,html:{id: "task-update-condition-form" , class: "hide-input"} do |f| %>
+
+            <%= f.text_area :condition_of_execution ,id:"input-task-condition"  %>
+                  <button name="button" type="submit"  id="task-update-condition">save</button>
+                  <button type="reset" id="cancel-condition">X</button>
+
+
+            <% end%>
+          </div><hr>
+        <div>
+              <h4 style=" display: inline-block;">Proof of Execution</h4>
+          <a href="#" id="edit-proof"> Edit</a>
+
+          <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
+              <%= form_for @task ,:remote => true ,html:{id: "task-update-proof-form" , class: "hide-input" } do |f| %>
+
+            <%= f.text_area :proof_of_execution  , id:"input-task-proof" %>
+                  <button name="button" type="submit"  id="task-update-proof">save</button>
+              <button type="reset"  id="cancel-proof">X</button>
+
+            <% end%>
+        </div>
 
               <hr>
 
-              <div class="comment">
-                <h3><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h3>
-                <% @task_comments.each do |comment| %>
-
-                    <div class="comment-view">
-                      <div class="profile-image">
-                        <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
-                        <%else%>
-                            <%= gravatar_for_user(comment.user) %>
-                        <%end%>
-                      </div>
-                      <div class="comment-text">
-                        <P><%= comment.body %></P>
-                        <h6><%=comment.created_at.to_formatted_s(:long) if !comment.created_at.nil?%></h6>
-                        <!--<a href="#">Reply</a>-->
-                      </div>
-                    </div>
-                    <hr>
-                <%end%>
-              </div>
+             <%= render ("projects/task_comment") %>
               <hr>
 
               <% if user_signed_in? %>
-                  <%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
+                  <h5>Write a Comment</h5>
+                  <%= form_for  [@task.project, @task, @task.task_comments.build],remote:true ,html: { id: 'comment-form'}  do |f| %>
                       <div class="post-comment">
 
                         <%= f.text_area :body%>
@@ -277,35 +307,11 @@
         </div>
         <div class="large-5 medium-5 small-12 columns">
           <button class="button round expand modal-btn2" id="paid" onclick="setpaid()">Get compensation to do this task</button>
-          <p>Your individual compensation for this task will be <strong>$200</strong> divided by number of compensated teammates.</p>
+          <p>Your individual compensation for this task will be <strong>$<%= @task.budget rescue 0 %></strong> divided by number of compensated teammates.</p>
         </div>
-        <script>
-          function setpaid() {
-            document.getElementById("do_request_free").value= "false";
-          }
-          function setfree() {
-            document.getElementById("do_request_free").value= "true";
-          }
-        </script>
         <div class="large-1 medium-1 small-0 columns"></div>
       </div> <!--row ends -->
-      <div class="row">
-        <div class="post-comment columns">
 
-          <%= form_for @do_request=DoRequest.new, method: :post do |form| %>
-
-              <%= form.hidden_field :task_id, value: @task.id %>
-              <%= form.text_area :application %>
-              <%= form.hidden_field :free, value: true %>
-              <img src="images/profile-image.jpg" id="cover_letter_img"  >
-              <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
-          <% end %>
-          <!--<input type="file" name="file1" id="file1" />-->
-
-          <!--<a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>-->
-          </form>
-        </div>
-      </div><!--row ends -->
       <div class="large-1 medium-1 small-0 columns"></div>
 
     </div>
@@ -417,6 +423,9 @@
   #share {
     z-index:2 ;
   }
+  #popup-for-free-paid{
+    z-index:4 ;
+  }
 
   .portlet-placeholder {
     border: 1px dotted black;
@@ -451,4 +460,50 @@
 </style>
 
 
+<div id="popup-for-free-paid" class="modal" >
 
+  <!-- Modal content -->
+  <div class="modal-content2" style="width:60%">
+    <b><span id="popup-for-free-paidclose" class="close">x</span></b>
+
+    <div class="fund-do">
+      <div class="row">
+        <center><h4 id="cover-leter-header-text">Here goes the title of this task</h4></center>
+
+
+        <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!--row ends -->
+      <div class="row">
+        <div class="post-comment columns">
+        <p id="Do-request-form-response" style="color: red"></p>
+          <%= form_for @do_request=DoRequest.new, :remote => true,html: { id: 'Do-request-form', multipart: true } ,method: :post do |form| %>
+
+              <%= form.hidden_field :task_id, value: @task.id %>
+              <%= form.text_area :application %>
+              <%= form.hidden_field :free, value: true %>
+              <img src="images/profile-image.jpg" id="cover_letter_img"  >
+              <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
+          <% end %>
+          </form>
+        </div>
+      </div><!--row ends -->
+      <div class="large-1 medium-1 small-0 columns"></div>
+
+    </div>
+  </div> <!-- task details ends -->
+
+</div>
+
+
+
+
+
+
+
+
+<!--<form id="Do-request-form" class="new_do_request"  action="/do_requests" accept-charset="UTF-8" data-remote="true" method="post">-->
+
+  <!--<input value="8" type="hidden" name="do_request[task_id]" id="do_request_task_id">-->
+  <!--<textarea name="do_request[application]" id="do_request_application"></textarea>-->
+  <!--<input value="true" type="hidden" name="do_request[free]" id="do_request_free">-->
+<!--</form>-->

@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
   end
   # GET /notifications
   def htmlindex
-  test  @projects = Project.all
+    @projects = Project.all
   end
 
   def user_search
