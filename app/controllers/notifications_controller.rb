@@ -1,10 +1,6 @@
 class NotificationsController < ApplicationController
-  before_action :set_notification, only: [:show, :edit, :update, :destroy]
+  before_action :set_notification, only: [:update, :destroy]
   before_action :authenticate_user!
-  layout false , only: [:index]
-  # GET /notifications
-  # GET /notifications.json
-
 
   def index
       @notifications = Notification.all
@@ -32,20 +28,6 @@ class NotificationsController < ApplicationController
       @tsk = Task.find(params["format"]) rescue nil
 
    end
-
-  # GET /notifications/1
-  # GET /notifications/1.json
-  def show
-  end
-
-  # GET /notifications/new
-  def new
-    @notification = Notification.new
-  end
-
-  # GET /notifications/1/edit
-  def edit
-  end
 
   # POST /notifications
   # POST /notifications.json

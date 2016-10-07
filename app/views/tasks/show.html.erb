@@ -141,8 +141,8 @@
       <div class="row">
         <center><h4>Teams</h4></center>
 
-        <% @project.team.team_members.each do |team_member| %>
-            <%= render "projects/cards/team_member", team_member: team_member %>
+        <% @project.team.team_memberships.each do |team_membership| %>
+          <%= render "projects/cards/team_member", team_membership: team_membership %>
         <% end %>
       </div> <!--row ends -->
 
@@ -1188,8 +1188,8 @@
       <section role="tabpanel" aria-hidden="true" class="content" id="panel2-4">
         <!-- one row of team members starts here -->
         <div class="row">
-          <% @project.team.team_members.each do |team_member| %>
-              <%= render "projects/cards/team_member", team_member: team_member %>
+          <% @project.team.team_memberships.each do |team_membership| %>
+            <%= render "projects/cards/team_member", team_membership: team_membership %>
           <% end %>
         </div>
         <!-- end of row-->
