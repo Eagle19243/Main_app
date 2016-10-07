@@ -107,8 +107,10 @@
               <hr>
               <div>
 
+                <h4 style=" display: inline-block;">Task Description</h4> <a href="#" id="edit-description"> Edit</a>
+
               <p class="task-proof" id="task-description"><%= @task.description  %></p>
-              <a href="#" id="edit-description"> Edit</a>
+
               <%= form_for @task ,:remote => true ,html:{id: "task-update-description-form",class: "hide-input"} do |f| %>
 
             <%= f.text_area :description , id:"input-task-description" %>
@@ -119,10 +121,11 @@
             </div>
               <hr>            <div>
 
-            <h4>Condition of Execution</h4>
-
-            <p  class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
+            <h4 style=" display: inline-block;">Condition of Execution</h4>
               <a href="#" id="edit-condition"> Edit</a>
+
+
+              <p  class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
               <%= form_for @task ,:remote => true ,html:{id: "task-update-condition-form" , class: "hide-input"} do |f| %>
 
             <%= f.text_area :condition_of_execution ,id:"input-task-condition"  %>
@@ -133,9 +136,10 @@
             <% end%>
           </div><hr>
         <div>
-              <h4>Proof of Execution</h4>
-              <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
-              <a href="#" id="edit-proof"> Edit</a>
+              <h4 style=" display: inline-block;">Proof of Execution</h4>
+          <a href="#" id="edit-proof"> Edit</a>
+
+          <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
               <%= form_for @task ,:remote => true ,html:{id: "task-update-proof-form" , class: "hide-input" } do |f| %>
 
             <%= f.text_area :proof_of_execution  , id:"input-task-proof" %>
