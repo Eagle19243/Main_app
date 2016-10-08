@@ -1,6 +1,8 @@
 workers Integer(ENV['WEB_CONCURRENCY'] || 2)
+
 min_threads_count = Integer(ENV['MIN_THREADS'] || 0)
 max_threads_count = Integer(ENV['MAX_THREADS'] || 16)
+
 threads min_threads_count, max_threads_count
 
 preload_app!
@@ -23,14 +25,14 @@ bind "unix://#{shared_dir}/sockets/puma.sock"
 # Puma Worker Killer - To kill processes if RAM too low
 
 before_fork do
-  # PumaWorkerKiller.config do |config|
-  #   config.ram           = 1024 # mb
-  #   config.frequency     = 5    # seconds
-  #   config.percent_usage = 0.85
-  #   config.rolling_restart_frequency = 8 * 3600 # 8 hours in seconds, or set to false
-  # end
-  # PumaWorkerKiller.ram = 1024
-  # PumaWorkerKiller.start
+  PumaWorkerKiller.config do |config|
+    config.ram           = 1024 # mb
+    config.frequency     = 5    # seconds
+    config.percent_usage = 0.85
+    config.rolling_restart_frequency = 8 * 3600 # 8 hours in seconds, or set to false
+  end
+  PumaWorkerKiller.ram = 1024
+  PumaWorkerKiller.start
 end
 
 
