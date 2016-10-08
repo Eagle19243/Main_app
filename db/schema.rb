@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923072152) do
+ActiveRecord::Schema.define(version: 20160928100735) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
@@ -22,8 +25,8 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at",      null: false
   end
 
-  add_index "activities", ["targetable_type", "targetable_id"], name: "index_activities_on_targetable_type_and_targetable_id"
-  add_index "activities", ["user_id"], name: "index_activities_on_user_id"
+  add_index "activities", ["targetable_type", "targetable_id"], name: "index_activities_on_targetable_type_and_targetable_id", using: :btree
+  add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -38,7 +41,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.integer  "project_id"
   end
 
-  add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id"
+  add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "title"
@@ -57,7 +60,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id"
+  add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id", using: :btree
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
@@ -76,7 +79,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at",       null: false
   end
 
-  add_index "discussions", ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id"
+  add_index "discussions", ["discussable_type", "discussable_id"], name: "index_discussions_on_discussable_type_and_discussable_id", using: :btree
 
   create_table "do_for_frees", force: :cascade do |t|
     t.integer  "user_id"
@@ -98,7 +101,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.integer  "project_id"
   end
 
-  add_index "do_requests", ["task_id", "user_id"], name: "index_do_requests_on_task_id_and_user_id"
+  add_index "do_requests", ["task_id", "user_id"], name: "index_do_requests_on_task_id_and_user_id", using: :btree
 
   create_table "donations", force: :cascade do |t|
     t.decimal  "amount"
@@ -124,6 +127,28 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.string   "pass_phrase"
   end
 
+  create_table "institution_users", force: :cascade do |t|
+    t.integer  "institution_id"
+    t.integer  "user_id"
+    t.string   "position"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "institution_users", ["institution_id"], name: "index_institution_users_on_institution_id", using: :btree
+  add_index "institution_users", ["user_id"], name: "index_institution_users_on_user_id", using: :btree
+
+  create_table "institutions", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "country"
+    t.string   "city"
+    t.string   "logo"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "url"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text     "body"
     t.integer  "conversation_id"
@@ -134,8 +159,8 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.string   "image"
   end
 
-  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
-  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.string   "type"
@@ -163,8 +188,8 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at",   null: false
   end
 
-  add_index "profile_comments", ["commenter_id"], name: "index_profile_comments_on_commenter_id"
-  add_index "profile_comments", ["receiver_id"], name: "index_profile_comments_on_receiver_id"
+  add_index "profile_comments", ["commenter_id"], name: "index_profile_comments_on_commenter_id", using: :btree
+  add_index "profile_comments", ["receiver_id"], name: "index_profile_comments_on_receiver_id", using: :btree
 
   create_table "proj_admins", force: :cascade do |t|
     t.integer  "user_id"
@@ -232,7 +257,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at",              null: false
   end
 
-  add_index "section_details", ["project_id"], name: "index_section_details_on_project_id"
+  add_index "section_details", ["project_id"], name: "index_section_details_on_project_id", using: :btree
 
   create_table "task_attachments", force: :cascade do |t|
     t.integer  "task_id"
@@ -280,11 +305,13 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.integer  "team_member_id", null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "task_id"
+    t.string   "state"
   end
 
-  add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true
-  add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id"
-  add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id"
+  add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true, using: :btree
+  add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id", using: :btree
+  add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "name"
@@ -295,7 +322,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.integer  "project_id"
   end
 
-  add_index "teams", ["project_id"], name: "index_teams_on_project_id"
+  add_index "teams", ["project_id"], name: "index_teams_on_project_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "",    null: false
@@ -327,14 +354,15 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.string   "facebook_url"
     t.string   "twitter_url"
     t.string   "linkedin_url"
-    t.string   "provider"
-    t.string   "uid"
     t.string   "chat_token"
     t.string   "guid"
+    t.string   "provider"
+    t.string   "uid"
+    t.integer  "test_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "wallet_addresses", force: :cascade do |t|
     t.string   "sender_address"
@@ -348,7 +376,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at",                     null: false
   end
 
-  add_index "wallet_addresses", ["task_id"], name: "index_wallet_addresses_on_task_id"
+  add_index "wallet_addresses", ["task_id"], name: "index_wallet_addresses_on_task_id", using: :btree
 
   create_table "wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
@@ -359,7 +387,7 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id"
+  add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
     t.string   "title"
@@ -381,4 +409,10 @@ ActiveRecord::Schema.define(version: 20160923072152) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "chat_rooms", "projects"
+  add_foreign_key "institution_users", "institutions"
+  add_foreign_key "institution_users", "users"
+  add_foreign_key "section_details", "projects"
+  add_foreign_key "wallet_addresses", "tasks"
+  add_foreign_key "wallet_transactions", "tasks"
 end

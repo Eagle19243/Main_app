@@ -25,14 +25,14 @@ bind "unix://#{shared_dir}/sockets/puma.sock"
 # Puma Worker Killer - To kill processes if RAM too low
 
 before_fork do
-  PumaWorkerKiller.config do |config|
-    config.ram           = 1024 # mb
-    config.frequency     = 5    # seconds
-    config.percent_usage = 0.85
-    config.rolling_restart_frequency = 8 * 3600 # 8 hours in seconds, or set to false
-  end
-  PumaWorkerKiller.ram = 1024
-  PumaWorkerKiller.start
+  # PumaWorkerKiller.config do |config|
+  #   config.ram           = 1024 # mb
+  #   config.frequency     = 5    # seconds
+  #   config.percent_usage = 0.85
+  #   config.rolling_restart_frequency = 8 * 3600 # 8 hours in seconds, or set to false
+  # end
+  # PumaWorkerKiller.ram = 1024
+  # PumaWorkerKiller.start
 end
 
 
