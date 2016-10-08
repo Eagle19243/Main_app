@@ -48,12 +48,12 @@
               <% @featured_projects.each do |project| %>
                   <span class="task-box small-11 medium-5 large-3 columns" style="float: left;">
                     <div class="img-res">
-                      <%= link_to taskstab_project_path(project) do%>
+                      <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
                         <%= image_tag(project.picture) %>
                       <% end %>
                     </div>
                     <p>
-                      <%= link_to project.title, taskstab_project_path(project)%>
+                      <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
                     </p>
                     <ul class="task-box-icons">
                       <li>

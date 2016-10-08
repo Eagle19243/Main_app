@@ -3,6 +3,14 @@ $("#myModal").css("display","block");
 $("#close").click(function(){
   $("#myModal").hide();
 });
+$( "#Do-request-form" ).submit(function( ) {
+  $('#Do-request-form-response').html(" Requesting ...")
+});
+$( "#comment-form" ).submit(function( ) {
+
+});
+$('.hide-input').hide()
+$("#loading-mask1").hide();
 $('a[name=delete_attachment]').click(function() {
   //alert($(this).attr('id'));
   var id= $(this).attr('id')
@@ -30,6 +38,193 @@ $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
 })
+
+$("#task-title" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-title-form").show();
+  $("#input-task-title").show();
+  $("#task-update-title").hide();
+  $("#task-update-title").next().hide();
+
+});
+$("#task-description" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-description-form").show();
+  $("#input-task-description").show();
+  $("#task-update-description").hide();
+  $("#task-update-description").next().hide();
+
+});
+$("#task-condition" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-condition-form").show();
+
+  $("#input-task-condition").show();
+  $("#task-update-condition").hide();
+  $("#task-update-condition").next().hide();
+
+});
+$("#task-proof" ).dblclick(function() {
+  $(this).hide();
+  $("#task-update-proof-form").show();
+
+  $("#input-task-proof").show();
+  $("#task-update-proof").hide();
+  $("#task-update-proof").next().hide();
+
+});
+
+$('#input-task-title').keypress(function (e) {
+  if (e.which == 13) {
+    debugger
+    //$('#task-update-form').submit();
+    $("#task-update-title").click();
+    $("#task-update-title-form").hide();
+    $("#task-title").show();
+  }
+});
+$('#input-task-description').keypress(function (e) {
+  if (e.which == 13) {
+
+    //$('#task-update-form').submit();
+    $("#task-update-description").click();
+    $("#task-update-description-form").hide();
+    $("#task-description").show();
+  }
+});
+$('#input-task-proof').keypress(function (e) {
+  if (e.which == 13) {
+
+    //$('#task-update-form').submit();
+    $("#task-update-proof").click();
+    $("#task-update-proof-form").hide();
+    $("#task-proof").show();
+  }
+});
+$('#input-task-condition').keypress(function (e) {
+  if (e.which == 13) {
+    debugger
+    //$('#task-update-form').submit();
+    $("#task-update-condition").click();
+    $("#task-update-condition-form").hide();
+    $("#task-condition").show();
+  }
+});
+
+
+$("#edit-title").click(function(){
+$(this).hide();
+  $("#task-update-title").show();
+  $('#input-task-title').show();
+  $("#task-update-title-form").show();
+  $("#task-title").show();
+  $("#cancel-title").show();
+
+});
+$("#edit-proof").click(function(){
+
+  $(this).hide();
+  $("#task-update-proof").show();
+  $('#input-task-proof').show();
+  $("#task-update-proof-form").show();
+  $("#task-proof").show();
+  $("#cancel-proof").show();
+
+});
+$("#edit-description").click(function(){
+  $(this).hide();
+  $("#task-update-description").show();
+  $('#input-task-description').show();
+  $("#task-update-description-form").show();
+  $("#task-description").show();
+  $("#cancel-description").show();
+});
+$("#edit-condition").click(function(){
+  $(this).hide();
+  $("#task-update-condition").show();
+  $('#input-task-condition').show();
+  $("#task-update-condition-form").show();
+  $("#task-condition").show();
+  $("#cancel-condition").show();
+
+
+});
+
+
+$("#cancel-title").click(function(){
+  $(this).hide();
+  $("#task-update-title").hide();
+  $('#input-task-title').hide();
+  $("#task-update-title-form").hide();
+  $("#task-title").show();
+  $('#edit-title').show();
+
+
+});
+$("#cancel-proof").click(function(){
+
+  $(this).hide();
+  $("#task-update-proof").hide();
+  $('#input-task-proof').hide();
+  $("#task-update-proof-form").hide();
+  $("#task-proof").show();
+  $("#edit-proof").show();
+});
+$("#cancel-description").click(function(){
+  $(this).hide();
+  $("#task-update-description").hide();
+  $('#input-task-description').hide();
+  $("#task-update-description-form").hide();
+  $("#task-description").show();
+  $("#edit-description").show();
+});
+$("#cancel-condition").click(function(){
+  $(this).hide();
+  $("#task-update-condition").hide();
+  $('#input-task-condition').hide();
+  $("#task-update-condition-form").hide();
+  $("#task-condition").show();
+  $("#edit-condition").show();
+});
+
+
+
+$("#task-update-title").click(function(){
+  $(this).hide();
+  $("#cancel-title").hide();
+  $('#input-task-title').hide();
+  $("#task-update-title-form").hide();
+  $("#task-title").show();
+  $('#edit-title').show();
+
+
+});
+$("#task-update-proof").click(function(){
+
+  $(this).hide();
+  $("#cancel-proof").hide();
+  $('#input-task-proof').hide();
+  $("#task-update-proof-form").hide();
+  $("#task-proof").show();
+  $("#edit-proof").show();
+});
+$("#task-update-description").click(function(){
+  $(this).hide();
+  $("#cancel-description").hide();
+  $('#input-task-description').hide();
+  $("#task-update-description-form").hide();
+  $("#task-description").show();
+  $("#edit-description").show();
+});
+$("#task-update-condition").click(function(){
+  $(this).hide();
+  $("#cancel-condition").hide();
+  $('#input-task-condition').hide();
+  $("#task-update-condition-form").hide();
+  $("#task-condition").show();
+  $("#edit-condition").show();
+});
+
   // Get the modal
   var modalinvite = document.getElementById('InviteModel');
 
@@ -137,7 +332,9 @@ span2.onclick = function() {
 }
 
 // When the user clicks anywhere outside of the modal, close i
-
+document.getElementById("popup-for-free-paidclose").onclick = function() {
+  $("#popup-for-free-paid").hide();
+}
 
 
 // When the user clicks anywhere outside of the modal, close it
@@ -158,3 +355,31 @@ window.onclick = function(event) {
     modal2.style.display = "none";
   }
 }
+
+
+
+  function setpaid() {
+    debugger
+    //$("# popup-for-free-paidclose")
+    $("#cover-leter-header-text").html("");
+    $("#cover-leter-header-text").html("You will do this task for Compensation");
+
+    document.getElementById("do_request_free").value= "false";
+    $("#popup-for-free-paid").show();
+
+   // x.style.display = "block";
+
+
+  }
+  function setfree() {
+    debugger
+    $("#cover-leter-header-text").html("");
+    document.getElementById("do_request_free").value= "true";
+    $("#cover-leter-header-text").html("You will do this task for FREE");
+    $("#popup-for-free-paid").show();
+
+    //x=$("#popup-for-free-paid");
+
+    //x.style.display = "block";
+
+  }

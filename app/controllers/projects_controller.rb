@@ -16,6 +16,52 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
+
+
+  def original_url
+    request.base_url + request.original_fullpath
+  end
+
+  def send_project_invite_email
+    session[:success_contacts] = nil
+    @array = params[:emails].split(',')
+    @array.each do|key|
+      InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
+    end
+    session[:success_contacts] = "Contacts are Imported Successfully"
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+
+  end
+
+  def send_project_email
+    unless params['email'].blank?
+      InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+                                                Project.find(params['project_id']).title , params['project_id']).deliver_later
+      flash[:success] = "Project link has been sent to #{params[:email]}"
+      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    else
+      flash[:success] = "Please provide receiver email."
+      session[:project_id] =  session[:idd]
+      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    end
+
+  end
+
+  def contacts_callback
+    @contacts = request.env['omnicontacts.contacts']
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def failure
+    session[:failure_contacts] = nil
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+    session[:failure_contacts] = "Contacts are not Imported"
+  end
+
   # GET /projects
   # GET /projects.json
   def oldindex
@@ -46,7 +92,7 @@ class ProjectsController < ApplicationController
   end
   # GET /notifications
   def htmlindex
-  test  @projects = Project.all
+    @projects = Project.all
   end
 
   def user_search
@@ -201,11 +247,13 @@ class ProjectsController < ApplicationController
         first_member.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
+
         format.html { redirect_to @project, notice: 'Project request was sent.' }
-        format.json { render :show, status: :created, location: @project }
+        format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
+        session[:project_id] = @project.id
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end
     end
   end

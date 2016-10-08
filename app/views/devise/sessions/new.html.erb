@@ -32,4 +32,10 @@
       <% end -%>
   <% end %>
 </div>
+  <h2 align="center">OR</h2>
+    <div style="text-align: center;padding-bottom: 30px ;margin-top: 20px">
+      <%= link_to image_tag("facebook.png"), user_omniauth_authorize_path(:facebook) %>
+      <%= link_to image_tag("signup-twitter.png"), user_omniauth_authorize_path(:twitter) %>
+      <%= link_to image_tag("google.png"), user_omniauth_authorize_path(:google_oauth2) %>
+    </div>
 </div>

@@ -3,6 +3,7 @@ class TasksController < ApplicationController
   before_action :validate_user, only:[:accept, :reject, :doing ]
   before_action :validate_team_member, only:[:reviewing ]
   before_action :validate_admin, only:[:completed ]
+  protect_from_forgery :except => :update
 
   def validate_team_member
   @task= Task.find(params[:id]) rescue nil
@@ -31,6 +32,9 @@ end
 
   # GET /tasks/1
   # GET /tasks/1.json
+
+
+
   def show
     # @comments = @task.task_comments.all
     # @assignment = Assignment.new
@@ -59,7 +63,7 @@ end
     # @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     # @reviewing_tasks = @project.tasks.where(state: "reviewing").all
     # @done_tasks = @project.tasks.where(state: "done").all
-    taskstab_project_path(@task.project.id)
+   redirect_to taskstab_project_path(@task.project.id)
 
   end
 
@@ -110,9 +114,11 @@ end
         activity.user_id = current_user.id
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
+        format.js
       else
         format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.js
       end
     end
 
