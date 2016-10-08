@@ -35,10 +35,17 @@ class ProjectsController < ApplicationController
   end
 
   def send_project_email
-    InvitationMailer.invite_user_for_project( params['email'],current_user.name,
-    Project.find(params['project_id']).title , params['project_id']).deliver_later
-    flash[:success] = "Project link has been sent to #{params[:email]}"
-    redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    unless params['email'].blank?
+      InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+                                                Project.find(params['project_id']).title , params['project_id']).deliver_later
+      flash[:success] = "Project link has been sent to #{params[:email]}"
+      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    else
+      flash[:success] = "Please provide receiver email."
+      session[:project_id] =  session[:idd]
+      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    end
+
   end
 
   def contacts_callback
