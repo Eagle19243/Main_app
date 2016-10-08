@@ -152,10 +152,10 @@
               <hr>
 
              <%= render ("projects/task_comment") %>
-              <hr>
+
 
               <% if user_signed_in? %>
-                  <h5>Write a Comment</h5>
+                  <h6>Write a Comment</h6>
                   <%= form_for  [@task.project, @task, @task.task_comments.build],remote:true ,html: { id: 'comment-form'}  do |f| %>
                       <div class="post-comment">
 
@@ -206,7 +206,7 @@
             <div class="fund">
               <center>
                 <% unless  @task.suggested_task? %>
-                    <%= link_to  new_donation_path(task_id: @task.id) ,{:style=> "color:white"} do %> <button> Fund</button><%end%>
+                    <%= link_to  new_donation_path(task_id: @task.id),data: { no_turbolink: false ,:style=> "color:white"} do %> <button> Fund</button><%end%>
                     <button id="myBtn2" >DO</button>
                 <% else%>
                     <button> This is Sugggested Task and  Waiting For Admin Approval  </button>
@@ -476,15 +476,20 @@
       <div class="row">
         <div class="post-comment columns">
         <p id="Do-request-form-response" style="color: red"></p>
+         <center> <h4 >Add Cover Letter</h4></center>
           <%= form_for @do_request=DoRequest.new, :remote => true,html: { id: 'Do-request-form', multipart: true } ,method: :post do |form| %>
 
               <%= form.hidden_field :task_id, value: @task.id %>
               <%= form.text_area :application %>
               <%= form.hidden_field :free, value: true %>
-              <img src="images/profile-image.jpg" id="cover_letter_img"  >
-              <button id="cover_letter_button" type="submit">Add Cover Letter</button> &nbsp;&nbsp;
+
+                <% if current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user  %>
+                <%else%>
+                    <%= gravatar_for_user(current_user) %>
+                <%end%>
+                          <button id="cover_letter_button" type="submit">Submit Application</button> &nbsp;&nbsp;
           <% end %>
-          </form>
+
         </div>
       </div><!--row ends -->
       <div class="large-1 medium-1 small-0 columns"></div>
