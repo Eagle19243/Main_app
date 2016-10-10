@@ -116,7 +116,6 @@ GEM
       countries (~> 1.2.0)
       sort_alphabetical (~> 1.0)
     currencies (0.4.2)
-    dalli (2.7.6)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -513,7 +512,6 @@ DEPENDENCIES
   cocoon
   coffee-rails (~> 4.1.0)
   country_select
-  dalli
   devise
   differ
   firebase_token_generator
