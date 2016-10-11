@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing]
   before_action :validate_user, only:[:accept, :reject, :doing ]
-  before_action :validate_team_member, only:[:reviewing ]
+  before_action :validate_team_member, only:[:reviewing , :update]
   before_action :validate_admin, only:[:completed ]
   protect_from_forgery :except => :update
 

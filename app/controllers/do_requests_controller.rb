@@ -35,7 +35,7 @@ class DoRequestsController < ApplicationController
          @msg="Request sent to Project Admin";
          flash[:success] = @msg
 
-         redirect_to @do_request.task
+        # redirect_to @do_request.task
 
          format.html { redirect_to @do_request.task, notice: 'Request sent to Project Admin.' }
          format.json { render json: { id: @do_request, status: 200, responseText: "Request sent to Project Admin " } }
@@ -78,7 +78,7 @@ class DoRequestsController < ApplicationController
       @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days )
       @do_request.task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
       team = Team.find_or_create_by(project_id: @do_request.project_id)
-      TeamMembership.create(team_member_id:  @do_request.user_id ,team_id:team.id,task_id:@do_request.task_id)
+      TeamMembership.create(team_member_id:  @do_request.user_id ,team_id:team.id,task_id:@do_request.task_id,state:"user")
        flash[:success] = "Task has been assigned"
      else
       flash[:error] = "Task was not assigned to user"
