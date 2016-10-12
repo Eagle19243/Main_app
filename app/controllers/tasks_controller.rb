@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing]
   before_action :validate_user, only:[:accept, :reject, :doing ]
-  before_action :validate_team_member, only:[:reviewing , :update]
+  before_action :validate_team_member, only:[:reviewing ]
   before_action :validate_admin, only:[:completed ]
   protect_from_forgery :except => :update
 
@@ -109,6 +109,7 @@ end
     respond_to do |format|
 
       @task.project_id = Task.find(params[:id]).project_id
+       if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id ))
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
         activity.user_id = current_user.id
@@ -119,6 +120,9 @@ end
         format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
         format.js
+      end
+      else
+      redirect_to "/"
       end
     end
 

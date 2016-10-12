@@ -38,7 +38,7 @@ $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
 })
-
+<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )) %>
 $("#task-title" ).dblclick(function() {
   $(this).hide();
   $("#task-update-title-form").show();
@@ -224,6 +224,7 @@ $("#task-update-condition").click(function(){
   $("#task-condition").show();
   $("#edit-condition").show();
 });
+<% end  %>
 
   // Get the modal
   var modalinvite = document.getElementById('InviteModel');
