@@ -91,6 +91,8 @@
         <!--left side -->
         <div class="large-8 medium-12 small-12 columns">
           <div class="task-details-left-side">
+
+            <%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )) %>
             <div class="task-desc">
               <!--<input type="text" value="<%#= @task.title %>" class="task-desc">​-->
 
@@ -169,6 +171,60 @@
                   <% end %>
               <% end %>
             </div>
+                <% else %>
+                <div class="task-desc">
+                  <h3><%= @task.title %></h3>
+                  <hr>
+                  <p><%= @task.description  %></p>
+                  <hr>
+                  <h4>Condition of Execution</h4>
+
+                  <p><%= @task.condition_of_execution %></p>
+                  <hr>
+                  <h4>Proof of Execution</h4>
+                  <p><%= @task.proof_of_execution %></p>
+
+                  <%#= link_to 'Edit', edit_task_path(@task.id)%>
+
+                  <hr>
+
+                  <div class="comment">
+                    <h3><i class="fa fa-comment-o" aria-hidden="true"></i> Comments</h3>
+                    <% @task_comments.each do |comment| %>
+
+                        <div class="comment-view">
+                          <div class="profile-image">
+                            <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
+                            <%else%>
+                                <%= gravatar_for_user(comment.user) %>
+                            <%end%>
+                          </div>
+                          <div class="comment-text">
+                            <P><%= comment.body %></P>
+                            <h6><%=comment.created_at.to_formatted_s(:long) if !comment.created_at.nil?%></h6>
+                            <!--<a href="#">Reply</a>-->
+                          </div>
+                        </div>
+                        <hr>
+                    <%end%>
+                  </div>
+                  <hr>
+
+                  <% if user_signed_in? %>
+                      <%= form_for  [@task.project, @task, @task.task_comments.build] do |f| %>
+                          <div class="post-comment">
+
+                            <%= f.text_area :body%>
+                            <%= f.hidden_field :task_id, value: @task.id %>
+                            <%= f.hidden_field :user_id, value: current_user.id %>
+                            <button type="submit" name="commit" value="Send"> Send</button> &nbsp;&nbsp;
+
+                            <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                          </div>
+                      <% end %>
+                  <% end %>
+                </div>
+                <% end%>
 
             <hr>
 
@@ -326,14 +382,28 @@
   <b>  <span id="teamclose" class="close">×</span></b>
     <div class="fund-do">
       <div class="row">
-        <center><h4>Teams</h4></center>
+        <center><h4>Team</h4>
         <!---->
+          <p id="team-message"></p>
         <% @task_team.each do |team_member| %>
-            <% if current_user.id == @task.project.user_id %>
-                <%= link_to "Remove from Team" , teams_remove_membership_path(id: team_member)  %>
-            <% end %>
-            <%= render "projects/cards/team_member", team_member: team_member %>
-        <% end %>
+
+              <!--<%# user=User.find(team_member.team_member_id) %>-->
+            <div style="width:300px; height: 80px;background-color: #c2c2c4;margin: 5px;padding-top:25px; "  >
+
+              <%if user_signed_in? && (current_user.id == @task.project.user.id  || ( ( !@project_admin.blank? ) &&( @project_admin.include? current_user.id )))%>
+
+              <b> <%= link_to teams_remove_membership_path(id: team_member.id) ,remote: true, data: { confirm: 'Are you sure to remove?' } do %><span id="Removeteammember" class="close">×</span><% end%></b>
+              <% end %>
+              <% if team_member.task_team_member.picture? %>
+                  <%= image_tag(team_member.task_team_member.picture.url, size: "35x35") %>
+              <% else %>
+                  <%= gravatar_for(team_member.task_team_member, 35)%>
+              <%end%>
+              <%= link_to team_member.task_team_member.name, user_path(team_member.task_team_member) %>
+
+            </div>
+            <!--<%#= render "projects/cards/team_member", team_member: team_member %>-->
+        <% end %></center>
       </div> <!--row ends -->
 
     </div> <!-- task details ends -->
@@ -477,18 +547,23 @@
         <div class="post-comment columns">
         <p id="Do-request-form-response" style="color: red"></p>
          <center> <h4 >Add Cover Letter</h4></center>
+
           <%= form_for @do_request=DoRequest.new, :remote => true,html: { id: 'Do-request-form', multipart: true } ,method: :post do |form| %>
 
               <%= form.hidden_field :task_id, value: @task.id %>
               <%= form.text_area :application %>
               <%= form.hidden_field :free, value: true %>
-
-                <% if current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user  %>
+              <%if user_signed_in? %>
+                <% if  current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user  %>
                 <%else%>
                     <%= gravatar_for_user(current_user) %>
                 <%end%>
                           <button id="cover_letter_button" type="submit">Submit Application</button> &nbsp;&nbsp;
+              <%else  %>
+                  <a href="/users/sign_in"> <h4>Please Signin to Do this task</h4></a>
+              <% end %>
           <% end %>
+
 
         </div>
       </div><!--row ends -->
