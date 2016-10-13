@@ -4,7 +4,7 @@ production:
   pool: 5
   database: weserve_production
   username: postgres
-  password: YemFCYWAmK3NwfTB8N2CtRTXGAFAWur4
+  password: postgres
   host: localhost
   port: 5432
 
