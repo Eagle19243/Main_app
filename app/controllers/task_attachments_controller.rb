@@ -9,9 +9,7 @@ class TaskAttachmentsController < ApplicationController
      flash[:error]= " you are not allowed to do this opration "
      redirect_to task_path(task.id)
    end
-  #puts ''
   end
-
   def create
     @task_attachment = TaskAttachment.new(resume_params)
     @task_attachment.user_id=current_user.id
@@ -29,7 +27,6 @@ class TaskAttachmentsController < ApplicationController
       respond_to do |format|
         format.json { render :json => true }
       end
-
     else
       respond_to do |format|
         format.json { render :json =>false}

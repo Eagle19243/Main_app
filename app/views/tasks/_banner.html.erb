@@ -1,10 +1,12 @@
 <section class="welcome-banner">
   <div class="middle-sec">
     <!--first row-->
+    <% @projec_conut=  if @project.tasks.count==0 then 1 else @project.tasks.count end%>
+
     <div class="row">
       <center>
         <ul class="line1">
-          <li><h4>By Caju</h4></li>
+          <li><h4>By: <%= @project.user.name %> </h4> </li>
           <li><img src="images/profile-image.jpg"></li>
           <li> <h4> <i class="fa fa-map-marker" aria-hidden="true"></i> London</h4></li>
         </ul>
@@ -12,13 +14,13 @@
     </div>
     <!--2nd row-->
     <div class="row banner-header">
-      <center><h2>Here goes the Project Title and Porject Image</h2></center>
+      <center><h2><%= @project.title %></h2></center>
     </div>
     <!--3rd row -->
     <div class="row">
       <center>
         <div class="nice round progress alert large-5 medium-5 small-5">
-          <span class="meter" style="width: 70%"></span>
+          <span class="meter" style="width:<%= (@sourcing_tasks.count / @projec_conut ) *100  %> % "></span>
         </div>
       </center>
     </div>
@@ -27,10 +29,19 @@
       <center>
         <table>
           <tr>
-            <th>40%</th>
-            <th>55/80</th>
-            <th>19/30</th>
-            <th>$8000</th>
+
+            <th><%= (@sourcing_tasks.count / @projec_conut )*100  %> %</th>
+            <th><%= @done_tasks.count.to_s + "/" + @projec_conut.to_s  %></th>
+            <% @particpent=0 %>
+            <% @budget=0 %>
+
+            <%@project.tasks.each do  |p|%>
+                <%  @particpent=@particpent+ p.number_of_participants rescue 0 %>
+                <%  @budget=@budget+ p.budget  %>
+
+          <%end  %>
+            <th><%= @project.team.team_memberships.count%>/<%=  @particpent%></th>
+            <th>$<%=  @budget %></th>
           </tr>
           <tr>
             <td>Funded</td>
@@ -43,7 +54,7 @@
     </div>
 
     <div class="row">
-      <center><a href="#" id="myBtn" class="button round get-invo-btn">Click Here For Task Details</a></center>
+      <center><a href="#" id="myBtn" class="button round get-invo-btn">Join Team </a></center>
     </div>
 
   </div>
