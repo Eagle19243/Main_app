@@ -108,10 +108,12 @@ end
   def update
     respond_to do |format|
 
+      #Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",8,"TaskComment",@as )
       @task.project_id = Task.find(params[:id]).project_id
+       if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id ))
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
-        activity.user_id = current_user.id
+       # activity.user_id = current_user.id
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
         format.js
@@ -119,6 +121,9 @@ end
         format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
         format.js
+      end
+      else
+      redirect_to "/"
       end
     end
 
