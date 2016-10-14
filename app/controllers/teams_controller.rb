@@ -61,29 +61,36 @@ class TeamsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   def remove_membership
-    puts "Fals"
 
     @team = TeamMembership.find(params[:id]) rescue nil
-   @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @team.team_id, 'admin').collect(&:team_member_id) rescue
-
-    if (  current_user.id == @task.project.user.id || ( @project_admin.include? current_user.id rescue false) ) && @team.destroy
-   # if  @team.destroy
+    @project_admin = TeamMembership.where("team_id = ? AND state = ?", @team.team_id, 'admin').collect(&:team_member_id) rescue nil
+    @task=Task.find(@team.id)
+    if (current_user.id == @team.task.project.user.id && @team.destroy)
       @notice='Team member  was successfully Removed.'
-
+    else
+      if (@project_admin.include? current_user.id)
+        if @team.state == "admin"
+          @notice='You can\'t remove admin.'
+        else
+          if @team.destroy
+            @notice='Team member  was successfully Removed.'
+          else
+            @notice="You can't remove Team Member"
+          end
+        end
+      end
+    end
     respond_to do |format|
       puts @notice
       format.html { redirect_to teams_url, notice: @notice }
       format.json { head :no_content }
       format.js
     end
-    else
-      puts "Fals"
-     @notice="You can't remove Team Member"
 
-     respond_to :js
-   end
   end
+
   # POST /team_memberships
   # POST /team_memberships.json
   def team_memberships
@@ -98,30 +105,30 @@ class TeamsController < ApplicationController
     @project_team = Team.where(project_id: @project.id).first
     @add_member = true
     case @project_team.team_members.include?(current_user)
-    when true
-      @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
-      @project_team.team_memberships.destroy(@team_membership) unless @team_membership.nil?
-      @add_member = false
-    else
-      new_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
-      new_member.save
-      @add_member = true
+      when true
+        @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
+        @project_team.team_memberships.destroy(@team_membership) unless @team_membership.nil?
+        @add_member = false
+      else
+        new_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
+        new_member.save
+        @add_member = true
     end
     respond_to do |format|
-      format.html {redirect_to :back}
+      format.html { redirect_to :back }
       format.js
     end
   end
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_team
-      @team = Team.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_team
+    @team = Team.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def team_params
-      params.require(:team).permit(:name, :number_of_members, :number_of_projects, :mission)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def team_params
+    params.require(:team).permit(:name, :number_of_members, :number_of_projects, :mission)
+  end
 end

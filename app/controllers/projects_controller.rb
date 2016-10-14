@@ -129,7 +129,7 @@ class ProjectsController < ApplicationController
  def get_activities
    @task=Task.find(params[:id])
    task_comment_ids= @task.task_comments.collect(&:id)
-   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC').limit(30)
    respond_to :js
  end
   # GET /projects/1/taskstab
