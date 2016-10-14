@@ -10,13 +10,13 @@
 #              password:              "test1234",
 #              password_confirmation: "test1234")
 
-Project.create(title: "Seed Project Ateq",
-               user_id:User.first,
-               state: "pending")
-Task.create(title: "Seed Task",
-            user_id:User.first,
-project_id:Project.where(title: "Seed Project Ateq").first.id,
-            state: "pending")
+# Project.create(title: "Seed Project Ateq",
+#                user_id:User.first,
+#                state: "pending")
+# Task.create(title: "Seed Task",
+#             user_id:User.first,
+# project_id:Project.where(title: "Seed Project Ateq").first.id,
+#             state: "pending")
 user = CreateAdminService.new.call
 puts 'CREATED ADMIN USER: ' << user.email
 count = CreateAdminService.new.create_additional_admins

@@ -256,7 +256,7 @@
               <div class="btn-left">
                 <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) %>
 
-                    <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), remote:true ,html: {multipart: true} do |f| %>
+                    <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create') ,html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
                         <input type="file" name="task_attachment[attachment]" id="file1"/>
@@ -284,9 +284,14 @@
               <div class="btn-right">
                 <button id="sharebtn"><i class="fa fa-external-link" aria-hidden="true"></i> Share</button>
                 <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i> Teams</button>
+                <% if user_signed_in? && current_user.id == @task.project.user_id %>
+                <%= link_to doing_task_path(@task.id) do %>
                 <button>
-                  <i class="fa fa-arrow-right" aria-hidden="true"></i>  <%= link_to "Move", doing_task_path(@task.id) %>
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Move
                 </button>
+
+                    <%end%>
+                    <%end%>
               </div>
 
             </div>
@@ -571,3 +576,8 @@
 <!--<textarea name="do_request[application]" id="do_request_application"></textarea>-->
 <!--<input value="true" type="hidden" name="do_request[free]" id="do_request_free">-->
 <!--</form>-->
+
+
+
+
+

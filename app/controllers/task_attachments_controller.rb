@@ -1,5 +1,6 @@
 class TaskAttachmentsController < ApplicationController
   protect_from_forgery except: :destroy_attachment
+  protect_from_forgery except: :create
 
   before_action :authenticate_user!
   before_action :validate_attachment, only:[:create]
@@ -10,14 +11,23 @@ class TaskAttachmentsController < ApplicationController
      redirect_to task_path(@task.id)
    end
   end
+
+
   def create
     @task_attachment = TaskAttachment.new(resume_params)
     @task_attachment.user_id=current_user.id
-    if @task_attachment.save
-      redirect_to task_path(@task_attachment.task_id), notice: "The Task Attachment #{@task_attachment.task_id} has been uploaded."
-    else
-      render task_path(@task_attachment.task_id)
+    respond_to do |format|
+      if @task_attachment.save
+        @notice="The Task Attachment has been uploaded."
+        format.html { redirect_to task_path(@task_attachment.task_id), notice:  @notice }
+        format.js
+      else
+        @notice="Failed to uploaded Task Attachment ."
+        format.html { redirect_to '/', notice:  @notice }
+        format.js
+      end
     end
+
   end
 
   def destroy_attachment

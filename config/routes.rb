@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   #
   post 'tasks/send_email'
   get 'teams/remove_membership'
+  get 'projects/get_activities'
   get 'projects/show_task'
  # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'

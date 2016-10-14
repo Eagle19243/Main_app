@@ -62,14 +62,27 @@ class TeamsController < ApplicationController
     end
   end
   def remove_membership
+    puts "Fals"
 
-    @team = TeamMembership.find(params[:id])
+    @team = TeamMembership.find(params[:id]) rescue nil
+   @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @team.team_id, 'admin').collect(&:team_member_id) rescue
 
-    @team.destroy
+    if (  current_user.id == @task.project.user.id || ( @project_admin.include? current_user.id rescue false) ) && @team.destroy
+   # if  @team.destroy
+      @notice='Team member  was successfully Removed.'
+
     respond_to do |format|
-      format.html { redirect_to teams_url, notice: 'Team member  was successfully destroyed.' }
+      puts @notice
+      format.html { redirect_to teams_url, notice: @notice }
       format.json { head :no_content }
+      format.js
     end
+    else
+      puts "Fals"
+     @notice="You can't remove Team Member"
+
+     respond_to :js
+   end
   end
   # POST /team_memberships
   # POST /team_memberships.json
