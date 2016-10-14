@@ -33,12 +33,22 @@ $('a[name=delete_attachment]').click(function() {
     }
   });
 });
+
+
+<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )) %>
 $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
+  $("#upload-button").show();
+
 })
-<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )) %>
+$("#upload-button").hide();
+$("#upload-button").click(function(){
+  $("#upload-button").hide();
+})
+
+
 $("#task-title" ).dblclick(function() {
   $(this).hide();
   $("#task-update-title-form").show();
@@ -384,3 +394,24 @@ window.onclick = function(event) {
     //x.style.display = "block";
 
   }
+
+
+
+
+// call your ajax function when the document is ready...
+$(function() {
+  callAjax();
+});
+
+// function that processes your ajax calls...
+function callAjax() {
+  $.ajax({
+    url: "/projects/get_activities",
+    type: "get",
+    data:{id: <%= @task.id %>},
+
+    success: function() {
+      setTimeout(callAjax,15000);
+    }
+  });
+}

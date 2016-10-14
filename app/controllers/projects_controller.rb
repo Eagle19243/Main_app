@@ -30,6 +30,11 @@ class ProjectsController < ApplicationController
     @task_attachment=TaskAttachment.new
     @task_attachments=@task.task_attachments
     @task_team=TeamMembership.where(task_id: @task.id)
+    task_comment_ids= @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+
+
+    project_admin
     respond_to :js
   end
 
@@ -82,8 +87,10 @@ class ProjectsController < ApplicationController
 
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
+  def project_admin
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id)
+  puts ''
+  end
   def show
     # @comments = @project.project_comments.all
     # @proj_admins_ids = @project.proj_admins.ids
@@ -119,7 +126,12 @@ class ProjectsController < ApplicationController
     }
   end
 
-
+ def get_activities
+   @task=Task.find(params[:id])
+   task_comment_ids= @task.task_comments.collect(&:id)
+   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+   respond_to :js
+ end
   # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
