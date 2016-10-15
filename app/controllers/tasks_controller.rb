@@ -1,58 +1,69 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing ]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing]
   before_action :validate_user, only:[:accept, :reject, :doing ]
   before_action :validate_team_member, only:[:reviewing ]
   before_action :validate_admin, only:[:completed ]
+  protect_from_forgery :except => :update
 
   def validate_team_member
-    task= Task.find(params[:id])
-    if ! (task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )
+  @task= Task.find(params[:id]) rescue nil
+  if @task.blank?
+    redirect_to '/'
+  else
+    if ! (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id && @task.doing? ) || @task.blank?
       flash[:error]= " you are not allowed to do this opration "
-      redirect_to task_path(task.id)
+      redirect_to task_path(@task.id)
     end
-
+    end
   end
   def validate_admin
-    task= Task.find(params[:id])
-    if ! (current_user.id == task.project.user_id || task.reviewing? )
+   @task= Task.find(params[:id]) rescue nil
+   if @task.blank?
+     redirect_to '/'
+   else
+    if ! (current_user.id == @task.project.user_id && @task.reviewing? )
       flash[:error]= " you are not allowed to do this opration "
       redirect_to '/'#task_path(task.id)
     end
-
+end
   end
   layout false, only: [:show]
-  before_action :authenticate_user! ,only: [:send_email ]
+  before_action :authenticate_user! ,only: [:send_email, :create,:new , :edit, :destroy, :accept, :reject, :doing, :reviewing,:completed]
 
   # GET /tasks/1
   # GET /tasks/1.json
-  def show
-    @comments = @task.task_comments.all
-    @assignment = Assignment.new
-    @task_comments = @task.task_comments.all
-    #@assignment = Assignment.new
 
-    @task=Task.find(params[:id]) rescue (redirect_to  '/')
-    @project=@task.project
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-    @followed = false
-    @rate = 0
-    if user_signed_in?
-      @followed = @project.project_users.pluck(:user_id).include? current_user.id
-      @current_user_id = current_user.id
-      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-    end
-    @task_attachment=TaskAttachment.new
-    @task_attachments=TaskAttachment.where(task_id: @task.id) rescue nil
-    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
-    @doing_tasks = @project.tasks.where(state: "doing").all
-    @suggested_tasks = @project.tasks.where(state: "suggested_task").all
-    @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    @done_tasks = @project.tasks.where(state: "done").all
+
+
+  def show
+    # @comments = @task.task_comments.all
+    # @assignment = Assignment.new
+    # @task_comments = @task.task_comments.all
+    # #@assignment = Assignment.new
+    #
+    # @task=Task.find(params[:id]) rescue (redirect_to  '/')
+    # @project=@task.project
+    # @comments = @project.project_comments.all
+    # @proj_admins_ids = @project.proj_admins.ids
+    # @current_user_id = 0
+    # if user_signed_in?
+    #   @current_user_id = current_user.id
+    # end
+    # @followed = false
+    # @rate = 0
+    # if user_signed_in?
+    #   @followed = @project.project_users.pluck(:user_id).include? current_user.id
+    #   @current_user_id = current_user.id
+    #   @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
+    # end
+    # @task_attachment=TaskAttachment.new
+    # @task_attachments=TaskAttachment.where(task_id: @task.id) rescue nil
+    # @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
+    # @doing_tasks = @project.tasks.where(state: "doing").all
+    # @suggested_tasks = @project.tasks.where(state: "suggested_task").all
+    # @reviewing_tasks = @project.tasks.where(state: "reviewing").all
+    # @done_tasks = @project.tasks.where(state: "done").all
+   redirect_to taskstab_project_path(@task.project.id)
 
   end
 
@@ -97,15 +108,22 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
 
+      #Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",8,"TaskComment",@as )
       @task.project_id = Task.find(params[:id]).project_id
+       if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id ))
       if @task.update(task_params)
         activity = current_user.create_activity(@task, 'edited')
-        activity.user_id = current_user.id
+       # activity.user_id = current_user.id
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
+        format.js
       else
         format.html  { render :edit }
         format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.js
+      end
+      else
+      redirect_to "/"
       end
     end
 
@@ -141,8 +159,8 @@ class TasksController < ApplicationController
    if @task.suggested_task?
      flash[:error] = "You can't Do this Task"
    else
-   # check User if he is member of team or not
-     if  @task.start_doing!
+
+     if current_user.id == @task.project.user_id && @task.start_doing!
        flash[:success] = "Task Status changed to Doing "
      else
        flash[:error] = "Error in Moving  Task"
@@ -179,8 +197,8 @@ class TasksController < ApplicationController
   end
 
   def send_email
-
     InvitationMailer.invite_user( params['email'],current_user.name, Task.find(params['task_id']) ).deliver_later
+    flash[:success] = "Task link has been send to #{params[:email]}"
     redirect_to task_path(params['task_id'])
   end
 

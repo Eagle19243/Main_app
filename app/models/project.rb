@@ -20,13 +20,13 @@ class Project < ActiveRecord::Base
   has_many :project_users
   has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
-  has_one :team
+  has_one :team, dependent: :destroy
 
   belongs_to :user
 
-  validates :title, presence: true, length: { minimum: 1, maximum: 60 },
+  validates :title, presence: true, length: { minimum: 3, maximum: 60 },
                       uniqueness: true
-
+  validates :short_description, presence: true, length: { minimum: 3, maximum: 60 }
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
 
   searchable do

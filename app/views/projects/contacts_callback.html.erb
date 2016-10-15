@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<div id="gmail-invite-modal" class="modal" style="overflow-x: scroll;
+    overflow-y: scroll;">
+  <div class="modal-dialog">
+    <div class="modal-content" style="font-size: 20px; overflow-x: scroll;
+        overflow-y: scroll; max-height: 500px;">
+      <div class="modal-header">
+        <!--<button type="button" class="close" data-dismiss="modal", style="background-color:white">&#10006</button>-->
+        <h4 class="modal-title">Invite Your Friends To This Project <%= @contacts.count.to_s.concat('  Emails found') unless @contacts.blank? %></h4>
+      </div>
+      <% unless @contacts.blank? %>
+          <%if  @contacts.count >15 %>
+              <%= form_tag  '/projects/send_project_invite_email' do%>
+                  <%= hidden_field_tag 'emails' %>
+                  <%= link_to "Cancel",'/contacts/failure', class: "btn btn-danger" , style: 'color:white; float:right; margin-left: 3%'%>
+
+                  <%= submit_tag "Invite Friends", class: "btn btn-success", style:'float:right;' %>
+              <%end %>
+          <%end%>
+       <%else%>
+          <p style="color:red"> No, Contact Found!</p>
+          <%= link_to 'Go Back',controller: 'projects', action: 'taskstab', id: session[:idd]%>
+      <%end%>
+      <script>var arr=[]</script>
+
+      <% if !@contacts.nil?%>
+          <% @contacts.each do |c|%>
+              <% @contacts.count %>
+              <% email = c[:email] %><br>
+              <script>arr.push("<%=email%>")</script>
+              <input type="checkbox" id="x" class='email_selected' value="<%=email%>"  checked>
+              <%=email%>
+          <%end%>
+          <%else%>
+          <p style="color:red"> No, Contact Found!</p>
+          <%= link_to 'Go Back',controller: 'projects', action: 'taskstab', id: session[:idd]%>
+      <%end%>
+
+      <script>
+        $(document).ready(function() {
+
+          $('#gmail-invite-modal').modal({
+            backdrop: 'static',
+            keyboard: false
+          });
+
+          document.getElementById("emails").value = arr;
+          $('.email_selected').change(function () {
+            if ($(this).prop('checked') == true) {
+              var ema = $(this).attr('value');
+              arr.push(ema);
+              document.getElementById("emails").value = arr;
+            }
+            else {
+              var email = $(this).attr('value');
+              var index = arr.indexOf(email)
+              arr.splice(index, 1)
+              document.getElementById("emails").value = arr;
+            }
+          });
+
+          $("#gmail-invite-modal").modal('show');
+        });
+      </script><br>
+      <% unless @contacts.blank? %>
+      <%= form_tag  '/projects/send_project_invite_email' do%>
+          <%= hidden_field_tag 'emails' %>
+              <%= link_to "Cancel",'/contacts/failure', class: "btn btn-danger" , style: 'color:white; float:right; margin-left: 3%'%>
+
+              <%= submit_tag "Invite Friends", class: "btn btn-success", style:'float:right;' %>
+      <%end %>
+     <%end%>
+    </div>
+  </div>
+</div>

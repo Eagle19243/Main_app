@@ -16,12 +16,16 @@ class TaskCommentsController < ApplicationController
     task = Task.find(params[:task_id])
     @comment = task.task_comments.build(comment_params)
     @comment.user_id = current_user.id
-    if @comment.save
-      set_activity(task, 'created')
-      flash[:success] = 'Comment submitted'
-      redirect_to :back
-    else
-      render :new
+    respond_to do |format|
+        if @comment.save
+          set_activity(task, 'created')
+          format.html  { redirect_to :back, success: 'Comment submitted'}
+          format.js
+        else
+          format.html  { redirect_to :back, success: 'Error While Saving this comment please comment again' }
+          format.js = "Error while saving "
+        end
+
     end
   end
     
@@ -59,6 +63,6 @@ class TaskCommentsController < ApplicationController
 
   def set_activity(task = @comment.task, text)
     current_user.create_activity(@comment, text)
-    task.user.create_activity(@comment, text)
+   # task.user.create_activity(@comment, text)
   end
 end

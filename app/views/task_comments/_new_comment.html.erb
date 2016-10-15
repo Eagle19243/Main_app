@@ -1,0 +1,14 @@
+<div class="comment-view">
+  <div class="profile-image">
+    <% if @comment.user.picture? %><%= link_to (image_tag @comment.user.picture.url, :size => "30x30"), @comment.user  %>
+    <%else%>
+        <%= gravatar_for_user(@comment.user) %>
+    <%end%>
+  </div>
+  <div class="comment-text">
+    <P><%= @comment.body %></P>
+    <h6><%= @comment.created_at.to_formatted_s(:long) if !@comment.created_at.nil?%></h6>
+    <!--<a href="#">Reply</a>-->
+  </div>
+</div>
+<hr>

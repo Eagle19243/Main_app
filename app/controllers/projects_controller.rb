@@ -19,6 +19,80 @@ class ProjectsController < ApplicationController
     render layout: false
   end
 
+  def original_url
+    request.base_url + request.original_fullpath
+  end
+
+  def send_project_invite_email
+    session[:success_contacts] = nil
+    @array = params[:emails].split(',')
+    @array.each do|key|
+      InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
+    end
+    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+  end
+
+  def send_project_email
+    respond_to do |format|
+      unless params['email'].blank?
+
+        if current_user.blank?
+          @notice = "ERROR: Please sign in to continue."
+          format.js {}
+        else
+
+        begin
+          InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+                                                    Project.find(params['project_id']).title , params['project_id']).deliver_later
+          format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
+          @notice = "Project link has been sent to #{params[:email]}"
+          format.js {}
+        rescue => e
+          @notice = "Error ".concat e.inspect
+          format.js {}
+        end
+
+        end
+
+      else
+        session[:project_id] =  session[:idd]
+        format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
+        @notice = 'Please provide receiver email.'
+        format.js {}
+      end
+    end
+
+  end
+
+  def contacts_callback
+    @contacts = request.env['omnicontacts.contacts']
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def failure
+    session[:failure_contacts] = nil
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
+  end
+
+  def show_task
+    @task = Task.find(params[:id])
+    @task_comments = @task.task_comments
+    @task_attachment = TaskAttachment.new
+    @task_attachments = @task.task_attachments
+    @task_team = TeamMembership.where(task_id: @task.id)
+    task_comment_ids = @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+    project_admin
+    respond_to :js
+  end
+
+
   def autocomplete_user_search
     term = params[:term]
     @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
@@ -49,6 +123,10 @@ class ProjectsController < ApplicationController
 
   def search_results
     #display solar search results
+  end
+
+  def project_admin
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id)
   end
 
   def show
@@ -89,6 +167,14 @@ class ProjectsController < ApplicationController
     }
   end
 
+  def get_activities
+    @task=Task.find(params[:id])
+    task_comment_ids= @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+    respond_to :js
+  end
+
+  # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
@@ -96,6 +182,7 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @current_user_id = current_user.id
     end
+
     @followed = false
     @rate = 0
     if user_signed_in?
@@ -140,11 +227,13 @@ class ProjectsController < ApplicationController
         first_member.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
+
         format.html { redirect_to @project, notice: 'Project request was sent.' }
-        format.json { render :show, status: :created, location: @project }
+        format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
+        session[:project_id] = @project.id
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end
     end
   end
