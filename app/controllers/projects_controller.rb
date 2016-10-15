@@ -26,22 +26,41 @@ class ProjectsController < ApplicationController
     @array.each do|key|
       InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
     end
-    session[:success_contacts] = "Contacts are Imported Successfully"
+    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] =  session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
   end
 
   def send_project_email
-    unless params['email'].blank?
-      InvitationMailer.invite_user_for_project( params['email'],current_user.name,
-                                                Project.find(params['project_id']).title , params['project_id']).deliver_later
-      flash[:success] = "Project link has been sent to #{params[:email]}"
-      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
-    else
-      flash[:success] = "Please provide receiver email."
-      session[:project_id] =  session[:idd]
-      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    respond_to do |format|
+      unless params['email'].blank?
+
+        if current_user.blank?
+          @notice = "ERROR: Please sign in to continue."
+          format.js {}
+        else
+
+        begin
+          InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+                                                    Project.find(params['project_id']).title , params['project_id']).deliver_later
+          format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
+          @notice = "Project link has been sent to #{params[:email]}"
+          format.js {}
+        rescue => e
+          @notice = "Error ".concat e.inspect
+          format.js {}
+        end
+
+        end
+
+      else
+        session[:project_id] =  session[:idd]
+        format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
+        @notice = 'Please provide receiver email.'
+        format.js {}
+      end
     end
+
   end
 
   def contacts_callback
@@ -55,7 +74,7 @@ class ProjectsController < ApplicationController
     session[:failure_contacts] = nil
     session[:project_id] =  session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
-    session[:failure_contacts] = "Contacts are not Imported"
+    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
 
   def show_task

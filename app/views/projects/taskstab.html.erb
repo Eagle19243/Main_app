@@ -54,7 +54,14 @@
   $(document).keydown(function(e) {
     // ESCAPE key pressed
     if (e.keyCode == 27) {
+      $('#response').empty();
+      $("#guest-email").val("");
+
+      $('#response-failure').empty();
+      $("#response-success");
       $("#Project-Invite-Model").hide();
+
+
     }
   });
 
@@ -1091,23 +1098,28 @@
 
   <!-- Modal content -->
   <div class="modal-content2 yes">
-    <b> <span id="inviteclose" class="close">×</span></b>
+    <!--<b> <span id="inviteclose" class="close" >×</span></b>,-->
+    <button type="button" class="close" data-dismiss="modal" id="inviteclose" style="background-color:white">&#10006</button>
+
     <div class="fund-do">
       <div class="row">
         <center><h4>Invite People To Participate</h4></center><br>
+        <div class="alert" sty id="response" style="margin-left: 10%; color:green "></div>
+
         <!--<center><h6>Type in the e-mail address of the person you like to invite</h6></center>-->
         <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(:controller => "projects", :action => "send_project_email") do %>
+        <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
 
             <div class="large-10 medium-10 small-12 columns cold">
               <div class="large-8 medium-12 small-12 columns cold">
                 <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
                 <%session[:idd] = @project.id  %>
                 <% session[:project_id] = nil %>
-                <input type="email" name="email" placeholder="E-mail address" class="add-email">
+                <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
               </div>
+
               <div class="large-4 medium-12 small-12 columns cold">
-                <button lass="button round expand modal-btn1 btn-add"  >Add / Invite</button>
+                <button class="button round expand modal-btn1 btn-add" id="send-project-email-button" >Add / Invite</button>
               </div>
 
               <div class="row" style="text-align: initial; margin-left: 3.2%">
@@ -1141,12 +1153,12 @@
                 </div>
                 <%unless session[:failure_contacts].blank? %>
                     <br>
-                    <p style="color:red"><%= session[:failure_contacts]%></p>
+                    <p style="color:red" id="response-failure"><%= session[:failure_contacts]%></p>
                 <%end%>
 
                 <%unless session[:success_contacts].blank? %>
                     <br>
-                    <p style="color:green"><%= session[:success_contacts]%></p>
+                    <p style="color:green" id="response-success"><%= session[:success_contacts]%></p>
                 <%end%>
               </div>
               <%= session[:failure_contacts]=nil%>
@@ -1329,6 +1341,30 @@
 
   $(document).ready(function(){
 
+    $( "#send-project-email" ).submit(function( ) {
+      $('#response').empty();
+      $('#response').html("loading...")
+    });
+
+    $( "#send-project-email-button" ).click(function( ) {
+//      alert('dfsdf');
+      $('#response').empty();
+    });
+
+    $( "#inviteclose" ).click(function( ) {
+     $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+      $("#guest-email").val("");
+    });
+
+    $("#guest-email").keyup(function(){
+      $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+
+    });
+
     $('#invite-people-on-project').click(function(){
       var modalteam = document.getElementById('Project-Invite-Model');
       modalteam.style.display = "block";
@@ -1345,6 +1381,8 @@
     // When the user clicks on <span> (x), close the modal
     project_span_team.onclick = function() {
       modalteam.style.display = "none";
+
+
     }
 
 
