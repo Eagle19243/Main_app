@@ -1,2 +1,2 @@
 # Change these
-server '52.210.151.184', port: 22, roles: [:web, :app, :db], primary: true
+server '54.194.245.2', port: 22, roles: [:web, :app, :db], primary: true
