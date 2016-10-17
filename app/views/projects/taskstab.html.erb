@@ -1,42 +1,77 @@
-
-
-  <link rel="stylesheet" href="/static/task_show_page/css/foundation.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/font-awesome/css/font-awesome.min.css">
-  <link href='https://fonts.googleapis.com/css?family=Slabo+27px|Acme|Oswald:300,700' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/glyphicon-only/glyphicon.css">
-  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/Hover/css/hover-min.css">
-  <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/custom.css">
-  <link rel="stylesheet" href="/static/task_show_page/css/media-queries.css">
-  <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
-  <%= stylesheet_link_tag 'social-share' %>
-  <%= javascript_include_tag 'social-share' %>
-  <style>
-    #loading-mask1 {
+<link rel="stylesheet" href="/static/task_show_page/css/foundation.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/task_show_page/css/font-awesome/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Slabo+27px|Acme|Oswald:300,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="/static/task_show_page/css/glyphicon-only/glyphicon.css">
+<link rel="stylesheet" type="text/css" href="/static/task_show_page/css/Hover/css/hover-min.css">
+<link rel="stylesheet" type="text/css" href="/static/task_show_page/css/custom.css">
+<link rel="stylesheet" href="/static/task_show_page/css/media-queries.css">
+<script src="/static/task_show_page/js/vendor/modernizr.js"></script>
+<%= stylesheet_link_tag 'social-share' %>
+<%= javascript_include_tag 'social-share' %>
+<style>
+  #loading-mask1 {
     background-color: white;
-
     height: 100%;
     left: 0;
     position: fixed;
-    margin-top:0;
+    margin-top:50%;
     width: 100%;
     z-index: 9999;
-     // opacity: 0.5;
 
-    }</style>
-<div id="loading-mask1" align="center" >
-<h4 style="margin-top: 15%;">Loading...</h4>
 
-<%= image_tag("hourglass.gif") %>
-  </div>
 
+
+  }</style>
+<div id="loading-mask1" align="center">
+  <h4>Loading...</h4>
+
+  <%= image_tag("hourglass.gif")%>
+</div>
+<script>
+
+  window.onload = function() {
+
+//      debugger
+    $('#project-url').html(window.location.href);
+    <% if  session[:project_id] != nil %>
+    var modalteam = document.getElementById('Project-Invite-Model');
+    modalteam.style.display = "block";
+    <%end%>
+
+    // Get the <span> element that closes the modal
+    var project_span_team = document.getElementById("inviteclose");
+    var modalteam = document.getElementById('Project-Invite-Model')
+    // When the user clicks on <span> (x), close the modal
+    project_span_team.onclick = function () {
+      modalteam.style.display = "none";
+    }
+
+    document.getElementById("loading-mask1").style.display = "none";
+  }
+
+  $(document).keydown(function(e) {
+    // ESCAPE key pressed
+    if (e.keyCode == 27) {
+      $('#response').empty();
+      $("#guest-email").val("");
+
+      $('#response-failure').empty();
+      $("#response-success");
+      $("#Project-Invite-Model").hide();
+
+
+    }
+  });
+
+</script>
 <%# Rails flash messages styled for Zurb Foundation %>
 
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
     <li class="name">
-      <h1><a href="#">WeServe</a></h1>
+      <h1><a href="/">WeServe</a></h1>
     </li>
     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -46,14 +81,14 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>
-      <li><a href="#"><img src="images/profile-image.jpg"></a></li>
+      <li><a href="/"><img src="images/profile-image.jpg"></a></li>
     </ul>
 
     <!-- Left Nav Section -->
     <ul class="left">
-      <li><a href="#" >ADD / INVITE PEOPLE</a></li>
-      <li><a href="#" >Start a Project</a></li>
-      <li><a href="#">Active Projects</a></li>
+      <li><a href="#" id="invite-people-on-project" >ADD / INVITE PEOPLE</a></li>
+      <li><%= link_to 'Create a Project', new_project_path %></li>
+      <li><a href="/">Active Projects</a></li>
     </ul>
   </section>
 </nav>
@@ -793,7 +828,7 @@
             <div class="dragbox ui-sortable">
               <% @sourcing_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -829,7 +864,7 @@
 
                     <!-- repeating member task box ends -->
                   </div>
-                 <hr>
+                  <hr>
               <% end %>
 
               <div class="clear"></div>
@@ -857,7 +892,7 @@
 
               <% @doing_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -924,7 +959,7 @@
               <!-- repeating member task box -->
               <% @reviewing_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -993,7 +1028,7 @@
             <div class="dragbox ui-sortable">
               <% @done_tasks.each do |task| %>
                   <div class="btn_movecard">
-                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true, name: "show-task-link" do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
+                    <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
@@ -1059,85 +1094,136 @@
 
 </div>
 
-  <div id="Project-Invite-Model" class="modal">
+<div id="Project-Invite-Model" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content2 yes">
-      <b> <span id="inviteclose" class="close">×</span></b>
-      <div class="fund-do">
-        <div class="row">
-          <center><h4>Invite People To Participate</h4></center>
-          <!--<center><h6>Type in the e-mail address of the person you like to invite</h6></center>-->
-          <div class="large-1 medium-1 small-0 columns"></div>
-          <%= form_tag(:controller => "tasks", :action => "send_email") do %>
+  <!-- Modal content -->
+  <div class="modal-content2 yes">
+    <!--<b> <span id="inviteclose" class="close" >×</span></b>,-->
+    <button type="button" class="close" data-dismiss="modal" id="inviteclose" style="background-color:white">&#10006</button>
 
-              <div class="large-10 medium-10 small-12 columns cold">
-                <div class="large-8 medium-12 small-12 columns cold">
-                  <input type="hidden" name="task_id" value="<%=@project.id rescue nil%>">
+    <div class="fund-do">
+      <div class="row">
+        <center><h4>Invite People To Participate</h4></center><br>
+        <div class="alert" sty id="response" style="margin-left: 10%; color:green "></div>
 
-                  <input type="email" name="email" placeholder="E-mail address" class="add-email">
-                </div>
-                <div class="large-4 medium-12 small-12 columns cold">
-                  <button lass="button round expand modal-btn1 btn-add"  >Add / Invite</button>
-                </div>
+        <!--<center><h6>Type in the e-mail address of the person you like to invite</h6></center>-->
+        <div class="large-1 medium-1 small-0 columns"></div>
+        <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
 
-                <div class="override">
-                  <h2 class="background"><span>OR</span></h2>
-                </div>
-
-                <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
-                  <!-- Facebook Button Start //-->
-                  <ul>
-                    <li>
-                      <div class="facebook-wrapper" >
-                        <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                          <i class="fa fa-facebook"></i>
-                          <span>Add from Facebook rc</span>
-                        </a>
-                      </div>
-                    </li>
-                    <!-- Facebook Button End //-->
-
-
-
-                    <!-- Linkedin Button Start //-->
-                    <li>
-                      <div class="twitter-wrapper">
-                        <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                          <i class="fa fa-twitter"></i>
-                          <span>Add from twitter</span>
-                        </a>
-                      </div>
-                    </li>
-                    <!-- Linkedin Button End //-->
-
-                    <!-- Pinterest Button Start //-->
-                    <li>
-                      <div class="pinterest-wrapper">
-                        <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                          <i class="fa fa-google-plus"></i>
-                          <span>Add from Google Plus</span>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="row">
-                    <h2 class="background"><span>-</span></h2>
-                    <b>URL: </b><span id="project-url"></span>
-                </div>
-                </div>
-
-
-
+            <div class="large-10 medium-10 small-12 columns cold">
+              <div class="large-8 medium-12 small-12 columns cold">
+                <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
+                <%session[:idd] = @project.id  %>
+                <% session[:project_id] = nil %>
+                <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
               </div>
-          <%end %>
-          <div class="large-1 medium-1 small-0 columns"></div>
-        </div> <!--row ends -->
 
-      </div> <!-- task details ends -->
-    </div>
+              <div class="large-4 medium-12 small-12 columns cold">
+                <button class="button round expand modal-btn1 btn-add" id="send-project-email-button" >Add / Invite</button>
+              </div>
 
+              <div class="row" style="text-align: initial; margin-left: 3.2%">
+                <div class="contact-importers">
+          <span>Import your contacts from:
+            <span class="contact-importer">
+               <span class="loading-trigger" data-source="gmail" style="margin-left:1%">
+
+                 <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
+                 <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
+               </span>
+            </span>
+
+            <span class="mini-divider"></span>
+               <span class="contact-importer">
+                 <span class="loading-trigger" data-source="yahoo" style="margin-left:1%">
+                                    <%= image_tag("yahoo.png" ,:class => "img_preview") %>
+
+                   <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
+                </span>
+               </span>
+            <span class="mini-divider"></span>
+            <!--<span class="contact-importer">-->
+            <!--<span class="loading-trigger" data-source="windowslive" style="margin-left:1%">-->
+            <!--<%#= image_tag("outlook.png" ,:class => "img_preview") %>-->
+
+            <!--<a href="#/" class="loading-indicator email-import-btn windowslive-icon">Outlook Mail</a>-->
+            <!--</span>-->
+            <!--</span>-->
+          </span>
+                </div>
+                <%unless session[:failure_contacts].blank? %>
+                    <br>
+                    <p style="color:red" id="response-failure"><%= session[:failure_contacts]%></p>
+                <%end%>
+
+                <%unless session[:success_contacts].blank? %>
+                    <br>
+                    <p style="color:green" id="response-success"><%= session[:success_contacts]%></p>
+                <%end%>
+              </div>
+              <%= session[:failure_contacts]=nil%>
+              <%= session[:success_contacts]=nil%>
+
+
+              <div class="override">
+                <h2 class="background"><span>OR</span></h2>
+              </div>
+
+              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
+                <!-- Facebook Button Start //-->
+                <ul>
+                  <li>
+                    <div class="facebook-wrapper" >
+                      <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                        <i class="fa fa-facebook"></i>
+                        <span>Add from Facebook</span>
+                      </a>
+                    </div>
+                  </li>
+                  <!-- Facebook Button End //-->
+
+
+
+                  <!-- Linkedin Button Start //-->
+                  <li>
+                    <div class="twitter-wrapper">
+                      <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                        <i class="fa fa-twitter"></i>
+                        <span>Add from twitter</span>
+                      </a>
+                    </div>
+                  </li>
+                  <!-- Linkedin Button End //-->
+
+                  <!-- Pinterest Button Start //-->
+                  <li>
+                    <div class="pinterest-wrapper">
+                      <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                        <i class="fa fa-google-plus"></i>
+                        <span>Add from Google Plus</span>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+                <div class="row">
+                  <h2 class="background"><span>-</span></h2>
+                  <b>URL: </b><span id="project-url"></span>
+                </div>
+              </div>
+
+
+
+            </div>
+        <%end %>
+        <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!--row ends -->
+
+    </div> <!-- task details ends -->
   </div>
+
+</div>
+
+
 
 <div class="md-modal md-effect-1" id="modal-1">
   <div class="md-content">
@@ -1246,8 +1332,6 @@
 <script src="/static/task_show_page/js/foundation.min.js"></script>
 <script src="/static/task_show_page/js/custom.js"></script>
 <script>
-  document.getElementById("loading-mask1").style.display = "none";
-
   $(document).foundation();
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -1256,13 +1340,39 @@
 
 
   $(document).ready(function(){
-    $('a[name=show-task-link]').click(function(){
-      $("#loading-mask1").show();
+
+    $( "#send-project-email" ).submit(function( ) {
+      $('#response').empty();
+      $('#response').html("loading...")
     });
 
-    $('#project-url').html(window.location.href);
-    var modalteam = document.getElementById('Project-Invite-Model');
-    modalteam.style.display = "block";
+    $( "#send-project-email-button" ).click(function( ) {
+//      alert('dfsdf');
+      $('#response').empty();
+    });
+
+    $( "#inviteclose" ).click(function( ) {
+     $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+      $("#guest-email").val("");
+    });
+
+    $("#guest-email").keyup(function(){
+      $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+
+    });
+
+    $('#invite-people-on-project').click(function(){
+      var modalteam = document.getElementById('Project-Invite-Model');
+      modalteam.style.display = "block";
+
+    });
+//    $('#project-url').html(window.location.href);
+//    var modalteam = document.getElementById('Project-Invite-Model');
+//    modalteam.style.display = "block";
 
 
     // Get the <span> element that closes the modal
@@ -1271,6 +1381,8 @@
     // When the user clicks on <span> (x), close the modal
     project_span_team.onclick = function() {
       modalteam.style.display = "none";
+
+
     }
 
 
