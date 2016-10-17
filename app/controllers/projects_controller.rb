@@ -3,8 +3,8 @@ class ProjectsController < ApplicationController
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
-  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
+  before_action :get_project_user, only: [:show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
   layout "manish", only: [:taskstab, :teamtab]
 
@@ -16,8 +16,6 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
-
-
   def original_url
     request.base_url + request.original_fullpath
   end
@@ -28,22 +26,39 @@ class ProjectsController < ApplicationController
     @array.each do|key|
       InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
     end
-    session[:success_contacts] = "Contacts are Imported Successfully"
+    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] =  session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
-
   end
 
   def send_project_email
-    unless params['email'].blank?
-      InvitationMailer.invite_user_for_project( params['email'],current_user.name,
-                                                Project.find(params['project_id']).title , params['project_id']).deliver_later
-      flash[:success] = "Project link has been sent to #{params[:email]}"
-      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
-    else
-      flash[:success] = "Please provide receiver email."
-      session[:project_id] =  session[:idd]
-      redirect_to controller: 'projects', action: 'taskstab', id: params['project_id']
+    respond_to do |format|
+      unless params['email'].blank?
+
+        if current_user.blank?
+          @notice = "ERROR: Please sign in to continue."
+          format.js {}
+        else
+
+        begin
+          InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+                                                    Project.find(params['project_id']).title , params['project_id']).deliver_later
+          format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
+          @notice = "Project link has been sent to #{params[:email]}"
+          format.js {}
+        rescue => e
+          @notice = "Error ".concat e.inspect
+          format.js {}
+        end
+
+        end
+
+      else
+        session[:project_id] =  session[:idd]
+        format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
+        @notice = 'Please provide receiver email.'
+        format.js {}
+      end
     end
 
   end
@@ -59,23 +74,18 @@ class ProjectsController < ApplicationController
     session[:failure_contacts] = nil
     session[:project_id] =  session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
-    session[:failure_contacts] = "Contacts are not Imported"
+    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
 
-  # GET /projects
-  # GET /projects.json
-  def oldindex
-    @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
-
-  end
   def show_task
-
-    @task=Task.find(params[:id])
-    @task_comments=@task.task_comments
-    @task_attachment=TaskAttachment.new
-    @task_attachments=@task.task_attachments
-    @task_team=TeamMembership.where(task_id: @task.id)
+    @task = Task.find(params[:id])
+    @task_comments = @task.task_comments
+    @task_attachment = TaskAttachment.new
+    @task_attachments = @task.task_attachments
+    @task_team = TeamMembership.where(task_id: @task.id)
+    task_comment_ids = @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+    project_admin
     respond_to :js
   end
 
@@ -89,10 +99,6 @@ class ProjectsController < ApplicationController
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
       end
-  end
-  # GET /notifications
-  def htmlindex
-    @projects = Project.all
   end
 
   def user_search
@@ -116,20 +122,10 @@ class ProjectsController < ApplicationController
     #display solar search results
   end
 
-
-  # GET /notifications
-  def htmlshow
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-
+  def project_admin
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id)
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
   def show
     # @comments = @project.project_comments.all
     # @proj_admins_ids = @project.proj_admins.ids
@@ -165,6 +161,12 @@ class ProjectsController < ApplicationController
     }
   end
 
+  def get_activities
+    @task=Task.find(params[:id])
+    task_comment_ids= @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+    respond_to :js
+  end
 
   # GET /projects/1/taskstab
   def taskstab
@@ -200,28 +202,9 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # old project page
-  # GET /projects/1/old
-  def old_show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
-    @followed = false
-    @rate = 0
-    if user_signed_in?
-      @followed = @project.followed_users.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-    end
-  end
-
   # GET /projects/new
   def new
     @project = Project.new
-
   end
 
   # GET /projects/1/edit

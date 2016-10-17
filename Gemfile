@@ -54,13 +54,13 @@ gem 'kaminari'
 # gem 'video_info'
 
 group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-rails',   require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
-    # Add this if you're using rbenv
-    # gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
+  # Add this if you're using rbenv
+  # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 end
 
 gem 'pg'
