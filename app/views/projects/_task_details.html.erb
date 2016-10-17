@@ -86,11 +86,13 @@
     <div class="task-details">
       <div class="row">
 
+        <div id="task-related-messages" style=""  ></div>
+
         <!--left side -->
         <div class="large-8 medium-12 small-12 columns">
           <div class="task-details-left-side">
-
-            <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) %>
+            <!--@task_team=TeamMembership.where(task_id: @task.id)-->
+            <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
                 <div class="task-desc">
                   <!--<input type="text" value="<%#= @task.title %>" class="task-desc">​-->
 
@@ -254,9 +256,9 @@
             <div class="button-set">
 
               <div class="btn-left">
-                <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) %>
+                <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
 
-                    <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create') ,html: {multipart: true} do |f| %>
+                    <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'),:remote => true ,html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
                         <input type="file" name="task_attachment[attachment]" id="file1"/>
@@ -269,15 +271,19 @@
                 <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i> Add / Invite People</button>
 
                 <% if user_signed_in? %>
-                    <% if @task.doing? && (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)  %>
+                    <% if @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id)  %>
+                        <%= link_to  reviewing_task_path(@task.id), :remote => true  do %>
                         <button>
-                          <i class="fa fa-check" aria-hidden="true"></i><%= link_to "Submit for Review", reviewing_task_path(@task.id) %>
+                          <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
                         </button>
+                            <% end %>
                     <% end %>
                     <% if current_user.id == @task.project.user_id && @task.reviewing? %>
+                        <%= link_to  completed_task_path(@task.id), :remote => true  do %>
                         <button>
-                          <i class="fa fa-check" aria-hidden="true"></i><%= link_to "Mark As Completed", completed_task_path(@task.id) %>
+                          <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
                         </button>
+                            <%end%>
                     <% end %>
                 <% end %>
               </div>
@@ -285,9 +291,9 @@
                 <button id="sharebtn"><i class="fa fa-external-link" aria-hidden="true"></i> Share</button>
                 <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i> Teams</button>
                 <% if user_signed_in? && current_user.id == @task.project.user_id %>
-                <%= link_to doing_task_path(@task.id) do %>
+                <%= link_to doing_task_path(@task.id) , :remote => true do %>
                 <button>
-                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Move
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Start
                 </button>
 
                     <%end%>
@@ -305,7 +311,7 @@
                     <!--<h4>Project_Overview.ppt</h4>-->
                     <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                     <div class="attachment-actions">
-                      <%= link_to "Open", attachment.attachment_url %>
+                      <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
                       <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
                     </div>
                   </div>
@@ -514,7 +520,13 @@
   .task-box {
     clear: both;
   }
-
+.task-messages{
+  text-align: center;
+  background-color: #10ff51 ;
+  padding-top:7px;margin-bottom:30px;
+  height:40px;
+  border-radius: 15px;
+}
 </style>
 
 
