@@ -6,7 +6,9 @@ class TaskAttachmentsController < ApplicationController
   before_action :validate_attachment, only:[:create]
   def validate_attachment
     @task=Task.find(params['task_attachment']['task_id'])
-    if !((current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) )
+    @task_team=TeamMembership.where(task_id: @task.id)
+
+    if !((current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) )
      flash[:error]= " you are not allowed to do this opration "
      redirect_to task_path(@task.id)
    end

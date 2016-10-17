@@ -121,8 +121,9 @@ class TasksController < ApplicationController
     respond_to do |format|
 
       #Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",8,"TaskComment",@as )
-      @task.project_id = Task.find(params[:id]).project_id
-      if user_signed_in? && (current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id))
+     # @task.project_id = Task.find(params[:id]).project_id
+      @task_team=TeamMembership.where(task_id: @task.id)
+      if user_signed_in? && (current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id))
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
           # activity.user_id = current_user.id

@@ -1340,7 +1340,7 @@
                       <button id="invbtn" ><i class="fa fa-users" aria-hidden="true"   ></i> Add / Invite People</button>
 
 <%if user_signed_in? %>
-                      <% if @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id && @task.doing? %>
+                      <% if @task_team.collect(&:team_member_id).include? current_user.id && @task.doing? %>
                           <button ><i class="fa fa-check" aria-hidden="true"></i><%= link_to "Submit for Review", reviewing_task_path(@task.id) %></button>
                       <% end  %>
                       <% if  current_user.id == @task.project.user_id && @task.reviewing? %>
