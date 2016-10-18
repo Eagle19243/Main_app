@@ -33,6 +33,7 @@ gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails4-autocomplete'
 gem 'nokogiri', '1.6.0'
+gem 'progress_bar'
 # gem 'dalli'
 
 # Firebase Security Token Generator
