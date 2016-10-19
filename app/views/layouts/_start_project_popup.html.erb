@@ -19,8 +19,8 @@
 
           <%#= render 'shared/error_messages', object: f.object %>
           <div class="form-group">
-            <%= f.label :title%>
-            <%= f.text_field :title, class: 'form-control', id: 'title-field' , required: 'true' %>
+            <%= f.label :title ,  error: 'Username is mandatory, please specify one'%>
+            <%= f.text_field :title, class: 'form-control', id: 'title-field' %>
           </div>
 
           <div class="form-group">
@@ -28,6 +28,10 @@
             <%= f.text_area :short_description,size: "15x5", id: 'description-field' ,  class: 'form-control', required: 'true'%>
           </div>
 
+          <div class="form-group">
+            <%= f.label :Project_Image%>
+            <%= f.file_field :picture,required: true, class:'btn btn-primary' ,style:'margin-left:auto;margin-right:auto; max-width:30%' %>
+          </div>
 
 
           </div>
@@ -35,9 +39,6 @@
             <div class="form-actions" style="float: right; margin-right: 1% ">
               <%= f.button :submit, class: "btn-lg radius", id:'project-form-id' %>
             </div>
-
-
-
           </div>
       <% end %>
 
@@ -70,21 +71,6 @@
     $("#description-field").val("");
     modalteam.style.display = "none";
   }
-
-  // close Social invite Popup
-//
-//
-//  var social_invite_modalteam = document.getElementById('social-invite-popup');
-//
-//  // Get the <span> element that closes the modal
-//  var social_invite_spanteam = document.getElementById("close-social-invite-popup");
-//
-//  // When the user clicks on <span> (x), close the modal
-//  social_invite_spanteam.onclick = function() {
-//    social_invite_modalteam.style.display = "none";
-//  }
-
-
 
 
 </script>
@@ -124,13 +110,15 @@
       $('#project-status').hide();
       $('#project-success').show();
 
-      var valuesToSubmit = $(this).serialize();
-      debugger
+      event.preventDefault();
+
       $.ajax({
         url:  $(this).attr('action'),
         type: "POST", //send it through get method
-        data:valuesToSubmit,
         dataType: "JSON",
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
       }).always(function(response){
 
         $('#project-status').html("");

@@ -38,7 +38,7 @@ class Project < ActiveRecord::Base
   #
   # validates :description, presence: true, length: { minimum: 2}
   #
-  # validates :picture, presence: true
+  validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
