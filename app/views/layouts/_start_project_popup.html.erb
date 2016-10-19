@@ -20,12 +20,12 @@
           <%#= render 'shared/error_messages', object: f.object %>
           <div class="form-group">
             <%= f.label :title%>
-            <%= f.text_field :title, class: 'form-control', required: 'true' %>
+            <%= f.text_field :title, class: 'form-control', id: 'title-field' , required: 'true' %>
           </div>
 
           <div class="form-group">
             <%= f.label :short_description, "Short description for Project"%>
-            <%= f.text_area :short_description,size: "15x5",  class: 'form-control', required: 'true'%>
+            <%= f.text_area :short_description,size: "15x5", id: 'description-field' ,  class: 'form-control', required: 'true'%>
           </div>
 
 
@@ -64,6 +64,10 @@
 
   // When the user clicks on <span> (x), close the modal
   spanteam.onclick = function() {
+    $('#project-status').hide();
+    $('#project-status').empty();
+    $("#title-field").val("");
+    $("#description-field").val("");
     modalteam.style.display = "none";
   }
 
@@ -100,6 +104,10 @@
     $(document).keydown(function(e) {
       // ESCAPE key pressed
       if (e.keyCode == 27) {
+        $('#project-status').hide();
+        $('#project-status').empty();
+        $("#title-field").val("");
+        $("#description-field").val("");
         $("#start-new-project-popup").hide();
       }
     });
