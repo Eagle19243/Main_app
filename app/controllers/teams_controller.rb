@@ -66,8 +66,8 @@ class TeamsController < ApplicationController
 
     @team = TeamMembership.find(params[:id]) rescue nil
     @project_admin = TeamMembership.where("team_id = ? AND state = ?", @team.team_id, 'admin').collect(&:team_member_id) rescue nil
-    @task=Task.find(@team.id)
-    if (current_user.id == @team.task.project.user.id && @team.destroy)
+   # @task=Task.find(@team.id)
+    if (current_user.id == @team.team.project.user_id && @team.destroy)
       @notice='Team member  was successfully Removed.'
     else
       if (@project_admin.include? current_user.id)

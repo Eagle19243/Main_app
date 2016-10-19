@@ -12,7 +12,7 @@ class TasksController < ApplicationController
     else
       @task_team=TeamMembership.where(task_id: @task.id)
 
-      if !(@task_team.collect(&:team_member_id).include? current_user.id && @task.doing?)
+      if !(  @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id) )
        @notice= " you are not allowed to do this opration "
 
        respond_to do |format|

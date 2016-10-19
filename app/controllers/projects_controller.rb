@@ -216,7 +216,7 @@ class ProjectsController < ApplicationController
     @doing_tasks = @project.tasks.where(state: "doing").all
     @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    @done_tasks = @project.tasks.where(state: "done").all
+    @done_tasks = @project.tasks.where(state: "completed").all
   end
 
   # GET /projects/1/teamtab
