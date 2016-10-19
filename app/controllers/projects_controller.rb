@@ -96,10 +96,9 @@ class ProjectsController < ApplicationController
     @task_team=TeamMembership.where(task_id: @task.id)
     task_comment_ids= @task.task_comments.collect(&:id)
     @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
-
-
     project_admin
     respond_to :js
+
   end
 
 
@@ -153,18 +152,8 @@ class ProjectsController < ApplicationController
 
   def project_admin
     @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id) rescue nil
-  puts ''
   end
   def show
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @followed = false
-    # @current_user_id = 0
-    # @rate = @project.rate_avg
-    # if user_signed_in?
-    #   @followed = @project.followers.pluck(:id).include? current_user.id
-    #   @current_user_id = current_user.id
-    # end
     redirect_to taskstab_project_path(@project.id)
   end
 
