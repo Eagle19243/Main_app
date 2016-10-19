@@ -12,7 +12,7 @@
     <center><h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5></center>
     <center>
       <h5>
-        <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.roles.map { |key, value| [key, key.humanize] }, activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
+        <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.get_roles , activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
         <i class="fa fa-pencil role-edit-pencil-<%=team_membership.id%>"></i>
       </h5>
     </center>

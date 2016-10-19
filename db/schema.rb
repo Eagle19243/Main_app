@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161007223508) do
+ActiveRecord::Schema.define(version: 20161017152112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,12 +165,17 @@ ActiveRecord::Schema.define(version: 20161007223508) do
   create_table "notifications", force: :cascade do |t|
     t.string   "summary"
     t.text     "content"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.text     "view_params"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.integer  "user_id"
-    t.integer  "kind",        default: 0
+    t.integer  "action",            default: 0
+    t.integer  "source_model_id"
+    t.string   "source_model_type"
+    t.integer  "origin_user_id"
   end
+
+  add_index "notifications", ["source_model_type", "source_model_id"], name: "index_notifications_on_source_model_type_and_source_model_id", using: :btree
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "plans", force: :cascade do |t|
     t.text     "notes"
@@ -416,6 +421,7 @@ ActiveRecord::Schema.define(version: 20161007223508) do
   add_foreign_key "institution_users", "institutions"
   add_foreign_key "institution_users", "users"
   add_foreign_key "notifications", "users"
+  add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "section_details", "projects"
   add_foreign_key "wallet_addresses", "tasks"
   add_foreign_key "wallet_transactions", "tasks"

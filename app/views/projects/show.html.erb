@@ -41,7 +41,6 @@
     </script>
 <% end %>
     <%end %>
-<%= render 'layouts/menu' %>
 
 <%= render 'project_top_banner' %>
 
@@ -84,11 +83,6 @@
                 <img src="/assets/linkedin.jpg">
               </div>
             </a></li>
-            <% if user_signed_in? %>
-                <li>
-                  <%= render 'favorite_projects/favorite_button' %>
-                </li>
-            <% end %>
           </ul>
         </div>
       </div>
@@ -132,18 +126,6 @@
             </ul>
           </div>
         </div>
-        <section class="section_content_box">
-          <h2>Section1</h2>
-          <p>
-            <%= @project.section1 %>
-          </p>
-        </section>
-        <section class="section_content_box">
-          <h2>Section2</h2>
-          <p>
-            <%= @project.section2 %>
-          </p>
-        </section>
       </div>
       <div class="small-12 medium-4 columns" id="project_tasks">
         <div class="task_border ">
