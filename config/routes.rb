@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   #
   # get 'task_attachments/create'
   #
+
+  get 'pages/term_of_use'
+  get 'pages/privacy_policy'
+
   post 'projects/send_project_invite_email'
   post 'tasks/send_email'
   post 'projects/send_project_email'

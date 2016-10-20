@@ -45,7 +45,7 @@
       React.DOM.form
         role: "form"
         onSubmit: @handleSubmit
-#        React.DOM.h3 null, "Sign in"
+#      React.DOM.h3 null, "Sign in"
         React.DOM.div
           className: 'form-group'
           React.DOM.label null,'Email'
