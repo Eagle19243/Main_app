@@ -108,6 +108,8 @@ Rails.application.routes.draw do
    get '/contacts/failure' => "projects#failure"
   get '/contacts/gmail'
   get '/contacts/yahoo'
+  get '/pages/privacy_policy'
+  get '/pages/terms_of_use'
 
    devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
 
