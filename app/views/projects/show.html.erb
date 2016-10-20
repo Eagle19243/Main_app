@@ -1,4 +1,6 @@
-<% if current_user && @project.chat_room.blank?%>
+
+<%if ! current_user.blank? %>
+<% if @project.chat_room.blank?%>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <%= javascript_include_tag 'firechat_merged' %>
 
@@ -38,6 +40,8 @@
       // alert('executing code');
     </script>
 <% end %>
+    <%end %>
+<%= render 'layouts/menu' %>
 
 <%= render 'project_top_banner' %>
 
@@ -54,21 +58,10 @@
           <!-- A default button-group -->
           <ul class="button-group radius ">
             <li>
-              <%if user_signed_in? %>
-                <%= link_to '#', :class => "button", id:'discussion-dialog-link' do %>
+              <%= link_to edit_project_path(@project), :class => "button" do %>
                   <i class="icon-edit"></i>
                   Edit
-                <%end%>
-                <%if current_user.is_admin_for?(@project)%>
-                  <%= link_to 'Additional', edit_project_path(@project), :class => "button"%>
-                <%end%>
-              <%else%>
-                <%= link_to edit_project_path(@project), :class => "button" do %>
-                  <i class="icon-edit"></i>
-                  Edit
-                <%end%>
-              <%end%>
-
+              <% end %>
             </li>
             <li><a href="#" class="button"><img src="/assets/fund.png" alt="fund icon">Fund</a></li>
             <li><a href="#" class="button"><i class="icon-check" aria-hidden="true"></i>Do a Task</a></li>
@@ -94,6 +87,11 @@
                 <img src="/assets/linkedin.jpg">
               </div>
             </a></li>
+            <% if user_signed_in? %>
+                <li>
+                  <%= render 'favorite_projects/favorite_button' %>
+                </li>
+            <% end %>
           </ul>
         </div>
       </div>
@@ -101,7 +99,7 @@
     <section class="blog" id="project_description">
       <div class="row">
         <div class="small-12 medium-7 columns">
-          <div class="text_blog project-description-context">
+          <div class="text_blog">
             <%= @project.description%>
           </div>
         </div>
@@ -134,21 +132,26 @@
               <li>
                 <a href="#project_video">Project Video</a>
               </li>
-              <li class="section-details-content">
-                <%=section_details_content_tag%>
-              </li>
             </ul>
           </div>
         </div>
-
-        <div class="section-details-context">
-          <%=render 'project_section_details'%>
-        </div>
+        <section class="section_content_box">
+          <h2>Section1</h2>
+          <p>
+            <%= @project.section1 %>
+          </p>
+        </section>
+        <section class="section_content_box">
+          <h2>Section2</h2>
+          <p>
+            <%= @project.section2 %>
+          </p>
+        </section>
       </div>
       <div class="small-12 medium-4 columns" id="project_tasks">
         <div class="task_border ">
           <h3 class="task_title left">Tasks</h3>
-          <a href="/projects/<%=@project.id%>/taskstab" class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
+          <a href=<%= "/projects/#{@project.id}/taskstab" %> class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
         </div>
         <% @project.tasks.each do |task| %>
             <div class="task_content clearfix">
@@ -208,7 +211,6 @@
 </div>
 <%= render 'visitors/sitewide_footer' %>
 
-<div class="discussion-dialog hide">Loading...</div>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -218,22 +220,6 @@
     window.mycheck = function () {
       console.log("this checks some stuff");
     };
-    $(".discussion-dialog").dialog({
-      dialogClass: 'no-dialog-padding', show : "slide",  hide : "toggle",  width: 980,  height: 800,  modal: true,autoOpen:false,
-      beforeClose: function( event, ui ) {
-        //tinymce.remove();
-        $('.discussion-dialog').empty();
-        $('#refresh').load('/projects/<%=@project.id%>.js');},
-      open: function(){
-        $('.discussion-dialog').load('/projects/<%=@project.id%>/discussions.js');
-        $('.ui-widget-overlay').bind('click',function(){ $('.discussion-dialog').dialog('close'); })
-      }
-    });
-    $("#discussion-dialog-link").click(function(e) {
-      e.preventDefault();
-      $(".discussion-dialog").dialog("open");
-    });
   });
   projectId = <%= @project.id%>;
 </script>
-<div id="refresh" class="hide"></div>

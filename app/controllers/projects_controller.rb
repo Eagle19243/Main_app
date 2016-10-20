@@ -1,10 +1,10 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
-  before_action :get_project_user, only: [:show, :taskstab, :teamtab]
+  before_action :authenticate_user!, only: [:contacts_callback,:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
+  before_action :set_project, only: [:show, :taskstab, :teamtab, :old_show, :edit, :update, :destroy, :saveEdit, :updateEdit, :htmlshow, :follow, :rate]
+  before_action :get_project_user, only: [:show, :htmlshow, :old_show, :taskstab, :teamtab]
   skip_before_action :verify_authenticity_token, only: [:rate]
   layout "manish", only: [:taskstab, :teamtab]
 
@@ -16,12 +16,87 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
-  # GET /discussions
-  # GET /discussions.json
-  def discussions
-    @section_details = @project.section_details.order(:order, :title).includes(:discussions)
-    render layout: false
+
+
+  def original_url
+    request.base_url + request.original_fullpath
   end
+
+  def send_project_invite_email
+    session[:success_contacts] = nil
+    @array = params[:emails].split(',')
+    @array.each do|key|
+      InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
+    end
+    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+
+  end
+
+  def send_project_email
+    respond_to do |format|
+      unless params['email'].blank?
+
+        if current_user.blank?
+          @notice = "ERROR: Please sign in to continue."
+          format.js {}
+        else
+
+        begin
+          InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+                                                    Project.find(params['project_id']).title , params['project_id']).deliver_later
+          format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
+          @notice = "Project link has been sent to #{params[:email]}"
+          format.js {}
+        rescue => e
+          @notice = "Error ".concat e.inspect
+          format.js {}
+        end
+
+        end
+
+      else
+        session[:project_id] =  session[:idd]
+        format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
+        @notice = 'Please provide receiver email.'
+        format.js {}
+      end
+    end
+
+  end
+
+  def contacts_callback
+    @contacts = request.env['omnicontacts.contacts']
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def failure
+    session[:failure_contacts] = nil
+    session[:project_id] =  session[:idd]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
+    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
+  end
+
+  # GET /projects
+  # GET /projects.json
+  def oldindex
+    @projects = Project.all
+    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
+
+  end
+  def show_task
+
+    @task=Task.find(params[:id])
+    @task_comments=@task.task_comments
+    @task_attachment=TaskAttachment.new
+    @task_attachments=@task.task_attachments
+    @task_team=TeamMembership.where(task_id: @task.id)
+    respond_to :js
+  end
+
 
   def autocomplete_user_search
     term = params[:term]
@@ -32,6 +107,10 @@ class ProjectsController < ApplicationController
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
       end
+  end
+  # GET /notifications
+  def htmlindex
+    @projects = Project.all
   end
 
   def user_search
@@ -55,22 +134,31 @@ class ProjectsController < ApplicationController
     #display solar search results
   end
 
+
+  # GET /notifications
+  def htmlshow
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+
+  end
+
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @followed = false
-    @current_user_id = 0
-    @rate = @project.rate_avg
-    if user_signed_in?
-      @followed = @project.followers.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-    end
-    respond_to do |format|
-      format.html
-      format.js {render(layout: false)}
-    end
+    # @comments = @project.project_comments.all
+    # @proj_admins_ids = @project.proj_admins.ids
+    # @followed = false
+    # @current_user_id = 0
+    # @rate = @project.rate_avg
+    # if user_signed_in?
+    #   @followed = @project.followers.pluck(:id).include? current_user.id
+    #   @current_user_id = current_user.id
+    # end
+    redirect_to taskstab_project_path(@project.id)
   end
 
   def follow
@@ -95,6 +183,7 @@ class ProjectsController < ApplicationController
     }
   end
 
+
   # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
@@ -103,6 +192,7 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @current_user_id = current_user.id
     end
+
     @followed = false
     @rate = 0
     if user_signed_in?
@@ -128,9 +218,28 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # old project page
+  # GET /projects/1/old
+  def old_show
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    if user_signed_in?
+      @current_user_id = current_user.id
+    end
+    @followed = false
+    @rate = 0
+    if user_signed_in?
+      @followed = @project.followed_users.pluck(:id).include? current_user.id
+      @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
+    end
+  end
+
   # GET /projects/new
   def new
     @project = Project.new
+
   end
 
   # GET /projects/1/edit
@@ -156,11 +265,13 @@ class ProjectsController < ApplicationController
         first_member.save
         activity = current_user.create_activity(@project, 'created')
         activity.user_id = current_user.id
+
         format.html { redirect_to @project, notice: 'Project request was sent.' }
-        format.json { render :show, status: :created, location: @project }
+        format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
+        session[:project_id] = @project.id
       else
         format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end
     end
   end
@@ -174,11 +285,9 @@ class ProjectsController < ApplicationController
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
-        format.js { head :no_content, status: :ok}
       else
         format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
-        format.js { render text: @project.errors.full_messages.uniq.join(','), status: 422}
       end
     end
   end
@@ -266,8 +375,6 @@ class ProjectsController < ApplicationController
     redirect_to current_user
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
     @project.destroy
     respond_to do |format|
@@ -290,10 +397,8 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :description, :country, :picture,
-                                      :user_id, :state, :expires_at, :request_description,
-                                      :discussed_description, project_edits_attributes: [:id, :_destroy, :description],
-                                      section_details_attributes: [:id,:project_id, :parent_id, :order, :discussed_title, :discussed_context, :_destroy])
+      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
+        project_edits_attributes: [:id, :_destroy, :description])
     end
 
     def get_project_user

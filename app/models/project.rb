@@ -24,9 +24,9 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
-  validates :title, presence: true, length: { minimum: 1, maximum: 60 },
+  validates :title, presence: true, length: { minimum: 3, maximum: 60 },
                       uniqueness: true
-
+  validates :short_description, presence: true, length: { minimum: 3, maximum: 60 }
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
 
   searchable do
@@ -38,7 +38,7 @@ class Project < ActiveRecord::Base
   #
   # validates :description, presence: true, length: { minimum: 2}
   #
-  # validates :picture, presence: true
+  validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 

@@ -61,7 +61,16 @@ class TeamsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def remove_membership
 
+    @team = TeamMembership.find(params[:id])
+
+    @team.destroy
+    respond_to do |format|
+      format.html { redirect_to teams_url, notice: 'Team member  was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
   # POST /team_memberships
   # POST /team_memberships.json
   def team_memberships

@@ -3,8 +3,9 @@ ruby '2.3.1'
 
 gem 'rails', '4.2.5.1'
 gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails', '>= 5.2.1'
 gem 'uglifier', '>= 1.3.0'
-gem 'sqlite3'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -13,6 +14,7 @@ gem 'country_select'
 gem 'carrierwave', '~> 0.9'
 gem 'mini_magick'
 gem 'fog'
+gem 'omnicontacts'
 gem 'gravatar_image_tag'
 gem 'groupify'
 gem 'foundation-datetimepicker-rails'
@@ -24,19 +26,17 @@ gem 'paypal-sdk-adaptivepayments'
 gem 'pp-adaptive'
 gem 'jquery-turbolinks'
 gem 'chosen-rails'
-gem 'capistrano', '~> 3.1.0'
-gem 'capistrano-bundler', '~> 1.1.2'
-gem 'capistrano-rails', '~> 1.1.1'
 gem 'validates_timeliness', '~> 4.0'
-
-# use puma on AWS http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_Ruby_rails.html
+gem 'interactor-rails', '~> 2.0'
 gem 'puma'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails4-autocomplete'
+gem 'nokogiri', '1.6.0'
+# gem 'dalli'
 
 # Firebase Security Token Generator
-gem  "firebase_token_generator"
+gem 'firebase_token_generator'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
@@ -49,37 +49,37 @@ gem 'differ'
 gem 'cocoon'
 gem 'best_in_place', '~> 3.0.1'
 gem 'cancancan', '~> 1.10'
+gem 'kaminari'
+
+# gem 'video_info'
+
+group :development do
+    gem 'capistrano',         require: false
+    gem 'capistrano-rvm',     require: false
+    gem 'capistrano-rails',   require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+    # Add this if you're using rbenv
+    # gem 'capistrano-rbenv', github: "capistrano/rbenv"
+end
+
+gem 'pg'
+
 gem 'devise'
 gem 'foundation-rails', '~> 5.5'
 gem 'high_voltage'
 gem 'simple_form'
 
-# use the wonderful kaminari gem for pagination
-gem 'kaminari'
-
-# gem 'video_info'
-# Add this if you're using rbenv
-# gem 'capistrano-rbenv', github: "capistrano/rbenv"
-
-# Add this if you're using rvm
-# gem 'capistrano-rvm', github: "capistrano/rvm"
-
 group :development do
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
   gem 'better_errors'
   gem 'hub', :require=>nil
   gem 'quiet_assets'
   gem 'rails_layout'
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
 end
 
 group :development, :test do
+  gem 'sqlite3'
   gem 'byebug'
-end
-
-group :production do
-  #gem 'pg'
-  gem 'rails_12factor'
-  # use unicorn in production on digital ocean. On AWS we will config with puma
-  gem 'unicorn'
 end

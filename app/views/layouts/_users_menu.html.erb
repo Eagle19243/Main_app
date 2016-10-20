@@ -35,7 +35,7 @@
       </div>
       <ul class="left title-area">
         <li class="active">
-          <%= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
+          <a href="#" id="startbtn" >Start a project</a>
         </li>
         <li class="active">
           <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
@@ -43,3 +43,5 @@
       </ul>
     </section>
   </nav>
+
+<%= render "layouts/start_project_popup" %>
