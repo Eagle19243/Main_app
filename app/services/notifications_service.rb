@@ -14,7 +14,6 @@ class NotificationsService
 
   def self.notify_about_project_creation(project)
     self.create_notification(project, project.user, Notification.actions[:created_project])
-    self.create_notification(project, User.where(role == User.roles[:admin]).first, Notification.actions[:user_created_project], project.user)
   end
 
   def self.notify_about_admin_invitation(project, user)

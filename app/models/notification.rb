@@ -4,7 +4,6 @@ class Notification < ActiveRecord::Base
       :became_project_admin,
       :lost_project_admin_status,
       :created_project,
-      :user_created_project,
       :become_project_admin_invitation,
       :applied_as_project_admin
   ]
