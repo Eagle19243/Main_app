@@ -17,10 +17,14 @@ Rails.application.routes.draw do
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
-  resources :notifications
+  resources :notifications, only: [:index]
   resources :cards
 
-  resources :teams
+  resources :teams do
+    member do
+      get :apply_as_admin
+    end
+  end
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :team_memberships
   resources :work_records

@@ -50,6 +50,7 @@ gem 'cocoon'
 gem 'best_in_place', '~> 3.0.1'
 gem 'cancancan', '~> 1.10'
 gem 'kaminari'
+gem 'rails-observers'
 
 # gem 'video_info'
 
