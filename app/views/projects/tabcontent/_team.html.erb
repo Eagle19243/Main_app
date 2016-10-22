@@ -1,7 +1,8 @@
 <% @project.team.team_memberships.each do |team_membership| %>
   <%= render "projects/cards/team_membership", team_membership: team_membership %>
 <% end %>
-<%= link_to "Apply as admin", apply_as_admin_team_path(@project.team), class: "button" %>
+<%= link_to "Apply as admin", apply_as_admin_team_path(@project.team), class: "button round" %>
+<a href="#" class="button round" data-reveal-id="userSearchPopup">Invite Admin</a>
 <%= render "teams/users_search_popup" %>
 <script>
   $('.team-member .box').matchHeight();

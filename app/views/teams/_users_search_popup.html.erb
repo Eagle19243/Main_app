@@ -1,15 +1,19 @@
-<a href="#" class="button" data-reveal-id="userSearchPopup">Invite Admin</a>
-
 <div id="userSearchPopup" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
   <h2 id="userSearchPopupTitle">Search users</h2>
+  <div class="row">
+    <div class="small-8 small-centered columns">
+      <%= form_tag(users_search_teams_path, :method => "get", remote: true) do %>
+        <div class="small-10 columns">
+          <%= text_field_tag :search, nil, placeholder: "Search Users" %>
+        </div>
+        <div class="small-2 columns">
+          <%= submit_tag "Search", class: "button postfix" %>
+        </div>
+      <% end %>
 
-  <%= form_tag(users_search_teams_path, :method => "get", remote: true) do %>
-      <%= text_field_tag :search, nil, placeholder: "Search Users" %>
-      <%= submit_tag "Search" %>
-  <% end %>
-
-  <div class="userSearchResults">
-
+      <div class="userSearchResults">
+      </div>
+    </div>
   </div>
   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>

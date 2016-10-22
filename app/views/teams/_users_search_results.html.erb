@@ -1,4 +1,13 @@
-<h3>Found <%= users.count %> users</h3>
-<% users.each do |user| %>
-  <%= link_to User.name, user_path(user) %>
-<% end %>
+<h4>Found <%= users.count %> users</h4>
+<div class="foundUsers">
+  <div class="small-8 columns">
+    <% users.each do |user| %>
+      <div class="small-8 columns">
+        <%= link_to user.name, user_path(user) %>
+      </div>
+      <div class="small-4 columns">
+        <%= link_to "Invite", "#", class: "button postfix"%>
+      </div>
+    <% end %>
+  </div>
+</div>
