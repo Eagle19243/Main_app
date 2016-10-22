@@ -39,4 +39,13 @@ module ProjectsHelper
     end
 
   end
+
+  def get_project_title(project_id)
+    Project.find(project_id).title rescue 'project not found'
+    end
+
+  def get_chatroom_title(chat_room_id)
+    Chatroom.find(chat_room_id).name rescue 'room not found'
+  end
+
 end

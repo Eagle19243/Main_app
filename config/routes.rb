@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :groupmessages
+  resources :chatrooms
   # get 'task_attachments/index'
   #
   # get 'task_attachments/new'

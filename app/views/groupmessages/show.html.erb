@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Messgae:</strong>
+  <%= @groupmessage.messgae %>
+</p>
+
+<p>
+  <strong>Groupmember:</strong>
+  <%= @groupmessage.Groupmember %>
+</p>
+
+<p>
+  <strong>Chatroom:</strong>
+  <%= @groupmessage.Chatroom %>
+</p>
+
+<p>
+  <strong>Project:</strong>
+  <%= @groupmessage.Project %>
+</p>
+
+<%= link_to 'Edit', edit_groupmessage_path(@groupmessage) %> |
+<%= link_to 'Back', groupmessages_path %>
