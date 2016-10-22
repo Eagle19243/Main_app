@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   resources :cards
 
   resources :teams do
+    collection do
+      get :users_search
+    end
+
     member do
       get :apply_as_admin
     end

@@ -1,0 +1,4 @@
+<h3>Found <%= users.count %> users</h3>
+<% users.each do |user| %>
+  <%= link_to User.name, user_path(user) %>
+<% end %>

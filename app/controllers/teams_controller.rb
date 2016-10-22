@@ -100,6 +100,15 @@ class TeamsController < ApplicationController
     end
   end
 
+  def users_search
+    @search = Sunspot.search(User) do
+      fulltext params[:search]
+    end
+    @results = @search.results
+    respond_to do |format|
+      format.js
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
