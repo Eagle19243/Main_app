@@ -3,13 +3,13 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li>
-        <a href="#" data-reveal-id="SignInModal" class="signup_buttons">Sign In</a>
+        <a href="#" id="sing-in-nav" data-reveal-id="sign-in-sing-up" class="signup_buttons">Sign In</a>
       </li>
       <!--<li>-->
         <!--<a href="#" data-reveal-id="socialSignIn">Social sign In</a>-->
       <!--</li>-->
       <li>
-        <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">Sign Up</a>
+        <a href="#" id="sing-up-nav" data-reveal-id="sign-in-sing-up" class="signup_buttons">Sign Up</a>
       </li>
       <%#= render "layouts/social_auth_container" %>
     </ul>
@@ -19,7 +19,8 @@
     </div>
     <ul class="left title-area">
       <li class="active">
-        <%= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
+        <a href="#" id="create-project-a" data-reveal-id="sign-in-sing-up"> <strong>Start a Project</strong> </a>
+        <%#= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
       </li>
       <li class="active">
         <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
@@ -28,19 +29,62 @@
   </section>
 </nav>
 
-<div id="SignInModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-<center>  <h2 align="center">OR</h2></center>
-<div style="text-align: center;padding-bottom: 30px ;margin-top: 20px">
-      <%= link_to image_tag("facebook.png"), user_facebook_omniauth_callback_path %>
-      <%= link_to image_tag("signup-twitter.png"), user_twitter_omniauth_authorize_path %>
-      <%= link_to image_tag("google.png"), user_google_oauth2_omniauth_callback_path %>
-      <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-    </div>
-</div>
 
-<div id="SignUpModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+
+<div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+
+ <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
+<div style="background-color: #f0f0f0 ">
+  <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
+
+    <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+    <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+    <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+    <!--<a class="close-reveal-modal" aria-label="Close">&#215;</a>-->
+  </div>
+  <center>  <h2 align="center">OR</h2></center>
+<div  id ="sing-in-show">
+  <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+
 </div>
+  <div id ="sing-up-show">
+  <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+  </div>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+
+</div>
+  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
+</div>
+<script>
+  $("#Sign-in-a ,#sing-in-nav").click(function(){
+    debugger
+    $("#Sign-in-div").css("background-color","#35B8F4 " )
+    $("#Sign-up-div").css("background-color","white " )
+    $("#Sign-in-div").css("color","white " )
+    $("#Sign-up-div").css("color","black" )
+    $("#sing-up-show").hide();
+    $("#sing-in-show").show();
+
+
+
+
+  })
+  $("#Sign-up-a,#sing-up-nav,#create-project-a").click(function(){
+    debugger
+
+    $("#Sign-up-div").css("background-color","#35B8F4" )
+    $("#Sign-in-div").css("background-color","white " )
+    $("#Sign-up-div").css("color","white " )
+    $("#Sign-in-div").css("color","black" )
+    $("#sing-in-show").hide();
+    $("#sing-up-show").show();
+
+  })
+</script>
+
+<style>
+  .term_of_service{
+    text-align: center;
+    padding-top: 2%;
+  }
+</style>

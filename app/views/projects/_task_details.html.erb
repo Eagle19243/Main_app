@@ -24,15 +24,14 @@
               <div class="override">
                 <h2 class="background"><span>OR</span></h2>
               </div>
-
-              <div class="social-icons" data-title="<%= @task.title %>" data-url="<%= task_path(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
+              <div class="social-icons" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
                 <!-- Facebook Button Start //-->
                 <ul>
                   <li>
-                    <div class="facebook-wrapper">
+                    <div class="facebook-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
                       <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
                         <i class="fa fa-facebook"></i>
-                        <span>Add from Facebook</span>
+                        <span>share on Facebook</span>
                       </a>
                     </div>
                   </li>
@@ -41,10 +40,10 @@
 
                   <!-- Linkedin Button Start //-->
                   <li>
-                    <div class="twitter-wrapper">
+                    <div class="twitter-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
                       <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
                         <i class="fa fa-twitter"></i>
-                        <span>Add from twitter</span>
+                        <span>Share on twitter</span>
                       </a>
                     </div>
                   </li>
@@ -52,10 +51,10 @@
 
                   <!-- Pinterest Button Start //-->
                   <li>
-                    <div class="pinterest-wrapper">
+                    <div class="pinterest-wrapper" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
                       <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
                         <i class="fa fa-google-plus"></i>
-                        <span>Add from Google Plus</span>
+                        <span>Share on Google Plus</span>
                       </a>
                     </div>
                   </li>
@@ -86,11 +85,13 @@
     <div class="task-details">
       <div class="row">
 
+        <div id="task-related-messages" style=""  ></div>
+
         <!--left side -->
         <div class="large-8 medium-12 small-12 columns">
           <div class="task-details-left-side">
-
-            <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) %>
+            <!--@task_team=TeamMembership.where(task_id: @task.id)-->
+            <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
                 <div class="task-desc">
                   <!--<input type="text" value="<%#= @task.title %>" class="task-desc">​-->
 
@@ -254,9 +255,9 @@
             <div class="button-set">
 
               <div class="btn-left">
-                <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) %>
+                <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
 
-                    <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), remote:true ,html: {multipart: true} do |f| %>
+                    <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'),:remote => true ,html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
                         <input type="file" name="task_attachment[attachment]" id="file1"/>
@@ -269,24 +270,33 @@
                 <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i> Add / Invite People</button>
 
                 <% if user_signed_in? %>
-                    <% if @task.doing? && (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)  %>
+                    <% if @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id)  %>
+                        <%= link_to  reviewing_task_path(@task.id), :remote => true  do %>
                         <button>
-                          <i class="fa fa-check" aria-hidden="true"></i><%= link_to "Submit for Review", reviewing_task_path(@task.id) %>
+                          <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
                         </button>
+                            <% end %>
                     <% end %>
                     <% if current_user.id == @task.project.user_id && @task.reviewing? %>
+                        <%= link_to  completed_task_path(@task.id), :remote => true  do %>
                         <button>
-                          <i class="fa fa-check" aria-hidden="true"></i><%= link_to "Mark As Completed", completed_task_path(@task.id) %>
+                          <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
                         </button>
+                            <%end%>
                     <% end %>
                 <% end %>
               </div>
               <div class="btn-right">
                 <button id="sharebtn"><i class="fa fa-external-link" aria-hidden="true"></i> Share</button>
                 <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i> Teams</button>
+                <% if user_signed_in? && current_user.id == @task.project.user_id %>
+                <%= link_to doing_task_path(@task.id) , :remote => true do %>
                 <button>
-                  <i class="fa fa-arrow-right" aria-hidden="true"></i>  <%= link_to "Move", doing_task_path(@task.id) %>
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Start
                 </button>
+
+                    <%end%>
+                    <%end%>
               </div>
 
             </div>
@@ -300,7 +310,7 @@
                     <!--<h4>Project_Overview.ppt</h4>-->
                     <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                     <div class="attachment-actions">
-                      <%= link_to "Open", attachment.attachment_url %>
+                      <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
                       <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
                     </div>
                   </div>
@@ -368,7 +378,7 @@
           <% @task_team.each do |team_member| %>
 
               <!--<%# user=User.find(team_member.team_member_id) %>-->
-              <div style="width:300px; height: 80px;background-color: #c2c2c4;margin: 5px;padding-top:25px; ">
+              <div style="width:200px;height: 50px;background-color: #dddddd;margin: 5px;padding-top:8px;">
 
                 <% if user_signed_in? && (current_user.id == @task.project.user.id || ((!@project_admin.blank?) &&(@project_admin.include? current_user.id))) %>
 
@@ -406,11 +416,11 @@
         <div class="large-10 medium-10 small-12 columns cold">
 
 
-          <div class="social-icons" data-title="<%= @task.title %>" data-url="<%= task_path(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
+          <div class="social-icons" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
             <!-- Facebook Button Start //-->
             <ul>
               <li>
-                <div class="facebook-wrapper">
+                <div class="facebook-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
                   <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
                     <i class="fa fa-facebook"></i>
                     <span>share on Facebook</span>
@@ -422,7 +432,7 @@
 
               <!-- Linkedin Button Start //-->
               <li>
-                <div class="twitter-wrapper">
+                <div class="twitter-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
                   <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
                     <i class="fa fa-twitter"></i>
                     <span>Share on twitter</span>
@@ -433,7 +443,7 @@
 
               <!-- Pinterest Button Start //-->
               <li>
-                <div class="pinterest-wrapper">
+                <div class="pinterest-wrapper" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
                   <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
                     <i class="fa fa-google-plus"></i>
                     <span>Share on Google Plus</span>
@@ -509,7 +519,13 @@
   .task-box {
     clear: both;
   }
-
+.task-messages{
+  text-align: center;
+  background-color: #10ff51 ;
+  padding-top:7px;margin-bottom:30px;
+  height:40px;
+  border-radius: 15px;
+}
 </style>
 
 
@@ -571,3 +587,8 @@
 <!--<textarea name="do_request[application]" id="do_request_application"></textarea>-->
 <!--<input value="true" type="hidden" name="do_request[free]" id="do_request_free">-->
 <!--</form>-->
+
+
+
+
+

@@ -16,12 +16,7 @@ class DoRequestsController < ApplicationController
   end
 
   def create
-
-
-
-
-
-     @do_request = current_user.do_requests.build(request_params) rescue nil
+    @do_request = current_user.do_requests.build(request_params) rescue nil
      #@do_request.task
      if @do_request.task.suggested_task?
        flash[:error] = "You can not Apply For Suggested Task "
@@ -34,21 +29,16 @@ class DoRequestsController < ApplicationController
        if @do_request.save
          @msg="Request sent to Project Admin";
          flash[:success] = @msg
-
-        # redirect_to @do_request.task
-
          format.html { redirect_to @do_request.task, notice: 'Request sent to Project Admin.' }
          format.json { render json: { id: @do_request, status: 200, responseText: "Request sent to Project Admin " } }
          format.js
-
        else
          @msg="You can not Apply Twice";
          format.html {  redirect_to  root_url, notice: "You can not Apply Twice"  }
          format.js
        end
      end
-
-  end
+end
 
 
 

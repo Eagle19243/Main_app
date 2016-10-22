@@ -12,10 +12,11 @@ class NotificationsController < ApplicationController
           @pending_projects = Project.where(:state => 'pending')
         end
         projects_ids = current_user.projects.collect(&:id)
-        @array_tasks = Task.where( "project_id IN (?) AND state = ?",  projects_ids, 'pending')
-        p_ids = projects_ids.flatten
+        @array_tasks = Task.where( "project_id IN (?) AND state = ?",  projects_ids, 'suggested_task')
+      #  p_ids = projects_ids.flatten
         @pendding_do_request = DoRequest.where( "project_id IN (?) AND state = ?",  projects_ids, 'pending')
-     end
+
+    end
 
   # GET /notifications
   def htmlindex
