@@ -123,12 +123,16 @@
 
   // Get the button that opens the modal
   var btnteam = document.getElementById("startbtn");
+  var btnteam1 = document.getElementById("footer-startbtn");
 
   // Get the <span> element that closes the modal
   var spanteam = document.getElementById("close-project-popup");
 
   // When the user clicks the button, open the modal
   btnteam.onclick = function() {
+    modalteam.style.display = "block";
+  }
+  btnteam1.onclick = function() {
     modalteam.style.display = "block";
   }
 
