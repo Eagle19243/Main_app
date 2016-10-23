@@ -7,7 +7,6 @@
       <div class="row">
         <center><h4>Add / Invite People</h4></center>
         <center><h6>Type in the e-mail address of the person you like to invite</h6></center>
-
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag(:controller => "tasks", :action => "send_email") do %>
             <div class="large-10 medium-10 small-12 columns cold">
@@ -33,7 +32,6 @@
                     </div>
                   </li>
                   <!-- Facebook Button End //-->
-
                   <!-- Linkedin Button Start //-->
                   <li>
                     <div class="twitter-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
@@ -44,7 +42,6 @@
                     </div>
                   </li>
                   <!-- Linkedin Button End //-->
-
                   <!-- Pinterest Button Start //-->
                   <li>
                     <div class="pinterest-wrapper" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
@@ -56,7 +53,6 @@
                   </li>
                 </ul>
                 <%#= social_share_button_tag(@task.title, :url => task_path(@task.id)) %>
-
                 <!-- Pinterest Button End //-->
               </div>
             </div>
@@ -66,9 +62,7 @@
 
     </div> <!-- task details ends -->
   </div>
-
 </div>
-
 <div id="myModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
@@ -82,7 +76,6 @@
             <!--@task_team=TeamMembership.where(task_id: @task.id)-->
             <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
                 <div class="task-desc">
-                  <!--<input type="text" value="<%#= @task.title %>" class="task-desc">​-->
                   <div>
                     <h3 class="task-proof" id="task-title"><%= @task.title %></h3>
                     <a href="#" id="edit-title"> Edit</a>
@@ -109,7 +102,6 @@
                     <a href="#" id="edit-condition"> Edit</a>
                     <p class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "hide-input"} do |f| %>
-
                         <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
                         <button name="button" type="submit" id="task-update-condition">save</button>
                         <button type="reset" id="cancel-condition">X</button>
@@ -119,20 +111,15 @@
                   <div>
                     <h4 style=" display: inline-block;">Proof of Execution</h4>
                     <a href="#" id="edit-proof"> Edit</a>
-
                     <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "hide-input"} do |f| %>
-
                         <%= f.text_area :proof_of_execution, id: "input-task-proof" %>
                         <button name="button" type="submit" id="task-update-proof">save</button>
                         <button type="reset" id="cancel-proof">X</button>
-
                     <% end %>
                     <hr>
                   </div>
-
                   <%= render ("projects/task_comment") %>
-
                   <% if user_signed_in? %>
                       <h6>Write a Comment</h6>
                       <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
@@ -143,7 +130,6 @@
                             <%= f.hidden_field :user_id, value: current_user.id %>
                             <button type="submit" name="commit" value="Send"> Send</button>
                             &nbsp;&nbsp;
-
                             <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                           </div>
                       <% end %>
@@ -152,29 +138,21 @@
             <% else %>
                 <div class="task-desc">
                   <h3><%= @task.title %></h3>
-
                   <p><%= @task.description %></p>
-
                   <h4>Condition of Execution</h4>
-
                   <p><%= @task.condition_of_execution %></p>
-
                   <h4>Proof of Execution</h4>
                   <p><%= @task.proof_of_execution %></p>
-
                   <hr>
                   <%= render ("projects/task_comment") %>
-
                   <% if user_signed_in? %>
                       <%= form_for [@task.project, @task, @task.task_comments.build] do |f| %>
                           <div class="post-comment">
-
                             <%= f.text_area :body %>
                             <%= f.hidden_field :task_id, value: @task.id %>
                             <%= f.hidden_field :user_id, value: current_user.id %>
                             <button type="submit" name="commit" value="Send"> Send</button>
                             &nbsp;&nbsp;
-
                             <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                           </div>
                       <% end %>
@@ -186,7 +164,6 @@
             </div>
           </div> <!-- end of task-details-left-side -->
         </div>
-
         <!-- right side -->
         <div class="large-4 medium-12 small-12 columns">
           <div class="task-details-right-side">
@@ -207,7 +184,6 @@
                 Needed : <span>$<%= @task.budget %></span></h6>
               <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0 %></span> / Needed :
                 <span><%= @task.target_number_of_participants %></span></h6>
-
               <div class="nice round progress alert large-12 medium-12 small-12">
                 <span class="meter" style="width:<%= @task.funded %>"></span>
               </div>
@@ -215,15 +191,12 @@
             </div>
             <hr>
             <strong>Task Specific Bit Coin Address:</strong>
-
             <p id='fe_text'><%= @task.wallet_address.sender_address rescue 'Available soon' %></p>
             </p>
             <hr>
             <div class="button-set">
-
               <div class="btn-left">
                 <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
-
                     <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
@@ -235,7 +208,6 @@
                     <% end %>
                 <% end %>
                 <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i> Add / Invite People</button>
-
                 <% if user_signed_in? %>
                     <% if @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id) %>
                         <%= link_to reviewing_task_path(@task.id), :remote => true do %>
@@ -261,14 +233,11 @@
                         <button>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i> Start
                         </button>
-
                     <% end %>
                 <% end %>
               </div>
-
             </div>
             <hr>
-
             <div class="attachments">
               <h5><i class="fa fa-paperclip" aria-hidden="true"></i> Attachments</h5>
               <% @task_attachments.each do |attachment| %>
@@ -295,16 +264,13 @@
 
 <!-- Task Details Window -->
 <div id="myModal2" class="modal">
-
   <!-- Modal content -->
   <div class="modal-content2">
     <b><span id="myModal2close" class="close">x</span></b>
-
     <div class="fund-do">
       <div class="row">
         <center><h4><%= @task.title %></h4></center>
         <center><h6>Choose the best option for you to do this task.</h6></center>
-
         <div class="large-1 medium-1 small-0 columns"></div>
         <div class="large-5 medium-5 small-12 columns">
           <button class="button round expand modal-btn1" id="free" onclick="setfree()">Do this task for FREE</button>
@@ -320,9 +286,7 @@
         </div>
         <div class="large-1 medium-1 small-0 columns"></div>
       </div> <!--row ends -->
-
       <div class="large-1 medium-1 small-0 columns"></div>
-
     </div>
   </div> <!-- task details ends -->
 
@@ -339,12 +303,8 @@
           <!---->
           <p id="team-message"></p>
           <% @task_team.each do |team_member| %>
-
-              <!--<%# user=User.find(team_member.team_member_id) %>-->
               <div style="width:200px;height: 50px;background-color: #dddddd;margin: 5px;padding-top:8px;">
-
                 <% if user_signed_in? && (current_user.id == @task.project.user.id || ((!@project_admin.blank?) &&(@project_admin.include? current_user.id))) %>
-
                     <b> <%= link_to teams_remove_membership_path(id: team_member.id), remote: true, data: {confirm: 'Are you sure to remove?'} do %>
                           <span id="Removeteammember" class="close">×</span>
                       <% end %></b>
@@ -355,9 +315,7 @@
                     <%= gravatar_for(team_member.task_team_member, 35) %>
                 <% end %>
                 <%= link_to team_member.task_team_member.name, user_path(team_member.task_team_member) %>
-
               </div>
-              <!--<%#= render "projects/cards/team_member", team_member: team_member %>-->
           <% end %></center>
       </div> <!--row ends -->
 
@@ -367,17 +325,12 @@
 </div>
 
 <div id="share" class="modal">
-
   <div class="modal-content2 yes">
     <b><span id="shareclose" class="close">×</span></b>
     <div class="fund-do">
       <div class="row">
-
         <div class="large-1 medium-1 small-0 columns"></div>
-
         <div class="large-10 medium-10 small-12 columns cold">
-
-
           <div class="social-icons" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
             <!-- Facebook Button Start //-->
             <ul>
@@ -390,8 +343,6 @@
                 </div>
               </li>
               <!-- Facebook Button End //-->
-
-
               <!-- Linkedin Button Start //-->
               <li>
                 <div class="twitter-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
@@ -402,7 +353,6 @@
                 </div>
               </li>
               <!-- Linkedin Button End //-->
-
               <!-- Pinterest Button Start //-->
               <li>
                 <div class="pinterest-wrapper" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
@@ -413,9 +363,7 @@
                 </div>
               </li>
             </ul>
-            <%#= social_share_button_tag(@task.title, :url => task_path(@task.id)) %>
-
-            <!-- Pinterest Button End //-->
+           <!-- Pinterest Button End //-->
           </div>
         </div>
         <div class="large-1 medium-1 small-0 columns"></div>

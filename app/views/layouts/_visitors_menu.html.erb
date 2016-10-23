@@ -9,7 +9,6 @@
       <li>
         <a href="#" id="sing-up-nav" data-reveal-id="sign-in-sing-up" class="signup_buttons">Sign Up</a>
       </li>
-      <%#= render "layouts/social_auth_container" %>
     </ul>
     <!-- Left Nav Section -->
     <div class="left">
@@ -18,16 +17,13 @@
     <ul class="left title-area">
       <li class="active">
         <a href="#" id="create-project-a" data-reveal-id="sign-in-sing-up"> <strong>Start a Project</strong> </a>
-        <%#= link_to "<strong>Start a Project</strong>".html_safe, new_project_path, data: { no_turbolink: true } %>
-      </li>
+     </li>
       <li class="active">
         <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
       </li>
     </ul>
   </section>
 </nav>
-
-
 
 <div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 
@@ -38,50 +34,34 @@
     <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
     <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
     <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
-    <!--<a class="close-reveal-modal" aria-label="Close">&#215;</a>-->
   </div>
   <center>  <h2 align="center">OR</h2></center>
 <div  id ="sing-in-show">
   <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-
 </div>
   <div id ="sing-up-show">
   <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
   </div>
   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-
 </div>
   <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
 </div>
 
-
-<style>
-  .term_of_service{
-    text-align: center;
-    padding-top: 2%;
-  }
-</style>
 <script>
   $("#Sign-in-a ,#sing-in-nav").click(function () {
-    debugger
     $("#Sign-in-div").css("background-color", "#35B8F4 ")
     $("#Sign-up-div").css("background-color", "white ")
     $("#Sign-in-div").css("color", "white ")
     $("#Sign-up-div").css("color", "black")
     $("#sing-up-show").hide();
     $("#sing-in-show").show();
-
-
   })
   $("#Sign-up-a,#sing-up-nav,#create-project-a").click(function () {
-    debugger
-
     $("#Sign-up-div").css("background-color", "#35B8F4")
     $("#Sign-in-div").css("background-color", "white ")
     $("#Sign-up-div").css("color", "white ")
     $("#Sign-in-div").css("color", "black")
     $("#sing-in-show").hide();
     $("#sing-up-show").show();
-
   })
 </script>

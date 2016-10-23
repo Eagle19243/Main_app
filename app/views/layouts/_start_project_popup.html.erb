@@ -10,43 +10,28 @@
     <div class="modal-body">
       <div id="project-status" class="alert alert-danger">
       </div>
-
       <div id="project-success" style="display: none">
         <%= image_tag("loading.gif", :alt => "rss feed") %>
       </div>
       <%= simple_form_for(Project.new ,html: { id: 'project-form', multipart: true })do |f| %>
           <%= f.error_notification %>
-
-          <%#= render 'shared/error_messages', object: f.object %>
           <div class="form-group">
             <%= f.label :title%>
             <%= f.text_field :title, class: 'form-control', required: 'true' %>
           </div>
-
           <div class="form-group">
             <%= f.label :short_description, "Short description for Project"%>
             <%= f.text_area :short_description,size: "15x5",  class: 'form-control', required: 'true'%>
           </div>
-
-
-
           </div>
           <div class="modal-footer">
             <div class="form-actions" style="float: right; margin-right: 1% ">
               <%= f.button :submit, class: "btn-lg radius", id:'project-form-id' %>
             </div>
-
-
-
-          </div>
+       </div>
       <% end %>
-
-
       </div>
 </div>
-
-
-
 <script>
   // Get the modal
   var modalteam = document.getElementById('start-new-project-popup');
@@ -67,21 +52,6 @@
   spanteam.onclick = function() {
     modalteam.style.display = "none";
   }
-
-  // close Social invite Popup
-//
-//
-//  var social_invite_modalteam = document.getElementById('social-invite-popup');
-//
-//  // Get the <span> element that closes the modal
-//  var social_invite_spanteam = document.getElementById("close-social-invite-popup");
-//
-//  // When the user clicks on <span> (x), close the modal
-//  social_invite_spanteam.onclick = function() {
-//    social_invite_modalteam.style.display = "none";
-//  }
-
-
 
 
 </script>

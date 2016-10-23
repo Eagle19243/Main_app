@@ -26,7 +26,6 @@ class TeamsController < ApplicationController
   # POST /teams.json
   def create
     @team = Team.new(team_params)
-
     respond_to do |format|
       if @team.save
         format.html { redirect_to @team, notice: 'Team was successfully created.' }
@@ -63,10 +62,8 @@ class TeamsController < ApplicationController
   end
 
   def remove_membership
-
     @team = TeamMembership.find(params[:id]) rescue nil
     @project_admin = TeamMembership.where("team_id = ? AND state = ?", @team.team_id, 'admin').collect(&:team_member_id) rescue nil
-   # @task=Task.find(@team.id)
     if (current_user.id == @team.team.project.user_id && @team.destroy)
       @notice='Team member  was successfully Removed.'
     else

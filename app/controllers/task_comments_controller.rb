@@ -63,6 +63,5 @@ class TaskCommentsController < ApplicationController
 
   def set_activity(task = @comment.task, text)
     current_user.create_activity(@comment, text)
-   # task.user.create_activity(@comment, text)
   end
 end
