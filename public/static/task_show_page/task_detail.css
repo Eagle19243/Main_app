@@ -1,0 +1,59 @@
+#myModal2 {
+    z-index: 2;
+}
+
+#InviteModel {
+    z-index: 2;
+}
+
+#team {
+    z-index: 2;
+}
+
+#share {
+    z-index: 2;
+}
+
+#popup-for-free-paid {
+    z-index: 4;
+}
+
+.portlet-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 233px;
+    width: 100%;
+}
+
+.dragbox {
+    min-height: 233px;
+    width: 100%;
+    padding-bottom: 100px;
+}
+
+.draggle-set .column,
+.draggle-set .columns {
+    position: inherit;
+}
+
+.add-btn button {
+    margin-bottom: 10px;
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+.clear {
+    clear: both;
+}
+
+.task-box {
+    clear: both;
+}
+.task-messages{
+    text-align: center;
+    background-color: #10ff51 ;
+    padding-top:7px;margin-bottom:30px;
+    height:40px;
+    border-radius: 15px;
+}

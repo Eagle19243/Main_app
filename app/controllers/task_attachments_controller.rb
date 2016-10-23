@@ -1,23 +1,35 @@
 class TaskAttachmentsController < ApplicationController
   protect_from_forgery except: :destroy_attachment
+  protect_from_forgery except: :create
 
   before_action :authenticate_user!
   before_action :validate_attachment, only:[:create]
   def validate_attachment
     @task=Task.find(params['task_attachment']['task_id'])
-    if !((current_user.id == @task.project.user.id || (@task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id)) )
+    @task_team=TeamMembership.where(task_id: @task.id)
+
+    if !((current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) )
      flash[:error]= " you are not allowed to do this opration "
      redirect_to task_path(@task.id)
    end
   end
+
+
   def create
     @task_attachment = TaskAttachment.new(resume_params)
     @task_attachment.user_id=current_user.id
-    if @task_attachment.save
-      redirect_to task_path(@task_attachment.task_id), notice: "The Task Attachment #{@task_attachment.task_id} has been uploaded."
-    else
-      render task_path(@task_attachment.task_id)
+    respond_to do |format|
+      if @task_attachment.save
+        @notice="The Task Attachment has been uploaded."
+        format.html { redirect_to task_path(@task_attachment.task_id), notice:  @notice }
+        format.js
+      else
+        @notice="Failed to uploaded Task Attachment ."
+        format.html { redirect_to '/', notice:  @notice }
+        format.js
+      end
     end
+
   end
 
   def destroy_attachment

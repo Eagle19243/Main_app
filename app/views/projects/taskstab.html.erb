@@ -175,7 +175,7 @@
                   </div>
 
 
-                  <div class="social_sharelink">
+                  <div class="social_sharelink" data-title="<%= @project.title %>" data-url="<%= project_url(@project.id) %>" data-img="" data-desc="" data-popup="" data-via="">
 
                     <ul>
                       <li>
@@ -183,19 +183,19 @@
                           <span>Share:</span>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
+                      <li data-title="<%= @project.title %> :" >
+                        <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
                           <i class="fa fa-facebook"></i>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
+                      <li data-title="<%= @project.title %> :" >
+                        <a href="#" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
                           <i class="fa fa-twitter"></i>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-linkedin"></i>
+                      <li data-title="<%= @project.title %> :" >
+                        <a href="#" data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" >
+                          <i class="fa fa-google-plus" ></i>
                         </a>
                       </li>
                     </ul>

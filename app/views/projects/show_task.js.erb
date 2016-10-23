@@ -2,6 +2,7 @@ $("#product-modal").html("<%= escape_javascript(render :partial => 'task_details
 $("#myModal").css("display","block");
 $("#close").click(function(){
   $("#myModal").hide();
+  $("#product-modal").html("");
 });
 $( "#Do-request-form" ).submit(function( ) {
   $('#Do-request-form-response').html(" Requesting ...")
@@ -35,7 +36,7 @@ $('a[name=delete_attachment]').click(function() {
 });
 
 
-<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task.project.team.team_memberships.collect(&:team_member_id).include? current_user.id )) %>
+<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task_team.collect(&:team_member_id).include? current_user.id )) %>
 $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
@@ -124,6 +125,7 @@ $('#input-task-condition').keypress(function (e) {
 
 $("#edit-title").click(function(){
 $(this).hide();
+  debugger
   $("#task-update-title").show();
   $('#input-task-title').show();
   $("#task-update-title-form").show();
@@ -411,7 +413,7 @@ function callAjax() {
     data:{id: <%= @task.id %>},
 
     success: function() {
-      setTimeout(callAjax,15000);
+      setTimeout(callAjax,199000);
     }
   });
 }

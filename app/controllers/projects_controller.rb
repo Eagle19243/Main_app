@@ -87,6 +87,7 @@ class ProjectsController < ApplicationController
     @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
     project_admin
     respond_to :js
+
   end
 
 
@@ -124,18 +125,10 @@ class ProjectsController < ApplicationController
 
   def project_admin
     @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id)
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
   def show
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @followed = false
-    # @current_user_id = 0
-    # @rate = @project.rate_avg
-    # if user_signed_in?
-    #   @followed = @project.followers.pluck(:id).include? current_user.id
-    #   @current_user_id = current_user.id
-    # end
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -168,6 +161,12 @@ class ProjectsController < ApplicationController
     respond_to :js
   end
 
+ def get_activities
+   @task=Task.find(params[:id])
+   task_comment_ids= @task.task_comments.collect(&:id)
+   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC').limit(30)
+   respond_to :js
+ end
   # GET /projects/1/taskstab
   def taskstab
     @comments = @project.project_comments.all
@@ -188,7 +187,7 @@ class ProjectsController < ApplicationController
     @doing_tasks = @project.tasks.where(state: "doing").all
     @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    @done_tasks = @project.tasks.where(state: "done").all
+    @done_tasks = @project.tasks.where(state: "completed").all
   end
 
   # GET /projects/1/teamtab
