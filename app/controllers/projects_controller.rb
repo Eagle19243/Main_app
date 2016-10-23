@@ -124,7 +124,8 @@ class ProjectsController < ApplicationController
   end
 
   def project_admin
-    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
+     @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.try(:team_id), 'admin').collect(&:team_member_id)
+   # @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
   def show
