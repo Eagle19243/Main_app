@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   has_many :project_users
   has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
-  has_one :team
+  has_one :team, dependent: :destroy
 
   belongs_to :user
 
