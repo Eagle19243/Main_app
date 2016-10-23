@@ -48,13 +48,9 @@ module ProjectsHelper
     Chatroom.find(chat_room_id).name rescue 'room not found'
   end
 
-  def get_project_team(project)
-     task_ids = project.tasks.collect(&:id) rescue nil
-    unless task_ids.blank?
-      team_members_id = TeamMembership.where(task_id: task_ids).collect(&:team_member_id) rescue nil
+  def get_project_team(chatroom_id)
+      team_members_id = Groupmember.where(chatroom_id: chatroom_id).collect(&:user_id) rescue nil
       User.where(id:team_members_id ) rescue nil
-    else
-      nil
-    end
+
   end
 end

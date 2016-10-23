@@ -7,6 +7,9 @@ class GroupmessagesController < ApplicationController
   # GET /groupmessages.json
   def index
     @groupmessages = Groupmessage.all
+    @new_message = @groupmessages
+    @groupmessage = Groupmessage.new
+
   end
 
   # GET /groupmessages/1

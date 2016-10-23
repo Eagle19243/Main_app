@@ -130,12 +130,15 @@ class Project < ActiveRecord::Base
         discussions.of_field('description').of_user(User.current_user).last.try(:description) || self.send(:read_attribute, 'description')
   end
 
+  def self.get_project_default_chat_room(project_id, user_id)
+    Chatroom.select(:id).where("project_id = ? AND user_id = ?", project_id, user_id ).first.id rescue nil
+  end
   private
 
   def create_project_default_chat_room
    project_room =  Chatroom.create!(name:("#Group Message"), project_id:self.id, user_id:  User.current_user.id) unless self.blank?
     unless project_room.blank?
-      Groupmember.create!(project_id: self.id , chatroom_id:project_room.id)
+      Groupmember.create!(project_id: self.id , chatroom_id:project_room.id, user_id:  User.current_user.id)
     end
   end
 end

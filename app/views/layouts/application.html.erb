@@ -9,6 +9,7 @@
     <%# Modernizr is required for Zurb Foundation %>
     <%= javascript_include_tag 'vendor/modernizr' %>
     <%= javascript_include_tag 'application' %>
+    <%= include_sync_config %>
     <%= csrf_meta_tags %>
     <%= yield :customhead %>
   </head>
