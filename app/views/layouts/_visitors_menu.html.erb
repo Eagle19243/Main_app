@@ -61,3 +61,27 @@
     padding-top: 2%;
   }
 </style>
+<script>
+  $("#Sign-in-a ,#sing-in-nav").click(function () {
+    debugger
+    $("#Sign-in-div").css("background-color", "#35B8F4 ")
+    $("#Sign-up-div").css("background-color", "white ")
+    $("#Sign-in-div").css("color", "white ")
+    $("#Sign-up-div").css("color", "black")
+    $("#sing-up-show").hide();
+    $("#sing-in-show").show();
+
+
+  })
+  $("#Sign-up-a,#sing-up-nav,#create-project-a").click(function () {
+    debugger
+
+    $("#Sign-up-div").css("background-color", "#35B8F4")
+    $("#Sign-in-div").css("background-color", "white ")
+    $("#Sign-up-div").css("color", "white ")
+    $("#Sign-in-div").css("color", "black")
+    $("#sing-in-show").hide();
+    $("#sing-up-show").show();
+
+  })
+</script>
