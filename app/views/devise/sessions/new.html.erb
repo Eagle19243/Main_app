@@ -3,7 +3,16 @@
 <% end %>
 
 <div class="content padded">
+  <div style="text-align: center;padding-bottom: 30px ;margin-top: 20px">
+    <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+    <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+    <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+
+  </div>
+  <h2 align="center">OR</h2>
 <div class="authform">
+
+
 
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f| %>
     <h3>Sign in</h3>
@@ -32,10 +41,4 @@
       <% end -%>
   <% end %>
 </div>
-  <h2 align="center">OR</h2>
-    <div style="text-align: center;padding-bottom: 30px ;margin-top: 20px">
-      <%= link_to image_tag("facebook.png"), user_facebook_omniauth_authorize_path %>
-      <%= link_to image_tag("signup-twitter.png"),  user_twitter_omniauth_authorize_path %>
-      <%= link_to image_tag("google.png"),  user_google_oauth2_omniauth_authorize_path %>
-    </div>
 </div>
