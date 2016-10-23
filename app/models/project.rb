@@ -133,7 +133,7 @@ class Project < ActiveRecord::Base
   private
 
   def create_project_default_chat_room
-   project_room =  Chatroom.create!(name:self.title.concat(" Group Message"), project_id:self.id, user_id:  User.current_user.id) unless self.blank?
+   project_room =  Chatroom.create!(name:("#Group Message"), project_id:self.id, user_id:  User.current_user.id) unless self.blank?
     unless project_room.blank?
       Groupmember.create!(project_id: self.id , chatroom_id:project_room.id)
     end

@@ -3,7 +3,7 @@ class CreateChatrooms < ActiveRecord::Migration
     create_table :chatrooms do |t|
       t.string :name
       t.integer :project_id , index: true, foreign_key: true
-      t.integer :user_id , index: true, foreign_key: true
+      t.integer :user_id
       t.timestamps null: false
     end
   end

@@ -35,7 +35,7 @@
         <i class="fa fa-file-text-o fa-2x" aria-hidden="true"></i>
         <span>Messages</span>
       </div>
-      <div class="messages-menu">
+      <div class="messages-menu" style="overflow-y: scroll; max-height: 95%;">
         <div class="messages-submenu">
           <div class="submenu-title">
             <% current_user_projects = current_user.projects rescue nil%>
@@ -61,12 +61,24 @@
             <!--<li><a href="#">Eric</a></li>-->
             <!--<li class="active"><a href="#">Caju</a></li>-->
             <!--<li><a href="#">Tendai</a></li>-->
-            <% unless (current_user_projects.blank? && current_user_projects.first.chatrooms.blank?) %>
-                 <%current_user_projects.first.chatrooms.each do |chat_room| %>
-                    <li><a href="#"><%= get_chatroom_title(chat_room.id) %></a></li>
+            <% unless (current_user_projects.blank?) %>
+                 <%current_user_projects.each do |project| %>
+                    <%project.chatrooms.each do |chat_room|%>
+                        <%#= chat_room.inspect %>
+
+                        <div style="background-color: lightseagreen; color:white;padding: 10px;text-align: center">Project: <a href="#" style="color:white"><%= project.try(:title) %></a></div>
+                        <% project_team = get_project_team(project) %>
+                        <li><a href="#"><%= get_chatroom_title(chat_room.id) %></a></li>
+                        <%unless project_team.blank?%>
+                          <%project_team.each do |member|%>
+                              <li><a href="#"><%= member.try(:name) %></a></li>
+                        <%end%>
+                        <%end%>
+                    <%end%>
                     <%end%>
                <%else%>
-                 'No Group member found'
+                <!--TeamMembership.where(task_id: @task.id)-->
+                <li><a href="#"><%=  'No Group Found' %></a></li>
             <%end%>
           </ul>
         </div>

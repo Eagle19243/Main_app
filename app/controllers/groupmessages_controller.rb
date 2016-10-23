@@ -1,6 +1,6 @@
 class GroupmessagesController < ApplicationController
   # layout false
-
+  before_action :authenticate_user!
   before_action :set_groupmessage, only: [:show, :edit, :update, :destroy]
 
   # GET /groupmessages
