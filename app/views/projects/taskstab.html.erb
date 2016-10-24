@@ -724,6 +724,7 @@
             </div>
             <!-- repeating member task box -->
             <div class="dragbox ui-sortable">
+
               <% @sourcing_tasks.each do |task| %>
                   <div class="btn_movecard">
                     <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
@@ -1193,24 +1194,7 @@
       modalteam.style.display = "none";
     }
 
-    $( ".dragbox" ).sortable({
-      connectWith: ".dragbox",
-      handle: ".portlet-content",
-      cancel: ".portlet-toggle",
-      placeholder: "portlet-placeholder ui-corner-all"
-    });
 
-    $( ".portlet" )
-        .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-        .find( ".portlet-content" )
-        .addClass( "ui-widget-header ui-corner-all" )
-        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
-    $( ".portlet-toggle" ).on( "click", function() {
-      var icon = $( this );
-      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
-      icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
-    });
   } );
 
 </script>
