@@ -724,7 +724,6 @@
             </div>
             <!-- repeating member task box -->
             <div class="dragbox ui-sortable">
-
               <% @sourcing_tasks.each do |task| %>
                   <div class="btn_movecard">
                     <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>

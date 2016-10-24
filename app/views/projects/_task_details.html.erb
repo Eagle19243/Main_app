@@ -74,7 +74,7 @@
         <div class="large-8 medium-12 small-12 columns">
           <div class="task-details-left-side">
             <!--@task_team=TeamMembership.where(task_id: @task.id)-->
-            <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
+            <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
                 <div class="task-desc">
                   <div>
                     <h3 class="task-proof" id="task-title"><%= @task.title %></h3>
@@ -175,7 +175,9 @@
                     <% end %>
                     <button id="myBtn2">DO</button>
                 <% else %>
-                    <button> This is Sugggested Task and Waiting For Admin Approval</button>
+                    <button id="suggested_task_fund"> Fund</button>
+                    <button id="suggested_task_do">DO</button>
+                    <!--<button> This is Sugggested Task and Waiting For Admin Approval</button>-->
                 <% end %>
               </center>
               <h6>Deadline :<span><%= @task.deadline.strftime("%d/%m/%Y") %></span></h6>
@@ -196,7 +198,7 @@
             <hr>
             <div class="button-set">
               <div class="btn-left">
-                <% if user_signed_in? && (current_user.id == @task.project.user.id || (@task_team.collect(&:team_member_id).include? current_user.id)) %>
+                <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
                     <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
@@ -263,34 +265,6 @@
 </div>
 
 <!-- Task Details Window -->
-<div id="myModal2" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content2">
-    <b><span id="myModal2close" class="close">x</span></b>
-    <div class="fund-do">
-      <div class="row">
-        <center><h4><%= @task.title %></h4></center>
-        <center><h6>Choose the best option for you to do this task.</h6></center>
-        <div class="large-1 medium-1 small-0 columns"></div>
-        <div class="large-5 medium-5 small-12 columns">
-          <button class="button round expand modal-btn1" id="free" onclick="setfree()">Do this task for FREE</button>
-          <p>By choosing this option, you will become a team member and you will recieve an e-mail, confirming that you
-            joined this team.</p>
-        </div>
-        <div class="large-5 medium-5 small-12 columns">
-          <button class="button round expand modal-btn2" id="paid" onclick="setpaid()">Get compensation to do this
-            task
-          </button>
-          <p>Your individual compensation for this task will be <strong>$<%= @task.budget rescue 0 %></strong> divided
-            by number of compensated teammates.</p>
-        </div>
-        <div class="large-1 medium-1 small-0 columns"></div>
-      </div> <!--row ends -->
-      <div class="large-1 medium-1 small-0 columns"></div>
-    </div>
-  </div> <!-- task details ends -->
-
-</div>
 
 <div id="team" class="modal">
 
@@ -363,7 +337,7 @@
                 </div>
               </li>
             </ul>
-           <!-- Pinterest Button End //-->
+            <!-- Pinterest Button End //-->
           </div>
         </div>
         <div class="large-1 medium-1 small-0 columns"></div>
@@ -371,42 +345,91 @@
     </div> <!-- task details ends -->
   </div>
 </div>
-<div id="popup-for-free-paid" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content2" style="width:60%">
-    <b><span id="popup-for-free-paidclose" class="close">x</span></b>
-    <div class="fund-do">
-      <div class="row">
-        <center><h4 id="cover-leter-header-text">Here goes the title of this task</h4></center>
-        <div class="large-1 medium-1 small-0 columns"></div>
-      </div> <!--row ends -->
-      <div class="row">
-        <div class="post-comment columns">
-          <p id="Do-request-form-response" style="color: red"></p>
-          <center><h4>Add Cover Letter</h4></center>
-          <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
-              <%= form.hidden_field :task_id, value: @task.id %>
-              <%= form.text_area :application %>
-              <%= form.hidden_field :free, value: true %>
-              <% if user_signed_in? %>
-                  <% if current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user %>
-                  <% else %>
-                      <%= gravatar_for_user(current_user) %>
-                  <% end %>
-                  <button id="cover_letter_button" type="submit">Submit Application</button>
-                  &nbsp;&nbsp;
-              <% else %>
-                  <a href="/users/sign_in"><h4>Please Signin to Do this task</h4></a>
-              <% end %>
-          <% end %>
+<% unless @task.suggested_task? %>
+
+    <div id="myModal2" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content2">
+        <b><span id="myModal2close" class="close">x</span></b>
+        <div class="fund-do">
+          <div class="row">
+            <center><h4><%= @task.title %></h4></center>
+            <center><h6>Choose the best option for you to do this task.</h6></center>
+            <div class="large-1 medium-1 small-0 columns"></div>
+            <div class="large-5 medium-5 small-12 columns">
+              <button class="button round expand modal-btn1" id="free" onclick="setfree()">Do this task for FREE
+              </button>
+              <p>By choosing this option, you will become a team member and you will recieve an e-mail, confirming that
+                you
+                joined this team.</p>
+            </div>
+            <div class="large-5 medium-5 small-12 columns">
+              <button class="button round expand modal-btn2" id="paid" onclick="setpaid()">Get compensation to do this
+                task
+              </button>
+              <p>Your individual compensation for this task will be <strong>$<%= @task.budget rescue 0 %></strong>
+                divided
+                by number of compensated teammates.</p>
+            </div>
+            <div class="large-1 medium-1 small-0 columns"></div>
+          </div> <!--row ends -->
+          <div class="large-1 medium-1 small-0 columns"></div>
         </div>
-      </div><!--row ends -->
-      <div class="large-1 medium-1 small-0 columns"></div>
+      </div> <!-- task details ends -->
+
     </div>
-  </div> <!-- task details ends -->
-</div>
 
+    <div id="popup-for-free-paid" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content2" style="width:60%">
+        <b><span id="popup-for-free-paidclose" class="close">x</span></b>
+        <div class="fund-do">
+          <div class="row">
+            <center><h4 id="cover-leter-header-text">Here goes the title of this task</h4></center>
+            <div class="large-1 medium-1 small-0 columns"></div>
+          </div> <!--row ends -->
+          <div class="row">
+            <div class="post-comment columns">
+              <p id="Do-request-form-response" style="color: red"></p>
+              <center><h4>Add Cover Letter</h4></center>
+              <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
+                  <%= form.hidden_field :task_id, value: @task.id %>
+                  <%= form.text_area :application %>
+                  <%= form.hidden_field :free, value: true %>
+                  <% if user_signed_in? %>
+                      <% if current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user %>
+                      <% else %>
+                          <%= gravatar_for_user(current_user) %>
+                      <% end %>
+                      <button id="cover_letter_button" type="submit">Submit Application</button>
+                      &nbsp;&nbsp;
+                  <% else %>
+                      <a href="/users/sign_in"><h4>Please Signin to Do this task</h4></a>
+                  <% end %>
+              <% end %>
+            </div>
+          </div><!--row ends -->
+          <div class="large-1 medium-1 small-0 columns"></div>
+        </div>
+      </div> <!-- task details ends -->
+    </div>
 
+<% else %>
+
+    <div id="suggested_task_popup" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content2">
+        <b><span id="suggested_task_popup_close" class="close">x</span></b>
+        <div class="fund-do">
+          <div class="row">
+            <center><h4><%= @task.title %></h4></center>
+            <center><h6>this task has not yet been approved by admin</h6></center>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<% end %>
 
 
 
