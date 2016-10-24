@@ -5,7 +5,9 @@ class Notification < ActiveRecord::Base
       :lost_project_admin_status,
       :created_project,
       :become_project_admin_invitation,
-      :applied_as_project_admin
+      :applied_as_project_admin,
+      :reject_admin_invitation,
+      :accept_admin_invitation
   ]
 
   belongs_to :user

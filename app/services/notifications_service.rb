@@ -1,7 +1,7 @@
 class NotificationsService
 
-  def self.notify_about_admin_permissions(team_membership)
-    self.create_notification(team_membership.team.project, team_membership.team_member, Notification.actions[:become_admin])
+  def self.notify_about_admin_permissions(project, user)
+    self.create_notification(project, user, Notification.actions[:become_admin])
   end
 
   def self.notify_about_lost_admin_permissions(team_membership)
@@ -16,13 +16,20 @@ class NotificationsService
     self.create_notification(project, project.user, Notification.actions[:created_project])
   end
 
-  def self.notify_about_admin_invitation(project_id, user_id)
-    self.create_notification(project_id, user_id, Notification.actions[:become_project_admin_invitation])
-    #self.create_notification_by_ids(project_id, Project.name, user_id, Notification.actions[:become_project_admin_invitation])
+  def self.notify_about_admin_invitation(admin_invitation, origin_user)
+    self.create_notification(admin_invitation, admin_invitation.user, Notification.actions[:become_project_admin_invitation], origin_user)
   end
 
   def self.notify_about_applied_as_project_admin(project, origin_user)
     self.create_notification(project, project.user, Notification.actions[:applied_as_project_admin], origin_user)
+  end
+
+  def self.notify_about_reject_admin_invitation(admin_invitation, user)
+    self.create_notification(admin_invitation, user, Notification.actions[:reject_admin_invitation])
+  end
+
+  def self.notify_about_accept_admin_invitation(admin_invitation, user)
+    self.create_notification(admin_invitation, user, Notification.actions[:accept_admin_invitation])
   end
 
   private

@@ -31,6 +31,6 @@ module YouServe
     config.active_record.raise_in_transactional_callbacks = true
     config.serve_static_assets = true
 
-    config.active_record.observers = :team_membership_observer
+    config.active_record.observers = [:team_membership_observer, :project_observer, :admin_invitation_observer]
   end
 end
