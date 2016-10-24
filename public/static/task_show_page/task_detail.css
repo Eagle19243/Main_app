@@ -62,11 +62,5 @@
     padding-top: 2%;
 }
 #loading-mask1 {
-    background-color: white;
-    height: 100%;
-    left: 0;
-    position: fixed;
-    margin-top:50%;
-    width: 100%;
-    z-index: 9999;
+    z-index: 4;
 }
