@@ -101,3 +101,16 @@ body {
   
   word-break: break-all;
 }
+ .term_of_service{
+   text-align: center;
+   padding-top: 2%;
+ }
+ #loading-mask1 {
+   background-color: white;
+   height: 100%;
+   left: 0;
+   position: fixed;
+   margin-top:50%;
+   width: 100%;
+   z-index: 9999;
+ }

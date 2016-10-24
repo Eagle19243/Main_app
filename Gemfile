@@ -50,7 +50,8 @@ gem 'cocoon'
 gem 'best_in_place', '~> 3.0.1'
 gem 'cancancan', '~> 1.10'
 gem 'kaminari'
-
+#ajex file uploading
+gem 'remotipart'
 # gem 'video_info'
 
 group :development do
