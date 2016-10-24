@@ -29,6 +29,9 @@ Rails.application.routes.draw do
       get :apply_as_admin
     end
   end
+
+  resources :admin_invitations, only: [:create]
+
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :team_memberships
   resources :work_records

@@ -16,8 +16,9 @@ class NotificationsService
     self.create_notification(project, project.user, Notification.actions[:created_project])
   end
 
-  def self.notify_about_admin_invitation(project, user)
-    self.create_notification(project, user, Notification.actions[:become_project_admin_invitation])
+  def self.notify_about_admin_invitation(project_id, user_id)
+    self.create_notification(project_id, user_id, Notification.actions[:become_project_admin_invitation])
+    #self.create_notification_by_ids(project_id, Project.name, user_id, Notification.actions[:become_project_admin_invitation])
   end
 
   def self.notify_about_applied_as_project_admin(project, origin_user)
@@ -35,4 +36,12 @@ class NotificationsService
     )
   end
 
+  def self.create_notification_by_ids(model_id, model_type, user_id, action)
+    Notification.create(
+        user_id: user_id,
+        source_model_id: model_id,
+        source_model_type: model_type,
+        action: action
+    )
+  end
 end

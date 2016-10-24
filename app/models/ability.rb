@@ -11,7 +11,7 @@ class Ability
   end
 
   def initializeProjectsPermissions(user)
-    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team], Project
+    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin], Project
     if user
       can [:create, :discussions, :follow, :rate], Project     
       can :update, Project do |project|

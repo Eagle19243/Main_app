@@ -346,6 +346,13 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.get_featured_projects
   end
 
+  def invite_admin
+    project = Project.find(params[:project_id])
+    user = User.find(params[:user_id])
+    NotificationsService.notify_about_admin_invitation(project, user)
+    render :nothing => true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project

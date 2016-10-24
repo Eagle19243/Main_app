@@ -101,6 +101,7 @@ class TeamsController < ApplicationController
   end
 
   def users_search
+    @project = Project.find(params[:project_id])
     @search = Sunspot.search(User) do
       fulltext params[:search]
     end
