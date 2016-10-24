@@ -20,7 +20,7 @@ class Project < ActiveRecord::Base
   has_many :project_users
   has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
-  has_one :team, dependent: :destroy
+  has_one :team
 
   belongs_to :user
 
@@ -33,6 +33,12 @@ class Project < ActiveRecord::Base
     text :title
     text :description
   end
+
+  # validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }
+  #
+  # validates :description, presence: true, length: { minimum: 2}
+  #
+  validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 

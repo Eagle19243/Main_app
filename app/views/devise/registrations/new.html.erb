@@ -1,18 +1,65 @@
 <% content_for :title do %>
   Sign Up For WeServe
 <% end %>
-<div class="content padded" style="background-color: #f0f0f0 ">
-  <h2 align="center"> Sign Up</h2>
-  <div style="text-align: center;padding-bottom: 10px ;margin-top: 20px">
-    <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-    <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-    <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
 
-  </div>
-  <h2 align="center">OR</h2>
+<div class="authform">
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :role => 'form',:multipart => true}) do |f| %>
+    <h3>Sign up</h3>
+    <%= devise_error_messages! %>
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :city %>
+      <%= f.text_field :city%>
+    </div>
 
-  <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    <div class="form-group">
+      <%= f.label :country %>
+      <%= country_select(resource_name, "country")%>
+    </div>
+     <div class="form-group">
+      <%= f.label :phone_number %>
+      <%= f.number_field :phone_number %>
+    </div>
 
-  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
+    <div class="form-group">
+      <%= f.label :first_link, "My LinkedIn profile" %>
+      <%= f.text_field :first_link%>
+    </div>
 
+     <div class="form-group">
+      <%= f.label :second_link, "My Website"%>
+      <%= f.text_field :second_link%>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :fourth_link, "My Facebook profile link" %>
+      <%= f.text_field :fourth_link%>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description, "Bio" %>
+      <%= f.text_area :description, class: 'form-control', cols: "30", rows: "10" %>
+    </div>
+
+    <%= f.label :picture %>
+    <%= f.file_field :picture %>
+    <%= f.hidden_field :picture_cache %>
+
+    <%= f.submit 'Sign up', :class => 'button right' %>
+  <% end %>
 </div>

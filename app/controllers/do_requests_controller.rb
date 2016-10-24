@@ -12,9 +12,15 @@ class DoRequestsController < ApplicationController
     end
     @free = params[:free]
     @do_request = DoRequest.new
+
   end
 
   def create
+
+
+
+
+
      @do_request = current_user.do_requests.build(request_params) rescue nil
      #@do_request.task
      if @do_request.task.suggested_task?
@@ -28,19 +34,28 @@ class DoRequestsController < ApplicationController
        if @do_request.save
          @msg="Request sent to Project Admin";
          flash[:success] = @msg
+
+         redirect_to @do_request.task
+
          format.html { redirect_to @do_request.task, notice: 'Request sent to Project Admin.' }
          format.json { render json: { id: @do_request, status: 200, responseText: "Request sent to Project Admin " } }
          format.js
+
        else
          @msg="You can not Apply Twice";
          format.html {  redirect_to  root_url, notice: "You can not Apply Twice"  }
          format.js
        end
      end
+
   end
+
+
+
 
   def update
   end
+
 
   def destroy
     @do_request = DoRequest.find(params[:id])
@@ -52,6 +67,8 @@ class DoRequestsController < ApplicationController
 
   end
 
+
+
   def accept
     @do_request = DoRequest.find(params[:id])
     if  current_user.id == @do_request.task.project.user_id
@@ -61,16 +78,18 @@ class DoRequestsController < ApplicationController
       @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days )
       @do_request.task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
       team = Team.find_or_create_by(project_id: @do_request.project_id)
-      TeamMembership.create(team_member_id:  @do_request.user_id ,team_id:team.id,task_id:@do_request.task_id,state:"user")
+      TeamMembership.create(team_member_id:  @do_request.user_id ,team_id:team.id,task_id:@do_request.task_id)
        flash[:success] = "Task has been assigned"
      else
       flash[:error] = "Task was not assigned to user"
+       #assign(@do_request.user, @do_request.task, @do_request.free)
     end
     else
       flash[:error] = "You Are Not Authorized User"
     end
     redirect_to @do_request.task
   end
+
 
   def reject
     @do_request = DoRequest.find(params[:id])
@@ -85,6 +104,7 @@ class DoRequestsController < ApplicationController
     end
     redirect_to @do_request.task
   end
+
   private
 
   def request_params

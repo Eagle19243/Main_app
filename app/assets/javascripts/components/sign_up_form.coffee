@@ -42,13 +42,13 @@
     @setState "#{ name }": e.target.value
 
   render: ->
-   React.DOM.div
-      className: "abc"
+    React.DOM.div
+      className: "authform"
       React.DOM.form
         role: "form"
         className: "new_user"
         onSubmit: @handleSubmit
-#       React.DOM.h3 null, "Sign up"
+        React.DOM.h3 null, "Sign up"
         React.DOM.div
           className: 'form-group'
           React.DOM.label null,'Name'

@@ -16,40 +16,25 @@ puts 'CREATED ADMIN USER: ' << user.email
 count = CreateAdminService.new.create_additional_admins
 puts "#{count} additional admins created"
 
-@project = Project.create(title: "Test project",
+Project.create(title: "Test project",
                user_id: User.first.id,
                state: "pending",
                short_description: "This is project 1")
 
-@project_team = Team.create(name: "Team #{@project.id}")
-
-@task = Task.create(title: "Example Task",
+Task.create(title: "Example Task",
             user_id: User.first.id,
             project_id: Project.where(title: "Test project").first.id,
             state: "pending",
-            budget: 100,
-            deadline: Date.new)
+            budget: 100)
 
-TeamMembership.create(team_member_id: User.first.id,
-               team_id: @project_team.id,
-               state: 'admin',
-               task_id: @task.id)
-
-@project = Project.create(title: "Test project 2",
-               user_id: User.first.id,
+Project.create(title: "Test project 2",
+               user_id: User.last.id,
                state: "pending",
                short_description: "This is project 1")
 
-@project_team = Team.create(name: "Team #{@project.id}")
-
-@task = Task.create(title: "Example Task 2",
-            user_id: User.first.id,
+Task.create(title: "Example Task 2",
+            user_id: User.last.id,
             project_id: Project.where(title: "Test project 2").first.id,
             state: "pending",
-            budget: 100,
-            deadline: Date.new)
+            budget: 100)
 
-TeamMembership.create(team_member_id: User.first.id,
-               team_id: @project_team.id,
-               state: 'admin',
-               task_id: @task.id)

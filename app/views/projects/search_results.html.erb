@@ -22,6 +22,7 @@
                 </div>
                 <div class="project-info">
                   <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
+
                   <% if result.tasks.count > 0 %>
                       <% task = result.tasks.first %>
                       <div class="tasks hide-mobile">

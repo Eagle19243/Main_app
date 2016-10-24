@@ -1,6 +1,7 @@
 <%# add navigation links to this file %>
-<li><%= link_to 'Create a Project', new_project_path, data: { no_turbolink: false } %></li>
+<li><%= link_to 'Create a Project', new_project_path, data: { no_turbolink: true } %></li>
 <li><%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %></li>
+
 <% if user_signed_in? %>
   <% if current_user.admin? %>
     <li><%= link_to 'Directory', users_path, data: { no_turbolink: true } %></li>

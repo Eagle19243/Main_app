@@ -1,6 +1,6 @@
 <style>
   p {
-    font-size: 13px;
+    font-size: 14px;
     font-family: Times New Roman;
     text-align: justify;
     text-justify: inter-word;
@@ -16,7 +16,7 @@
   }
 
   li {
-    font-size: 13px;
+    font-size: 14px;
     font-family: Times New Roman;
     text-align: justify;
     text-justify: inter-word;
@@ -33,7 +33,7 @@
   }
 
   .font{
-    font-size: 16px;
+    font-size: 17px;
     font-family: Times New Roman;
     text-align: justify;
     text-justify: inter-word;
@@ -46,10 +46,15 @@
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
-  }
+  }.container {
+     padding-right: 15px;
+     padding-left: 15px;
+     margin-right: auto;
+     margin-left: auto;
+   }
 </style>
-<div class="container">
-  <p style="text-align: center"><b>Terms of Use<br>
+<div class="container"  style="width: 80%">
+  <p style="text-align: center ; margin-top: 5%" class="font"><b>Terms of Use<br>
     Last Updated [________]</b>
   </p>
   <p>
@@ -345,7 +350,7 @@
     YouServe<br>
     __________________<br>
     __________________<br>
-    [enter email address]<br>
+    <b>info@weserve.io</b><br>
 
     If you believe that your work has been copied on the Site in a way that constitutes copyright infringement,
     please provide our agent with notice in accordance with the requirements of the Act, including (i) a description
@@ -408,3 +413,5 @@
     Copyright 2016 YouServe, Inc.  All rights reserved.</p>
 
 </div>
+
+<%= render 'visitors/sitewide_footer' %>

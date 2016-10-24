@@ -5,15 +5,10 @@ Rails.application.routes.draw do
   #
   # get 'task_attachments/create'
   #
-
-  get 'pages/term_of_use'
-  get 'pages/privacy_policy'
-
   post 'projects/send_project_invite_email'
   post 'tasks/send_email'
   post 'projects/send_project_email'
   get 'teams/remove_membership'
-  get 'projects/get_activities'
   get 'projects/show_task'
  # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
@@ -55,6 +50,7 @@ Rails.application.routes.draw do
   end
 
   get 'projects/featured', as: :featured_projects
+  get '/projects/:id/old', to: 'projects#old_show'
   resources :do_requests do
     member do
       get :accept, :reject
@@ -112,6 +108,8 @@ Rails.application.routes.draw do
    get '/contacts/failure' => "projects#failure"
   get '/contacts/gmail'
   get '/contacts/yahoo'
+  get '/pages/privacy_policy'
+  get '/pages/terms_of_use'
 
    devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
 

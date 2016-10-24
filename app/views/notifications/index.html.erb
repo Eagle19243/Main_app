@@ -114,7 +114,7 @@
                     </div>
                     <div class="simp">
                       <p class="img-caj"><span>  <%= t.user.name %></span> <%= "#{t.created_at.strftime(" %b")} #{t.created_at.day.ordinalize}"  rescue nil%><br></p>
-                      <p class="img-cajing">  <%= t.user.name %> Suggested this Task</p>
+                      <p class="img-cajing">  <%= t.user.name %> wants to accept his/her Task</p>
                     </div>
                     <div class="delete-icon"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
                   </div>
@@ -146,16 +146,16 @@
                     </div>
                     <div class="simp">
                       <p class="img-caj"><span>  <%= a.user.name %></span> <%= "#{a.created_at.strftime(" %b")} #{a.created_at.day.ordinalize}"  rescue nil%><br></p>
-                      <p class="img-cajing">  <%= a.user.name %> Requested to do this Task</p>
+                      <p class="img-cajing">  <%= a.user.name %> wants to accept his/her Task</p>
                     </div>
                     <div class="delete-icon"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
                   </div>
                   <div class="caj-text">
-                    <p><%= a.application %> </div>
+                    <p><%= a.description %> </div>
 
                   <div class="caj-tab">
-                    <%= link_to "ACCEPT INVITATION",accept_do_request_path(a.id), class: "button compose-btn accept fa fa-fa fa-check"  %></a>
-                    <%=  link_to "DECLINE AND REPLY", reject_do_request_path(a.id), class: " button compose-btn decline fa fa-close"%></a>
+                    <%= link_to "ACCEPT INVITATION",accept_do_requests_path(a.id), class: "button compose-btn accept fa fa-fa fa-check"  %></a>
+                    <%=  link_to "DECLINE AND REPLY", reject_do_requests_path(a.id), class: " button compose-btn decline fa fa-close"%></a>
                   </div>
                 </div>
               </div>

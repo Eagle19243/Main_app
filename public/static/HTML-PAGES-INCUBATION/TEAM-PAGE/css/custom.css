@@ -51,10 +51,10 @@ body{
 
 /*welcome banner */
 .welcome-banner{
-	background-image: url(../images/banner-image.jpg);
+	/*background-image: url(../images/banner-image.jpg);*/
 	text-align: center;
     height: 440px;
-    background-size:cover;
+    background-size:cover !important;
 	background-position-x: 0px;
     background-position-y: 0px;
     background-repeat: no-repeat;
