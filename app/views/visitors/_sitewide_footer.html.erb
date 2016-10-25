@@ -13,31 +13,39 @@
             Active projects
           <% end %>
         </li>
-        <li>
-          <%= link_to new_project_path do %>
-            Start a project
-          <% end %>
-        </li>
-        <li>
-          <a href="#" data-reveal-id="SignInModal" class="signup_buttons">
-            Sign In
-          </a>
-        </li>
-        <li>
-          <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">
-            Sign Up
-          </a>
-        </li>
+        <% if user_signed_in? %>
+            <li>
+              <a href="#" id="footer-startbtn"><strong>Start a Project</strong></a>
+            </li>
+        <% else %>
+
+            <li>
+              <a href="#" id="create-project-footer" data-reveal-id="sign-in-sing-up"> <strong>Start a Project</strong>
+              </a>
+
+            </li>
+
+            <li>
+              <a href="#" id="sign-in-footer" data-reveal-id="sign-in-sing-up" class="signup_buttons">
+                Sign In
+              </a>
+            </li>
+            <li>
+              <a href="#" id="sign-up-footer" data-reveal-id="sign-in-sing-up" class="signup_buttons">
+                Sign Up
+              </a>
+            </li>
+        <% end %>
       </ul>
     </section>
 
     <section class="top-bar-section">
       <ul class="left">
         <li class="active">
-          <%= link_to "<h4 style='color:white'>What is WeServe?</h4>".html_safe, projects_path, data: { no_turbolink: true } %>
+          <%= link_to "<h4 style='color:white'>What is WeServe?</h4>".html_safe, projects_path, data: {no_turbolink: true} %>
         </li>
         <li class="active">
-          <%= link_to 'Who we are', users_path, data: { no_turbolink: true } %>
+          <%= link_to 'Who we are', users_path, data: {no_turbolink: true} %>
         </li>
         <li class="active">
           <%= link_to 'Terms of Use', pages_terms_of_use_path, data: { no_turbolink: true } %>
@@ -45,14 +53,15 @@
 
         <li class="active">
           <%= link_to 'Privacy Policy', pages_privacy_policy_path, data: { no_turbolink: true } %>
+          <%= link_to 'Terms of Use', projects_path, data: {no_turbolink: true} %>
         </li>
 
         <li class="active">
-          <%= link_to 'Contact', users_path, data: { no_turbolink: true } %>
+          <%= link_to 'Contact', users_path, data: {no_turbolink: true} %>
         </li>
 
       </ul>
-      <hr class ="my_hr">
+      <hr class="my_hr">
     </section>
 
     <section class="top-bar-section">
@@ -70,14 +79,43 @@
 <br>
 
 
+<script>  var btnteam1 = document.getElementById("footer-startbtn");
+btnteam1.onclick = function () {
+  modalteam.style.display = "block";
+}
 
+</script>
 
 <!-- <link rel="stylesheet" href="/static/footer/css/foundation.css"> -->
 <link rel="stylesheet" href="/static/footer/css/style.css">
 <link href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-<link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" />
-<link href="http://allfont.ru/allfont.css?fonts=roboto-condensed-light" rel="stylesheet" type="text/css" />
-<link href="http://allfont.ru/allfont.css?fonts=ds-narrow-extra-condensed-medium" rel="stylesheet" type="text/css" />
-<link href="http://allfont.ru/allfont.css?fonts=open-sans-bold" rel="stylesheet" type="text/css" />
+<link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css"/>
+<link href="http://allfont.ru/allfont.css?fonts=roboto-condensed-light" rel="stylesheet" type="text/css"/>
+<link href="http://allfont.ru/allfont.css?fonts=ds-narrow-extra-condensed-medium" rel="stylesheet" type="text/css"/>
+<link href="http://allfont.ru/allfont.css?fonts=open-sans-bold" rel="stylesheet" type="text/css"/>
+<script>
+  $("#sign-in-footer").click(function () {
+    debugger
+    $("#Sign-in-div").css("background-color", "#35B8F4 ")
+    $("#Sign-up-div").css("background-color", "white ")
+    $("#Sign-in-div").css("color", "white ")
+    $("#Sign-up-div").css("color", "black")
+    $("#sing-up-show").hide();
+    $("#sing-in-show").show();
+
+
+  })
+  $("#sign-up-footer ,#create-project-footer").click(function () {
+    debugger
+
+    $("#Sign-up-div").css("background-color", "#35B8F4")
+    $("#Sign-in-div").css("background-color", "white ")
+    $("#Sign-up-div").css("color", "white ")
+    $("#Sign-in-div").css("color", "black")
+    $("#sing-in-show").hide();
+    $("#sing-up-show").show();
+
+  })
+</script>

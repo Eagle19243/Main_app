@@ -141,20 +141,125 @@ body {
   }
   #response{
     margin-left: 10%;
-    color:green
+    color:green;
   }
   #contacts{
-    text-align: initial; margin-left: 3.2%
+    text-align: initial;
+    margin-left: 3.2%;
   }
   #gmail-icon{
-    margin-left:1%
+    margin-left:1%;
   }
   #yahoo{
-    margin-left:1%
+    margin-left:1%;
   }
   #response-failure{
-    color:red
+    color:red;
   }
   #response-success{
-    color:green
+    color:green;
   }
+  #cancel{
+  color:white;
+  float:right;
+  margin-left: 3%
+  }
+  #failer{
+    color:red;
+  }
+  #gmail-invite-modal{
+    overflow-x: scroll;
+    overflow-y: scroll;
+  }
+  #gmail-dialog{
+    font-size: 20px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    max-height: 500px;
+  }
+  #succes{
+    float:right;
+  }
+  #contacts-failure{
+    color:white;
+    float:right;
+    margin-left: 3%
+  }
+  #invite-friends{
+    float:right;
+  }
+p {
+  font-size: 14px;
+  font-family: Times New Roman;
+  text-align: justify;
+  text-justify: inter-word;
+  -ms-word-break: normal;
+  word-break: normal;
+
+  // Non standard for webkit
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+li {
+  font-size: 14px;
+  font-family: Times New Roman;
+  text-align: justify;
+  text-justify: inter-word;
+  -ms-word-break: normal;
+  word-break: normal;
+
+  // Non standard for webkit
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+
+}
+.font{
+  font-size: 17px;
+  font-family: Times New Roman;
+  text-align: justify;
+  text-justify: inter-word;
+  -ms-word-break: normal;
+  word-break: normal;
+
+  // Non standard for webkit
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+#term-container{
+  width: 80%;
+}
+#upper-paragraph{
+  text-align: center;
+  margin-top: 5%;
+}
+.headings{
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Times New Roman;
+  text-align: justify;
+  text-justify: inter-word;
+  -ms-word-break: normal;
+  word-break: normal;
+
+  // Non standard for webkit
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+#circle{
+  list-style-type:circle
+}
+#middle{
+  text-align: center;
+}
