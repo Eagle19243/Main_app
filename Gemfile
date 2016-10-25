@@ -51,6 +51,8 @@ gem 'best_in_place', '~> 3.0.1'
 gem 'cancancan', '~> 1.10'
 gem 'kaminari'
 
+#ajex file uploading
+gem 'remotipart'
 # gem 'video_info'
 
 group :development do
@@ -61,6 +63,8 @@ group :development do
     gem 'capistrano3-puma',   require: false
     # Add this if you're using rbenv
     # gem 'capistrano-rbenv', github: "capistrano/rbenv"
+  # Add this if you're using rbenv
+  # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 end
 
 gem 'pg'

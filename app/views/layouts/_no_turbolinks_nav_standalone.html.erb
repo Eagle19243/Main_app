@@ -27,14 +27,11 @@
           <ul class="dropdown">
             <li><a href="#">First link in dropdown</a></li>
             <li class="active"><a href="#">Active link in dropdown</a></li>
-
-
             <% if user_signed_in? %>
               <li><%= link_to 'Dashboard', dashboard_path, class: "active", data: { no_turbolink: true } %></li>
               <li><%= link_to current_user.name.split(" ")[0], current_user, class: "active", data: { no_turbolink: true } %></li>
               <li><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete', class: "active", data: { no_turbolink: true } %></li>
             <% else %>
-
               <li><%= link_to 'Sign in', new_user_session_path, data: { no_turbolink: true } %></li>
               <li><%= link_to 'Sign up', new_user_registration_path, class: "sign-up-nav", data: { no_turbolink: true } %></li>
             <%end%>
@@ -45,7 +42,7 @@
       <!-- Left Nav Section -->
       <ul class="left">
 
-        <li class="active"> <a href="#" id="startbtn" >Start a project</a></li>
+        <li class="active"> <a href="#" id="startbtn" data-no-turbolink="false">Start a project</a></li>
         <li class="active"><%= link_to 'Active Projects', projects_path,  data: { no_turbolink: true }  %></li>
 
         <!-- USER DIRECTORY -->
@@ -72,8 +69,6 @@
       </div>
       <%= simple_form_for(Project.new ,html: { id: 'project-form', multipart: true }) do |f| %>
           <%= f.error_notification %>
-
-          <%#= render 'shared/error_messages', object: f.object %>
           <div class="form-group">
             <%= f.label :title%>
             <%= f.text_field :title, class: 'form-control', required: 'true' %>
@@ -83,9 +78,6 @@
             <%= f.label :short_description, "Short description for Project"%>
             <%= f.text_area :short_description,size: "15x5",  class: 'form-control', required: 'true'%>
           </div>
-
-
-
           </div>
           <div class="modal-footer">
             <div class="form-actions" style="float: right; margin-right: 1% ">
@@ -93,16 +85,12 @@
             </div>
           </div>
       <% end %>
-
-
       </div>
 </div>
 
 <div id="social-invite-popup" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content2" style="width: 60%">
-    <!--<span class="closeinvite">×</span>-->
+ <div class="modal-content2" style="width: 60%">
     <button type="button" class="close" data-dismiss="modal" id="close-social-invite-popup" style="background-color:white">&#10006</button>
     <div class="modal-header">
       <h4 class="modal-title">Social invite</h4>
@@ -110,8 +98,6 @@
     <div class="modal-body">
       <div id="project-status" class="alert alert-danger">
       </div>
-
-
     </div>
   </div>
 
@@ -123,12 +109,16 @@
 
   // Get the button that opens the modal
   var btnteam = document.getElementById("startbtn");
+  var btnteam1 = document.getElementById("footer-startbtn");
 
   // Get the <span> element that closes the modal
   var spanteam = document.getElementById("close-project-popup");
 
   // When the user clicks the button, open the modal
   btnteam.onclick = function() {
+    modalteam.style.display = "block";
+  }
+  btnteam1.onclick = function() {
     modalteam.style.display = "block";
   }
 
@@ -138,8 +128,6 @@
   }
 
   // close Social invite Popup
-
-
   var social_invite_modalteam = document.getElementById('social-invite-popup');
 
   // Get the <span> element that closes the modal
@@ -149,9 +137,6 @@
   social_invite_spanteam.onclick = function() {
     social_invite_modalteam.style.display = "none";
   }
-
-
-
 
 </script>
 
@@ -163,8 +148,6 @@
   }
 </style>
 <script>
-
-
 
   $( document ).ready(function() {
     $(document).keydown(function(e) {
