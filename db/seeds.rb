@@ -53,3 +53,4 @@ TeamMembership.create(team_member_id: User.first.id,
                team_id: @project_team.id,
                state: 'admin',
                task_id: @task.id)
+puts "#{count} additional admins created"
