@@ -24,10 +24,6 @@ Rails.application.routes.draw do
     collection do
       get :users_search
     end
-
-    member do
-      get :apply_as_admin
-    end
   end
 
   resources :admin_invitations, only: [:create] do
