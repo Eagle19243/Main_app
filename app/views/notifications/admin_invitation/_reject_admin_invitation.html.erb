@@ -1,0 +1,4 @@
+<%= link_to notification.origin_user.name, user_path(notification.origin_user) %> rejected
+<%= link_to notification.source_model.sender.name, user_path(notification.source_model.sender.name) %>
+invitation to become an admin on project
+<%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>

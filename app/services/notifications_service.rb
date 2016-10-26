@@ -24,12 +24,12 @@ class NotificationsService
     self.create_notification(project, project.user, Notification.actions[:applied_as_project_admin], origin_user)
   end
 
-  def self.notify_about_reject_admin_invitation(admin_invitation, user)
-    self.create_notification(admin_invitation, user, Notification.actions[:reject_admin_invitation])
+  def self.notify_about_reject_admin_invitation(admin_invitation, leader, origin_user)
+    self.create_notification(admin_invitation, leader, Notification.actions[:reject_admin_invitation], origin_user)
   end
 
-  def self.notify_about_accept_admin_invitation(admin_invitation, user)
-    self.create_notification(admin_invitation, user, Notification.actions[:accept_admin_invitation])
+  def self.notify_about_accept_admin_invitation(admin_invitation, leader, origin_user)
+    self.create_notification(admin_invitation, leader, Notification.actions[:accept_admin_invitation], origin_user)
   end
 
   private

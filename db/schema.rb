@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161023202746) do
+ActiveRecord::Schema.define(version: 20161026004941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20161023202746) do
     t.integer "user_id"
     t.integer "project_id"
     t.integer "status",     default: 0
+    t.integer "sender_id"
   end
 
   add_index "admin_invitations", ["project_id"], name: "index_admin_invitations_on_project_id", using: :btree
@@ -428,6 +429,7 @@ ActiveRecord::Schema.define(version: 20161023202746) do
 
   add_foreign_key "admin_invitations", "projects"
   add_foreign_key "admin_invitations", "users"
+  add_foreign_key "admin_invitations", "users", column: "sender_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "chat_rooms", "projects"
   add_foreign_key "institution_users", "institutions"
   add_foreign_key "institution_users", "users"
