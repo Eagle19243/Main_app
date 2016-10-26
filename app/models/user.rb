@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :admin_requests, dependent: :destroy
 
   def self.current_user
     Thread.current[:current_user]

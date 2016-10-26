@@ -1,15 +1,10 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :set_team, only: [:show, :update, :destroy]
 
-  # GET /teams
-  # GET /teams.json
   def index
     @teams = Team.all
   end
 
-
-  # GET /teams/1
-  # GET /teams/1.json
   def show
   end
 
@@ -18,12 +13,6 @@ class TeamsController < ApplicationController
     @team = Team.new
   end
 
-  # GET /teams/1/edit
-  def edit
-  end
-
-  # POST /teams
-  # POST /teams.json
   def create
     @team = Team.new(team_params)
 
@@ -38,8 +27,6 @@ class TeamsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /teams/1
-  # PATCH/PUT /teams/1.json
   def update
     respond_to do |format|
       if @team.update(team_params)
@@ -52,8 +39,6 @@ class TeamsController < ApplicationController
     end
   end
 
-  # DELETE /teams/1
-  # DELETE /teams/1.json
   def destroy
     @team.destroy
     respond_to do |format|
@@ -61,28 +46,19 @@ class TeamsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   def remove_membership
-
-    @team = TeamMembership.find(params[:id])
-
-    @team.destroy
+    @team_membership = TeamMembership.find(params[:id])
+    @team_membership.destroy
     respond_to do |format|
       format.html { redirect_to teams_url, notice: 'Team member  was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
-  # POST /team_memberships
-  # POST /team_memberships.json
+
   def team_memberships
     @project = Project.find(params[:project_id])
-    @team = @project.team
-    if @team.nil?
-      @project_team = @project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10)
-      @project_team.save
-      first_member = TeamMembership.create(team_member_id: @project.user_id, team_id: @project_team.id)
-      first_member.save
-    end
-    @project_team = Team.where(project_id: @project.id).first
+    @project_team = @project.team
     @add_member = true
     case @project_team.team_members.include?(current_user)
     when true

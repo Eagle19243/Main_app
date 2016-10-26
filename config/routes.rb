@@ -36,6 +36,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :admin_requests, only: [:create] do
+    member do
+      post :accept, :reject
+    end
+  end
+
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :team_memberships
   resources :work_records

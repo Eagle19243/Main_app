@@ -28,6 +28,7 @@ class Project < ActiveRecord::Base
                       uniqueness: true
   validates :short_description, presence: true, length: { minimum: 3, maximum: 60 }
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
+  validates :team, presence: true
 
   searchable do
     text :title

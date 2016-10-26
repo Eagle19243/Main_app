@@ -16,8 +16,10 @@
       <%= notification.source_model.application %>
     </div>
     <div class="caj-tab">
-      <%= link_to "ACCEPT INVITATION", accept_do_request_path(notification.source_model), class: "button compose-btn accept fa fa-fa fa-check" %></a>
-      <%= link_to "DECLINE AND REPLY", reject_do_request_path(notification.source_model), class: "button compose-btn decline fa fa-close" %></a>
+      <% if notification.source_model.state == "pending" %>
+        <%= link_to "ACCEPT INVITATION", accept_do_request_path(notification.source_model), class: "button compose-btn accept fa fa-fa fa-check" %></a>
+        <%= link_to "DECLINE AND REPLY", reject_do_request_path(notification.source_model), class: "button compose-btn decline fa fa-close" %></a>
+      <% end %>
     </div>
   </div>
 </div>

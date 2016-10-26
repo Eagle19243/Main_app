@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026004941) do
+ActiveRecord::Schema.define(version: 20161026032334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,14 +29,27 @@ ActiveRecord::Schema.define(version: 20161026004941) do
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
 
   create_table "admin_invitations", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "project_id"
-    t.integer "status",     default: 0
-    t.integer "sender_id"
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "sender_id"
   end
 
   add_index "admin_invitations", ["project_id"], name: "index_admin_invitations_on_project_id", using: :btree
   add_index "admin_invitations", ["user_id"], name: "index_admin_invitations_on_user_id", using: :btree
+
+  create_table "admin_requests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "project_id"
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "admin_requests", ["project_id"], name: "index_admin_requests_on_project_id", using: :btree
+  add_index "admin_requests", ["user_id"], name: "index_admin_requests_on_user_id", using: :btree
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -430,6 +443,8 @@ ActiveRecord::Schema.define(version: 20161026004941) do
   add_foreign_key "admin_invitations", "projects"
   add_foreign_key "admin_invitations", "users"
   add_foreign_key "admin_invitations", "users", column: "sender_id", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "admin_requests", "projects"
+  add_foreign_key "admin_requests", "users"
   add_foreign_key "chat_rooms", "projects"
   add_foreign_key "institution_users", "institutions"
   add_foreign_key "institution_users", "users"

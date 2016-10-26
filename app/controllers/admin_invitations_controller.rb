@@ -14,6 +14,7 @@ class AdminInvitationsController < ApplicationController
 
   def accept
     @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
+    TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
   end
 
   def reject
