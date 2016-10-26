@@ -32,6 +32,14 @@ class NotificationsService
     self.create_notification(admin_invitation, leader, Notification.actions[:accept_admin_invitation], origin_user)
   end
 
+  def self.notify_about_suggested_task(task, leader)
+    self.create_notification(task, leader, Notification.actions[:suggested_task], task.user)
+  end
+
+  def self.notify_about_pending_do_request(do_request, leader)
+    self.create_notification(do_request, leader, Notification.actions[:pending_do_request], do_request.user)
+  end
+
   private
 
   def self.create_notification(model, user, action, origin_user = nil)

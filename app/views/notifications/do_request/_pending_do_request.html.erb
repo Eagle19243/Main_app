@@ -1,0 +1,23 @@
+<div class="invitation">
+  <div class="invi-head">
+    <div class="caj">
+      <div class="simp-img">
+        <% if notification.origin_user.picture? %>
+            <%= link_to (image_tag notification.origin_user.picture.url, :size => "30x30")  %>
+        <% end %>
+      </div>
+      <div class="simp">
+        <p class="img-caj"><span>  <%= notification.origin_user.name %></span> <%= "#{a.created_at.strftime(" %b")} #{a.created_at.day.ordinalize}"  rescue nil%><br></p>
+        <p class="img-cajing">  <%= notification.origin_user.name %> Requested to do this Task</p>
+      </div>
+      <div class="delete-icon"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
+    </div>
+    <div class="caj-text">
+      <%= notification.source_model.application %>
+    </div>
+    <div class="caj-tab">
+      <%= link_to "ACCEPT INVITATION", accept_do_request_path(notification.source_model), class: "button compose-btn accept fa fa-fa fa-check" %></a>
+      <%= link_to "DECLINE AND REPLY", reject_do_request_path(notification.source_model), class: "button compose-btn decline fa fa-close" %></a>
+    </div>
+  </div>
+</div>

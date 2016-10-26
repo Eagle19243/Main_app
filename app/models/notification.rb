@@ -7,7 +7,9 @@ class Notification < ActiveRecord::Base
       :become_project_admin_invitation,
       :applied_as_project_admin,
       :reject_admin_invitation,
-      :accept_admin_invitation
+      :accept_admin_invitation,
+      :suggested_task,
+      :pending_do_request
   ]
 
   belongs_to :user

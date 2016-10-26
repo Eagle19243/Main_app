@@ -1,3 +1,7 @@
 <%= link_to notification.origin_user.name, user_path(notification.origin_user) %> invites you to become an admin on project
-<%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>
-<%= link_to "Accept", apply_as_admin_team_path(@project.team), class: "button round" %>
+<% if notification.source_model.status == "pending" %>
+  <%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>
+  <%= link_to "Accept", apply_as_admin_team_path(@project.team), class: "button round" %>
+<% else %>
+    You have <%= notification.source_model.status %> the invitation
+<% end %>

@@ -16,11 +16,6 @@ class DoRequestsController < ApplicationController
   end
 
   def create
-
-
-
-
-
      @do_request = current_user.do_requests.build(request_params) rescue nil
      #@do_request.task
      if @do_request.task.suggested_task?

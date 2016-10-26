@@ -11,13 +11,10 @@ class DoRequest < ActiveRecord::Base
     event :accept do
       transitions :from => :pending, :to => :accepted
     end
+
     event :reject do
       transitions :from => :pending, :to => :rejected
+    end
 
-    end  
-    end  
-
-
-   
-
+    end
 end
