@@ -33,7 +33,8 @@ $('a[name=delete_attachment]').click(function() {
     }
   });
 });
-<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task_team.collect(&:team_member_id).include? current_user.id )) %>
+
+<%  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
 $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
@@ -262,6 +263,10 @@ span.onclick = function() {
   modal.style.display = "none";
 }
 
+
+// When the user clicks anywhere outside of the modal, close it
+<% unless @task.suggested_task? %>
+
 var modal2 = document.getElementById('myModal2');
 
 // Get the button that opens the modal
@@ -285,8 +290,43 @@ document.getElementById("popup-for-free-paidclose").onclick = function() {
   $("#popup-for-free-paid").hide();
 }
 
+function setpaid() {
+    $("#cover-leter-header-text").html("");
+    $("#cover-leter-header-text").html("You will do this task for Compensation");
+    document.getElementById("do_request_free").value= "false";
+    $("#popup-for-free-paid").show();
 
-// When the user clicks anywhere outside of the modal, close it
+  }
+  function setfree() {
+    $("#cover-leter-header-text").html("");
+    document.getElementById("do_request_free").value= "true";
+    $("#cover-leter-header-text").html("You will do this task for FREE");
+    $("#popup-for-free-paid").show();
+  }
+<%else  %>
+
+var suggested_task_model = document.getElementById('suggested_task_popup');
+
+// Get the button that opens the modal
+var suggested_fund = document.getElementById("suggested_task_fund");
+var suggested_do = document.getElementById("suggested_task_do");
+
+// Get the <span> element that closes the modal
+var suggested_task_popup_close = document.getElementById("suggested_task_popup_close");
+
+// When the user clicks on the button, open the modal
+suggested_fund.onclick = function() {
+  suggested_task_model.style.display = "block";
+}
+suggested_do.onclick = function() {
+  suggested_task_model.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+suggested_task_popup_close.onclick = function() {
+  suggested_task_model.style.display = "none";
+}
+<%end %>
+
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
@@ -303,22 +343,11 @@ window.onclick = function(event) {
   if (event.target == modal2) {
     modal2.style.display = "none";
   }
+  if (event.target == suggested_task_model) {
+    suggested_task_model.style.display = "none";
+  }
 }
 
-  function setpaid() {
-    $("#cover-leter-header-text").html("");
-    $("#cover-leter-header-text").html("You will do this task for Compensation");
-
-    document.getElementById("do_request_free").value= "false";
-    $("#popup-for-free-paid").show();
-
-  }
-  function setfree() {
-    $("#cover-leter-header-text").html("");
-    document.getElementById("do_request_free").value= "true";
-    $("#cover-leter-header-text").html("You will do this task for FREE");
-    $("#popup-for-free-paid").show();
-  }
 $(function() {
   callAjax();
 });

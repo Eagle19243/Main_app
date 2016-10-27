@@ -84,7 +84,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       @task_team=TeamMembership.where(task_id: @task.id)
-      if user_signed_in? && (current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id))
+       if user_signed_in? && (((current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? ))
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
           format.html { redirect_to @task, notice: 'Task was successfully updated.' }

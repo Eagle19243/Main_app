@@ -53,7 +53,6 @@
 
         <li class="active">
           <%= link_to 'Privacy Policy', pages_privacy_policy_path, data: { no_turbolink: true } %>
-          <%= link_to 'Terms of Use', projects_path, data: {no_turbolink: true} %>
         </li>
 
         <li class="active">
@@ -79,7 +78,9 @@
 <br>
 
 
-<script>  var btnteam1 = document.getElementById("footer-startbtn");
+<script>
+  debugger
+var btnteam1 = document.getElementById("footer-startbtn");
 btnteam1.onclick = function () {
   modalteam.style.display = "block";
 }
