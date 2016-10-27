@@ -6,13 +6,22 @@
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/glyphicon-only/glyphicon.css">
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/Hover/css/hover-min.css">
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/custom.css">
+<link rel="stylesheet" type="text/css" href="/static/task_show_page/task_detail.css">
 <link rel="stylesheet" href="/static/task_show_page/css/media-queries.css">
 <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
 <%= stylesheet_link_tag 'social-share' %>
 <%= javascript_include_tag 'social-share' %>
-<div id="loading-mask1" align="center">
-  <h4>Loading...</h4>
-  <%= image_tag("hourglass.gif")%>
+<div id="loading-mask1" class="modal" style="display: block">
+  <!-- Modal content -->
+  <div class="modal-content2" style="width:25%">
+    <div class="fund-do">
+      <div class="row">
+        <center><h3>Loading...</h3></center>
+        <center>  <%= image_tag "hourglass.gif", :style => "width : 80px;" %>
+        </center>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   window.onload = function() {
@@ -21,13 +30,16 @@
     var modalteam = document.getElementById('Project-Invite-Model');
     modalteam.style.display = "block";
     <%end%>
+    // Get the <span> element that closes the modal
     var project_span_team = document.getElementById("inviteclose");
     var modalteam = document.getElementById('Project-Invite-Model')
+    // When the user clicks on <span> (x), close the modal
     project_span_team.onclick = function () {
       modalteam.style.display = "none";
     }
     document.getElementById("loading-mask1").style.display = "none";
   }
+
   $(document).keydown(function(e) {
     if (e.keyCode == 27) {
       $('#response').empty();
@@ -38,25 +50,83 @@
     }
   });
 </script>
+<div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
+  <div style="background-color: #f0f0f0 ">
+    <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
+
+      <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+      <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+      <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+    </div>
+    <center>  <h2 align="center">OR</h2></center>
+    <div  id ="sing-in-show">
+      <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <div id ="sing-up-show">
+      <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
+</div>
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
     <li class="name">
       <h1><a href="/">WeServe</a></h1>
     </li>
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span style="color: white">Menu</span></a></li>
   </ul>
   <section class="top-bar-section">
-        <ul class="right">
-      <li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>
-      <li><a href="/"><img src="images/profile-image.jpg"></a></li>
+    <ul class="right">
+      <% if user_signed_in? %>
+          <!--<li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>-->
+          <!--<li><a href="#"><span class="hvr-push"> current_user.name rescue nil</span></a></li>-->
+          <li>
+            <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
+                <% if current_user.picture? %>
+                    <%= image_tag(current_user.picture.url, size: "30x30") %>
+                <% else %>
+                    <%= gravatar_for_user(current_user)%>
+                <%end%>
+                <%= current_user.name %>
+            <% end %>
+          </li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+
+      <%else %>
+          <li><a href="#" id="Sign-in-a-tasktab" data-reveal-id="sign-in-sing-up"><span class="hvr-push" style="color: white">Sign in</span></a></li>
+          <li><a href="#" id="Sign-up-a-tasktab" data-reveal-id="sign-in-sing-up"><span class="hvr-push" style="color: white">Sign up</span></a></li>
+      <% end %>
+
     </ul>
     <ul class="left">
       <li><a href="#" id="invite-people-on-project" >ADD / INVITE PEOPLE</a></li>
-      <li><%= link_to 'Create a Project', new_project_path %></li>
+      <li><a href="#"  >Create a Project</a></li>
       <li><a href="/">Active Projects</a></li>
     </ul>
   </section>
 </nav>
+
+<script>
+  $("#Sign-in-a ,#Sign-in-a-tasktab").click(function () {
+    $("#Sign-in-div").css("background-color", "#35B8F4 ")
+    $("#Sign-up-div").css("background-color", "white ")
+    $("#Sign-in-div").css("color", "white ")
+    $("#Sign-up-div").css("color", "black")
+    $("#sing-up-show").hide();
+    $("#sing-in-show").show();
+  })
+  $("#Sign-up-a,#Sign-up-a-tasktab").click(function () {
+    $("#Sign-up-div").css("background-color", "#35B8F4")
+    $("#Sign-in-div").css("background-color", "white ")
+    $("#Sign-up-div").css("color", "white ")
+    $("#Sign-in-div").css("color", "black")
+    $("#sing-in-show").hide();
+    $("#sing-up-show").show();
+  })
+</script>
+
 <div id="product-modal"></div>
 <%= render 'tasks/banner' %>
 <section class="tabs">
@@ -1097,12 +1167,20 @@
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
+    document.getElementById("loading-mask1").style.display = "none";
+
     $( "#send-project-email" ).submit(function( ) {
       $('#response').empty();
       $('#response').html("loading...")
     });
     $( "#send-project-email-button" ).click(function( ) {
       $('#response').empty();
+    });
+    $('.btn_movecard').click(function(){
+      var loading = document.getElementById('loading-mask1');
+       loading.style.display = "block";
+    //  $("#loading-mask1").show();
+
     });
     $( "#inviteclose" ).click(function( ) {
      $('#response').empty();
