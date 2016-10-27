@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
         else
         begin
           InvitationMailer.invite_user_for_project( params['email'],current_user.name,
-                                                    Project.find(params['project_id']).title , params['project_id']).deliver_later
+          Project.find(params['project_id']).title , params['project_id']).deliver_later
           format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
           @notice = "Project link has been sent to #{params[:email]}"
           format.js {}
@@ -173,9 +173,9 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
-    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
+    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted", "suggested_task"]).all
     @doing_tasks = @project.tasks.where(state: "doing").all
-    @suggested_tasks = @project.tasks.where(state: "suggested_task").all
+  #  @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     @reviewing_tasks = @project.tasks.where(state: "reviewing").all
     @done_tasks = @project.tasks.where(state: "completed").all
   end

@@ -57,3 +57,10 @@
     height:40px;
     border-radius: 15px;
 }
+.term_of_service{
+    text-align: center;
+    padding-top: 2%;
+}
+#loading-mask1 {
+    z-index: 4;
+}
