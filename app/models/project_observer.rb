@@ -1,5 +1,7 @@
 class ProjectObserver < ActiveRecord::Observer
-  def after_create
-    NotificationsService.notify_about_project_creation(self)
+
+  def after_create(project)
+    NotificationsService.notify_about_project_creation(project)
   end
+
 end

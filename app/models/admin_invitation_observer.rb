@@ -1,16 +1,18 @@
 class AdminInvitationObserver < ActiveRecord::Observer
-  def after_create
-    NotificationsService.notify_about_admin_invitation(self, current_user)
+
+  def after_create(admin_invitation)
+    NotificationsService.notify_about_admin_invitation(admin_invitation, current_user)
   end
 
-  def after_update
-    if self.status_changed?
-      if self.status == "accepted"
-        NotificationsService.notify_about_admin_permissions(self.project, self.user)
-        NotificationsService.notify_about_accept_admin_invitation(self, self.project.user, self.user)
-      elsif self.status == "rejected"
-        NotificationsService.notify_about_reject_admin_invitation(self, self.project.user, self.user)
+  def after_update(admin_invitation)
+    if admin_invitation.status_changed?
+      if admin_invitation.accepted?
+        NotificationsService.notify_about_admin_permissions(admin_invitation.project, admin_invitation.user)
+        NotificationsService.notify_about_accept_admin_invitation(admin_invitation, admin_invitation.project.user, admin_invitation.user)
+      elsif admin_invitation.rejected?
+        NotificationsService.notify_about_reject_admin_invitation(admin_invitation, admin_invitation.project.user, admin_invitation.user)
       end
     end
   end
+
 end
