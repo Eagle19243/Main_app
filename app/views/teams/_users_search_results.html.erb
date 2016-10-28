@@ -16,17 +16,6 @@
 
 <script>
   $(function(){
-    $('form.new_admin_invitation').submit(function(e) {
-      e.preventDefault();
-      $.ajax({
-        type: $(this).attr('method'),
-        url: $(this).attr('action'),
-        data: $(this).serialize()
-      }).done(function(data) {
-        $("#invite-" + data.user_id).hide();
-      }).fail(function(data) {
-        alert("Sorry, something went wrong.")
-      });
-    });
+    JsonFormsHelper.InitializeAdminInvitationsControls();
   });
 </script>
