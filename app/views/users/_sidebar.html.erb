@@ -1,18 +1,5 @@
-<div class="small-12 medium-2 columns user-sidebar" data-equalizer-watch>
-  <% if current_user %>
-    <ul id="sidelist" class="tabs vertical tabs-index hidden-for-small-only sideul">
-      <li class="tab-title">
-        <%= link_to "Profile", user_path(current_user), data: { no_turbolink: true } %>
-      </li>
-      <li class="tab-title">
-        <%= link_to "Projects", my_projects_path, data: { no_turbolink: true } %>
-      </li>
-      <li class="tab-title">
-        <%= link_to "Notifications", notifications_path, data: { no_turbolink: true } %>
-      </li>
-      <li class="tab-title">
-        <%= link_to "Messages", messages_path, data: { no_turbolink: true } %>
-      </li>
-    </ul>
+<link rel="stylesheet" type="text/css" href="/static/notification-page/css/dashboard.css">
+<link href='https://fonts.googleapis.com/css?family=Slabo+27px|Acme|Oswald:300' rel='stylesheet' type='text/css'>
+  <% if current_user     %>
+      <%= render 'layouts/sidebar_navigation' %>
   <% end %>
-</div>

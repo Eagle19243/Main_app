@@ -1,0 +1,10 @@
+<div id="side-menu-id" class="side-menu">
+  <ul class="side-nav">
+    <li><%= link_to 'Dashboard' , user_path(current_user) %></li>
+    <li><%= link_to 'Profile' , user_path(current_user) %></li>
+    <li><a href="/projects">Projects</a></li>
+    <li class="active"><a href="/notifications">Notifications</a></li>
+    <li><a href="/messages">Messages</a></li>
+    <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete%></li>
+  </ul>
+</div>

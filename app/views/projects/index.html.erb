@@ -1,4 +1,5 @@
 <!-- Tab section -->
+<link rel="stylesheet" type="text/css" href="/static/notification-page/css/dashboard.css">
 <div class="tabs tabwrap">
   <div class="row" style="max-width: none;">
     <div class="small-12 columns">
@@ -25,6 +26,7 @@
             <div class="small-11 small-offset-1 columns">
               <!-- repeating member task box -->
               <% @featured_projects.each do |project| %>
+
                   <span class="task-box small-11 medium-5 large-3 columns" style="float: left;">
                     <div class="img-res">
                       <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
