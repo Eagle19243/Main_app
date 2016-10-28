@@ -42,6 +42,7 @@ db/*.sqlite3
 /public/cache
 /public/stylesheets/compiled
 /public/system/*
+public/assets/*
 /spec/tmp/*
 /cache
 /capybara*
@@ -94,3 +95,5 @@ pickle-email-*.html
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.byebug_history

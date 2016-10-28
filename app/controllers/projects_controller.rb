@@ -114,7 +114,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_admin
-     @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.try(:team_id), 'admin').collect(&:team_member_id)
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
   def show
@@ -140,6 +140,13 @@ class ProjectsController < ApplicationController
       rate: @rate,
       average: @project.rate_avg
     }
+  end
+
+  def get_activities
+    @task=Task.find(params[:id])
+    task_comment_ids= @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+    respond_to :js
   end
 
  def get_activities
