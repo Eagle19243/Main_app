@@ -2,10 +2,12 @@
   <!-- Chatroom name -->
   <div class="small-6 columns">
     <h4>
-      #Caju Costa
+      <%= get_chatroom_name(@chatroom) rescue 'Not Found' %>
     </h4>
+    <div id="message-load-image" style="text-align: center; display: none">
+      <%= image_tag 'loading.gif' %>
+    </div>
   </div>
-
   <div class="small-6 columns">
     <!-- Search box -->
     <div class="small-8 columns">

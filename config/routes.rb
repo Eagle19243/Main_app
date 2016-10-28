@@ -1,12 +1,9 @@
 Rails.application.routes.draw do
-  resources :groupmessages
-  resources :chatrooms
-  # get 'task_attachments/index'
-  #
-  # get 'task_attachments/new'
-  #
-  # get 'task_attachments/create'
-  #
+  resources :group_messages, only:[:index, :create]
+  post 'group_messages/get_messages_by_room'
+  post 'group_messages/load_group_messages'
+  post 'group_messages/users_chat'
+
 
   get 'pages/term_of_use'
   get 'pages/privacy_policy'

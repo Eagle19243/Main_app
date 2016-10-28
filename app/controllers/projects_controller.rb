@@ -127,15 +127,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @followed = false
-    # @current_user_id = 0
-    # @rate = @project.rate_avg
-    # if user_signed_in?
-    #   @followed = @project.followers.pluck(:id).include? current_user.id
-    #   @current_user_id = current_user.id
-    # end
+
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -227,10 +219,10 @@ class ProjectsController < ApplicationController
         @project_team = @project.create_team(name: "Team#{@project.id}", mission: "More rock and roll", slots: 10)
         @project_team.save
         first_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
-        first_member.save
+        #first_member.save
         activity = current_user.create_activity(@project, 'created')
-        activity.user_id = current_user.id
-
+        # activity.user_id = current_user.id
+        Chatroom.create( name: @project.title , project_id: @project.id )
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
         session[:project_id] = @project.id

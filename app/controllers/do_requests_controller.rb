@@ -69,9 +69,6 @@ end
       @do_request.task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
       team = Team.find_or_create_by(project_id: @do_request.project_id)
       TeamMembership.create(team_member_id:  @do_request.user_id ,team_id:team.id,task_id:@do_request.task_id,state:"user")
-
-      get_project_default_chat_room_id = Project.get_project_default_chat_room(@do_request.project_id, current_user.id)
-      Groupmember.find_or_create_by!(project_id: @do_request.project_id , chatroom_id:get_project_default_chat_room_id, user_id:@do_request.user_id)
       flash[:success] = "Task has been assigned"
      else
       flash[:error] = "Task was not assigned to user"

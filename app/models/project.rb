@@ -25,12 +25,10 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
-  validates :title, presence: true, length: { minimum: 3, maximum: 60 },
-                      uniqueness: true
-  validates :short_description, presence: true, length: { minimum: 3, maximum: 60 }
-  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
-
-  after_create :create_project_default_chat_room
+  validates :title, presence: true, length: {minimum: 3, maximum: 60},
+            uniqueness: true
+  validates :short_description, presence: true, length: {minimum: 3, maximum: 60}
+  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
   searchable do
     text :title
@@ -119,7 +117,7 @@ class Project < ActiveRecord::Base
       self.send(:write_attribute, 'description', value)
     else
       unless value == self.description.to_s
-        Discussion.find_or_initialize_by(discussable:self, user_id: User.current_user.id, field_name: 'description').update_attributes(context: value)
+        Discussion.find_or_initialize_by(discussable: self, user_id: User.current_user.id, field_name: 'description').update_attributes(context: value)
       end
     end
   end
@@ -131,14 +129,8 @@ class Project < ActiveRecord::Base
   end
 
   def self.get_project_default_chat_room(project_id, user_id)
-    Chatroom.select(:id).where("project_id = ? AND user_id = ?", project_id, user_id ).first.id rescue nil
+    Chatroom.select(:id).where("project_id = ? AND user_id = ?", project_id, user_id).first.id rescue nil
   end
-  private
 
-  def create_project_default_chat_room
-   project_room =  Chatroom.create!(name:("#Group Message"), project_id:self.id, user_id:  User.current_user.id) unless self.blank?
-    unless project_room.blank?
-      Groupmember.create!(project_id: self.id , chatroom_id:project_room.id, user_id:  User.current_user.id)
-    end
-  end
+
 end
