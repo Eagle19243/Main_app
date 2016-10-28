@@ -30,7 +30,6 @@
 //= require autocomplete-rails
 //= require jquery.validate.min
 //= require cocoon
-//= require sync
 
 //= require_tree .
 // $(function() {

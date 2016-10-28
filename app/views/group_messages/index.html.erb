@@ -15,16 +15,7 @@
   <div class="row messages-page-row">
     <!-- Main nav -->
     <div class="small-2 columns full-page" id="left-nav">
-      <nav>
-        <ul class="side-nav">
-          <li><a href="/dashboard">Dashboard</a></li>
-          <li><a href="/profile_comments">Profile</a></li>
-          <li><a href="/projects">Projects</a></li>
-          <li class="active"><a href="/notifications">Notifications</a></li>
-          <li><a href="/groupmessages">Messages</a></li>
-          <li><a href="#">Logout</a></li>
-        </ul>
-      </nav>
+     <%= render 'layouts/sidebar_navigation' %>
     </div>
     <!-- Messages and projects nav -->
     <div class="small-2 columns full-page" id="messages-nav">
