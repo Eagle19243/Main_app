@@ -15,7 +15,7 @@ class AdminInvitationsController < ApplicationController
   def accept
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
-        TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
+        TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.user)
         format.json { render json: @admin_invitation.id, status: :ok }
       else
         format.json { render json: {}, status: :unprocessable_entity }

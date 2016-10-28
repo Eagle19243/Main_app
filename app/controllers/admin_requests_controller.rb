@@ -1,11 +1,11 @@
 class AdminRequestsController < ApplicationController
-  before_action :set_admin_invitation, only: [:accept, :reject]
+  before_action :set_admin_request, only: [:accept, :reject]
 
   def create
     @admin_request = AdminRequest.new(create_params)
     respond_to do |format|
       if @admin_request.save
-        format.json { render json: @admin_request, status: :ok }
+        format.json { render json: @admin_request.id, status: :ok }
       else
         format.json { render json: {}, status: :unprocessable_entity }
       end
@@ -13,16 +13,29 @@ class AdminRequestsController < ApplicationController
   end
 
   def accept
-    @admin_request.update(status: AdminRequest.statuses[:accepted])
+    respond_to do |format|
+      if @admin_request.update(status: AdminRequest.statuses[:accepted])
+        TeamService.add_admin_to_project(@admin_request.project, @admin_request.user)
+        format.json { render json: @admin_request.id, status: :ok }
+      else
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
   end
 
   def reject
-    @admin_request.update(status: AdminRequest.statuses[:rejected])
+    respond_to do |format|
+      if @admin_request.update(status: AdminRequest.statuses[:rejected])
+        format.json { render json: @admin_request.id, status: :ok }
+      else
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
 
-  def set_admin_invitation
+  def set_admin_request
     @admin_request = AdminRequest.find(params[:id])
   end
 

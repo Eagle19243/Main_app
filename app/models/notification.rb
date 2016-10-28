@@ -5,9 +5,11 @@ class Notification < ActiveRecord::Base
       :lost_project_admin_status,
       :created_project,
       :become_project_admin_invitation,
-      :applied_as_project_admin,
+      :admin_request,
       :reject_admin_invitation,
       :accept_admin_invitation,
+      :reject_admin_request,
+      :accept_admin_request,
       :suggested_task,
       :pending_do_request
   ]
