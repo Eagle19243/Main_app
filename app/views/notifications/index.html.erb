@@ -5,12 +5,15 @@
 <% end %>
 
 <div class="row expanded" data-equalizer data-equalizer-mq="large-up">
-  <%= render 'users/sidebar' %>
   <div class="small-12 medium-7 columns" data-equalizer-watch>
     <div class="content">
-      <% @notifications.each do |notification| %>
-        <%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}", locals: { notification: notification } %>
-      <% end %>
+      <ul>
+        <% @notifications.each do |notification| %>
+          <li>
+            <%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}", locals: { notification: notification } %>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>

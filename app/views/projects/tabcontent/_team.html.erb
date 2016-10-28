@@ -1,10 +1,15 @@
 <% @project.team.team_memberships.each do |team_membership| %>
   <%= render "projects/cards/team_membership", team_membership: team_membership %>
 <% end %>
-<div id="admin-request">
-  <%= render partial: "admin_requests/request_form", locals: { user: user, project: project } %>
-</div>
+
+<% if !current_user.nil? %>
+  <div id="admin-request">
+    <%= render partial: "admin_requests/request_form", locals: { user: current_user, project: @project } %>
+  </div>
+<% end %>
+
 <%= render "teams/users_search_popup" %>
+
 <script>
   $('.team-member .box').matchHeight();
   $('form.new_admin_request').submit(function(e) {

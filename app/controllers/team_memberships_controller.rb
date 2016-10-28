@@ -4,7 +4,7 @@ class TeamMembershipsController < ApplicationController
     @team_membership = TeamMembership.find(params[:id])
 
     respond_to do |format|
-      if @team_membership.update_attributes(update_params)
+      if @team_membership.update(update_params)
         format.json { respond_with_bip(@team_membership) }
       else
         format.json { respond_with_bip(@team_membership) }

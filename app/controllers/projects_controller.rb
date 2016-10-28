@@ -368,7 +368,6 @@ class ProjectsController < ApplicationController
     end
 
     def get_project_user
-      set_project
       @project_user = @project.user
     end
 

@@ -1,7 +1,7 @@
 class NotificationsService
 
-  def self.notify_about_admin_permissions(project, user)
-    self.create_notification(project, user, Notification.actions[:become_admin])
+  def self.notify_about_admin_permissions(team_membership)
+    self.create_notification(team_membership.team.project, team_membership.team_member, Notification.actions[:became_project_admin])
   end
 
   def self.notify_about_lost_admin_permissions(team_membership)
