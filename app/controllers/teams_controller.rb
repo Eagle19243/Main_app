@@ -48,30 +48,54 @@ class TeamsController < ApplicationController
   end
 
   def remove_membership
-    @team_membership = TeamMembership.find(params[:id])
-    @team_membership.destroy
+    @team = TeamMembership.find(params[:id]) rescue nil
+    @project_admin = TeamMembership.where("team_id = ? AND state = ?", @team.team_id, 'admin').collect(&:team_member_id) rescue nil
+    if (current_user.id == @team.team.project.user_id && @team.destroy)
+      @notice='Team member  was successfully Removed.'
+    else
+      if (@project_admin.include? current_user.id)
+        if @team.state == "admin"
+          @notice='You can\'t remove admin.'
+        else
+          if @team.destroy
+            @notice='Team member  was successfully Removed.'
+          else
+            @notice="You can't remove Team Member"
+          end
+        end
+      end
+    end
     respond_to do |format|
       format.html { redirect_to teams_url, notice: 'Team member  was successfully destroyed.' }
       format.json { head :no_content }
+      format.js
     end
+
   end
 
   def team_memberships
     @project = Project.find(params[:project_id])
-    @project_team = @project.team
+    @team = @project.team
+    if @team.nil?
+      @project_team = @project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10)
+      @project_team.save
+      first_member = TeamMembership.create(team_member_id: @project.user_id, team_id: @project_team.id)
+      first_member.save
+    end
+    @project_team = Team.where(project_id: @project.id).first
     @add_member = true
     case @project_team.team_members.include?(current_user)
-    when true
-      @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
-      @project_team.team_memberships.destroy(@team_membership) unless @team_membership.nil?
-      @add_member = false
-    else
-      new_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
-      new_member.save
-      @add_member = true
+      when true
+        @team_membership = @project_team.team_memberships.where(team_member_id: current_user.id).first
+        @project_team.team_memberships.destroy(@team_membership) unless @team_membership.nil?
+        @add_member = false
+      else
+        new_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
+        new_member.save
+        @add_member = true
     end
     respond_to do |format|
-      format.html {redirect_to :back}
+      format.html { redirect_to :back }
       format.js
     end
   end

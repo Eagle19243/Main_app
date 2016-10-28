@@ -33,6 +33,7 @@ gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails4-autocomplete'
 gem 'nokogiri', '1.6.0'
+gem 'progress_bar'
 # gem 'dalli'
 
 # Firebase Security Token Generator
@@ -52,14 +53,18 @@ gem 'cancancan', '~> 1.10'
 gem 'kaminari'
 gem 'rails-observers'
 
+#ajex file uploading
+gem 'remotipart'
 # gem 'video_info'
 
 group :development do
-  gem 'capistrano',         require: false
-  gem 'capistrano-rvm',     require: false
-  gem 'capistrano-rails',   require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano3-puma',   require: false
+    gem 'capistrano',         require: false
+    gem 'capistrano-rvm',     require: false
+    gem 'capistrano-rails',   require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+    # Add this if you're using rbenv
+    # gem 'capistrano-rbenv', github: "capistrano/rbenv"
   # Add this if you're using rbenv
   # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 end

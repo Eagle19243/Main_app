@@ -14,11 +14,6 @@ class ProjectsController < ApplicationController
     @featured_projects = Project.page params[:page]
   end
 
-  def discussions
-    @section_details = @project.section_details.order(:order, :title).includes(:discussions)
-    render layout: false
-  end
-
   def original_url
     request.base_url + request.original_fullpath
   end
@@ -37,15 +32,13 @@ class ProjectsController < ApplicationController
   def send_project_email
     respond_to do |format|
       unless params['email'].blank?
-
         if current_user.blank?
           @notice = "ERROR: Please sign in to continue."
           format.js {}
         else
-
         begin
           InvitationMailer.invite_user_for_project( params['email'],current_user.name,
-                                                    Project.find(params['project_id']).title , params['project_id']).deliver_later
+          Project.find(params['project_id']).title , params['project_id']).deliver_later
           format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
           @notice = "Project link has been sent to #{params[:email]}"
           format.js {}
@@ -55,7 +48,6 @@ class ProjectsController < ApplicationController
         end
 
         end
-
       else
         session[:project_id] =  session[:idd]
         format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
@@ -63,7 +55,6 @@ class ProjectsController < ApplicationController
         format.js {}
       end
     end
-
   end
 
   def contacts_callback
@@ -92,12 +83,10 @@ class ProjectsController < ApplicationController
     respond_to :js
   end
 
-
   def autocomplete_user_search
     term = params[:term]
     @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
     @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
-    #@projects = @projects + User.order(:name).where("name LIKE ?", "%#{params[:term]}%").map{|user|"#{user.name}"}
       respond_to do |format|
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
@@ -127,6 +116,7 @@ class ProjectsController < ApplicationController
 
   def project_admin
     @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id)
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
   def show
@@ -160,7 +150,6 @@ class ProjectsController < ApplicationController
     @rate = @project.project_rates.find_or_create_by(user_id: current_user.id)
     @rate.rate = params[:rate]
     @rate.save
-
     render json: {
       rate: @rate,
       average: @project.rate_avg
@@ -173,6 +162,13 @@ class ProjectsController < ApplicationController
     @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
     respond_to :js
   end
+
+ def get_activities
+   @task=Task.find(params[:id])
+   task_comment_ids = @task.task_comments.collect(&:id)
+   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC').limit(30)
+   respond_to :js
+ end
 
   # GET /projects/1/taskstab
   def taskstab
@@ -190,11 +186,11 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
-    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
+    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted", "suggested_task"]).all
     @doing_tasks = @project.tasks.where(state: "doing").all
-    @suggested_tasks = @project.tasks.where(state: "suggested_task").all
+  #  @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    @done_tasks = @project.tasks.where(state: "done").all
+    @done_tasks = @project.tasks.where(state: "completed").all
   end
 
   def show_project_team
@@ -265,7 +261,6 @@ class ProjectsController < ApplicationController
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   def updateEdit
@@ -277,7 +272,6 @@ class ProjectsController < ApplicationController
     puts @project_edit.description
     if new_state == "accepted"
       @project.description = @project_edit.description
-
       respond_to do |format|
         if @project.save
           format.html { redirect_to @project, notice: 'Project was successfully updated.' }
@@ -313,9 +307,7 @@ class ProjectsController < ApplicationController
     else
       flash[:error] = "Project could not be accepted"
     end
-
     redirect_to current_user
-
   end
 
   def reject
@@ -342,13 +334,6 @@ class ProjectsController < ApplicationController
 
   def featured
     @featured_projects = Project.get_featured_projects
-  end
-
-  def invite_admin
-    project = Project.find(params[:project_id])
-    user = User.find(params[:user_id])
-    NotificationsService.notify_about_admin_invitation(project, user)
-    render :nothing => true
   end
 
   private
