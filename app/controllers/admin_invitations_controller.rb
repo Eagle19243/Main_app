@@ -13,12 +13,25 @@ class AdminInvitationsController < ApplicationController
   end
 
   def accept
-    @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
-    TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
+    respond_to do |format|
+      if @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
+        TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
+        format.json { render json: @admin_invitation, status: :ok }
+      else
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
   end
 
   def reject
-    @admin_invitation.update(status: AdminInvitation.statuses[:rejected])
+    respond_to do |format|
+      if @admin_invitation.update(status: AdminInvitation.statuses[:rejected])
+        TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
+        format.json { render json: @admin_invitation, status: :ok }
+      else
+        format.json { render json: {}, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -28,6 +41,6 @@ class AdminInvitationsController < ApplicationController
   end
 
   def create_params
-    params.require(:admin_invitation).permit(:user_id, :project_id)
+    params.require(:admin_invitation).permit(:user_id, :project_id, :sender_id)
   end
 end

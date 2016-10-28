@@ -1,7 +1,7 @@
 class AdminInvitationObserver < ActiveRecord::Observer
 
   def after_create(admin_invitation)
-    NotificationsService.notify_about_admin_invitation(admin_invitation, current_user)
+    NotificationsService.notify_about_admin_invitation(admin_invitation, admin_invitation.sender)
   end
 
   def after_update(admin_invitation)

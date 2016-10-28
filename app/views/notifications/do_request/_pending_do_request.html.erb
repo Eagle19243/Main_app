@@ -16,7 +16,7 @@
       <%= notification.source_model.application %>
     </div>
     <div class="caj-tab">
-      <% if notification.source_model.state == "pending" %>
+      <% if notification.source_model.pending? %>
         <%= link_to "ACCEPT INVITATION", accept_do_request_path(notification.source_model), class: "button compose-btn accept fa fa-fa fa-check" %></a>
         <%= link_to "DECLINE AND REPLY", reject_do_request_path(notification.source_model), class: "button compose-btn decline fa fa-close" %></a>
       <% end %>
