@@ -610,6 +610,9 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
     color:#a5a3a3;
     text-align: center;
 }
+p#response-failure {
+    color: red;
+}
 strong{
     color:#000;
 }
@@ -1679,3 +1682,6 @@ perspective effects (not including the modals and the overlay).
 @media screen and (max-width: 32em) {
 	body { font-size: 75%; }
 }
+
+
+

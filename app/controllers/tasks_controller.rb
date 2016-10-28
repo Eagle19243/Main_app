@@ -11,12 +11,9 @@ class TasksController < ApplicationController
       redirect_to '/'
     else
       @task_team=TeamMembership.where(task_id: @task.id)
-
       if !(  @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id) )
-       @notice= " you are not allowed to do this opration "
-
+       @notice = " you are not allowed to do this opration "
        respond_to do |format|
-
          format.js
          format.html { redirect_to task_path(@task.id), notice: @notice }
        end
@@ -25,7 +22,7 @@ class TasksController < ApplicationController
   end
 
   def validate_admin
-    @task= Task.find(params[:id]) rescue nil
+    @task = Task.find(params[:id]) rescue nil
     if @task.blank?
       redirect_to '/'
     else
@@ -43,40 +40,8 @@ class TasksController < ApplicationController
   layout false, only: [:show]
   before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
 
-  # GET /tasks/1
-  # GET /tasks/1.json
-
-
   def show
-    # @comments = @task.task_comments.all
-    # @assignment = Assignment.new
-    # @task_comments = @task.task_comments.all
-    # #@assignment = Assignment.new
-    #
-    # @task=Task.find(params[:id]) rescue (redirect_to  '/')
-    # @project=@task.project
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @current_user_id = 0
-    # if user_signed_in?
-    #   @current_user_id = current_user.id
-    # end
-    # @followed = false
-    # @rate = 0
-    # if user_signed_in?
-    #   @followed = @project.project_users.pluck(:user_id).include? current_user.id
-    #   @current_user_id = current_user.id
-    #   @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
-    # end
-    # @task_attachment=TaskAttachment.new
-    # @task_attachments=TaskAttachment.where(task_id: @task.id) rescue nil
-    # @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
-    # @doing_tasks = @project.tasks.where(state: "doing").all
-    # @suggested_tasks = @project.tasks.where(state: "suggested_task").all
-    # @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    # @done_tasks = @project.tasks.where(state: "done").all
     redirect_to taskstab_project_path(@task.project.id)
-
   end
 
   # GET /tasks/new
@@ -96,9 +61,8 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     @task.user_id = current_user.id
     if @task.project.user_id != current_user.id
-      @task.state='suggested_task'
+      @task.state = 'suggested_task'
     end
-
     respond_to do |format|
       if @task.save
         unless @task.suggested_task?
@@ -119,14 +83,10 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
-
-      #Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",8,"TaskComment",@as )
-     # @task.project_id = Task.find(params[:id]).project_id
       @task_team=TeamMembership.where(task_id: @task.id)
-      if user_signed_in? && (current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id))
+       if user_signed_in? && (((current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? ))
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
-          # activity.user_id = current_user.id
           format.html { redirect_to @task, notice: 'Task was successfully updated.' }
           format.json { render :show, status: :ok, location: @task }
           format.js
@@ -139,7 +99,6 @@ class TasksController < ApplicationController
         redirect_to "/"
       end
     end
-
   end
 
   # DELETE /tasks/1
@@ -158,7 +117,6 @@ class TasksController < ApplicationController
     previous = @task.suggested_task?
     if @task.accept!
       @notice = "Task accepted "
-
       if previous
         @task.assign_address
       end
@@ -166,7 +124,6 @@ class TasksController < ApplicationController
       @notice = "Task was not accepted"
     end
     respond_to do |format|
-
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
     end
@@ -176,7 +133,6 @@ class TasksController < ApplicationController
     if @task.suggested_task?
       @notice = "You can't Do this Task"
     else
-
       if current_user.id == @task.project.user_id && @task.start_doing!
         @notice = "Task Status changed to Doing "
       else
@@ -184,36 +140,30 @@ class TasksController < ApplicationController
       end
     end
     respond_to do |format|
-
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
     end
-
   end
 
   def reject
-
     if @task.reject!
       @notice = "Task Rejected"
     else
       @notice = "Task was not Rejected "
     end
     respond_to do |format|
-
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
     end
-
   end
 
   def reviewing
     if @task.begin_review!
       @notice = "Task Submitted for Review"
     else
-      @notice= "Task Was Not  Submitted for Review"
+      @notice = "Task Was Not  Submitted for Review"
     end
     respond_to do |format|
-
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
     end
@@ -226,7 +176,6 @@ class TasksController < ApplicationController
       @notice = 'Task was not Completed '
     end
     respond_to do |format|
-
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
     end

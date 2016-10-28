@@ -1,14 +1,4 @@
-<% unless user_signed_in? %>
-  <div id="SignInModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-  </div>
 
-  <div id="SignUpModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-  </div>
-<% end %>
 
 <div>
   <%= render 'top_bar' %>
@@ -31,9 +21,12 @@
         <p class="inhead2">join and help solving public issues in your area</p>
         <button class="secondary button sign" data-reveal-id="SignUpModal">Sign up</button>
         <br>
-        <%= link_to image_tag("facebook.png"), user_omniauth_authorize_path(:facebook) %>
-        <%= link_to image_tag("signup-twitter.png"), user_omniauth_authorize_path(:twitter) %>
-        <%= link_to image_tag("google.png"), user_omniauth_authorize_path(:google_oauth2) %>
+        <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
+
+          <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+          <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+          <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+        </div>
       </center>
     </div>
   </div>
@@ -146,17 +139,16 @@
         <% end %>
       </li>
       <li>
-        <%= link_to new_project_path do %>
-          Start a project
-        <% end %>
+        <a href="#" id="start-a-project-langing" data-reveal-id="sign-in-landing">Start a project</a>
+
       </li>
       <li>
-        <a href="#" data-reveal-id="SignInModal" class="signup_buttons">
+        <a href="#" id="langing-sign-in" data-reveal-id="sign-in-landing" class="signup_buttons">
           Sign In
         </a>
       </li>
       <li>
-        <a href="#" data-reveal-id="SignUpModal" class="signup_buttons">
+        <a href="#" id="langing-sign-up" data-reveal-id="sign-in-landing" class="signup_buttons">
           Sign Up
         </a>
       </li>
@@ -210,3 +202,48 @@
     });
   }
 </script>
+  <% unless user_signed_in? %>
+
+
+
+  <div  id="sign-in-landing"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+
+    <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
+    <div style="background-color: #f0f0f0 ">
+      <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
+
+        <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+        <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+        <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+      </div>
+      <center>  <h2 align="center">OR</h2></center>
+      <div  id ="sing-in-show">
+        <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+      </div>
+      <div id ="sing-up-show">
+        <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+      </div>
+      <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+    <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
+  </div>
+
+  <script>
+    $("#langing-sign-in").click(function () {
+      $("#Sign-in-div").css("background-color", "#35B8F4")
+      $("#Sign-up-div").css("background-color", "white")
+      $("#Sign-in-div").css("color", "white")
+      $("#Sign-up-div").css("color", "black")
+      $("#sing-up-show").hide();
+      $("#sing-in-show").show();
+    })
+    $("#start-a-project-langing , #langing-sign-up").click(function () {
+      $("#Sign-up-div").css("background-color", "#35B8F4")
+      $("#Sign-in-div").css("background-color", "white")
+      $("#Sign-up-div").css("color", "white")
+      $("#Sign-in-div").css("color", "black")
+      $("#sing-in-show").hide();
+      $("#sing-up-show").show();
+    })
+  </script>
+  <% end %>

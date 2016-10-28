@@ -35,11 +35,7 @@ class Project < ActiveRecord::Base
     text :description
   end
 
-  # validates :short_description, presence: true, length: { minimum: 100, maximum: 500 }
-  #
-  # validates :description, presence: true, length: { minimum: 2}
-  #
-  # validates :picture, presence: true
+  validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 

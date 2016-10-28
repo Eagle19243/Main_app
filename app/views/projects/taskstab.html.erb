@@ -6,40 +6,30 @@
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/glyphicon-only/glyphicon.css">
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/Hover/css/hover-min.css">
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/custom.css">
+<link rel="stylesheet" type="text/css" href="/static/task_show_page/task_detail.css">
 <link rel="stylesheet" href="/static/task_show_page/css/media-queries.css">
 <script src="/static/task_show_page/js/vendor/modernizr.js"></script>
 <%= stylesheet_link_tag 'social-share' %>
 <%= javascript_include_tag 'social-share' %>
-<style>
-  #loading-mask1 {
-    background-color: white;
-    height: 100%;
-    left: 0;
-    position: fixed;
-    margin-top:50%;
-    width: 100%;
-    z-index: 9999;
-
-
-
-
-  }</style>
-<div id="loading-mask1" align="center">
-  <h4>Loading...</h4>
-
-  <%= image_tag("hourglass.gif")%>
+<div id="loading-mask1" class="modal" style="display: block">
+  <!-- Modal content -->
+  <div class="modal-content2" style="width:25%">
+    <div class="fund-do">
+      <div class="row">
+        <center><h3>Loading...</h3></center>
+        <center>  <%= image_tag "hourglass.gif", :style => "width : 80px;" %>
+        </center>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
-
   window.onload = function() {
-
-//      debugger
     $('#project-url').html(window.location.href);
     <% if  session[:project_id] != nil %>
     var modalteam = document.getElementById('Project-Invite-Model');
     modalteam.style.display = "block";
     <%end%>
-
     // Get the <span> element that closes the modal
     var project_span_team = document.getElementById("inviteclose");
     var modalteam = document.getElementById('Project-Invite-Model')
@@ -47,58 +37,98 @@
     project_span_team.onclick = function () {
       modalteam.style.display = "none";
     }
-
     document.getElementById("loading-mask1").style.display = "none";
   }
 
   $(document).keydown(function(e) {
-    // ESCAPE key pressed
     if (e.keyCode == 27) {
       $('#response').empty();
       $("#guest-email").val("");
-
       $('#response-failure').empty();
       $("#response-success");
       $("#Project-Invite-Model").hide();
-
-
     }
   });
-
 </script>
-<%# Rails flash messages styled for Zurb Foundation %>
+<div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
+  <div style="background-color: #f0f0f0 ">
+    <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
 
+      <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+      <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+      <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+    </div>
+    <center>  <h2 align="center">OR</h2></center>
+    <div  id ="sing-in-show">
+      <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <div id ="sing-up-show">
+      <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
+</div>
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
     <li class="name">
       <h1><a href="/">WeServe</a></h1>
     </li>
-    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+    <li class="toggle-topbar menu-icon"><a href="#"><span style="color: white">Menu</span></a></li>
   </ul>
-
   <section class="top-bar-section">
-    <!-- Right Nav Section -->
     <ul class="right">
-      <li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>
-      <li><a href="/"><img src="images/profile-image.jpg"></a></li>
-    </ul>
+      <% if user_signed_in? %>
+          <!--<li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>-->
+          <!--<li><a href="#"><span class="hvr-push"> current_user.name rescue nil</span></a></li>-->
+          <li>
+            <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
+                <% if current_user.picture? %>
+                    <%= image_tag(current_user.picture.url, size: "30x30") %>
+                <% else %>
+                    <%= gravatar_for_user(current_user)%>
+                <%end%>
+                <%= current_user.name %>
+            <% end %>
+          </li>
+          <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
 
-    <!-- Left Nav Section -->
+      <%else %>
+          <li><a href="#" id="Sign-in-a-tasktab" data-reveal-id="sign-in-sing-up"><span class="hvr-push" style="color: white">Sign in</span></a></li>
+          <li><a href="#" id="Sign-up-a-tasktab" data-reveal-id="sign-in-sing-up"><span class="hvr-push" style="color: white">Sign up</span></a></li>
+      <% end %>
+
+    </ul>
     <ul class="left">
       <li><a href="#" id="invite-people-on-project" >ADD / INVITE PEOPLE</a></li>
-      <li><%= link_to 'Create a Project', new_project_path %></li>
+      <li><a href="#"  >Create a Project</a></li>
       <li><a href="/">Active Projects</a></li>
     </ul>
   </section>
 </nav>
 
+<script>
+  $("#Sign-in-a ,#Sign-in-a-tasktab").click(function () {
+    $("#Sign-in-div").css("background-color", "#35B8F4 ")
+    $("#Sign-up-div").css("background-color", "white ")
+    $("#Sign-in-div").css("color", "white ")
+    $("#Sign-up-div").css("color", "black")
+    $("#sing-up-show").hide();
+    $("#sing-in-show").show();
+  })
+  $("#Sign-up-a,#Sign-up-a-tasktab").click(function () {
+    $("#Sign-up-div").css("background-color", "#35B8F4")
+    $("#Sign-in-div").css("background-color", "white ")
+    $("#Sign-up-div").css("color", "white ")
+    $("#Sign-in-div").css("color", "black")
+    $("#sing-in-show").hide();
+    $("#sing-up-show").show();
+  })
+</script>
+
 <div id="product-modal"></div>
-
-<!-- Banner -->
 <%= render 'tasks/banner' %>
-
-<!-- Tab section -->
 <section class="tabs">
   <div class="row">
     <ul class="tabs" data-tab role="tablist">
@@ -109,13 +139,9 @@
     </ul>
     <div class="tabs-content task-tabs-content">
       <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
-
         <div class="row">
-          <!--Funding / Sourcing Column -->
           <div class="large-12 medium-12 small-12 columns pb0">
-
             <div class="plantop_main">
-
               <div class="large-12 medium-12 small-12 columns pb0">
                 <div class="plantop_wrap">
                   <ul class="efd">
@@ -138,9 +164,7 @@
                       </a>
                     </li>
                   </ul>
-
                   <div class="rank_it">
-
                     <ul>
                       <li>
                         <a href="#">
@@ -168,15 +192,11 @@
                         </a>
                       </li>
                     </ul>
-
                     <div class="rankit_text">
                       <a href="#">Rank it</a>
                     </div>
                   </div>
-
-
                   <div class="social_sharelink" data-title="<%= @project.title %>" data-url="<%= project_url(@project.id) %>" data-img="" data-desc="" data-popup="" data-via="">
-
                     <ul>
                       <li>
                         <a href="#">
@@ -199,10 +219,7 @@
                         </a>
                       </li>
                     </ul>
-
                   </div>
-
-
                   <div class="add_fav">
                     <a href="#">
                       <i class="fa fa-star"></i>
@@ -212,13 +229,9 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
         <div class="row">
-
-          <!--Funding / Sourcing Column -->
           <div class="large-12 medium-12 small-12 columns pb0">
             <div class="plan_block2">
               <div class="large-7 medium-6 small-12 columns pb0">
@@ -234,21 +247,13 @@
               </div>
             </div>
           </div>
-
         </div>
-
-
-
         <div class="row">
-          <!--Funding / Sourcing Column -->
           <div class="large-12 medium-12 small-12 columns pb0">
-
             <div class="plan_block3">
-
               <div class="large-7 medium-12 small-12 columns pb0">
                 <div class="table_content_box">
                   <h1>Table of Contents</h1>
-
                   <div class="tbcontent_list">
                     <ul>
                       <li>
@@ -287,36 +292,26 @@
                     </ul>
                   </div>
                 </div>
-
-
-
                 <div class="section_box">
                   <h2>Section 1</h2>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
                   </p>
                   <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
                 </div>
-
-
                 <div class="section_box">
                   <h2>Section 2</h2>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
                   </p>
                   <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
                 </div>
-
-
               </div>
-
               <div class="large-5 medium-12 small-12 columns pb0">
                 <div class="alltask_main">
                   <div class="alltask_top">
                     <h4>Tasks</h4>
                     <a href="#" class="btn_all">See all</a>
                   </div>
-
                   <div class="alltask_mid_main">
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -348,7 +343,6 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -380,7 +374,6 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -412,7 +405,6 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -444,29 +436,18 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-
         <div class="clear"></div>
       </section>
-
-      <!-- Plan TAB -->
       <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-
-
         <div class="row">
-          <!--Funding / Sourcing Column -->
           <div class="large-12 medium-12 small-12 columns pb0">
-
             <div class="plantop_main">
-
               <div class="large-12 medium-12 small-12 columns pb0">
                 <div class="plantop_wrap">
                   <ul class="efd">
@@ -489,9 +470,7 @@
                       </a>
                     </li>
                   </ul>
-
                   <div class="rank_it">
-
                     <ul>
                       <li>
                         <a href="#">
@@ -519,15 +498,11 @@
                         </a>
                       </li>
                     </ul>
-
                     <div class="rankit_text">
                       <a href="#">Rank it</a>
                     </div>
                   </div>
-
-
                   <div class="social_sharelink">
-
                     <ul>
                       <li>
                         <a href="#">
@@ -550,10 +525,7 @@
                         </a>
                       </li>
                     </ul>
-
                   </div>
-
-
                   <div class="add_fav">
                     <a href="#">
                       <i class="fa fa-star"></i>
@@ -563,13 +535,9 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
-
         <div class="row">
-
-          <!--Funding / Sourcing Column -->
           <div class="large-12 medium-12 small-12 columns pb0">
             <div class="plan_block2">
               <div class="large-7 medium-6 small-12 columns pb0">
@@ -587,19 +555,12 @@
           </div>
 
         </div>
-
-
-
         <div class="row">
-          <!--Funding / Sourcing Column -->
           <div class="large-12 medium-12 small-12 columns pb0">
-
             <div class="plan_block3">
-
               <div class="large-7 medium-12 small-12 columns pb0">
                 <div class="table_content_box">
                   <h1>Table of Contents</h1>
-
                   <div class="tbcontent_list">
                     <ul>
                       <li>
@@ -638,36 +599,26 @@
                     </ul>
                   </div>
                 </div>
-
-
-
                 <div class="section_box">
                   <h2>Section 1</h2>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
                   </p>
                   <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
                 </div>
-
-
-                <div class="section_box">
+               <div class="section_box">
                   <h2>Section 2</h2>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
                   </p>
                   <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
                 </div>
-
-
               </div>
-
               <div class="large-5 medium-12 small-12 columns pb0">
                 <div class="alltask_main">
                   <div class="alltask_top">
                     <h4>Tasks</h4>
                     <a href="#" class="btn_all">See all</a>
                   </div>
-
                   <div class="alltask_mid_main">
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -699,7 +650,6 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -731,7 +681,6 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -763,7 +712,6 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
                     <div class="alltask_mid">
                       <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet </p>
                       <div class="progressbar_left">
@@ -795,26 +743,17 @@
                         <div class="btn_do"><a href="#">Do</a></div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-
         <div class="clear"></div>
-
       </section>
-
-      <!--Task tab -->
       <section role="tabpanel" aria-hidden="false" class="content task draggle-set active" id="panel2-3">
         <div class="row">
-          <!--Funding / Sourcing Column -->
           <div class="large-3 medium-6 small-12 columns">
-
             <div class="task-box-header">
               <h6><a href="">Funding/Sourcing</a></h6>
               <button data-dropdown="drop1" aria-controls="drop1" aria-expanded="false" class="button dropdown">...</button><br>
@@ -824,7 +763,6 @@
                 <li><a href="#">Yet another</a></li>
               </ul>
             </div>
-            <!-- repeating member task box -->
             <div class="dragbox ui-sortable">
               <% @sourcing_tasks.each do |task| %>
                   <div class="btn_movecard">
@@ -832,7 +770,6 @@
                   </div>
                   <div class="task-box portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                     <div class="portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span>
-
                       <p><%= task.description %> </p>
                       <ul class="task-box-icons">
                         <li><i class="fa fa-comment-o" aria-hidden="true"></i> <%= task.task_comments.count %></li>
@@ -860,24 +797,15 @@
                         </center>
                       </div>
                     </div>
-
-
-                    <!-- repeating member task box ends -->
                   </div>
                   <hr>
               <% end %>
-
               <div class="clear"></div>
-
-
-              <!-- add button -->
               <div class="add-btn large-12 medium-12 small-12 columns portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                 <button class="button portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span><a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class="button expand portlet-content btn_addtask"><i class="fa fa-plus" aria-hidden="true"></i> Add a Task</a></button>
               </div>
-
             </div>
           </div>
-          <!-- Doing column -->
           <div class="large-3 medium-6 small-12 columns">
             <div class="task-box-header">
               <h6>Doing</h6>
@@ -889,7 +817,6 @@
               </ul>
             </div>
             <div class="dragbox ui-sortable">
-
               <% @doing_tasks.each do |task| %>
                   <div class="btn_movecard">
                     <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
@@ -923,26 +850,15 @@
                         </center>
                       </div>
                     </div>
-
-
-                    <!-- repeating member task box ends -->
-                  </div>
+                                  </div>
                   <hr>
               <% end %>
-
-
-
-
               <div class="clear"></div>
-
-              <!-- add button -->
               <div class="add-btn large-12 medium-12 small-12 columns portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                 <button class="button portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span><i class="fa fa-plus" aria-hidden="true"></i> Add to Reviewing</button>
               </div>
             </div>
-
           </div>
-          <!-- Reviewing column -->
           <div class="large-3 medium-6 small-12 columns">
             <div class="task-box-header">
               <h6>Reviewing</h6>
@@ -953,10 +869,7 @@
                 <li><a href="#">Yet another</a></li>
               </ul>
             </div>
-
             <div class="dragbox ui-sortable">
-
-              <!-- repeating member task box -->
               <% @reviewing_tasks.each do |task| %>
                   <div class="btn_movecard">
                     <%= link_to projects_show_task_path(id: task.id.to_s), remote: true do %> <%= task.title || "task" %>...<span><i class="fa fa-eye fa-lg fa-pulse"></i></span> <% end %>
@@ -990,29 +903,15 @@
                         </center>
                       </div>
                     </div>
-
-
-                    <!-- repeating member task box ends -->
                   </div>
                   <hr>
               <% end %>
-
-
-
-
-              <!-- repeating member task box -->
-
-
-              <div class="clear"></div>
-
-              <!-- add button -->
+            <div class="clear"></div>
               <div class="add-btn large-12 medium-12 small-12 columns portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all">
                 <button class="button portlet-content ui-sortable-handle ui-widget-header ui-corner-all"><span class="ui-icon ui-icon-minusthick portlet-toggle"></span><i class="fa fa-plus" aria-hidden="true"></i> Add to Complete</button>
               </div>
             </div>
-
           </div>
-          <!-- Done Column -->
           <div class="large-3 medium-6 small-12 columns">
             <div class="task-box-header">
               <h6>Done</h6>
@@ -1023,8 +922,6 @@
                 <li><a href="#">Yet another</a></li>
               </ul>
             </div>
-
-
             <div class="dragbox ui-sortable">
               <% @done_tasks.each do |task| %>
                   <div class="btn_movecard">
@@ -1059,57 +956,34 @@
                         </center>
                       </div>
                     </div>
-
-
-                    <!-- repeating member task box ends -->
-                  </div>
+                                 </div>
                   <hr>
               <% end %>
               <div class="clear"></div>
-
-              <!-- add button -->
-
             </div>
-
           </div>
         </div>
       </section>
-      <!--Team tab-->
       <section role="tabpanel" aria-hidden="true" class="content" id="panel2-4">
-        <!-- one row of team members starts here -->
         <div class="row">
           <% @project.team.team_members.each do |team_member| %>
               <%= render "projects/cards/team_member", team_member: team_member %>
           <% end %>
         </div>
-        <!-- end of row-->
-
       </section>
-      <!-- Task Details Window -->
-
-
     </div>
   </div>
 </section>
-
 </div>
-
 <div id="Project-Invite-Model" class="modal">
-
-  <!-- Modal content -->
   <div class="modal-content2 yes">
-    <!--<b> <span id="inviteclose" class="close" >×</span></b>,-->
-    <button type="button" class="close" data-dismiss="modal" id="inviteclose" style="background-color:white">&#10006</button>
-
+    <button type="button" class="close " data-dismiss="modal" id="inviteclose">&#10006</button>
     <div class="fund-do">
       <div class="row">
-        <center><h4>Invite People To Participate</h4></center><br>
-        <div class="alert" sty id="response" style="margin-left: 10%; color:green "></div>
-
-        <!--<center><h6>Type in the e-mail address of the person you like to invite</h6></center>-->
+        <center><h4 id = 'middle'>Invite People To Participate</h4></center><br>
+        <div class="alert"  id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
-
             <div class="large-10 medium-10 small-12 columns cold">
               <div class="large-8 medium-12 small-12 columns cold">
                 <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
@@ -1117,60 +991,43 @@
                 <% session[:project_id] = nil %>
                 <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
               </div>
-
               <div class="large-4 medium-12 small-12 columns cold">
                 <button class="button round expand modal-btn1 btn-add" id="send-project-email-button" >Add / Invite</button>
               </div>
-
-              <div class="row" style="text-align: initial; margin-left: 3.2%">
-                <div class="contact-importers">
-          <span>Import your contacts from:
+              <div class="row" id="contacts">
+                <div class="contact-importers" id ="tab">
+          <span >Import your contacts from:
             <span class="contact-importer">
-               <span class="loading-trigger" data-source="gmail" style="margin-left:1%">
-
+               <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
                  <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
                  <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
                </span>
             </span>
-
             <span class="mini-divider"></span>
                <span class="contact-importer">
-                 <span class="loading-trigger" data-source="yahoo" style="margin-left:1%">
+                 <span class="loading-trigger" data-source="yahoo" id="yahoo">
                                     <%= image_tag("yahoo.png" ,:class => "img_preview") %>
-
                    <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
                 </span>
                </span>
             <span class="mini-divider"></span>
-            <!--<span class="contact-importer">-->
-            <!--<span class="loading-trigger" data-source="windowslive" style="margin-left:1%">-->
-            <!--<%#= image_tag("outlook.png" ,:class => "img_preview") %>-->
-
-            <!--<a href="#/" class="loading-indicator email-import-btn windowslive-icon">Outlook Mail</a>-->
-            <!--</span>-->
-            <!--</span>-->
           </span>
                 </div>
                 <%unless session[:failure_contacts].blank? %>
                     <br>
-                    <p style="color:red" id="response-failure"><%= session[:failure_contacts]%></p>
+                    <p id="response-failure"><%= session[:failure_contacts]%></p>
                 <%end%>
-
                 <%unless session[:success_contacts].blank? %>
                     <br>
-                    <p style="color:green" id="response-success"><%= session[:success_contacts]%></p>
+                    <p  id="response-success"><%= session[:success_contacts]%></p>
                 <%end%>
               </div>
               <%= session[:failure_contacts]=nil%>
               <%= session[:success_contacts]=nil%>
-
-
               <div class="override">
                 <h2 class="background"><span>OR</span></h2>
               </div>
-
               <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
-                <!-- Facebook Button Start //-->
                 <ul>
                   <li>
                     <div class="facebook-wrapper" >
@@ -1180,11 +1037,6 @@
                       </a>
                     </div>
                   </li>
-                  <!-- Facebook Button End //-->
-
-
-
-                  <!-- Linkedin Button Start //-->
                   <li>
                     <div class="twitter-wrapper">
                       <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
@@ -1193,9 +1045,6 @@
                       </a>
                     </div>
                   </li>
-                  <!-- Linkedin Button End //-->
-
-                  <!-- Pinterest Button Start //-->
                   <li>
                     <div class="pinterest-wrapper">
                       <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
@@ -1210,24 +1059,15 @@
                   <b>URL: </b><span id="project-url"></span>
                 </div>
               </div>
-
-
-
             </div>
         <%end %>
         <div class="large-1 medium-1 small-0 columns"></div>
-      </div> <!--row ends -->
-
-    </div> <!-- task details ends -->
+      </div>
+    </div>
   </div>
-
 </div>
-
-
-
 <div class="md-modal md-effect-1" id="modal-1">
   <div class="md-content">
-
     <div class="modal_box">
       <div id="testDiv">
         <div class="modal_left">
@@ -1235,28 +1075,24 @@
             <h1>Here goes the Project Name</h1>
             <a href="#">Suggest edit</a>
           </div>
-
           <div class="section_box modal_secbox">
             <h2>Section 1</h2>
             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod <span>tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</span> ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
             </p>
             <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
           </div>
-
           <div class="section_box modal_secbox">
             <h2>Section 2</h2>
             <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod <span>tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation</span> ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
             </p>
             <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, tel ilium dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod maxim placerat facer possim assum.</p>
           </div>
-
         </div>
         <div class="modal_right">
           <button class="md-close"><img src="images/btn-close.png" alt="" /></button>
           <div class="clear"></div>
           <div class="modal-right-top">
             <h1>Suggested Editions</h1>
-
             <div class="commentbox">
               <div class="comments_icon">
                 <img src="images/comment-icon.jpg" alt="" />
@@ -1285,7 +1121,6 @@
                 </div>
               </div>
             </div>
-
             <div class="commentbox">
               <div class="comments_icon">
                 <img src="images/comment-icon.jpg" alt="" />
@@ -1314,20 +1149,14 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
-
     </div>
     <div class="clear"></div>
   </div>
 </div>
-
-
-
-<div class="md-overlay"></div><!-- the overlay element -->
+<div class="md-overlay"></div>
 <script src="/static/task_show_page/js/vendor/jquery.js"></script>
 <script src="/static/task_show_page/js/foundation.min.js"></script>
 <script src="/static/task_show_page/js/custom.js"></script>
@@ -1337,133 +1166,52 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script type="text/javascript">
-
-
   $(document).ready(function(){
+    document.getElementById("loading-mask1").style.display = "none";
 
     $( "#send-project-email" ).submit(function( ) {
       $('#response').empty();
       $('#response').html("loading...")
     });
-
     $( "#send-project-email-button" ).click(function( ) {
-//      alert('dfsdf');
       $('#response').empty();
     });
+    $('.btn_movecard').click(function(){
+      var loading = document.getElementById('loading-mask1');
+       loading.style.display = "block";
+    //  $("#loading-mask1").show();
 
+    });
     $( "#inviteclose" ).click(function( ) {
      $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
       $("#guest-email").val("");
     });
-
     $("#guest-email").keyup(function(){
       $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
-
     });
-
     $('#invite-people-on-project').click(function(){
       var modalteam = document.getElementById('Project-Invite-Model');
       modalteam.style.display = "block";
-
     });
-//    $('#project-url').html(window.location.href);
-//    var modalteam = document.getElementById('Project-Invite-Model');
-//    modalteam.style.display = "block";
-
-
-    // Get the <span> element that closes the modal
     var project_span_team= document.getElementById("inviteclose");
-
-    // When the user clicks on <span> (x), close the modal
     project_span_team.onclick = function() {
       modalteam.style.display = "none";
-
-
     }
-
-
-    $( ".dragbox" ).sortable({
-      connectWith: ".dragbox",
-      handle: ".portlet-content",
-      cancel: ".portlet-toggle",
-      placeholder: "portlet-placeholder ui-corner-all"
-    });
-
-    $( ".portlet" )
-        .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-        .find( ".portlet-content" )
-        .addClass( "ui-widget-header ui-corner-all" )
-        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
-    $( ".portlet-toggle" ).on( "click", function() {
-      var icon = $( this );
-      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
-      icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
-    });
   } );
-
-
 </script>
-
-<style type="text/css">
-  #InviteModel {
-    z-index:2 ;
-  }
-  #team {
-    z-index:2 ;
-  }
-  #share {
-    z-index:2 ;
-  }
-
-  .portlet-placeholder {
-    border: 1px dotted black;
-    margin: 0 1em 1em 0;
-    height: 233px;
-    width: 100%;
-  }
-
-
-  .dragbox {
-    min-height: 233px;
-    width: 100%;
-    padding-bottom: 100px;
-  }
-  .draggle-set .column,
-  .draggle-set .columns {
-    position: inherit;
-  }
-  .add-btn button {
-    margin-bottom: 10px;
-    display: block;
-    float: left;
-    width: 100%;
-  }
-  .clear {
-    clear: both;
-  }
-  .task-box {
-    clear: both;
-  }
-
-</style>
-
 <script src="/static/task_show_page/js/classie.js"></script>
 <script src="/static/task_show_page/js/modalEffects.js"></script>
 <script src="/static/task_show_page/js/cssParser.js"></script>
 <script src="/static/task_show_page/js/jquery.slimscroll.js" type="text/javascript"></script>
 <script type="text/javascript">
   $(function(){
-
     $('#testDiv').slimScroll();
-
     $('#testDiv2').slimScroll({
       allowPageScroll: true
     });
-
   });
 </script>

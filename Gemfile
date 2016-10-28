@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.3.1'
 
 gem 'rails', '4.2.5.1'
 gem 'sass-rails', '~> 5.0'
@@ -28,11 +28,12 @@ gem 'jquery-turbolinks'
 gem 'chosen-rails'
 gem 'validates_timeliness', '~> 4.0'
 gem 'interactor-rails', '~> 2.0'
-# gem 'puma'
+gem 'puma'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 gem 'rails4-autocomplete'
 gem 'nokogiri', '1.6.0'
+gem 'progress_bar'
 # gem 'dalli'
 
 # Firebase Security Token Generator
@@ -50,17 +51,19 @@ gem 'cocoon'
 gem 'best_in_place', '~> 3.0.1'
 gem 'cancancan', '~> 1.10'
 gem 'kaminari'
+
 #ajex file uploading
 gem 'remotipart'
 # gem 'video_info'
-gem 'faye'
-gem 'sync'
+
 group :development do
-  gem 'capistrano',         require: false
-  gem 'capistrano-rvm',     require: false
-  gem 'capistrano-rails',   require: false
-  gem 'capistrano-bundler', require: false
-  # gem 'capistrano3-puma',   require: false
+    gem 'capistrano',         require: false
+    gem 'capistrano-rvm',     require: false
+    gem 'capistrano-rails',   require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+    # Add this if you're using rbenv
+    # gem 'capistrano-rbenv', github: "capistrano/rbenv"
   # Add this if you're using rbenv
   # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 end

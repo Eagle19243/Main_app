@@ -30,9 +30,9 @@ puts "#{count} additional admins created"
             budget: 100,
             deadline: Date.new)
 
-TeamMembership.create(team_member_id: User.first.id, 
-               team_id: @project_team.id, 
-               state: 'admin', 
+TeamMembership.create(team_member_id: User.first.id,
+               team_id: @project_team.id,
+               state: 'admin',
                task_id: @task.id)
 
 @project = Project.create(title: "Test project 2",
@@ -49,7 +49,8 @@ TeamMembership.create(team_member_id: User.first.id,
             budget: 100,
             deadline: Date.new)
 
-TeamMembership.create(team_member_id: User.first.id, 
-               team_id: @project_team.id, 
-               state: 'admin', 
+TeamMembership.create(team_member_id: User.first.id,
+               team_id: @project_team.id,
+               state: 'admin',
                task_id: @task.id)
+puts "#{count} additional admins created"

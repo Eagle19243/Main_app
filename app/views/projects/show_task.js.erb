@@ -8,7 +8,6 @@ $( "#Do-request-form" ).submit(function( ) {
   $('#Do-request-form-response').html(" Requesting ...")
 });
 $( "#comment-form" ).submit(function( ) {
-
 });
 $('.hide-input').hide()
 $("#loading-mask1").hide();
@@ -35,8 +34,7 @@ $('a[name=delete_attachment]').click(function() {
   });
 });
 
-
-<%  if user_signed_in? && ( current_user.id == @task.project.user.id  || ( @task_team.collect(&:team_member_id).include? current_user.id )) %>
+<%  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
 $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
@@ -48,7 +46,6 @@ $("#upload-button").hide();
 $("#upload-button").click(function(){
   $("#upload-button").hide();
 })
-
 
 $("#task-title" ).dblclick(function() {
   $(this).hide();
@@ -69,7 +66,6 @@ $("#task-description" ).dblclick(function() {
 $("#task-condition" ).dblclick(function() {
   $(this).hide();
   $("#task-update-condition-form").show();
-
   $("#input-task-condition").show();
   $("#task-update-condition").hide();
   $("#task-update-condition").next().hide();
@@ -78,7 +74,6 @@ $("#task-condition" ).dblclick(function() {
 $("#task-proof" ).dblclick(function() {
   $(this).hide();
   $("#task-update-proof-form").show();
-
   $("#input-task-proof").show();
   $("#task-update-proof").hide();
   $("#task-update-proof").next().hide();
@@ -87,8 +82,6 @@ $("#task-proof" ).dblclick(function() {
 
 $('#input-task-title').keypress(function (e) {
   if (e.which == 13) {
-    debugger
-    //$('#task-update-form').submit();
     $("#task-update-title").click();
     $("#task-update-title-form").hide();
     $("#task-title").show();
@@ -96,8 +89,6 @@ $('#input-task-title').keypress(function (e) {
 });
 $('#input-task-description').keypress(function (e) {
   if (e.which == 13) {
-
-    //$('#task-update-form').submit();
     $("#task-update-description").click();
     $("#task-update-description-form").hide();
     $("#task-description").show();
@@ -105,8 +96,6 @@ $('#input-task-description').keypress(function (e) {
 });
 $('#input-task-proof').keypress(function (e) {
   if (e.which == 13) {
-
-    //$('#task-update-form').submit();
     $("#task-update-proof").click();
     $("#task-update-proof-form").hide();
     $("#task-proof").show();
@@ -114,8 +103,6 @@ $('#input-task-proof').keypress(function (e) {
 });
 $('#input-task-condition').keypress(function (e) {
   if (e.which == 13) {
-    debugger
-    //$('#task-update-form').submit();
     $("#task-update-condition").click();
     $("#task-update-condition-form").hide();
     $("#task-condition").show();
@@ -125,7 +112,6 @@ $('#input-task-condition').keypress(function (e) {
 
 $("#edit-title").click(function(){
 $(this).hide();
-  debugger
   $("#task-update-title").show();
   $('#input-task-title').show();
   $("#task-update-title-form").show();
@@ -134,7 +120,6 @@ $(this).hide();
 
 });
 $("#edit-proof").click(function(){
-
   $(this).hide();
   $("#task-update-proof").show();
   $('#input-task-proof').show();
@@ -158,11 +143,7 @@ $("#edit-condition").click(function(){
   $("#task-update-condition-form").show();
   $("#task-condition").show();
   $("#cancel-condition").show();
-
-
 });
-
-
 $("#cancel-title").click(function(){
   $(this).hide();
   $("#task-update-title").hide();
@@ -170,11 +151,8 @@ $("#cancel-title").click(function(){
   $("#task-update-title-form").hide();
   $("#task-title").show();
   $('#edit-title').show();
-
-
 });
 $("#cancel-proof").click(function(){
-
   $(this).hide();
   $("#task-update-proof").hide();
   $('#input-task-proof').hide();
@@ -198,9 +176,6 @@ $("#cancel-condition").click(function(){
   $("#task-condition").show();
   $("#edit-condition").show();
 });
-
-
-
 $("#task-update-title").click(function(){
   $(this).hide();
   $("#cancel-title").hide();
@@ -208,11 +183,8 @@ $("#task-update-title").click(function(){
   $("#task-update-title-form").hide();
   $("#task-title").show();
   $('#edit-title').show();
-
-
 });
 $("#task-update-proof").click(function(){
-
   $(this).hide();
   $("#cancel-proof").hide();
   $('#input-task-proof').hide();
@@ -237,95 +209,64 @@ $("#task-update-condition").click(function(){
   $("#edit-condition").show();
 });
 <% end  %>
-
   // Get the modal
   var modalinvite = document.getElementById('InviteModel');
-
   // Get the button that opens the modal
   var btninvite = document.getElementById("invbtn");
-
   // Get the <span> element that closes the modal
   var spaninvite = document.getElementById("inviteclose");
-
   // When the user clicks the button, open the modal
   btninvite.onclick = function() {
       modalinvite.style.display = "block";
       }
-
   // When the user clicks on <span> (x), close the modal
     spaninvite.onclick = function() {
         modalinvite.style.display = "none";
         }
-
-
-
   // Get the modal
   var modalshare = document.getElementById('share');
-
   // Get the button that opens the modal
   var btnshare = document.getElementById("sharebtn");
-
   // Get the <span> element that closes the modal
   var spanshare = document.getElementById("shareclose");
-
   // When the user clicks the button, open the modal
   btnshare.onclick = function() {
       modalshare.style.display = "block";
       }
-
   // When the user clicks on <span> (x), close the modal
     spanshare.onclick = function() {
         modalshare.style.display = "none";
         }
-
-    // When the user clicks anywhere outside of the modal, close it
-
-
-  // Get the modal
   var modalteam = document.getElementById('team');
-
   // Get the button that opens the modal
   var btnteam = document.getElementById("teambtn");
-
   // Get the <span> element that closes the modal
   var spanteam = document.getElementById("teamclose");
-
-  // When the user clicks the button, open the modal
-  btnteam.onclick = function() {
+ btnteam.onclick = function() {
       modalteam.style.display = "block";
       }
-
-  // When the user clicks on <span> (x), close the modal
-    spanteam.onclick = function() {
+ spanteam.onclick = function() {
         modalteam.style.display = "none";
         }
 
-    // When the user clicks anywhere outside of the modal, close it
-
-
-// Get the modal
 var modal = document.getElementById('myModal');
 
-// Get the button that opens the modal
 var btn = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
 var span = document.getElementById("myModalclose");
 
-// When the user clicks on the button, open the modal
 btn.onclick = function() {
   modal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
 }
 
+
 // When the user clicks anywhere outside of the modal, close it
+<% unless @task.suggested_task? %>
 
-
-// Get the modal
 var modal2 = document.getElementById('myModal2');
 
 // Get the button that opens the modal
@@ -349,8 +290,43 @@ document.getElementById("popup-for-free-paidclose").onclick = function() {
   $("#popup-for-free-paid").hide();
 }
 
+function setpaid() {
+    $("#cover-leter-header-text").html("");
+    $("#cover-leter-header-text").html("You will do this task for Compensation");
+    document.getElementById("do_request_free").value= "false";
+    $("#popup-for-free-paid").show();
 
-// When the user clicks anywhere outside of the modal, close it
+  }
+  function setfree() {
+    $("#cover-leter-header-text").html("");
+    document.getElementById("do_request_free").value= "true";
+    $("#cover-leter-header-text").html("You will do this task for FREE");
+    $("#popup-for-free-paid").show();
+  }
+<%else  %>
+
+var suggested_task_model = document.getElementById('suggested_task_popup');
+
+// Get the button that opens the modal
+var suggested_fund = document.getElementById("suggested_task_fund");
+var suggested_do = document.getElementById("suggested_task_do");
+
+// Get the <span> element that closes the modal
+var suggested_task_popup_close = document.getElementById("suggested_task_popup_close");
+
+// When the user clicks on the button, open the modal
+suggested_fund.onclick = function() {
+  suggested_task_model.style.display = "block";
+}
+suggested_do.onclick = function() {
+  suggested_task_model.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+suggested_task_popup_close.onclick = function() {
+  suggested_task_model.style.display = "none";
+}
+<%end %>
+
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
@@ -367,40 +343,11 @@ window.onclick = function(event) {
   if (event.target == modal2) {
     modal2.style.display = "none";
   }
+  if (event.target == suggested_task_model) {
+    suggested_task_model.style.display = "none";
+  }
 }
 
-
-
-  function setpaid() {
-    debugger
-    //$("# popup-for-free-paidclose")
-    $("#cover-leter-header-text").html("");
-    $("#cover-leter-header-text").html("You will do this task for Compensation");
-
-    document.getElementById("do_request_free").value= "false";
-    $("#popup-for-free-paid").show();
-
-   // x.style.display = "block";
-
-
-  }
-  function setfree() {
-    debugger
-    $("#cover-leter-header-text").html("");
-    document.getElementById("do_request_free").value= "true";
-    $("#cover-leter-header-text").html("You will do this task for FREE");
-    $("#popup-for-free-paid").show();
-
-    //x=$("#popup-for-free-paid");
-
-    //x.style.display = "block";
-
-  }
-
-
-
-
-// call your ajax function when the document is ready...
 $(function() {
   callAjax();
 });

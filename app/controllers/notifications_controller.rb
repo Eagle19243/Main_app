@@ -13,9 +13,7 @@ class NotificationsController < ApplicationController
         end
         projects_ids = current_user.projects.collect(&:id)
         @array_tasks = Task.where( "project_id IN (?) AND state = ?",  projects_ids, 'suggested_task')
-      #  p_ids = projects_ids.flatten
         @pendding_do_request = DoRequest.where( "project_id IN (?) AND state = ?",  projects_ids, 'pending')
-
     end
 
   # GET /notifications
@@ -41,7 +39,6 @@ class NotificationsController < ApplicationController
   # POST /notifications.json
   def create
     @notification = Notification.new(notification_params)
-
     respond_to do |format|
       if @notification.save
         format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
