@@ -16,7 +16,7 @@ class AdminInvitationsController < ApplicationController
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
         TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
-        format.json { render json: @admin_invitation, status: :ok }
+        format.json { render json: @admin_invitation.id, status: :ok }
       else
         format.json { render json: {}, status: :unprocessable_entity }
       end
@@ -26,8 +26,7 @@ class AdminInvitationsController < ApplicationController
   def reject
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:rejected])
-        TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.sender)
-        format.json { render json: @admin_invitation, status: :ok }
+        format.json { render json: @admin_invitation.id, status: :ok }
       else
         format.json { render json: {}, status: :unprocessable_entity }
       end

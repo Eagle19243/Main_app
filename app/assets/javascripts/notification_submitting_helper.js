@@ -1,28 +1,25 @@
 var NotificationSubmittingHelper = {
 
     Initialize: function() {
-        debugger;
         $('form.accept-invitation').submit(function(e) {
-            debugger;
             e.preventDefault();
             $.ajax({
                 type: "post",
                 url: $(this).attr('action')
             }).done(function(data) {
-                alert("Accepted");
+                $("div#invitation-" + data).hide();
             }).fail(function(data) {
                 alert("Sorry, something went wrong.")
             });
         });
 
         $('form.reject-invitation').submit(function(e) {
-            debugger;
             e.preventDefault();
             $.ajax({
                 type: "post",
                 url: $(this).attr('action')
             }).done(function(data) {
-                alert("Rejected");
+                $("div#invitation-" + data).hide();
             }).fail(function(data) {
                 alert("Sorry, something went wrong.");
             });
