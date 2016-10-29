@@ -21,4 +21,8 @@ class Notification < ActiveRecord::Base
   validates :user, presence: true
   validates :source_model, presence: true
 
+  def self.unread
+    where(:read => false)
+  end
+
 end
