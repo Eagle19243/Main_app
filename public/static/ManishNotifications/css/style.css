@@ -1,21 +1,3 @@
-*{
-	box-sizing:border-box;
-	font-family: 'Open Sans', sans-serif;	
-}
-ul, ol, dl {
-	margin:0px;
-		padding:0px;
-}
-li{
-	list-style:none;
-	    display: table;
-		margin-bottom:0px;
-}
-ul.Notifi {
-	background-color:#e2e2e2;
-	padding:5px 30px;
-	border-bottom:1px solid #cfcfcf;
-}
 .not a{
 	color:#000;
 }
@@ -147,8 +129,9 @@ ul.Notifi-active{
 .caj-text{
 	display:table;
 	width:100%;	
-	padding-top:15px;
+	padding-top:10px;
 }
+
 .caj-tab{
 	display:table;
 	width:100%;	

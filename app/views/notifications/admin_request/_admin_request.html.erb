@@ -3,9 +3,9 @@
 <% if notification.source_model.pending? %>
     <div id="request-<%= notification.source_model.id %>">
       <%= button_to "Accept", accept_admin_request_path(notification.source_model),
-                    form_class: "accept-request", class: "button round" %>
+                    form_class: "accept-request", class: "button round accept-button" %>
       <%= button_to "Reject", reject_admin_request_path(notification.source_model),
-                    form_class: "reject-request", class: "button round" %>
+                    form_class: "reject-request", class: "button round decline-button" %>
     </div>
 <% else %>
     <br/>
