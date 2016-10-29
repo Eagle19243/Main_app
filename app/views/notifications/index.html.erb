@@ -5,12 +5,16 @@
 <% end %>
 
 <div class="row expanded" data-equalizer data-equalizer-mq="large-up">
-  <div class="small-12 medium-7 columns" data-equalizer-watch>
-    <div class="content">
+  <%= render 'users/sidebar' %>
+  <div class="small-12 medium-10 columns" data-equalizer-watch>
+    <div class="content notifications-container">
       <ul>
         <% @notifications.each do |notification| %>
           <li>
-            <%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}", locals: { notification: notification } %>
+            <%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}",
+                       layout: "notification_layout",
+                       locals: { notification: notification }
+            %>
           </li>
         <% end %>
       </ul>
@@ -21,5 +25,13 @@
 <script>
   $(function() {
     JsonFormsHelper.InitializeNotificationsControls();
+    $(".notifications-container").scrollTop($(".notifications-container")[0].scrollHeight);
   });
 </script>
+
+<style>
+    .notifications-container {
+      overflow-y: auto;
+      height: 80vh;
+    }
+</style>
