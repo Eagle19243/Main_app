@@ -263,6 +263,14 @@ span.onclick = function() {
   modal.style.display = "none";
 }
 
+$(document).ready(function() {
+  $(document).keydown(function (e) {
+      if (e.keyCode == 27) {
+        $("#myModal").hide();
+      }
+    });
+})
+
 
 // When the user clicks anywhere outside of the modal, close it
 <% unless @task.suggested_task? %>
