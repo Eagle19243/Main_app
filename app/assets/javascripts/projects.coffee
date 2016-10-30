@@ -88,11 +88,26 @@ jQuery ->
 $('#project_expires_at').datepicker()
 $(document).foundation()
 
-#attach handlers to data attributes
-$("button[data-makes-editable]").off().on "click", (e)->
-  e.preventDefault()
-  projectId = $(this).data("makes-editable")
-  makeEditable(projectId)
+  $(document).on "mouseleave", ".star-rating-sm", (e) ->
+    e.preventDefault()
+    $(@).find('i').removeClass("seleted")
+    rate = $(@).data('rate')
+    if rate > 0
+      $(@).find('i').slice(0, rate).addClass('seleted')
+
+  $(document).on "click", ".star-rating-sm > i", (e) ->
+    $this = $(@)
+    rate = $this.parent().find('i').index(@) + 1
+    $.ajax(
+      url: "/projects/#{projectId}/rate"
+      dataType: "json"
+      method: "POST"
+      data:
+        rate: rate
+    ).done (rate) ->
+      $this.parent().data('rate', rate.rate)
+    .error (e) ->
+      window.location = '/users/sign_in' if e.status == 401
 
   $('#project_expires_at').datepicker()
 

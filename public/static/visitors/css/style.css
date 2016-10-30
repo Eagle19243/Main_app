@@ -22,7 +22,7 @@ body {
 }
 
 .dropdown.menu a:hover {
-  background-color: #F1F1F1;
+  /*background-color: #F1F1F1 ;*/
   color: #189dd8;
   transition: 0.2s ease all;
 }
@@ -176,7 +176,7 @@ h1.text_feats { font-size: 26px; }
 
 .start_projects{
   background-color: #000;
-  color: #fefefe;
+  color: #fefefe !important;
   border-radius: 20px;
   font-size: 18px;
   padding: 0.6rem 1.7rem;
