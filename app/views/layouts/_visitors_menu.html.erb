@@ -5,14 +5,17 @@
       <li>
         <a href="#" id="sing-in-nav" data-reveal-id="sign-in-sing-up" class="signup_buttons">Sign In</a>
       </li>
-
       <li>
         <a href="#" id="sing-up-nav" data-reveal-id="sign-in-sing-up" class="signup_buttons">Sign Up</a>
       </li>
     </ul>
     <!-- Left Nav Section -->
     <div class="left">
-      <%= image_tag 'logo.png', style: "height:100%; padding-left: 5px;" %>
+      <ul class="title-area">
+        <li class="name">
+          <strong><%= link_to 'WeServe', root_path %></strong>
+        </li>
+      </ul>
     </div>
     <ul class="left title-area">
       <li class="active">
@@ -24,29 +27,39 @@
     </ul>
   </section>
 </nav>
-
 <div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 
- <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
-<div style="background-color: #f0f0f0 ">
-  <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
+  <div class="row" style="margin-bottom: 10px" >
+    <center >
+      <a href="#" id="Sign-in-a">
+        <div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in
+        </div>
+      </a>
+      <a href="#" id="Sign-up-a">
+        <div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div>
+      </a>
+    </center>
+  </div>
+  <div style="background-color: #f0f0f0 ">
+    <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
 
-    <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-    <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-    <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+      <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
+      <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
+      <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+    </div>
+    <center>
+      <h2 align="center">OR</h2>
+    </center>
+    <div  id ="sing-in-show">
+      <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <div id ="sing-up-show">
+      <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
   </div>
-  <center>  <h2 align="center">OR</h2></center>
-<div  id ="sing-in-show">
-  <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-</div>
-  <div id ="sing-up-show">
-  <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-  </div>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
   <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
 </div>
-
 <script>
   $("#Sign-in-a ,#sing-in-nav").click(function () {
     $("#Sign-in-div").css("background-color", "#35B8F4 ")
