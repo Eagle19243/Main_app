@@ -966,8 +966,8 @@
       </section>
       <section role="tabpanel" aria-hidden="true" class="content" id="panel2-4">
         <div class="row">
-          <% @project.team.team_members.each do |team_member| %>
-              <%= render "projects/cards/team_member", team_member: team_member %>
+          <% @project.team.team_memberships.each do |team_membership| %>
+              <%= render "projects/cards/team_membership", team_membership: team_membership %>
           <% end %>
         </div>
       </section>

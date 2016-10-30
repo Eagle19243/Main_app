@@ -1,4 +1,5 @@
 class AdminInvitationsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_admin_invitation, only: [:accept, :reject]
 
   def create

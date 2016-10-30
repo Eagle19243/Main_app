@@ -50,7 +50,8 @@ function initializeAdminRequestControls() {
             url: $(this).attr('action'),
             data: $(this).serialize()
         }).done(function (data) {
-            $("#admin_requst").hide();
+            debugger;
+            $("#admin-request").hide();
         }).fail(function (data) {
             alert("Sorry, something went wrong.")
         });

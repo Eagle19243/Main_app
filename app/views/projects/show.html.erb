@@ -5,28 +5,29 @@
     <%= javascript_include_tag 'firechat_merged' %>
 
     <script type='text/javascript'>
-      //alert('executing code');
       var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
       firechatRef.auth('<%= current_user.chat_token %>');
       var chat = new Firechat(firechatRef);
       chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
         console.log("Creating chatroom...");
         chat.createRoom("<%= @project.title %>", "private", function(roomId) {
-          if(roomId){
+          if (roomId) {
             $.ajax({
               url: "/chat_rooms/create_room",
               type: "get", //send it through get method
-              data:{project_id:<%=@project.id %>, room_id: roomId },
-              success: function(response) {
-                $("chat_success").innerHTML='seccessfully create chat room ';
+              data: {project_id:<%=@project.id %>, room_id: roomId},
+              success: function (response) {
+                $("chat_success").innerHTML = 'seccessfully create chat room ';
               },
-              error: function(xhr) {
-                $("chat_success").innerHTML=' Error in  chat room creation ';
+              error: function (xhr) {
+                $("chat_success").innerHTML = ' Error in  chat room creation ';
               }
             });
-            console.log("Created room "+roomId);
-            chat.enterRoom(roomId)
-
+            console.log("Created room " + roomId);
+            chat.enterRoom(roomId);
+          }
+        });
+      });
     </script>
 <% end %>
     <%end %>
@@ -119,7 +120,7 @@
       <div class="small-12 medium-4 columns" id="project_tasks">
         <div class="task_border ">
           <h3 class="task_title left">Tasks</h3>
-          <a href=<%= "/projects/#{@project.id}/taskstab" %> class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
+          <a href="/projects/<%= @project.id %>/tasktab" class="button round task_btn btn-see-all right" data-no-turbolink="true">See all</a>
         </div>
         <% @project.tasks.each do |task| %>
             <div class="task_content clearfix">

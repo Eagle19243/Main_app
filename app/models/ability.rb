@@ -8,6 +8,26 @@ class Ability
     initializeProfileCommentsPermissions(user)
     initializeProjAdminPermissions(user)
     initializeTasksPermissions(user)
+    initializeAdminInvitationsPermissions(user)
+    initializeAdminRequestsPermissions(user)
+  end
+
+  def initializeAdminInvitationsPermissions(user)
+    if user
+      can [:create], AdminInvitation do |admin_invitation|
+        admin_invitation.sender.id == user.id
+      end
+      can [:accept, :reject], AdminInvitation, :user_id => user.id
+    end
+  end
+
+  def initializeAdminRequestsPermissions(user)
+    if user
+      can [:create], AdminRequest
+      can [:accept, :reject], AdminRequest do |admin_request|
+        admin_request.project.user.id == user.id
+      end
+    end
   end
 
   def initializeProjectsPermissions(user)
