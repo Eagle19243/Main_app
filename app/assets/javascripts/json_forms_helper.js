@@ -11,7 +11,24 @@ var JsonFormsHelper = {
 
     InitializeAdminInvitationsControls: function() {
         initialAdminInvitationsControls();
+    },
+    
+    InitializeTeamMembersControls: function () {
+        initializeTeamMembersControls();
     }
+}
+
+function initializeTeamMembersControls() {
+    $('.delete-team-member').click(function(e) {
+        $.ajax({
+            type: 'DELETE',
+            url: "/team_memberships/" + $(this).attr('team-membership-id'),
+        }).done(function(data) {
+            $("#team-member-" + data).hide(500);
+        }).fail(function(data) {
+            alert("Sorry, something went wrong.")
+        });
+    });
 }
 
 function initializeDeleteNotificationsControls() {

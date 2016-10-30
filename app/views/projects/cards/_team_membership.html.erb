@@ -1,5 +1,8 @@
-<div class="large-3 medium-6 small-12 columns team-member">
+<div class="large-3 medium-6 small-12 columns team-member" id="team-member-<%= team_membership.id %>">
   <div class="box">
+    <% if can? :destroy, team_membership %>
+      <div class="delete-team-member" team-membership-id="<%= team_membership.id %>" title="Delete team member">&#215;</div>
+    <% end %>
     <center>
       <div class="team-member-img">
         <% if team_membership.team_member.picture? %>
@@ -12,8 +15,12 @@
     <center><h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5></center>
     <center>
       <h5>
-        <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.get_roles , activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
-        <i class="fa fa-pencil role-edit-pencil-<%=team_membership.id%>"></i>
+        <% if can? :destroy, team_membership %>
+          <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.get_roles , activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
+          <i class="fa fa-pencil role-edit-pencil-<%=team_membership.id%>"></i>
+        <% else %>
+          <%= team_membership.role.humanize %>
+        <% end %>
       </h5>
     </center>
     <p>
