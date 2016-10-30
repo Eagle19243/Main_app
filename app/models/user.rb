@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   mount_uploader :picture, PictureUploader
-  after_create :populate_guid_and_token
+  #after_create :populate_guid_and_token
+  after_create :assign_address
 
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
@@ -24,6 +25,7 @@ class User < ActiveRecord::Base
   has_many :donations
   has_many :proj_admins, dependent: :delete_all
 
+  has_many :chatrooms
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
   has_many :project_rates
@@ -33,6 +35,7 @@ class User < ActiveRecord::Base
   has_many :project_users
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
+  has_one  :user_wallet_address
 
   def self.current_user
     Thread.current[:current_user]
@@ -41,6 +44,31 @@ class User < ActiveRecord::Base
   def self.current_user=(usr)
     Thread.current[:current_user] = usr
   end
+
+  def assign_address
+
+      access_token = access_wallet
+      Rails.logger.info access_token unless Rails.env == "development"
+      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      secure_passphrase = SecureRandom.hex(5)
+      secure_label = SecureRandom.hex(5)
+      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
+      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
+      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
+      new_wallet_address_sender = api.create_address(wallet_id:new_address_id, chain: "0", access_token: access_token) rescue "create address"
+      new_wallet_address_receiver = api.create_address(wallet_id:new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
+      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
+      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
+      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
+      Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
+      unless new_address.blank?
+        UserWalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , user_id: self.id, wallet_id:new_address_id)
+      else
+        UserWalletAddress.create(sender_address:nil, user_id: self.id)
+      end
+  end
+
 
   def create_activity(item, action)
     activity = activities.new

@@ -1,0 +1,3 @@
+$("#messages").html(" ");
+$("#messages").html("<%= escape_javascript(render('group_messages/all_messages')) %>");
+$("div#message-load-image").hide();

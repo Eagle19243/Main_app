@@ -1,0 +1,6 @@
+$("#messages").append("<%= escape_javascript(render('group_messages/new_message'))%>");
+$("#group_message_message").val(' ');
+$('#messages').scrollTop(1E10)
+$("div#message-load-image").hide();
+
+

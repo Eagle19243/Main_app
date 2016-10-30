@@ -7,6 +7,12 @@ body{
 .top-bar, .top-bar ul {
     background-color: #232323;
 }
+ul.left.title-area {
+    background-color: black;
+}
+ul.right.users-tools-part {
+    background-color: black;
+}
 .green_font{
     color: #78AE00;
 }
