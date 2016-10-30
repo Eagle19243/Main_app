@@ -12,42 +12,45 @@
     <%= csrf_meta_tags %>
     <%= yield :customhead %>
   </head>
+
   <body <%= landing_class %>>
     <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1204824659546785',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1204824659546785',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-    <% if landing_page? %>
-      <header <%= landing_class %>>
-        <div class="header-wrapper">
-          <%= render 'layouts/navigation' %>
-        </div>
-      </header>
-    <% end %>
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
 
-    <%= render 'layouts/menu' %>
+    <div class="page-wrapper">
+      <% if landing_page? %>
+        <header <%= landing_class %>>
+          <div class="header-wrapper">
+            <%= render 'layouts/navigation' %>
+          </div>
+        </header>
+      <% end %>
 
-    <%= render 'layouts/messages' %>
+      <%= render 'layouts/menu' %>
+      <%= render 'layouts/messages' %>
 
-    <%= yield %>
+      <%= yield %>
+    </div>
 
-    <br>
     <% unless landing_page? %>
-      <!-- <%= render 'layouts/footer' %> -->
+      <%= render 'layouts/footer' %>
     <% end %>
-    <%= debug(params) if Rails.env.development? %>
+
+    <!--  <%= debug(params) if Rails.env.development? %> -->
   </body>
 </html>
