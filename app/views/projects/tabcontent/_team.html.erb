@@ -1,12 +1,12 @@
 <div class="row team-buttons">
   <div class="small-2 columns">
-    <% if !current_user.nil? && !current_user.is_team_admin?(@project.team) && !current_user.has_pending_admin_requests?(@project) %>
+    <% if !current_user.nil? && current_user.can_apply_as_admin?(@project) %>
         <div id="admin-request">
           <%= render partial: "admin_requests/request_form", locals: { user: current_user, project: @project } %>
         </div>
     <% end %>
   </div>
-  <% if !current_user.nil? && current_user.id == @project.user.id %>
+  <% if !current_user.nil? && current_user.is_project_leader?(@project) %>
     <div class="small-9 columns"><%= render "teams/users_search_popup" %></div>
   <% end %>
 </div>
@@ -21,9 +21,3 @@
     JsonFormsHelper.InitializeAdminRequestsControls();
   });
 </script>
-
-<style>
-  .team-buttons {
-    margin-bottom: 15px;
-  }
-</style>

@@ -153,11 +153,19 @@ class User < ActiveRecord::Base
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
 
-  def is_team_admin? team
+  def can_apply_as_admin?(project)
+    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
+  end
+
+  def is_project_leader?(project)
+    project.user.id == self.id
+  end
+
+  def is_team_admin?(team)
     team.team_memberships.where(team_member_id: self.id, role: TeamMembership.roles[:admin]).any?
   end
 
-  def has_pending_admin_requests? project
+  def has_pending_admin_requests?(project)
     self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
   end
 
