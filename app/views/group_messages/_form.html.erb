@@ -1,0 +1,28 @@
+<%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'new-message-form'}) do |f| %>
+    <div class="small-11 columns" style=>
+      <%= f.hidden_field :chatroom_id, value: @chatroom rescue 0 %>
+      <%= f.text_area :message, required: true %>
+      <%= f.submit id:'submit-message' , style:'display:none;'%>
+    </div>
+    <div class="small-1 columns">
+            <span class="postfix">
+              <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
+            </span>
+    </div>
+    <span class="send-hint">
+            Hit "Enter" to send
+     </span>
+<% end %>
+
+<script>
+  $("#group_message_message").keypress(function (e) {
+    if (e.which == 13 && !e.shiftKey) {
+      if ($(this).val().trim() == "") {
+        return false
+      }
+      else{
+        $("#submit-message").trigger('click');
+     }
+    }
+  });
+</script>

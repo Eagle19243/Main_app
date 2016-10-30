@@ -1,0 +1,24 @@
+<% unless @team_members.blank? %>
+    <% @team_members.each do |user| %>
+        <li>
+          <a href="#" class="project-user-chat" id="<%= user.team_member_id %>" name="<%= user.team.project_id %>"> <%= user.team_member.name %> </a>
+        </li>
+    <% end %>
+<% end %>
+<script>
+  $(".project-user-chat").click(function () {
+    $("div#message-load-image").show();
+    user_id = $(this).attr('id')
+    project_id = $(this).attr('name')
+    run_function = false;
+
+    $.ajax({
+      url: "/group_messages/users_chat",
+      type: "post",
+      data: {project_id: project_id, user_id: user_id},
+
+      success: function () {
+      }
+    });
+  });
+</script>
