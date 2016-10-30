@@ -2,6 +2,7 @@ var JsonFormsHelper = {
     InitializeNotificationsControls: function() {
         initializeInvitationsControls();
         initializeRequestsControls();
+        initializeDeleteNotificationsControls();
     },
     
     InitializeAdminRequestsControls: function() {
@@ -11,6 +12,19 @@ var JsonFormsHelper = {
     InitializeAdminInvitationsControls: function() {
         initialAdminInvitationsControls();
     }
+}
+
+function initializeDeleteNotificationsControls() {
+    $('.delete-notification').click(function(e) {
+        $.ajax({
+            type: 'DELETE',
+            url: "/notifications/" + $(this).attr('notification-id'),
+        }).done(function(data) {
+            $("#notification-" + data).html("Removed");
+        }).fail(function(data) {
+            alert("Sorry, something went wrong.")
+        });
+    });
 }
 
 function initialAdminInvitationsControls() {

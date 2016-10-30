@@ -28,4 +28,15 @@
     width: 100%;
     padding-top: 5px;
   }
+
+  .notification-action {
+    font-size: .9rem;
+    color: #a1a1a1;
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  .delete-notification {
+    float: right;
+  }
 }

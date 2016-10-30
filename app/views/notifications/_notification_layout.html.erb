@@ -1,6 +1,9 @@
-<div class="invitation">
+<div id="notification-<%= notification.id %>" class="invitation">
   <div class="invi-head">
     <div class="caj">
+      <div title="Delete" notification-id="<%= notification.id %>" class="delete-notification">
+        <i class="fa fa-trash"></i>
+      </div>
       <% if !notification.origin_user.nil? %>
           <div class="simp-img">
             <% if notification.origin_user.picture? %>
@@ -19,12 +22,10 @@
                           user_path(notification.origin_user) %>
           <% end %>
           <%= "#{notification.created_at.strftime(" %b")} #{notification.created_at.day.ordinalize}"  rescue nil %>
-          <br>
         </p>
-        <p class="img-cajing">
+        <div class="notification-action">
           <%= notification.action.humanize %>
-        </p>
-        <div class="delete-icon"><i class="fa fa-trash"></i></div>
+        </div>
       </div>
       <div class="notification-body">
         <p><%= yield %></p>
