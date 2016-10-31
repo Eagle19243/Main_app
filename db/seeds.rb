@@ -54,3 +54,6 @@ TeamMembership.create(team_member_id: User.first.id,
                state: 'admin',
                task_id: @task.id)
 puts "#{count} additional admins created"
+
+
+# title:"This is a Test project", description: "This is a Test project created by Erwin, Thanks for bidding!", user_id: 1, volunteers: 1, state: "progress", request_description: "This is a test project", short_description:"test project"

@@ -59,6 +59,13 @@ ul.links-wrapper {
       padding: 10px 10px;
     }
   }
+
+  li.user-profile-link {
+    a {
+      padding-top: 9px;
+      padding-bottom: 9px;
+    }
+  }
 }
 
 
@@ -70,5 +77,6 @@ ul.links-wrapper {
   h1 {
     display: inline-block;
     font-size: 2em;
+    margin-top: 5px;
   }
 }

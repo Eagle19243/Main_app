@@ -13,12 +13,14 @@
           </div>
           <!--Funding / Sourcing Column -->
           <div class="medium-4 small-12 columns end" style="padding-bottom:20px;">
-            <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form',:class => "left top-searchbox project-search" do  %>
-                    <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
-                    <button type="button" name="" type="submit" >
-                      <i class="fa fa-search"></i>
-                    </button>
-            <% end %>
+            <div class="">
+              <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form',:class => "left top-searchbox project-search" do  %>
+                      <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
+                      <button type="button" name="" type="submit" >
+                        <i class="fa fa-search"></i>
+                      </button>
+              <% end %>
+            </div>
           </div>
           <div class="row taskbox-wrap">
             <!--Funding / Sourcing Column -->
