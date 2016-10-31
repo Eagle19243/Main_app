@@ -10,12 +10,8 @@ rel="stylesheet"  type='text/css'>
   <%= render 'users/sidebar' %>
   <div class="small-12 medium-10 columns" data-equalizer-watch>
     <div class="content notifications-container">
-      <% @notifications.each do |notification| %>
-        <%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}",
-                   layout: "notification_layout",
-                   locals: { notification: notification }
-        %>
-      <% end %>
+      <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
+      <%= render @notifications %>
     </div>
   </div>
 </div>

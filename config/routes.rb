@@ -22,8 +22,13 @@ Rails.application.routes.draw do
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
-  resources :notifications, only: [:index, :destroy]
   resources :cards
+
+  resources :notifications, only: [:index, :destroy] do
+    collection do
+      get :load_older
+    end
+  end
 
   resources :teams do
     collection do

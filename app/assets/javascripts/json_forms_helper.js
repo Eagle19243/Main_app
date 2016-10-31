@@ -26,7 +26,7 @@ function initializeTeamMembersControls() {
         }).done(function(data) {
             $("#team-member-" + data).hide(500);
         }).fail(function(data) {
-            alert("Sorry, something went wrong.")
+            console.log(data);
         });
     });
 }
@@ -39,7 +39,7 @@ function initializeDeleteNotificationsControls() {
         }).done(function(data) {
             $("#notification-" + data).html("Removed");
         }).fail(function(data) {
-            alert("Sorry, something went wrong.")
+            console.log(data);
         });
     });
 }
@@ -54,7 +54,7 @@ function initialAdminInvitationsControls() {
         }).done(function(data) {
             $("#invite-" + data.user_id).hide();
         }).fail(function(data) {
-            alert("Sorry, something went wrong.")
+            console.log(data);
         });
     });
 }
@@ -67,10 +67,9 @@ function initializeAdminRequestControls() {
             url: $(this).attr('action'),
             data: $(this).serialize()
         }).done(function (data) {
-            debugger;
             $("#admin-request").hide();
         }).fail(function (data) {
-            alert("Sorry, something went wrong.")
+            console.log(data);
         });
     });
 }
@@ -94,7 +93,7 @@ function initializeNotificationFormControl(formSelector, formParentSelector) {
         }).done(function(data) {
             $(formParentSelector + data).hide();
         }).fail(function(data) {
-            alert("Sorry, something went wrong.")
+            console.log(data);
         });
     });
 }

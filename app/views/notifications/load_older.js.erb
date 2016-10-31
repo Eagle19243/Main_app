@@ -1,0 +1,14 @@
+$('.notifications-container').prepend('<%= escape_javascript(render @notifications) %>');
+$('.load-older-notifications-link').remove();
+JsonFormsHelper.InitializeNotificationsControls();
+
+<% if !@notifications.empty? %>
+  $(".notifications-container").scrollTo("notification-<%= @notifications.last.id %>");
+<% end %>
+
+<% if !@all_notifications_displayed %>
+  $('.notifications-container').prepend('<%= escape_javascript( render partial: 'load_older_link',
+                                                                        locals: { notifications: @notifications } ) %>');
+<% end %>
+
+
