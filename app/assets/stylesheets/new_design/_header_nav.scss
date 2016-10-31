@@ -50,6 +50,9 @@ ul.links-wrapper {
       &:hover {
         background-color: $alt-clr;
         color: #fff !important;
+        span {
+          color: #fff !important;
+        }
       }
     }
   }
