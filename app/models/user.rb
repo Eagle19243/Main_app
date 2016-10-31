@@ -118,13 +118,15 @@ class User < ActiveRecord::Base
         return registered_user
       else
         user = User.create(
-            provider:auth.provider,
-            uid:auth.uid,
-            name:auth.info.name,
-            email:auth.info.email,
-            password:Devise.friendly_token[0,20],
+            provider: auth.provider,
+            uid: auth.uid,
+            name: auth.info.name,
+            email: auth.info.email,
+            password: Devise.friendly_token[0,20],
+            picture: auth.info.image,
         )
-      end    end
+      end
+    end
   end
 
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
@@ -138,11 +140,12 @@ class User < ActiveRecord::Base
       else
 
         user = User.create(
-            provider:auth.provider,
-            uid:auth.uid,
-            name:auth.info.name,
-            email:auth.uid+"@twitter.com",
-            password:Devise.friendly_token[0,20],
+            provider: auth.provider,
+            uid: auth.uid,
+            name: auth.info.name,
+            email: auth.uid+"@twitter.com",
+            password: Devise.friendly_token[0,20],
+            picture: auth.image,
         )
       end
 
@@ -165,6 +168,7 @@ class User < ActiveRecord::Base
             uid: access_token.uid ,
             name: access_token.info.name,
             password: Devise.friendly_token[0,20],
+            picture: access_token.info.image,
         )
       end
     end

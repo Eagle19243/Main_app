@@ -4,7 +4,7 @@
     <div class="column small-6">
 <br>
   <% if current_user.picture? %>
-  <%= image_tag(current_user.picture.url, size: "100x100") %>
+  <%= image_tag(current_user.picture, size: "100x100") %>
       <% else %>
         <%= gravatar_for current_user %>
         <%end%>
