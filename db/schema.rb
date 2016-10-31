@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928100735) do
+ActiveRecord::Schema.define(version: 20161028150038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,18 @@ ActiveRecord::Schema.define(version: 20160928100735) do
   end
 
   add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id", using: :btree
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "friend_id"
+  end
+
+  add_index "chatrooms", ["project_id"], name: "index_chatrooms_on_project_id", using: :btree
+  add_index "chatrooms", ["user_id"], name: "index_chatrooms_on_user_id", using: :btree
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
@@ -126,6 +138,17 @@ ActiveRecord::Schema.define(version: 20160928100735) do
     t.string   "receiver_address"
     t.string   "pass_phrase"
   end
+
+  create_table "group_messages", force: :cascade do |t|
+    t.string   "message"
+    t.integer  "user_id"
+    t.integer  "chatroom_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "group_messages", ["chatroom_id"], name: "index_group_messages_on_chatroom_id", using: :btree
+  add_index "group_messages", ["user_id"], name: "index_group_messages_on_user_id", using: :btree
 
   create_table "institution_users", force: :cascade do |t|
     t.integer  "institution_id"
@@ -324,6 +347,19 @@ ActiveRecord::Schema.define(version: 20160928100735) do
 
   add_index "teams", ["project_id"], name: "index_teams_on_project_id", using: :btree
 
+  create_table "user_wallet_addresses", force: :cascade do |t|
+    t.string   "sender_address"
+    t.string   "wallet_id"
+    t.string   "receiver_address"
+    t.float    "current_balance"
+    t.string   "pass_phrase"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "user_wallet_addresses", ["user_id"], name: "index_user_wallet_addresses_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "",    null: false
     t.string   "encrypted_password",               default: "",    null: false
@@ -410,9 +446,12 @@ ActiveRecord::Schema.define(version: 20160928100735) do
   end
 
   add_foreign_key "chat_rooms", "projects"
+  add_foreign_key "group_messages", "chatrooms"
+  add_foreign_key "group_messages", "users"
   add_foreign_key "institution_users", "institutions"
   add_foreign_key "institution_users", "users"
   add_foreign_key "section_details", "projects"
+  add_foreign_key "user_wallet_addresses", "users"
   add_foreign_key "wallet_addresses", "tasks"
   add_foreign_key "wallet_transactions", "tasks"
 end
