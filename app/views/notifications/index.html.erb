@@ -57,7 +57,7 @@
             <div class="invi-head">
               <div class="caj">
                 <div class="simp-img">
-                  <% if f.user.picture? %><%= link_to (image_tag f.user.picture.url, :size => "30x30")  %>
+                  <% if f.user.picture? %><%= link_to (image_tag f.user.picture, :size => "30x30")  %>
                   <% end %>
                 </div>
                 <div class="simp">
@@ -86,7 +86,7 @@
                 <div class="invi-head">
                   <div class="caj">
                     <div class="simp-img">
-                      <% if t.user.picture? %><%= link_to (image_tag t.user.picture.url, :size => "30x30")  %>
+                      <% if t.user.picture? %><%= link_to (image_tag t.user.picture, :size => "30x30")  %>
                       <% end %>
                     </div>
                     <div class="simp">
@@ -114,7 +114,7 @@
                 <div class="invi-head">
                   <div class="caj">
                     <div class="simp-img">
-                      <% if a.user.picture? %><%= link_to (image_tag @pro.user.picture.url, :size => "30x30")  %>
+                      <% if a.user.picture? %><%= link_to (image_tag @pro.user.picture, :size => "30x30")  %>
                       <% end %>
                     </div>
                     <div class="simp">

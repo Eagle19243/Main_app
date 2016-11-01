@@ -4,7 +4,7 @@
       <ul class="right users-tools-part">
         <li>
           <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
-            <% if current_user.picture? %>
+            <% if current_user.picture %>
               <%= image_tag(current_user.picture, size: "30x30") %>
             <% else %>
               <%= gravatar_for_user(current_user)%>

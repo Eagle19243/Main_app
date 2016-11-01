@@ -5,7 +5,7 @@
     <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
     <a href="#">
       <% if message.user.picture? %>
-          <%= image_tag(message.user.picture.url, class: "profile-image") %>
+          <%= image_tag(message.user.picture, class: "profile-image") %>
 
     <% else %>
           <%= gravatar_for(message.user, 35) %>

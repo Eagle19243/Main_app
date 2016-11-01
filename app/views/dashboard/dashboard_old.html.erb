@@ -101,7 +101,7 @@
 
          <% if project.pending? && user_signed_in? && current_user.admin? %>
 
-         <% if project.user.picture? %><%= link_to (image_tag project.user.picture.url, :size => "30x30"), project.user  %>
+         <% if project.user.picture? %><%= link_to (image_tag project.user.picture, :size => "30x30"), project.user  %>
   <%else%>
   <%= gravatar_for_user(project.user) %>
     <%end%>
