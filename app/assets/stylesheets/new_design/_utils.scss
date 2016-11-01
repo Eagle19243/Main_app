@@ -16,6 +16,22 @@
   margin-left: 30px !important;
 }
 
+.pr10 {
+  padding-right: 10px;
+}
+.pl10 {
+  padding-left: 10px;
+}
+
+.padding-none {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+
+.border-right {
+  border-right: 1px solid $grey-clr;
+}
 
 .text-blue {
   color: $alt-clr !important;

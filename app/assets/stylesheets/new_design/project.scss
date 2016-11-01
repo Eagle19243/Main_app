@@ -1,0 +1,164 @@
+
+@import 'variables';
+
+.search-project-box {
+  position: relative;
+  display: inline-block;
+  width: 300px;
+
+  input[type="text"] {
+    height: 34px;
+    width: 100%;
+    font-size: 12px;
+    border-radius: 17px;
+    padding: 5px 30px 5px 15px;
+
+    &:focus {
+      border-color: $alt-clr;
+    }
+  }
+
+  button {
+    position: absolute;
+    background-color: transparent;
+    padding: 5px 10px;
+    display: block;
+    display: block;
+    top: 2px;
+    color: #555;
+    right: 5px;
+    padding-right: 5px;
+  }
+}
+
+
+.row {
+  max-width: 100%;
+  width: 100%;
+}
+
+.project-wrapper {
+  max-width: 1024px;
+  padding: 20px;
+  display: block;
+  margin: auto;
+  position: relative;
+}
+
+.heading-banner {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.project-header {
+  text-align: left;
+  display: inline-block;
+}
+
+.search-box-wrapper {
+  padding-top: 20px;
+}
+
+
+.projects-cards {
+  padding-top: 40px;
+}
+
+.card-wrapper {
+  border: 1px solid #999;
+  border-radius: 5px;
+  box-shadow: 0px 3px 3px #888888;
+}
+
+.card-img {
+  border-bottom: 1px solid #999;
+  margin-bottom: 10px;
+
+  img {
+    height: 120px;
+    margin: auto;
+  }
+}
+
+.title-banner {
+  padding: 10px 20px 0px;
+
+  p {
+    text-align: left;
+  }
+
+  a {
+    font-weight: 600;
+    font-size: 18px;
+    color: #555;
+  }
+}
+
+ul.info-banner {
+  padding: 0px 20px 0px;
+  margin: 0;
+  display: inline-block;
+  list-style-type: none;
+  overflow: hidden;
+  width: 100%;
+
+  li {
+    float: left;
+    text-align: left;
+
+    i {
+      color: #999;
+      padding: 0px !important;
+      font-size: 16px !important;
+    }
+    a {
+      color: #999;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
+
+.summary-banner {
+  padding: 10px 20px 0px;
+  p {
+    color: $grey-clr;
+    font-size: 14px;
+  }
+}
+
+.progress-banner {
+  padding: 20px 20px 0px;
+}
+
+div.progress {
+  height: 10px;
+}
+
+.report-banner {
+  table {
+    width: 100%;
+  }
+
+  tbody {
+    tr td {
+      padding: 0 !important;
+      font-size: 13px !important;
+      text-align: left;
+      line-height: 1em !important;
+    }
+    tr.value {
+      td {
+        color: #555 !important;
+        font-weight: bold;
+      }
+    }
+    tr.items {
+      td {
+        color: $grey-clr !important;
+        text-align: left;
+      }
+    }
+  }
+}
