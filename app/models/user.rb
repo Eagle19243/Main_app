@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  mount_uploader :picture, PictureUploader
+  # mount_uploader :picture, PictureUploader
   #after_create :populate_guid_and_token
   after_create :assign_address
 
@@ -111,20 +111,23 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      return user
+      user
     else
       registered_user = User.where(:email => auth.info.email).first
       if registered_user
-        return registered_user
+        registered_user
       else
         user = User.create(
-            provider:auth.provider,
-            uid:auth.uid,
-            name:auth.info.name,
-            email:auth.info.email,
-            password:Devise.friendly_token[0,20],
+            provider: auth.provider,
+            uid: auth.uid,
+            name: auth.info.name,
+            email: auth.info.email,
+            password: Devise.friendly_token[0,20],
+            picture: auth.info.image,
+            facebook_url: auth.extra.link,
         )
-      end    end
+      end
+    end
   end
 
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
@@ -138,11 +141,15 @@ class User < ActiveRecord::Base
       else
 
         user = User.create(
-            provider:auth.provider,
-            uid:auth.uid,
-            name:auth.info.name,
-            email:auth.uid+"@twitter.com",
-            password:Devise.friendly_token[0,20],
+            provider: auth.provider,
+            uid: auth.uid,
+            name: auth.info.name,
+            email: auth.uid+"@twitter.com",
+            password: Devise.friendly_token[0,20],
+            picture: auth.info.image,
+            description: auth.info.description,
+            country: auth.info.location,
+            twitter_url: auth.info.urls.Twitter,
         )
       end
 
@@ -153,11 +160,11 @@ class User < ActiveRecord::Base
     data = access_token.info
     user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first
     if user
-      return user
+      user
     else
       registered_user = User.where(:email => access_token.info.email).first
       if registered_user
-        return registered_user
+        registered_user
       else
         user = User.create(
             provider:access_token.provider,
@@ -165,6 +172,8 @@ class User < ActiveRecord::Base
             uid: access_token.uid ,
             name: access_token.info.name,
             password: Devise.friendly_token[0,20],
+            picture: access_token.info.image,
+            company: access_token.extra.raw_info.hd,
         )
       end
     end

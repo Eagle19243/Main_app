@@ -396,7 +396,7 @@
                   <%= form.text_area :application %>
                   <%= form.hidden_field :free, value: true %>
                   <% if user_signed_in? %>
-                      <% if current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user %>
+                      <% if current_user.picture? %><%= link_to (image_tag current_user.picture, :size => "30x30"), current_user %>
                       <% else %>
                           <%= gravatar_for_user(current_user) %>
                       <% end %>
