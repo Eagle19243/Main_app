@@ -128,7 +128,7 @@
                             <%= f.text_area :body %>
                             <%= f.hidden_field :task_id, value: @task.id %>
                             <%= f.hidden_field :user_id, value: current_user.id %>
-                            <button type="submit" name="commit" value="Send"> Send</button>
+                            <button type="submit" name="commit"  value="Send"> Send</button>
                             &nbsp;&nbsp;
                             <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                           </div>
@@ -146,7 +146,7 @@
                   <hr>
                   <%= render ("projects/task_comment") %>
                   <% if user_signed_in? %>
-                      <%= form_for [@task.project, @task, @task.task_comments.build] do |f| %>
+                      <%= form_for [@task.project, @task, @task.task_comments.build] , remote: true ,html: {id: 'comment-form'} do |f| %>
                           <div class="post-comment">
                             <%= f.text_area :body %>
                             <%= f.hidden_field :task_id, value: @task.id %>
@@ -427,7 +427,6 @@
         </div>
       </div>
     </div>
-
 <% end %>
 
 
