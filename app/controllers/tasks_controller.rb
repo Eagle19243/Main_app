@@ -148,6 +148,7 @@ class TasksController < ApplicationController
   def reject
     if @task.reject!
       @notice = "Task Rejected"
+      @task.destroy
     else
       @notice = "Task was not Rejected "
     end
