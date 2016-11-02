@@ -98,7 +98,8 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
-    end
+  end
+
   def populate_guid_and_token
     random = SecureRandom.uuid()
     arbitraryAuthPayload = { :uid => random,:auth_data => random, :other_auth_data => self.created_at.to_s}
@@ -108,6 +109,7 @@ class User < ActiveRecord::Base
     self.chat_token = random2
     self.save
   end
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
@@ -133,11 +135,11 @@ class User < ActiveRecord::Base
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      return user
+      user
     else
       registered_user = User.where(:email => auth.uid + "@twitter.com").first
       if registered_user
-        return registered_user
+        registered_user
       else
 
         user = User.create(

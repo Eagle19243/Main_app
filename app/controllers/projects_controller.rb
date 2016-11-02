@@ -314,7 +314,8 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
+    project = Project.find(params[:id])
+    project.destroy
     respond_to do |format|
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
