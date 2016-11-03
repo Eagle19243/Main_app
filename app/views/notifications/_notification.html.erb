@@ -1,0 +1,4 @@
+<%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}",
+           layout: "notification_layout",
+           locals: { notification: notification }
+%>

@@ -449,6 +449,8 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-observers (0.1.2)
+      activemodel (~> 4.0)
     rails4-autocomplete (1.1.1)
       rails (>= 3.0)
     rails_best_practices (1.17.0)
@@ -675,6 +677,7 @@ DEPENDENCIES
   quiet_assets
   rack-mini-profiler
   rails (= 4.2.5.1)
+  rails-observers
   rails4-autocomplete
   rails_best_practices
   rails_layout
