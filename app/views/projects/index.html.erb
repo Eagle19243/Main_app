@@ -37,11 +37,10 @@
               <ul class="info-banner">
                 <li class="pr10 border-right">
                   <i class="fa fa-map-marker" aria-hidden="true"></i>
-                  <a href="#">United States</a>
-                  <%= project.country %>
+                  <span><%= project.country %><span>
                 </li>
                 <li class="pl10">
-                  <i class="fa fa-paperclip" aria-hidden="true"></i>
+                  <i class="fa fa-user" aria-hidden="true"></i>
                   <%= link_to project.user.name, user_path(project.user)%>
                 </li>
               </ul>
@@ -58,21 +57,23 @@
                   </div>
                 </div>
 
-                <div class="report-banner">
-                  <table>
-                    <tr class="value">
-                      <td><%= project.funded_percentages %></td>
-                      <td><%= project.tasks_relations_string%></td>
-                      <td><%= project.team_relations_string%></td>
-                      <td>$<%= project.funded_budget %></td>
-                    </tr>
-                    <tr class="items">
-                      <td>Funded</td>
-                      <td>Tasks</td>
-                      <td>Teamates</td>
-                      <td>Raised</td>
-                    </tr>
-                  </table>
+                <div class="report-banner pb10">
+                  <div class="row">
+                    <span>Funded</span>
+                    <span class="pull-right"><%= project.funded_percentages %></span>
+                  </div>
+                  <div class="row">
+                    <span>Tasks</span>
+                    <span class="pull-right"><%= project.tasks_relations_string%></span>
+                  </div>
+                  <div class="row">
+                    <span>Teamates</span>
+                    <span class="pull-right"><%= project.team_relations_string%></span>
+                  </div>
+                  <div class="row">
+                    <span>Raised</span>
+                    <span class="pull-right">$ <%= project.funded_budget %></span>
+                  </div>
                 </div>
               </div>
           </div>

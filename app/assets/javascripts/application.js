@@ -29,6 +29,7 @@
 //= require best_in_place.jquery-ui
 //= require autocomplete-rails
 //= require jquery.validate.min
+//= require jquery.slimscroll
 //= require cocoon
 //= require_tree .
 // $(function() {

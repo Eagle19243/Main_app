@@ -1,6 +1,6 @@
 
 <%if ! current_user.blank? %>
-<% if @project.chat_room.blank?%>
+  <% if @project.chat_room.blank?%>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <%= javascript_include_tag 'firechat_merged' %>
 
@@ -26,10 +26,10 @@
             });
             console.log("Created room "+roomId);
             chat.enterRoom(roomId)
-
     </script>
-<% end %>
-    <%end %>
+  <% end %>
+<%end %>
+
 <%= render 'layouts/menu' %>
 
 <%= render 'project_top_banner' %>

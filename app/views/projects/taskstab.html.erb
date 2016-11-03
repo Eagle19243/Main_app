@@ -1,7 +1,4 @@
 <link rel="stylesheet" href="/static/task_show_page/css/foundation.css">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/static/task_show_page/css/font-awesome/css/font-awesome.min.css">
-<link href='https://fonts.googleapis.com/css?family=Slabo+27px|Acme|Oswald:300,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/glyphicon-only/glyphicon.css">
 <link rel="stylesheet" type="text/css" href="/static/task_show_page/css/Hover/css/hover-min.css">
@@ -1208,10 +1205,383 @@
 <script src="/static/task_show_page/js/cssParser.js"></script>
 <script src="/static/task_show_page/js/jquery.slimscroll.js" type="text/javascript"></script>
 <script type="text/javascript">
+</script>
+
+
+<%= render 'tasks/banner' %>
+<div class="project-detail-wrapper">
+  <div class="project-tab-wrapper">
+    <ul class="nav nav-pills nav-justified">
+      <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a></li>
+      <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <small>(353)</small></a></li>
+      <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <small>(434)</small></a></li>
+    </ul>
+
+    <div class="tabs-wrapper">
+      <div id="Plan" class="tabcontent">
+        <div class="btns-group">
+          <div class="btn-wrapper">
+            <a href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</a>
+          </div>
+
+          <div class="btn-wrapper">
+            <a href="javascript:void(0)"><i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;Fund</a>
+          </div>
+
+          <div class="btn-wrapper">
+            <a href="javascript:void(0)"><i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;Do a Task</a>
+          </div>
+
+          <div class="btn-wrapper">
+            <div class="rank-group">
+              <input type="hidden" id="stars" name="stars">
+              <% for i in 1..5 %>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="btn-wrapper">
+            <a href="javascript:void(0)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;Add to Favorites</a>
+          </div>
+
+          <div class="btn-wrapper">
+            <div class="social-sharelinks">
+              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                <i class="fa fa-facebook"></i>
+              </a>
+              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
+                <i class="fa fa-twitter"></i>
+              </a>
+              <a href="javascript:void(0)" data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" >
+                <i class="fa fa-google-plus" ></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-details">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="project-summary">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <div class="project-video">
+                <video controls>
+                  <source src="" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div class="tasks-summary">
+                <div class="summary-header">
+                  <strong>TASKS</strong>
+                  <a href="javascript:void(0)" class="pull-right">View All</a>
+                </div>
+
+                <div id="tasks_cards">
+                  <% for i in 1..5 %>
+                    <div class="summary-cards">
+                      <div class="card-wrapper">
+                        <div class="card-title">
+                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat.</p>
+                        </div>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                          </div>
+                        </div>
+                        <div class="report-banner-table">
+                          <table>
+                            <tr class="value">
+                              <td>70</td>
+                              <td>70</td>
+                              <td>70</td>
+                              <td>70</td>
+                            </tr>
+                            <tr class="items">
+                              <td>Funded</td>
+                              <td>Tasks</td>
+                              <td>Teamates</td>
+                              <td>Raised</td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="fund-do-btns">
+                          <a href="javascript:void(0)" data-toggle="tooltip" title="FUND">
+                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                          </a>
+                          <a href="javascript:void(0)" data-toggle="tooltip" title="DO">
+                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="Tasks" class="tabcontent">
+        <div class="trello-board">
+          <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-3">
+              <div class="trello-section">
+                <div class="section-header">
+                  <a href="javascript:void(0)">
+                    Funding / Sourcing
+                  </a>
+                </div>
+
+                <div class="section-content">
+                  <% @sourcing_tasks.each do |task| %>
+                    <div class="summary-cards">
+                      <div class="card-wrapper">
+                        <div class="card-title">
+                          <p><%= task.description %></p>
+                        </div>
+                        <div class="comment-wrapper">
+                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                        </div>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                          </div>
+                        </div>
+                        <div class="report-banner">
+                          <div class="row">
+                            <span>Funded</span>
+                            <span class="pull-right"><%= task.funded %></span>
+                          </div>
+                          <div class="row">
+                            <span>Tasks</span>
+                            <span class="pull-right">55 / 80</span>
+                          </div>
+                          <div class="row">
+                            <span>Teamates</span>
+                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
+                          </div>
+                          <div class="row">
+                            <span>Raised</span>
+                            <span class="pull-right">$ <%= task.budget %></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="section-add-task">
+                  <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3">
+              <div class="trello-section">
+                <div class="section-header">
+                  <a href="javascript:void(0)">
+                    Doing
+                  </a>
+                </div>
+
+                <div class="section-content">
+                  <% @doing_tasks.each do |task| %>
+                    <div class="summary-cards">
+                      <div class="card-wrapper">
+                        <div class="card-title">
+                          <p><%= task.description %></p>
+                        </div>
+                        <div class="comment-wrapper">
+                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                        </div>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                          </div>
+                        </div>
+                        <div class="report-banner">
+                          <div class="row">
+                            <span>Funded</span>
+                            <span class="pull-right"><%= task.funded %></span>
+                          </div>
+                          <div class="row">
+                            <span>Tasks</span>
+                            <span class="pull-right">55 / 80</span>
+                          </div>
+                          <div class="row">
+                            <span>Teamates</span>
+                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
+                          </div>
+                          <div class="row">
+                            <span>Raised</span>
+                            <span class="pull-right">$ <%= task.budget %></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="section-add-task">
+                  <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3">
+              <div class="trello-section">
+                <div class="section-header">
+                  <a href="javascript:void(0)">
+                    Reviewing
+                  </a>
+                </div>
+
+                <div class="section-content">
+                  <% @reviewing_tasks.each do |task| %>
+                    <div class="summary-cards">
+                      <div class="card-wrapper">
+                        <div class="card-title">
+                          <p><%= task.description %></p>
+                        </div>
+                        <div class="comment-wrapper">
+                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                        </div>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                          </div>
+                        </div>
+                        <div class="report-banner">
+                          <div class="row">
+                            <span>Funded</span>
+                            <span class="pull-right"><%= task.funded %></span>
+                          </div>
+                          <div class="row">
+                            <span>Tasks</span>
+                            <span class="pull-right">55 / 80</span>
+                          </div>
+                          <div class="row">
+                            <span>Teamates</span>
+                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
+                          </div>
+                          <div class="row">
+                            <span>Raised</span>
+                            <span class="pull-right">$ <%= task.budget %></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="section-add-task">
+                  <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3">
+              <div class="trello-section">
+                <div class="section-header">
+                  <a href="javascript:void(0)">
+                    Done
+                  </a>
+                </div>
+
+                <div class="section-content">
+                  <% @done_tasks.each do |task| %>
+                    <div class="summary-cards">
+                      <div class="card-wrapper">
+                        <div class="card-title">
+                          <p><%= task.description %></p>
+                        </div>
+                        <div class="comment-wrapper">
+                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                        </div>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                          </div>
+                        </div>
+                        <div class="report-banner">
+                          <div class="row">
+                            <span>Funded</span>
+                            <span class="pull-right"><%= task.funded %></span>
+                          </div>
+                          <div class="row">
+                            <span>Tasks</span>
+                            <span class="pull-right">55 / 80</span>
+                          </div>
+                          <div class="row">
+                            <span>Teamates</span>
+                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
+                          </div>
+                          <div class="row">
+                            <span>Raised</span>
+                            <span class="pull-right">$ <%= task.budget %></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="section-add-task">
+                  <span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="Team" class="tabcontent">
+        <div class="row">
+          <% @project.team.team_members.each do |team_member| %>
+              <%= render "projects/cards/team_member", team_member: team_member %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+
   $(function(){
     $('#testDiv').slimScroll();
     $('#testDiv2').slimScroll({
       allowPageScroll: true
     });
+    $('#tasks_cards').slimScroll({
+      height: '500px'
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
   });
+
 </script>
