@@ -1,8 +1,8 @@
 // _menu.scss
 
-@font-face { font-family: 'Roboto'; src: url('../fonts/Roboto-Regular.ttf'); }
-@font-face { font-family: 'Roboto-Light'; src: url('../fonts/Roboto-Light.ttf'); }
-@font-face { font-family: 'Typo Grotesk Rounded'; src: url('../fonts/typo-round.otf'); }
+@font-face { font-family: 'Roboto'; src: url('font-awesome/fonts/Roboto-Regular.ttf'); }
+@font-face { font-family: 'Roboto-Light'; src: url('font-awesome/fonts/Roboto-Light.ttf'); }
+@font-face { font-family: 'Typo Grotesk Rounded'; src: url('font-awesome/fonts/typo-round.otf'); }
 .top_banner { background: url('/static/users/img/PROJECT-PAGE.jpg') no-repeat center center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; height: 470px; background-repeat: no-repeat; text-align: center; }
 .top_nav { padding: 0px 45px; }
 /*.social_bar { text-align: center; }*/
@@ -94,7 +94,7 @@ h1, h2, h3, h4, h6 { font-family: 'Roboto Condensed', sans-serif; }
 @media only screen and (min-width:40.063em) { }
 .lin2 .lin2-contents { }
 .lin2 .lin2-social { display: inline-block; }
-.button { background-color: #00a0f3; }
+.button { background-color: #00a0f3; color: #fff !important;}
 .button-send { font-weight: 300; font-size: 16px; padding: .65em 1em; }
 .button-send i { margin-right: 5px; }
 .bio h1 { font-size: 24px; margin-top: 30px; }

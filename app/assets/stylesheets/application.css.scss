@@ -12,12 +12,21 @@
  *
  *= require jquery-ui
  *= require jquery-ui/datepicker
+ *= require foundation
+ *= require font-awesome/font-awesome
+ *= require glyphicon-only/glyphicon
+ *= require hover
  *= require_tree .
  *= require social-share-button
  *= require chosen
  *= require_self
  */
 
+//@import "foundation";
+//@import "app";
+//@import "font-awesome/font-awesome";
+//@import "glyphicon-only/glyphicon";
+//@import "hover";
 @import 'colors';
 @import 'layout';
 @import 'fonts';
@@ -259,8 +268,5 @@ li {
 }
 #circle{
   list-style-type:circle
-}
-#middle{
-  text-align: center;
 }
 

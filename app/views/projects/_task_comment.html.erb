@@ -3,7 +3,7 @@
   <% @task_comments.each do |comment| %>
       <div class="comment-view">
         <div class="profile-image">
-          <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture.url, :size => "30x30"), comment.user  %>
+          <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture, :size => "30x30"), comment.user  %>
           <%else%>
               <%= gravatar_for_user(comment.user) %>
           <%end%>

@@ -115,7 +115,6 @@ class ProjectsController < ApplicationController
   end
 
   def project_admin
-    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task_team.first.team_id, 'admin').collect(&:team_member_id)
     @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
@@ -154,13 +153,6 @@ class ProjectsController < ApplicationController
       rate: @rate,
       average: @project.rate_avg
     }
-  end
-
-  def get_activities
-    @task=Task.find(params[:id])
-    task_comment_ids= @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
-    respond_to :js
   end
 
  def get_activities
@@ -220,8 +212,8 @@ class ProjectsController < ApplicationController
         @project_team = @project.create_team(name: "Team#{@project.id}", slots: 10)
         TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
         activity = current_user.create_activity(@project, 'created')
-        activity.user_id = current_user.id
-
+        # activity.user_id = current_user.id
+        Chatroom.create( name: @project.title , project_id: @project.id )
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
         session[:project_id] = @project.id
@@ -239,11 +231,9 @@ class ProjectsController < ApplicationController
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
-        format.js { head :no_content, status: :ok}
       else
         format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
-        format.js { render text: @project.errors.full_messages.uniq.join(','), status: 422}
       end
     end
   end
@@ -344,10 +334,8 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :description, :country, :picture,
-                                      :user_id, :state, :expires_at, :request_description,
-                                      :discussed_description, project_edits_attributes: [:id, :_destroy, :description],
-                                      section_details_attributes: [:id,:project_id, :parent_id, :order, :discussed_title, :discussed_context, :_destroy])
+      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
+                                    project_edits_attributes: [:id, :_destroy, :description])
     end
 
     def get_project_user

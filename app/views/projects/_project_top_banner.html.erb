@@ -6,7 +6,7 @@
               <span>
                 By <%= link_to @project.user.name, user_path(@project.user), style: 'color:white' %>
                 <% if @project.user.picture? %>
-                  <%= image_tag(@project.user.picture.url, size: "35x35") %>
+                  <%= image_tag(@project.user.picture, size: "35x35") %>
                 <% else %>
                   <%= gravatar_for(@project.user, 35)%>
                 <%end%>

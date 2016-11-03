@@ -1,0 +1,19 @@
+</hr>
+<div class="row message">
+  <div class="small-1 columns">
+    <a href="#">
+      <% if @group_message.user.picture? %>
+          <%= image_tag(@group_message.user.picture, class: "profile-image") %>
+      <% else %>
+          <%= gravatar_for(@group_message.user, class: "profile-image") %>
+      <% end %>
+
+    </a>
+  </div>
+  <div class="small-11 columns message-content">
+    <span style="color: skyblue"><%= @group_message.user.try(:name) %></span>
+    <span class="message-date"><%= time_ago_in_words(@group_message.created_at) %></span>
+    <br><span><%= @group_message.message %>
+      </span>
+  </div>
+</div>

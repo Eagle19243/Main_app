@@ -15,7 +15,8 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :delete_all
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
-  has_one  :chat_room
+  # has_one  :chat_room
+  has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
   has_many :section_details, dependent: :destroy
@@ -24,10 +25,10 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
-  validates :title, presence: true, length: { minimum: 3, maximum: 60 },
-                      uniqueness: true
-  validates :short_description, presence: true, length: { minimum: 3, maximum: 60 }
-  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) {attributes['project_id'].blank? && attributes['parent_id'].blank?}
+  validates :title, presence: true, length: {minimum: 3, maximum: 60},
+            uniqueness: true
+  validates :short_description, presence: true, length: {minimum: 3, maximum: 60}
+  accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
   searchable do
     text :title
@@ -112,7 +113,7 @@ class Project < ActiveRecord::Base
       self.send(:write_attribute, 'description', value)
     else
       unless value == self.description.to_s
-        Discussion.find_or_initialize_by(discussable:self, user_id: User.current_user.id, field_name: 'description').update_attributes(context: value)
+        Discussion.find_or_initialize_by(discussable: self, user_id: User.current_user.id, field_name: 'description').update_attributes(context: value)
       end
     end
   end
@@ -122,5 +123,10 @@ class Project < ActiveRecord::Base
         self.send(:read_attribute, 'description') :
         discussions.of_field('description').of_user(User.current_user).last.try(:description) || self.send(:read_attribute, 'description')
   end
+
+  def self.get_project_default_chat_room(project_id, user_id)
+    Chatroom.select(:id).where("project_id = ? AND user_id = ?", project_id, user_id).first.id rescue nil
+  end
+
 
 end

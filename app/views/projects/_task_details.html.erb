@@ -128,7 +128,7 @@
                             <%= f.text_area :body %>
                             <%= f.hidden_field :task_id, value: @task.id %>
                             <%= f.hidden_field :user_id, value: current_user.id %>
-                            <button type="submit" name="commit" value="Send"> Send</button>
+                            <button type="submit" name="commit"  value="Send"> Send</button>
                             &nbsp;&nbsp;
                             <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                           </div>
@@ -146,7 +146,7 @@
                   <hr>
                   <%= render ("projects/task_comment") %>
                   <% if user_signed_in? %>
-                      <%= form_for [@task.project, @task, @task.task_comments.build] do |f| %>
+                      <%= form_for [@task.project, @task, @task.task_comments.build] , remote: true ,html: {id: 'comment-form'} do |f| %>
                           <div class="post-comment">
                             <%= f.text_area :body %>
                             <%= f.hidden_field :task_id, value: @task.id %>
@@ -297,7 +297,6 @@
   </div>
 
 </div>
-
 <div id="share" class="modal">
   <div class="modal-content2 yes">
     <b><span id="shareclose" class="close">×</span></b>
@@ -385,7 +384,7 @@
         <b><span id="popup-for-free-paidclose" class="close">x</span></b>
         <div class="fund-do">
           <div class="row">
-            <center><h4 id="cover-leter-header-text">Here goes the title of this task</h4></center>
+            <center><h4 id="cover-leter-header-text"><%= @task.title %></h4></center>
             <div class="large-1 medium-1 small-0 columns"></div>
           </div> <!--row ends -->
           <div class="row">
@@ -397,7 +396,7 @@
                   <%= form.text_area :application %>
                   <%= form.hidden_field :free, value: true %>
                   <% if user_signed_in? %>
-                      <% if current_user.picture? %><%= link_to (image_tag current_user.picture.url, :size => "30x30"), current_user %>
+                      <% if current_user.picture? %><%= link_to (image_tag current_user.picture, :size => "30x30"), current_user %>
                       <% else %>
                           <%= gravatar_for_user(current_user) %>
                       <% end %>
@@ -428,9 +427,4 @@
         </div>
       </div>
     </div>
-
 <% end %>
-
-
-
-
