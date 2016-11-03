@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
+    Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
   end
 
@@ -209,7 +209,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        @project_team = @project.create_team(name: "Team#{@project.id}", slots: 10)
+        @project_team = @project.create_team(name: "Team#{@project.id}")
         TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
