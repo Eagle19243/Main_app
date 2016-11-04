@@ -49,7 +49,6 @@ public/assets/*
 /capybara-*.html
 /gems
 /specifications
-/solr
 rerun.txt
 pickle-email-*.html
 .zeus.sock
