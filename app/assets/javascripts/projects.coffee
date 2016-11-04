@@ -158,7 +158,7 @@ $ ->
   $.rails.showConfirmDialog = (link) ->
     message = link.attr 'data-confirm'
     html = """
-            <div class="modal" id="confirmationDialog">
+            <div class="modal fade" id="confirmationDialog">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">

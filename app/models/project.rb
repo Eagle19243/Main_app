@@ -1,4 +1,7 @@
 class Project < ActiveRecord::Base
+  
+  acts_as_paranoid
+
   include Discussable
   paginates_per 12
 

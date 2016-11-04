@@ -358,6 +358,8 @@ GEM
       rack
     options (2.3.2)
     orm_adapter (0.5.0)
+    paranoia (2.1.5)
+      activerecord (~> 4.0)
     paypal-sdk-adaptivepayments (1.117.1)
       paypal-sdk-core (~> 0.3.0)
     paypal-sdk-core (0.3.4)
@@ -550,6 +552,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-twitter
   omnicontacts
+  paranoia (~> 2.0)
   paypal-sdk-adaptivepayments
   pg
   pp-adaptive
@@ -581,4 +584,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.5
+   1.13.6

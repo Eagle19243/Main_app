@@ -93,6 +93,7 @@ Rails.application.routes.draw do
 
     collection do
       get :autocomplete_user_search
+      get "change_leader"
     end
 
     member do

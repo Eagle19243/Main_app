@@ -57,6 +57,9 @@ gem 'kaminari'
 gem 'remotipart'
 # gem 'video_info'
 
+# ActAsParanoid
+gem 'paranoia', "~> 2.0"
+
 group :development do
     gem 'capistrano',         require: false
     gem 'capistrano-rvm',     require: false

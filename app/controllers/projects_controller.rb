@@ -238,6 +238,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def change_leader
+    project_id = params[:project_edit]
+    new_leader = params[:leader]
+    redirect_to :my_projects
+  end
+
   # POST /save-edits
   # POST /save-edits.json
   def saveEdit

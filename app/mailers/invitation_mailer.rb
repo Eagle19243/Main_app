@@ -11,5 +11,8 @@ class InvitationMailer < ApplicationMailer
     @orignal_url = 'http://weserve.io'
     @URL = project_id
     mail(to: email, subject: 'invitation For Project')
-    end
+  end
+
+  def invite_leader(email, user_name, title, project_id)
+  end
 end
