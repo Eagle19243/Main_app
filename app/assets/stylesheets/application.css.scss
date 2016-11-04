@@ -12,6 +12,10 @@
  *
  *= require jquery-ui
  *= require jquery-ui/datepicker
+ *= require foundation
+ *= require font-awesome/font-awesome
+ *= require glyphicon-only/glyphicon
+ *= require hover
  *= require_tree .
  *= require social-share-button
  *= require chosen
@@ -241,6 +245,8 @@ li {
 }
 #term-container{
   width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 #upper-paragraph{
   text-align: center;
@@ -264,8 +270,5 @@ li {
 }
 #circle{
   list-style-type:circle
-}
-#middle{
-  text-align: center;
 }
 

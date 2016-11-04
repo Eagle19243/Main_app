@@ -21,7 +21,6 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
     <li class="name">
@@ -30,14 +29,12 @@
     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
     <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
   </ul>
-
   <section class="top-bar-section">
     <!-- Right Nav Section -->
     <ul class="right">
       <li><a href="#"><i class="fa fa-bell" aria-hidden="true"><span class="hvr-push">1</span></i></a></li>
       <li><a href="#"><img src="/static/notification-page/images/profile-image.jpg"></a></li>
     </ul>
-
     <!-- Left Nav Section -->
     <ul class="left">
       <li><a href="/projects/new">Start a Project</a></li>
@@ -45,24 +42,10 @@
     </ul>
   </section>
 </nav>
-
-<div id="side-menu-id" class="side-menu">
-  <ul class="side-nav">
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/profile_comments">Profile</a></li>
-    <li><a href="/projects">Projects</a></li>
-    <li class="active"><a href="/notifications">Notifications</a></li>
-    <li><a href="/messages">Messages</a></li>
-    <li><a href="#">Logout</a></li>
-
-  </ul>
-</div>
-
 <div class="toggle-button"><a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
   <i id="toggle-icon" class="fa fa-toggle-on" aria-hidden="true"></i>
   Toggle Menu</a></div>
-
-
+<%= render 'layouts/sidebar_navigation' %>
   <div class="large-9 medium-8 small-12 columns">
     <div class="scrollbar" id="style-1">
       <div class="force-overflow">
@@ -70,12 +53,11 @@
         <% unless @pending_projects.blank? %>
             <% @pending_projects.each do |f| %>
         <div class="row">
-
           <div class="invitation">
             <div class="invi-head">
               <div class="caj">
                 <div class="simp-img">
-                  <% if f.user.picture? %><%= link_to (image_tag f.user.picture.url, :size => "30x30")  %>
+                  <% if f.user.picture? %><%= link_to (image_tag f.user.picture, :size => "30x30")  %>
                   <% end %>
                 </div>
                 <div class="simp">
@@ -86,7 +68,6 @@
               </div>
               <div class="caj-text">
                 <p><%= f.description %> </div>
-
               <div class="caj-tab">
                  <%= link_to "ACCEPT INVITATION",accept_project_path(f.id), class: "button compose-btn accept fa fa-fa fa-check"  %></a>
                  <%=  link_to "DECLINE AND REPLY", reject_project_path(f.id), class: " button compose-btn decline fa fa-close"%></a>
@@ -97,19 +78,15 @@
                     </hr>
               <% end %>
             <% end %>
-
-
             <%end  %>
-
             <% unless @array_tasks.blank? %>
                 <% @array_tasks.each do |t| %>
             <div class="row">
-
               <div class="invitation">
                 <div class="invi-head">
                   <div class="caj">
                     <div class="simp-img">
-                      <% if t.user.picture? %><%= link_to (image_tag t.user.picture.url, :size => "30x30")  %>
+                      <% if t.user.picture? %><%= link_to (image_tag t.user.picture, :size => "30x30")  %>
                       <% end %>
                     </div>
                     <div class="simp">
@@ -120,7 +97,6 @@
                   </div>
                   <div class="caj-text">
                     <p><%= t.description %> </div>
-
                   <div class="caj-tab">
                     <%= link_to "ACCEPT INVITATION",accept_task_path(t.id), class: "button compose-btn accept fa fa-fa fa-check"  %></a>
                     <%=  link_to "DECLINE AND REPLY", reject_task_path(t.id), class: " button compose-btn decline fa fa-close"%></a>
@@ -131,17 +107,14 @@
         <% end %>
         </div>
         </hr>
-
-
             <% unless @pendding_do_request.blank? %>
                 <% @pendding_do_request.each do |a| %>
             <div class="row">
-
               <div class="invitation">
                 <div class="invi-head">
                   <div class="caj">
                     <div class="simp-img">
-                      <% if a.user.picture? %><%= link_to (image_tag @pro.user.picture.url, :size => "30x30")  %>
+                      <% if a.user.picture? %><%= link_to (image_tag @pro.user.picture, :size => "30x30")  %>
                       <% end %>
                     </div>
                     <div class="simp">
@@ -152,7 +125,6 @@
                   </div>
                   <div class="caj-text">
                     <p><%= a.application %> </div>
-
                   <div class="caj-tab">
                     <%= link_to "ACCEPT INVITATION",accept_do_request_path(a.id), class: "button compose-btn accept fa fa-fa fa-check"  %></a>
                     <%=  link_to "DECLINE AND REPLY", reject_do_request_path(a.id), class: " button compose-btn decline fa fa-close"%></a>
@@ -163,17 +135,11 @@
         <% end %>
         </div>
         </hr>
-
       </div>
     </div>
   </div>
-
 <!-- second row -->
-
-
 <!-- Favorites -->
-
-
 <script src="js/vendor/jquery.js"></script>
 <script src="js/foundation.min.js"></script>
 <script src="js/custom.js"></script>

@@ -34,7 +34,8 @@ gem 'sunspot_solr'
 gem 'rails4-autocomplete'
 gem 'nokogiri', '1.6.0'
 gem 'progress_bar'
-# gem 'dalli'
+gem 'dalli'
+gem 'therubyracer'
 
 # Firebase Security Token Generator
 gem 'firebase_token_generator'

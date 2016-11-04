@@ -23,29 +23,29 @@
 <script>
   window.onload = function() {
     $('#project-url').html(window.location.href);
-    <% if  session[:project_id] != nil %>
-    var modalteam = document.getElementById('Project-Invite-Model');
-    modalteam.style.display = "block";
-    <%end%>
+    // <% if  session[:project_id] != nil %>
+    // var modalteam = document.getElementById('Project-Invite-Model');
+    // modalteam.style.display = "block";
+    // <%end%>
     // Get the <span> element that closes the modal
-    var project_span_team = document.getElementById("inviteclose");
-    var modalteam = document.getElementById('Project-Invite-Model')
-    // When the user clicks on <span> (x), close the modal
-    project_span_team.onclick = function () {
-      modalteam.style.display = "none";
-    }
+    // var project_span_team = document.getElementById("inviteclose");
+    // var modalteam = document.getElementById('Project-Invite-Model')
+    // // When the user clicks on <span> (x), close the modal
+    // project_span_team.onclick = function () {
+    //   modalteam.style.display = "none";
+    // }
     document.getElementById("loading-mask1").style.display = "none";
   }
 
-  $(document).keydown(function(e) {
-    if (e.keyCode == 27) {
-      $('#response').empty();
-      $("#guest-email").val("");
-      $('#response-failure').empty();
-      $("#response-success");
-      $("#Project-Invite-Model").hide();
-    }
-  });
+  // $(document).keydown(function(e) {
+  //   if (e.keyCode == 27) {
+  //     $('#response').empty();
+  //     $("#guest-email").val("");
+  //     $('#response-failure').empty();
+  //     $("#response-success");
+  //     $("#Project-Invite-Model").hide();
+  //   }
+  // });
 </script>
 <div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
   <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
@@ -82,7 +82,7 @@
           <li>
             <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
                 <% if current_user.picture? %>
-                    <%= image_tag(current_user.picture.url, size: "30x30") %>
+                    <%= image_tag(current_user.picture, size: "30x30") %>
                 <% else %>
                     <%= gravatar_for_user(current_user)%>
                 <%end%>
@@ -98,7 +98,7 @@
 
     </ul>
     <ul class="left">
-      <li><a href="#" id="invite-people-on-project" >ADD / INVITE PEOPLE</a></li>
+      <li><a href="#" data-reveal-id="Project-Invite-Model" >ADD / INVITE PEOPLE</a></li>
       <li><a href="#"  >Create a Project</a></li>
       <li><a href="/">Active Projects</a></li>
     </ul>
@@ -125,7 +125,7 @@
 </script>
 
 <div id="product-modal"></div>
-<%= render 'tasks/banner' %>
+
 <section class="tabs">
   <div class="row">
     <ul class="tabs" data-tab role="tablist">
@@ -972,12 +972,13 @@
   </div>
 </section>
 </div>
-<div id="Project-Invite-Model" class="modal">
-  <div class="modal-content2 yes">
-    <button type="button" class="close " data-dismiss="modal" id="inviteclose">&#10006</button>
+
+<div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
+  <div>
+    <a class="close-reveal-modal" aria-label="Close">&#10006</a>
     <div class="fund-do">
       <div class="row">
-        <center><h4 id = 'middle'>Invite People To Participate</h4></center><br>
+        <h4 id = 'middle'  >Invite People To Participate</h4><br>
         <div class="alert"  id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
@@ -1190,14 +1191,14 @@
       $('#response-failure').empty();
       $("#response-success");
     });
-    $('#invite-people-on-project').click(function(){
-      var modalteam = document.getElementById('Project-Invite-Model');
-      modalteam.style.display = "block";
-    });
-    var project_span_team= document.getElementById("inviteclose");
-    project_span_team.onclick = function() {
-      modalteam.style.display = "none";
-    }
+    // $('#invite-people-on-project').click(function(){
+    //   var modalteam = document.getElementById('Project-Invite-Model');
+    //   modalteam.style.display = "block";
+    // });
+    // var project_span_team= document.getElementById("inviteclose");
+    // project_span_team.onclick = function() {
+    //   modalteam.style.display = "none";
+    // }
   } );
 </script>
 <script src="/static/task_show_page/js/classie.js"></script>
@@ -1208,7 +1209,6 @@
 </script>
 
 
-<%= render 'tasks/banner' %>
 <div class="project-detail-wrapper">
   <div class="project-tab-wrapper">
     <ul class="nav nav-pills nav-justified">

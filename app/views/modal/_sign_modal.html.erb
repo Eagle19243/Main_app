@@ -1,0 +1,42 @@
+
+<div id="registerModal" class="modal fade register-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Join WeServe Today!</h4>
+      </div>
+
+      <div class="modal-body">
+        <%= render "modal/social_register" %>
+
+        <div class="or-container">
+          <hr class="or-hr">
+          <div id="or">or</div>
+        </div>
+
+        <div id="sign_up_show">
+          <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+
+          <div class="terms-intro pt20">
+            <p>By clicking Sign Up or Sign in, you agree to our <a href="/pages/term_of_use""> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.</p>
+          </div>
+          <div class="signin-intro">
+            <p>Already have an account? <a href="javascript:void(0)" id="sign_in_a">Sign In</a></p>
+          </div>
+        </div>
+
+        <div id="sign_in_show">
+          <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+
+          <div class="signin-intro pt20">
+            <p>Don't have an account? <a href="javascript:void(0)" id="sign_up_a">Sign Up</a></p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

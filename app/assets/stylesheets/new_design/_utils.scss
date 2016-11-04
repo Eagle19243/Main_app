@@ -26,6 +26,10 @@
   padding-bottom: 10px;
 }
 
+.pt20 {
+  padding-top: 20px !important;
+}
+
 .padding-none {
   padding-right: 0;
   padding-left: 0;
@@ -57,5 +61,13 @@ h2:before {
 
 .row {
   max-width: none !important;
+}
+
+.normal-button {
+  height: 40px;
+  background-color: $alt-clr !important;
+  font-weight: 600 !important;
+  border-radius: 0 !important;
+  border: none !important;
 }
 

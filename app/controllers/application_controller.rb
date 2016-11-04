@@ -1,23 +1,27 @@
 class ApplicationController < ActionController::Base
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, notice: exception.message
   end
+
   rescue_from ActiveRecord::RecordNotFound do |exception|
     redirect_to main_app.root_url, notice: exception.message
   end
-  protect_from_forgery with: :exception
 
+  protect_from_forgery with: :exception
   around_filter :set_current_user
 
   def set_current_user
     User.current_user = current_user
     yield
   ensure
-    # to address the thread variable leak issues in Puma/Thin webserver
     User.current_user = nil
   end
 
-  #a filter to enable private mode in which the app is available only to admins
+    #before_filter :admin_only_mode
+    # layout "manish"
+    #a filter to enable private mode in which the app is available only to admins
+
     def admin_only_mode
       unless current_user.try(:admin?)
         unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "sessions"

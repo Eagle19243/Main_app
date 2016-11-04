@@ -118,6 +118,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -140,13 +141,6 @@ class ProjectsController < ApplicationController
       rate: @rate,
       average: @project.rate_avg
     }
-  end
-
-  def get_activities
-    @task=Task.find(params[:id])
-    task_comment_ids= @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
-    respond_to :js
   end
 
  def get_activities
@@ -214,10 +208,10 @@ class ProjectsController < ApplicationController
         @project_team = @project.create_team(name: "Team#{@project.id}", mission: "More rock and roll", slots: 10)
         @project_team.save
         first_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
-        first_member.save
+        #first_member.save
         activity = current_user.create_activity(@project, 'created')
-        activity.user_id = current_user.id
-
+        # activity.user_id = current_user.id
+        Chatroom.create( name: @project.title , project_id: @project.id )
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
         session[:project_id] = @project.id
