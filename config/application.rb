@@ -30,5 +30,10 @@ module YouServe
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.serve_static_assets = true
+
+    config.active_record.observers = [
+        :team_membership_observer, :project_observer, :admin_invitation_observer,
+        :task_observer, :do_request_observer, :admin_request_observer
+    ]
   end
 end

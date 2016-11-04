@@ -1,0 +1,49 @@
+<div class="large-3 medium-6 small-12 columns team-member" id="team-member-<%= team_membership.id %>">
+  <div class="box">
+    <% if can? :destroy, team_membership %>
+      <div class="delete-team-member" team-membership-id="<%= team_membership.id %>" title="Delete team member">&#215;</div>
+    <% end %>
+    <center>
+      <div class="team-member-img">
+        <% if team_membership.team_member.picture? %>
+          <%= image_tag(team_membership.team_member.picture.url, size: "35x35") %>
+        <% else %>
+          <%= gravatar_for(team_membership.team_member, 35)%>
+        <%end%>
+      </div>
+    </center>
+    <center><h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5></center>
+    <center>
+      <h5>
+        <% if can? :destroy, team_membership %>
+          <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.get_roles , activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
+          <i class="fa fa-pencil role-edit-pencil-<%=team_membership.id%>"></i>
+        <% else %>
+          <%= team_membership.role.humanize %>
+        <% end %>
+      </h5>
+    </center>
+    <p>
+      <%= team_membership.team_member.try(:bio)[0..80] rescue nil %>..<%= link_to "See full bio", user_path(team_membership.team_member) %>
+    </p>
+
+    <center>
+      <ul class="inline-list social-net-links">
+        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-link" aria-hidden="true"></i></a></li>
+      </ul>
+    </center>
+  </div>
+</div>
+
+<script>
+  $(".role_in_place-<%=team_membership.id%>.best_in_place").best_in_place();
+  $(".role-edit-pencil-<%=team_membership.id%>").click(toggleRoleEditPencil);
+  $(".role_in_place-<%=team_membership.id%>").change(toggleRoleEditPencil);
+  function toggleRoleEditPencil(){
+    $(".role-edit-pencil-<%=team_membership.id%>").toggle();
+  }
+</script>
+

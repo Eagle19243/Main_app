@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
-
-
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
+
+  searchable do
+    text :name
+  end
+
   def set_default_role
     self.role ||= :user
   end
@@ -36,6 +39,8 @@ class User < ActiveRecord::Base
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
   has_one  :user_wallet_address
+  has_many :notifications, dependent: :destroy
+  has_many :admin_requests, dependent: :destroy
 
   def self.current_user
     Thread.current[:current_user]
@@ -183,6 +188,22 @@ class User < ActiveRecord::Base
 
   def is_admin_for? proj
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
+  end
+
+  def can_apply_as_admin?(project)
+    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
+  end
+
+  def is_project_leader?(project)
+    project.user.id == self.id
+  end
+
+  def is_team_admin?(team)
+    team.team_memberships.where(team_member_id: self.id, role: TeamMembership.roles[:admin]).any?
+  end
+
+  def has_pending_admin_requests?(project)
+    self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
   end
 
 end

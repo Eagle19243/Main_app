@@ -36,9 +36,6 @@ gem 'nokogiri', '1.6.0'
 gem 'progress_bar'
 gem 'dalli'
 gem 'therubyracer'
-
-# Firebase Security Token Generator
-gem 'firebase_token_generator'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
 gem 'rufus-scheduler'
@@ -52,13 +49,62 @@ gem 'cocoon'
 gem 'best_in_place', '~> 3.0.1'
 gem 'cancancan', '~> 1.10'
 gem 'kaminari'
+gem 'rails-observers'
+gem 'pg'
+gem 'devise'
+gem 'foundation-rails', '~> 5.5'
+gem 'high_voltage'
+gem 'simple_form'
 
-#ajex file uploading
+# Ajax File Uploading
 gem 'remotipart'
-# gem 'video_info'
 
 # ActAsParanoid
 gem 'paranoia', "~> 2.0"
+
+gem 'firebase_token_generator'
+
+# A Rake task gem that helps you find the unused routes and controller actions for your Rails 3+ app
+gem 'traceroute'
+
+# Profiler for your development and production Ruby rack apps.
+gem 'rack-mini-profiler'
+
+# Help to kill N+1 queries and unused eager loading
+gem "bullet", :group => "development"
+
+# A static analysis security vulnerability scanner for Ruby on Rails applications
+group :development do
+  gem 'brakeman', :require => false
+end
+
+# CSS coverage tool
+group :test do
+  gem 'colored'
+  gem 'deadweight', :require => 'deadweight/hijack/rails'
+end
+
+# Code metric tool for rails projects
+gem "rails_best_practices"
+
+# A Ruby static code analyzer, based on the community Ruby style guide.
+gem 'rubocop', require: false
+
+# A Ruby code quality reporter
+gem "rubycritic", :require => false
+
+# TDD/BDD Testing
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara-webkit'
+end
+
+# Auto deployment to AWS
 
 group :development do
     gem 'capistrano',         require: false
@@ -66,18 +112,7 @@ group :development do
     gem 'capistrano-rails',   require: false
     gem 'capistrano-bundler', require: false
     gem 'capistrano3-puma',   require: false
-    # Add this if you're using rbenv
-    # gem 'capistrano-rbenv', github: "capistrano/rbenv"
-  # Add this if you're using rbenv
-  # gem 'capistrano-rbenv', github: "capistrano/rbenv"
 end
-
-gem 'pg'
-
-gem 'devise'
-gem 'foundation-rails', '~> 5.5'
-gem 'high_voltage'
-gem 'simple_form'
 
 group :development do
   gem 'better_errors'
