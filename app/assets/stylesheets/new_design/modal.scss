@@ -5,6 +5,11 @@
 .modal {
   top: 100px !important;
 }
+.modal-header {
+  .close {
+    background-color: transparent;
+  }
+}
 
 .register-modal {
   .modal-body {
