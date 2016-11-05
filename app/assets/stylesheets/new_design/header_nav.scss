@@ -49,7 +49,8 @@ ul.links-wrapper {
       padding: 15px 16px;
       text-decoration: none;
 
-      &:hover {
+      &:hover,
+      &:focus {
         background-color: $alt-clr;
         color: #fff !important;
         span {

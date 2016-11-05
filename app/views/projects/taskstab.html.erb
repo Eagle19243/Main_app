@@ -47,25 +47,7 @@
   //   }
   // });
 </script>
-<div  id="sign-in-sing-up"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
-  <div style="background-color: #f0f0f0 ">
-    <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
 
-      <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-      <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-      <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
-    </div>
-    <center>  <h2 align="center">OR</h2></center>
-    <div  id ="sing-in-show">
-      <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-    </div>
-    <div id ="sing-up-show">
-      <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-    </div>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-  </div>
-  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
 </div>
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
@@ -105,24 +87,7 @@
   </section>
 </nav>
 
-<script>
-  $("#Sign-in-a ,#Sign-in-a-tasktab").click(function () {
-    $("#Sign-in-div").css("background-color", "#35B8F4 ")
-    $("#Sign-up-div").css("background-color", "white ")
-    $("#Sign-in-div").css("color", "white ")
-    $("#Sign-up-div").css("color", "black")
-    $("#sing-up-show").hide();
-    $("#sing-in-show").show();
-  })
-  $("#Sign-up-a,#Sign-up-a-tasktab").click(function () {
-    $("#Sign-up-div").css("background-color", "#35B8F4")
-    $("#Sign-in-div").css("background-color", "white ")
-    $("#Sign-up-div").css("color", "white ")
-    $("#Sign-in-div").css("color", "black")
-    $("#sing-in-show").hide();
-    $("#sing-up-show").show();
-  })
-</script>
+
 
 <div id="product-modal"></div>
 
@@ -1209,6 +1174,11 @@
 </script>
 
 
+
+
+
+
+
 <div class="project-detail-wrapper">
   <div class="project-tab-wrapper">
     <ul class="nav nav-pills nav-justified">
@@ -1221,7 +1191,7 @@
       <div id="Plan" class="tabcontent">
         <div class="btns-group">
           <div class="btn-wrapper">
-            <a href="javascript:void(0)"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</a>
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#editProjectModal"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</a>
           </div>
 
           <div class="btn-wrapper">
@@ -1555,6 +1525,8 @@
     </div>
   </div>
 </div>
+
+<%= render "modal/edit_project_modal" %>
 
 <script>
   function openTab(evt, tabName) {

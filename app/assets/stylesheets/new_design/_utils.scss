@@ -71,3 +71,19 @@ h2:before {
   border: none !important;
 }
 
+.col-custom {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+.success {
+  color: green;
+}
+
+.danger {
+  color: red;
+}
+
+.suspend {
+  color: $grey-clr;
+}
