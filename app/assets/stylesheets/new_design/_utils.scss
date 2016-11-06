@@ -75,6 +75,9 @@ h2:before {
   padding-right: 0px !important;
   padding-left: 0px !important;
 }
+.row-custom {
+  margin: 0 !important;
+}
 
 .success {
   color: green;
@@ -87,3 +90,9 @@ h2:before {
 .suspend {
   color: $grey-clr;
 }
+
+
+h2:before {
+  border-top: none !important;
+}
+
