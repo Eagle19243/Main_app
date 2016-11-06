@@ -52,56 +52,61 @@
 
 <div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
   <div>
-    <a class="close-reveal-modal" aria-label="Close"></a>
+    <a class="close-reveal-modal" aria-label="Close">&times;</a>
     <div class="fund-do">
       <div class="row">
-        <h4 id = 'middle'>Invite People To Participate</h4><br>
+        <h4 id = 'middle'>Invite People To Participate</h4>
         <div class="alert"  id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
             <div class="large-10 medium-10 small-12 columns cold">
-              <div class="large-8 medium-12 small-12 columns cold">
-                <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
-                <%session[:idd] = @project.id  %>
-                <% session[:project_id] = nil %>
-                <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
+              <div class="row">
+                <div class="large-8 medium-12 small-12 columns cold">
+                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
+                  <%session[:idd] = @project.id  %>
+                  <% session[:project_id] = nil %>
+                  <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
+                </div>
+                <div class="large-4 medium-12 small-12 columns cold pl10">
+                  <button class="button round expand modal-btn1 btn-add normal-button" id="send-project-email-button" >Add / Invite</button>
+                </div>
               </div>
-              <div class="large-4 medium-12 small-12 columns cold">
-                <button class="button round expand modal-btn1 btn-add" id="send-project-email-button" >Add / Invite</button>
-              </div>
+
               <div class="row" id="contacts">
                 <div class="contact-importers" id ="tab">
-          <span >Import your contacts from:
-            <span class="contact-importer">
-               <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
-                 <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
-                 <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
-               </span>
-            </span>
-            <span class="mini-divider"></span>
-               <span class="contact-importer">
-                 <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                                    <%= image_tag("yahoo.png" ,:class => "img_preview") %>
-                   <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
-                </span>
-               </span>
-            <span class="mini-divider"></span>
-          </span>
+                  <span >Import your contacts from
+                    <span class="contact-importer">
+                       <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
+                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
+                         <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
+                       </span>
+                    </span>
+                    <span class="mini-divider"></span>
+                       <span class="contact-importer">
+                         <span class="loading-trigger" data-source="yahoo" id="yahoo">
+                            <%= image_tag("yahoo.png" ,:class => "img_preview") %>
+                            <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
+                        </span>
+                       </span>
+                    <span class="mini-divider"></span>
+                  </span>
                 </div>
+
                 <%unless session[:failure_contacts].blank? %>
-                    <br>
-                    <p id="response-failure"><%= session[:failure_contacts]%></p>
+                  <p id="response-failure"><%= session[:failure_contacts] %></p>
                 <%end%>
                 <%unless session[:success_contacts].blank? %>
-                    <br>
-                    <p  id="response-success"><%= session[:success_contacts]%></p>
+                  <p  id="response-success"><%= session[:success_contacts] %></p>
                 <%end%>
               </div>
-              <%= session[:failure_contacts]=nil%>
-              <%= session[:success_contacts]=nil%>
-              <div class="override">
-                <h2 class="background"><span>OR</span></h2>
+              <%= session[:failure_contacts] = nil %>
+              <%= session[:success_contacts] = nil %>
+
+              <div class="or-container">
+                <hr class="or-hr">
+                <div id="or">or</div>
               </div>
+
               <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
                 <ul>
                   <li>
@@ -129,8 +134,8 @@
                     </div>
                   </li>
                 </ul>
-                <div class="row">
-                  <h2 class="background"><span>-</span></h2>
+                <div class="row share-link">
+                  <hr />
                   <b>URL: </b><span id="project-url"></span>
                 </div>
               </div>
