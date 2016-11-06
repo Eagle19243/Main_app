@@ -26,13 +26,19 @@
       position: absolute;
     }
 
+    h2 {
+      color: #fff;
+      font-weight: 600;
+    }
+
     li {
       display: table-cell;
       padding:0px 10px 0px 10px;
 
       h4 {
         font-size: 17px;
-        color: #ddd;
+        color: #fff;
+        font-weight: 600;
       }
 
       img {
@@ -67,13 +73,13 @@
     }
     tr.value {
       td {
-        color: #555 !important;
+        color: #fff !important;
         font-weight: bold;
       }
     }
     tr.items {
       td {
-        color: $grey-clr !important;
+        color: #fff !important;
         text-align: left;
       }
     }

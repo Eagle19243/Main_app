@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
     #before_filter :admin_only_mode
-    # layout "manish"
+    layout "manish"
     #a filter to enable private mode in which the app is available only to admins
 
     def admin_only_mode
