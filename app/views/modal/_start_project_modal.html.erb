@@ -1,45 +1,48 @@
-<div id="start-new-project-popup" class="modal">
-  <div class="modal-content2">
-    <button type="button" class="close" data-dismiss="modal" id="close-project-popup">&#10006;</button>
-    <div class="modal-header">
-      <h4 class="modal-title">Start New Project</h4>
-    </div>
-    <div class="modal-body">
-      <div id="project-status" class="alert alert-danger">
+
+<div id="startProjectModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" id="closeProjectModal">&times;</button>
+        <h4 class="modal-title">Start New Project</h4>
       </div>
-      <div id="project-success">
-        <%= image_tag("loading.gif", :alt => "rss feed") %>
-      </div>
-      <%= simple_form_for(Project.new, html: {id: 'project-form', multipart: true}) do |f| %>
+      <div class="modal-body">
+        <div id="project-status" class="alert alert-danger"></div>
+        <div id="project-success">
+          <%= image_tag("loading.gif", :alt => "rss feed") %>
+        </div>
+
+        <%= simple_form_for(Project.new, html: {id: 'project-form', multipart: true}) do |f| %>
           <%= f.error_notification %>
+
           <div class="form-group">
             <%= f.label :title, error: 'Username is mandatory, please specify one' %>
             <%= f.text_field :title, class: 'form-control', id: 'title-field' %>
           </div>
+
           <div class="form-group">
             <%= f.label :short_description, "Short description for Project" %>
             <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'form-control', required: 'true' %>
           </div>
+
           <div class="form-group">
             <%= f.label :Project_Image %>
             <%= f.file_field :picture, required: true, id: 'upload_button', class: 'btn btn-primary' %>
           </div>
+
+          <div class="form-actions">
+            <%= f.button :submit, class: "btn btn-primary normal-button", id: 'project-form-id' %>
           </div>
-          <div class="modal-footer">
-            <div class="form-actions">
-              <%= f.button :submit, class: "btn-lg radius", id: 'project-form-id' %>
-            </div>
-          </div>
-      <% end %>
+
+        <% end %>
       </div>
+    </div>
+  </div>
 </div>
+
 <script>
-  var modalteam = document.getElementById('start-new-project-popup');
-  var btnteam = document.getElementById("startbtn");
-  var spanteam = document.getElementById("close-project-popup");
-  btnteam.onclick = function () {
-    modalteam.style.display = "block";
-  }
+  var modalteam = document.getElementById('startProjectModal');
+  var spanteam = document.getElementById("closeProjectModal");
   spanteam.onclick = function () {
     $('#project-status').hide();
     $('#project-status').empty();
@@ -47,8 +50,7 @@
     $("#description-field").val("");
     modalteam.style.display = "none";
   }
-</script>
-<script>
+
   $(document).ready(function () {
     $(document).keydown(function (e) {
       if (e.keyCode == 27) {
@@ -56,10 +58,10 @@
         $('#project-status').empty();
         $("#title-field").val("");
         $("#description-field").val("");
-        $("#start-new-project-popup").hide();
+        $("#startProjectModal").hide();
       }
     });
-    $('html body').css({'font-size': '16px !important'});
+
     $('#project-status').hide();
     $('#project-success').hide();
     $('#project-form').submit(function () {
@@ -95,4 +97,3 @@
     });
   });
 </script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

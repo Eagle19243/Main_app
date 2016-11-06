@@ -11,15 +11,15 @@
   }
 }
 
+.modal-header,
+.modal-body,
+.modal-footer {
+  border-bottom: none !important;
+}
+
 .register-modal {
   .modal-body {
     padding: 10px 50px;
-  }
-
-  .modal-header,
-  .modal-body,
-  .modal-footer {
-    border: none;
   }
 }
 
@@ -318,6 +318,43 @@
   }
 }
 
+
+#startProjectModal {
+  .modal-body {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  textarea {
+    border-radius: 0;
+  }
+
+  .form-actions {
+    float: none;
+    width: 100%;
+    display: block;
+    text-align: right;
+    margin: 0;
+
+    input {
+      background-color: $alt-clr;
+      border-radius: 0;
+      min-width: 150px;
+    }
+  }
+
+  input#upload_button {
+    width: 100% !important;
+    background-color: #fff;
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px dashed $alt-clr;
+    border-radius: 0;
+    max-width: none;
+    color: #555;
+  }
+}
 
 
 .or-container {
