@@ -252,3 +252,88 @@ div.progress {
 .main-wrapper {
   background-color: #eee;
 }
+
+
+
+.member-box {
+  padding: 10px;
+  position: relative;
+  background-color: #fff;
+  border: none;
+  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+  border-radius: 3px;
+  min-height: 250px;
+
+  .member-img {
+    position: relative;
+    margin-top: -40px;
+
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+  }
+
+  button.delete-member {
+    padding: 0;
+    background: transparent;
+    font-size: 22px;
+    position: absolute;
+    top: 0px;
+    right: 7px;
+    cursor: pointer;
+    color: #555;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  .member-name {
+    h5 {
+      padding-top: 10px;
+      margin: 0;
+    }
+
+    a {
+      color: #333;
+      font-weight: 600;
+    }
+  }
+
+  .member-role {
+    h5 {
+      margin: 0;
+    }
+    span.role {
+      font-style: italic;
+      color: #777;
+      font-size: 14px;
+    }
+
+    span.text-blue {
+      font-size: 13px;
+    }
+  }
+
+  p.member-bio {
+    padding: 20px 10px 10px 10px;
+    font-size: 14px;
+    color: #555;
+    font-style: italic;
+
+    a {
+      padding-left: 3px;
+      font-size: 13px;
+    }
+  }
+
+  .soical-links-wrapper {
+    position: absolute;
+    bottom: 10px;
+  }
+
+}
+
+
