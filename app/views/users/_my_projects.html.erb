@@ -20,6 +20,7 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
         <% @user.projects.each do |project| %>
         <tr>
@@ -51,7 +52,7 @@
             <% end %>
           </td>
           <td>
-            <a href="#" data-toggle="modal" data-target="#changeLeader" data-id="<%= project.id %>">
+            <a href="#" data-toggle="modal" data-target="#change-leader-modal" data-id="<%= project.id %>">
               <i class="fa fa-users" aria-hidden="true"></i>
               Change Leader
             </a>
@@ -109,15 +110,9 @@
             <% end %>
           </td>
           <td>
-            <%= link_to project_path(followed_project) do %>
+            <%= link_to unfollow_project_path(followed_project) do %>
               <i class="fa fa-external-link" aria-hidden="true"></i> 
-              Change Leader
-            <% end %>
-          </td>
-          <td>
-            <%= link_to project_path(followed_project) do %>
-              <i class="fa fa-external-link" aria-hidden="true"></i> 
-              Delete
+              Unfollow
             <% end %>
           </td>
         </tr> 
@@ -126,7 +121,7 @@
   <% end %>
 </div>
 
-<div class="modal fade" id="changeLeader" role="dialog" aria-labelledby="changeConfirm" aria-hidden="true">
+<div class="modal fade" id="change-leader-modal" role="dialog" aria-labelledby="changeConfirm" aria-hidden="true" tabindex="-1">
   <div class="modal-content modal-dialog">
     <div class="modal-header">
       <a class="close" data-dismiss="modal">&#215</a>
@@ -139,14 +134,10 @@
       <p>
         Enter email:
       </p>
-      <%= form_tag change_leader_projects_path, method: "get" do %>
+      <%= form_tag change_leader_projects_path, method: "post" do %>
         <%= hidden_field_tag(:project_id) %>
         <%= email_field(:leader, :address) %>
-        
-        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <%= submit_tag "Change", :class => "btn btn-primary" do %>
-          <span>Recommend</span>
-        <% end %>
+        <%= submit_tag "Change", :class => "btn btn-primary" %>
       <% end %>
     </div>
   </div>

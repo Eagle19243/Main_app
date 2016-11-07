@@ -127,6 +127,7 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
+      @change_leader_invitation = @project.change_leader_invitations.where(new_leader: current_user.email, status: "true").first
     end
     respond_to do |format|
       format.html
@@ -143,6 +144,13 @@ class ProjectsController < ApplicationController
       current_user.followed_projects.delete @project
     end
     redirect_to @project
+  end
+
+  def unfollow
+    project = Project.find params[:id]
+    current_user.followed_projects.delete project
+    flash[:notice] = "You stopped following project " + project.title
+    redirect_to :my_projects
   end
 
   def rate
@@ -239,8 +247,15 @@ class ProjectsController < ApplicationController
   end
 
   def change_leader
-    project_id = params[:project_edit]
-    new_leader = params[:leader]
+    @project = Project.find params[:project_id]
+    @email = params[:leader]["address"]
+    user_name = User.find_by(email: @email)
+    if @project.change_leader_invitations.where(former_leader: current_user.email, status: true).first
+      flash[:notice] = "You have already invited a new leader for this project"
+    else
+      ChangeLeaderInvitation.create(project_id: params[:project_id], new_leader: @email, former_leader: current_user.email, sent_at: Time.current, status: true)
+      InvitationMailer.invite_leader(@email, user_name, current_user.name, @project.title, params[:project_id]).deliver_now
+    end
     redirect_to :my_projects
   end
 
@@ -326,7 +341,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to dashboard_path, notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to :my_projects, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

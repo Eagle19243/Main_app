@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20161103021213) do
+ActiveRecord::Schema.define(version: 20161106071919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +72,16 @@ ActiveRecord::Schema.define(version: 20161103021213) do
     t.text     "list"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "change_leader_invitations", force: :cascade do |t|
+    t.string   "former_leader"
+    t.string   "new_leader"
+    t.datetime "sent_at"
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+    t.string   "project_id"
+    t.boolean  "status"
   end
 
   create_table "chat_rooms", force: :cascade do |t|
@@ -362,7 +371,7 @@ ActiveRecord::Schema.define(version: 20161103021213) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "task_id"
-    t.string   "state"
+    t.text     "state"
     t.integer  "role",           default: 0
   end
 
@@ -371,7 +380,7 @@ ActiveRecord::Schema.define(version: 20161103021213) do
   add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name"
+    t.text     "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "project_id"
@@ -482,13 +491,9 @@ ActiveRecord::Schema.define(version: 20161103021213) do
   add_foreign_key "admin_invitations", "users", column: "sender_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "admin_requests", "projects"
   add_foreign_key "admin_requests", "users"
-  add_foreign_key "chat_rooms", "projects"
   add_foreign_key "group_messages", "chatrooms"
   add_foreign_key "group_messages", "users"
-  add_foreign_key "institution_users", "institutions"
-  add_foreign_key "institution_users", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "section_details", "projects"
   add_foreign_key "user_wallet_addresses", "users"
 end

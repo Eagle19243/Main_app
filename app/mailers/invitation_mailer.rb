@@ -13,6 +13,11 @@ class InvitationMailer < ApplicationMailer
     mail(to: email, subject: 'invitation For Project')
   end
 
-  def invite_leader(email, user_name, title, project_id)
+  def invite_leader(email, user_name, from, title, project_id)
+    @from = from
+    @user_name = user_name
+    @project_id = project_id
+    @url = project_url(@project_id)
+    mail(to: email, subject: "Invitation for Project")
   end
 end

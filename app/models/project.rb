@@ -18,13 +18,14 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :delete_all
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
-  # has_one  :chat_room
+  has_one  :chat_room
   has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
   has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
   has_one :team, dependent: :destroy
+  has_many :change_leader_invitations
 
   belongs_to :user
 
@@ -129,6 +130,10 @@ class Project < ActiveRecord::Base
 
   def self.get_project_default_chat_room(project_id, user_id)
     Chatroom.select(:id).where("project_id = ? AND user_id = ?", project_id, user_id).first.id rescue nil
+  end
+
+  def pending_change_leader?(user)
+    project.change_leader_invitations.pending.where(user.email).count > 0
   end
 
 

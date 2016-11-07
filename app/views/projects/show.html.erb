@@ -1,5 +1,15 @@
-
-<%if ! current_user.blank? %>
+<% if @change_leader_invitation && @change_leader_invitation.status %>
+  <div class="center-block">
+    <p class="bg-info lead text-center">
+      You were invited as a leader for this project. Please review the project and accept.
+      Thanks.
+      <br/>
+      <%= link_to "Accept", accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
+      <%= link_to "Reject", reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
+    </p>
+  </div>
+<% end %>
+<%if !current_user.blank? %>
 <% if @project.chat_room.blank?%>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <%= javascript_include_tag 'firechat_merged' %>
