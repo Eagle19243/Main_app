@@ -314,13 +314,18 @@
 
 .section-add-task {
   padding: 10px;
-  font-size: 14px;
-  color: #888;
   cursor: pointer;
+
+  a {
+    font-size: 14px;
+    color: #888;
+  }
 
   &:hover {
     background-color: #ddd;
-    color: #555;
+    a {
+      color: #555;
+    }
   }
 }
 

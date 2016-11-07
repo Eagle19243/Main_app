@@ -332,6 +332,19 @@ div.progress {
   .soical-links-wrapper {
     position: absolute;
     bottom: 10px;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    ul {
+      display: inline-block;
+      margin: auto;
+      li {
+        margin: 0;
+        padding: 0px 5px;
+      }
+    }
   }
 
 }
