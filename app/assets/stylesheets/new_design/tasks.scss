@@ -4,6 +4,7 @@
 .welcome-banner {
   text-align: center;
   height: 440px;
+  width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -93,8 +94,7 @@
 .project-detail-wrapper {
   max-width: 1200px;
   margin: auto;
-  padding: 0px 20px;
-  padding-bottom: 30px;
+  padding: 30px 20px;
 }
 
 .project-tab-wrapper {
