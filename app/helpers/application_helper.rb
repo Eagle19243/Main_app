@@ -12,11 +12,11 @@ module ApplicationHelper
   end
 
 
-   def gravatar_for_projectdisplay(project, size = 200, title = project.title )
+  def gravatar_for_projectdisplay(project, size = 200, title = project.title )
     image_tag gravatar_image_url(project.title, size: size), title: title, class: 'img-rounded'
   end
 
-   def gravatar_for_pro(project, size = 30, title = project.title )
+  def gravatar_for_pro(project, size = 30, title = project.title )
     image_tag gravatar_image_url(project.title, size: size), title: title, class: 'img-rounded'
   end
 
@@ -67,4 +67,9 @@ module ApplicationHelper
     btc_to_usd = satoshi_to_btc * get_current_btc_rate
     btc_to_usd.round(3)
   end
+
+  def projects_taskstab?
+    controller_name == 'projects' && action_name == 'taskstab'
+  end
+
 end

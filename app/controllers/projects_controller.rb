@@ -6,7 +6,8 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
-  layout "manish", only: [:taskstab]
+
+  # layout "manish", only: [:taskstab]
 
   def index
     @projects = Project.all

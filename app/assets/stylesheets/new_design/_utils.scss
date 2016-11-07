@@ -1,0 +1,105 @@
+// header utilize styles goes here
+
+@import 'variables';
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+.ml20 {
+  margin-left: 20px;
+}
+.ml30 {
+  margin-left: 30px !important;
+}
+
+.mb30 {
+  margin-bottom: 30px !important;
+}
+
+.pr10 {
+  padding-right: 10px;
+}
+.pl10 {
+  padding-left: 10px !important;
+}
+.pb10 {
+  padding-bottom: 10px;
+}
+
+.pt20 {
+  padding-top: 20px !important;
+}
+
+.padding-none {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+
+.border-right {
+  border-right: 1px solid $grey-clr;
+}
+
+.text-blue {
+  color: $alt-clr !important;
+  font-weight: bold;
+}
+.text-white {
+  color: #fff !important;
+}
+
+.border-right-none {
+  border-right: none !important;
+}
+
+h2:before {
+  border: none;
+}
+
+.slimScrollBar {
+  height: 100px !important;
+  width: 5px !important;
+  background-color: rgba(145, 145, 145, 0.5) !important;
+}
+
+.row {
+  max-width: none !important;
+}
+
+.normal-button {
+  height: 40px;
+  background-color: $alt-clr !important;
+  font-weight: 600 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+.col-custom {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+.row-custom {
+  margin: 0 !important;
+}
+
+.success {
+  color: green;
+}
+
+.danger {
+  color: red;
+}
+
+.suspend {
+  color: $grey-clr;
+}
+
+
+h2:before {
+  border-top: none !important;
+}
+
