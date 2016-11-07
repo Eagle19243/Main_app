@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
+  get 'user_wallet_transactions/new'
+  post 'user_wallet_transactions/create'
   get 'payment_notifications/create'
   get 'proj_admins/new'
   get "/users/:provider/callback" => "visitors#landing"

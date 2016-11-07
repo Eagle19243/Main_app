@@ -401,6 +401,15 @@ ActiveRecord::Schema.define(version: 20161106071919) do
 
   add_index "user_wallet_addresses", ["user_id"], name: "index_user_wallet_addresses_on_user_id", using: :btree
 
+  create_table "user_wallet_transactions", force: :cascade do |t|
+    t.decimal  "amount"
+    t.string   "user_wallet"
+    t.string   "tx_hash"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.text     "email",                            default: "",    null: false
     t.text     "encrypted_password",               default: "",    null: false
