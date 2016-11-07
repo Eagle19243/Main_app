@@ -1,32 +1,35 @@
-<%unless @group_messages.blank? %>
-<% @group_messages.each do |message| %>
-    <div class="row message">
-  <div class="small-1 columns">
-    <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
-    <a href="#">
-      <% if message.user.picture? %>
-          <%= image_tag(message.user.picture.url, class: "profile-image") %>
-
-    <% else %>
-          <%= gravatar_for(message.user, 35) %>
+<% unless @group_messages.blank? %>
+    <% @group_messages.each do |message| %>
+        <div class="row message">
+          <div class="small-1 columns">
+            <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
+            <a href="#">
+              <% if message.user.picture? %>
+                  <%= image_tag(message.user.picture.url, class: "profile-image") %>
+              <% else %>
+                  <%= gravatar_for(message.user, 35) %>
+              <% end %>
+            </a>
+          </div>
+          <div class="small-11 columns message-content">
+            <span style="color: skyblue"><%= message.user.try(:name) %></span>
+            <span class="message-date"><%= time_ago_in_words(message.created_at) %></span>
+            <br>
+            <% if message.attachment? %>
+                <%= image_tag message.attachment.url %>
+                <br>
+                <br>
+            <% end %>
+            <span><%= message.message %></span>
+          </div>
+        </div>
     <% end %>
-
-    </a>
-  </div>
-  <div class="small-11 columns message-content">
-    <span style="color: skyblue"><%= message.user.try(:name) %></span>
-    <span class="message-date"><%= time_ago_in_words(message.created_at) %></span>
-    <br><span><%= message.message %>
-      </span>
-  </div>
-</div>
-<%end %>
-    <%else %>
+<% else %>
     <div class="row message">
       <div class="small-11 columns message-content">
         No Messages
-          </div>
       </div>
-<%end %>
+    </div>
+<% end %>
 
 

@@ -1,12 +1,16 @@
 <%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'new-message-form'}) do |f| %>
     <div class="small-11 columns" style=>
+      <div id="load-image-gif" style="text-align: center; display: none">
+        <%= image_tag 'loading.gif' %>
+      </div>
       <%= f.hidden_field :chatroom_id, value: @chatroom rescue 0 %>
-      <%= f.text_area :message, required: true %>
-      <%= f.submit id:'submit-message' , style:'display:none;'%>
+      <%= f.text_area :message %>
+      <%= f.file_field :attachment, :style => 'display:none', id: 'file-attachment-button' %>
+      <%= f.submit id: 'submit-message', style: 'display:none;' %>
     </div>
     <div class="small-1 columns">
             <span class="postfix">
-              <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true"></i>
+              <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true" id="file-attachment-icon"></i>
             </span>
     </div>
     <span class="send-hint">
@@ -20,9 +24,18 @@
       if ($(this).val().trim() == "") {
         return false
       }
-      else{
+      else {
         $("#submit-message").trigger('click');
-     }
+      }
     }
+  });
+  $("#file-attachment-icon").click(function (e) {
+
+    $("#file-attachment-button").click();
+
+  });
+  $("#file-attachment-button").change(function () {
+    $("#submit-message").click();
+    $("#load-image-gif").show();
   });
 </script>
