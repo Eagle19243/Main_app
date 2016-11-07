@@ -31,18 +31,22 @@
       font-weight: 600;
     }
 
-    li {
-      display: table-cell;
-      padding:0px 10px 0px 10px;
+    img {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
 
-      h4 {
-        font-size: 17px;
-        color: #fff;
-        font-weight: 600;
+    h4 {
+      font-size: 20px;
+      font-weight: 500;
+      padding-top: 10px;
+
+      &:first-child {
+        margin-right: -20px;
       }
-
-      img {
-        border-radius: 50%;
+      &:last-child {
+        margin-left: -20px;
       }
     }
 }
