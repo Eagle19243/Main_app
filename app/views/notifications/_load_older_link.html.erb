@@ -1,0 +1,5 @@
+<% if notifications.count > 0 %>
+    <div class="load-older-notifications-link">
+      <%= link_to "Load older", load_older_notifications_path(first_notification_id: notifications.first.id), remote: true %>
+    </div>
+<% end %>

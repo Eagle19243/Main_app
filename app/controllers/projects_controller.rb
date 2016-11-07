@@ -1,16 +1,17 @@
 class ProjectsController < ApplicationController
+  load_and_authorize_resource
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :authenticate_user!, only: [:contacts_callback,:new, :create, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :set_project, only: [:show, :taskstab, :teamtab, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate]
-  before_action :get_project_user, only: [:show, :taskstab, :teamtab]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
-  # layout "manish", only: [:taskstab, :teamtab]
+
+  # layout "manish", only: [:taskstab]
 
   def index
     @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team#{project.id}", mission: "More rock and roll", slots: 10) unless !project.team.nil? }
+    Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
   end
 
@@ -46,6 +47,7 @@ class ProjectsController < ApplicationController
           @notice = "Error ".concat e.inspect
           format.js {}
         end
+
         end
       else
         session[:project_id] =  session[:idd]
@@ -118,8 +120,19 @@ class ProjectsController < ApplicationController
   end
 
   def show
-
-    redirect_to taskstab_project_path(@project.id)
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @followed = false
+    @current_user_id = 0
+    @rate = @project.rate_avg
+    if user_signed_in?
+      @followed = @project.followers.pluck(:id).include? current_user.id
+      @current_user_id = current_user.id
+    end
+    respond_to do |format|
+      format.html
+      format.js {render(layout: false)}
+    end
   end
 
   def follow
@@ -173,28 +186,19 @@ class ProjectsController < ApplicationController
     @done_tasks = @project.tasks.where(state: "completed").all
   end
 
-  # GET /projects/1/teamtab
-  # View the teamtab, same logic as the taskstab
-  def teamtab
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
+  def show_project_team
+    respond_to do |format|
+      format.js
     end
   end
 
-  # GET /projects/new
   def new
     @project = Project.new
   end
 
-  # GET /projects/1/edit
   def edit
   end
 
-  # POST /projects
-  # POST /projects.json
   def create
     @project = current_user.projects.build(project_params)
     @project.user_id = current_user.id
@@ -203,12 +207,11 @@ class ProjectsController < ApplicationController
     else
       @project.state = "pending"
     end
+
     respond_to do |format|
       if @project.save
-        @project_team = @project.create_team(name: "Team#{@project.id}", mission: "More rock and roll", slots: 10)
-        @project_team.save
-        first_member = TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
-        #first_member.save
+        @project_team = @project.create_team(name: "Team#{@project.id}")
+        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
         Chatroom.create( name: @project.title , project_id: @project.id )
@@ -222,8 +225,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /projects/1
-  # PATCH/PUT /projects/1.json
   def update
     respond_to do |format|
       if @project.update(project_params)
@@ -238,8 +239,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # POST /save-edits
-  # POST /save-edits.json
   def saveEdit
     @project_edit = @project.project_edits.create(description: edit_params[:project_edit])
     @project_edit.user = current_user
@@ -274,6 +273,7 @@ class ProjectsController < ApplicationController
         end
       end
     end
+
     if new_state == "rejected"
       respond_to do |format|
         if @project.save
@@ -336,11 +336,10 @@ class ProjectsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
       params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
-        project_edits_attributes: [:id, :_destroy, :description])
+                                    project_edits_attributes: [:id, :_destroy, :description])
     end
 
     def get_project_user
-      set_project
       @project_user = @project.user
     end
 

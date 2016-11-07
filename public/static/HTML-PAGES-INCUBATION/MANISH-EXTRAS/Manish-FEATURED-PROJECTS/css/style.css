@@ -100,13 +100,14 @@ ul.Notifi-active{
 	 color:#000;
  }
  
- p.img-cajing{
-	color:#a1a1a1;
-	font-size:1rem;
-	margin-bottom: 0rem;
-	font-weight:700;
-	font-style:italic;
+ div.img-cajing{
+     color:#a1a1a1;
+     font-size:1rem;
+     margin-bottom: 0rem;
+     font-weight:700;
+     font-style:italic;
 }
+
 .invitation{
 	display:table;
 	width:100%;

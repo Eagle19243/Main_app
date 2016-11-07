@@ -36,7 +36,7 @@
       <%= link_to notifications_path, data: { no_turbolink: true } do %>
         <div class="badge-wrap">
           <i class="fa fa-bell-o" aria-hidden="true"></i>
-          <span class="count">0</span>
+          <span class="count"><%= current_user.notifications.unread.count %></span>
         </div>
       <% end %>
     </li>

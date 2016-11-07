@@ -21,6 +21,8 @@
     </p>
     <a href="#" class="button button-send"><i class="icon-comment"></i>Send Message</a>
     <a href="#" class="button button-send">Wallet Address: <%= @user.user_wallet_address.sender_address rescue 'not found' %></a>
+    <a href="/user_wallet_transactions/new" class="button button-send">Transfer coins </a>
+
   </div>
 </div>
 <div class="lin3">
@@ -60,7 +62,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-    jQuery(".best_in_place").best_in_place();
+    $(".best_in_place").best_in_place();
   });
 
   $('.profile-bio .best_in_place').focusin(function(){

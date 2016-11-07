@@ -18,8 +18,8 @@ CarrierWave.configure do |config|
     :provider               => 'AWS',                             # required
     # :aws_access_key_id      => 'AKIAJAB7DXYNQS2GQZJA',            # required
     # :aws_secret_access_key  => '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',     # required
-    :aws_access_key_id      => 'AKIAIK5Q7ZUBDPHFWI6A',            # required
-    :aws_secret_access_key  => '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',     # required
+    :aws_access_key_id      => 'AKIAJ3YZVD3AAH4PPZUQ',            # required
+    :aws_secret_access_key  => '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',     # required
     :region                 => 'us-west-2'                        # optional, defaults to 'us-east-1'
   }
   config.fog_directory  = 'youserve'               # required
