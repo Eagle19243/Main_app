@@ -1,8 +1,8 @@
 <!--<section  class='welcome-banner'>-->
 
-<section class='welcome-banner' style="background-size:cover !important;background:url(<%= asset_path @project.picture.url rescue '::'%>)">
-  <div class="middle-sec">
-    <!--first row-->
+<div class='welcome-banner' style="background-size:cover !important;background:url(<%= asset_path @project.picture.url rescue '::'%>)">
+  <div class="mid-section">
+
     <% @projec_conut= if @project.tasks.count==0 then
                         1
                       else
@@ -10,57 +10,71 @@
                       end %>
 
     <div class="row">
-      <center>
-        <ul class="line1">
-          <li><h4>By: <%= @project.user.name %> </h4></li>
-          <li><img src="images/profile-image.jpg"></li>
-          <li><h4><i class="fa fa-map-marker" aria-hidden="true"></i> London</h4></li>
-        </ul>
+      <center class="project-intro">
+
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-5 col-custom">
+            <div class="text-right">
+              <h4 class="text-white">By: <%= @project.user.name %></h4>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-custom">
+            <div class="text-center">
+              <% if @project.user.picture? %>
+                <%= image_tag(@project.user.picture.url, size: "50x50") %>
+              <% else %>
+                <%= gravatar_for_user(@project.user)%>
+              <%end%>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-5 col-custom">
+            <div class="text-left">
+              <h4 class="text-white"><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.user.city %></h4>
+            </div>
+          </div>
+        </div>
+
+        <h2><%= @project.title %></h2>
       </center>
     </div>
-    <!--2nd row-->
-    <div class="row banner-header">
-      <center><h2><%= @project.title %></h2></center>
-    </div>
-    <!--3rd row -->
+
     <div class="row">
       <center>
-        <div class="nice round progress alert large-5 medium-5 small-5">
-          <span class="meter" style="width:<%= (@sourcing_tasks.count / @projec_conut ) *100  %> % "></span>
+        <div class="task-progress-wrapper">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= (@sourcing_tasks.count / @projec_conut ) * 100 %> %">
+            </div>
+          </div>
+
+          <table>
+            <tr class="value">
+              <td><%= (@sourcing_tasks.count / @projec_conut)*100 %> %</td>
+              <td><%= @done_tasks.count.to_s + "/" + @projec_conut.to_s %></td>
+
+              <% @particpent=0 %>
+              <% @budget=0 %>
+              <% @project.tasks.each do |p| %>
+                  <% @particpent=@particpent+ p.number_of_participants rescue 0 %>
+                  <% @budget=@budget+ p.budget %>
+              <% end %>
+
+              <td><%= @project.team.team_memberships.count %>/<%= @particpent %></td>
+              <td>$<%= @budget %></td>
+            </tr>
+            <tr class="items">
+              <td>Funded</td>
+              <td>Completed Tasks</td>
+              <td>Tearmates</td>
+              <td>Raised</td>
+            </tr>
+          </table>
         </div>
       </center>
     </div>
 
-    <div class="row 4rd-row">
-      <center>
-        <table>
-          <tr>
-
-            <th><%= (@sourcing_tasks.count / @projec_conut)*100 %> %</th>
-            <th><%= @done_tasks.count.to_s + "/" + @projec_conut.to_s %></th>
-            <% @particpent=0 %>
-            <% @budget=0 %>
-
-            <% @project.tasks.each do |p| %>
-                <% @particpent=@particpent+ p.number_of_participants rescue 0 %>
-                <% @budget=@budget+ p.budget %>
-
-            <% end %>
-            <th><%= @project.team.team_memberships.count %>/<%= @particpent %></th>
-            <th>$<%= @budget %></th>
-          </tr>
-          <tr>
-            <td>Funded</td>
-            <td>Completed Tasks</td>
-            <td>Tearmates</td>
-            <td>Raised</td>
-          </tr>
-        </table>
-      </center>
-    </div>
     <div class="row">
       <center><a href="#" id="myBtn" class="button round get-invo-btn">Join Team </a></center>
     </div>
 
   </div>
-</section>
+</div>

@@ -22,11 +22,10 @@
  *= require_self
  */
 
-//@import "foundation";
-//@import "app";
-//@import "font-awesome/font-awesome";
-//@import "glyphicon-only/glyphicon";
-//@import "hover";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
+
 @import 'colors';
 @import 'layout';
 @import 'fonts';
@@ -35,6 +34,7 @@
 @import 'menu';
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+
 
 body {
   font-family: $sans;
@@ -55,11 +55,11 @@ body {
   }
 
   .mycontent {
-  	margin-left: 40px;
+    margin-left: 40px;
   }
 
   .projImage {
-  	margin-left: 0
+    margin-left: 0
   }
 
   .tasks {
@@ -67,7 +67,7 @@ body {
   }
 
   .tabs {
-  	margin_left: 0;
+    margin-left: 0;
   }
 
   .columns {
@@ -132,7 +132,7 @@ body {
     display: none
   }
   html{
-    font-size: 16px !important;
+    font-size: 16px;
   }
   .form-actions{
     float: right;

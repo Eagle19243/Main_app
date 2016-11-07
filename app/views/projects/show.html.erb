@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <% if @change_leader_invitation && @change_leader_invitation.status %>
   <div class="center-block">
     <p class="bg-info lead text-center">
@@ -10,7 +11,7 @@
   </div>
 <% end %>
 <%if !current_user.blank? %>
-<% if @project.chat_room.blank?%>
+  <% if @project.chat_room.blank?%>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
     <%= javascript_include_tag 'firechat_merged' %>
 
@@ -33,14 +34,16 @@
                 $("chat_success").innerHTML = ' Error in  chat room creation ';
               }
             });
+
             console.log("Created room " + roomId);
             chat.enterRoom(roomId);
           }
         });
       });
     </script>
-<% end %>
-    <%end %>
+  <% end %>
+<%end %>
+
 
 <%= render 'project_top_banner' %>
 
