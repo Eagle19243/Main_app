@@ -65,9 +65,9 @@
   padding-top: 40px;
 
   .card-wrapper {
-    border: 1px solid #999;
     border-radius: 5px;
     box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+    background-color: #fff;
   }
 
   .card-img {
@@ -248,3 +248,7 @@ div.progress {
   background-color: #eee;
 }
 
+
+.main-wrapper {
+  background-color: #eee;
+}
