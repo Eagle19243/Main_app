@@ -18,6 +18,6 @@ class InvitationMailer < ApplicationMailer
     @from = @invitation.project.user.email
     @user_name = @invitation.project.user.name
     @url = project_url(@invitation.project)
-    mail(to: email, subject: "Invitation for Project")
+    mail(to: @invitation.new_leader, subject: "Invitation for Project")
   end
 end

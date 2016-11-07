@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161105092855) do
+ActiveRecord::Schema.define(version: 20161107161223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(version: 20161105092855) do
   end
 
   create_table "change_leader_invitations", force: :cascade do |t|
-    t.string   "former_leader"
     t.string   "new_leader"
     t.datetime "sent_at"
     t.datetime "accepted_at"

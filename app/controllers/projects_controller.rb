@@ -128,7 +128,6 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
-      byebug
       @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
     end
     respond_to do |format|
