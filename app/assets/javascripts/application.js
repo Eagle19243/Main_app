@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require best_in_place
+//= require bootstrap-sprockets
 //= require foundation
 //= require foundation-datetimepicker
 //= require chosen-jquery
@@ -29,6 +30,7 @@
 //= require best_in_place.jquery-ui
 //= require autocomplete-rails
 //= require jquery.validate.min
+//= require jquery.slimscroll
 //= require cocoon
 
 //= require_tree .
@@ -52,7 +54,7 @@ $(function() {
 });
 
 $(function() {
-    $('.task-box').matchHeight();
+  $('.task-box').matchHeight();
 });
 
 

@@ -1,0 +1,398 @@
+// modal styles goes here
+
+@import 'variables';
+
+.modal {
+  top: 100px !important;
+}
+.modal-header {
+  .close {
+    background-color: transparent;
+  }
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  border-bottom: none !important;
+}
+
+.register-modal {
+  .modal-body {
+    padding: 10px 50px;
+  }
+}
+
+.modal-header {
+  h4 {
+    text-align: center;
+  }
+}
+
+.social-register {
+  text-align: center;
+  display: block;
+  width: 100%;
+
+  img {
+    width: 100%;
+    height: 45px;
+  }
+}
+
+.register-form {
+  .form-group {
+    label {
+      font-weight: 600px;
+    }
+
+    input {
+      border: 1px solid #E4E6E8;
+      box-shadow: none;
+      &:hover,
+      &:focus {
+        border: 1px solid #ADD8E6;
+      }
+    }
+
+    a {
+      font-size: 12px;
+    }
+  }
+
+  .normal-button {
+    width: 150px;
+    float: right;
+  }
+}
+
+.terms-intro {
+  padding: 0px 100px;
+  p {
+    text-align: center;
+    font-size: 12px;
+    color: #6A737C;
+  }
+}
+
+.signin-intro {
+  padding: 0px 100px;
+
+  p {
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+  }
+}
+
+
+#editProjectModal {
+  width: 90%;
+  max-width: 1024px;
+  margin: auto;
+  font-size: 100%;
+
+  button.close-modal {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    color: #666;
+    z-index: 9999;
+    font-size: 25px;
+    padding: 0;
+    background: transparent;
+  }
+
+  .modal-dialog {
+    width: 100%;
+  }
+
+  .modal-body {
+    padding: 0;
+    min-height: 600px;
+    position: relative;
+  }
+
+  .project-content-wrapper {
+    background-color: #fff;
+    padding: 20px 30px;
+
+    .content-header {
+      margin-bottom: 25px;
+
+      h4 {
+        display: inline-block;
+        color: #333;
+        font-weight: 600;
+      }
+      a {
+        font-size: 14px;
+      }
+    }
+    .content-section {
+      h5 {
+        font-weight: 500;
+        color: #555;
+      }
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .project-comment-wrapper {
+    background-color: #ddd;
+    padding: 80px 10px 10px 30px;
+    min-height: 600px;
+
+    h4 {
+      display: inline-block;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .comment-card {
+      position: relative;
+
+      .card-mark {
+        display: inline-block;
+        position: absolute;
+        left: -50px;
+        top: 0;
+
+        i {
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          color: #fff;
+          background: #fff none repeat scroll 0% 0%;
+          text-align: center;
+          padding: 0px;
+          border-radius: 50%;
+          font-size: 22px;
+          color: $alt-clr;
+          border: 1px solid #ddd;
+          box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+        }
+      }
+      .card-box {
+        display: inline-block;
+        width: 100%;
+        margin: auto;
+        background-color: #fff;
+        padding: 7px;
+        border-radius: 3px;
+        box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+
+        img.portrait {
+          display: inline-block;
+          width: 30px;
+          height: auto;
+          border-radius: 50%;
+        }
+
+        .name-date {
+          display: inline-block;
+          padding-left: 10px;
+
+          h6 {
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+            margin: 0;
+          }
+          span {
+            font-size: 11px;
+            color: #555;
+          }
+        }
+
+        .card-actions {
+          display: inline-block;
+
+          ul {
+            display: inline-block;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+
+            li {
+              float: left;
+              a {
+                font-size: 18px;
+                padding-left: 10px;
+              }
+            }
+          }
+        }
+
+        .card-text {
+          font-size: 12px;
+          color: #333;
+          span:first-child {
+            font-weight: 600;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+
+#Project-Invite-Model {
+  padding: 0;
+  background-color: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background-clip: padding-box;
+  outline: 0px none;
+
+  form {
+    input {
+      border: 1px solid #E4E6E8;
+      box-shadow: none;
+      padding: 0px 10px;
+      height: 40px;
+      background-color: #fff;
+
+      &:hover,
+      &:focus {
+        border: 1px solid #ADD8E6;
+      }      
+    }
+
+    button {
+      font-size: 16px !important;
+    }
+  }
+
+  .columns {
+    padding-left: 0;
+  }
+
+  h4#middle {
+    font-weight: 500;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  #response {
+    margin: 5px;
+    text-align: center;
+  }
+
+  #contacts {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .contact-importer {
+    img {
+      width: 20px;
+    }
+  }
+
+  .share-link {
+    font-size: 14px;
+    color: #555;
+  }
+
+  a.close-reveal-modal {
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    color: #aaa;
+    font-weight: 600;
+    font-size: 18px;
+    right: 10px;
+    top: 10px;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: #555;
+    }
+  }
+}
+
+
+#startProjectModal {
+  .modal-body {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+
+  textarea {
+    border-radius: 0;
+  }
+
+  .form-actions {
+    float: none;
+    width: 100%;
+    display: block;
+    text-align: right;
+    margin: 0;
+
+    input {
+      background-color: $alt-clr;
+      border-radius: 0;
+      min-width: 150px;
+      padding: 0;
+      height: 40px;
+    }
+  }
+
+  input#upload_button {
+    width: 100% !important;
+    background-color: #fff;
+    display: block;
+    text-align: center;
+    padding: 20px;
+    border: 1px dashed $alt-clr;
+    border-radius: 0;
+    max-width: none;
+    color: #555;
+  }
+}
+
+
+.or-container {
+  text-align: center;
+  margin: 0;
+  clear: both;
+  color: #6A737C;
+  font-variant: small-caps;
+  padding: 0px;
+  border: 0px none;
+
+  .or-hr {
+    margin-bottom: 0px;
+    position: relative;
+    top: 0;
+    height: 0px;
+    border-width: 1px 0px 0px;
+    border-style: solid none none;
+    border-color: #E4E6E8 -moz-use-text-color -moz-use-text-color;
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    color: #9FA6AD;
+    background-color: #9FA6AD;
+  }
+
+  #or {
+    display: inline-block;
+    position: relative;
+    padding: 0px 10px;
+    background-color: #FFF;
+    top: -13px;
+    font-size: 16px;
+  }
+}
+

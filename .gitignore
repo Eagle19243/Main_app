@@ -23,6 +23,7 @@ db/*.sqlite3
 
 # Mysql Database yml used during React integration.
 /config/database.yml
+/config/application.yml
 
 # various artifacts
 **.war
@@ -49,7 +50,7 @@ public/assets/*
 /capybara-*.html
 /gems
 /specifications
-/solr
+/solr/*
 rerun.txt
 pickle-email-*.html
 .zeus.sock
