@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161106071919) do
+ActiveRecord::Schema.define(version: 20161105092855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,7 +81,6 @@ ActiveRecord::Schema.define(version: 20161106071919) do
     t.datetime "accepted_at"
     t.datetime "rejected_at"
     t.string   "project_id"
-    t.boolean  "status"
   end
 
   create_table "chat_rooms", force: :cascade do |t|

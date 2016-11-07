@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-<% if @change_leader_invitation && @change_leader_invitation.status %>
+<% if @change_leader_invitation && @change_leader_invitation.is_valid? %>
   <div class="center-block">
     <p class="bg-info lead text-center">
       You were invited as a leader for this project. Please review the project and accept.
-      Thanks.
       <br/>
       <%= link_to "Accept", accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
       <%= link_to "Reject", reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>

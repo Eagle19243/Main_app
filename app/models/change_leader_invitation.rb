@@ -11,11 +11,15 @@ class ChangeLeaderInvitation < ActiveRecord::Base
 
   scope :pending, -> { where("accepted_at IS NULL or rejected_at IS NULL") }
 
+  def is_valid?
+    accepted_at.nil? && rejected_at.nil?
+  end
+
   def accept!
-    self.update(accepted_at: Time.current, status: false)
+    self.update(accepted_at: Time.current)
   end
 
   def reject!
-    self.update(rejected_at: Time.current, status: false)
+    self.update(rejected_at: Time.current)
   end
 end

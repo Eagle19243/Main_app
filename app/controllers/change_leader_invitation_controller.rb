@@ -3,12 +3,9 @@ class ChangeLeaderInvitationController < ApplicationController
     @invitation = ChangeLeaderInvitation.find params[:id]
     @invitation.accept!
     project = @invitation.project
-    project.user_id = current_user.id
-    if project.valid?
-      project.save!
+    if project.update(user_id: current_user.id)
       flash[:notice] = "Congratulations! You are project leader of " + @invitation.project.title + "!"
-      project.project_users.each do |user_id|
-        user = User.find user_id.user_id
+      project.followers.each do |user|
         NotificationsService.notify_about_leader_change(user, current_user, project)
       end
     else
@@ -20,5 +17,7 @@ class ChangeLeaderInvitationController < ApplicationController
   def reject
     @invitation = ChangeLeaderInvitation.find params[:id]
     @invitation.reject!
+
+    redirect_to :my_projects
   end
 end
