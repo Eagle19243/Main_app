@@ -128,7 +128,8 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @followed = @project.followers.pluck(:id).include? current_user.id
       @current_user_id = current_user.id
-      @change_leader_invitation = @project.change_leader_invitations.where(new_leader: current_user.email, status: "true").first
+      byebug
+      @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
     end
     respond_to do |format|
       format.html
@@ -250,17 +251,13 @@ class ProjectsController < ApplicationController
   def change_leader
     @project = Project.find params[:project_id]
     @email = params[:leader]["address"]
-    user_name = User.find_by(email: @email)
-    if @project.change_leader_invitations.where(former_leader: current_user.email, status: true).first
+    if @project.change_leader_invitations.pending.any?
       flash[:notice] = "You have already invited a new leader for this project"
-    else
-      if current_user.email == @email
-        flash[:notice] = "You are project leader now"
-      else
-        ChangeLeaderInvitation.create(project_id: params[:project_id], new_leader: @email, former_leader: current_user.email, sent_at: Time.current, status: true)
-        InvitationMailer.invite_leader(@email, user_name, current_user.name, @project.title, params[:project_id]).deliver_now
-      end
+    elsif @email != current_user.email
+      @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
+      InvitationMailer.invite_leader(@invitation.id).deliver_now
     end
+
     redirect_to :my_projects
   end
 
