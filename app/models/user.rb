@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
 
-
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
   def set_default_role
@@ -50,9 +49,11 @@ class User < ActiveRecord::Base
       access_token = access_wallet
       Rails.logger.info access_token unless Rails.env == "development"
       api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-      secure_passphrase = SecureRandom.hex(5)
+      secure_passphrase =  self.password || self.encrypted_password
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+      userKeychain = new_address["userKeychain"]
+      backupKeychain = new_address["backupKeychain"]
       Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
       new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
       puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
@@ -62,8 +63,9 @@ class User < ActiveRecord::Base
       Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
       Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
       Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
+      #ConfirmationMailer.confirmation_instructions(self, self.confirmation_token_token, {userKeychain: new_address["userKeychain"], backupKeychain: new_address["backupKeychain"]}).deliver
       unless new_address.blank?
-        UserWalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , user_id: self.id, wallet_id:new_address_id)
+        UserWalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , user_id: self.id, wallet_id:new_address_id, user_keys:userKeychain, backup_keys:backupKeychain)
       else
         UserWalletAddress.create(sender_address:nil, user_id: self.id)
       end

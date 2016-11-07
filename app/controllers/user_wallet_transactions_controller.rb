@@ -5,9 +5,16 @@ class UserWalletTransactionsController < ApplicationController
   def new
     @user_wallet_transaction = UserWalletTransaction.new
   end
-
+  def user_keys
+    "Here Your Wallet keys please save these keys to a Secure place \n" +
+    " User Key : \n "+(current_user.user_wallet_address.user_keys  rescue "Not Found \n ") +
+        " \n User Backup Keys: \n "+
+        ( current_user.user_wallet_address.backup_keys rescue "Not Found \n ")
+  end
+  def download_keys
+    send_data  user_keys, :filename => "lll.txt",  :type => "text/plain"
+  end
   def create
-
     begin
       @transfer = UserWalletTransaction.new(amount:params['amount'] ,user_wallet:params['wallet_transaction_user_wallet'] ,user_id: current_user.id)
       satoshi_amount = nil
@@ -49,7 +56,6 @@ class UserWalletTransactionsController < ApplicationController
         format.html { redirect_to user_path(current_user.id)   , alert: e.inspect }
       end
     end
-
   end
 
 
