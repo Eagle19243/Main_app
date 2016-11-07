@@ -83,7 +83,7 @@ class GroupMessagesController < ApplicationController
 
   def load_group_messages
     if load_messages_by_chatroom(params[:id])
-      @group_messages = GroupMessage.where(chatroom_id: params[:id]).last(30)
+      @group_messages = GroupMessage.where(chatroom_id: params[:id]).last(25)
       respond_to :js
     end
   end
