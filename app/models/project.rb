@@ -4,15 +4,10 @@ class Project < ActiveRecord::Base
 
   include Discussable
   paginates_per 12
-
   include AASM
-
   default_scope -> { order('projects.created_at DESC') }
-
   mount_uploader :picture, PictureUploader
-
   attr_accessor :discussed_description
-
   has_many :tasks, dependent: :delete_all
   has_many :wikis, dependent: :delete_all
   has_many :project_comments, dependent: :delete_all
@@ -38,9 +33,7 @@ class Project < ActiveRecord::Base
     text :title
     text :description
   end
-
-  # validates :picture, presence: true
-
+  validates :picture, presence: true
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
   aasm column: 'state', whiny_transitions: false do

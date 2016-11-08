@@ -24,7 +24,7 @@
 }
 
 .modal-header {
-  h4 {
+  h3, h4 {
     text-align: center;
   }
 }
@@ -70,7 +70,7 @@
   padding: 0px 100px;
   p {
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     color: #6A737C;
   }
 }
@@ -80,7 +80,7 @@
 
   p {
     text-align: center;
-    font-size: 13px;
+    font-size: 15px;
     color: #555;
   }
 }
@@ -396,3 +396,8 @@
   }
 }
 
+
+.register-form-wrapper {
+  padding: 0;
+  margin: 0;
+}

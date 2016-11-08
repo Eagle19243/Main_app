@@ -10,9 +10,15 @@ class ProjectsController < ApplicationController
   # layout "manish", only: [:taskstab]
 
   def index
+    if user_signed_in?
+       unless   current_user.user_wallet_address.user_keys.blank?
+         @download_keys = true
+       end
+    end
     @projects = Project.all
     Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
+
   end
 
   def original_url
