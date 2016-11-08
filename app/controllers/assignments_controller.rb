@@ -30,9 +30,10 @@ class AssignmentsController < ApplicationController
   def accept
   	@assignment = Assignment.find(params[:id])
   	if @assignment.accept!
+      @assignment.task.project.follow!(@assignment.user)
   		flash[:success] = "Assignment accepted"
-  	else flash[:error] = "Assignment was not accepted"
-
+  	else 
+      flash[:error] = "Assignment was not accepted"
   	end
   	redirect_to dashboard_path
 
