@@ -12,12 +12,7 @@
 
 # bundler state
 /.bundle
-solr/data
-solr/test
-solr/development
-solr/default/data
-/log/*.log.lck
-solr/pids
+solr/*
 /vendor/bundle/
 /vendor/ruby/
 
