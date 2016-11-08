@@ -12,7 +12,11 @@ class UserWalletTransactionsController < ApplicationController
         ( current_user.user_wallet_address.backup_keys rescue "Not Found \n ")
   end
   def download_keys
-    send_data  user_keys, :filename => "lll.txt",  :type => "text/plain"
+    keys =user_keys
+    current_user.user_wallet_address.backup_keys = nil
+    current_user.user_wallet_address.user_keys = nil
+    current_user.user_wallet_address.save 
+    send_data  keys, :filename => "#{current_user.name}WalletBackupKeys.txt",  :type => "text/plain"
   end
   def create
     begin
