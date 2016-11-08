@@ -44,7 +44,6 @@ ul.links-wrapper {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
   background-color: #000;
 
   li {
@@ -78,6 +77,25 @@ ul.links-wrapper {
 
   span.count {
     top: 20px;
+  }
+
+  .user-dropdown {
+    ul.dropdown-menu {
+      padding: 0;
+    }
+
+    li {
+      display: block;
+      border-radius: 0px;
+      background-color: #000;
+      border-bottom: 1px solid #555;
+      width: 100%;
+
+      a {
+        height: 40px;
+        line-height: 40px;
+      }
+    }
   }
 
 }

@@ -67,18 +67,15 @@
   .card-wrapper {
     box-shadow: 2px 2px 2px 0px rgba(145, 145, 145, 0.7);
     background-color: #fff;
-
-    &:hover {
-      border: 1px solid rgba(0, 140, 186, 0.5);
-    }
   }
 
   .card-img {
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
+    position: relative;
 
     img {
-      height: 120px;
+      height: 150px;
       width: 100%;
       margin: auto;
     }
@@ -131,13 +128,41 @@ ul.info-banner {
   }
 }
 
-.progress-banner {
-  padding: 20px 20px 0px;
-}
-
 div.progress {
   height: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
+}
+
+.progress-banner {
+  padding: 10px 0px 0px;
+  border-top: 1px solid #eee;
+
+  div.progress {
+    position: relative;
+    text-align: center;
+    height: 18px;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+    background-color: rgba(0, 140, 186, 0.3);
+    border: 0px;
+    margin-top: 15px;
+
+    .progress-bar {
+      width: 100%;
+      box-shadow: unset;
+      border: none;
+      border-radius: 0;
+    }
+
+    span {
+      position:absolute;
+      right:0;
+      left:0;
+      color: #fff;
+      font-size: 12px;
+    }
+  }
 }
 
 .report-banner-table {
@@ -168,6 +193,8 @@ div.progress {
 }
 
 .report-banner {
+  padding: 0 20px;
+
   text-align: left;
 
   .row {
