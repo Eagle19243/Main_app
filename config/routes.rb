@@ -21,14 +21,39 @@ Rails.application.routes.draw do
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
-  resources :notifications
   resources :cards
 
-  resources :teams
+  resources :notifications, only: [:index, :destroy] do
+    collection do
+      get :load_older
+    end
+  end
+
+  resources :teams do
+    collection do
+      get :users_search
+    end
+  end
+
+  resources :admin_invitations, only: [:create] do
+    member do
+      post :accept, :reject
+    end
+  end
+
+  resources :admin_requests, only: [:create] do
+    member do
+      post :accept, :reject
+    end
+  end
+
   get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
+  resources :team_memberships, only: [:update, :destroy]
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
+  get 'user_wallet_transactions/new'
+  post 'user_wallet_transactions/create'
   get 'payment_notifications/create'
   get 'proj_admins/new'
   get "/users/:provider/callback" => "visitors#landing"
@@ -97,7 +122,7 @@ Rails.application.routes.draw do
 
     member do
       get :taskstab, as: :taskstab
-      get :teamtab, as: :teamtab
+      get :show_project_team, as: :show_project_team
     end
   end
 

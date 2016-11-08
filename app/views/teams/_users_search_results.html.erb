@@ -1,0 +1,21 @@
+<h4>Found <%= users.count %> users</h4>
+<div class="foundUsers">
+  <div class="small-8 columns">
+    <% users.each do |user| %>
+      <div class="small-8 columns">
+        <%= link_to user.name, user_path(user) %>
+      </div>
+      <div class="small-4 columns">
+        <div id="invite-<%= user.id %>">
+          <%= render partial: "admin_invitations/invite_form", locals: { user: user, project: project } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    JsonFormsHelper.InitializeAdminInvitationsControls();
+  });
+</script>

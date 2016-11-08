@@ -1,5 +1,5 @@
 <td>
-	<% if user.picture.url %>
+	<% if user.picture %>
 	<%=link_to (image_tag user.picture.url, size: "100x100"), user, data: { no_turbolink: true } %>
 
     <%else%>

@@ -3,7 +3,7 @@
   <div class="small-1 columns">
     <a href="#">
       <% if @group_message.user.picture? %>
-          <%= image_tag(@group_message.user.picture.url, class: "profile-image") %>
+          <%= image_tag(@group_message.user.picture, class: "profile-image") %>
       <% else %>
           <%= gravatar_for(@group_message.user, class: "profile-image") %>
       <% end %>

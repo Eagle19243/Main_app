@@ -35,7 +35,7 @@ class Project < ActiveRecord::Base
     text :description
   end
 
-  validates :picture, presence: true
+  # validates :picture, presence: true
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
@@ -88,7 +88,7 @@ class Project < ActiveRecord::Base
   end
 
   def team_relations_string
-    tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+    self.team.team_memberships.count.to_s
   end
 
   def rate_avg

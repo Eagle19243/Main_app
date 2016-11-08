@@ -14,7 +14,7 @@
       if(roomId){
 
         console.log("Created room "+roomId);
-        chat.enterRoom(roomId)
+        chat.enterRoom(roomId);
         console.log('Sending invitation to collaborators')
               chat.inviteUser('1', roomId, function(invitation_id){
                   if(invitation_id){

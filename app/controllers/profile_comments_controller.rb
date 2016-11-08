@@ -14,13 +14,10 @@ class ProfileCommentsController < ApplicationController
 
   def create
     @profile_comment = ProfileComment.new(profile_comment_params)
-
+    @profile_comment.save
     respond_to do |format|
-      if @profile_comment.save
-        format.js
-      else
-        format.js
-      end
+      format.js
+      format.js
     end
   end
 

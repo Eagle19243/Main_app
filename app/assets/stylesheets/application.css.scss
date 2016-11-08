@@ -12,11 +12,19 @@
  *
  *= require jquery-ui
  *= require jquery-ui/datepicker
+ *= require foundation
+ *= require font-awesome/font-awesome
+ *= require glyphicon-only/glyphicon
+ *= require hover
  *= require_tree .
  *= require social-share-button
  *= require chosen
  *= require_self
  */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome";
 
 @import 'colors';
 @import 'layout';
@@ -24,6 +32,7 @@
 @import 'buttons';
 @import 'responsive';
 @import 'menu';
+
 
 body {
   font-family: $sans;
@@ -44,11 +53,11 @@ body {
   }
 
   .mycontent {
-  	margin-left: 40px;
+    margin-left: 40px;
   }
 
   .projImage {
-  	margin-left: 0
+    margin-left: 0
   }
 
   .tasks {
@@ -56,7 +65,7 @@ body {
   }
 
   .tabs {
-  	margin_left: 0;
+    margin-left: 0;
   }
 
   .columns {
@@ -121,7 +130,7 @@ body {
     display: none
   }
   html{
-    font-size: 16px !important;
+    font-size: 16px;
   }
   .form-actions{
     float: right;

@@ -67,7 +67,7 @@
             value: @state.password
             onChange: @inputChanged
         React.DOM.button
-          className: "button right"
+          className: "btn btn-primary normal-button"
           type: 'submit'
           name: 'commit'
           'Sign in'

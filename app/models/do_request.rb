@@ -15,7 +15,6 @@ class DoRequest < ActiveRecord::Base
 
     event :reject do
       transitions :from => :pending, :to => :rejected
-
     end
 
     end
