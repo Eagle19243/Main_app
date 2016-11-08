@@ -284,7 +284,7 @@
                       <% end %></b>
                 <% end %>
                 <% if team_member.task_team_member.picture? %>
-                    <%= image_tag(team_member.task_team_member.picture.url, size: "35x35") %>
+                    <%= image_tag(team_member.task_team_member.picture, size: "35x35") %>
                 <% else %>
                     <%= gravatar_for(team_member.task_team_member, 35) %>
                 <% end %>

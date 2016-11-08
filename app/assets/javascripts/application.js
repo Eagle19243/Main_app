@@ -32,6 +32,7 @@
 //= require jquery.validate.min
 //= require jquery.slimscroll
 //= require cocoon
+//= require bootstrap-sprockets
 
 //= require_tree .
 // $(function() {

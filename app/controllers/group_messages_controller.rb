@@ -83,7 +83,7 @@ class GroupMessagesController < ApplicationController
 
   def load_group_messages
     if load_messages_by_chatroom(params[:id])
-      @group_messages = GroupMessage.where(chatroom_id: params[:id]).last(10)
+      @group_messages = GroupMessage.where(chatroom_id: params[:id]).last(25)
       respond_to :js
     end
   end
@@ -128,7 +128,7 @@ class GroupMessagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def group_message_params
-    params.require(:group_message).permit(:message, :user_id, :chatroom_id)
+    params.require(:group_message).permit(:message, :user_id, :chatroom_id, :attachment)
   end
 
 end

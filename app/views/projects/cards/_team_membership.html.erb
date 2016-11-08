@@ -6,7 +6,7 @@
     <center>
       <div class="member-img">
         <% if team_membership.team_member.picture? %>
-          <%= image_tag(team_membership.team_member.picture.url, size: "35x35") %>
+          <%= image_tag(team_membership.team_member.picture, size: "35x35") %>
         <% else %>
           <%= gravatar_for(team_membership.team_member, 35)%>
         <%end%>

@@ -42,8 +42,8 @@ class Ability
   def initializeProjectsPermissions(user)
     can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin], Project
     if user
-      can [:create, :discussions, :follow, :rate], Project     
-      can :update, Project do |project|
+      can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project     
+      can [:update, :change_leader], Project do |project|
         user.is_admin_for?(project) 
       end
       can :destroy, Project, :user_id => user.id

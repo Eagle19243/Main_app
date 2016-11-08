@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104165033) do
+ActiveRecord::Schema.define(version: 20161107161223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,14 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.string   "list"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "change_leader_invitations", force: :cascade do |t|
+    t.string   "new_leader"
+    t.datetime "sent_at"
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+    t.string   "project_id"
   end
 
   create_table "chat_rooms", force: :cascade do |t|
@@ -168,6 +176,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.integer  "chatroom_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "attachment"
   end
 
   add_index "group_messages", ["chatroom_id"], name: "index_group_messages_on_chatroom_id", using: :btree
@@ -297,7 +306,10 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.text     "request_description"
     t.string   "short_description"
     t.string   "video_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
 
   create_table "section_details", force: :cascade do |t|
     t.integer  "project_id"
@@ -384,6 +396,8 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.integer  "user_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "user_keys"
+    t.string   "backup_keys"
   end
 
   add_index "user_wallet_addresses", ["user_id"], name: "index_user_wallet_addresses_on_user_id", using: :btree
