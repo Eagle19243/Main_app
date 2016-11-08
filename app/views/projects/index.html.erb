@@ -52,10 +52,6 @@
                 </div>
 
                 <div class="progress-banner">
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>">
-                    </div>
-                  </div>
 
                   <div class="report-banner pb10">
                     <div class="row">
@@ -74,6 +70,12 @@
                       <span>Raised</span>
                       <span class="pull-right">$ <%= project.funded_budget %></span>
                     </div>
+                  </div>
+
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
+                    </div>
+                    <span><%= project.funded_percentages%></span>
                   </div>
                 </div>
 
