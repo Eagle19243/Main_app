@@ -1,7 +1,7 @@
 <div class="nav-header" data-topbar role="navigation">
 
   <div class="logo-container">
-    <%= image_tag 'logo.png' %>
+    <%= link_to 'WeServe', root_path %>
   </div>
 
   <ul class="links-wrapper ml30">
@@ -19,7 +19,7 @@
   </ul>
 
   <ul class="links-wrapper pull-right">
-    <li class="user-profile-link">
+    <li>
       <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
         <% if current_user.picture? %>
           <%= image_tag(current_user.picture.url, size: "30x30") %>

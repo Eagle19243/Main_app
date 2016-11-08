@@ -13,21 +13,29 @@
   margin: auto;
   height: auto;
   line-height: 0;
-
-  ul {
-    a {
-      font-size: 1.1em;
-    }
-  }
 }
 
 .logo-container {
   display: inline;
-  vertical-align: text-top;
+  position: relative;
+  top: -14px;
 
   img {
     vertical-align: top;
     padding-top: 10px;
+  }
+
+  a {
+    display: inline-block;
+    color: #fff;
+    font-weight: 600;
+    font-size: 32px;
+    margin: 0;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
   }
 }
 
@@ -46,32 +54,32 @@ ul.links-wrapper {
       display: block;
       color: #fff;
       text-align: center;
-      padding: 15px 16px;
       text-decoration: none;
+      font-size: 16px;
+      height: 50px;
+      line-height: 50px;
+      padding: 0 15px;
 
       &:hover,
       &:focus {
         background-color: $alt-clr;
         color: #fff !important;
+        font-weight: 600;
         span {
           color: #fff !important;
         }
       }
+
+      i {
+        font-size: 20px;
+      }
     }
   }
 
-  &.custom-links {
-    a {
-      padding: 10px 10px;
-    }
+  span.count {
+    top: 20px;
   }
 
-  li.user-profile-link {
-    a {
-      padding-top: 9px;
-      padding-bottom: 9px;
-    }
-  }
 }
 
 
@@ -85,5 +93,18 @@ ul.links-wrapper {
     font-size: 2em;
     margin-top: 5px;
     color: #fff;
+  }
+
+  a.logo-text {
+    display: inline-block;
+    color: #fff;
+    font-weight: 600;
+    font-size: 32px;
+    margin: 0;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
   }
 }

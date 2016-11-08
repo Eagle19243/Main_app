@@ -65,9 +65,12 @@
   padding-top: 40px;
 
   .card-wrapper {
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+    box-shadow: 2px 2px 2px 0px rgba(145, 145, 145, 0.7);
     background-color: #fff;
+
+    &:hover {
+      border: 1px solid rgba(0, 140, 186, 1);
+    }
   }
 
   .card-img {
@@ -92,7 +95,6 @@
   a {
     font-weight: 600;
     font-size: 18px;
-    color: #555;
   }
 }
 
@@ -124,7 +126,7 @@ ul.info-banner {
 .summary-banner {
   padding: 10px 20px 0px;
   p {
-    color: #666;
+    color: #333;
     font-size: 14px;
   }
 }
@@ -170,12 +172,12 @@ div.progress {
 
   .row {
     font-size: 12px;
-    color: #888;
+    color: #666;
     margin: 0 !important;
   }
 
   span.pull-right {
-    color: #777;
+    color: #555;
     font-weight: bold;
   }
 }
