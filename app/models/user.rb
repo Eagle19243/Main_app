@@ -2,6 +2,11 @@ class User < ActiveRecord::Base
 
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
+
+  searchable do
+    text :name
+  end
+
   def set_default_role
     self.role ||= :user
   end
@@ -35,6 +40,8 @@ class User < ActiveRecord::Base
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
   has_one  :user_wallet_address
+  has_many :notifications, dependent: :destroy
+  has_many :admin_requests, dependent: :destroy
 
   def self.current_user
     Thread.current[:current_user]
@@ -63,7 +70,6 @@ class User < ActiveRecord::Base
       Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
       Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
       Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
-      #ConfirmationMailer.confirmation_instructions(self, self.confirmation_token_token, {userKeychain: new_address["userKeychain"], backupKeychain: new_address["backupKeychain"]}).deliver
       unless new_address.blank?
         UserWalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , user_id: self.id, wallet_id:new_address_id, user_keys:userKeychain, backup_keys:backupKeychain)
       else
@@ -100,7 +106,8 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
-    end
+  end
+
   def populate_guid_and_token
     random = SecureRandom.uuid()
     arbitraryAuthPayload = { :uid => random,:auth_data => random, :other_auth_data => self.created_at.to_s}
@@ -110,23 +117,27 @@ class User < ActiveRecord::Base
     self.chat_token = random2
     self.save
   end
+
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      return user
+      user
     else
       registered_user = User.where(:email => auth.info.email).first
       if registered_user
         return registered_user
       else
         user = User.create(
-            provider:auth.provider,
-            uid:auth.uid,
-            name:auth.info.name,
-            email:auth.info.email,
-            password:Devise.friendly_token[0,20],
+            provider: auth.provider,
+            uid: auth.uid,
+            name: auth.info.name,
+            email: auth.info.email,
+            password: Devise.friendly_token[0,20],
+            picture: auth.info.image,
+            facebook_url: auth.extra.link,
         )
-      end    end
+      end
+    end
   end
 
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
@@ -140,11 +151,15 @@ class User < ActiveRecord::Base
       else
 
         user = User.create(
-            provider:auth.provider,
-            uid:auth.uid,
-            name:auth.info.name,
-            email:auth.uid+"@twitter.com",
-            password:Devise.friendly_token[0,20],
+            provider: auth.provider,
+            uid: auth.uid,
+            name: auth.info.name,
+            email: auth.uid+"@twitter.com",
+            password: Devise.friendly_token[0,20],
+            picture: auth.info.image,
+            description: auth.info.description,
+            country: auth.info.location,
+            twitter_url: auth.info.urls.Twitter,
         )
       end
 
@@ -155,11 +170,11 @@ class User < ActiveRecord::Base
     data = access_token.info
     user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first
     if user
-      return user
+      user
     else
       registered_user = User.where(:email => access_token.info.email).first
       if registered_user
-        return registered_user
+        registered_user
       else
         user = User.create(
             provider:access_token.provider,
@@ -167,6 +182,8 @@ class User < ActiveRecord::Base
             uid: access_token.uid ,
             name: access_token.info.name,
             password: Devise.friendly_token[0,20],
+            picture: access_token.info.image,
+            company: access_token.extra.raw_info.hd,
         )
       end
     end
@@ -174,6 +191,22 @@ class User < ActiveRecord::Base
 
   def is_admin_for? proj
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
+  end
+
+  def can_apply_as_admin?(project)
+    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
+  end
+
+  def is_project_leader?(project)
+    project.user.id == self.id
+  end
+
+  def is_team_admin?(team)
+    team.team_memberships.where(team_member_id: self.id, role: TeamMembership.roles[:admin]).any?
+  end
+
+  def has_pending_admin_requests?(project)
+    self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
   end
 
 end

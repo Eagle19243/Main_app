@@ -8,12 +8,41 @@ class Ability
     initializeProfileCommentsPermissions(user)
     initializeProjAdminPermissions(user)
     initializeTasksPermissions(user)
+    initializeAdminInvitationsPermissions(user)
+    initializeAdminRequestsPermissions(user)
+    initializeTeamMembershipsPermissions(user)
+  end
+
+  def initializeTeamMembershipsPermissions(user)
+    if user
+      can [:update, :destroy], TeamMembership do |team_membership|
+        team_membership.team.project.user.id == user.id && !team_membership.project_leader?
+      end
+    end
+  end
+
+  def initializeAdminInvitationsPermissions(user)
+    if user
+      can [:create], AdminInvitation do |admin_invitation|
+        admin_invitation.sender.id == user.id
+      end
+      can [:accept, :reject], AdminInvitation, :user_id => user.id
+    end
+  end
+
+  def initializeAdminRequestsPermissions(user)
+    if user
+      can [:create], AdminRequest
+      can [:accept, :reject], AdminRequest do |admin_request|
+        admin_request.project.user.id == user.id
+      end
+    end
   end
 
   def initializeProjectsPermissions(user)
-    can [:read, :search_results, :user_search, :autocomplete_user_search], Project
+    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin], Project
     if user
-      can [:create, :discussions, :follow, :rate, :tasktab, :teamtab], Project     
+      can [:create, :discussions, :follow, :rate], Project     
       can :update, Project do |project|
         user.is_admin_for?(project) 
       end

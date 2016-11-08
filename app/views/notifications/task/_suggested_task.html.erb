@@ -1,0 +1,6 @@
+<%= notification.source_model.user.name %> suggested task
+<%= link_to notification.source_model.title, task_path(notification.source_model) %>
+<% if notification.source_model.state == 'suggested_task'%>
+    <%= link_to "ACCEPT INVITATION",accept_task_path(notification.source_model), class: "button compose-btn accept fa fa-fa fa-check"  %></a>
+    <%=  link_to "DECLINE AND REPLY", reject_task_path(notification.source_model), class: " button compose-btn decline fa fa-close"%></a>
+<% end %>

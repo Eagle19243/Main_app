@@ -1,47 +1,50 @@
-<nav class="top-bar" data-topbar role="navigation">
-    <section class="top-bar-section">
-      <!-- Right Nav Section -->
-      <ul class="right users-tools-part">
-        <li>
-          <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
-            <% if current_user.picture? %>
-              <%= image_tag(current_user.picture.url, size: "30x30") %>
-            <% else %>
-              <%= gravatar_for_user(current_user)%>
-            <%end%>
-            <%= current_user.name %>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to messages_path, data: { no_turbolink: true } do %>
-            <i class="icon-envelope-alt fa-2x"></i>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to notifications_path, data: { no_turbolink: true } do %>
-            <div class="badge-wrap">
-              <i class="icon-bell-alt" aria-hidden="true"></i>
-              <span class="count">0</span>
-            </div>
-          <% end %>
-        </li>
-        <li class="active">
-          <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
-        </li>
-      </ul>
-      <!-- Left Nav Section -->
-      <div class="left">
-        <%= image_tag 'logo.png', style: "height:100%; padding-left: 5px;" %>
-      </div>
-      <ul class="left title-area">
-        <li class="active">
-          <a href="#" id="startbtn" >Start a project</a>
-        </li>
-        <li class="active">
-          <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
-        </li>
-      </ul>
-    </section>
-  </nav>
+<div class="nav-header" data-topbar role="navigation">
 
-<%= render "layouts/start_project_popup" %>
+  <div class="logo-container">
+    <%= image_tag 'logo.png' %>
+  </div>
+
+  <ul class="links-wrapper ml30">
+    <% if projects_taskstab? %>
+      <li>
+        <a href="javascript:void(0)" data-reveal-id="Project-Invite-Model" >Add / Invite People</a>
+      </li>
+    <% end %>
+    <li>
+      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+    </li>
+    <li>
+      <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
+    </li>
+  </ul>
+
+  <ul class="links-wrapper pull-right">
+    <li class="user-profile-link">
+      <%= link_to user_path(current_user), data: { no_turbolink: true } do %>
+        <% if current_user.picture? %>
+          <%= image_tag(current_user.picture.url, size: "30x30") %>
+        <% else %>
+          <%= gravatar_for_user(current_user)%>
+        <%end%>
+        <%= current_user.name %>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to messages_path, data: { no_turbolink: true } do %>
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to notifications_path, data: { no_turbolink: true } do %>
+        <div class="badge-wrap">
+          <i class="fa fa-bell-o" aria-hidden="true"></i>
+          <span class="count"><%= current_user.notifications.unread.count %></span>
+        </div>
+      <% end %>
+    </li>
+    <li class="active">
+      <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
+    </li>
+  </ul>
+
+</div>

@@ -2,7 +2,7 @@
 <div class="lin2 row">
   <div class="lin2-media small-12 medium-2 columns">
     <% if @user.picture? %>
-      <%= image_tag(@user.picture.url, size: "123x123") %>
+      <%= image_tag(@user.picture, size: "123x123") %>
     <% else %>
       <%= gravatar_for(@user, 123)%>
     <%end%>
@@ -55,14 +55,14 @@
 </section>
 <section class="comments">
   <div class="row">
-    <%= render 'users/profile_comments' %>
+    <!--<%= render 'users/profile_comments' %>-->
     <%= render 'users/profile_projects' %>
   </div>
 </section>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    jQuery(".best_in_place").best_in_place();
+    $(".best_in_place").best_in_place();
   });
 
   $('.profile-bio .best_in_place').focusin(function(){

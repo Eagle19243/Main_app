@@ -1,0 +1,35 @@
+<div id="notification-<%= notification.id %>" class="invitation">
+  <div class="invi-head">
+    <div class="caj">
+      <div title="Delete" notification-id="<%= notification.id %>" class="delete-notification">
+        <i class="fa fa-trash"></i>
+      </div>
+      <% if !notification.origin_user.nil? %>
+          <div class="simp-img">
+            <% if notification.origin_user.picture? %>
+                <%= link_to (image_tag notification.origin_user.picture.url, :size => "45x45"),
+                            user_path(notification.origin_user) %>
+            <% else %>
+                <%= link_to gravatar_for_user(notification.origin_user, 45),
+                            user_path(notification.origin_user) %>
+            <% end %>
+          </div>
+      <% end %>
+      <div class="simp">
+        <p class="img-caj">
+          <% if !notification.origin_user.nil? %>
+              <%= link_to notification.origin_user.name,
+                          user_path(notification.origin_user) %>
+          <% end %>
+          <%= "#{notification.created_at.strftime(" %b")} #{notification.created_at.day.ordinalize}"  rescue nil %>
+        </p>
+        <div class="notification-action">
+          <%= notification.action.humanize %>
+        </div>
+      </div>
+      <div class="notification-body">
+        <p><%= yield %></p>
+      </div>
+    </div>
+  </div>
+</div>

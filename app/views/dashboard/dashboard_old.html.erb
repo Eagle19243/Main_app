@@ -4,7 +4,7 @@
     <div class="column small-6">
 <br>
   <% if current_user.picture? %>
-  <%= image_tag(current_user.picture.url, size: "100x100") %>
+  <%= image_tag(current_user.picture, size: "100x100") %>
       <% else %>
         <%= gravatar_for current_user %>
         <%end%>
@@ -101,7 +101,7 @@
 
          <% if project.pending? && user_signed_in? && current_user.admin? %>
 
-         <% if project.user.picture? %><%= link_to (image_tag project.user.picture.url, :size => "30x30"), project.user  %>
+         <% if project.user.picture? %><%= link_to (image_tag project.user.picture, :size => "30x30"), project.user  %>
   <%else%>
   <%= gravatar_for_user(project.user) %>
     <%end%>

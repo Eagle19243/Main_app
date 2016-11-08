@@ -1,7 +1,7 @@
 <div id="project_menu">
   <dl class="tabs tabs-home" data-tab>
     <dd>
-      <a class="project_menu_btn" href="#panel1">
+      <a class="project_menu_btn" >
         <span class="project_title">Project Menu <i class="icon-double-angle-right"></i></span>
       </a>
     </dd>
@@ -18,7 +18,7 @@
       </a>
     </dd>
     <dd class="active active_tab">
-      <a class="active_tab" href="#panel4">Team<span>(<%= @project.team_relations_string %>)</span></a>
+      <%= link_to "Team(#{ @project.team_relations_string })", "/projects/#{@project.id}/show_project_team", remote: true %>
     </dd>
   </dl>
 </div>

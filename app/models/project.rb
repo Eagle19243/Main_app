@@ -81,7 +81,7 @@ class Project < ActiveRecord::Base
   end
 
   def team_relations_string
-    tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+    self.team.team_memberships.count.to_s
   end
 
   def rate_avg

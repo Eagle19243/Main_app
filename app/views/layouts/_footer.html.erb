@@ -1,9 +1,62 @@
-<footer>
+<div class="footer-wrapper">
   <div class="footer-content">
-    <ul class="footer-links">
-      <li class="copyright">WeServe &copy; <%= Time.now.year %></li>
-      <li><a href="mailto:e.c.mere@gmail.com">Contact</a></li>
-      <li><%= link_to 'About', page_path('discover') %></li>
-    </ul>
+    <div class="mt10">
+      <ul class="links-wrapper custom-links text-blue">
+        <li>
+          <%= link_to projects_path do %>
+            <span class="text-blue">Active Projects</span>
+          <% end %>
+        </li>
+        <% if user_signed_in? %>
+            <li>
+              <a href="#" class="text-blue" id="footer-startbtn">Start a Project</a>
+            </li>
+        <% else %>
+            <li>
+              <a href="#" class="text-blue" id="create-project-footer" data-reveal-id="sign-in-sing-up">
+                Start a Project
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-blue" id="sign-in-footer" data-reveal-id="sign-in-sing-up" class="signup_buttons">
+                Sign In
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-blue" id="sign-up-footer" data-reveal-id="sign-in-sing-up" class="signup_buttons">
+                Sign Up
+              </a>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="mt10">
+      <ul class="links-wrapper custom-links">
+        <li class="active">
+          <%= link_to "What is WeServe?", projects_path, data: {no_turbolink: true} %>
+        </li>
+        <li class="active">
+          <%= link_to 'Who we are', users_path, data: {no_turbolink: true} %>
+        </li>
+        <li class="active">
+          <%= link_to 'Terms of Use', pages_terms_of_use_path, data: { no_turbolink: true } %>
+        </li>
+
+        <li class="active">
+          <%= link_to 'Privacy Policy', pages_privacy_policy_path, data: { no_turbolink: true } %>
+        </li>
+
+        <li class="active">
+          <%= link_to 'Contact', users_path, data: {no_turbolink: true} %>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt10 ml10">
+      <span><%= image_tag 'logo.png' %></span>
+      <span class="ml10">&#169;2016</span>
+    </div>
   </div>
-</footer>
+
+</div>

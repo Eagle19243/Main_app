@@ -1,0 +1,22 @@
+
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.page-wrapper {
+  min-height: 100%;
+  /* equal to footer height */
+}
+
+.page-wrapper:after {
+  content: "";
+  display: block;
+}
+
+.footer-wrapper, .page-wrapper:after {
+
+}
