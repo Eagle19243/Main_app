@@ -6,10 +6,12 @@ class AssignmentsController < ApplicationController
 
 	def create
 
-		 @assignment = Assignment.new(assignment_params)
+		@assignment = Assignment.new(assignment_params)
 		if @assignment.save!
+      project = Project.find @assignment.project_id
+      user = User.find @assignment.user_id
+      project.follow!(user)
 			flash[:success] = "Task assigned"
-
 
 		else
 			flash[:error] = "Task was not assigned"
@@ -19,22 +21,22 @@ class AssignmentsController < ApplicationController
 	end
 
 
-def update_collaborator_invitation_status
-		unless params[:collaborator_ids].blank?
-			Assignment.where(user_id: params[:collaborator_ids] ).last.update_attribute('invitation_sent', true) rescue nil
-		end
-end
+  def update_collaborator_invitation_status
+  		unless params[:collaborator_ids].blank?
+  			Assignment.where(user_id: params[:collaborator_ids] ).last.update_attribute('invitation_sent', true) rescue nil
+  		end
+  end
 
-	def accept
-		@assignment = Assignment.find(params[:id])
-		if @assignment.accept!
-			flash[:success] = "Assignment accepted"
-		else flash[:error] = "Assignment was not accepted"
-			
-		end
-		redirect_to dashboard_path
+  def accept
+  	@assignment = Assignment.find(params[:id])
+  	if @assignment.accept!
+  		flash[:success] = "Assignment accepted"
+  	else flash[:error] = "Assignment was not accepted"
 
-	end
+  	end
+  	redirect_to dashboard_path
+
+  end
 
 
 
@@ -42,9 +44,9 @@ end
 		@assignment = Assignment.find(params[:id])
 		if @assignment.reject!
 			flash[:success] = "Assignment rejected"
-		else 
+		else
 			flash[:error] = "Assignment was not rejected"
-			
+
 		end
 		redirect_to dashboard_path
 	end

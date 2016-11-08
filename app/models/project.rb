@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  
+
   acts_as_paranoid
 
   include Discussable
@@ -136,5 +136,11 @@ class Project < ActiveRecord::Base
     project.change_leader_invitations.pending.where(user.email).count > 0
   end
 
+  def follow!(user)
+    self.project_users.create(user_id: user.id)
+  end
 
+  def unfollow!(user)
+    self.project_users.where(user_id: user.id).destroy_all
+  end
 end

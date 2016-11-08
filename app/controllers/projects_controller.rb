@@ -139,8 +139,7 @@ class ProjectsController < ApplicationController
   def follow
     redirect_to @project and return if current_user.id == @project.user_id
     if params[:follow] == 'true'
-      follow_project = current_user.project_users.build project_id: @project.id
-      flash[:alert] = follow_project.errors.full_messages.to_sentence unless follow_project.save
+      flash[:alert] = follow_project.errors.full_messages.to_sentence unless @project.follow!(current_user)
     else
       current_user.followed_projects.delete @project
     end
@@ -149,7 +148,7 @@ class ProjectsController < ApplicationController
 
   def unfollow
     project = Project.find params[:id]
-    current_user.followed_projects.delete project
+    project.unfollow!(current_user)
     flash[:notice] = "You stopped following project " + project.title
     redirect_to :my_projects
   end
