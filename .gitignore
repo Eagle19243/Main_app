@@ -12,6 +12,12 @@
 
 # bundler state
 /.bundle
+solr/data
+solr/test
+solr/development
+solr/default/data
+/log/*.log.lck
+solr/pids
 /vendor/bundle/
 /vendor/ruby/
 
@@ -50,7 +56,6 @@ public/assets/*
 /capybara-*.html
 /gems
 /specifications
-/solr/*
 rerun.txt
 pickle-email-*.html
 .zeus.sock
