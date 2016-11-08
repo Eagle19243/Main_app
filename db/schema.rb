@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104165033) do
+ActiveRecord::Schema.define(version: 20161107161223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "action"
+    t.text     "action"
     t.integer  "targetable_id"
-    t.string   "targetable_type"
+    t.text     "targetable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.datetime "deadline"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.string   "state"
+    t.text     "state"
     t.datetime "confirmed_at"
     t.boolean  "invitation_sent"
     t.integer  "project_id"
@@ -67,17 +67,25 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id", using: :btree
 
   create_table "cards", force: :cascade do |t|
-    t.string   "title"
-    t.string   "status"
-    t.string   "list"
+    t.text     "title"
+    t.text     "status"
+    t.text     "list"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "change_leader_invitations", force: :cascade do |t|
+    t.string   "new_leader"
+    t.datetime "sent_at"
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+    t.string   "project_id"
+  end
+
   create_table "chat_rooms", force: :cascade do |t|
-    t.string   "chat_rooms"
-    t.string   "room_id"
-    t.string   "string"
+    t.text     "chat_rooms"
+    t.text     "room_id"
+    t.text     "string"
     t.integer  "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -106,9 +114,9 @@ ActiveRecord::Schema.define(version: 20161104165033) do
 
   create_table "discussions", force: :cascade do |t|
     t.integer  "discussable_id"
-    t.string   "discussable_type"
+    t.text     "discussable_type"
     t.integer  "user_id"
-    t.string   "field_name"
+    t.text     "field_name"
     t.text     "context"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
@@ -119,7 +127,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   create_table "do_for_frees", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "task_id"
-    t.string   "state"
+    t.text     "state"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.text     "application"
@@ -127,7 +135,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
 
   create_table "do_requests", force: :cascade do |t|
     t.integer  "task_id"
-    t.string   "state"
+    t.text     "state"
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -144,22 +152,22 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.integer  "user_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
-    t.string   "paypal_email"
+    t.text     "paypal_email"
     t.text     "notification_params"
-    t.string   "status"
-    t.string   "transaction_id"
+    t.text     "status"
+    t.text     "transaction_id"
     t.datetime "completed_at"
-    t.string   "PAYKEY"
+    t.text     "PAYKEY"
   end
 
   create_table "generate_addresses", force: :cascade do |t|
-    t.string   "sender_address"
+    t.text     "sender_address"
     t.boolean  "is_available"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.string   "wallet_id"
-    t.string   "receiver_address"
-    t.string   "pass_phrase"
+    t.text     "wallet_id"
+    t.text     "receiver_address"
+    t.text     "pass_phrase"
   end
 
   create_table "group_messages", force: :cascade do |t|
@@ -176,7 +184,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   create_table "institution_users", force: :cascade do |t|
     t.integer  "institution_id"
     t.integer  "user_id"
-    t.string   "position"
+    t.text     "position"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -185,14 +193,14 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   add_index "institution_users", ["user_id"], name: "index_institution_users_on_user_id", using: :btree
 
   create_table "institutions", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "country"
-    t.string   "city"
-    t.string   "logo"
+    t.text     "name"
+    t.text     "description"
+    t.text     "country"
+    t.text     "city"
+    t.text     "logo"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.string   "url"
+    t.text     "url"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -202,7 +210,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.boolean  "read",            default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "image"
+    t.text     "image"
   end
 
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
@@ -225,8 +233,8 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   create_table "plans", force: :cascade do |t|
     t.text     "notes"
     t.text     "todos"
-    t.string   "owner"
-    t.string   "status"
+    t.text     "owner"
+    t.text     "status"
     t.text     "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -248,7 +256,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.integer  "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "state"
+    t.text     "state"
   end
 
   create_table "project_comments", force: :cascade do |t|
@@ -262,7 +270,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   create_table "project_edits", force: :cascade do |t|
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.string   "aasm_state",  default: "pending"
+    t.text     "aasm_state",  default: "pending"
     t.integer  "user_id"
     t.integer  "project_id"
     t.text     "description"
@@ -284,26 +292,29 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "title"
+    t.text     "title"
     t.text     "description"
-    t.string   "country"
-    t.string   "picture"
+    t.text     "country"
+    t.text     "picture"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "user_id"
     t.datetime "expires_at"
     t.integer  "volunteers",          default: 0
-    t.string   "state"
+    t.text     "state"
     t.text     "request_description"
-    t.string   "short_description"
-    t.string   "video_id"
+    t.text     "short_description"
+    t.text     "video_id"
+    t.datetime "deleted_at"
   end
+
+  add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
 
   create_table "section_details", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "parent_id"
     t.integer  "order"
-    t.string   "title",      default: ""
+    t.text     "title",      default: ""
     t.text     "context",    default: ""
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
@@ -313,7 +324,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
 
   create_table "task_attachments", force: :cascade do |t|
     t.integer  "task_id"
-    t.string   "attachment"
+    t.text     "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
@@ -329,7 +340,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
 
   create_table "tasks", force: :cascade do |t|
     t.integer  "project_id"
-    t.string   "title"
+    t.text     "title"
     t.text     "description"
     t.decimal  "budget"
     t.datetime "created_at",                                    null: false
@@ -338,12 +349,12 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.integer  "user_id"
     t.decimal  "current_fund",                  default: 0.0
     t.text     "condition_of_execution"
-    t.string   "fileone"
-    t.string   "filetwo"
-    t.string   "filethree"
-    t.string   "filefour"
-    t.string   "filefive"
-    t.string   "state"
+    t.text     "fileone"
+    t.text     "filetwo"
+    t.text     "filethree"
+    t.text     "filefour"
+    t.text     "filefive"
+    t.text     "state"
     t.integer  "number_of_participants",        default: 0
     t.integer  "target_number_of_participants", default: 0
     t.boolean  "assigned",                      default: false
@@ -358,7 +369,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "task_id"
-    t.string   "state"
+    t.text     "state"
     t.integer  "role",           default: 0
   end
 
@@ -367,7 +378,7 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name"
+    t.text     "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "project_id"
@@ -398,39 +409,39 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                            default: "",    null: false
-    t.string   "encrypted_password",               default: "",    null: false
-    t.string   "reset_password_token"
+    t.text     "email",                            default: "",    null: false
+    t.text     "encrypted_password",               default: "",    null: false
+    t.text     "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                    default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.text     "current_sign_in_ip"
+    t.text     "last_sign_in_ip"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.string   "name"
+    t.text     "name"
     t.integer  "role"
-    t.string   "country"
+    t.text     "country"
     t.text     "description"
-    t.string   "picture"
-    t.string   "company"
+    t.text     "picture"
+    t.text     "company"
     t.boolean  "admin",                            default: false
-    t.string   "first_link"
-    t.string   "second_link"
-    t.string   "third_link"
-    t.string   "city"
-    t.string   "fourth_link"
+    t.text     "first_link"
+    t.text     "second_link"
+    t.text     "third_link"
+    t.text     "city"
+    t.text     "fourth_link"
     t.string   "phone_number",           limit: 8
     t.text     "bio"
-    t.string   "facebook_url"
-    t.string   "twitter_url"
-    t.string   "linkedin_url"
-    t.string   "chat_token"
-    t.string   "guid"
-    t.string   "provider"
-    t.string   "uid"
+    t.text     "facebook_url"
+    t.text     "twitter_url"
+    t.text     "linkedin_url"
+    t.text     "provider"
+    t.text     "uid"
+    t.text     "chat_token"
+    t.text     "guid"
     t.integer  "test_id"
   end
 
@@ -438,13 +449,13 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "wallet_addresses", force: :cascade do |t|
-    t.string   "sender_address"
+    t.text     "sender_address"
     t.integer  "task_id"
-    t.string   "wallet_addresses"
-    t.string   "wallet_id"
-    t.string   "receiver_address"
+    t.text     "wallet_addresses"
+    t.text     "wallet_id"
+    t.text     "receiver_address"
     t.float    "current_balance",  default: 0.0
-    t.string   "pass_phrase"
+    t.text     "pass_phrase"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
@@ -453,8 +464,8 @@ ActiveRecord::Schema.define(version: 20161104165033) do
 
   create_table "wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
-    t.string   "user_wallet"
-    t.string   "tx_hash"
+    t.text     "user_wallet"
+    t.text     "tx_hash"
     t.integer  "task_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -463,18 +474,18 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
-    t.string   "title"
+    t.text     "title"
     t.text     "description"
     t.integer  "project_id"
-    t.string   "pictureone"
-    t.string   "picturetwo"
-    t.string   "picturethree"
-    t.string   "picturefour"
-    t.string   "picturefive"
+    t.text     "pictureone"
+    t.text     "picturetwo"
+    t.text     "picturethree"
+    t.text     "picturefour"
+    t.text     "picturefive"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "user_id"
-    t.string   "state"
+    t.text     "state"
   end
 
   create_table "work_records", force: :cascade do |t|
@@ -487,15 +498,9 @@ ActiveRecord::Schema.define(version: 20161104165033) do
   add_foreign_key "admin_invitations", "users", column: "sender_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "admin_requests", "projects"
   add_foreign_key "admin_requests", "users"
-  add_foreign_key "chat_rooms", "projects"
   add_foreign_key "group_messages", "chatrooms"
   add_foreign_key "group_messages", "users"
-  add_foreign_key "institution_users", "institutions"
-  add_foreign_key "institution_users", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "section_details", "projects"
   add_foreign_key "user_wallet_addresses", "users"
-  add_foreign_key "wallet_addresses", "tasks"
-  add_foreign_key "wallet_transactions", "tasks"
 end
