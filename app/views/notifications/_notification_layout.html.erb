@@ -7,7 +7,7 @@
       <% if !notification.origin_user.nil? %>
           <div class="simp-img">
             <% if notification.origin_user.picture? %>
-                <%= link_to (image_tag notification.origin_user.picture.url, :size => "45x45"),
+                <%= link_to (image_tag notification.origin_user.picture, :size => "45x45"),
                             user_path(notification.origin_user) %>
             <% else %>
                 <%= link_to gravatar_for_user(notification.origin_user, 45),

@@ -2,14 +2,14 @@
 <%if @activities %>
 <% @activities.each do |activity| %>
 
-	<% if activity.user.picture? %><%= link_to (image_tag activity.user.picture.url, :size => "30x30"), activity.user  %>
+	<% if activity.user.picture? %><%= link_to (image_tag activity.user.picture, :size => "30x30"), activity.user  %>
 	<%else%>
-	<%= gravatar_for_user(activity.user) %>    
+	<%= gravatar_for_user(activity.user) %>
     <%end%>
 
 
 
-	
+
 		<%= activity.user.name %>
 	<%= render partial: "activities/#{activity.targetable_type.underscore}/#{activity.action}", locals: { activity: activity } %>
 
@@ -20,9 +20,3 @@
 <%end%>
 
 <%end%>
-
-
-
-
-
-

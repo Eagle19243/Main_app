@@ -59,7 +59,9 @@ gem 'simple_form'
 # Ajax File Uploading
 gem 'remotipart'
 
-# Firebase Security Token Generator
+# ActAsParanoid
+gem 'paranoia', "~> 2.0"
+
 gem 'firebase_token_generator'
 
 # A Rake task gem that helps you find the unused routes and controller actions for your Rails 3+ app
@@ -103,6 +105,7 @@ group :test do
 end
 
 # Auto deployment to AWS
+
 group :development do
     gem 'capistrano',         require: false
     gem 'capistrano-rvm',     require: false

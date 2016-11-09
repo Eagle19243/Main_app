@@ -12,6 +12,7 @@
 
 # bundler state
 /.bundle
+solr/*
 /vendor/bundle/
 /vendor/ruby/
 

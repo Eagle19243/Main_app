@@ -52,10 +52,6 @@
                 </div>
 
                 <div class="progress-banner">
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>">
-                    </div>
-                  </div>
 
                   <div class="report-banner pb10">
                     <div class="row">
@@ -75,6 +71,12 @@
                       <span class="pull-right">$ <%= project.funded_budget %></span>
                     </div>
                   </div>
+
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
+                    </div>
+                    <span><%= project.funded_percentages%></span>
+                  </div>
                 </div>
 
             </div>
@@ -85,3 +87,24 @@
 
   </div>
 </main>
+<% if  @download_keys  %>
+    <div id="backupkeys_popup" class="modal" style="display: block ;">
+      <!-- Modal content -->
+      <div class="modal-content" style="width: 50%">
+
+        <h3>
+          please wait we are creating your Wallet Backup Keys and
+          Downloading  will be Starts Within 5 Second
+          Please Save Your keys at save place  </h3>
+      </div>
+
+    </div>
+    <script>
+      window.setTimeout(function(){download_keys() },5000);
+      function  download_keys(){
+        window.location = "<%= user_wallet_transactions_download_keys_url %>";
+        $("#backupkeys_popup").hide();
+      }
+
+    </script>
+<% end %>

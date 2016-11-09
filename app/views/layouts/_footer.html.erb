@@ -1,7 +1,7 @@
 <div class="footer-wrapper">
   <div class="footer-content">
     <div class="mt10">
-      <ul class="links-wrapper custom-links text-blue">
+      <ul class="links-wrapper text-blue">
         <li>
           <%= link_to projects_path do %>
             <span class="text-blue">Active Projects</span>
@@ -32,7 +32,7 @@
     </div>
 
     <div class="mt10">
-      <ul class="links-wrapper custom-links">
+      <ul class="links-wrapper">
         <li class="active">
           <%= link_to "What is WeServe?", projects_path, data: {no_turbolink: true} %>
         </li>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="mt10 ml10">
-      <span><%= image_tag 'logo.png' %></span>
+      <%= link_to 'WeServe', root_path, :class => "logo-text" %>
       <span class="ml10">&#169;2016</span>
     </div>
   </div>

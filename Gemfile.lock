@@ -404,6 +404,8 @@ GEM
       rack
     options (2.3.2)
     orm_adapter (0.5.0)
+    paranoia (2.1.5)
+      activerecord (~> 4.0)
     parser (2.3.1.2)
       ast (~> 2.2)
     path_expander (1.0.0)
@@ -669,6 +671,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   omniauth-twitter
   omnicontacts
+  paranoia (~> 2.0)
   paypal-sdk-adaptivepayments
   pg
   pp-adaptive

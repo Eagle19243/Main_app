@@ -60,7 +60,6 @@ ul.right.users-tools-part {
 
 /*welcome banner */
 .welcome-banner{
-	background-image: url(../images/banner-image.jpg);
 	text-align: center;
     height: 440px;
     background-size:cover;

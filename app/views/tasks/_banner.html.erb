@@ -1,6 +1,7 @@
 <!--<section  class='welcome-banner'>-->
 
-<div class='welcome-banner' style="background-size:cover !important;background:url(<%= asset_path @project.picture.url rescue '::'%>)">
+<div class='welcome-banner'>
+  <%= image_tag(@project.picture) %>
   <div class="mid-section">
 
     <% @projec_conut= if @project.tasks.count==0 then
@@ -21,7 +22,7 @@
           <div class="col-lg-2 col-md-2 col-sm-2 col-custom">
             <div class="text-center">
               <% if @project.user.picture? %>
-                <%= image_tag(@project.user.picture.url, size: "50x50") %>
+                <%= image_tag(@project.user.picture, size: "50x50") %>
               <% else %>
                 <%= gravatar_for_user(@project.user)%>
               <%end%>

@@ -2,19 +2,35 @@
   Sign In To WeServe
 <% end %>
 
-<div class="content padded" style="background-color: #f0f0f0 ">
-  <h2 align="center"> Sign In</h2>
-  <div style="text-align: center;padding-bottom: 30px ;margin-top: 20px">
-    <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-    <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-    <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
+<div class="register-form-wrapper">
+  <div class="register-modal mt100">
+    <div class="modal-dialog">
+      <div class="modal-content">
 
+        <div class="modal-header">
+          <h3 class="modal-title">Sign In</h3>
+          <h4 class="modal-title">Join In WeServe today!</h4>
+        </div>
+
+        <div class="modal-body">
+          <%= render "modal/social_register" %>
+
+          <div class="or-container">
+            <hr class="or-hr">
+            <div id="or">or</div>
+          </div>
+
+          <div id="">
+            <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+
+            <div class="signin-intro pt20">
+              <p>Don't have an account? <%= link_to 'Sign Up', new_user_registration_path %></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
   </div>
-  <h2 align="center">OR</h2>
-
-
-  <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-
-  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
-
 </div>
