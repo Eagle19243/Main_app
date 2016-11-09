@@ -8,12 +8,19 @@
     <%end%>
   </div>
   <div class="lin2-contents medium-10 columns">
-    <h1><%= @user.name %></h1>
-    <div class="lin2-social ">
-      <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank"><i class="icon-facebook"></i></a>
-      <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank"><i class="icon-linkedin"></i></a>
-      <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank"><i class="icon-link"></i></a>
-      <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank"><i class="icon-envelope-alt"></i></a>
+    <div>
+      <h1 class="profile-title">
+        <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :name, :calsses => "edit_title",:as => :textarea, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+        <% if (current_user && current_user.id == @user.id) %>
+          <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+        <% end %>
+      </h1>        
+      <div class="lin2-social">
+        <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank"><i class="icon-facebook"></i></a>
+        <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank"><i class="icon-linkedin"></i></a>
+        <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank"><i class="icon-link"></i></a>
+        <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank"><i class="icon-envelope-alt"></i></a>
+      </div>
     </div>
     <p>
       <i class="icon-map-marker margin-right-5"></i>
@@ -65,6 +72,15 @@
     $(".best_in_place").best_in_place();
   });
 
+  $(".profile-title").hover(
+    function() {
+      $("#edit-profile-pencil").show();
+    },
+    function() {
+      $("#edit-profile-pencil").hide();
+    }
+  )
+
   $('.profile-bio .best_in_place').focusin(function(){
     $("#bio-edit-pencil").hide();
     $("#bio-edit-save").show();
@@ -74,4 +90,5 @@
     $("#bio-edit-save").hide();
     $("#bio-edit-pencil").show();
   });
+
 </script>

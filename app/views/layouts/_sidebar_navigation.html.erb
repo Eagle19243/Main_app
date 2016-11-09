@@ -1,10 +1,21 @@
 <div id="side-menu-id" class="side-menu">
   <ul class="side-nav">
-    <li><%= link_to 'My Projects', my_projects_path %></li>
-    <li><%= link_to 'Profile' , user_path(current_user) %></li>
+    <li class="<%= "active" if current_page?(my_projects_path)%>"><%= link_to 'My Projects', my_projects_path %></li>
+    <li class="<%= "active" if current_page?(user_path(current_user))%>"><%= link_to 'Profile' , user_path(current_user) %></li>
     <li><a href="/projects">Projects</a></li>
-    <li class="active"><a href="/notifications">Notifications</a></li>
-    <li><a href="/group_messages">Messages</a></li>
+    <li class="<%= "active" if current_page?(notifications_path)%>"><a href="/notifications">Notifications</a></li>
+    <li class="<%= "active" if current_page?(group_messages_path)%>"><a href="/group_messages">Messages</a></li>
     <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete%></li>
   </ul>
 </div>
+
+<script>
+  $('#side-menu-id li').hover(
+    function() {
+      $(this).addClass('pre-active');
+    },
+    function() {
+      $(this).removeClass('pre-active');
+    }
+  );
+</script>
