@@ -252,16 +252,6 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function(){
-    $("#tasks-tab-link").click(function() {
-      window.location = "http://" + window.location.host + "/projects/<%= @project.id %>/taskstab";
-    });
-    window.mycheck = function () {
-      console.log("this checks some stuff");
-    };
-  });
-  projectId = <%= @project.id%>;
-
 
   function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
@@ -279,10 +269,6 @@
 
 
   $(function(){
-    $('#testDiv').slimScroll();
-    $('#testDiv2').slimScroll({
-      allowPageScroll: true
-    });
     $('#tasks_cards').slimScroll({
       height: '500px'
     });
