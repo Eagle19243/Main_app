@@ -1,12 +1,12 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource  :except => [:get_activities, :project_admin, :show_task]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
   before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
-
+  # skip_authorization_check []
   # layout "manish", only: [:taskstab]
 
   def index
@@ -16,7 +16,8 @@ class ProjectsController < ApplicationController
        end
     end
     @projects = Project.all
-    Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
+    #Every Time someone visits home page it ittrate N times Thats not a good approch .
+   # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
 
   end
