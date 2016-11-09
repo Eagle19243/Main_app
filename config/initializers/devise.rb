@@ -241,7 +241,7 @@ Devise.setup do |config|
 
   config.omniauth :facebook, '1757686594508181', '78a1acb1051601b3cf9c828b4dc8af2b'
   config.omniauth :twitter, "K8A2tZe46ELwIvuIGoqzBiJuf", "P2dD6a3YsOxIHBXJDr8j6z3cmcyGlvv8dVsSlDoEdExBt3rLqL"
-  config.omniauth :google_oauth2, "1060403950406-g813f92ha2v5jajkuc6t2852g7bkc4ea.apps.googleusercontent.com", "V-4zPjiogbuQtNdsMBFcw0H_", { access_type: "offline", approval_prompt: "" ,skip_jwt: true}
+  config.omniauth :google_oauth2, "25015051559-7u7s5egjhngtfolem0ntefsskjhd9tvn.apps.googleusercontent.com", "0y2KjAZzpHRBTDRsa6d8kGVG", { access_type: "offline", approval_prompt: "" ,skip_jwt: true}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
