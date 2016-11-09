@@ -113,17 +113,26 @@ Rails.application.routes.draw do
     member do
       get :accept, :reject
       post :follow
+      get :unfollow
       post :rate
       get :discussions
     end
 
     collection do
       get :autocomplete_user_search
+      post :change_leader
     end
 
     member do
       get :taskstab, as: :taskstab
       get :show_project_team, as: :show_project_team
+    end
+  end
+
+  resources :change_leader_invitation, only: [:create] do
+    member do
+      get 'accept'
+      get 'reject'
     end
   end
 
@@ -140,7 +149,7 @@ Rails.application.routes.draw do
   get '/pages/privacy_policy'
   get '/pages/terms_of_use'
 
-   devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
+  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
 
   resources :users
   resources :messages
