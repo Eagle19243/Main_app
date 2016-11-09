@@ -9,7 +9,7 @@
 .side-menu ul{
 	padding-top:0px;
 	background-color: #0e4e6f;
-	height:1024px;
+	min-height:1024px;
 }
 .side-menu ul li{
 	
