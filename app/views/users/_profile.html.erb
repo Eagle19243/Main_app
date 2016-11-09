@@ -10,9 +10,12 @@
   <div class="lin2-contents medium-10 columns">
     <div>
       <h1 class="profile-title">
-        <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :name, :calsses => "edit_title",:as => :textarea, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
         <% if (current_user && current_user.id == @user.id) %>
+          <%= best_in_place @user, :name, :calsses => "best_in_place",:as => :textarea, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+        
           <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+        <% else %>
+          <%= @user.name %>
         <% end %>
       </h1>        
       <div class="lin2-social">
@@ -68,10 +71,6 @@
 </section>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $(".best_in_place").best_in_place();
-  });
-
   $(".profile-title").hover(
     function() {
       $("#edit-profile-pencil").show();
