@@ -139,6 +139,7 @@
       display: inline-block;
       padding: 0px 15px;
 
+      a.btn-invite, 
       a.btn-edit, 
       a.btn-fund, 
       a.btn-task, 
@@ -155,6 +156,10 @@
         font-weight: 400;
       }
 
+      a.btn-invite {
+        color: #ed7f16;
+        border: 1px solid #ed7f16;
+      }
       a.btn-edit {
         color: red;
         border: 1px solid red;
