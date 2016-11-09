@@ -344,9 +344,12 @@
 
                 <div class="section-content">
                   <% @sourcing_tasks.each do |task| %>
-                    <div class="summary-cards">
+                      <%= link_to projects_show_task_path(id: task.id), remote: true do %>
+                         <div class="summary-cards">
                       <div class="card-wrapper">
+
                         <div class="card-title">
+
                           <p><%= task.description %></p>
                         </div>
                         <div class="comment-wrapper">
@@ -377,6 +380,7 @@
                         </div>
                       </div>
                     </div>
+                      <% end %>
                   <% end %>
                 </div>
 
@@ -396,7 +400,8 @@
 
                 <div class="section-content">
                   <% @doing_tasks.each do |task| %>
-                    <div class="summary-cards">
+                      <%= link_to projects_show_task_path(id: task.id), remote: true do %>
+                          <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
                           <p><%= task.description %></p>
@@ -429,6 +434,7 @@
                         </div>
                       </div>
                     </div>
+                      <%end %>
                   <% end %>
                 </div>
 
@@ -445,7 +451,8 @@
 
                 <div class="section-content">
                   <% @reviewing_tasks.each do |task| %>
-                    <div class="summary-cards">
+                      <%= link_to projects_show_task_path(id: task.id), remote: true do %>
+                        <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
                           <p><%= task.description %></p>
@@ -478,6 +485,7 @@
                         </div>
                       </div>
                     </div>
+                       <% end %>
                   <% end %>
                 </div>
 
@@ -494,7 +502,8 @@
 
                 <div class="section-content">
                   <% @done_tasks.each do |task| %>
-                    <div class="summary-cards">
+                      <%= link_to projects_show_task_path(id: task.id), remote: true do %>
+                         <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
                           <p><%= task.description %></p>
@@ -527,6 +536,7 @@
                         </div>
                       </div>
                     </div>
+                      <% end %>
                   <% end %>
                 </div>
 
@@ -574,11 +584,8 @@
     $('#tasks_cards').slimScroll({
       height: '500px'
     });
-
     $('[data-toggle="tooltip"]').tooltip();
-
     $('.nav-pills').find('li:first-child a').click();
-
   });
 
 </script>

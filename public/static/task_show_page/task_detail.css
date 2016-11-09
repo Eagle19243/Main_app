@@ -1,17 +1,20 @@
-#myModal2 {
+#myModal{
     z-index: 2;
+}
+#myModal2 {
+    z-index: 3;
 }
 
 #InviteModel {
-    z-index: 2;
+    z-index: 3;
 }
 
 #team {
-    z-index: 2;
+    z-index: 3;
 }
 
 #share {
-    z-index: 2;
+    z-index: 3;
 }
 
 #popup-for-free-paid {
