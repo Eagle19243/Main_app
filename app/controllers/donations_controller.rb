@@ -41,6 +41,7 @@ class DonationsController < ApplicationController
         # send the user to PayPal to make the payment
         # e.g. "https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey=#{response.pay_key}
         # redirect_to ("https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey=#{response.pay_key}")
+        @donation.task.project.follow!(current_user)
         redirect_to @api.payment_url(response)
       else
         puts response.error[0].message
