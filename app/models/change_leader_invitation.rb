@@ -9,7 +9,7 @@
 class ChangeLeaderInvitation < ActiveRecord::Base
   belongs_to :project
 
-  scope :pending, -> { where("accepted_at IS NULL or rejected_at IS NULL") }
+  scope :pending, -> { where("accepted_at IS NULL and rejected_at IS NULL") }
 
   def is_valid?
     accepted_at.nil? && rejected_at.nil?

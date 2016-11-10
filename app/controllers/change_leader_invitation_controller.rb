@@ -5,7 +5,7 @@ class ChangeLeaderInvitationController < ApplicationController
     project = @invitation.project
     if project.update(user_id: current_user.id)
       flash[:notice] = "Congratulations! You are project leader of " + @invitation.project.title + "!"
-      project.followers.each do |user|
+      project.team.team_members.each do |user|
         NotificationsService.notify_about_leader_change(user, current_user, project)
       end
     else
