@@ -18,11 +18,11 @@
   </div>
 </div>
 <script>
-  window.onload = function() {
+  window.onload = function () {
     $('#project-url').html(window.location.href);
     //
-     var modalteam = document.getElementById('Project-Invite-Model');
-     modalteam.style.display = "block";
+    var modalteam = document.getElementById('Project-Invite-Model');
+    modalteam.style.display = "block";
 
     // Get the <span> element that closes the modal
     // var project_span_team = document.getElementById("inviteclose");
@@ -52,49 +52,52 @@
     <a class="close-reveal-modal" aria-label="Close">&times;</a>
     <div class="fund-do">
       <div class="row">
-        <h4 id = 'middle'>Invite People To Participate</h4>
-        <div class="alert"  id="response"></div>
+        <h4 id='middle'>Invite People To Participate</h4>
+        <div class="alert" id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
             <div class="large-10 medium-10 small-12 columns cold">
               <div class="row row-custom">
                 <div class="large-8 medium-12 small-12 columns cold">
-                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
-                  <%session[:idd] = @project.id  %>
+                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
+                  <% session[:idd] = @project.id %>
                   <% session[:project_id] = nil %>
                   <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
                 </div>
                 <div class="large-4 medium-12 small-12 columns cold pl10">
-                  <button class="button round expand modal-btn1 btn-add normal-button" id="send-project-email-button" >Add / Invite</button>
+                  <button class="button round expand modal-btn1 btn-add normal-button" id="send-project-email-button">Add
+                    / Invite
+                  </button>
                 </div>
               </div>
 
               <div class="row" id="contacts">
-                <div class="contact-importers" id ="tab">
-                  <span >Import your contacts from
+                <div class="contact-importers" id="tab">
+                  <span>Import your contacts from
                     <span class="contact-importer">
-                       <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
-                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
+                       <span class="loading-trigger" data-source="gmail" id="gmail-icon">
+                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"), contacts_gmail_path %>
                          <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
                        </span>
                     </span>
                     <span class="mini-divider"></span>
                        <span class="contact-importer">
                          <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                            <%= image_tag("yahoo.png" ,:class => "img_preview") %>
-                            <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
+                            <%= image_tag("yahoo.png", :class => "img_preview") %>
+                           <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo!
+                             Mail</a>
                         </span>
                        </span>
                     <span class="mini-divider"></span>
                   </span>
                 </div>
 
-                <%unless session[:failure_contacts].blank? %>
-                  <p id="response-failure"><%= session[:failure_contacts] %></p>
-                <%end%>
-                <%unless session[:success_contacts].blank? %>
-                  <p  id="response-success"><%= session[:success_contacts] %></p>
-                <%end%>
+                <% unless session[:failure_contacts].blank? %>
+                    <p id="response-failure"><%= session[:failure_contacts] %></p>
+                <% end %>
+                <% unless session[:success_contacts].blank? %>
+                    <p id="response-success"><%= session[:success_contacts] %></p>
+                <% end %>
               </div>
               <%= session[:failure_contacts] = nil %>
               <%= session[:success_contacts] = nil %>
@@ -104,10 +107,10 @@
                 <div id="or">or</div>
               </div>
 
-              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
+              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
                 <ul>
                   <li>
-                    <div class="facebook-wrapper" >
+                    <div class="facebook-wrapper">
                       <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
                         <i class="fa fa-facebook"></i>
                         <span>Add from Facebook</span>
@@ -132,7 +135,7 @@
                   </li>
                 </ul>
                 <div class="row share-link">
-                  <hr />
+                  <hr/>
                   <b>URL: </b><span id="project-url"></span>
                 </div>
               </div>
@@ -147,29 +150,29 @@
 <div class="md-overlay"></div>
 <script src="/static/task_show_page/js/custom.js"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
+  $(document).ready(function () {
     document.getElementById("loading-mask1").style.display = "none";
 
-    $( "#send-project-email" ).submit(function( ) {
+    $("#send-project-email").submit(function () {
       $('#response').empty();
       $('#response').html("loading...")
     });
-    $( "#send-project-email-button" ).click(function( ) {
+    $("#send-project-email-button").click(function () {
       $('#response').empty();
     });
-    $('.btn_movecard').click(function(){
+    $('.btn_movecard').click(function () {
       var loading = document.getElementById('loading-mask1');
-       loading.style.display = "block";
-    //  $("#loading-mask1").show();
+      loading.style.display = "block";
+      //  $("#loading-mask1").show();
 
     });
-    $( "#inviteclose" ).click(function( ) {
-     $('#response').empty();
+    $("#inviteclose").click(function () {
+      $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
       $("#guest-email").val("");
     });
-    $("#guest-email").keyup(function(){
+    $("#guest-email").keyup(function () {
       $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
@@ -182,7 +185,7 @@
     // project_span_team.onclick = function() {
     //   modalteam.style.display = "none";
     // }
-  } );
+  });
 </script>
 <script src="/static/task_show_page/js/classie.js"></script>
 <script src="/static/task_show_page/js/modalEffects.js"></script>
@@ -195,8 +198,12 @@
   <div class="project-tab-wrapper">
     <ul class="nav nav-pills nav-justified">
       <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a></li>
-      <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <small>(353)</small></a></li>
-      <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <small>(434)</small></a></li>
+      <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks
+        <small>(353)</small>
+      </a></li>
+      <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team
+        <small>(434)</small>
+      </a></li>
     </ul>
 
     <div class="tabs-wrapper">
@@ -237,7 +244,7 @@
             <div class="rank-group">
               <input type="hidden" id="stars" name="stars">
               <% for i in 1..5 %>
-                <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
               <% end %>
             </div>
           </div>
@@ -250,8 +257,8 @@
               <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
                 <i class="fa fa-twitter"></i>
               </a>
-              <a href="javascript:void(0)" data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" >
-                <i class="fa fa-google-plus" ></i>
+              <a href="javascript:void(0)" data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+">
+                <i class="fa fa-google-plus"></i>
               </a>
             </div>
           </div>
@@ -262,7 +269,9 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
               <div class="project-summary">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+                  laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+                  ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
                 </p>
               </div>
             </div>
@@ -275,41 +284,42 @@
 
                 <div id="tasks_cards">
                   <% for i in 1..5 %>
-                    <div class="summary-cards">
-                      <div class="card-wrapper">
-                        <div class="card-title">
-                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat.</p>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                      <div class="summary-cards">
+                        <div class="card-wrapper">
+                          <div class="card-title">
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                              tincidunt ut laoreet dolore magna aliquam eras volutpat.</p>
+                          </div>
+                          <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                            </div>
+                          </div>
+                          <div class="report-banner-table">
+                            <table>
+                              <tr class="value">
+                                <td>70</td>
+                                <td>70</td>
+                                <td>70</td>
+                                <td>70</td>
+                              </tr>
+                              <tr class="items">
+                                <td>Funded</td>
+                                <td>Tasks</td>
+                                <td>Teamates</td>
+                                <td>Raised</td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="fund-do-btns">
+                            <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                              <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;FUND
+                            </a>
+                            <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                              <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;DO
+                            </a>
                           </div>
                         </div>
-                        <div class="report-banner-table">
-                          <table>
-                            <tr class="value">
-                              <td>70</td>
-                              <td>70</td>
-                              <td>70</td>
-                              <td>70</td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Teamates</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-                        <div class="fund-do-btns">
-                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
-                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;FUND
-                          </a>
-                          <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
-                            <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;DO
-                          </a>
-                        </div>
                       </div>
-                    </div>
                   <% end %>
                 </div>
 
@@ -332,55 +342,65 @@
                 </div>
 
                 <div class="section-content">
-                  <% @suggested_tasks .each do |task| %>
-                      <div class="summary-cards">
-                        <div class="card-wrapper">
-                          <div class="card-title">
-                            <p><%= task.description %></p>
-                          </div>
+                  <% @suggested_tasks.each do |task| %>
+                      <%= link_to projects_show_task_path(id: task.id), remote: true do %>
 
-                          <div class="comment-wrapper">
-                            <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                            <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                          </div>
-                          <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                            </div>
-                          </div>
-                          <div class="report-banner">
-                            <div class="row">
-                              <span>Funded</span>
-                              <span class="pull-right"><%= task.funded %></span>
-                            </div>
-                            <div class="row">
-                              <span>Tasks</span>
-                              <span class="pull-right">55 / 80</span>
-                            </div>
-                            <div class="row">
-                              <span>Teamates</span>
-                              <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
-                            </div>
-                            <div class="row">
-                              <span>Raised</span>
-                              <span class="pull-right">$ <%= task.budget %></span>
-                            </div>
-                          </div>
-                          <%if @project.user_id == current_user.id %>
-                              <div style="margin-top: 1%">
-                                <%= link_to "Approve",accept_task_path(task.id), class: "btn btn-primary"  %></a>
-                                <%=  link_to "Reject", reject_task_path(task.id), class: "btn btn-danger"%></a>
-
+                          <div class="summary-cards">
+                            <div class="card-wrapper">
+                              <div class="card-title">
+                                <p><%= task.description %></p>
                               </div>
-                          <% end  %>
-                        </div>
-                      </div>
+
+                              <div class="comment-wrapper">
+                                <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                                <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                                </div>
+                              </div>
+                              <div class="report-banner">
+                                <div class="row">
+                                  <span>Funded</span>
+                                  <span class="pull-right"><%= task.funded %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Tasks</span>
+                                  <span class="pull-right">55 / 80</span>
+                                </div>
+                                <div class="row">
+                                  <span>Teamates</span>
+                                  <span class="pull-right"><%= task.assignments.count %>
+                                    /<%= task.target_number_of_participants %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Raised</span>
+                                  <span class="pull-right">$ <%= task.budget %></span>
+                                </div>
+                              </div>
+                              <% if user_signed_in? %>
+                                  <% if @project.user_id == current_user.id %>
+                                      <div style="margin-top: 1%">
+                                        <%= link_to "Approve", accept_task_path(task.id), class: "btn btn-primary" %></a>
+                                        <%= link_to "Reject", reject_task_path(task.id), class: "btn btn-danger" %></a>
+
+                                      </div>
+                                  <% end %>
+                              <% end %>
+                            </div>
+                          </div>
+                      <% end %>
                   <% end %>
                 </div>
-                <% if !(@project.user_id == current_user.id) %>
-                <div class="section-add-task">
-                  <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggested Task</a>
-                </div>
+                <% if user_signed_in? %>
+
+                    <% if !(@project.user_id == current_user.id) %>
+                        <div class="section-add-task">
+                          <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggested
+                            Task</a>
+                        </div>
                     <% end %>
+                <% end %>
               </div>
             </div>
 
@@ -395,56 +415,64 @@
                 <div class="section-content">
                   <% @sourcing_tasks.each do |task| %>
                       <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                         <div class="summary-cards">
-                      <div class="card-wrapper">
+                          <div class="summary-cards">
+                            <div class="card-wrapper">
 
-                        <div class="card-title">
+                              <div class="card-title">
 
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                                <p><%= task.description %></p>
+                              </div>
+                              <div class="comment-wrapper">
+                                <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                                <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                                </div>
+                              </div>
+                              <div class="report-banner">
+                                <div class="row">
+                                  <span>Funded</span>
+                                  <span class="pull-right"><%= task.funded %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Tasks</span>
+                                  <span class="pull-right">55 / 80</span>
+                                </div>
+                                <div class="row">
+                                  <span>Teamates</span>
+                                  <span class="pull-right"><%= task.assignments.count %>
+                                    /<%= task.target_number_of_participants %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Raised</span>
+                                  <span class="pull-right">$ <%= task.budget %></span>
+                                </div>
+                              </div>
+                              <% if user_signed_in? %>
+
+                                  <% if @project.user_id == current_user.id %>
+                                      <%= link_to doing_task_path(task.id) do %>
+                                          <button>
+                                            <i class="fa fa-check" aria-hidden="true"></i>Start Task
+                                          </button>
+                                      <% end %>
+                                  <% end %>
+                              <% end %>
+                            </div>
                           </div>
-                        </div>
-                        <div class="report-banner">
-                          <div class="row">
-                            <span>Funded</span>
-                            <span class="pull-right"><%= task.funded %></span>
-                          </div>
-                          <div class="row">
-                            <span>Tasks</span>
-                            <span class="pull-right">55 / 80</span>
-                          </div>
-                          <div class="row">
-                            <span>Teamates</span>
-                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
-                          </div>
-                          <div class="row">
-                            <span>Raised</span>
-                            <span class="pull-right">$ <%= task.budget %></span>
-                          </div>
-                        </div>
-                        <%if @project.user_id == current_user.id %>
-                            <%= link_to reviewing_task_path(task.id), :remote => true do %>
-                                <button>
-                                  <i class="fa fa-check" aria-hidden="true"></i>Start Task
-                                </button>
-                            <% end %>
-                        <% end  %>
-                      </div>
-                    </div>
                       <% end %>
                   <% end %>
                 </div>
-                <% if @project.user_id == current_user.id %>
-                <div class="section-add-task">
-                  <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
-                </div>
-                    <% end  %>
+                <% if user_signed_in? %>
+
+                    <% if @project.user_id == current_user.id %>
+                        <div class="section-add-task">
+                          <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
+                            a Task</a>
+                        </div>
+                    <% end %>
+                <% end %>
               </div>
             </div>
 
@@ -461,46 +489,50 @@
                   <% @doing_tasks.each do |task| %>
                       <%= link_to projects_show_task_path(id: task.id), remote: true do %>
                           <div class="summary-cards">
-                      <div class="card-wrapper">
-                        <div class="card-title">
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-                        <div class="report-banner">
-                          <div class="row">
-                            <span>Funded</span>
-                            <span class="pull-right"><%= task.funded %></span>
-                          </div>
-                          <div class="row">
-                            <span>Tasks</span>
-                            <span class="pull-right">55 / 80</span>
-                          </div>
-                          <div class="row">
-                            <span>Teamates</span>
-                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
-                          </div>
-                          <div class="row">
-                            <span>Raised</span>
-                            <span class="pull-right">$ <%= task.budget %></span>
-                          </div>
-                        </div>
-                        <%if @project.user_id == current_user.id %>
-                              <%= link_to doing_task_path(task.id), :remote => true do %>
-                                  <button onClick="window.location.reload()">
-                                    <i class="fa fa-arrow-right" aria-hidden="true"></i> Submit Task for Review
-                                  </button>
+                            <div class="card-wrapper">
+                              <div class="card-title">
+                                <p><%= task.description %></p>
+                              </div>
+                              <div class="comment-wrapper">
+                                <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                                <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                                </div>
+                              </div>
+                              <div class="report-banner">
+                                <div class="row">
+                                  <span>Funded</span>
+                                  <span class="pull-right"><%= task.funded %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Tasks</span>
+                                  <span class="pull-right">55 / 80</span>
+                                </div>
+                                <div class="row">
+                                  <span>Teamates</span>
+                                  <span class="pull-right"><%= task.assignments.count %>
+                                    /<%= task.target_number_of_participants %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Raised</span>
+                                  <span class="pull-right">$ <%= task.budget %></span>
+                                </div>
+                              </div>
+                              <% if user_signed_in? %>
+
+                                  <% if @project.user_id == current_user.id %>
+                                      <%= link_to reviewing_task_path(task.id) do %>
+                                          <button onClick="window.location.reload()">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i> Submit Task for Review
+                                          </button>
+                                      <% end %>
+                                  <% end %>
                               <% end %>
-                        <% end  %>
-                      </div>
-                    </div>
-                      <%end %>
+                            </div>
+                          </div>
+                      <% end %>
                   <% end %>
                 </div>
 
@@ -518,49 +550,53 @@
                 <div class="section-content">
                   <% @reviewing_tasks.each do |task| %>
                       <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                        <div class="summary-cards">
-                      <div class="card-wrapper">
-                        <div class="card-title">
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-                        <div class="report-banner">
-                          <div class="row">
-                            <span>Funded</span>
-                            <span class="pull-right"><%= task.funded %></span>
-                          </div>
-                          <div class="row">
-                            <span>Tasks</span>
-                            <span class="pull-right">55 / 80</span>
-                          </div>
-                          <div class="row">
-                            <span>Teamates</span>
-                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
-                          </div>
-                          <div class="row">
-                            <span>Raised</span>
-                            <span class="pull-right">$ <%= task.budget %></span>
-                          </div>
-                        </div>
-                        <%if @project.user_id == current_user.id %>
-                            <div style="margin-top: 1%">
-                              <%= link_to completed_task_path(task.id), :remote => true do %>
-                                  <button>
-                                    <i class="fa fa-check" aria-hidden="true"></i>Task Completed
-                                  </button>
+                          <div class="summary-cards">
+                            <div class="card-wrapper">
+                              <div class="card-title">
+                                <p><%= task.description %></p>
+                              </div>
+                              <div class="comment-wrapper">
+                                <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                                <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                                </div>
+                              </div>
+                              <div class="report-banner">
+                                <div class="row">
+                                  <span>Funded</span>
+                                  <span class="pull-right"><%= task.funded %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Tasks</span>
+                                  <span class="pull-right">55 / 80</span>
+                                </div>
+                                <div class="row">
+                                  <span>Teamates</span>
+                                  <span class="pull-right"><%= task.assignments.count %>
+                                    /<%= task.target_number_of_participants %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Raised</span>
+                                  <span class="pull-right">$ <%= task.budget %></span>
+                                </div>
+                              </div>
+                              <% if user_signed_in? %>
+
+                                  <% if @project.user_id == current_user.id %>
+                                      <div style="margin-top: 1%">
+                                        <%= link_to completed_task_path(task.id) do %>
+                                            <button>
+                                              <i class="fa fa-check" aria-hidden="true"></i>Task Completed
+                                            </button>
+                                        <% end %>
+                                      </div>
+                                  <% end %>
                               <% end %>
                             </div>
-                        <% end  %>
-                      </div>
-                    </div>
-                       <% end %>
+                          </div>
+                      <% end %>
                   <% end %>
                 </div>
 
@@ -578,39 +614,40 @@
                 <div class="section-content">
                   <% @done_tasks.each do |task| %>
                       <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                         <div class="summary-cards">
-                      <div class="card-wrapper">
-                        <div class="card-title">
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                          <div class="summary-cards">
+                            <div class="card-wrapper">
+                              <div class="card-title">
+                                <p><%= task.description %></p>
+                              </div>
+                              <div class="comment-wrapper">
+                                <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+                                <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+                                </div>
+                              </div>
+                              <div class="report-banner">
+                                <div class="row">
+                                  <span>Funded</span>
+                                  <span class="pull-right"><%= task.funded %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Tasks</span>
+                                  <span class="pull-right">55 / 80</span>
+                                </div>
+                                <div class="row">
+                                  <span>Teamates</span>
+                                  <span class="pull-right"><%= task.assignments.count %>
+                                    /<%= task.target_number_of_participants %></span>
+                                </div>
+                                <div class="row">
+                                  <span>Raised</span>
+                                  <span class="pull-right">$ <%= task.budget %></span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="report-banner">
-                          <div class="row">
-                            <span>Funded</span>
-                            <span class="pull-right"><%= task.funded %></span>
-                          </div>
-                          <div class="row">
-                            <span>Tasks</span>
-                            <span class="pull-right">55 / 80</span>
-                          </div>
-                          <div class="row">
-                            <span>Teamates</span>
-                            <span class="pull-right"><%= task.assignments.count %>/<%= task.target_number_of_participants %></span>
-                          </div>
-                          <div class="row">
-                            <span>Raised</span>
-                            <span class="pull-right">$ <%= task.budget %></span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                       <% end %>
                   <% end %>
                 </div>
@@ -653,7 +690,7 @@
   }
 
 
-  $(function(){
+  $(function () {
     $('#testDiv').slimScroll();
     $('#testDiv2').slimScroll({
       allowPageScroll: true

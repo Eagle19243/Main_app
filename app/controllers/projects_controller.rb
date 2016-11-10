@@ -11,9 +11,13 @@ class ProjectsController < ApplicationController
 
   def index
     if user_signed_in?
-       unless   current_user.user_wallet_address.user_keys.blank?
+      if current_user.user_wallet_address.blank?
+       # current_user.assign_address
+        else
+        unless  current_user.user_wallet_address.user_keys.blank?
          @download_keys = true
-       end    
+        end
+      end
     end
     @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
