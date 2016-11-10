@@ -1,55 +1,66 @@
-<div class="top_banner" id="top_banner" style="background: url(<%= @project.picture%>) no-repeat center center; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; height: 470px; background-repeat: no-repeat; text-align: center; ">
-  <div class="banner_content" style="text-align: center;">
+
+<div class='welcome-banner'>
+  <%= image_tag(@project.picture) %>
+  <div class="mid-section">
+
     <div class="row">
-      <div class="medium-8 medium-offset-2">
-        <div class="sub-title">
-              <span>
-                By <%= link_to @project.user.name, user_path(@project.user), style: 'color:white' %>
-                <% if @project.user.picture? %>
-                  <%= image_tag(@project.user.picture, size: "35x35") %>
-                <% else %>
-                  <%= gravatar_for(@project.user, 35)%>
-                <%end%>
-                <i class="icon-map-marker" aria-hidden="true"></i>
-                &nbsp;&nbsp; Put real project location here
-              </span>
+      <center class="project-intro">
+
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-sm-5 col-custom">
+            <div class="text-right">
+              <h4 class="text-white">By: <%= @project.user.name %></h4>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-custom">
+            <div class="text-center">
+              <% if @project.user.picture? %>
+                <%= image_tag(@project.user.picture, size: "50x50") %>
+              <% else %>
+                <%= gravatar_for_user(@project.user)%>
+              <%end%>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-5 col-custom">
+            <div class="text-left">
+              <h4 class="text-white"><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.user.city %></h4>
+            </div>
+          </div>
         </div>
-        <h2><%= @project.title%></h2>
-        <div class="progress-widget progress-widget-lg">
-          <div class="progress progress-home task_bar">
-            <span class="meter" style="<%= @project.funded_percentages%>"></span>
-          </div>
-          <div class="row prgress-values-wrapper">
-            <div class="prgress_values_block small-6  medium-2 columns">
-              <div class="progress_values ">
-                <p><%= @project.funded_percentages%>
-                  <span>Funded</span></p>
-              </div>
-            </div>
-            <div class="prgress_values_block small-6  medium-2 columns no-pad">
-              <div class="progress_values">
-                <p><%= @project.tasks_relations_string %>
-                  <span>Completed Task</span></p>
-              </div>
-            </div>
-            <div class="prgress_values_block small-6  medium-2 columns">
-              <div class="progress_values">
-                <p><%= @project.team_relations_string %>
-                  <span>Teamates</span></p>
-              </div>
-            </div>
-            <div class="prgress_values_block small-6  medium-2 columns">
-              <div class="progress_values">
-                <p>$<%= @project.funded_budget %>
-                  <span>Raised</span></p>
-              </div>
-            </div>
-            <div class="medium-2 columns"></div>
-            <div class="medium-2 columns"></div>
-          </div>
-        </div><!-- progress_widget -->
-      </div>
+
+        <h2><%= @project.title %></h2>
+      </center>
     </div>
+
+    <div class="row">
+      <center>
+        <div class="task-progress-wrapper">
+          <div class="progress mb20">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @project.funded_percentages %>">
+            </div>
+          </div>
+
+          <table>
+            <tr class="value">
+              <td><%= @project.funded_percentages%> %</td>
+              <td><%= @project.tasks_relations_string %></td>
+              <td><%= @project.team_relations_string %></td>
+              <td>$ <%= @project.funded_budget %></td>
+            </tr>
+            <tr class="items">
+              <td>Funded</td>
+              <td>Completed Tasks</td>
+              <td>Tearmates</td>
+              <td>Raised</td>
+            </tr>
+          </table>
+        </div>
+      </center>
+    </div>
+
+    <div class="row">
+      <a href=<%= "/projects/#{@project.id}/team_memberships" %> id="myBtn" class="button round get-invo-btn" data-remote="true"><%= @project.team.team_members.include?(current_user) ? "Leave Project" : "Join Project" %></a>
+    </div>
+
   </div>
-  <a href=<%= "/projects/#{@project.id}/team_memberships" %> id="myBtn" class="button round get-invo-btn" data-remote="true"><%= @project.team.team_members.include?(current_user) ? "Leave Project" : "Join Project" %></a>
 </div>

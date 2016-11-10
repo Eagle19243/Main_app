@@ -210,7 +210,11 @@ progress.success { background: #00A0F4 !important; display: block; margin: 0 aut
 .lin-inner { border-right: solid 1px #ddd; line-height: 28px; text-align: left; display: inline-block; margin-bottom: -7px; padding: 10px; }
 .lin3 .lin-inner span.no { color: #00a0f3; font-size: 48px; line-height: 42px; float: left; padding: 0 10px; }
 .lin3 .lin-inner span.tx { float: right; line-height: 17px; padding-top: 6px; }
-.lin2-contents h1 { font-size: 30px; margin-bottom: 0; display: inline-block; margin-right: 45px; }
+.lin2-contents h1 { font-size: 30px; margin-bottom: 0; display: inline-block; margin-right: 15px; }
+.lin2-contents .glyphicon { font-size: 20px; margin-right: 25px; display: none;}
+.project-content-wrapper .glyphicon { font-size: 20px; margin-right: 25px; display: none;}
+.profile-title { width: 300px; margin-right: 25px;}
+.button-margin-right { margin-right: 15px; }
 .lin2-contents p { font-size: 14px; color: #898989; }
 .lin2-social i { color: #fff; font-size: 15px; width: 28px; display: inline-block; height: 28px; text-align: center; border-radius: 50%; padding-top: 6px; }
 .lin2-social i.icon-facebook { background: #18528d; }

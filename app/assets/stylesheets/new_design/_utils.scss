@@ -16,6 +16,9 @@
   margin-left: 30px !important;
 }
 
+.mb20 {
+  margin-bottom: 20px !important;
+}
 .mb30 {
   margin-bottom: 30px !important;
 }
@@ -46,6 +49,10 @@
   padding-left: 0;
 }
 
+.margin-none {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
 
 .border-right {
   border-right: 1px solid $grey-clr;
@@ -109,4 +116,3 @@ h2:before {
 h2:before {
   border-top: none !important;
 }
-

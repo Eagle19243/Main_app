@@ -8,12 +8,30 @@
     <%end%>
   </div>
   <div class="lin2-contents medium-10 columns">
-    <h1><%= @user.name %></h1>
-    <div class="lin2-social ">
-      <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank"><i class="icon-facebook"></i></a>
-      <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank"><i class="icon-linkedin"></i></a>
-      <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank"><i class="icon-link"></i></a>
-      <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank"><i class="icon-envelope-alt"></i></a>
+    <div>
+      <h1 class="profile-title">
+        <% if (current_user && current_user.id == @user.id) %>
+          <%= best_in_place @user, :name, :as => :textarea, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+        
+          <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+        <% else %>
+          <%= @user.name %>
+        <% end %>
+      </h1>        
+      <div class="lin2-social">
+        <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
+          <i class="fa fa-facebook" aria-hidden="true"></i>
+        </a>
+        <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
+          <i class="fa fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
+          <i class="fa fa-twitter" aria-hidden="true"></i>
+        </a>
+        <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank">
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        </a>
+      </div>
     </div>
     <p>
       <i class="icon-map-marker margin-right-5"></i>
@@ -21,8 +39,9 @@
     </p>
     <a href="#" class="button button-send"><i class="icon-comment"></i>Send Message</a>
     <a href="#" class="button button-send">Wallet Address: <%= @user.user_wallet_address.sender_address rescue 'not found' %></a>
-    <a href="/user_wallet_transactions/new" class="button button-send">Transfer coins </a>
-
+    <!--<a href="/user_wallet_transactions/new"  class="button button-send" >Transfer coins </a>-->
+    <a href="javascript:void(0)" class="button button-send" data-reveal-id="fund-transfer-wallet">Transfer coins
+    </a>
   </div>
 </div>
 <div class="lin3">
@@ -41,7 +60,7 @@
 </div>
 <section class="bio">
     <h1>
-      <i class="icon-user"></i>
+      <i class="fa fa-user" aria-hidden="true"></i>
       <% if (current_user && current_user.id == @user.id) %>
         <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
         <i class="fa fa-pencil" id="bio-edit-pencil"></i>
@@ -54,16 +73,21 @@
     <br>
 </section>
 <section class="comments">
-  <div class="row">
-    <!--<%= render 'users/profile_comments' %>-->
+  <div class="row margin-none">
+    <%= render 'users/profile_comments' %>
     <%= render 'users/profile_projects' %>
   </div>
 </section>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $(".best_in_place").best_in_place();
-  });
+  $(".profile-title").hover(
+    function() {
+      $("#edit-profile-pencil").show();
+    },
+    function() {
+      $("#edit-profile-pencil").hide();
+    }
+  )
 
   $('.profile-bio .best_in_place').focusin(function(){
     $("#bio-edit-pencil").hide();
@@ -74,4 +98,67 @@
     $("#bio-edit-save").hide();
     $("#bio-edit-pencil").show();
   });
+</script>
+<div id="fund-transfer-wallet" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
+  <div>
+    <a class="close-reveal-modal" aria-label="Close">&times;</a>
+    <div class="fund-do">
+      <div class="row">
+        <center><h4 >Transfer BTC to Any Wallet</h4></center>
+        <center>  <div style="background-color: red ;font-size: large ;margin:0 3%"  id="response-from-wallet"></div></center>
+        <div class="large-1 medium-1 small-0 columns"></div>
+        <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true ) do %>
+            <center>   <div class="form-group" style="margin:0 3%">
+              <label class="control-label" >Amount</label>
+              <input type="text" id="wallet_transaction_amount" name="amount"  class="form-control" required="true" placeholder='Enter USD Amount to Send'/>
+              <span id="wallet_btc"style="color: darkorange"></span>
+            </div></center>
+            <center><div class="form-group" style="margin:0 3%">
+              <label class="control-label" >User Wallet</label>
+              <input type="text" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control" placeholder='Please Enter Receiver Wallet Address' />
+            </div></center>
+            <div class="form-group" style="margin:0 3%">
+                <button type="submit" class="  btn btn-primary btn-danger" id="save-wallet-teansaction" style="margin: 10px" value="save">Save</button>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  $('#wallet_transaction_amount').keypress(function(eve) {
+    if(eve.which == 8 || eve.which == 0){
+      return true;
+    }
+    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
+      document.getElementById("wallet_btc").innerHTML = '';
+      var usd = document.getElementById("wallet_transaction_amount");
+      var current_btc = '<%=  get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      eve.preventDefault();
+    }
+
+// this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
+    $('#wallet_transaction_amount').keyup(function(eve) {
+      if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
+      }
+      document.getElementById("wallet_btc").innerHTML = '';
+      var usd = document.getElementById("wallet_transaction_amount");
+      var current_btc = '<%=  get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+
+    });
+
+  });
+  $('#save-wallet-teansaction').click(function(){
+    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != ''  ){
+      $('#save-wallet-teansaction').disabled = true ;
+      $('#response-from-wallet').html("");
+    $('#response-from-wallet').html("Requesting ... please Wait ");}
+  });
+$(".close-reveal-modal").click(function(){
+  $('#response-from-wallet').html("");
+});
+
 </script>

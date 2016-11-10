@@ -1,5 +1,7 @@
 <div class="small-12 medium-6 columns">
-  <h1><i class="icon-file-text-alt"></i>Projects</h1>
+  <h1>
+    <i class="fa fa-file-text-o" aria-hidden="true"></i>Projects
+  </h1>
   <% @user.projects.each do |project| %>
     <div class="project-wrap">
       <a href="/projects/<%= project.id %>"><p class="big-tx"><%= project.title %></p></a>
@@ -13,7 +15,7 @@
             <span>Funded</span>
           </div>
         </div>
-        <div class="small-6 medium-2 columns no-pad-left">
+        <div class="small-6 medium-3 columns no-pad-left">
           <div class="stats"> 
             <%= project.tasks_relations_string %>
             <span>Completed Task</span>

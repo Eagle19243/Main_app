@@ -13,13 +13,12 @@ class ProjectsController < ApplicationController
     if user_signed_in?
        unless   current_user.user_wallet_address.user_keys.blank?
          @download_keys = true
-       end
+       end    
     end
     @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
    # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
-
   end
 
   def original_url
@@ -95,10 +94,10 @@ class ProjectsController < ApplicationController
     term = params[:term]
     @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
     @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
-      respond_to do |format|
+    respond_to do |format|
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
-      end
+     end
   end
 
   def user_search

@@ -22,7 +22,7 @@
 
 
 
-<% if current_user.admin? %>
+<% if current_user && current_user.admin? %>
 <td>
 
   <%= form_for(user) do |f| %>

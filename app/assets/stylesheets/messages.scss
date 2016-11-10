@@ -149,6 +149,7 @@ h4.message-break span {
   width: 20%;
   background-color: #f0f5f7;
   padding: 0;
+  min-height: 1024px;
 }
 
 .messages-nav-title {
@@ -215,6 +216,11 @@ h4.message-break span {
 
 .side-nav li.active {
   background: rgba(6, 10, 62, 0.44);
+  border-right: 7px solid #2098d1;
+}
+
+.side-nav li.pre-active {
+  background: rgba(36, 50, 82, 0.44);
   border-right: 7px solid #2098d1;
 }
 
