@@ -1,9 +1,5 @@
 <div id="side-menu-id" class="side-menu">
   <ul class="side-nav">
-    <li>
-      <i class="fa fa-tachometer" aria-hidden="true"></i>
-      <%= link_to 'Dashboard', my_projects_path %>
-    </li>
     <li class="<%= active_class(user_path(current_user)) %>">
       <i class="fa fa-user" aria-hidden="true"></i>
       <%= link_to 'Profile' , user_path(current_user) %>
