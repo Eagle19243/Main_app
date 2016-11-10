@@ -18,7 +18,7 @@
       <div class="dropdown user-dropdown">
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <% if current_user.picture? %>
-            <%= image_tag(current_user.picture.url, size: "30x30") %>
+            <%= image_tag(current_user.picture, size: "30x30") %>
           <% else %>
             <%= gravatar_for_user(current_user)%>
           <%end%>
@@ -33,7 +33,7 @@
       </div>
     </li>
     <li>
-      <%= link_to messages_path, data: { no_turbolink: true } do %>
+      <%= link_to group_messages_path, data: { no_turbolink: true } do %>
         <i class="fa fa-envelope-o" aria-hidden="true"></i>
       <% end %>
     </li>

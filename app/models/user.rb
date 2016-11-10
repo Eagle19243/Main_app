@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  mount_uploader :picture, PictureUploader
+  # mount_uploader :picture, PictureUploader
   #after_create :populate_guid_and_token
   after_create :assign_address
 
