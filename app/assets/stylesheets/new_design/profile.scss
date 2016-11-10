@@ -1,0 +1,80 @@
+
+@import 'variables';
+
+.lin2-social {
+  a:hover {
+    text-decoration: none;
+  }
+
+  i.fa-facebook {
+    background-color: $alt-clr;
+  }
+  i.fa-twitter {
+    background-color: #0CAEEF;
+  }
+  i.fa-linkedin {
+      background-color: #00A8FF;
+  }
+  i.fa-envelope-o {
+      background-color: #ffb631;
+  }
+}
+
+.bio {
+  i#bio-edit-pencil {
+    font-size: 14px;
+    margin-right: 5px;
+    color: #555;
+  }
+}
+
+.project-wrap {
+  margin-top: 15px !important;
+  background-color: #eee;
+  padding: 10px 20px;
+  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+
+  .big-tx {
+    color: #333 !important;
+  }
+
+  .stats {
+    color: #555;
+  }
+}
+
+.side-nav li {
+  i {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  span.notify-wrapper {
+    position: relative;
+  }
+
+  span.count {
+    color: #00a0f3;
+    font-weight: 600;
+    background: #fff;
+    line-height: 15px;
+    border-radius: 50%;
+    height: 15px;
+    text-align: center;
+    width: 15px;
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+  }
+
+  &:hover {
+    background-color: $alt-clr;
+  }
+}
+
+.side-nav li a:not(.button):not(.submit):not(.button-xs) {
+  padding: 20px 10px 20px 5px !important;
+  display: inline-block;
+  font-size: 16px;
+}

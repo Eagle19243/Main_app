@@ -5,11 +5,6 @@
   </div>
 
   <ul class="links-wrapper ml30">
-    <% if projects_taskstab? %>
-      <li>
-        <a href="javascript:void(0)" data-reveal-id="Project-Invite-Model" >Add / Invite People</a>
-      </li>
-    <% end %>
     <li>
       <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
     </li>
@@ -32,7 +27,7 @@
         <ul class="dropdown-menu">
           <li><%= link_to 'Profile', user_path(current_user)%></li>
           <li><%= link_to 'Dashboard' , user_path(current_user) %></li>
-          <li><%= link_to 'Messages' , messages_path %></li>
+          <li><%= link_to 'Messages' , group_messages_path %></li>
           <li><%= link_to 'Notifications' , notifications_path %></li>
         </ul>
       </div>

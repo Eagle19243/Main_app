@@ -72,4 +72,8 @@ module ApplicationHelper
     controller_name == 'projects' && action_name == 'taskstab'
   end
 
+ def active_class(link_path)
+  current_page?(link_path) ? "active" : ""
+ end
+
 end

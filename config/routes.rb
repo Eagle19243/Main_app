@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post 'group_messages/users_chat'
 
 
-  get 'pages/term_of_use'
+  get 'pages/terms_of_use'
   get 'pages/privacy_policy'
 
   post 'projects/send_project_invite_email'

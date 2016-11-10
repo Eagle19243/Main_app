@@ -76,12 +76,13 @@
   }
 
   table {
-    display: block;
-    width: 100%;
+    display: inline;
+    width: auto;
     text-align: center;
   }
 
   tbody {
+    margin: auto;
     tr td {
       padding: 0px 5px !important;
       font-size: 16px !important;
@@ -139,6 +140,7 @@
       display: inline-block;
       padding: 0px 15px;
 
+      a.btn-invite, 
       a.btn-edit, 
       a.btn-fund, 
       a.btn-task, 
@@ -155,6 +157,10 @@
         font-weight: 400;
       }
 
+      a.btn-invite {
+        color: #ed7f16;
+        border: 1px solid #ed7f16;
+      }
       a.btn-edit {
         color: red;
         border: 1px solid red;
@@ -203,7 +209,7 @@
     background: #3A589E none repeat scroll 0% 0%;
     text-align: center;
     padding: 0px;
-    border-radius: 50px;
+    border-radius: 50%;
 
     &.fa-twitter {
       background-color: #0CAEEF;
