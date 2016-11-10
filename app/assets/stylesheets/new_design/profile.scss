@@ -42,3 +42,34 @@
     color: #555;
   }
 }
+
+.side-nav li {
+  i {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  span.notify-wrapper {
+    position: relative;
+  }
+
+  span.count {
+    color: #00a0f3;
+    font-weight: 600;
+    background: #fff;
+    line-height: 15px;
+    border-radius: 50%;
+    height: 15px;
+    text-align: center;
+    width: 15px;
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+  }
+}
+
+.side-nav li a:not(.button):not(.submit):not(.button-xs) {
+  padding: 20px 10px 20px 5px !important;
+  display: inline-block;
+}
