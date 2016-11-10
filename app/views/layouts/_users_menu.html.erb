@@ -23,7 +23,7 @@
       <div class="dropdown user-dropdown">
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <% if current_user.picture? %>
-            <%= image_tag(current_user.picture.url, size: "30x30") %>
+            <%= image_tag(current_user.picture, size: "30x30") %>
           <% else %>
             <%= gravatar_for_user(current_user)%>
           <%end%>
