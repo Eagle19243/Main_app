@@ -49,6 +49,10 @@
   padding-left: 0;
 }
 
+.margin-none {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
 
 .border-right {
   border-right: 1px solid $grey-clr;

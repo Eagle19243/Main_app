@@ -9,11 +9,19 @@
   </div>
   <div class="lin2-contents medium-10 columns">
     <h1><%= @user.name %></h1>
-    <div class="lin2-social ">
-      <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank"><i class="icon-facebook"></i></a>
-      <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank"><i class="icon-linkedin"></i></a>
-      <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank"><i class="icon-link"></i></a>
-      <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank"><i class="icon-envelope-alt"></i></a>
+    <div class="lin2-social">
+      <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
+        <i class="fa fa-facebook" aria-hidden="true"></i>
+      </a>
+      <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
+        <i class="fa fa-linkedin" aria-hidden="true"></i>
+      </a>
+      <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+      </a>
+      <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+      </a>
     </div>
     <p>
       <i class="icon-map-marker margin-right-5"></i>
@@ -41,7 +49,7 @@
 </div>
 <section class="bio">
     <h1>
-      <i class="icon-user"></i>
+      <i class="fa fa-user" aria-hidden="true"></i>
       <% if (current_user && current_user.id == @user.id) %>
         <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
         <i class="fa fa-pencil" id="bio-edit-pencil"></i>
@@ -54,8 +62,8 @@
     <br>
 </section>
 <section class="comments">
-  <div class="row">
-    <!--<%= render 'users/profile_comments' %>-->
+  <div class="row margin-none">
+    <%= render 'users/profile_comments' %>
     <%= render 'users/profile_projects' %>
   </div>
 </section>
