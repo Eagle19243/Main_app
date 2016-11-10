@@ -94,10 +94,10 @@ class ProjectsController < ApplicationController
     term = params[:term]
     @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
     @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
-      respond_to do |format|
+    respond_to do |format|
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
-      end
+     end
   end
 
   def user_search

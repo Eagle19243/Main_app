@@ -51,10 +51,13 @@ class Ability
   end
 
   def initializeUsersPermissions(user)
-    can :read, User
+    can :show, User
     if user
       can [:my_projects], User
       can [:update, :destroy], User, :id => user.id 
+      if user.admin
+        can :index, User
+      end
     end
   end
 

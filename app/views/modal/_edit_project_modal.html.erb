@@ -9,7 +9,14 @@
           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-custom">
             <div class="project-content-wrapper">
               <div class="content-header">
-                <h4>Project Name</h4>
+                <h4>
+                  <% if (current_user && current_user.id == @project.user_id) %>
+                    <%= best_in_place @project, :title, :as => :textarea, activator: '#edit-project-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+                    <a id="edit-project-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+                  <% else %>
+                    <%= @project.title %>
+                  <% end %>
+                </h4>
                 <a href="javascript:void(0)" class="pull-right"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Suggest Edit</a>
               </div>
               <div class="content-section">
@@ -63,12 +70,10 @@
                       <span>"tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nos.d exerci tation"</span>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -81,4 +86,13 @@
       height: '600px'
     });
   });
+
+  $(".project-content-wrapper h4").hover(
+    function() {
+      $("#edit-project-pencil").show();
+    },
+    function() {
+      $("#edit-project-pencil").hide();
+    }
+  )
 </script>

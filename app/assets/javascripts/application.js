@@ -58,6 +58,9 @@ $(function() {
   $('.task-box').matchHeight();
 });
 
+$(document).ready(function() {
+  $(".best_in_place").best_in_place();
+});
 
 
 // enhance Turbolinks when necessary
