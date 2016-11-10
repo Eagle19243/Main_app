@@ -26,7 +26,10 @@ class UserWalletTransactionsController < ApplicationController
       if satoshi_amount.eql?('error') or satoshi_amount.blank?
         # satoshi_amount=150761.0
         respond_to do |format|
-          format.html { redirect_to user_wallet_transactions_new_path , alert: 'Error, Please try again Later!' }
+          @msg = 'Error, Please try again Later!'
+          format.js
+          format.html { redirect_to user_wallet_transactions_new_path , alert:  @msg }
+
         end
       else
         access_token = access_wallet
@@ -38,7 +41,9 @@ class UserWalletTransactionsController < ApplicationController
         @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount:satoshi_amount , wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
         unless @res["message"].blank?
           respond_to do |format|
-            format.html {redirect_to user_wallet_transactions_new_path  , alert: @res["message"] }
+            @msg = @res["message"]
+            format.js
+            format.html {redirect_to user_wallet_transactions_new_path  , alert:  @msg }
           end
         else
           @transfer.tx_hash = @res["tx"]
@@ -46,23 +51,27 @@ class UserWalletTransactionsController < ApplicationController
 
           if(@transfer.save!)
             respond_to do |format|
-              format.html {redirect_to user_wallet_transactions_new_path  , notice: " #{params["amount"]} usd has been successfully sent to #{@transfer.user_wallet}." }
+              @msg = " #{params["amount"]} usd has been successfully sent to #{@transfer.user_wallet}."
+              format.js
+              format.html {redirect_to user_wallet_transactions_new_path  , notice: @msg  }
 
             end
           else
             respond_to do |format|
-              format.html { redirect_to user_wallet_transactions_new_path  , alert: @transfer.errors.messages.inspect }
+              @msg = @transfer.errors.messages.inspect
+              format.js
+              format.html { redirect_to user_wallet_transactions_new_path  , alert: @msg }
             end
           end
         end
       end
     rescue => e
       respond_to do |format|
-        msg = e.inspect
-        msg.slice! "#<Bitgo::V1::ApiError: "
-        msg = msg.chomp ">"
-
-        format.html { redirect_to user_wallet_transactions_new_path  , alert: msg }
+        @msg = e.inspect
+        @msg.slice! "#<Bitgo::V1::ApiError: "
+        @msg = @msg.chomp ">"
+        format.js
+        format.html { redirect_to user_wallet_transactions_new_path  , alert: @msg }
       end
     end
   end
