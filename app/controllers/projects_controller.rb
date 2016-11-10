@@ -193,9 +193,9 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
-    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted", "suggested_task"]).all
+    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted"]).all
     @doing_tasks = @project.tasks.where(state: "doing").all
-  #  @suggested_tasks = @project.tasks.where(state: "suggested_task").all
+    @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     @reviewing_tasks = @project.tasks.where(state: "reviewing").all
     @done_tasks = @project.tasks.where(state: "completed").all
   end
