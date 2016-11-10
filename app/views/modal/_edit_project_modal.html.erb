@@ -11,7 +11,7 @@
               <div class="content-header">
                 <h4>
                   <% if (current_user && current_user.id == @project.user_id) %>
-                    <%= best_in_place @project, :title,:calsses => "edit_title", :as => :textarea, activator: '#edit-project-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+                    <%= best_in_place @project, :title, :as => :textarea, activator: '#edit-project-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
                     <a id="edit-project-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
                   <% else %>
                     <%= @project.title %>
@@ -70,12 +70,10 @@
                       <span>"tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nos.d exerci tation"</span>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
