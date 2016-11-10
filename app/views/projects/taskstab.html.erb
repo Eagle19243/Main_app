@@ -220,6 +220,13 @@
     <div class="tabs-wrapper">
       <div id="Plan" class="tabcontent">
         <div class="btns-group">
+
+          <div class="btn-wrapper">
+            <a href="javascript:void(0)" data-reveal-id="Project-Invite-Model" class="btn-invite">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;&nbsp;Invite
+            </a>
+          </div>
+
           <div class="btn-wrapper">
             <a href="javascript:void(0)" data-toggle="modal" data-target="#editProjectModal" class="btn-edit">
               <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
@@ -227,13 +234,13 @@
           </div>
 
           <div class="btn-wrapper">
-            <a href="javascript:void(0)" class="btn-fund">
+            <a href="javascript:void(0)" class="btn-fund" data-toggle="modal" data-target="#taskFundModal">
               <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;Fund
             </a>
           </div>
 
           <div class="btn-wrapper">
-            <a href="javascript:void(0)" class="btn-task">
+            <a href="javascript:void(0)" class="btn-task" data-toggle="modal" data-target="#taskDoModal">
               <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;Do a Task
             </a>
           </div>
@@ -312,10 +319,10 @@
                           </table>
                         </div>
                         <div class="fund-do-btns">
-                          <a href="javascript:void(0)" title="FUND">
+                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
                             <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;FUND
                           </a>
-                          <a href="javascript:void(0)" title="DO">
+                          <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
                             <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;DO
                           </a>
                         </div>
@@ -559,6 +566,8 @@
 </div>
 
 <%= render "modal/edit_project_modal" %>
+<%= render "modal/task_fund_modal" %>
+<%= render "modal/task_do_modal" %>
 
 <script>
   function openTab(evt, tabName) {

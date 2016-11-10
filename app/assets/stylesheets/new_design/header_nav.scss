@@ -27,14 +27,14 @@
 
   a {
     display: inline-block;
-    color: #fff;
+    color: #fff !important;
     font-weight: 600;
     font-size: 32px;
     margin: 0;
 
     &:hover {
-      color: #fff;
-      text-decoration: none;
+      color: #fff !important;
+      text-decoration: none !important;
     }
   }
 }
@@ -95,6 +95,10 @@ ul.links-wrapper {
         height: 40px;
         line-height: 40px;
       }
+    }
+
+    img {
+      border-radius: 50%;
     }
   }
 
