@@ -1,5 +1,4 @@
 class MessagesController < ApplicationController
-
   layout false
 
   def index

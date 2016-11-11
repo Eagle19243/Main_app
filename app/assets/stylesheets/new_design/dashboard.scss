@@ -119,6 +119,7 @@
     padding: 10px;
     padding-top: 20px;
     border-bottom: 1px solid #555;
+    text-align: center;
     img {
       width: 40px;
       height: 40px;
@@ -139,6 +140,8 @@
 .nav-header.dashboard {
   background-color: #eee;
   border-bottom: 1px solid #ddd;
+  max-width: none;
+  margin-right: -40px;
 
   ul.links-wrapper {
     background-color: #eee;
@@ -158,6 +161,78 @@
         color: #555;
       }
     }
+  }
+}
+
+#messages {
+  img {
+    border-radius: 50%;
+  }
+}
+
+#new_group_message,
+#chat-name {
+  .columns {
+    padding-left: 0;
+  }
+}
+
+#page-message-content {
+  padding-left: 30px;
+}
+
+.invitation.notify-card {
+  background-color: #eee;
+  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+  border-bottom: none !important;
+  margin-bottom: 10px;
+  padding: 10px;
+
+  .caj {
+    padding: 0;
+  }
+
+  .delete-notification {
+    color: $alt-clr;
+    font-size: 16px;
+  }
+
+  .notification-action {
+    img {
+      float: none !important;
+    }
+    display: block;
+    color: #555;
+    font-style: normal;
+    font-size: 16px;
+  }
+
+  p.img-caj {
+    padding-left: 32px;
+  }
+
+  .simp {
+    padding-left: 0;
+  }
+
+  .notification-body {
+    padding-left: 32px;
+    p {
+      font-size: 15px;
+      color: #666;
+    }
+  }
+}
+
+.load-older-notifications-link {
+  padding: 20px 0px;
+  i {
+    color: $alt-clr;
+    font-size: 16px;
+    margin-right: 5px;
+  }
+  a {
+    font-size: 16px;
   }
 }
 
