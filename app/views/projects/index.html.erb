@@ -3,12 +3,12 @@
 
     <div class="heading-banner">
       <div class="project-header">
-        <h2>Browse All Projects</h2>
+        <a href="/" style="color: black"> <h2 >Browse All Projects</h2></a>
         <%= paginate @featured_projects %>
       </div>
 
       <div class="search-box-wrapper pull-right">
-        <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form',:class => "search-project-box" do  %>
+        <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
             <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
             <button type="button" name="" type="submit" >
               <i class="fa fa-search"></i>
@@ -17,7 +17,8 @@
       </div>
     </div>
 
-    <div class="projects-cards">
+    <div class="projects-cards"  id="search-results-show">
+      <div id="error-message-show" style="background-color: red"> </div>
       <div class="row padding-none">
         <% @featured_projects.each do |project| %>
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">

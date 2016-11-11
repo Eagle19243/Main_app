@@ -111,10 +111,14 @@ class ProjectsController < ApplicationController
     @results = @search.results
     unless @results.blank?
       respond_to do |format|
-       format.html {render  :search_results}
+      # format.html {render  :search_results}
+        format.js
       end
     else
-      redirect_to root_path ,alert: 'Sorry no results match with your search'
+      respond_to do |format|
+        format.js
+       # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
+      end
     end
   end
 

@@ -1,8 +1,8 @@
-<div class="project-page-info">
-  <h3>Search Results</h3>
-  <p>See what other people are doing with YouServe, and get involved.</p>
-  <%#= link_to 'Make a new project', new_project_path, class: "hero-button" %>
-</div>
+<!--<div class="project-page-info">-->
+  <!--<h3>Search Results</h3>-->
+  <!--<p>See what other people are doing with YouServe, and get involved.</p>-->
+  <!--<%#= link_to 'Make a new project', new_project_path, class: "hero-button" %>-->
+<!--</div>-->
 <div class="separator"></div>
 <div class="content projects">
   <% @results.each do |result| %>
@@ -11,10 +11,10 @@
         <% if (result.class.to_s.eql?('Project')) %>
               <div class="picture-wrapper">
                   <% if result && result.picture? %>
-                    <a class="image-with-title" href="<%= project_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.picture.url %>) no-repeat center center">
+                    <a class="image-with-title" href="<%=taskstab_project_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.picture.url %>) no-repeat center center">
                     </a>
                   <% else %>
-                    <a class="image-with-title" href="<%= project_path(result)%>">
+                    <a class="image-with-title" href="<%= taskstab_project_path(result)%>">
                   <% end %>
                   <h4 class="project-title"><%= result.title %></h4>
                   <span class="project-country"><%= result.country %></span>
@@ -62,4 +62,3 @@
       </div>
   <% end %>
 </div>
-<%= render 'visitors/sitewide_footer' %>
