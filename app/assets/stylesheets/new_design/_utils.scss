@@ -45,8 +45,8 @@
 }
 
 .padding-none {
-  padding-right: 0;
-  padding-left: 0;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
 .margin-none {
@@ -115,4 +115,8 @@ h2:before {
 
 h2:before {
   border-top: none !important;
+}
+
+.form-group {
+  width: 100%;
 }
