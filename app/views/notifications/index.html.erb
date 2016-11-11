@@ -6,14 +6,11 @@ rel="stylesheet"  type='text/css'>
   My notifications
 <% end %>
 
-<div class="row expanded" data-equalizer data-equalizer-mq="large-up">
-  <%= render 'users/sidebar' %>
-  <div class="small-12 medium-10 columns" data-equalizer-watch>
-    <div class="content notifications-container">
-      <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
-      <%= render @notifications %>
-    </div>
-  </div>
+<div class="content notifications-container">
+  <h2>My Notificaitons</h2>
+
+  <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
+  <%= render @notifications %>
 </div>
 
 <script>

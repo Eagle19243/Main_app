@@ -3,15 +3,10 @@
   <%= @user.name %>
 <% end %>
 
-<div class="row expanded" data-equalizer data-equalizer-mq="large-up">
-  <%= render 'users/sidebar' %>
-  <div class="small-12 medium-10 columns" data-equalizer-watch>
-    <div id="tabcontentdiv">
-      
-      <div class="content" class="active" id="profile">
-        <%= render "profile" %>
-      </div>
-
-    </div>
+<div id="tabcontentdiv">
+  
+  <div class="content" class="active" id="profile">
+    <%= render "profile" %>
   </div>
+
 </div>

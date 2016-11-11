@@ -1,5 +1,6 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
+  layout "dashboard"
 
   PER_LOAD_COUNT = 10
 
