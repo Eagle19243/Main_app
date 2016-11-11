@@ -8,9 +8,9 @@
       </div>
 
       <div class="search-box-wrapper pull-right">
-        <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form',:class => "search-project-box" do  %>
-            <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
-            <button type="button" name="" type="submit" >
+        <%= form_tag projects_user_search_path, :method => :post, :id => 'search-form', :class => "search-project-box" do %>
+            <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %>
+            <button type="button" name="" type="submit">
               <i class="fa fa-search"></i>
             </button>
         <% end %>
@@ -20,88 +20,114 @@
     <div class="projects-cards">
       <div class="row padding-none">
         <% @featured_projects.each do |project| %>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
-            <div class="card-wrapper">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
+              <div class="card-wrapper">
                 <div class="card-img">
-                  <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
-                    <%= image_tag(project.picture) %>
+                  <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+                      <%= image_tag(project.picture) %>
                   <% end %>
                 </div>
 
                 <div class="title-banner">
-                  <p>
-                    <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
-                  </p>
-                </div>
+                  <%= link_to taskstab_project_path(project), data: {no_turbolink: false}, class: 'xyz' do %>
+                      <p><%= project.title %></p>
+                  <% end %>
+                  <div class="abc" style="width: 100%">
+                    <ul class="info-banner">
+                      <li class="pr10 border-right">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
 
-                <ul class="info-banner">
-                  <li class="pr10 border-right">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <span><%= project.country %></span>
-                  </li>
-                  <li class="pl10">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <%= link_to project.user.name, user_path(project.user)%>
-                  </li>
-                </ul>
+                        <span><%= project.country %></span>
+                      </li>
+                      <li class="pl10">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <%= project.user.name %>
+                      </li>
+                    </ul>
+                  </div>
 
-                <div class="summary-banner">
-                  <p>
-                    <%= project.short_description%>
-                  </p>
-                </div>
 
-                <div class="progress-banner">
+                  <div class="summary-banner">
+                    <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+                        <p><%= project.short_description %></p>
+                    <% end %>
+                  </div>
 
-                  <div class="report-banner pb10">
-                    <div class="row">
-                      <span>Funded</span>
-                      <span class="pull-right"><%= project.funded_percentages %></span>
+                  <div class="progress-banner">
+
+                    <div class="report-banner pb10">
+                      <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+                          <div class="row">
+                            <span>Funded</span>
+                            <span class="pull-right"><%= project.funded_percentages %></span>
+                          </div>
+                      <% end %>
+                      <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+
+                          <div class="row">
+                            <span>Tasks</span>
+                            <span class="pull-right"><%= project.tasks_relations_string %></span>
+                          </div>
+                      <% end %>
+                      <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+
+                          <div class="row">
+                            <span>Teamates</span>
+                            <span class="pull-right"><%= project.team_relations_string %></span>
+                          </div>
+                      <% end %>
+                      <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+
+                          <div class="row">
+                            <span>Raised</span>
+                            <span class="pull-right">$ <%= project.funded_budget %></span>
+                          </div>
+                      <% end %>
                     </div>
-                    <div class="row">
-                      <span>Tasks</span>
-                      <span class="pull-right"><%= project.tasks_relations_string%></span>
-                    </div>
-                    <div class="row">
-                      <span>Teamates</span>
-                      <span class="pull-right"><%= project.team_relations_string%></span>
-                    </div>
-                    <div class="row">
-                      <span>Raised</span>
-                      <span class="pull-right">$ <%= project.funded_budget %></span>
+
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>">
+                      </div>
                     </div>
                   </div>
 
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
-                    </div>
-                    <span><%= project.funded_percentages%></span>
-                  </div>
                 </div>
-
-            </div>
-          </div>
+              </div>
         <% end %>
+        </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </main>
-<% if  @download_keys  %>
+<script>
+  //  $(".abc .projects-cards").click(function(){
+  //    $(this).closest("a").click();
+  //  });
+  $(".card-wrapper").click(function () {
+    arr = $(this).find('a');
+    window.location = $(arr[0]).attr('href');
+    return false;
+  });
+</script>
+
+<% if @download_keys %>
     <div id="backupkeys_popup" class="modal" style="display: block ;">
       <!-- Modal content -->
       <div class="modal-content" style="width: 50%">
 
         <h3>
           please wait we are creating your Wallet Backup Keys and
-          Downloading  will be Starts Within 5 Second
-          Please Save Your keys at save place  </h3>
+          Downloading will be Starts Within 5 Second
+          Please Save Your keys at save place </h3>
       </div>
 
     </div>
     <script>
-      window.setTimeout(function(){download_keys() },5000);
-      function  download_keys(){
+      window.setTimeout(function () {
+        download_keys()
+      }, 5000);
+      function download_keys() {
         window.location = "<%= user_wallet_transactions_download_keys_url %>";
         $("#backupkeys_popup").hide();
       }
