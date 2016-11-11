@@ -38,10 +38,14 @@
       <%= user_short_info(@user) %>
     </p>
     <a href="#" class="button button-send"><i class="icon-comment"></i>Send Message</a>
-    <a href="#" class="button button-send">Wallet Address: <%= @user.user_wallet_address.sender_address rescue 'not found' %></a>
-    <!--<a href="/user_wallet_transactions/new"  class="button button-send" >Transfer coins </a>-->
-    <a href="javascript:void(0)" class="button button-send" data-reveal-id="fund-transfer-wallet">Transfer coins
-    </a>
+    <% if current_user.user_wallet_address.blank?  %>
+        <a href="/user_wallet_transactions/create_wallet" class="button button-send">Create Wallet</a>
+          <%else %>
+            <a href="#" class="button button-send">Wallet Address: <%= @user.user_wallet_address.sender_address rescue 'not found' %></a>
+        <a href="javascript:void(0)" class="button button-send" data-reveal-id="fund-transfer-wallet">Transfer coins
+        </a>
+    <% end %>
+
   </div>
 </div>
 <div class="lin3">
