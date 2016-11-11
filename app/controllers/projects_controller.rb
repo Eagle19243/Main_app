@@ -11,9 +11,12 @@ class ProjectsController < ApplicationController
 
   def index
     if user_signed_in?
-       unless   current_user.user_wallet_address.user_keys.blank?
-         @download_keys = true
-       end    
+      if current_user.user_wallet_address.blank?
+         current_user.assign_address
+            unless   current_user.user_wallet_address.user_keys.blank?
+              @download_keys = true
+            end
+      end
     end
     @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
@@ -94,10 +97,10 @@ class ProjectsController < ApplicationController
     term = params[:term]
     @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
     @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
-      respond_to do |format|
+    respond_to do |format|
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
-      end
+     end
   end
 
   def user_search
@@ -110,10 +113,14 @@ class ProjectsController < ApplicationController
     @results = @search.results
     unless @results.blank?
       respond_to do |format|
-       format.html {render  :search_results}
+      # format.html {render  :search_results}
+        format.js
       end
     else
-      redirect_to root_path ,alert: 'Sorry no results match with your search'
+      respond_to do |format|
+        format.js
+       # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
+      end
     end
   end
 

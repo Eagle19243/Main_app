@@ -1,10 +1,11 @@
 include UsersHelper
 
 class UsersController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:index]
   layout "dashboard", only: [:show]
 
   def index
+    authorize! :index, current_user
     @users = User.all
   end
 
