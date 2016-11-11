@@ -18,7 +18,19 @@ class UserWalletTransactionsController < ApplicationController
     current_user.user_wallet_address.save 
     send_data  keys, :filename => "#{current_user.name}WalletBackupKeys.txt",  :type => "text/plain"
   end
+  def  create_wallet
+    if current_user.user_wallet_address.blank?
+      current_user.assign_address
+      redirect_to user_wallet_transactions_new_path , alert: "Wallet Created"
+    else
+     redirect_to user_path(current_user) , alert: "your Wallet Already Exist"
+      end
+  end
+
   def create
+    if current_user.user_wallet_address.blank?
+      current_user.assign_address
+    end
     begin
       @transfer = UserWalletTransaction.new(amount:params['amount'] ,user_wallet:params['wallet_transaction_user_wallet'] ,user_id: current_user.id)
       satoshi_amount = nil

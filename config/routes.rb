@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   post 'group_messages/get_messages_by_room'
   post 'group_messages/load_group_messages'
   post 'group_messages/users_chat'
+  get 'user_wallet_transactions/create_wallet'
 
 
-  get 'pages/term_of_use'
+  get 'pages/terms_of_use'
   get 'pages/privacy_policy'
 
   post 'projects/send_project_invite_email'
