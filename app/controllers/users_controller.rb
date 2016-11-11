@@ -2,7 +2,8 @@ include UsersHelper
 
 class UsersController < ApplicationController
   load_and_authorize_resource
-  
+  layout "dashboard", only: [:show]
+
   def index
     @users = User.all
   end

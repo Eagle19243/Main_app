@@ -1,0 +1,163 @@
+
+@import 'variables';
+
+.lin2-social {
+  a:hover {
+    text-decoration: none;
+  }
+
+  i.fa-facebook {
+    background-color: $alt-clr;
+  }
+  i.fa-twitter {
+    background-color: #0CAEEF;
+  }
+  i.fa-linkedin {
+    background-color: #00A8FF;
+  }
+  i.fa-envelope-o {
+    background-color: #ffb631;
+    font-weight: bold;
+  }
+}
+
+.bio {
+  i#bio-edit-pencil {
+    font-size: 14px;
+    margin-right: 5px;
+    color: #555;
+  }
+}
+
+.project-wrap {
+  margin-top: 15px !important;
+  background-color: #eee;
+  padding: 10px 20px;
+  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+
+  .big-tx {
+    color: #333 !important;
+  }
+
+  .stats {
+    color: #555;
+  }
+}
+
+.side-nav li {
+  margin-bottom: 0;
+
+  i {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  span.notify-wrapper {
+    position: relative;
+  }
+
+  span.count {
+    color: #fff;
+    font-weight: 600;
+    background: #00a0f3;
+    line-height: 15px;
+    border-radius: 50%;
+    height: 15px;
+    text-align: center;
+    width: 15px;
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: 5px;
+  }
+
+  &:hover {
+    background-color: $alt-clr;
+  }
+}
+
+.side-nav li a:not(.button):not(.submit):not(.button-xs) {
+  padding: 20px 10px 20px 5px !important;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
+
+.side-menu {
+  background-color: #2a2d33;
+  text-align: center;
+
+  ul {
+    background-color: #2a2d33 !important;
+  }
+
+  li.active {
+    background-color: $alt-clr;
+    border-right: 7px solid #71c7f0;
+  }
+
+  .side-logo {
+    padding: 10px 0px;
+
+    a {
+      color: #fff;
+      font-weight: 600;
+      margin: auto;
+      font-size: 32px;
+
+      &:hover,
+      &:focus {
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .user-profile {
+    text-align: left;
+    padding: 10px;
+    padding-top: 20px;
+    border-bottom: 1px solid #555;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+    }
+
+    span {
+      color: #fff;
+      font-size: 18px;
+      padding-left: 5px;
+      font-weight: bold;
+    }
+  }
+}
+
+
+.nav-header.dashboard {
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+
+  ul.links-wrapper {
+    background-color: #eee;
+
+    li {
+      a {
+        color: #555;
+        font-weight: bold;
+      }
+    }
+    .user-dropdown li {
+      background-color: #fff;
+      border-color: #ddd;
+      text-align: left;
+
+      a {
+        color: #555;
+      }
+    }
+  }
+}
+
