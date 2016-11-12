@@ -165,10 +165,10 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     authenticated :user do
-      root :to => 'projects#index'
+      root :to => 'projects#index', as: :authenticated_root
     end
     unauthenticated :user do
-      root :to => 'visitors#landing'
+      root :to => 'visitors#landing', as: :unauthenticated_root
     end
   end
 end
