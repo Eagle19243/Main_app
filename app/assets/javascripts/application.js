@@ -33,6 +33,7 @@
 //= require jquery.slimscroll
 //= require cocoon
 //= require bootstrap-sprockets
+//= require jquery.slick
 
 //= require_tree .
 // $(function() {
