@@ -159,7 +159,16 @@ Rails.application.routes.draw do
   #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
 
-  root to: 'visitors#landing'
+  # root to: 'visitors#landing'
   # show active projects as the landing page
   # root to: 'projects#index'
+
+  devise_scope :user do
+    authenticated :user do
+      root :to => 'projects#index'
+    end
+    unauthenticated :user do
+      root :to => 'visitors#landing'
+    end
+  end
 end
