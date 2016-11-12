@@ -1,249 +1,264 @@
+<%= render 'top_bar' %>
 
+<div class="landing-content">
+  <div class="hero-banner">
+    <%= image_tag("landing_hero.jpg") %>
 
-<div>
-  <%= render 'top_bar' %>
-  <%#= if user_signed_in? %>
-      <!--<div id="facebook_invite">-->
-        <!--<script src="http://connect.facebook.net/en_US/all.js"></script>-->
-        <!--<a href="#" onclick="FBInvite()">Invite Facebook Friends</a>-->
-      <!--</div>-->
-  <%#= end  %>
-<% unless user_signed_in? %>
-  </div>
-  <div class="large-12 columns row2">
-    <br>
-  <div class="large-12 columns row1">
-    <div class="large-8 medium-10 medium-push-2 columns">
-      <center>
-        <h4 class="head1">THE WORLD'S FIRST NETWORK FOR CIVIC LEADERS</h4>
-        <br>
-        <p class="inhead1">WeServe is a community impact and crowdfunding platform;</p>
-        <p class="inhead2">join and help solving public issues in your area</p>
-        <button class="secondary button sign" data-reveal-id="SignUpModal">Sign up</button>
-        <br>
-        <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
+    <div class="hero-promo">
+      <div class="promo-wrapper">
+      <h1>Turn your audience into a task force</h1>
+      <p>Share your vision and your audience will make it happen</p>
+      </div>
+    </div>
 
-          <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-          <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-          <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
-        </div>
-      </center>
+    <div class="hero-start">
+      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
     </div>
   </div>
-  <div class="large-12 columns pict">
-    <img class = "header_img" src="/static/visitors/images/header.png">
-  </div>
-  <div class="large-12 columns row2">
-    <div class="large-5 medium-7 medium-push-1 columns content">
-      <h5 class="head_what">WHAT IS WESERVE?</h5>
-        <p class="text_platform">A platform to implement and fund</p>
-        <p class="text_platform">public action in your area</p>
-        <p class="text_platforms">On WeServe, you can take immediate action out of the net, directly into the world. So tou stop feeling frustrated about reading and commenting on past news, you can just change the news, you can just change the news rigth now.</p>
+
+  <div class="hiw-banner text-center">
+    <div class="hiw-text">
+      <h2>
+        Keep control over the collaboration at any step, so your project reflects your own vision, and turn into a public leader
+      </h2>
     </div>
-    <div class="large-5 medium-4 columns">
-      <img class = "image_content" src="/static/visitors/images/content.png">
-    </div>
-  </div>
-<% end %>
-  <div class="large-12 columns row_content">
-    <div class="large-5 medium-4 medium-push-1 columns content_projects">
-      <img class = "image_contents" src="/static/visitors/images/content_image.png">
-    </div>
-    <div class="large-5 medium-7 columns">
-      <h5 class="head_what">CONNECT AND COLLABORATE</h5>
-      <p class="text_platform">Connect to your community</p>
-      <p class="text_platform">to Build Public Projects</p>
-      <p class="text_platforms">WeServe makes it easy to find neardy people who are passionate about the same local issues that you are, so you can implemment Projects and change your communities together</p>
-      <a href="/projects" class="start_projects">Find Active Projects</a>
-    </div>
-  </div>
-  <div class="large-12 columns row2">
-    <div class="large-5 medium-7 medium-push-1 columns content">
-      <h5 class="head_what">MAKE A CHANGE</h5>
-        <p class="text_platform">Start with an idea and get your</p>
-        <p class="text_platform">communities work on it</p>
-        <p class="text_platforms">You want to take action and solve a public issue, but you need collaboration to implement your solution. Post your project idea, invite people to participate and lead the collaboration.</p>
-        <button class="start_projects"><a href="/projects/new">Start a Project</a></button>
-    </div>
-    <div class="large-5 medium-4 columns">
-      <img class = "image_content" src="/static/visitors/images/content_task.png">
-    </div>
-  </div>
-  <div class="large-12 columns row_content">
-    <div class="large-5 medium-4 medium-push-1 columns content_found">
-      <img class = "image_found" src="/static/visitors/images/content_found.png">
-    </div>
-    <div class="large-5 medium-7 columns content">
-      <h5 class="head_what">MAKE A REAL IMPACT</h5>
-        <p class="text_platform">Emerge as an independent leader</p>
-        <p class="text_platforms">Public action is Political Legitimacy. By leading successful projects, you will be recognized as a unique leader, free from political or financial partisanship. Inspire other leader to follow your example towards more transparent actions.</p>
-        <a href="/projects" class="start_projects"><button class="start_projects">Share your vision</button></a>
-    </div>
-  </div>
-  <div class="large-12 columns row2">
-    <br>
-    <div class="large-6 medium-3 columns content_pro">
-      <h1 class="text_feats">Featured Projects</h1>
-    </div>
-    <div class="large-6 medium-9 columns content_pro">
-      <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form' do  %>
-          <div class="large-12 columns">
-            <input type="text" name="title" id="title" data-autocomplete="/projects/autocomplete_user_search" autocomplete="off" placeholder="Search causes, places, or keywords" onblur="if(this.value=='') ;" onfocus="if(this. value=='Search causes, places, or keywords') this.value='';" class="input" />
-          </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="large-12 columns row2">
-    <% @featured_projects.each do |project| %>
-      <div class="large-4 medium-6 columns content_block">
-        <div class="callout">
-          <%= image_tag project.picture.medium.url, class: 'feature_project_picture' %>
-          <div class="blokcont">
-            <a href="<%= project_path(project) %>"><h4 class="text_feat"><%= project.title %></h4></a>
-            <p class="map_name"><i class="fa fa-map-marker" aria-hidden="true"></i>Project location</p>
-            <p class="text_content"><%= truncate(project.short_description, length: 200) %></p>
-            <div class="progress" role="progressbar" tabindex="0" aria-valuenow="50" aria-valuemin="0"   aria-valuetext="50 percent" aria-valuemax="100">
-              <div class="progress-meter" style="width: 70%"></div>
+
+    <div class="hiw-flow">
+      <div class="row">
+        <div class="col-md-4 col-md-4 col-sm-4 col-custom">
+          <div class="row">
+            <div class="col-md-5 col-md-5 col-sm-5 col-custom">
+              <div class="flow-img">
+                <%= image_tag("icons/group.png") %>
+              </div>
+              <div class="flow-text">
+                <p>expand your idea into plan of action</p>
+              </div>
             </div>
-            <table class="feature_progress">
-              <tbody>
-                <tr>
-                  <th><b>40%</b></th>
-                  <th><b>50/80</b></th>
-                  <th><b>19/30</b></th>
-                  <th><b>$8.000</b></th>
-                </tr>
-                <tr class="feature_row">
-                  <td>Funded</td>
-                  <td>Completed Tasks</td>
-                  <td>Teamates</td>
-                  <td>Raised</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="col-md-2 col-md-2 col-sm-2 col-custom">
+              <div class="flow-img pt15">
+                <%= image_tag("icons/icon-arrow.png") %>
+              </div>
+            </div>
+            <div class="col-md-5 col-md-5 col-sm-5 col-custom">
+              <div class="flow-img">
+                <%= image_tag("icons/project-task.png") %>
+              </div>
+              <div class="flow-text">
+                <p>break your project down into task</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
-    <div class="large-12 columns">
-      <div class="large-4 large-offset-4 columns">
-        <a href="/projects" class="large button button_discover">Discover projects in your area</a><br/>
+
+        <div class="col-md-4 col-md-4 col-sm-4 col-custom">
+          <div class="row">
+            <div class="col-md-4 col-md-4 col-sm-4 col-custom">
+              <div class="flow-img pt15">
+                <%= image_tag("icons/icon-arrow.png") %>
+              </div>
+            </div>
+            <div class="col-md-4 col-md-4 col-sm-4 col-custom">
+              <div class="flow-img">
+                <%= image_tag("icons/payment.png") %>
+              </div>
+              <div class="flow-text">
+                <p>fund tasks</p>
+              </div>
+            </div>
+            <div class="col-md-4 col-md-4 col-sm-4 col-custom">
+              <div class="flow-img pt15">
+                <%= image_tag("icons/icon-arrow.png") %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-md-4 col-sm-4 col-custom">
+          <div class="row">
+            <div class="col-md-5 col-md-5 col-sm-5 col-custom">
+              <div class="flow-img">
+                <%= image_tag("icons/task-list.png") %>
+              </div>
+              <div class="flow-text">
+                <p>complete tasks</p>
+              </div>
+            </div>
+            <div class="col-md-2 col-md-2 col-sm-2 col-custom">
+              <div class="flow-img pt15">
+                <%= image_tag("icons/icon-arrow.png") %>
+              </div>
+            </div>
+            <div class="col-md-5 col-md-5 col-sm-5 col-custom">
+              <div class="flow-img">
+                <%= image_tag("icons/task-check.png") %>
+              </div>
+              <div class="flow-text">
+                <p>review tasks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-  <div class="large-12 columns footer_body ">
-    <ul class="dropdown menu  footer_menu text_feat" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
-      <li>
-        <%= link_to projects_path do %>
-          Active projects
-        <% end %>
-      </li>
-      <li>
-        <a href="#" id="start-a-project-langing" data-reveal-id="sign-in-landing">Start a project</a>
 
-      </li>
-      <li>
-        <a href="#" id="langing-sign-in" data-reveal-id="sign-in-landing" class="signup_buttons">
-          Sign In
-        </a>
-      </li>
-      <li>
-        <a href="#" id="langing-sign-up" data-reveal-id="sign-in-landing" class="signup_buttons">
-          Sign Up
-        </a>
-      </li>
-    </ul>
-    <ul class="dropdown menu  footer_menu text_platforms" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
-      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">What is WeServe?</a></li>
-      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Who we are</a></li>
-      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">FAQ</a></li>
-      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Terms of Use</a></li>
-      <li role="menuitem" tabindex="0"><a href="#" tabindex="-1">Contact</a></li>
-    </ul>
-    <hr class ="my_hr">
-    <ul class="dropdown menu  footer_menu copyrigth_platforms" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
-      <li role="menuitem" tabindex="0"><h3 class="name_site">WeServe</h3></li>
-      <li role="menuitem" tabindex="0"><div class="year">2016</div></li>
-    </ul>
+  <div class="carousel-banner">
+    <div class="landing-carousel">
+      <div class="carousel-item">
+        <%= image_tag("carousel/carousel_1.jpg") %>
+        <div class="carousel-text">
+          <h1>Build your own lab</h1>
+          <p>WeServe bridges the gap between theory and practice, between reflection and action. WeServe publicizes and expands your academic projects.</p>
+          <div class="carousel-start">
+            <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <%= image_tag("carousel/carousel_2.jpg") %>
+        <div class="carousel-text">
+          <h1>Serve as a leader</h1>
+          <p>Get things done with your audience while bureaucrats make promises. Thus you bring legitimacy to what you stand for and get recognized as a leader.</p>
+          <div class="carousel-start">
+            <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <%= image_tag("carousel/carousel_3.jpg") %>
+        <div class="carousel-text">
+          <h1>Create your Prototype</h1>
+          <p>Build a team, finance tasks, and test your business plan.</p>
+          <div class="carousel-start">
+            <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="wwd-banner">
+    <div class="wwd-text">
+      <h2>
+        Things that Weserve does for you
+      </h2>
+    </div>
+
+    <div class="wwd-flow">
+      <div class="row-first">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 wwd-block">
+            <%= image_tag("icons/icon-market.png") %>
+            <h4>Market Validation</h4>
+            <div class="intro">
+              <p>
+                &ndash;&nbsp;build an active community around a real story
+              </p>
+              <p>
+                &ndash;&nbsp;get community feedback and improvement
+              </p>
+              <p>
+                &ndash;&nbsp;analyse traffic on your project
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 wwd-block">
+            <%= image_tag("icons/icon-group.png") %>
+            <h4>Stimulate your Audience</h4>
+            <div class="intro">
+              <p>
+                Turn your followers into actors, and increase trust and support to your project.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-second">
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-4 wwd-block">
+            <%= image_tag("icons/icon-inclusive.png") %>
+            <h4>Inclusive</h4>
+            <div class="intro">
+              <p>
+                WeServe brings contrasting people together in a unique efforts to achieve common goals.<br>
+                Volunteers can refund the amount they earned towards a new task. People who can not afford to volunteer may keep the money they are earned.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 wwd-block">
+            <%= image_tag("icons/icon-corruption.png") %>
+            <h4>Anti Corruption</h4>
+            <div class="intro">
+              <p>
+                Build powerful actions for your community without having to belong the ruling clubs, and without being bound by political or financial partisanship.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 wwd-block">
+            <%= image_tag("icons/icon-transparent.png") %>
+            <h4>Transparency</h4>
+            <div class="intro">
+              <p>
+                Projects are open for public reviews, and constant feedback. So your project is protected by the crowd and gains legitimacy.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wwd-start">
+      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+    </div>
+
+  </div>
+
 </div>
 
-<link rel="stylesheet" href="/static/visitors/css/foundation.css">
-<link rel="stylesheet" href="/static/visitors/css/style.css">
-<link href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" rel="stylesheet">
-<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-<link href="http://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css" />
-<link href="http://allfont.ru/allfont.css?fonts=roboto-condensed-light" rel="stylesheet" type="text/css" />
-<link href="http://allfont.ru/allfont.css?fonts=ds-narrow-extra-condensed-medium" rel="stylesheet" type="text/css" />
-<link href="http://allfont.ru/allfont.css?fonts=open-sans-bold" rel="stylesheet" type="text/css" />
-
-<script>
-  FB.init({
-    appId:'1741496422758329',
-    cookie:true,
-    status:true,
-    xfbml:true,
-    version    : 'v2.7'
-  });
-</script>
-
-<script>
-  function FBInvite(){
-    FB.ui({
-      method: 'apprequests',
-      message: 'Invite your Facebook Friends'
-    },function(response) {
-      if (response) {
-        alert('Successfully Invited');
-      } else {
-        alert('Failed To Invite');
-      }
-    });
-  }
-</script>
-  <% unless user_signed_in? %>
-
-
-
-  <div  id="sign-in-landing"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-
-    <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
-    <div style="background-color: #f0f0f0 ">
-      <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
-
-        <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-        <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-        <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
-      </div>
-      <center>  <h2 align="center">OR</h2></center>
-      <div  id ="sing-in-show">
-        <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-      </div>
-      <div id ="sing-up-show">
-        <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-      </div>
-      <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-    </div>
-    <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
+<div class="landing-footer">
+  <div class="about-banner">
+    <a href="javascript:void(0)">About</a>
   </div>
 
-  <script>
-    $("#langing-sign-in").click(function () {
-      $("#Sign-in-div").css("background-color", "#35B8F4")
-      $("#Sign-up-div").css("background-color", "white")
-      $("#Sign-in-div").css("color", "white")
-      $("#Sign-up-div").css("color", "black")
-      $("#sing-up-show").hide();
-      $("#sing-in-show").show();
-    })
-    $("#start-a-project-langing , #langing-sign-up").click(function () {
-      $("#Sign-up-div").css("background-color", "#35B8F4")
-      $("#Sign-in-div").css("background-color", "white")
-      $("#Sign-up-div").css("color", "white")
-      $("#Sign-in-div").css("color", "black")
-      $("#sing-in-show").hide();
-      $("#sing-up-show").show();
-    })
-  </script>
-  <% end %>
+  <div class="social-banner">
+    <span>
+      <i class="fa fa-facebook-official" aria-hidden="true"></i>
+    </span>
+    <span>
+      <i class="fa fa-twitter" aria-hidden="true"></i>
+    </span>
+    <span>
+      <i class="fa fa-instagram" aria-hidden="true"></i>
+    </span>
+  </div>
+
+  <div class="privacy-banner">
+    <a href="">Privacy Policy</a>
+    <span>&nbsp;&bull;&nbsp;</span>
+    <a href="">Terms of Use</a>
+  </div>
+
+  <div class="copy-right">
+    &copy;&nbsp;2016 WeServe
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    $('.landing-carousel').slick({
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      arrows: false,
+      dots: true,
+      autoplay: true,
+      autoplaySpeed: 5000
+    });
+  });
+
+</script>

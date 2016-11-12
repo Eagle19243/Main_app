@@ -21,7 +21,7 @@ module ApplicationHelper
   end
 
   def landing_page?
-    controller.controller_name.eql?('visitors') && !controller.action_name.eql?('landing')
+    controller.controller_name.eql?('visitors') && controller.action_name.eql?('landing')
   end
 
   def landing_class
