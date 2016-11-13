@@ -161,14 +161,14 @@ Rails.application.routes.draw do
 
   # root to: 'visitors#landing'
   # show active projects as the landing page
-  # root to: 'projects#index'
+  root to: 'projects#index'
 
-  devise_scope :user do
-    authenticated :user do
-      root :to => 'projects#index', as: :authenticated_root
-    end
-    unauthenticated :user do
-      root :to => 'visitors#landing', as: :unauthenticated_root
-    end
-  end
+  # devise_scope :user do
+  #   authenticated :user do
+  #     root :to => 'projects#index', as: :authenticated_root
+  #   end
+  #   unauthenticated :user do
+  #     root :to => 'visitors#landing', as: :unauthenticated_root
+  #   end
+  # end
 end
