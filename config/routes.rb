@@ -156,19 +156,7 @@ Rails.application.routes.draw do
   resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
-  #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
 
-  # root to: 'visitors#landing'
-  # show active projects as the landing page
-  root to: 'projects#index'
-
-  # devise_scope :user do
-  #   authenticated :user do
-  #     root :to => 'projects#index', as: :authenticated_root
-  #   end
-  #   unauthenticated :user do
-  #     root :to => 'visitors#landing', as: :unauthenticated_root
-  #   end
-  # end
+  root to: 'visitors#landing'
 end
