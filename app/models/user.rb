@@ -209,4 +209,17 @@ class User < ActiveRecord::Base
     self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
   end
 
+  #API sample call - Page Read
+  def page_read pagename
+    if Rails.configuration.mediawiki_session
+      name = pagename.gsub(" ", "_")
+
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+
+      #TODO parse result
+
+    else
+      false
+    end
+  end
 end
