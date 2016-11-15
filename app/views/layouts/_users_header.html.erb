@@ -20,6 +20,41 @@
         </div>
       <% end %>
 
+      <div class="dropdown notify-dropdown">
+        <a class="dropdown-toggle" type="button" data-toggle="dropdown">
+          <div class="badge-wrap">
+            <i class="fa fa-bell-o" aria-hidden="true"></i>
+            <span class="count"><%= current_user.notifications.unread.count %></span>
+          </div>
+        </a>
+        <ul class="dropdown-menu">
+          <li class="notify-count">Notifications&nbsp;
+            <span class="count"><%= current_user.notifications.unread.count %></span>
+          </li>
+          <li class="notify-wrapper">
+            <div class="notify-body">
+              <div>
+                <span class="action">Created Project</span>
+                <span class="date pull-right">Nov 11th</span>
+              </div>
+              <p>You have created project MyProject.</p>
+            </div>
+          </li>
+          <li class="notify-wrapper">
+            <div class="notify-body">
+              <div>
+                <span class="action">Created Project</span>
+                <span class="date pull-right">Nov 11th</span>
+              </div>
+              <p>You have created project MyProject.</p>
+            </div>
+          </li>
+          <li class="notify-link">
+            <%= link_to 'See All Notifications', notifications_path %>
+          </li>
+        </ul>
+      </div>
+
       <div class="dropdown user-dropdown">
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <% if current_user.picture? %>
