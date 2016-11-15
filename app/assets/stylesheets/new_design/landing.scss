@@ -53,13 +53,6 @@
 
 }
 
-.border-link {
-  border: 1px solid #333;
-  border-radius: 20px;
-  padding: 10px 20px;
-}
-
-
 .landing-content {
   position: relative;
   display: block;
@@ -362,6 +355,7 @@
           font-family: 'Libre Franklin';
           color: #666;
           line-height: 1.5em;
+          margin: 0;
         }
 
         .intro {
@@ -397,6 +391,7 @@
   width: 100%;
   text-align: center;
   background-color: #333;
+  clear: both;
 
   .about-banner {
     display: block;

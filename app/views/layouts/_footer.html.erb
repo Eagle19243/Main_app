@@ -1,62 +1,29 @@
-<div class="footer-wrapper">
-  <div class="footer-content">
-    <div class="mt10">
-      <ul class="links-wrapper text-blue">
-        <li>
-          <%= link_to projects_path do %>
-            <span class="text-blue">Active Projects</span>
-          <% end %>
-        </li>
-        <% if user_signed_in? %>
-            <li>
-              <a href="#" class="text-blue" id="footer-startbtn">Start a Project</a>
-            </li>
-        <% else %>
-            <li>
-              <a href="#" class="text-blue" id="create-project-footer" data-reveal-id="sign-in-sing-up">
-                Start a Project
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-blue" id="sign-in-footer" data-reveal-id="sign-in-sing-up" class="signup_buttons">
-                Sign In
-              </a>
-            </li>
-            <li>
-              <a href="#" class="text-blue" id="sign-up-footer" data-reveal-id="sign-in-sing-up" class="signup_buttons">
-                Sign Up
-              </a>
-            </li>
-        <% end %>
-      </ul>
-    </div>
 
-    <div class="mt10">
-      <ul class="links-wrapper">
-        <li class="active">
-          <%= link_to "What is WeServe?", projects_path, data: {no_turbolink: true} %>
-        </li>
-        <li class="active">
-          <a href="javascript:void(0)">Who we are</a>
-        </li>
-        <li class="active">
-          <%= link_to 'Terms of Use', pages_terms_of_use_path, data: { no_turbolink: true } %>
-        </li>
+<div class="landing-footer">
+  <div class="about-banner">
+    <a href="javascript:void(0)">About</a>
+  </div>
 
-        <li class="active">
-          <%= link_to 'Privacy Policy', pages_privacy_policy_path, data: { no_turbolink: true } %>
-        </li>
+  <div class="social-banner">
+    <span>
+      <i class="fa fa-facebook-official" aria-hidden="true"></i>
+    </span>
+    <span>
+      <i class="fa fa-twitter" aria-hidden="true"></i>
+    </span>
+    <span>
+      <i class="fa fa-instagram" aria-hidden="true"></i>
+    </span>
+  </div>
 
-        <li class="active">
-          <a href="javascript:void(0)">Contact</a>
-        </li>
-      </ul>
-    </div>
+  <div class="privacy-banner">
+    <%= link_to 'Privacy Policy', pages_privacy_policy_path, data: { no_turbolink: true } %>
+    <span>&nbsp;&bull;&nbsp;</span>
+    <%= link_to 'Terms of Use', pages_terms_of_use_path, data: { no_turbolink: true } %>
+  </div>
 
-    <div class="mt10 ml10">
-      <%= link_to 'WeServe', root_path, :class => "logo-text" %>
-      <span class="ml10">&#169;2016</span>
-    </div>
+  <div class="copy-right">
+    &copy;&nbsp;2016 WeServe
   </div>
 
 </div>
