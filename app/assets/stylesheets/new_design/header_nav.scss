@@ -149,5 +149,11 @@ a.header-link {
   border: 1px solid #333;
   border-radius: 20px;
   padding: 6px 20px;
+
+  &:hover,
+  &:focus {
+    background-color: #000;
+    color: #fff !important;
+  }
 }
 
