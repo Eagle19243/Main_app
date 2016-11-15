@@ -199,11 +199,27 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
-    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted", "suggested_task"]).all
-    @doing_tasks = @project.tasks.where(state: "doing").all
-  #  @suggested_tasks = @project.tasks.where(state: "suggested_task").all
-    @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    @done_tasks = @project.tasks.where(state: "completed").all
+    tasks = @project.tasks.all
+    @tasks_count =tasks.count
+    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
+    @doing_tasks = tasks.where(state: "doing").all
+    @suggested_tasks = tasks.where(state: "suggested_task").all
+    @reviewing_tasks = tasks.where(state: "reviewing").all
+    @done_tasks = tasks.where(state: "completed").all
+    @contents = ''
+    if user_signed_in?
+      result = current_user.page_read @project.title
+      if result
+        if result["status"] == 'success'
+          @contents = result["html"]
+        else
+          # Create new page
+          current_user.page_write @project.title, ''
+          result = current_user.page_read @project.title
+          @contents = ''
+        end
+      end
+    end
   end
 
   def show_project_team
@@ -346,6 +362,49 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project could not be rejected"
     end
     redirect_to current_user
+  end
+
+  def read_from_mediawiki
+    if user_signed_in?
+      @project = Project.find(params[:id])
+      result = current_user.page_read @project.title
+      if result
+        if result["status"] == 'success'
+          @contents = result["html"]
+        else
+          # Create new page
+          current_user.page_write @project.title, ''
+          result = current_user.page_read @project.title
+          @contents = ''
+        end
+      else
+        #TODO create new session for mediawiki
+      end
+    else
+      flash[:error] = "Not allowed"
+      redirect_to root_path
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def write_to_mediawiki
+    if user_signed_in?
+      @project = Project.find(params[:id])
+      if current_user.page_write @project.title, params[:data]
+        result = current_user.page_read @project.title
+        @contents = result["non-html"]
+      end
+    else
+      flash[:error] = "Not allowed"
+      redirect_to root_path
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def destroy

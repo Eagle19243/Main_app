@@ -369,9 +369,9 @@ ActiveRecord::Schema.define(version: 20161107161223) do
     t.integer  "team_member_id",             null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "role",           default: 0
     t.integer  "task_id"
     t.string   "state"
-    t.integer  "role",           default: 0
   end
 
   add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true, using: :btree

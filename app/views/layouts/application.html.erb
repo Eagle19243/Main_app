@@ -31,38 +31,31 @@
          js.src = "//connect.facebook.net/en_US/sdk.js";
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
-
     </script>
 
     <div class="page-wrapper">
 
-      <% if landing_page? %>
-        <%= yield %>
-      <% else %>
-        <%= render 'layouts/menu' %>
-        <%= render 'layouts/messages' %>
-        <%= yield %>
-      <% end %>
+      <%= render 'layouts/menu' %>
+      <%= render 'layouts/messages' %>
+
+      <%= yield %>
 
       <%= render "modal/register_modal" %>
       <%= render "modal/start_project_modal" %>
 
     </div>
 
-    <% unless landing_page? %>
-      <%= render 'layouts/footer' %>
-    <% end %>
+    <%= render 'layouts/footer' %>
 
-    <!--  <%= debug(params) if Rails.env.development? %> -->
     <script type="text/javascript">
       $('#sign_in_a ,#sign_in_nav').click(function() {
-        $('#sign_up_show').hide();
-        $('#sign_in_show').show();
+        $('.sign_up_show').hide();
+        $('.sign_in_show').show();
       });
 
       $('#sign_up_a, #sign_up_nav, #create_project_a').click(function() {
-        $('#sign_in_show').hide();
-        $('#sign_up_show').show();
+        $('.sign_in_show').hide();
+        $('.sign_up_show').show();
       });
     </script>
 

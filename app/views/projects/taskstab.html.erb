@@ -275,23 +275,23 @@
                 </div>
 
                 <div id="tasks_cards">
-                  <% for i in 1..5 %>
+                  <% @sourcing_tasks.first(5).each do  |task| %>
                     <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
-                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat.</p>
+                          <p><%= task.description %></p>
                         </div>
                         <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded  %>;">
                           </div>
                         </div>
                         <div class="report-banner-table">
                           <table>
                             <tr class="value">
-                              <td>70</td>
-                              <td>70</td>
-                              <td>70</td>
-                              <td>70</td>
+                              <td><%= task.funded %></td>
+                              <td><%=  @tasks_count %></td>
+                              <td><%= task.target_number_of_participants %></td>
+                              <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
                               <td>Funded</td>
@@ -302,10 +302,10 @@
                           </table>
                         </div>
                         <div class="fund-do-btns">
-                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup' id="<%= task.id %>" data-target="#taskFundModal">
                             <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;FUND
                           </a>
-                          <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                          <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup' id="<%= task.id %>" data-target="#taskDoModal">
                             <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;DO
                           </a>
                         </div>
@@ -357,7 +357,7 @@
                           </div>
                           <div class="row">
                             <span>Tasks</span>
-                            <span class="pull-right">55 / 80</span>
+                            <span class="pull-right"><%= @tasks_count %></span>
                           </div>
                           <div class="row">
                             <span>Teamates</span>
@@ -411,7 +411,7 @@
                           </div>
                           <div class="row">
                             <span>Tasks</span>
-                            <span class="pull-right">55 / 80</span>
+                            <span class="pull-right"><%= @tasks_count %></span>
                           </div>
                           <div class="row">
                             <span>Teamates</span>
@@ -580,4 +580,8 @@
       $('.nav-pills').find('li:first-child a').click();
     });
 
+  $('.do-model-popup').click(function(){
+
+    $('#task-do-request-popup').val($(this).attr('id'));
+  });
 </script>

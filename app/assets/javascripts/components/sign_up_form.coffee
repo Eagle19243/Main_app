@@ -75,7 +75,7 @@
             onChange: @inputChanged
         React.DOM.div
           className: 'form-group'
-          React.DOM.label null, 'Password confirmation'
+          React.DOM.label null, 'Repeat Password'
           React.DOM.input
             type: 'password'
             name: 'password_confirmation'
