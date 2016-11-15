@@ -5,6 +5,8 @@ class GroupMessagesController < ApplicationController
   before_action :set_group_message, only: [:show, :edit, :update, :destroy]
   before_action :validate_chat_room_users, only: [:create]
 
+  layout 'dashboard', only: [:index]
+
   def validate_user_messages_by_project(id)
     user_ids = Project.find(id).team.team_memberships.collect(&:team_member_id)
     if !(user_ids.include? current_user.id)

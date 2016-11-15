@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post 'group_messages/get_messages_by_room'
   post 'group_messages/load_group_messages'
   post 'group_messages/users_chat'
+  get 'user_wallet_transactions/create_wallet'
 
 
   get 'pages/terms_of_use'
@@ -155,10 +156,7 @@ Rails.application.routes.draw do
   resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
-  #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
 
-  # root to: 'visitors#landing'
-  # show active projects as the landing page
-  root to: 'projects#index'
+  root to: 'visitors#landing'
 end

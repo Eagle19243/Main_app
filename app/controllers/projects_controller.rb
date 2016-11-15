@@ -10,11 +10,14 @@ class ProjectsController < ApplicationController
   # layout "manish", only: [:taskstab]
 
   def index
-    # if user_signed_in?
-    #    unless   current_user.user_wallet_address.user_keys.blank?
-    #      @download_keys = true
-    #    end    
-    # end
+    if user_signed_in?
+      if current_user.user_wallet_address.blank?
+         current_user.assign_address
+            unless   current_user.user_wallet_address.user_keys.blank?
+              @download_keys = true
+            end
+      end
+    end
     @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
    # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
@@ -110,10 +113,14 @@ class ProjectsController < ApplicationController
     @results = @search.results
     unless @results.blank?
       respond_to do |format|
-       format.html {render  :search_results}
+      # format.html {render  :search_results}
+        format.js
       end
     else
-      redirect_to root_path ,alert: 'Sorry no results match with your search'
+      respond_to do |format|
+        format.js
+       # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
+      end
     end
   end
 
