@@ -130,3 +130,24 @@ ul.links-wrapper {
     }
   }
 }
+
+a.header-link {
+  font-family: 'Roboto';
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  position: relative;
+  top: -5px;
+
+  &:hover,
+  &:focus {
+    color: #333;
+  }
+}
+
+.border-link {
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 6px 20px;
+}
+
