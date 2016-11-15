@@ -127,6 +127,8 @@ Rails.application.routes.draw do
     member do
       get :taskstab, as: :taskstab
       get :show_project_team, as: :show_project_team
+      get :read_from_mediawiki, as: :read_from_mediawiki
+      get :write_to_mediawiki, as: :write_to_mediawiki
     end
   end
 
