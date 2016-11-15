@@ -4,7 +4,7 @@
 
   render: ->
     React.DOM.div
-      className: 'row'
+      className: 'row row-custom'
       React.DOM.div
         className: "register-form"
         React.createElement AlertBox, id: "signUpBox"

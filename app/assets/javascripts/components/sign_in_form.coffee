@@ -56,16 +56,18 @@
             onChange: @inputChanged
         React.DOM.div
           className: 'form-group'
-          React.DOM.a
-            className: 'right'
-            href: '/users/password/new'
-            'Forgot password?'
           React.DOM.label null, 'Password'
           React.DOM.input
             type: 'password'
             name: 'password'
             value: @state.password
             onChange: @inputChanged
+          React.DOM.div
+            className: 'forgot-link'
+            React.DOM.a
+              className: ''
+              href: '/users/password/new'
+              'Forgot password?'
         React.DOM.button
           className: "btn btn-primary normal-button"
           type: 'submit'
