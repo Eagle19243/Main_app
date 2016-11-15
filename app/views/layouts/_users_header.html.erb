@@ -8,16 +8,8 @@
 
     <div class="pull-right links-group">
       
-
       <%= link_to group_messages_path, data: { no_turbolink: true } do %>
         <i class="fa fa-envelope-o" aria-hidden="true"></i>
-      <% end %>
-
-      <%= link_to notifications_path, data: { no_turbolink: true } do %>
-        <div class="badge-wrap">
-          <i class="fa fa-bell-o" aria-hidden="true"></i>
-          <span class="count"><%= current_user.notifications.unread.count %></span>
-        </div>
       <% end %>
 
       <div class="dropdown notify-dropdown">
