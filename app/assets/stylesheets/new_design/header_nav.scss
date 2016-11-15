@@ -157,3 +157,64 @@ a.header-link {
   }
 }
 
+
+.links-group {
+  margin-top: 14px;
+  font-family: 'Roboto';
+
+  > div,
+  > a {
+    display: inline-block;
+    margin: 0 10px;
+    font-family: 'Roboto';
+  }
+
+  i {
+    font-size: 1.5em;
+    color: #000;
+  }
+  i.fa-chevron-down {
+    font-size: 1em;
+    font-weight: normal;
+    color: #333;
+  }
+
+  .badge-wrap span.count {
+    background-color: #000;
+  }
+
+  .user-dropdown {
+    padding-bottom: 10px;
+
+    a {
+      font-family: 'Roboto';
+      color: #333;
+    }
+
+    .dropdown-menu {
+      li {
+        background-color: #fff;
+        text-align: left;
+        padding: 5px 10px;
+
+        &:hover,
+        &:focus {
+          background-color: #eee;
+        }
+        a:hover,
+        a:focus {
+          background-color: #eee;
+        }
+
+        &.border-top {
+          padding: 8px 10px;
+        }
+      }
+    }
+
+    img {
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+  }
+}
