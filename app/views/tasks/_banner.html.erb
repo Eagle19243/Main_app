@@ -1,8 +1,10 @@
 <!--<section  class='welcome-banner'>-->
 
 <div class='welcome-banner'>
-  <%= image_tag(@project.picture) %>
-  <div class="mid-section">
+  <div>
+    <%= image_tag(@project.picture) %>
+  </div>
+  <div class="mid-section" data-target="#project-img-edit" data-toggle="modal">
 
     <% @projec_conut= if @project.tasks.count==0 then
                         1

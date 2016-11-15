@@ -18,6 +18,8 @@ class PictureUploader < CarrierWave::Uploader::Base
   def default_url(*args)
     "no_image.png"
   end
+  
+  process crop: :picture
 
   version :thumb do
     process resize_to_fit: [50, 50]

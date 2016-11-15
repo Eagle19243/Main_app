@@ -79,26 +79,6 @@
   </div>
 </section>
 
-<script type="text/javascript">
-  $(".profile-title").hover(
-    function() {
-      $("#edit-profile-pencil").show();
-    },
-    function() {
-      $("#edit-profile-pencil").hide();
-    }
-  )
-
-  $('.profile-bio .best_in_place').focusin(function(){
-    $("#bio-edit-pencil").hide();
-    $("#bio-edit-save").show();
-  });
-  
-  $('.profile-bio .best_in_place').focusout(function(){
-    $("#bio-edit-save").hide();
-    $("#bio-edit-pencil").show();
-  });
-</script>
 <div id="fund-transfer-wallet" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
   <div>
     <a class="close-reveal-modal" aria-label="Close">&times;</a>
@@ -125,6 +105,7 @@
     </div>
   </div>
 </div>
+
 <script>
 
   $('#wallet_transaction_amount').keypress(function(eve) {
@@ -139,7 +120,7 @@
       eve.preventDefault();
     }
 
-// this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
+    // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
     $('#wallet_transaction_amount').keyup(function(eve) {
       if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
       }
@@ -151,14 +132,35 @@
     });
 
   });
+
   $('#save-wallet-teansaction').click(function(){
     if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != ''  ){
       $('#save-wallet-teansaction').disabled = true ;
       $('#response-from-wallet').html("");
     $('#response-from-wallet').html("Requesting ... please Wait ");}
   });
-$(".close-reveal-modal").click(function(){
-  $('#response-from-wallet').html("");
-});
+
+  $(".close-reveal-modal").click(function(){
+    $('#response-from-wallet').html("");
+  });
+
+  $(".profile-title").hover(
+    function() {
+      $("#edit-profile-pencil").show();
+    },
+    function() {
+      $("#edit-profile-pencil").hide();
+    }
+  )
+
+  $('.profile-bio .best_in_place').focusin(function(){
+    $("#bio-edit-pencil").hide();
+    $("#bio-edit-save").show();
+  });
+  
+  $('.profile-bio .best_in_place').focusout(function(){
+    $("#bio-edit-save").hide();
+    $("#bio-edit-pencil").show();
+  });
 
 </script>
