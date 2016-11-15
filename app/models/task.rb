@@ -96,10 +96,18 @@ class Task < ActiveRecord::Base
 	end
 
   def funded
-		budget == 0 ? "100%" : ((current_fund/budget*100) + (curent_bts_to_usd(id) rescue 0)).round.to_s + "%"
+		budget == 0 ? "100%" : (((current_fund+(curent_bts_to_usd(id) rescue 0))/budget)*100).round.to_s + " %"
+	end
+
+	def funded_in_btc
+		(	(self.wallet_address.current_balance.to_s rescue '0' ) + ' ฿')
+  end
+
+	def current_fund_of_task
+		(current_fund+(curent_bts_to_usd(id) rescue 0)).round.to_s
 	end
 
   def team_relations_string
     number_of_participants.to_s + "/" + target_number_of_participants.to_s
-  end
+	end
 end
