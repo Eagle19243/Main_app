@@ -378,7 +378,7 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
     font-weight: bold;
 }
 .task-box-header button:focus , button:hover{
-    background-color:transparent;
+    background-color:red;
     border:none;
 }
 .task-box-header .dropdown.button, button.dropdown{

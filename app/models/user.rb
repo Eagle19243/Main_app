@@ -209,4 +209,41 @@ class User < ActiveRecord::Base
     self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
   end
 
+  # MediaWiki API - Page Read
+  def page_read pagename
+    if Rails.configuration.mediawiki_session
+      name          = pagename.gsub(" ", "_")
+
+      result        = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      parsedResult  = JSON.parse(result.body)
+
+      if parsedResult["error"]
+        content             = Hash.new
+        content["status"]   = "error"
+      else
+        content             = Hash.new
+        content["non-html"] = parsedResult["response"]["content"]
+        content["html"]     = parsedResult["response"]["contentHtml"]
+        content["status"]   = "success"
+      end
+
+      content
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Page Create or Write
+  def page_write pagename, content
+    if Rails.configuration.mediawiki_session
+      name   = pagename.gsub(" ", "_")
+
+      result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: self.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
+
+      # Return Response Code
+      JSON.parse(result.body)["response"]["code"]
+    else
+      0
+    end
+  end
 end

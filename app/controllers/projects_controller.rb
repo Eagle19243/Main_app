@@ -133,20 +133,22 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @followed = false
-    @current_user_id = 0
-    @rate = @project.rate_avg
-    if user_signed_in?
-      @followed = @project.followers.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
-    end
-    respond_to do |format|
-      format.html
-      format.js {render(layout: false)}
-    end
+    # @comments = @project.project_comments.all
+    # @proj_admins_ids = @project.proj_admins.ids
+    # @followed = false
+    # @current_user_id = 0
+    # @rate = @project.rate_avg
+    # if user_signed_in?
+    #   @followed = @project.followers.pluck(:id).include? current_user.id
+    #   @current_user_id = current_user.id
+    #   @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
+    # end
+    # respond_to do |format|
+    #   format.html
+    #   format.js {render(layout: false)}
+    # end
+
+    redirect_to taskstab_project_path(@project.id)
   end
 
   def follow
@@ -204,6 +206,21 @@ class ProjectsController < ApplicationController
     @suggested_tasks = @project.tasks.where(state: "suggested_task").all
     @reviewing_tasks = @project.tasks.where(state: "reviewing").all
     @done_tasks = @project.tasks.where(state: "completed").all
+
+    @contents = ''
+    if user_signed_in?
+      result = current_user.page_read @project.title
+      if result
+        if result["status"] == 'success'
+          @contents = result["html"]
+        else
+          # Create new page
+          current_user.page_write @project.title, ''
+          result = current_user.page_read @project.title
+          @contents = ''
+        end
+      end
+    end
   end
 
   def show_project_team
@@ -346,6 +363,49 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project could not be rejected"
     end
     redirect_to current_user
+  end
+
+  def read_from_mediawiki
+    if user_signed_in?
+      @project = Project.find(params[:id])
+      result = current_user.page_read @project.title
+      if result
+        if result["status"] == 'success'
+          @contents = result["html"]
+        else
+          # Create new page
+          current_user.page_write @project.title, ''
+          result = current_user.page_read @project.title
+          @contents = ''
+        end
+      else
+        #TODO create new session for mediawiki
+      end
+    else
+      flash[:error] = "Not allowed"
+      redirect_to root_path
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def write_to_mediawiki
+    if user_signed_in?
+      @project = Project.find(params[:id])
+      if current_user.page_write @project.title, params[:data]
+        result = current_user.page_read @project.title
+        @contents = result["non-html"]
+      end
+    else
+      flash[:error] = "Not allowed"
+      redirect_to root_path
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def destroy

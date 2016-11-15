@@ -35,21 +35,18 @@
     </script>
 
     <div class="page-wrapper">
-      <% if landing_page? %>
-        <header <%= landing_class %>>
-          <div class="header-wrapper">
-            <%= render 'layouts/navigation' %>
-          </div>
-        </header>
-      <% end %>
 
-      <%= render 'layouts/menu' %>
-      <%= render 'layouts/messages' %>
+      <% if landing_page? %>
+        <%= yield %>
+      <% else %>
+        <%= render 'layouts/menu' %>
+        <%= render 'layouts/messages' %>
+        <%= yield %>
+      <% end %>
 
       <%= render "modal/register_modal" %>
       <%= render "modal/start_project_modal" %>
 
-      <%= yield %>
     </div>
 
     <% unless landing_page? %>

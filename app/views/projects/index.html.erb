@@ -30,67 +30,53 @@
                 </div>
 
                 <div class="title-banner">
-                  <%= link_to taskstab_project_path(project), data: {no_turbolink: false}, class: 'xyz' do %>
-                      <p><%= project.title %></p>
-                  <% end %>
+                  <p>
+                    <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
+                  </p>
                 </div>
 
-                <div class="abc" style="width: 100%">
-                  <ul class="info-banner">
-                    <li class="pr10 border-right">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-
-                      <span><%= project.country %></span>
-                    </li>
-                    <li class="pl10">
-                      <i class="fa fa-user" aria-hidden="true"></i>
-                      <%= project.user.name %>
-                    </li>
-                  </ul>
-                </div>
-
+                <ul class="info-banner">
+                  <li class="pr10 border-right">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span><%= project.country %></span>
+                  </li>
+                  <li class="pl10">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <%= link_to project.user.name, user_path(project.user)%>
+                  </li>
+                </ul>
 
                 <div class="summary-banner">
-                  <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
-                      <p><%= project.short_description %></p>
-                  <% end %>
+                  <p>
+                    <%= project.short_description%>
+                  </p>
                 </div>
 
                 <div class="progress-banner">
 
                   <div class="report-banner pb10">
-                    <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
-                        <div class="row">
-                          <span>Funded</span>
-                          <span class="pull-right"><%= project.funded_percentages %></span>
-                        </div>
-                    <% end %>
-                    <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
-
-                        <div class="row">
-                          <span>Tasks</span>
-                          <span class="pull-right"><%= project.tasks_relations_string %></span>
-                        </div>
-                    <% end %>
-                    <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
-
-                        <div class="row">
-                          <span>Teamates</span>
-                          <span class="pull-right"><%= project.team_relations_string %></span>
-                        </div>
-                    <% end %>
-                    <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
-
-                        <div class="row">
-                          <span>Raised</span>
-                          <span class="pull-right">$ <%= project.funded_budget %></span>
-                        </div>
-                    <% end %>
+                    <div class="row">
+                      <span>Funded</span>
+                      <span class="pull-right"><%= project.funded_percentages %></span>
+                    </div>
+                    <div class="row">
+                      <span>Tasks</span>
+                      <span class="pull-right"><%= project.tasks_relations_string%></span>
+                    </div>
+                    <div class="row">
+                      <span>Teamates</span>
+                      <span class="pull-right"><%= project.team_relations_string%></span>
+                    </div>
+                    <div class="row">
+                      <span>Raised</span>
+                      <span class="pull-right">$ <%= project.funded_budget %></span>
+                    </div>
                   </div>
 
                   <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
                     </div>
+                    <span><%= project.funded_percentages%></span>
                   </div>
                 </div>
 
@@ -101,18 +87,7 @@
     </div>
 
   </div>
-  </div>
 </main>
-<script>
-  //  $(".abc .projects-cards").click(function(){
-  //    $(this).closest("a").click();
-  //  });
-  $(".card-wrapper").click(function () {
-    arr = $(this).find('a');
-    window.location = $(arr[0]).attr('href');
-    return false;
-  });
-</script>
 <% if  @download_keys  %>
     <div id="backupkeys_popup" class="modal" style="display: block ;">
       <!-- Modal content -->
