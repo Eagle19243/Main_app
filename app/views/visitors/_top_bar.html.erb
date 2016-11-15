@@ -1,104 +1,13 @@
-<div class="top-bar top-bar-landing">
-  <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx-  dropdownmenu">
-      <li>
-        <%= link_to root_path, class: 'weserve' do %>
-            <h3>WeServe</h3>
-        <% end %>
-      </li>
-      <li>
-        <a href="#"  id="project-top-bar" data-reveal-id="sign-in-sing-top-bar">
-            Start a project
-        </a>
-      </li>
-      <% if user_signed_in? %>
-          <li><%= link_to 'Dashboard', dashboard_path %></li>
-      <% end %>
-      <li>
-        <%= link_to projects_path do %>
-            Active projects
-        <% end %>
-      </li>
-      <% if current_user.try(:admin?) %>
-          <li><%= link_to 'Directory', users_path %></li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="dropdown menu" data-dropdown-menu="" role="menubar" data-dropdownmenu="54s4jx- dropdownmenu">
-      <li>
-        <%= form_tag projects_user_search_path , :method => :post , :id => 'search-form' do  %>
-            <div class="large-12 columns">
-              <div class="large-8 columns">
-                <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path%>
-              </div>
-              <div class="large-4 columns">
-                <button class="btn" type="submit"><i class="fa fa-search"></i></button>
-              </div>
-              <!--<i class="fa fa-search"></i>-->
-            </div>
-        <% end %>
-      </li>
-      <% if user_signed_in? %>
-          <% unless current_user.name.blank? %>
-              <li><%= link_to current_user.name.split(' ')[0] , current_user %></li> <% end %>
-          <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'signup_buttons' %></li>
-      <% else %>
-          <li>
-            <a href="#" id="sign-in-top-bar" data-reveal-id="sign-in-sing-top-bar" class="signup_buttons">
-              Sign In
-            </a>
-          </li>
-          <li>
-            <a href="#" id="sign-up-top-bar" data-reveal-id="sign-in-sing-top-bar" class="signup_buttons">
-              Sign Up
-            </a>
-          </li>
-      <%end%>
-    </ul>
+
+<div class="landing-header">
+  <div class="header-wrap">
+    <div class="landing-logo">
+      <%= link_to 'WeServe', root_path %>
+    </div>
+    <div class="pull-right register-group">
+      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal">Login</a>
+      <span>or</span>
+      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="border-link">Signup</a>
+    </div>
   </div>
 </div>
-
-
-
-
-<div  id="sign-in-sing-top-bar"  class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-
-  <div class="row" style="margin-bottom: 10px" ><center ><a href="#" id="Sign-in-a"><div style="border: 2px solid black;width: 100px ;height: 40px ;font-size: 16px;padding-top:10px;display:inline-block;" id="Sign-in-div"> Sign in</div></a> <a href="#" id="Sign-up-a"><div style="border: 2px solid black;display:inline-block;width: 100px ;height: 40px ;padding-top:10px ;font-size: 16px" id="Sign-up-div">Sign Up</div> </a></center></div>
-  <div style="background-color: #f0f0f0 ">
-    <div style="text-align: center;padding-top: 30px ;margin-bottom: 30px">
-
-      <%= link_to image_tag("facebook-1.png" , :style => "width:130px; height:50px"), user_facebook_omniauth_authorize_path %>
-      <%= link_to image_tag("twitter-1.png", :style => "width:130px; height:50px"),  user_twitter_omniauth_authorize_path %>
-      <%= link_to image_tag("google-1.png" ,:style => "width:130px; height:50px"),  user_google_oauth2_omniauth_authorize_path %>
-    </div>
-    <center>  <h2 align="center">OR</h2></center>
-    <div  id ="sing-in-show">
-      <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-    </div>
-    <div id ="sing-up-show">
-      <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-    </div>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-  </div>
-  <div class="term_of_service">By clicking Sign Up or Sign in , you agree to our<a href="/pages/term_of_use" style="color:blue"> Terms of Use </a> and <a href="/pages/privacy_policy" style="color:blue;">Privacy Policy</a>.</div>
-</div>
-
-<script>
-  $("#sign-in-top-bar").click(function () {
-    $("#Sign-in-div").css("background-color", "#35B8F4 ")
-    $("#Sign-up-div").css("background-color", "white ")
-    $("#Sign-in-div").css("color", "white ")
-    $("#Sign-up-div").css("color", "black")
-    $("#sing-up-show").hide();
-    $("#sing-in-show").show();
-  })
-  $("#sign-up-top-bar , #project-top-bar").click(function () {
-    $("#Sign-up-div").css("background-color", "#35B8F4")
-    $("#Sign-in-div").css("background-color", "white ")
-    $("#Sign-up-div").css("color", "white ")
-    $("#Sign-in-div").css("color", "black")
-    $("#sing-in-show").hide();
-    $("#sing-up-show").show();
-  })
-</script>

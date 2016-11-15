@@ -11,16 +11,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   around_filter :set_current_user
 
+  def after_sign_in_path_for(resource)
+    projects_path
+  end
+
   def set_current_user
     User.current_user = current_user
     yield
   ensure
     User.current_user = nil
   end
-
-    #before_filter :admin_only_mode
-    # layout "manish"
-    #a filter to enable private mode in which the app is available only to admins
 
     def admin_only_mode
       unless current_user.try(:admin?)
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password,
         :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
       devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:name, :email, :password,
-        :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }      
+        :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
     end
 
     def default_api_value
@@ -56,6 +56,7 @@ class ApplicationController < ActionController::Base
     def service_action
       params[:action]
     end
+
     helper_method :service_action, :service_name
 
 end

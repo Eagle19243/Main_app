@@ -1,5 +1,8 @@
 // header utilize styles goes here
 
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
+
 @import 'variables';
 
 .mt10 {
@@ -40,13 +43,16 @@
   padding-bottom: 10px;
 }
 
+.pt15 {
+  padding-top: 15px !important;
+}
 .pt20 {
   padding-top: 20px !important;
 }
 
 .padding-none {
-  padding-right: 0;
-  padding-left: 0;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
 .margin-none {
@@ -115,4 +121,8 @@ h2:before {
 
 h2:before {
   border-top: none !important;
+}
+
+.form-group {
+  width: 100%;
 }

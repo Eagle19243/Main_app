@@ -127,6 +127,8 @@ Rails.application.routes.draw do
     member do
       get :taskstab, as: :taskstab
       get :show_project_team, as: :show_project_team
+      get :read_from_mediawiki, as: :read_from_mediawiki
+      get :write_to_mediawiki, as: :write_to_mediawiki
     end
   end
 
@@ -156,10 +158,7 @@ Rails.application.routes.draw do
   resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
-  #restricted mode front-view. See filter in ApplicationController and disable if no longer needed
   get 'visitors' => 'visitors#restricted'
 
-  # root to: 'visitors#landing'
-  # show active projects as the landing page
-  root to: 'projects#index'
+  root to: 'visitors#landing'
 end

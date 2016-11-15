@@ -1,8 +1,21 @@
 <div id="side-menu-id" class="side-menu">
+  <div class="side-logo">
+    <%= link_to 'WeServe', root_path %>
+
+    <div class="user-profile">
+      <% if current_user.picture? %>
+        <%= image_tag(current_user.picture, size: "50x50") %>
+      <% else %>
+        <%= gravatar_for_user(current_user)%>
+      <%end%>
+      <span><%= current_user.name %></span>
+    </div>
+  </div>
+
   <ul class="side-nav">
     <li class="<%= active_class(user_path(current_user)) %>">
       <i class="fa fa-user" aria-hidden="true"></i>
-      <%= link_to 'Profile' , user_path(current_user) %>
+      <%= link_to 'Profile', user_path(current_user) %>
     </li>
     <li class="<%= active_class(my_projects_path) %>">
       <i class="fa fa-tachometer " aria-hidden="true"></i>
@@ -15,7 +28,7 @@
       </span>
       <a href="/notifications">Notifications</a>
     </li>
-    <li class="<%= active_class(messages_path) %>">
+    <li class="<%= active_class(group_messages_path) %>">
       <i class="fa fa-envelope-o" aria-hidden="true"></i>
       <a href="/group_messages">Messages</a>
     </li>
