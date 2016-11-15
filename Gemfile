@@ -78,6 +78,7 @@ gem "bullet", :group => "development"
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
+  gem 'letter_opener'
 end
 
 # CSS coverage tool
