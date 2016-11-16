@@ -133,20 +133,22 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @followed = false
-    @current_user_id = 0
-    @rate = @project.rate_avg
-    if user_signed_in?
-      @followed = @project.followers.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
-    end
-    respond_to do |format|
-      format.html
-      format.js {render(layout: false)}
-    end
+    # @comments = @project.project_comments.all
+    # @proj_admins_ids = @project.proj_admins.ids
+    # @followed = false
+    # @current_user_id = 0
+    # @rate = @project.rate_avg
+    # if user_signed_in?
+    #   @followed = @project.followers.pluck(:id).include? current_user.id
+    #   @current_user_id = current_user.id
+    #   @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
+    # end
+    # respond_to do |format|
+    #   format.html
+    #   format.js {render(layout: false)}
+    # end
+
+    redirect_to taskstab_project_path(@project.id)
   end
 
   def follow
