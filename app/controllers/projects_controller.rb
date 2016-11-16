@@ -133,20 +133,22 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @followed = false
-    @current_user_id = 0
-    @rate = @project.rate_avg
-    if user_signed_in?
-      @followed = @project.followers.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
-    end
-    respond_to do |format|
-      format.html
-      format.js {render(layout: false)}
-    end
+    # @comments = @project.project_comments.all
+    # @proj_admins_ids = @project.proj_admins.ids
+    # @followed = false
+    # @current_user_id = 0
+    # @rate = @project.rate_avg
+    # if user_signed_in?
+    #   @followed = @project.followers.pluck(:id).include? current_user.id
+    #   @current_user_id = current_user.id
+    #   @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
+    # end
+    # respond_to do |format|
+    #   format.html
+    #   format.js {render(layout: false)}
+    # end
+
+    redirect_to taskstab_project_path(@project.id)
   end
 
   def follow
@@ -419,8 +421,13 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
-                                    project_edits_attributes: [:id, :_destroy, :description])
+      params.require(:project).permit(
+        :title, :short_description, :institution_country, :description, :country, 
+        :picture, :user_id, :institution_location, :state, :expires_at, :request_description, 
+        :institution_name, :institution_logo, :institution_description, :section1, :section2,
+        :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
+        project_edits_attributes: [:id, :_destroy, :description]
+      )
     end
 
     def get_project_user

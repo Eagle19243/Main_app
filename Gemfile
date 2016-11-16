@@ -12,6 +12,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'country_select'
 gem 'carrierwave', '~> 0.9'
+gem 'carrierwave-crop'
 gem 'mini_magick'
 gem 'fog'
 gem 'omnicontacts'
@@ -56,6 +57,7 @@ gem 'devise'
 gem 'foundation-rails', '~> 5.5'
 gem 'high_voltage'
 gem 'simple_form'
+gem 'newrelic_rpm'
 
 # Ajax File Uploading
 gem 'remotipart'
@@ -77,6 +79,7 @@ gem "bullet", :group => "development"
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
+  gem 'letter_opener'
 end
 
 # CSS coverage tool
