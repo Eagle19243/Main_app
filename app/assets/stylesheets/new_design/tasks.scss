@@ -92,7 +92,7 @@
     tr.value {
       td {
         color: #fff !important;
-        font-weight: bold;
+        font-weight: normal;
       }
     }
     tr.items {
@@ -105,94 +105,147 @@
 }
 
 .project-detail-wrapper {
-  max-width: 1200px;
-  margin: auto;
-  padding: 30px 20px;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .project-tab-wrapper {
 
+  .tabs-menu {
+    display: block;
+    position: relative;
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+    padding-top: 10px;
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
   ul.nav {
     margin: 0;
+    width: 100%;
+    text-align: left;
+    display: block;
+    position: relative;
 
-    a {
-      border-radius: 0;
-      border: 1px solid $grey-clr;
-      font-size: 18px;
-      text-transform: uppercase;
-      color: #555;
+    li {
+      padding: 10px 20px 0px;
 
-      &:focus,
-      &.active {
-        background-color: $alt-clr;
-        color: #fff;
-        font-weight: 600;
+      &:hover {
+        a {
+          background-color: transparent;
+        }
       }
+
+      a {
+        font-family: 'Roboto';
+        font-size: 1em;
+        font-weight: 600;
+        color: #000;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        padding-bottom: 10px;
+        position: relative;
+
+        &:focus,
+        &.active {
+          border-bottom: 4px solid #000;
+          background-color: transparent;
+        }
+
+        span.count {
+          font-family: 'Libre Franklin';
+          font-size: 0.8em;
+          font-weight: 300;
+          color: #777;
+          position: relative;
+          top: -7px;
+        }
+      }
+    }
+
+    a.btn-invite {
+      position: absolute;
+      right: 0;
+      font-family: 'Roboto';
+      color: #000;
+      text-transform: uppercase;
     }
   }
 
-  .btns-group {
-    padding: 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #ddd;
 
-    div.btn-wrapper {
+  div.btn-wrapper {
+    display: inline-block;
+    padding: 0px 5px;
+
+    a.btn-share {
       display: inline-block;
-      padding: 0px 15px;
+      background-color: #fff;
+      text-align: center;
+      text-decoration: none;
+      height: 30px;
+      line-height: 30px;
+      width: 110px;
+      padding: 0 5px;
 
-      a.btn-invite, 
-      a.btn-edit, 
-      a.btn-fund, 
-      a.btn-task, 
-      a.btn-follow {
-        display: inline-block;
-        background-color: #fff;
-        text-align: center;
-        text-decoration: none;
-        font-size: 14px;
-        height: 40px;
-        line-height: 40px;
-        width: 110px;
-        padding: 0 5px;
-        font-weight: 400;
-      }
+      font-family: 'Roboto';
+      font-weight: normal;
+      font-size: 1em;
+      color: #777;
+      border: 1px solid #ddd;
 
-      a.btn-invite {
-        color: #ed7f16;
-        border: 1px solid #ed7f16;
+      i {
+        padding: 0;
+        font-size: 1.2em;
+        padding-right: 8px;
+        color: #666;
       }
-      a.btn-edit {
-        color: red;
-        border: 1px solid red;
-      }
-      a.btn-fund {
-        color: $alt-clr;
-        border: 1px solid $alt-clr;
-      }
-      a.btn-task {
-        color: #10b610;
-        border: 1px solid #10b610;
-      }
-      a.btn-follow {
-        color: #943bc9;
-        border: 1px solid #943bc9;
-      }
+    }
+    a.btn-edit {
+      display: inline-block;
+      background-color: #fff;
+      text-align: center;
+      text-decoration: none;
+      height: 35px;
+      line-height: 35px;
+      padding: 0 10px;
 
-      a, i.fa-star {
-        color: #888;
-      }
+      font-family: 'Roboto';
+      font-weight: normal;
+      font-size: 1em;
+      color: #000;
+      border: 2px solid #000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
 
-      a:hover {
-        text-decoration: none;
+      i {
+        padding: 0;
+        font-size: 1.2em;
+        padding-right: 5px;
+        color: #000;
       }
+    }
+
+    a, i.fa-star {
+      color: #ddd;
+    }
+
+    a:hover {
+      text-decoration: none;
     }
   }
 }
 
 .tabs-wrapper {
-  border: 1px solid $grey-clr;
   border-top: none;
   background-color: #fff;
+  padding-left: 6%;
+  padding-right: 6%;
 
   .tabcontent {
     display: none;
@@ -227,8 +280,12 @@
 
 .project-summary {
   p {
-    font-size: 14px;
+    font-family: 'Libre Franklin';
+    font-size: 1em;
     color: #555;
+    text-align: justify;
+    letter-spacing: 1px;
+    line-height: 1.5em;
   }
 }
 
@@ -245,29 +302,33 @@
 
 .summary-header {
   strong {
-    font-size: 16px;
-    color: #444;
+    font-family: 'Libre Franklin';
+    font-size: 1.1em;
+    color: #000;
   }
 
   a {
-    font-size: 12px;
+    font-family: 'Libre Franklin';
+    font-size: 0.9em;
+    color: #aaa;
   }
 }
 
 .summary-cards {
-  border-radius: 3px;
-  padding: 10px 10px;
+  padding: 15px 10px;
   clear: both;
-  background-color: #eee;
-  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+  background-color: #fff;
   margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
 
   .card-title {
     p {
-      font-size: 12px;
-      color: #555;
+      font-family: 'Roboto';
+      font-size: 1.3em;
+      color: #000;
+      line-height: 1.5em;
       margin-bottom: 10px;
-      font-weight: 600;
     }
   }
 
@@ -276,29 +337,28 @@
 
     a {
       display: inline-block;
-      color: #fff;
       text-align: center;
-      text-decoration: none;
-      font-size: 12px;
+      width: 100%;
+      max-width: 100px;
       height: 30px;
       line-height: 30px;
-      width: 80px;
-      padding: 0 5px;
-      font-weight: 400;
+      margin-bottom: 5px;
+      text-decoration: none;
+      padding: 0;
+      border: 2px solid #000;
+      border-radius: 40px;
+
+      font-family: 'Libre Franklin';
+      font-weight: 600;
+      font-size: 0.8em;
     }
     a[title="FUND"] {
-      background-color: $alt-clr;
-      &:hover {
-        background-color: $alt-clr !important;
-        box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
-      }
+      background-color: #fff;
+      color: #000;
     }
     a[title="DO"] {
-      background-color: #10b610;
-      &:hover {
-        background-color: #10b610 !important;
-        box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
-      }
+      background-color: #000;
+      color: #fff;
     }
 
     a:hover,
@@ -385,6 +445,19 @@
     background-color: #ddd;
     a {
       color: #555;
+    }
+  }
+}
+
+.tab-task-report {
+  tbody {
+    tr.value {
+      td {
+        font-family: 'Libre Franklin';
+        color: #111 !important;
+        font-size: 1.5em !important;
+        font-weight: normal;
+      }
     }
   }
 }

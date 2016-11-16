@@ -193,83 +193,75 @@
 
 <div class="project-detail-wrapper">
   <div class="project-tab-wrapper">
-    <ul class="nav nav-pills nav-justified">
-      <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a></li>
-      <li><a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <small>(353)</small></a></li>
-      <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <small>(434)</small></a></li>
-    </ul>
+    <div class="row tabs-menu">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <ul class="nav nav-pills nav-left">
+          <li>
+            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
+          </li>
+          <a href="javascript:void(0)" data-reveal-id="Project-Invite-Model" class="btn-invite border-link">
+            Invite
+          </a>
+        </ul>
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="btn-wrapper">
+          <div class="rank-group">
+            <input type="hidden" id="stars" name="stars">
+            <% for i in 1..5 %>
+              <i class="fa fa-star" aria-hidden="true"></i>
+            <% end %>
+          </div>
+        </div>
+        <div class="btn-wrapper">
+          <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);" class="btn-share">
+            <i class="fa fa-facebook"></i>&nbsp;&nbsp;Share
+          </a>
+        </div>
+        <div class="btn-wrapper">
+          <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);" class="btn-share">
+            <i class="fa fa-twitter"></i>&nbsp;&nbsp;Tweet
+          </a>
+        </div>
+        <div class="btn-wrapper">
+          <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" class="btn-share">
+            <i class="fa fa-google-plus"></i>&nbsp;&nbsp;Share
+          </a>
+        </div>
+      </div>
+
+    </div>
 
     <div class="tabs-wrapper">
       <div id="Plan" class="tabcontent">
-        <div class="btns-group">
-
-          <div class="btn-wrapper">
-            <a href="javascript:void(0)" data-reveal-id="Project-Invite-Model" class="btn-invite">
-              <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;&nbsp;Invite
-            </a>
-          </div>
-
-          <div class="btn-wrapper">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#editProjectModal" class="btn-edit">
-              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-            </a>
-          </div>
-
-          <div class="btn-wrapper">
-            <a href="javascript:void(0)" class="btn-fund" data-toggle="modal" data-target="#taskFundModal">
-              <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;Fund
-            </a>
-          </div>
-
-          <div class="btn-wrapper">
-            <a href="javascript:void(0)" class="btn-task" data-toggle="modal" data-target="#taskDoModal">
-              <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;Do a Task
-            </a>
-          </div>
-
-          <div class="btn-wrapper">
-            <a href="javascript:void(0)" class="btn-follow">
-              <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;Follow
-            </a>
-          </div>
-
-          <div class="btn-wrapper">
-            <div class="rank-group">
-              <input type="hidden" id="stars" name="stars">
-              <% for i in 1..5 %>
-                <i class="fa fa-star" aria-hidden="true"></i>
-              <% end %>
-            </div>
-          </div>
-
-          <div class="btn-wrapper">
-            <div class="social-sharelinks">
-              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                <i class="fa fa-facebook"></i>
-              </a>
-              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
-                <i class="fa fa-twitter"></i>
-              </a>
-              <a href="javascript:void(0)" data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" >
-                <i class="fa fa-google-plus" ></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
         <div class="content-details">
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+              <div class="row margin-none mb20">
+                <div class="btn-wrapper pull-right">
+                  <a href="javascript:void(0)" data-toggle="modal" data-target="#editProjectModal" class="btn-edit">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                  </a>
+                </div>
+              </div>
+              <div class="clearfix"></div>
               <div class="project-summary">
                 <p>
                   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
                 </p>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
               <div class="tasks-summary">
                 <div class="summary-header">
-                  <strong>TASKS</strong>
+                  <strong>Tasks</strong>
                   <a href="javascript:void(0)" class="pull-right">View All</a>
                 </div>
 
@@ -278,36 +270,43 @@
                     <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
-                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat.</p>
+                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
                         </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                        <div class="row">
+                          <div class="col-lg-9 col-md-9 col-sm-9 pt15">
+                            <div class="progress">
+                              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                              </div>
+                            </div>
+                            <div class="report-banner-table tab-task-report mt10">
+                              <table>
+                                <tr class="value">
+                                  <td>70%</td>
+                                  <td>70</td>
+                                  <td>70</td>
+                                  <td>$70</td>
+                                </tr>
+                                <tr class="items">
+                                  <td>Funded</td>
+                                  <td>Tasks</td>
+                                  <td>Teamates</td>
+                                  <td>Raised</td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="fund-do-btns">
+                              <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                                DO
+                              </a>
+                              <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                                FUND
+                              </a>
+                            </div>
                           </div>
                         </div>
-                        <div class="report-banner-table">
-                          <table>
-                            <tr class="value">
-                              <td>70</td>
-                              <td>70</td>
-                              <td>70</td>
-                              <td>70</td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Teamates</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-                        <div class="fund-do-btns">
-                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
-                            <i class="fa fa-credit-card-alt" aria-hidden="true"></i>&nbsp;&nbsp;FUND
-                          </a>
-                          <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
-                            <i class="fa fa-tasks" aria-hidden="true"></i>&nbsp;&nbsp;DO
-                          </a>
-                        </div>
+
                       </div>
                     </div>
                   <% end %>

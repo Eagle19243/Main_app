@@ -129,8 +129,15 @@ ul.info-banner {
 }
 
 div.progress {
-  height: 10px;
+  height: 7px;
   margin-bottom: 0;
+  border: none;
+  padding: 0;
+  background-color: #ddd;
+
+  .progress-bar {
+    background-color: #555;
+  }
 }
 
 .progress-banner {
@@ -179,12 +186,14 @@ div.progress {
     }
     tr.value {
       td {
+        font-family: 'Libre Franklin';
         color: #555 !important;
         font-weight: bold;
       }
     }
     tr.items {
       td {
+        font-family: 'Libre Franklin';
         color: $grey-clr !important;
         text-align: left;
       }
