@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.jcrop
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require best_in_place

@@ -20,11 +20,55 @@
   display: block;
   width: 100%;
   text-align: center;
-  top: 50px;
+  top: 0;
   padding: 50px 0px 50px 0px;
+
+  .project-owner {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .project-title {
+    font-family: 'Roboto';
+    color: #fff;
+    text-align: center;
+  }
+
+  .project-city {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+  }
 
   h1, h2, h3, h4, h5, h6 {
     color: #ddd;
+  }
+
+  .progress {
+    background-color: #aaa !important;
+    .progress-bar {
+      background-color: #fff;
+    }
+  }
+
+  .get-invo-btn {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #000 !important;
+    background-color: #fff;
+    border: 2px solid #000;
+    text-transform: uppercase;
+    padding: 8px 30px;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background-color: #fff;
+    }
   }
 }
 
@@ -85,114 +129,170 @@
     margin: auto;
     tr td {
       padding: 0px 5px !important;
-      font-size: 16px !important;
       text-align: left;
       line-height: 1.5em !important;
     }
     tr.value {
       td {
+        font-family: 'Libre Franklin';
         color: #fff !important;
-        font-weight: bold;
+        font-weight: normal;
+        font-size: 1.4em !important;
       }
     }
     tr.items {
       td {
+        font-family: 'Libre Franklin';
         color: #fff !important;
         text-align: left;
+        font-size: 1em;
       }
     }
   }
 }
 
 .project-detail-wrapper {
-  max-width: 1200px;
-  margin: auto;
-  padding: 30px 20px;
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .project-tab-wrapper {
 
+  .tabs-menu {
+    display: block;
+    position: relative;
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+    padding-top: 10px;
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
   ul.nav {
     margin: 0;
+    width: 100%;
+    text-align: left;
+    display: block;
+    position: relative;
 
-    a {
-      border-radius: 0;
-      border: 1px solid $grey-clr;
-      font-size: 18px;
-      text-transform: uppercase;
-      color: #555;
+    li {
+      padding: 10px 20px 0px;
 
-      &:focus,
-      &.active {
-        background-color: $alt-clr;
-        color: #fff;
-        font-weight: 600;
+      &:hover {
+        a {
+          background-color: transparent;
+        }
       }
+
+      a {
+        font-family: 'Roboto';
+        font-size: 1em;
+        font-weight: 600;
+        color: #000;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        padding-bottom: 10px;
+        position: relative;
+
+        &:focus,
+        &.active {
+          border-bottom: 4px solid #000;
+          background-color: transparent;
+        }
+
+        span.count {
+          font-family: 'Libre Franklin';
+          font-size: 0.8em;
+          font-weight: 300;
+          color: #777;
+          position: relative;
+          top: -7px;
+        }
+      }
+    }
+
+    a.btn-invite {
+      position: absolute;
+      right: 0;
+      font-family: 'Roboto';
+      color: #000;
+      text-transform: uppercase;
     }
   }
 
-  .btns-group {
-    padding: 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #ddd;
 
-    div.btn-wrapper {
+  div.btn-wrapper {
+    display: inline-block;
+    padding: 0px 5px;
+
+    a.btn-share {
       display: inline-block;
-      padding: 0px 15px;
+      background-color: #fff;
+      text-align: center;
+      text-decoration: none;
+      height: 30px;
+      line-height: 30px;
+      width: 110px;
+      padding: 0 5px;
 
-      a.btn-invite, 
-      a.btn-edit, 
-      a.btn-fund, 
-      a.btn-task, 
-      a.btn-follow {
-        display: inline-block;
-        background-color: #fff;
-        text-align: center;
-        text-decoration: none;
-        font-size: 14px;
-        height: 40px;
-        line-height: 40px;
-        width: 110px;
-        padding: 0 5px;
-        font-weight: 400;
-      }
+      font-family: 'Roboto';
+      font-weight: normal;
+      font-size: 1em;
+      color: #777;
+      border: 1px solid #ddd;
 
-      a.btn-invite {
-        color: #ed7f16;
-        border: 1px solid #ed7f16;
+      i {
+        padding: 0;
+        font-size: 1.2em;
+        padding-right: 8px;
+        color: #666;
       }
-      a.btn-edit {
-        color: red;
-        border: 1px solid red;
-      }
-      a.btn-fund {
-        color: $alt-clr;
-        border: 1px solid $alt-clr;
-      }
-      a.btn-task {
-        color: #10b610;
-        border: 1px solid #10b610;
-      }
-      a.btn-follow {
-        color: #943bc9;
-        border: 1px solid #943bc9;
-      }
+    }
+    a.btn-edit {
+      display: inline-block;
+      background-color: #fff;
+      text-align: center;
+      text-decoration: none;
+      height: 35px;
+      line-height: 35px;
+      padding: 0 10px;
 
-      a, i.fa-star {
-        color: #888;
-      }
+      font-family: 'Roboto';
+      font-weight: normal;
+      font-size: 1em;
+      color: #000;
+      border: 2px solid #000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
 
-      a:hover {
-        text-decoration: none;
+      i {
+        padding: 0;
+        font-size: 1.2em;
+        padding-right: 5px;
+        color: #000;
       }
+    }
+
+    a, i.fa-star {
+      color: #ddd;
+    }
+
+    a:hover {
+      text-decoration: none;
     }
   }
 }
 
 .tabs-wrapper {
-  border: 1px solid $grey-clr;
   border-top: none;
   background-color: #fff;
+  padding-left: 6%;
+  padding-right: 6%;
 
   .tabcontent {
     display: none;
@@ -227,8 +327,12 @@
 
 .project-summary {
   p {
-    font-size: 14px;
+    font-family: 'Libre Franklin';
+    font-size: 1em;
     color: #555;
+    text-align: justify;
+    letter-spacing: 1px;
+    line-height: 1.5em;
   }
 }
 
@@ -245,29 +349,40 @@
 
 .summary-header {
   strong {
-    font-size: 16px;
-    color: #444;
+    font-family: 'Libre Franklin';
+    font-size: 1.1em;
+    color: #000;
   }
 
   a {
-    font-size: 12px;
+    font-family: 'Libre Franklin';
+    font-size: 0.9em;
+    color: #aaa;
   }
 }
 
 .summary-cards {
-  border-radius: 3px;
-  padding: 10px 10px;
+  padding: 15px 10px;
   clear: both;
-  background-color: #eee;
-  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+  background-color: #fff;
   margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
 
   .card-title {
     p {
-      font-size: 12px;
-      color: #555;
+      font-family: 'Roboto';
+      font-size: 1.3em;
+      color: #000;
+      line-height: 1.5em;
       margin-bottom: 10px;
-      font-weight: 600;
+    }
+  }
+
+  .progress {
+    background-color: #ddd;
+    .progress-bar {
+      background-color: #555;
     }
   }
 
@@ -276,29 +391,28 @@
 
     a {
       display: inline-block;
-      color: #fff;
       text-align: center;
-      text-decoration: none;
-      font-size: 12px;
+      width: 100%;
+      max-width: 100px;
       height: 30px;
       line-height: 30px;
-      width: 80px;
-      padding: 0 5px;
-      font-weight: 400;
+      margin-bottom: 5px;
+      text-decoration: none;
+      padding: 0;
+      border: 2px solid #000;
+      border-radius: 40px;
+
+      font-family: 'Libre Franklin';
+      font-weight: 600;
+      font-size: 0.8em;
     }
     a[title="FUND"] {
-      background-color: $alt-clr;
-      &:hover {
-        background-color: $alt-clr !important;
-        box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
-      }
+      background-color: #fff;
+      color: #000;
     }
     a[title="DO"] {
-      background-color: #10b610;
-      &:hover {
-        background-color: #10b610 !important;
-        box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
-      }
+      background-color: #000;
+      color: #fff;
     }
 
     a:hover,
@@ -314,24 +428,29 @@
   background-color: #fff;
   padding: 10px 5px;
 
-  .col-lg-3, .col-md-3, .col-sm-3 {
+  .trello-column {
+    display: inline-block;
+    width: 19%;
     padding-left: 5px;
     padding-right: 5px;
+    vertical-align: text-top;
   }
 }
 
 .trello-section {
   background-color: #eee;
-  border-radius: 5px;
-  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+  border-radius: 3px;
 
   .section-header {
-    padding: 5px 5px 5px;
+    padding: 15px 15px 5px;
+    text-align: center;
 
     a {
-      font-size: 14px;
-      color: #444;
+      font-family: 'Roboto';
+      font-size: 1.1em;
+      color: #000;
       font-weight: 600;
+      text-transform: uppercase;
 
       &:hover {
         text-decoration: none;
@@ -348,27 +467,47 @@
         font-size: 11px;
       }
     }
+
+    .fund-do-btns {
+      text-align: center;
+
+      a.modal-link {
+        display: inline-block;
+        text-align: center;
+        width: 48%;
+        max-width: 100px;
+        height: 30px;
+        line-height: 30px;
+        margin-bottom: 5px;
+        text-decoration: none;
+        padding: 0;
+        border: 2px solid #000;
+        border-radius: 40px;
+
+        font-family: 'Libre Franklin';
+        font-weight: 600;
+        font-size: 0.8em;
+      }
+      a[title="FUND"] {
+        background-color: #fff;
+        color: #000;
+      }
+      a[title="DO"] {
+        background-color: #000;
+        color: #fff;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+      }
+
+    }
+
   }
 
   .summary-cards {
     background-color: #fff;
-  }
-}
-
-.card-wrapper {
-  .comment-wrapper {
-    padding-bottom: 5px;
-
-    span {
-      font-size: 12px;
-      color: #888;
-      padding-right: 10px;
-      cursor: pointer;
-    }
-
-    i {
-      font-weight: 600;
-    }
   }
 }
 
@@ -377,14 +516,114 @@
   cursor: pointer;
 
   a {
-    font-size: 14px;
-    color: #888;
+    font-family: 'Libre Franklin';
+    font-size: 1.1em;
+    color: #777;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  i {
+    color: #555;
   }
 
   &:hover {
     background-color: #ddd;
     a {
       color: #555;
+    }
+  }
+}
+
+.tab-task-report {
+  tbody {
+    tr.value {
+      td {
+        font-family: 'Libre Franklin';
+        color: #111 !important;
+        font-size: 1.5em !important;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.trello-cards {
+  padding: 15px 10px 0px;
+  clear: both;
+  background-color: #fff;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+
+  .card-title {
+    h5 {
+      font-family: 'Roboto';
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #000;
+      margin-top: 0;
+    }
+
+    p {
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #777;
+      line-height: 1.5em;
+      margin-bottom: 10px;
+    }
+  }
+
+  .comment-wrapper {
+    span {
+      font-family: 'Libre Franklin';
+      font-size: 1.1em;
+      color: #aaa;
+      padding-right: 10px;
+      cursor: pointer;
+    }
+
+    i {
+      font-size: 1.1em;
+      color: #aaa;
+      font-weight: 400;
+    }
+  }
+
+  .progress {
+    margin: 15px 0px;
+  }
+
+  .card-report {
+    table {
+      width: 100%;
+    }
+
+    tbody {
+      tr td {
+        padding: 0 !important;
+        text-align: left;
+        line-height: 1em !important;
+      }
+      tr.value {
+        td {
+          font-family: 'Libre Franklin';
+          color: #333 !important;
+          font-size: 0.9em !important;
+          font-weight: bold;
+        }
+      }
+      tr.items {
+        td {
+          font-family: 'Libre Franklin';
+          color: $grey-clr !important;
+          font-size: 0.8em !important;
+          text-align: left;
+        }
+      }
     }
   }
 }
