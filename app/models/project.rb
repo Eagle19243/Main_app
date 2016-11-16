@@ -7,7 +7,10 @@ class Project < ActiveRecord::Base
   include AASM
   default_scope -> { order('projects.created_at DESC') }
   mount_uploader :picture, PictureUploader
-  attr_accessor :discussed_description
+  crop_uploaded :picture
+
+  attr_accessor :discussed_description, :crop_x, :crop_y, :crop_w, :crop_h
+
   has_many :tasks, dependent: :delete_all
   has_many :wikis, dependent: :delete_all
   has_many :project_comments, dependent: :delete_all

@@ -12,6 +12,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'country_select'
 gem 'carrierwave', '~> 0.9'
+gem 'carrierwave-crop'
 gem 'mini_magick'
 gem 'fog'
 gem 'omnicontacts'
@@ -78,6 +79,7 @@ gem "bullet", :group => "development"
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
+  gem 'letter_opener'
 end
 
 # CSS coverage tool
