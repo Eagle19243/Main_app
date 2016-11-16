@@ -127,8 +127,6 @@ Rails.application.routes.draw do
     member do
       get :taskstab, as: :taskstab
       get :show_project_team, as: :show_project_team
-      get :read_from_mediawiki, as: :read_from_mediawiki
-      get :write_to_mediawiki, as: :write_to_mediawiki
     end
   end
 
@@ -143,6 +141,8 @@ Rails.application.routes.draw do
   post '/projects/user_search', to: 'projects#user_search'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
+  get  '/projects/:id/read_from_mediawiki', to: 'projects#read_from_mediawiki'
+  get  '/projects/:id/write_to_mediawiki', to: 'projects#write_to_mediawiki'
 
   get "/oauth2callback" => "projects#contacts_callback"
   get "/callback" => "projects#contacts_callback"

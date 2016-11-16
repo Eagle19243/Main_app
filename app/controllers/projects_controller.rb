@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin, :show_task]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin, :show_task, :read_from_mediawiki, :write_to_mediawiki]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -209,17 +209,15 @@ class ProjectsController < ApplicationController
     @reviewing_tasks = tasks.where(state: "reviewing").all
     @done_tasks = tasks.where(state: "completed").all
     @contents = ''
-    if user_signed_in?
-      result = current_user.page_read @project.title
-      if result
-        if result["status"] == 'success'
-          @contents = result["html"]
-        else
-          # Create new page
-          current_user.page_write @project.title, ''
-          result = current_user.page_read @project.title
-          @contents = ''
-        end
+    result = current_user.page_read @project.title
+    if result
+      if result["status"] == 'success'
+        @contents = result["html"]
+      else
+        # Create new page
+        current_user.page_write @project.title, ''
+        result = current_user.page_read @project.title
+        @contents = ''
       end
     end
   end
@@ -367,24 +365,21 @@ class ProjectsController < ApplicationController
   end
 
   def read_from_mediawiki
-    if user_signed_in?
-      @project = Project.find(params[:id])
-      result = current_user.page_read @project.title
-      if result
-        if result["status"] == 'success'
-          @contents = result["html"]
-        else
-          # Create new page
-          current_user.page_write @project.title, ''
-          result = current_user.page_read @project.title
-          @contents = ''
-        end
+
+    result = current_user.page_read @project.title
+    @contents = ''
+    if result
+      if result["status"] == 'success'
+        @contents = result['html'].html_safe.split("\n")
       else
-        #TODO create new session for mediawiki
+        # Create new page
+        current_user.page_write @project.title, ''
+        result = current_user.page_read @project.title
+        @contents = ''
       end
     else
-      flash[:error] = "Not allowed"
-      redirect_to root_path
+      #TODO create new session for mediawiki
+      @contents = ''
     end
 
     respond_to do |format|
@@ -393,15 +388,9 @@ class ProjectsController < ApplicationController
   end
 
   def write_to_mediawiki
-    if user_signed_in?
-      @project = Project.find(params[:id])
-      if current_user.page_write @project.title, params[:data]
-        result = current_user.page_read @project.title
-        @contents = result["non-html"]
-      end
-    else
-      flash[:error] = "Not allowed"
-      redirect_to root_path
+    if current_user.page_write @project.title, params[:data]
+      result = current_user.page_read @project.title
+      @contents = result["non-html"].html_safe.split("\n")
     end
 
     respond_to do |format|
