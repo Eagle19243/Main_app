@@ -21,8 +21,8 @@
       <div id="error-message-show" style="background-color: red"> </div>
       <div class="row padding-none">
         <% @featured_projects.each do |project| %>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
-            <div class="card-wrapper">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
+              <div class="card-wrapper">
                 <div class="card-img">
                   <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
                     <%= image_tag(project.picture.url) %>
@@ -80,8 +80,8 @@
                   </div>
                 </div>
 
+              </div>
             </div>
-          </div>
         <% end %>
       </div>
     </div>
