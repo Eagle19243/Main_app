@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  resources :group_messages, only:[:index, :create]
+  resources :group_messages, only: [:index, :create]
   post 'group_messages/get_messages_by_room'
   post 'group_messages/load_group_messages'
   post 'group_messages/users_chat'
+  post 'group_messages/one_to_one_chat'
+  get 'group_messages/user_messaging'
   get 'user_wallet_transactions/create_wallet'
-
-
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
 
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get 'teams/remove_membership'
   get 'projects/get_activities'
   get 'projects/show_task'
- # resources :task_attachments, only: [:index, :new, :create, :destroy]
+  # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'
   get 'chat_rooms/create_room'
@@ -91,7 +91,7 @@ Rails.application.routes.draw do
   resources :wikis
   resources :tasks do
     member do
-      get :accept, :reject, :doing,:reviewing,:completed
+      get :accept, :reject, :doing, :reviewing, :completed
     end
   end
 
@@ -146,13 +146,13 @@ Rails.application.routes.draw do
 
   get "/oauth2callback" => "projects#contacts_callback"
   get "/callback" => "projects#contacts_callback"
-   get '/contacts/failure' => "projects#failure"
+  get '/contacts/failure' => "projects#failure"
   get '/contacts/gmail'
   get '/contacts/yahoo'
   get '/pages/privacy_policy'
   get '/pages/terms_of_use'
 
-  devise_for :users, :controllers => { sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"  }
+  devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"}
 
   resources :users
   resources :messages
