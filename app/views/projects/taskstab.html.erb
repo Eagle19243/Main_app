@@ -266,7 +266,7 @@
                 </div>
 
                 <div id="tasks_cards">
-                  <% for i in 1..5 %>
+                  <% @sourcing_tasks.first(5).each do  |task| %>
                     <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
@@ -351,9 +351,9 @@
                           <table>
                             <tr class="value">
                               <td><%= task.funded %></td>
-                              <td>55/80</td>
+                              <td><%=  @tasks_count %></td>
                               <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
-                              <td>$<%= task.budget %></td>
+                              <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
                               <td>Funded</td>
@@ -407,7 +407,7 @@
                           <table>
                             <tr class="value">
                               <td><%= task.funded %></td>
-                              <td>55/80</td>
+                              <td><%=  @tasks_count %></td>
                               <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
                               <td>$<%= task.budget %></td>
                             </tr>
@@ -420,15 +420,29 @@
                           </table>
                         </div>
 
+                        <div class="fund-do-btns">
+                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' id="<%= task.id %>" data-target="#taskFundModal">
+                            FUND
+                          </a>
+                          <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" data-target="#taskDoModal">
+                            DO
+                          </a>
+                        </div>
+
                       </div>
                     </div>
                   <% end %>
                 <% end %>
               </div>
 
-              <div class="section-add-task">
-                <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
-              </div>
+              <% if user_signed_in? %>
+                  <% if @project.user_id == current_user.id %>
+                      <div class="section-add-task">
+                        <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                      </div>
+                  <% end %>
+              <% end %>
+
             </div>
           </div>
 
@@ -463,7 +477,7 @@
                           <table>
                             <tr class="value">
                               <td><%= task.funded %></td>
-                              <td>55/80</td>
+                              <td><%=  @tasks_count %></td>
                               <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
                               <td>$<%= task.budget %></td>
                             </tr>
@@ -475,6 +489,16 @@
                             </tr>
                           </table>
                         </div>
+
+                        <% if user_signed_in? %>
+                            <% if @project.user_id == current_user.id %>
+                                <%= link_to reviewing_task_path(task.id) do %>
+                                    <button onClick="window.location.reload()">
+                                      <i class="fa fa-arrow-right" aria-hidden="true"></i> Submit Task for Review
+                                    </button>
+                                <% end %>
+                            <% end %>
+                        <% end %>
 
                       </div>
                     </div>
@@ -528,6 +552,19 @@
                             </tr>
                           </table>
                         </div>
+
+                        <% if user_signed_in? %>
+
+                            <% if @project.user_id == current_user.id %>
+                                <div style="margin-top: 1%">
+                                  <%= link_to completed_task_path(task.id) do %>
+                                      <button>
+                                        <i class="fa fa-check" aria-hidden="true"></i>Task Completed
+                                      </button>
+                                  <% end %>
+                                </div>
+                            <% end %>
+                        <% end %>
 
                       </div>
                     </div>
@@ -636,4 +673,8 @@
     $('.nav-pills').find('li:first-child a').click();
   });
 
+  $('.do-model-popup').click(function(){
+
+    $('#task-do-request-popup').val($(this).attr('id'));
+  });
 </script>

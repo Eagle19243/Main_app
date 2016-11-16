@@ -133,20 +133,22 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @followed = false
-    @current_user_id = 0
-    @rate = @project.rate_avg
-    if user_signed_in?
-      @followed = @project.followers.pluck(:id).include? current_user.id
-      @current_user_id = current_user.id
-      @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
-    end
-    respond_to do |format|
-      format.html
-      format.js {render(layout: false)}
-    end
+    # @comments = @project.project_comments.all
+    # @proj_admins_ids = @project.proj_admins.ids
+    # @followed = false
+    # @current_user_id = 0
+    # @rate = @project.rate_avg
+    # if user_signed_in?
+    #   @followed = @project.followers.pluck(:id).include? current_user.id
+    #   @current_user_id = current_user.id
+    #   @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
+    # end
+    # respond_to do |format|
+    #   format.html
+    #   format.js {render(layout: false)}
+    # end
+
+    redirect_to taskstab_project_path(@project.id)
   end
 
   def follow
@@ -199,12 +201,13 @@ class ProjectsController < ApplicationController
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
-    @sourcing_tasks = @project.tasks.where(state: ["pending", "accepted", "suggested_task"]).all
-    @doing_tasks = @project.tasks.where(state: "doing").all
-  #  @suggested_tasks = @project.tasks.where(state: "suggested_task").all
-    @reviewing_tasks = @project.tasks.where(state: "reviewing").all
-    @done_tasks = @project.tasks.where(state: "completed").all
-
+    tasks = @project.tasks.all
+    @tasks_count =tasks.count
+    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
+    @doing_tasks = tasks.where(state: "doing").all
+    @suggested_tasks = tasks.where(state: "suggested_task").all
+    @reviewing_tasks = tasks.where(state: "reviewing").all
+    @done_tasks = tasks.where(state: "completed").all
     @contents = ''
     if user_signed_in?
       result = current_user.page_read @project.title

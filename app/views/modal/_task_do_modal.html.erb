@@ -9,9 +9,33 @@
       </div>
 
       <div class="modal-body">
-        <p>This Do a Task modal. The modal content goes here ...</p>
+            <div class="row">
+                <p id="Do-request-form-response" style="color: red"></p>
+                <center><h4>Add Cover Letter</h4></center>
+                <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
+                    <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
+                    <%= form.text_area :application %>
+                    <%= form.hidden_field :free, value: false %>
+                    <% if user_signed_in? %>
+                      <br>
+                        <button  type="submit" id="do-request-button">Submit Application</button>
+                        &nbsp;&nbsp;
+                    <% else %>
+                        <a href="/users/sign_in"><h4>Please Signin to Do this task</h4></a>
+                    <% end %>
+                <% end %>
+            </div>
+            <div class="large-1 medium-1 small-0 columns"></div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
 </div>
+<style>
+  #do-request-button:hover{
+    color:white;
+    background-color: blue;
+
+  }
+</style>

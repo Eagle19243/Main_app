@@ -467,6 +467,43 @@
         font-size: 11px;
       }
     }
+
+    .fund-do-btns {
+      text-align: center;
+
+      a.modal-link {
+        display: inline-block;
+        text-align: center;
+        width: 48%;
+        max-width: 100px;
+        height: 30px;
+        line-height: 30px;
+        margin-bottom: 5px;
+        text-decoration: none;
+        padding: 0;
+        border: 2px solid #000;
+        border-radius: 40px;
+
+        font-family: 'Libre Franklin';
+        font-weight: 600;
+        font-size: 0.8em;
+      }
+      a[title="FUND"] {
+        background-color: #fff;
+        color: #000;
+      }
+      a[title="DO"] {
+        background-color: #000;
+        color: #fff;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+      }
+
+    }
+
   }
 
   .summary-cards {
