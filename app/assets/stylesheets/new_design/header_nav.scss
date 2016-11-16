@@ -152,8 +152,7 @@ a.header-link {
 
   &:hover,
   &:focus {
-    background-color: #000;
-    color: #fff !important;
+    text-decoration: none;
   }
 }
 
@@ -255,14 +254,6 @@ a.header-link {
           padding-right: 10px;
           border-bottom: 1px solid #ddd;
 
-          .notify-body {
-
-          }
-
-          &:last-child {
-            border-bottom: none;
-          }
-
           .action {
             font-family: 'Roboto';
             color: #000;
@@ -278,12 +269,16 @@ a.header-link {
             margin: 0;
           }
         }
+        &.notify-wrapper:last-child {
+          border-bottom: none;
+        }
+
         &.notify-link {
           text-align: center;
           a {
             font-family: 'Roboto';
-            color: #777;
-            font-size: 1em;
+            color: #999;
+            font-size: 0.9em;
 
             &:hover {
               background-color: #fff;
