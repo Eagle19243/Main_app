@@ -56,6 +56,7 @@ gem 'devise'
 gem 'foundation-rails', '~> 5.5'
 gem 'high_voltage'
 gem 'simple_form'
+gem 'newrelic_rpm'
 
 # Ajax File Uploading
 gem 'remotipart'
