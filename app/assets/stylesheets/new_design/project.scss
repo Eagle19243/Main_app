@@ -278,34 +278,29 @@ div.progress {
 #Team {
   padding: 20px;
   padding-top: 50px;
-  background-color: #eee;
+  background-color: #fff;
+  max-width: 1200px;
 }
-
 
 .main-wrapper {
   background-color: #eee;
 }
 
-
-
 .member-box {
   padding: 10px;
   position: relative;
   background-color: #fff;
-  border: none;
-  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
+  border: 1px solid #eee;
   border-radius: 3px;
   min-height: 250px;
 
   .member-img {
-    position: relative;
-    margin-top: -40px;
-
     img {
-      width: 60px;
-      height: 60px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
     }
+    padding-bottom: 20px;
   }
 
   button.delete-member {
@@ -326,7 +321,9 @@ div.progress {
   .member-name {
     h5 {
       padding-top: 10px;
-      margin: 0;
+      font-family: 'Roboto';
+      font-size: 1.3em;
+      color: #000;
     }
 
     a {
@@ -340,32 +337,32 @@ div.progress {
       margin: 0;
     }
     span.role {
-      font-style: italic;
-      color: #777;
-      font-size: 14px;
+      font-family: 'Libre Franklin';
+      color: #888;
+      font-size: 1em;
+      text-transform: uppercase;
     }
 
-    span.text-blue {
-      font-size: 13px;
+    i {
+      color: #ddd;
+      font-size: 1em;
     }
   }
 
   p.member-bio {
     padding: 20px 10px 10px 10px;
-    font-size: 14px;
+    font-size: 1em;
     color: #555;
-    font-style: italic;
 
     a {
       padding-left: 3px;
-      font-size: 13px;
+      font-size: 1em;
+      color: #555;
     }
   }
 
   .soical-links-wrapper {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
+    position: relative;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -376,6 +373,20 @@ div.progress {
       li {
         margin: 0;
         padding: 0px 5px;
+
+        i {
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          color: #555;
+          background-color: #fff;
+          border: 2px solid #888;
+          border-radius: 50%;
+          padding: 0;
+          font-size: 1.2em;
+          text-align: center;
+        }
       }
     }
   }

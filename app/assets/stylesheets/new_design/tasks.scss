@@ -20,11 +20,55 @@
   display: block;
   width: 100%;
   text-align: center;
-  top: 50px;
+  top: 0;
   padding: 50px 0px 50px 0px;
+
+  .project-owner {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  .project-title {
+    font-family: 'Roboto';
+    color: #fff;
+    text-align: center;
+  }
+
+  .project-city {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #fff;
+    text-align: center;
+  }
 
   h1, h2, h3, h4, h5, h6 {
     color: #ddd;
+  }
+
+  .progress {
+    background-color: #aaa !important;
+    .progress-bar {
+      background-color: #fff;
+    }
+  }
+
+  .get-invo-btn {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #000 !important;
+    background-color: #fff;
+    border: 2px solid #000;
+    text-transform: uppercase;
+    padding: 8px 30px;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background-color: #fff;
+    }
   }
 }
 
@@ -85,20 +129,23 @@
     margin: auto;
     tr td {
       padding: 0px 5px !important;
-      font-size: 16px !important;
       text-align: left;
       line-height: 1.5em !important;
     }
     tr.value {
       td {
+        font-family: 'Libre Franklin';
         color: #fff !important;
         font-weight: normal;
+        font-size: 1.4em !important;
       }
     }
     tr.items {
       td {
+        font-family: 'Libre Franklin';
         color: #fff !important;
         text-align: left;
+        font-size: 1em;
       }
     }
   }
