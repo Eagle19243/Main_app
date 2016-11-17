@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :project_admin, :show_task]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin, :show_task, :read_from_mediawiki, :write_to_mediawiki]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -46,20 +46,20 @@ class ProjectsController < ApplicationController
           @notice = "ERROR: Please sign in to continue."
           format.js {}
         else
-          begin
-            InvitationMailer.invite_user_for_project(params['email'], current_user.name,
-                                                     Project.find(params['project_id']).title, params['project_id']).deliver_later
-            format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
-            @notice = "Project link has been sent to #{params[:email]}"
-            format.js {}
-          rescue => e
-            @notice = "Error ".concat e.inspect
-            format.js {}
-          end
+        begin
+          InvitationMailer.invite_user_for_project( params['email'],current_user.name,
+          Project.find(params['project_id']).title , params['project_id']).deliver_later
+          format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
+          @notice = "Project link has been sent to #{params[:email]}"
+          format.js {}
+        rescue => e
+          @notice = "Error ".concat e.inspect
+          format.js {}
+        end
 
         end
       else
-        session[:project_id] = session[:idd]
+        session[:project_id] =  session[:idd]
         format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
         @notice = 'Please provide receiver email.'
         format.js {}
@@ -76,7 +76,7 @@ class ProjectsController < ApplicationController
 
   def failure
     session[:failure_contacts] = nil
-    session[:project_id] = session[:idd]
+    session[:project_id] =  session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
     session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
@@ -88,24 +88,24 @@ class ProjectsController < ApplicationController
     @task_attachments = @task.task_attachments
     @task_team = TeamMembership.where(task_id: @task.id)
     task_comment_ids = @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
     project_admin
     respond_to :js
   end
 
   def autocomplete_user_search
     term = params[:term]
-    @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%", "%#{params[:term]}%").map { |p| "#{p.title}" }
-    @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%", "%#{params[:term]}%").map { |t| "#{t.title}" }
+    @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
+    @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
     respond_to do |format|
-      format.html { render text: @result }
-      format.json { render json: @result.to_json, status: :ok }
-    end
+      format.html {render text: @result}
+      format.json { render json: @result.to_json,status: :ok}
+     end
   end
 
   def user_search
     #User search has been disabled because we don't have user's public profile or show page yet available in application we will just add Sunspot.search(Project,Task,User) later
-    @search = Sunspot.search(Task, Project) do
+    @search = Sunspot.search(Task,Project) do
       fulltext params[:title] do
         query_phrase_slop 1
       end
@@ -113,13 +113,13 @@ class ProjectsController < ApplicationController
     @results = @search.results
     unless @results.blank?
       respond_to do |format|
-        # format.html {render  :search_results}
+      # format.html {render  :search_results}
         format.js
       end
     else
       respond_to do |format|
         format.js
-        # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
+       # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
       end
     end
   end
@@ -129,7 +129,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_admin
-    @project_admin = TeamMembership.where("team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
+    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
   def show
@@ -173,17 +173,17 @@ class ProjectsController < ApplicationController
     @rate.rate = params[:rate]
     @rate.save
     render json: {
-        rate: @rate,
-        average: @project.rate_avg
+      rate: @rate,
+      average: @project.rate_avg
     }
   end
 
-  def get_activities
-    @task=Task.find(params[:id])
-    task_comment_ids = @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC').limit(30)
-    respond_to :js
-  end
+ def get_activities
+   @task=Task.find(params[:id])
+   task_comment_ids = @task.task_comments.collect(&:id)
+   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC').limit(30)
+   respond_to :js
+ end
 
   # GET /projects/1/taskstab
   def taskstab
@@ -209,17 +209,15 @@ class ProjectsController < ApplicationController
     @reviewing_tasks = tasks.where(state: "reviewing").all
     @done_tasks = tasks.where(state: "completed").all
     @contents = ''
-    if user_signed_in?
-      result = current_user.page_read @project.title
-      if result
-        if result["status"] == 'success'
-          @contents = result["html"]
-        else
-          # Create new page
-          current_user.page_write @project.title, ''
-          result = current_user.page_read @project.title
-          @contents = ''
-        end
+    result = current_user.page_read @project.title
+    if result
+      if result["status"] == 'success'
+        @contents = result["html"]
+      else
+        # Create new page
+        current_user.page_write @project.title, ''
+        result = current_user.page_read @project.title
+        @contents = ''
       end
     end
   end
@@ -368,24 +366,21 @@ class ProjectsController < ApplicationController
   end
 
   def read_from_mediawiki
-    if user_signed_in?
-      @project = Project.find(params[:id])
-      result = current_user.page_read @project.title
-      if result
-        if result["status"] == 'success'
-          @contents = result["html"]
-        else
-          # Create new page
-          current_user.page_write @project.title, ''
-          result = current_user.page_read @project.title
-          @contents = ''
-        end
+
+    result = current_user.page_read @project.title
+    @contents = ''
+    if result
+      if result["status"] == 'success'
+        @contents = result['html'].html_safe.split("\n")
       else
-        #TODO create new session for mediawiki
+        # Create new page
+        current_user.page_write @project.title, ''
+        result = current_user.page_read @project.title
+        @contents = ''
       end
     else
-      flash[:error] = "Not allowed"
-      redirect_to root_path
+      #TODO create new session for mediawiki
+      @contents = ''
     end
 
     respond_to do |format|
@@ -394,15 +389,9 @@ class ProjectsController < ApplicationController
   end
 
   def write_to_mediawiki
-    if user_signed_in?
-      @project = Project.find(params[:id])
-      if current_user.page_write @project.title, params[:data]
-        result = current_user.page_read @project.title
-        @contents = result["non-html"]
-      end
-    else
-      flash[:error] = "Not allowed"
-      redirect_to root_path
+    if current_user.page_write @project.title, params[:data]
+      result = current_user.page_read @project.title
+      @contents = result["non-html"].html_safe.split("\n")
     end
 
     respond_to do |format|

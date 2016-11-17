@@ -11,7 +11,7 @@
     <div>
       <h1 class="profile-title">
         <% if (current_user && current_user.id == @user.id) %>
-          <%= best_in_place @user, :name, :as => :textarea, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+          <%= best_in_place @user, :name, :as => :input, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
         
           <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
         <% else %>

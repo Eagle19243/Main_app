@@ -18,7 +18,7 @@
                   <% end %>
                 </h4>
                 <a class="pull-right" id='textarea-save' style='display: none;'><i class="fa fa-pencil"  aria-hidden="true"></i> &nbsp;Save</a>
-                <a href="<%= read_from_mediawiki_project_path(@project) %>" data-remote='true' class="pull-right" id='textarea-edit'><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Suggest Edit</a>
+                <a class="pull-right" id='textarea-edit'><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Suggest Edit</a>
                 <a href="" class="pull-right" id='visual-edit'><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Visual Edit</a>
               </div>
               <div class="content-section">
@@ -126,7 +126,15 @@
     $.ajax({
       type: "GET",
       url: "/projects/<%= @project.id %>/write_to_mediawiki",
-      data: {"data": $("#textarea-editor").text()},
+      data: {"data": $("#textarea-editor").val()},
+      dataType: "script"
+    });
+  });
+
+  $("#textarea-edit").click(function() {
+    $.ajax({
+      type: "GET",
+      url: "/projects/<%= @project.id %>/read_from_mediawiki",
       dataType: "script"
     });
   });
