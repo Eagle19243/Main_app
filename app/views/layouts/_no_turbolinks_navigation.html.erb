@@ -2,7 +2,13 @@
 <nav class="top-bar" data-topbar>
   <ul class="title-area">
     <li class="name">
-      <strong><%= link_to 'WeServe', root_path, data: { no_turbolink: true } %></strong>
+      <strong>
+        <% if user_signed_in? %>
+            <%= link_to 'WeServe', projects_path %>
+        <%else %>
+            <%= link_to 'WeServe', root_path %>
+        <% end %>
+      </strong>
     </li>
     <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
   </ul>
