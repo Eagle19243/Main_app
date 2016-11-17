@@ -1,0 +1,7 @@
+$("#chat-name").html("");
+$("#chat-name").html("<%= escape_javascript(render('group_messages/chatroom_info')) %>");
+$("#messages").html(" ");
+$("#messages").html("<%= escape_javascript(render('group_messages/all_messages')) %>");
+$("#message-form-div").html(" ")
+$("#message-form-div").html("<%= escape_javascript(render('group_messages/form')) %>");
+$("div#message-load-image").hide();
