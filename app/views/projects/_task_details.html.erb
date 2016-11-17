@@ -66,74 +66,83 @@
 <div id="myModal" class="modal">
   <!-- Modal content -->
   <div class="modal-content">
-    <b> <span id="myModalclose" class="close">x</span></b>
+    <span id="myModalclose" class="close">&times;</span>
     <div class="task-details">
       <div class="row">
         <div id="task-related-messages" style=""></div>
+        <div class="title-wrapper">
+          <h2 class="task-proof" id="task-title"><%= @task.title %></h2>
+          <a href="#" id="edit-title"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+          <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
+              <%= f.text_field :title, id: "input-task-title" %>
+              <button name="button" type="submit" id="task-update-title">save</button>
+              <button type="reset" id="cancel-title">cancel</button>
+          <% end %>
+        </div>
+
         <!--left side -->
-        <div class="large-8 medium-12 small-12 columns">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
           <div class="task-details-left-side">
             <!--@task_team=TeamMembership.where(task_id: @task.id)-->
             <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
+
                 <div class="task-desc">
-                  <div>
-                    <h3 class="task-proof" id="task-title"><%= @task.title %></h3>
-                    <a href="#" id="edit-title"> Edit</a>
-                    <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
-                        <%= f.text_field :title, id: "input-task-title" %>
-                        <button name="button" type="submit" id="task-update-title">save</button>
-                        <button type="reset" id="cancel-title">X</button>
-                    <% end %>
-                  </div>
-                  <hr>
-                  <div>
-                    <h4 style=" display: inline-block;">Task Description</h4>
-                    <a href="#" id="edit-description"> Edit</a>
+                  <div class="desc-block">
+                    <h4>Task Description</h4>
+                    <a href="#" id="edit-description"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <p class="task-proof" id="task-description"><%= @task.description %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "hide-input"} do |f| %>
                         <%= f.text_area :description, id: "input-task-description" %>
                         <button name="button" type="submit" id="task-update-description">save</button>
-                        <button type="reset" id="cancel-description">X</button>
+                        <button type="reset" id="cancel-description">cancel</button>
                     <% end %>
                   </div>
-                  <hr>
-                  <div>
-                    <h4 style=" display: inline-block;">Condition of Execution</h4>
-                    <a href="#" id="edit-condition"> Edit</a>
+
+                  <div class="desc-block">
+                    <h4>Condition of Execution</h4>
+                    <a href="#" id="edit-condition"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <p class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "hide-input"} do |f| %>
                         <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
                         <button name="button" type="submit" id="task-update-condition">save</button>
-                        <button type="reset" id="cancel-condition">X</button>
+                        <button type="reset" id="cancel-condition">cancel</button>
                     <% end %>
                   </div>
-                  <hr>
-                  <div>
-                    <h4 style=" display: inline-block;">Proof of Execution</h4>
-                    <a href="#" id="edit-proof"> Edit</a>
+
+                  <div class="desc-block">
+                    <h4>Proof of Execution</h4>
+                    <a href="#" id="edit-proof"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "hide-input"} do |f| %>
                         <%= f.text_area :proof_of_execution, id: "input-task-proof" %>
                         <button name="button" type="submit" id="task-update-proof">save</button>
-                        <button type="reset" id="cancel-proof">X</button>
+                        <button type="reset" id="cancel-proof">cancel</button>
                     <% end %>
                     <hr>
                   </div>
-                  <%= render ("projects/task_comment") %>
-                  <% if user_signed_in? %>
-                      <h6>Write a Comment</h6>
-                      <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
-                          <div class="post-comment">
 
-                            <%= f.text_area :body %>
-                            <%= f.hidden_field :task_id, value: @task.id %>
-                            <%= f.hidden_field :user_id, value: current_user.id %>
-                            <button type="submit" name="commit"  value="Send"> Send</button>
-                            &nbsp;&nbsp;
-                            <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                          </div>
-                      <% end %>
-                  <% end %>
+                  <%= render ("projects/task_comment") %>
+                  <div class="comments-block">
+                    <% if user_signed_in? %>
+                        <div class="post-person">
+                          <% if current_user.picture? %>
+                            <%= image_tag(current_user.picture, size: "30x30") %>
+                          <% else %>
+                            <%= gravatar_for_user(current_user)%>
+                          <%end%>
+                        </div>
+                        <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
+                            <div class="post-comment">
+                              <%= f.text_area :body %>
+                              <%= f.hidden_field :task_id, value: @task.id %>
+                              <%= f.hidden_field :user_id, value: current_user.id %>
+                              <button type="submit" name="commit"  value="Send"> Send</button>
+                              &nbsp;&nbsp;
+                              <a href="javascript:void(0)"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                            </div>
+                        <% end %>
+                    <% end %>
+                  </div>
                 </div>
             <% else %>
                 <div class="task-desc">
@@ -145,18 +154,20 @@
                   <p><%= @task.proof_of_execution %></p>
                   <hr>
                   <%= render ("projects/task_comment") %>
-                  <% if user_signed_in? %>
-                      <%= form_for [@task.project, @task, @task.task_comments.build] , remote: true ,html: {id: 'comment-form'} do |f| %>
-                          <div class="post-comment">
-                            <%= f.text_area :body %>
-                            <%= f.hidden_field :task_id, value: @task.id %>
-                            <%= f.hidden_field :user_id, value: current_user.id %>
-                            <button type="submit" name="commit" value="Send"> Send</button>
-                            &nbsp;&nbsp;
-                            <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                          </div>
-                      <% end %>
-                  <% end %>
+                  <div class="comments-block">
+                    <% if user_signed_in? %>
+                        <%= form_for [@task.project, @task, @task.task_comments.build] , remote: true ,html: {id: 'comment-form'} do |f| %>
+                            <div class="post-comment">
+                              <%= f.text_area :body %>
+                              <%= f.hidden_field :task_id, value: @task.id %>
+                              <%= f.hidden_field :user_id, value: current_user.id %>
+                              <button type="submit" name="commit" value="Send"> Send</button>
+                              &nbsp;&nbsp;
+                              <a href="#"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                            </div>
+                        <% end %>
+                    <% end %>
+                  </div>
                 </div>
             <% end %>
             <div class="activity" id="task-activity">
@@ -165,37 +176,72 @@
           </div> <!-- end of task-details-left-side -->
         </div>
         <!-- right side -->
-        <div class="large-4 medium-12 small-12 columns">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
           <div class="task-details-right-side">
             <div class="fund">
-              <center>
+              <center class="mb30">
                 <% unless @task.suggested_task? %>
                     <%= link_to new_donation_path(task_id: @task.id), data: {no_turbolink: false, :style => "color:white"} do %>
-                        <button> Fund</button>
+                        <button title="fund">Fund</button>
                     <% end %>
-                    <button id="myBtn2">DO</button>
+                    <button id="myBtn2" title="do">DO</button>
                 <% else %>
-                    <button id="suggested_task_fund"> Fund</button>
-                    <button id="suggested_task_do">DO</button>
+                    <button id="suggested_task_fund" title="fund">Fund</button>
+                    <button id="suggested_task_do" title="do">DO</button>
                     <!--<button> This is Sugggested Task and Waiting For Admin Approval</button>-->
                 <% end %>
               </center>
-              <h6>Deadline :<span><%= @task.deadline.strftime("%d/%m/%Y") %></span></h6>
-              <h6>Funded :
+
+              <div class="progress mb20">
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @task.funded %>">
+                </div>
+              </div>
+
+              <div class="card-report">
+                <table>
+                  <tr class="value">
+                    <td><%= @task.funded %></td>
+                    <td><%= @task.number_of_participants%>/<%= @task.target_number_of_participants %></td>
+                    <td><%= @task.assignments.count %>/<%= @task.target_number_of_participants %></td>
+                    <td>$<%= @task.budget %></td>
+                  </tr>
+                  <tr class="items">
+                    <td>Funded</td>
+                    <td>Team</td>
+                    <td>Backers</td>
+                    <td>Raised</td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="team-block mb30">
+                <h5>Team</h5>
+                <% for i in 1..5 %>
+                  <%= image_tag("no_image.png") %>
+                <% end %>
+              </div>
+
+              <div class="deadline-block">
+                <h5>Deadline</h5>
+                <p>
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <%= @task.deadline.strftime("%b %d, %Y") %>
+                </p>
+              </div>
+
+              <!-- <h6>Funded :
                 <span class="light-blue">$<%= @task.current_fund + curent_bts_to_usd(@task.id) rescue 0.0 %></span> /
                 Needed : <span>$<%= @task.budget %></span></h6>
-              <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0 %></span> / Needed :
-                <span><%= @task.target_number_of_participants %></span></h6>
-              <div class="nice round progress alert large-12 medium-12 small-12">
-                <span class="meter" style="width:<%= @task.funded %>"></span>
-              </div>
-              <h6><%= @task.funded %><span>funded.</span></h6>
+              <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0 %></span> / Needed : -->
+            </div>
+
+            <hr>
+            <div class="wallet-block">
+              <h5>Task Specific Bit Coin Address:</h5>
+              <p id='fe_text'><%= @task.wallet_address.sender_address rescue 'Available soon' %></p>
             </div>
             <hr>
-            <strong>Task Specific Bit Coin Address:</strong>
-            <p id='fe_text'><%= @task.wallet_address.sender_address rescue 'Available soon' %></p>
-            </p>
-            <hr>
+
             <div class="button-set">
               <div class="btn-left">
                 <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
