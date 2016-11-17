@@ -5,23 +5,31 @@ class GroupMessagesController < ApplicationController
   before_action :set_group_message, only: [:show, :edit, :update, :destroy]
   before_action :validate_chat_room_users, only: [:create]
 
-  layout 'dashboard', only: [:index]
+  layout 'dashboard', only: [:index, :user_messaging]
 
   def validate_user_messages_by_project(id)
-    user_ids = Project.find(id).team.team_memberships.collect(&:team_member_id)
+    # user_ids = Project.find(id).team.team_memberships.collect(&:team_member_id)
+    user_ids = Project.find(id).chatroom.groupmembers.collect(&:user_id)
     if !(user_ids.include? current_user.id)
       return false
     end
     return true
   end
-
+  
   def load_messages_by_chatroom(id)
     chat_room = Chatroom.find(id) rescue nil
     project = Project.find(chat_room.project_id) rescue nil
-    if chat_room.blank? || project.blank? || !(chat_room.user_id == current_user.id || chat_room.friend_id == current_user.id || (project.team.team_memberships.collect(&:team_member_id).include? current_user.id))
+    if project.blank?
+      if chat_room.user_id == current_user.id || chat_room.friend_id == current_user.id
+        return true
+      end
       return false
+    else
+      if chat_room.blank? || !(chat_room.user_id == current_user.id || chat_room.friend_id == current_user.id || (chat_room.groupmembers.collect(&:user_id).include? current_user.id))
+        return false
+      end
+      return true
     end
-    return true
   end
 
   def validate_chat_room_users
@@ -38,23 +46,72 @@ class GroupMessagesController < ApplicationController
     else
       @user_projects = @user_projects.uniq
       pid1 = @user_projects.first.id
-      @team_members = @user_projects.first.team.team_memberships
       chatroom = Chatroom.where(project_id: pid1)
+      @team_members = chatroom.first.groupmembers
       @group_messages = GroupMessage.where(chatroom_id: chatroom.first.id)
       @chatroom = chatroom.first.id
     end
+    one_to_one_chatrooms = Chatroom.where("project_id is NULL AND ( (user_id = ? OR friend_id = ? ) )", current_user.id, current_user.id)
+    ids = one_to_one_chatrooms.collect(&:user_id)
+    ids = ids + one_to_one_chatrooms.collect(&:friend_id)
+    ids = ids.uniq
+    @one_to_one_chat_users = User.find(ids)
   end
 
   def show
   end
 
-  # GET /group_messages/new
-  def new
-    @group_message = GroupMessage.new
+  def user_messaging
+    user = User.find(params[:user_id]) rescue nil
+    unless user.blank?
+      user_id = params[:user_id]
+      chatroom = Chatroom.where("project_id is NULL AND ( (user_id = ? AND friend_id = ? ) OR ( user_id = ? AND friend_id = ?  ) )", current_user.id, user_id, user_id, current_user.id) rescue nil
+      if chatroom.blank?
+        chat= Chatroom.create(user_id: user_id, friend_id: current_user.id)
+        #Groupmember.create(chatroom_id: chat.id, user_id: current_user.id)
+        #Groupmember.create(chatroom_id: chat.id, user_id: user_id)
+        @chatroom = chat.id
+      else
+        @chatroom = chatroom.first.id
+      end
+      user_teams_id = current_user.team_memberships.collect(&:team_id)
+      user_project_ids = Team.find(user_teams_id).collect(&:project_id)
+      @user_projects = Project.find (user_project_ids)
+      if @user_projects.blank?
+        @group_messages = []
+      else
+        @user_projects = @user_projects.uniq
+        pid1 = @user_projects.first.id
+        chatroom = Chatroom.where(project_id: pid1)
+        @team_members = chatroom.first.groupmembers
+
+      end
+      @group_messages = GroupMessage.where(chatroom_id: @chatroom)
+      one_to_one_chatrooms = Chatroom.where("project_id is NULL AND ( (user_id = ? OR friend_id = ? ) )", current_user.id, current_user.id)
+      ids = one_to_one_chatrooms.collect(&:user_id)
+      ids = ids + one_to_one_chatrooms.collect(&:friend_id)
+      ids = ids.uniq
+      @one_to_one_chat_users = User.find(ids)
+
+    end
+
+    render :index
   end
 
-  # GET /group_messages/1/edit
-  def edit
+  # GET /group_messages/new
+  def one_to_one_chat
+    user_id = params[:user_id]
+    chatroom = Chatroom.where("project_id is NULL AND ( (user_id = ? AND friend_id = ? ) OR ( user_id = ? AND friend_id = ?  ) )", current_user.id, user_id, user_id, current_user.id) rescue nil
+    if chatroom.blank?
+      chat= Chatroom.create(user_id: user_id, friend_id: current_user.id)
+      Groupmember.create(chatroom_id: chat.id, user_id: current_user.id)
+      Groupmember.create(chatroom_id: chat.id, user_id: user_id)
+      @chatroom = chat.id
+    else
+      @chatroom = chatroom.first.id
+    end
+    @group_messages = GroupMessage.where(chatroom_id: @chatroom)
+    respond_to :js
   end
 
   def users_chat
@@ -64,6 +121,7 @@ class GroupMessagesController < ApplicationController
       chatroom = Chatroom.where("project_id = ? AND ( (user_id = ? AND friend_id = ? ) OR ( user_id = ? AND friend_id = ?  ) )", project_id, current_user.id, user_id, user_id, current_user.id) rescue nil
       if chatroom.blank?
         chat=Chatroom.create(project_id: project_id, user_id: user_id, friend_id: current_user.id)
+
         @chatroom = chat.id
       else
         @chatroom = chatroom.first.id
@@ -76,7 +134,7 @@ class GroupMessagesController < ApplicationController
   def get_messages_by_room
     if validate_user_messages_by_project (params[:id])
       chatroom = Chatroom.where(project_id: params[:id])
-      @team_members = Team.where(project_id: params[:id]).first.team_memberships
+      @team_members = chatroom.first.groupmembers
       @group_messages = GroupMessage.where(chatroom_id: chatroom.first.id)
       @chatroom = chatroom.first.id
       respond_to :js
@@ -90,8 +148,14 @@ class GroupMessagesController < ApplicationController
     end
   end
 
-  # POST /group_messages
-  # POST /group_messages.json
+  def new
+    @group_message = GroupMessage.new
+  end
+
+  # GET /group_messages/1/edit
+  def edit
+  end
+
   def create
     @group_message = GroupMessage.new(group_message_params)
     @group_message.user_id = current_user.id

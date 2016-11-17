@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   def set_default_role
     self.role ||= :user
   end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -30,6 +31,7 @@ class User < ActiveRecord::Base
   has_many :proj_admins, dependent: :delete_all
 
   has_many :chatrooms
+  has_many :groupmembers
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
   has_many :project_rates
@@ -39,7 +41,7 @@ class User < ActiveRecord::Base
   has_many :project_users
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
-  has_one  :user_wallet_address
+  has_one :user_wallet_address
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
 
@@ -53,28 +55,28 @@ class User < ActiveRecord::Base
 
   def assign_address
 
-      access_token = access_wallet
-      Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-      secure_passphrase =  self.password || self.encrypted_password
-      secure_label = SecureRandom.hex(5)
-      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-      userKeychain = new_address["userKeychain"]
-      backupKeychain = new_address["backupKeychain"]
-      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
-      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
-      new_wallet_address_sender = api.create_address(wallet_id:new_address_id, chain: "0", access_token: access_token) rescue "create address"
-      new_wallet_address_receiver = api.create_address(wallet_id:new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-      Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
-      unless new_address.blank?
-        UserWalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , user_id: self.id, wallet_id:new_address_id, user_keys:userKeychain, backup_keys:backupKeychain)
-      else
-        UserWalletAddress.create(sender_address:nil, user_id: self.id)
-      end
+    access_token = access_wallet
+    Rails.logger.info access_token unless Rails.env == "development"
+    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+    secure_passphrase = self.password || self.encrypted_password
+    secure_label = SecureRandom.hex(5)
+    new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+    userKeychain = new_address["userKeychain"]
+    backupKeychain = new_address["backupKeychain"]
+    Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
+    new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
+    puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
+    new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
+    new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
+    Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
+    Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
+    Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
+    Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
+    unless new_address.blank?
+      UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
+    else
+      UserWalletAddress.create(sender_address: nil, user_id: self.id)
+    end
   end
 
 
@@ -110,7 +112,7 @@ class User < ActiveRecord::Base
 
   def populate_guid_and_token
     random = SecureRandom.uuid()
-    arbitraryAuthPayload = { :uid => random,:auth_data => random, :other_auth_data => self.created_at.to_s}
+    arbitraryAuthPayload = {:uid => random, :auth_data => random, :other_auth_data => self.created_at.to_s}
     generator = Firebase::FirebaseTokenGenerator.new("ZWx3jy7jaz8IuPXjJ8VNlOMlOMGFEIj0aHNE7tMt")
     random2 = generator.create_token(arbitraryAuthPayload)
     self.guid = random
@@ -132,7 +134,7 @@ class User < ActiveRecord::Base
             uid: auth.uid,
             name: auth.info.name,
             email: auth.info.email,
-            password: Devise.friendly_token[0,20],
+            password: Devise.friendly_token[0, 20],
             picture: auth.info.image,
             facebook_url: auth.extra.link,
         )
@@ -155,7 +157,7 @@ class User < ActiveRecord::Base
             uid: auth.uid,
             name: auth.info.name,
             email: auth.uid+"@twitter.com",
-            password: Devise.friendly_token[0,20],
+            password: Devise.friendly_token[0, 20],
             picture: auth.info.image,
             description: auth.info.description,
             country: auth.info.location,
@@ -168,7 +170,7 @@ class User < ActiveRecord::Base
 
   def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
     data = access_token.info
-    user = User.where(:provider => access_token.provider, :uid => access_token.uid ).first
+    user = User.where(:provider => access_token.provider, :uid => access_token.uid).first
     if user
       user
     else
@@ -177,11 +179,11 @@ class User < ActiveRecord::Base
         registered_user
       else
         user = User.create(
-            provider:access_token.provider,
+            provider: access_token.provider,
             email: data["email"],
-            uid: access_token.uid ,
+            uid: access_token.uid,
             name: access_token.info.name,
-            password: Devise.friendly_token[0,20],
+            password: Devise.friendly_token[0, 20],
             picture: access_token.info.image,
             company: access_token.extra.raw_info.hd,
         )
@@ -212,19 +214,19 @@ class User < ActiveRecord::Base
   # MediaWiki API - Page Read
   def page_read pagename
     if Rails.configuration.mediawiki_session
-      name          = pagename.gsub(" ", "_")
+      name = pagename.gsub(" ", "_")
 
-      result        = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      parsedResult  = JSON.parse(result.body)
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      parsedResult = JSON.parse(result.body)
 
       if parsedResult["error"]
-        content             = Hash.new
-        content["status"]   = "error"
+        content = Hash.new
+        content["status"] = "error"
       else
-        content             = Hash.new
+        content = Hash.new
         content["non-html"] = parsedResult["response"]["content"]
-        content["html"]     = parsedResult["response"]["contentHtml"]
-        content["status"]   = "success"
+        content["html"] = parsedResult["response"]["contentHtml"]
+        content["status"] = "success"
       end
 
       content
@@ -236,7 +238,7 @@ class User < ActiveRecord::Base
   # MediaWiki API - Page Create or Write
   def page_write pagename, content
     if Rails.configuration.mediawiki_session
-      name   = pagename.gsub(" ", "_")
+      name = pagename.gsub(" ", "_")
 
       result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: self.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
 

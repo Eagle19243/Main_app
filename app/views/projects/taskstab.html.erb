@@ -633,9 +633,7 @@
 
       <div id="Team" class="tabcontent">
         <div class="row">
-          <% @project.team.team_memberships.each do |team_membership| %>
-              <%= render "projects/cards/team_membership", team_membership: team_membership %>
-          <% end %>
+          <%= render "projects/tabcontent/team" %>
         </div>
       </div>
     </div>

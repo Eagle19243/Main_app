@@ -1,0 +1,21 @@
+<% unless @one_to_one_chat_users.blank? %>
+    <% @one_to_one_chat_users.each do |user| %>
+        <li>
+          <a href="#" class="one-user-chat" id="<%= user.id %>" name=""> <%= user.name %> </a>
+        </li>
+    <% end %>
+<% end %>
+<script>
+  $(".one-user-chat").click(function () {
+    $("div#message-load-image").show();
+    user_id = $(this).attr('id');
+    project_id = $(this).attr('name');
+    $.ajax({
+      url: "/group_messages/one_to_one_chat",
+      type: "post",
+      data: {user_id: user_id},
+      success: function () {
+      }
+    });
+  });
+</script>
