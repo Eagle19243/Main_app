@@ -53,6 +53,25 @@
     }
   }
 
+  .projects-link {
+    margin-left: 20px;
+    font-family: 'Roboto';
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    position: relative;
+    top: -5px;
+    border-radius: 20px;
+    padding: 6px 20px;
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: #333;
+    }
+  }
+
 }
 
 .landing-content {
