@@ -44,60 +44,36 @@
   }
 }
 
-.side-nav li {
-  margin-bottom: 0;
-
-  i {
-    font-size: 20px;
-    color: #fff;
-  }
-
-  span.notify-wrapper {
-    position: relative;
-  }
-
-  span.count {
-    color: #fff;
-    font-weight: 600;
-    background: #00a0f3;
-    line-height: 15px;
-    border-radius: 50%;
-    height: 15px;
-    text-align: center;
-    width: 15px;
-    display: inline-block;
-    position: absolute;
-    left: 10px;
-    top: 5px;
-  }
-
-  &:hover {
-    background-color: $alt-clr;
-  }
-}
-
-.side-nav li a:not(.button):not(.submit):not(.button-xs) {
-  padding: 20px 10px 20px 5px !important;
-  display: inline-block;
-  font-size: 16px;
-}
-
-
 
 .side-menu {
-  background-color: #2a2d33;
-  text-align: center;
+  background-color: #555;
+  text-align: left;
+  width: 220px;
+  position: absolute;
+  height: 100%;
 
   ul {
-    background-color: #333 !important;
+    padding: 0;
 
     li {
+      padding: 15px 0px;
+      padding-left: 20px;
+      text-align: left;
+
+      i {
+        color: #fff;
+        font-weight: bold;
+        font-size: 2em;
+      }
+
       a {
-        font-family: 'Roboto' !important;
+        font-family: 'Roboto';
         color: #fff !important;
-        font-weight: 600  !important;
-        margin: auto;
-        font-size: 1.5em  !important;
+        font-weight: 600 !important;
+        font-size: 1.6em !important;
+        display: inline-block !important;
+        margin-left: 20px;
+        text-transform: uppercase;
 
         &:hover,
         &:focus {
@@ -119,6 +95,10 @@
 
 }
 
+.dashboard-content {
+  position: relative;
+  margin: 0 0 0 220px;
+}
 
 .nav-header.dashboard {
   background-color: #eee;
@@ -216,6 +196,198 @@
   }
   a {
     font-size: 16px;
+  }
+}
+
+
+
+
+.group-messages-wrapper {
+  position: relative;
+
+  #messages-nav {
+    background-color: #ddd;
+    text-align: left;
+    width: 220px;
+    position: absolute;
+    min-height: 1000px;
+    height: 100%;
+    padding: 20px;
+
+    .messages-nav-title {
+      margin: 0;
+      margin-bottom: 20px;
+      font-family: 'Roboto';
+      font-weight: 600;
+      font-size: 1em;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .messages-submenu {
+      .submenu-title {
+        padding: 0;
+        margin-bottom: 20px;
+        font-family: 'Roboto';
+        font-weight: 600;
+        font-size: 1em;
+        color: #000;
+        text-transform: uppercase;
+      }
+
+      ul {
+        li {
+          padding: 0 0 20px 0;
+          list-style: none;
+
+          a {
+            font-family: 'Roboto';
+            color: #555;
+            font-size: 1em;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    .search-users {
+      padding: 10px 0px;
+      span {
+        font-family: 'Roboto';
+        color: #555;
+        font-size: 1em;
+
+        i {
+          color: #333;
+        }
+      }
+    }
+  }
+
+  #page-message-content {
+    position: relative;
+    margin: 0 0 0 220px;
+    padding-top: 20px;
+
+    h4 {
+      font-family: 'Roboto';
+      color: #000;
+      font-weight: 600;
+    }
+
+    .row {
+      margin: 0;
+    }
+  }
+
+  #chat-name {
+    margin-bottom: 20px;
+  }
+
+  #messages {
+    padding-top: 30px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      vertical-align: text-top;
+    }
+
+    .message {
+      .message-sender {
+        display: inline-block;
+        float: left;
+        width: 10%;
+      }
+      .message-content {
+        display: inline-block;
+        width: 88%;
+        font-family: 'Libre Franklin';
+      }
+    }
+
+    .message-content {
+      margin-bottom: 20px;
+      .message-text {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #eee;
+        font-family: 'Libre Franklin';
+        font-size: 1em;
+        color: #555;
+      }
+
+      span.name,
+      span.message-date {
+        font-family: 'Libre Franklin';
+        font-size: 0.9em;
+        color: #aaa;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .message-form-wrapper {
+    .message-sender {
+      display: inline-block;
+      float: left;
+      width: 10%;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+    }
+    form.new-message-form {
+      display: inline-block;
+      width: 88%;
+      position: relative;
+
+      textarea {
+        background-color: #eee;
+        border: none;
+        padding: 10px;
+        font-family: 'Libre Franklin';
+        font-size: 1em;
+        min-height: 100px;
+      }
+
+      #submit-message {
+        margin-top: 10px;
+        padding: 0 30px;
+        font-family: 'Roboto';
+        font-size: 1em;
+        color: #000;
+        text-transform: uppercase;
+        height: 35px;
+        line-height: 35px;
+        border: 2px solid #000;
+        border-radius: 50px;
+        background-color: #fff;
+      }
+
+      .attach-group {
+        position: absolute;
+        bottom: 20px;
+        right: 0;
+
+        span {
+          font-family: 'Libre Franklin';
+          font-size: 1em;
+          color: #555;
+          display: inline-block;
+          background: transparent;
+          border: none;
+        }
+        i {
+          margin-right: 5px;
+          font-size: 1.2em;
+        }
+      }
+    }
   }
 }
 

@@ -3,6 +3,7 @@
 
 $max-width: 980px;
 
+
 body.landing {
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url(black-white-city.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -74,7 +75,7 @@ footer {
 
   background: $opaque-white;
   color: $medium-gray;
-  font-family: $sans;
+  // font-family: $sans;
   margin: 0;
   padding: 3rem 0;
   text-align: center;

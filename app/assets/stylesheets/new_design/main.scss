@@ -1,1 +1,36 @@
-// all new styles includes here
+
+body {
+  font-family: 'Libre Franklin';
+  font-size: 100%;
+}
+
+.flash-messages {
+  .alert-box {
+    display: block;
+    text-align: center;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+
+    font-family: 'Roboto';
+    font-size: 1em;
+  }
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  height: 35px;
+  line-height: 35px;
+  padding: 0 10px;
+  font-family: 'Libre Franklin';
+  font-size: 1em;
+  color: #333;
+}
+
+p {
+  font-family: 'Libre Franklin';
+  font-size: 1em;
+  text-align: left;
+}
