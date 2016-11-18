@@ -1,10 +1,11 @@
 <% unless @team_members.blank? %>
     <% @team_members.each do |user| %>
         <li>
-          <a href="#" class="project-user-chat" id="<%= user.team_member_id %>" name="<%= user.team.project_id %>"> <%= user.team_member.name %> </a>
+          <a href="#" class="project-user-chat" id="<%= user.user_id %>" name="<%= user.chatroom.project_id %>"> <%= user.user.name %> </a>
         </li>
     <% end %>
 <% end %>
+
 <script>
   $(".project-user-chat").click(function () {
     $("div#message-load-image").show();

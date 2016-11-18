@@ -2,4 +2,11 @@ $("#textarea-save").hide();
 $("#textarea-editor").hide();
 $("#textarea-edit").show();
 $(".content-section").show();
-$(".content-section").html("<%= @contents.html_safe %>");
+var tempString = "";
+<% @contents.each_with_index do |content, index| %>
+  <% unless index == 0 %>
+    tempString += "\n"
+  <% end %>
+  tempString += "<%= content.html_safe %>";
+<% end %>
+$(".content-section").html(tempString);

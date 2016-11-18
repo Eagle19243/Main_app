@@ -335,12 +335,12 @@
                           <span id="Removeteammember" class="close">×</span>
                       <% end %></b>
                 <% end %>
-                <% if team_member.task_team_member.picture? %>
-                    <%= image_tag(team_member.task_team_member.picture, size: "35x35") %>
+                <% if team_member.team_member.picture? %>
+                    <%= image_tag(team_member.team_member.picture, size: "35x35") %>
                 <% else %>
-                    <%= gravatar_for(team_member.task_team_member, 35) %>
+                    <%= gravatar_for(team_member.team_member, 35) %>
                 <% end %>
-                <%= link_to team_member.task_team_member.name, user_path(team_member.task_team_member) %>
+                <%= link_to team_member.team_member.name, user_path(team_member.team_member) %>
               </div>
           <% end %></center>
       </div> <!--row ends -->

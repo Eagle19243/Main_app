@@ -2,7 +2,11 @@
 <div class="landing-header">
   <div class="header-wrap">
     <div class="landing-logo">
-      <%= link_to 'WeServe', root_path %>
+      <% if user_signed_in? %>
+          <%= link_to 'WeServe', projects_path %>
+      <%else %>
+          <%= link_to 'WeServe', root_path %>
+      <% end %>
     </div>
     <div class="pull-right register-group">
       <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal">Login</a>

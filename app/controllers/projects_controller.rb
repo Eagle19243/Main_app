@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin, :show_task]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin, :show_task, :read_from_mediawiki, :write_to_mediawiki]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -12,15 +12,15 @@ class ProjectsController < ApplicationController
   def index
     if user_signed_in?
       if current_user.user_wallet_address.blank?
-         current_user.assign_address
-            unless   current_user.user_wallet_address.user_keys.blank?
-              @download_keys = true
-            end
+        current_user.assign_address
+        unless current_user.user_wallet_address.user_keys.blank?
+          @download_keys = true
+        end
       end
     end
     @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
-   # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
+    # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
   end
 
@@ -31,11 +31,11 @@ class ProjectsController < ApplicationController
   def send_project_invite_email
     session[:success_contacts] = nil
     @array = params[:emails].split(',')
-    @array.each do|key|
-      InvitationMailer.invite_user_for_project(key ,current_user.name  ,Project.find(session[:idd]).title, session[:idd]).deliver_now
+    @array.each do |key|
+      InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_now
     end
     session[:success_contacts] = "Project link has been shared  successfully with your friends!"
-    session[:project_id] =  session[:idd]
+    session[:project_id] = session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
   end
 
@@ -209,17 +209,15 @@ class ProjectsController < ApplicationController
     @reviewing_tasks = tasks.where(state: "reviewing").all
     @done_tasks = tasks.where(state: "completed").all
     @contents = ''
-    if user_signed_in?
-      result = current_user.page_read @project.title
-      if result
-        if result["status"] == 'success'
-          @contents = result["html"]
-        else
-          # Create new page
-          current_user.page_write @project.title, ''
-          result = current_user.page_read @project.title
-          @contents = ''
-        end
+    result = current_user.page_read @project.title
+    if result
+      if result["status"] == 'success'
+        @contents = result["html"]
+      else
+        # Create new page
+        current_user.page_write @project.title, ''
+        result = current_user.page_read @project.title
+        @contents = ''
       end
     end
   end
@@ -252,9 +250,10 @@ class ProjectsController < ApplicationController
         TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
-        Chatroom.create( name: @project.title , project_id: @project.id )
+        chatroom =Chatroom.create(name: @project.title, project_id: @project.id)
+        Groupmember.create(user_id: current_user.id, chatroom_id: chatroom.id)
         format.html { redirect_to @project, notice: 'Project request was sent.' }
-        format.json { render json: { id: @project.id, status: 200, responseText: "Project has been Created Successfully " } }
+        format.json { render json: {id: @project.id, status: 200, responseText: "Project has been Created Successfully "} }
         session[:project_id] = @project.id
       else
         format.html { render :new }
@@ -342,11 +341,11 @@ class ProjectsController < ApplicationController
 
   def accept
     @project = Project.find(params[:id])
-     if @project.accept!
-       activity = current_user.create_activity(@project, 'accepted')
-       activity.user_id = current_user.id
-        @project.user.update_attribute(:role, 'manager');
-        #Change all pending projects for user
+    if @project.accept!
+      activity = current_user.create_activity(@project, 'accepted')
+      activity.user_id = current_user.id
+      @project.user.update_attribute(:role, 'manager');
+      #Change all pending projects for user
       flash[:success] = "Project Request accepted"
     else
       flash[:error] = "Project could not be accepted"
@@ -367,24 +366,21 @@ class ProjectsController < ApplicationController
   end
 
   def read_from_mediawiki
-    if user_signed_in?
-      @project = Project.find(params[:id])
-      result = current_user.page_read @project.title
-      if result
-        if result["status"] == 'success'
-          @contents = result["html"]
-        else
-          # Create new page
-          current_user.page_write @project.title, ''
-          result = current_user.page_read @project.title
-          @contents = ''
-        end
+
+    result = current_user.page_read @project.title
+    @contents = ''
+    if result
+      if result["status"] == 'success'
+        @contents = result['html'].html_safe.split("\n")
       else
-        #TODO create new session for mediawiki
+        # Create new page
+        current_user.page_write @project.title, ''
+        result = current_user.page_read @project.title
+        @contents = ''
       end
     else
-      flash[:error] = "Not allowed"
-      redirect_to root_path
+      #TODO create new session for mediawiki
+      @contents = ''
     end
 
     respond_to do |format|
@@ -393,15 +389,9 @@ class ProjectsController < ApplicationController
   end
 
   def write_to_mediawiki
-    if user_signed_in?
-      @project = Project.find(params[:id])
-      if current_user.page_write @project.title, params[:data]
-        result = current_user.page_read @project.title
-        @contents = result["non-html"]
-      end
-    else
-      flash[:error] = "Not allowed"
-      redirect_to root_path
+    if current_user.page_write @project.title, params[:data]
+      result = current_user.page_read @project.title
+      @contents = result["non-html"].html_safe.split("\n")
     end
 
     respond_to do |format|
@@ -425,22 +415,27 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:title, :short_description, :institution_country, :description, :country, :picture, :user_id, :institution_location, :state, :expires_at, :request_description, :institution_name, :institution_logo, :institution_description, :section1, :section2,
-                                    project_edits_attributes: [:id, :_destroy, :description])
+      params.require(:project).permit(
+        :title, :short_description, :institution_country, :description, :country,
+        :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
+        :institution_name, :institution_logo, :institution_description, :section1, :section2,
+        :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
+        project_edits_attributes: [:id, :_destroy, :description]
+      )
     end
 
-    def get_project_user
-      @project_user = @project.user
-    end
+  def get_project_user
+    @project_user = @project.user
+  end
 
-    def edit_params
-      params.require(:project).permit(:id, :project_edit, :editItem)
-    end
+  def edit_params
+    params.require(:project).permit(:id, :project_edit, :editItem)
+  end
 end
