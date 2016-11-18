@@ -258,7 +258,7 @@
                         <div class="row">
                           <div class="col-lg-9 col-md-9 col-sm-9 pt15">
                             <div class="progress">
-                              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
                               </div>
                             </div>
                             <div class="report-banner-table tab-task-report mt10">
@@ -312,7 +312,7 @@
               </div>
 
               <div class="section-content">
-                <% @sourcing_tasks.each do |task| %>
+                <% @suggested_tasks.each do |task| %>
                   <%= link_to projects_show_task_path(id: task.id), remote: true do %>
                     <div class="trello-cards">
                       <div class="card-wrapper">
@@ -335,7 +335,7 @@
                             <tr class="value">
                               <td><%= task.funded %></td>
                               <td><%=  @tasks_count %></td>
-                              <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
+                              <td><%= task.donations.count %></td>
                               <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
@@ -391,8 +391,8 @@
                             <tr class="value">
                               <td><%= task.funded %></td>
                               <td><%=  @tasks_count %></td>
-                              <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
-                              <td>$<%= task.budget %></td>
+                              <td><%= task.donations.count %></td>
+                              <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
                               <td>Funded</td>
@@ -461,8 +461,8 @@
                             <tr class="value">
                               <td><%= task.funded %></td>
                               <td><%=  @tasks_count %></td>
-                              <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
-                              <td>$<%= task.budget %></td>
+                              <td><%= task.donations.count %></td>
+                              <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
                               <td>Funded</td>
@@ -523,9 +523,9 @@
                           <table>
                             <tr class="value">
                               <td><%= task.funded %></td>
-                              <td>55/80</td>
-                              <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
-                              <td>$<%= task.budget %></td>
+                              <td><%=  @tasks_count %></td>
+                              <td><%= task.donations.count %></td>
+                              <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
                               <td>Funded</td>
@@ -589,9 +589,9 @@
                           <table>
                             <tr class="value">
                               <td><%= task.funded %></td>
-                              <td>55/80</td>
-                              <td><%= task.assignments.count %>/<%= task.target_number_of_participants %></td>
-                              <td>$<%= task.budget %></td>
+                              <td><%=  @tasks_count %></td>
+                              <td><%= task.donations.count %></td>
+                              <td><%= task.funded_in_btc %></td>
                             </tr>
                             <tr class="items">
                               <td>Funded</td>
