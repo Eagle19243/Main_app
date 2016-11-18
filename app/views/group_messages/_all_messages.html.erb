@@ -1,8 +1,7 @@
 <% unless @group_messages.blank? %>
     <% @group_messages.each do |message| %>
         <div class="row message">
-          <div class="small-1 columns">
-            <!--<a href="#"><img class="profile-image" src="images/profile-image.jpg"></a>-->
+          <div class="message-sender">
             <a href="#">
               <% if message.user.picture? %>
                   <%= image_tag(message.user.picture, class: "profile-image") %>
@@ -11,8 +10,9 @@
               <% end %>
             </a>
           </div>
-          <div class="small-11 columns message-content">
-            <span style="color: skyblue"><%= message.user.try(:name) %></span>
+          <div class="message-content">
+            <div class="message-text"><%= message.message %></div>
+            <span class="name"><%= message.user.try(:name) %></span>
             <span class="message-date"><%= time_ago_in_words(message.created_at) %></span>
             <br>
             <% if message.attachment? %>
@@ -20,13 +20,12 @@
                 <br>
                 <br>
             <% end %>
-            <span><%= message.message %></span>
           </div>
         </div>
     <% end %>
 <% else %>
     <div class="row message">
-      <div class="small-11 columns message-content">
+      <div class="message-content">
         No Messages
       </div>
     </div>

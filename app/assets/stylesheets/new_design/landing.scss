@@ -6,6 +6,8 @@
   padding: 0;
   margin: 0;
   background-color: #fff;
+  border-bottom: 2px solid #eee;
+  
 
   a:hover,
   a:focus {
@@ -48,6 +50,25 @@
       font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
+    }
+  }
+
+  .projects-link {
+    margin-left: 20px;
+    font-family: 'Roboto';
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    position: relative;
+    top: -5px;
+    border-radius: 20px;
+    padding: 6px 20px;
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      color: #333;
     }
   }
 
@@ -217,13 +238,21 @@
         .carousel-text {
           position: absolute;
           display: block;
-          width: 40%;
+          width: 35%;
           padding: 40px 30px;
-          background-color: rgba(0, 0, 0, 0.5);
-          left: 5%;
-          top: 40%;
-          -webkit-transform: translate(0, -40%);
-                  transform: translate(0, -40%);
+          background-color: rgba(0, 0, 0, 0.9);
+          left: 0;
+          top: 0;
+          bottom: 0;
+
+          .text-wrapper {
+            position: absolute;
+            left: 5%;
+            top: 20%;
+            -webkit-transform: translate(0, 20%);
+                    transform: translate(0, 20%);
+            padding: 5%;
+          }
 
           h1 {
             font-family: 'Roboto';
@@ -231,19 +260,20 @@
             letter-spacing: -1px;
             margin-top: 0;
             text-shadow: 2px 2px rgba(0, 0, 0, 0.8);
+            padding-bottom: 20px;
           }
 
           p {
             font-family: 'Libre Franklin';
             color: #fff;
-            line-height: 1.5em;
-            font-size: 1.2em;
+            line-height: 2em;
+            font-size: 1.3em;
           }
 
           .carousel-start {
             display: block;
             width: 100%;
-            text-align: right;
+            text-align: left;
             padding-top: 30px;
 
             a {

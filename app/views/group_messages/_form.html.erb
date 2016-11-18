@@ -1,22 +1,32 @@
-<%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'new-message-form'}) do |f| %>
-    <div class="small-11 columns" style=>
-      <div id="load-image-gif" style="text-align: center; display: none">
-        <%= image_tag 'loading.gif' %>
+<div class="message-form-wrapper">
+
+  <div class="message-sender">
+    <% if current_user.picture? %>
+      <%= image_tag(current_user.picture, size: "30x30") %>
+    <% else %>
+      <%= gravatar_for_user(current_user)%>
+    <%end%>
+  </div>
+
+  <%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'new-message-form'}) do |f| %>
+      <div class="form-group">
+        <div id="load-image-gif" style="text-align: center; display: none">
+          <%= image_tag 'loading.gif' %>
+        </div>
+        <%= f.hidden_field :chatroom_id, value: @chatroom rescue 0 %>
+        <%= f.text_area :message, :placeholder => 'Write message' %>
+        <%= f.file_field :attachment, :style => 'display:none', id: 'file-attachment-button' %>
+        <%= f.submit 'Send', id: 'submit-message' %>
       </div>
-      <%= f.hidden_field :chatroom_id, value: @chatroom rescue 0 %>
-      <%= f.text_area :message %>
-      <%= f.file_field :attachment, :style => 'display:none', id: 'file-attachment-button' %>
-      <%= f.submit id: 'submit-message', style: 'display:none;' %>
-    </div>
-    <div class="small-1 columns">
-            <span class="postfix">
-              <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true" id="file-attachment-icon"></i>
-            </span>
-    </div>
-    <span class="send-hint">
-            Hit "Enter" to send
-     </span>
-<% end %>
+      <div class="attach-group">
+        <span class="postfix">
+          <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true" id="file-attachment-icon"></i>
+          Add attachment
+        </span>
+      </div>
+  <% end %>
+
+</div>
 
 <script>
   $("#group_message_message").keypress(function (e) {
