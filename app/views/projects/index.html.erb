@@ -1,3 +1,6 @@
+<!-- Autocomplete tag is only used in this page -->
+<%= javascript_include_tag "autocomplete-rails.js"%>
+
 <main class="main-wrapper">
   <div class="project-wrapper">
 
@@ -21,67 +24,65 @@
       <div id="error-message-show" style="background-color: red"> </div>
       <div class="row padding-none">
         <% @featured_projects.each do |project| %>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
-              <div class="card-wrapper">
-                <div class="card-img">
-                  <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
-                    <%= image_tag(project.picture.url) %>
-                  <% end %>
-                </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
+            <div class="card-wrapper">
+              <div class="card-img">
+                <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
+                  <%= image_tag(project.picture.url) %>
+                <% end %>
+              </div>
 
-                <div class="title-banner">
-                  <p>
-                    <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
-                  </p>
-                </div>
+              <div class="title-banner">
+                <p>
+                  <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
+                </p>
+              </div>
 
-                <ul class="info-banner">
-                  <li class="pr10 border-right">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <span><%= project.country %></span>
-                  </li>
-                  <li class="pl10">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <%= link_to project.user.name, user_path(project.user)%>
-                  </li>
-                </ul>
+              <ul class="info-banner">
+                <li class="pr10 border-right">
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  <span><%= project.country %></span>
+                </li>
+                <li class="pl10">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  <%= link_to project.user.name, user_path(project.user)%>
+                </li>
+              </ul>
 
-                <div class="summary-banner">
-                  <p>
-                    <%= project.short_description%>
-                  </p>
-                </div>
+              <div class="summary-banner">
+                <p>
+                  <%= project.short_description%>
+                </p>
+              </div>
 
-                <div class="progress-banner">
-
-                  <div class="report-banner pb10">
-                    <div class="row">
-                      <span>Funded</span>
-                      <span class="pull-right"><%= project.funded_percentages %></span>
-                    </div>
-                    <div class="row">
-                      <span>Tasks</span>
-                      <span class="pull-right"><%= project.tasks_relations_string%></span>
-                    </div>
-                    <div class="row">
-                      <span>Teamates</span>
-                      <span class="pull-right"><%= project.team_relations_string%></span>
-                    </div>
-                    <div class="row">
-                      <span>Raised</span>
-                      <span class="pull-right">$ <%= project.funded_budget %></span>
-                    </div>
+              <div class="progress-banner">
+                <div class="report-banner pb10">
+                  <div class="row">
+                    <span>Funded</span>
+                    <span class="pull-right"><%= project.funded_percentages %></span>
                   </div>
-
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
-                    </div>
-                    <span><%= project.funded_percentages%></span>
+                  <div class="row">
+                    <span>Tasks</span>
+                    <span class="pull-right"><%= project.tasks_relations_string%></span>
+                  </div>
+                  <div class="row">
+                    <span>Teamates</span>
+                    <span class="pull-right"><%= project.team_relations_string%></span>
+                  </div>
+                  <div class="row">
+                    <span>Raised</span>
+                    <span class="pull-right">$ <%= project.funded_budget %></span>
                   </div>
                 </div>
 
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
+                  </div>
+                  <span><%= project.funded_percentages%></span>
+                </div>
               </div>
             </div>
+          </div>
         <% end %>
       </div>
     </div>
