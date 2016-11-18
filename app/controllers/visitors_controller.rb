@@ -5,7 +5,16 @@ class VisitorsController < ApplicationController
   end
 
   def landing
-    @featured_projects = Project.last(3)
+    if (session[:counter].nil?)
+      session[:counter] = 1
+      session[:counter] = session[:counter] + 0
+    end
+    session[:counter] = session[:counter] + 1
+    if(session[:counter] > 3)
+      redirect_to projects_path
+    else
+      @featured_projects = Project.last(3)
+    end
   end
 
   def restricted
