@@ -17,28 +17,30 @@
   </div>
 
   <ul class="side-nav">
-    <li class="<%= active_class(user_path(current_user)) %>">
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <%= link_to 'Profile', user_path(current_user) %>
-    </li>
     <li class="<%= active_class(my_projects_path) %>">
-      <i class="fa fa-tachometer " aria-hidden="true"></i>
+      <i class="fa fa-file-text-o" aria-hidden="true"></i>
       <%= link_to 'My Projects', my_projects_path %>
     </li>
-    <li class="<%= active_class(notifications_path) %>">
-      <span class="notify-wrapper">
-        <i class="fa fa-bell-o" aria-hidden="true"></i>
-        <span class="count"><%= current_user.notifications.unread.count %></span>
-      </span>
-      <a href="/notifications">Notifications</a>
-    </li>
+
     <li class="<%= active_class(group_messages_path) %>">
       <i class="fa fa-envelope-o" aria-hidden="true"></i>
       <a href="/group_messages">Messages</a>
     </li>
-    <li>
-      <i class="fa fa-sign-out" aria-hidden="true"></i>
-      <%= link_to 'Logout', destroy_user_session_path, :method => :delete%>
+
+    <li class="<%= active_class(notifications_path) %>">
+      <i class="fa fa-bell-o" aria-hidden="true"></i>
+      <a href="/notifications">Notifications</a>
     </li>
+
+    <li class="">
+      <i class="fa fa-btc" aria-hidden="true"></i>
+      <a href="javascript:void(0)">Wallet</a>
+    </li>
+
+    <li class="<%= active_class(user_path(current_user)) %>">
+      <i class="fa fa-user" aria-hidden="true"></i>
+      <%= link_to 'Profile', user_path(current_user) %>
+    </li>
+
   </ul>
 </div>
