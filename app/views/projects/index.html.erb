@@ -3,18 +3,18 @@
 
     <div class="heading-banner">
       <div class="project-header">
-        <h2>Browse All Projects</h2>
+        <h2>Browse Projects</h2>
         <%= paginate @featured_projects %>
       </div>
 
-      <div class="search-box-wrapper pull-right">
+      <!-- <div class="search-box-wrapper pull-right">
         <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
             <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
             <button type="button" name="" type="submit" >
               <i class="fa fa-search"></i>
             </button>
         <% end %>
-      </div>
+      </div> -->
     </div>
 
     <div class="projects-cards"  id="search-results-show">
@@ -22,27 +22,34 @@
       <div class="row padding-none">
         <% @featured_projects.each do |project| %>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
-              <div class="card-wrapper">
+              <div class="project-card">
+
                 <div class="card-img">
                   <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
                       <%= image_tag(project.picture) %>
                   <% end %>
+                  <div class="user-link">
+                    <% if project.user.picture? %>
+                      <%= image_tag(project.user.picture, size: "30x30") %>
+                    <% else %>
+                      <%= gravatar_for_user(project.user)%>
+                    <%end%>
+                    <%= link_to project.user.name, user_path(project.user)%>
+                  </div>
+
+                  <span class="favor-link">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                  </span>
                 </div>
 
                 <div class="title-banner">
-                  <p>
-                    <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
-                  </p>
+                  <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
                 </div>
 
                 <ul class="info-banner">
-                  <li class="pr10 border-right">
+                  <li>
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <span><%= project.country %></span>
-                  </li>
-                  <li class="pl10">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <%= link_to project.user.name, user_path(project.user)%>
+                    <%= project.country %>
                   </li>
                 </ul>
 
@@ -54,36 +61,38 @@
 
                 <div class="progress-banner">
 
-                  <div class="report-banner pb10">
-                    <div class="row">
-                      <span>Funded</span>
-                      <span class="pull-right"><%= project.funded_percentages %></span>
-                    </div>
-                    <div class="row">
-                      <span>Tasks</span>
-                      <span class="pull-right"><%= project.tasks_relations_string%></span>
-                    </div>
-                    <div class="row">
-                      <span>Teamates</span>
-                      <span class="pull-right"><%= project.team_relations_string%></span>
-                    </div>
-                    <div class="row">
-                      <span>Raised</span>
-                      <span class="pull-right">$ <%= project.funded_budget %></span>
+                  <div class="progress mb20">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
                     </div>
                   </div>
 
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
-                    </div>
-                    <span><%= project.funded_percentages%></span>
+                  <div class="progress-report">
+                    <table>
+                      <tr class="value">
+                        <td><%= project.funded_percentages %></td>
+                        <td><%= project.team_relations_string %></td>
+                        <td><%= project.tasks_relations_string %></td>
+                        <td>$<%= project.funded_budget %></td>
+                      </tr>
+                      <tr class="items">
+                        <td>Funded</td>
+                        <td>Team</td>
+                        <td>Tasks</td>
+                        <td>Raised</td>
+                      </tr>
+                    </table>
                   </div>
+
                 </div>
 
               </div>
             </div>
         <% end %>
       </div>
+    </div>
+
+    <div class="load-more">
+      <button type="button">Load more</button>
     </div>
 
   </div>

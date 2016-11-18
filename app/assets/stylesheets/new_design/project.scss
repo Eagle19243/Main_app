@@ -49,11 +49,17 @@
   display: block;
   width: 100%;
   text-align: left;
+  padding: 0 10px;
 }
 
 .project-header {
   text-align: left;
   display: inline-block;
+
+  h2 {
+    font-family: 'Roboto';
+    color: #000;
+  }
 }
 
 .search-box-wrapper {
@@ -63,69 +69,6 @@
 
 .projects-cards {
   padding-top: 40px;
-
-  .card-wrapper {
-    box-shadow: 2px 2px 2px 0px rgba(145, 145, 145, 0.7);
-    background-color: #fff;
-  }
-
-  .card-img {
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-    position: relative;
-
-    img {
-      height: 150px;
-      width: 100%;
-      margin: auto;
-    }
-  }
-}
-
-.title-banner {
-  padding: 10px 20px 0px;
-
-  p {
-    text-align: left;
-  }
-
-  a {
-    font-weight: 600;
-    font-size: 18px;
-  }
-}
-
-ul.info-banner {
-  padding: 0px 20px 0px;
-  margin: 0;
-  display: inline-block;
-  list-style-type: none;
-  overflow: hidden;
-  width: 100%;
-
-  li {
-    float: left;
-    text-align: left;
-
-    i {
-      color: #999;
-      padding: 0px !important;
-      font-size: 16px !important;
-    }
-    a, span {
-      color: #999;
-      font-size: 14px;
-      font-weight: 600;
-    }
-  }
-}
-
-.summary-banner {
-  padding: 10px 20px 0px;
-  p {
-    color: #333;
-    font-size: 14px;
-  }
 }
 
 div.progress {
@@ -133,38 +76,6 @@ div.progress {
   margin-bottom: 0;
   border: none;
   padding: 0;
-}
-
-.progress-banner {
-  padding: 10px 0px 0px;
-  border-top: 1px solid #eee;
-
-  div.progress {
-    position: relative;
-    text-align: center;
-    height: 18px;
-    box-shadow: none;
-    padding: 0;
-    border-radius: 0;
-    background-color: rgba(0, 140, 186, 0.3);
-    border: 0px;
-    margin-top: 15px;
-
-    .progress-bar {
-      width: 100%;
-      box-shadow: unset;
-      border: none;
-      border-radius: 0;
-    }
-
-    span {
-      position:absolute;
-      right:0;
-      left:0;
-      color: #fff;
-      font-size: 12px;
-    }
-  }
 }
 
 .report-banner-table {
@@ -283,7 +194,7 @@ div.progress {
 }
 
 .main-wrapper {
-  background-color: #eee;
+  background-color: #fff;
 }
 
 .member-box {
@@ -394,3 +305,160 @@ div.progress {
 }
 
 
+
+.project-card {
+  border: 2px solid #eee;
+  background-color: #fff;
+
+  .card-img {
+    border-bottom: 1px solid #ddd;
+    position: relative;
+
+    img {
+      height: 180px;
+      width: 100%;
+      margin: auto;
+    }
+
+    .user-link {
+      position: absolute;
+      display: inline-block;
+      left: 10px;
+      bottom: 10px;
+
+      a {
+        font-family: 'Libre Franklin';
+        font-size: 1em;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+        border: 2px solid #fff;
+      }
+    }
+
+    .favor-link {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+
+  .title-banner {
+    padding: 10px;
+    text-align: left;
+
+    a {
+      font-family: 'Libre Franklin';
+      font-weight: 600;
+      color: #000;
+      font-size: 1.3em;
+    }
+  }
+
+  ul.info-banner {
+    padding: 0px 10px 0px;
+    margin: 0;
+    display: inline-block;
+    list-style-type: none;
+    overflow: hidden;
+    width: 100%;
+
+    li {
+      float: left;
+      text-align: left;
+      font-family: 'Roboto';
+      font-weight: normal;
+      font-size: 1.1em;
+      color: #999;
+
+      i {
+        color: #aaa;
+        padding: 0px !important;
+        font-size: 16px !important;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  .summary-banner {
+    padding: 10px 10px 0px;
+    p {
+      font-family: 'Libre Franklin';
+      font-weight: normal;
+      font-size: 1em;
+      color: #555;
+    }
+  }
+
+  .progress-banner {
+    padding: 10px 10px 0px;
+    .progress {
+      background-color: #ddd !important;
+      .progress-bar {
+        background-color: #555;
+      }
+    }
+  }
+
+  .progress-report {
+    table {
+      width: 100%;
+    }
+
+    tbody {
+      tr td {
+        padding: 0 !important;
+        font-family: 'Libre Franklin';
+        text-align: left;
+        line-height: 1.3em !important;
+      }
+      tr.value {
+        td {
+          font-family: 'Libre Franklin';
+          color: #333 !important;
+          font-size: 1.3em !important;
+        }
+      }
+      tr.items {
+        td {
+          font-family: 'Libre Franklin';
+          color: $grey-clr !important;
+          font-size: 0.9em !important;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+.load-more {
+  padding-top: 30px;
+  display: block;
+  width: 100%;
+  text-align: center;
+
+  button {
+    display: inline-block;
+    padding: 0 40px;
+    margin: auto;
+    height: 40px;
+    line-height: 40px;
+    border: 2px solid #000;
+    border-radius: 100px;
+    font-family: 'Libre Franklin';
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #fff;
+    color: #000;
+  }
+}
