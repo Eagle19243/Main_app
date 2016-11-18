@@ -271,7 +271,7 @@
                     <div class="summary-cards">
                       <div class="card-wrapper">
                         <div class="card-title">
-                          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                          <p><%= task.description %></p>
                         </div>
                         <div class="row">
                           <div class="col-lg-9 col-md-9 col-sm-9 pt15">
@@ -282,10 +282,10 @@
                             <div class="report-banner-table tab-task-report mt10">
                               <table>
                                 <tr class="value">
-                                  <td>70%</td>
+                                  <td><%= task.funded %></td>
+                                  <td><%=  @tasks_count %></td>
                                   <td>70</td>
-                                  <td>70</td>
-                                  <td>$70</td>
+                                  <td><%= task.funded_in_btc %></td>
                                 </tr>
                                 <tr class="items">
                                   <td>Funded</td>
