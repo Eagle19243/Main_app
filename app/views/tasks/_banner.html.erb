@@ -19,30 +19,16 @@
 
     <div class="row">
       <center class="project-intro">
-
-        <div class="row">
-          <div class="col-lg-5 col-md-5 col-sm-5 col-custom">
-            <div class="text-right">
-              <h4 class="text-white">By: <%= @project.user.name %></h4>
-            </div>
-          </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 col-custom">
-            <div class="text-center">
-              <% if @project.user.picture? %>
-                <%= image_tag(@project.user.picture, size: "50x50") %>
-              <% else %>
-                <%= gravatar_for_user(@project.user)%>
-              <%end%>
-            </div>
-          </div>
-          <div class="col-lg-5 col-md-5 col-sm-5 col-custom">
-            <div class="text-left">
-              <h4 class="text-white"><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.user.city %></h4>
-            </div>
-          </div>
+        <div class="text-center">
+          <% if @project.user.picture? %>
+            <%= image_tag(@project.user.picture, size: "50x50") %>
+          <% else %>
+            <%= gravatar_for_user(@project.user)%>
+          <%end%>
         </div>
-
-        <h2><%= @project.title %></h2>
+        <p class="project-owner">by <%= @project.user.name %></p>
+        <h2 class="project-title"><%= @project.title %></h2>
+        <p class="project-city"><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.user.city %></p>
       </center>
     </div>
 
@@ -81,7 +67,7 @@
     </div>
 
     <div class="row">
-      <center><a href="#" id="myBtn" class="button round get-invo-btn">Join Team </a></center>
+      <center><a href="#" id="myBtn" class="button round get-invo-btn">Join the Team</a></center>
     </div>
 
   </div>

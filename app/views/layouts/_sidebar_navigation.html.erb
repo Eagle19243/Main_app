@@ -1,6 +1,10 @@
 <div id="side-menu-id" class="side-menu">
   <div class="side-logo">
-    <%= link_to 'WeServe', root_path %>
+    <% if user_signed_in? %>
+        <%= link_to 'WeServe', projects_path %>
+    <%else %>
+        <%= link_to 'WeServe', root_path %>
+    <% end %>
 
     <div class="user-profile">
       <% if current_user.picture? %>

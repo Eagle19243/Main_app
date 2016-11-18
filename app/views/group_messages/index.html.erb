@@ -17,7 +17,7 @@
               <% @user_projects.each.with_index do |project, index| %>
                   <% if index == 0 %>
                       <li>
-                        <a href="#" class="projects-chat"  id="<%= project.id %>"><%= project.try(:title) %></a>
+                        <a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a>
                       </li>
                   <% else %>
                       <li><a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a></li>
@@ -36,6 +36,14 @@
         <ul class="circle" id="project-team-members">
           <%= render 'group_messages/project_team' %>
         </ul>
+        <div class="submenu-title">
+          <span class="menu-subtitle">Message Other Than Team</span>
+          <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
+        </div>
+        <ul class="circle" id="project-team-members">
+          <%= render 'group_messages/one_to_one_members' %>
+        </ul>
+
       </div>
       <hr>
     </div>
@@ -43,14 +51,14 @@
   <div class="small-9 columns" id="page-message-content">
     <br>
     <div id="chat-name">
-    <%= render partial: 'group_messages/chatroom_info', locals: {chat_id: @chatroom} %></div>
+      <%= render partial: 'group_messages/chatroom_info', locals: {chat_id: @chatroom} %></div>
     <hr>
     <div id="messages">
       <%= render 'group_messages/all_messages' %>
     </div>
     <hr>
     <div id='message-form-div'>
-      <% unless @user_projects.blank? %>
+      <% unless @chatroom.blank? %>
           <%= render 'group_messages/form' %>
       <% else %>
           <div> you are not member of any chat room</div>
@@ -95,3 +103,11 @@
     }
   });
 </script>
+
+
+
+
+
+
+
+
