@@ -108,7 +108,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       activity = current_user.create_activity(@task, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to home_index_path, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
