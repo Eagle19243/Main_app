@@ -236,26 +236,33 @@
             </div>
 
             <hr>
-            <div class="wallet-block">
+            <div class="wallet-block mb20">
               <h5>Task Specific Bit Coin Address:</h5>
               <p id='fe_text'><%= @task.wallet_address.sender_address rescue 'Available soon' %></p>
             </div>
             <hr>
 
-            <div class="button-set">
+            <div class="approve-block mb20">
+              <a href="javascript:void(0)" class="approve-link">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
+                approve
+              </a>
+            </div>
+
+            <div class="button-group">
               <div class="btn-left">
                 <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
                     <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
                         <input type="file" name="task_attachment[attachment]" id="file1"/>
-                        <button type="button" class="attachment"><i class="fa fa-paperclip" aria-hidden="true"></i> Add
-                          Attachment
+                        <button type="button" class="attachment">
+                          <i class="fa fa-paperclip" aria-hidden="true"></i>Add attachment
                         </button>
                         <%= f.submit "upload", class: "btn btn-primary", id: "upload-button" %>
                     <% end %>
                 <% end %>
-                <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i> Add / Invite People</button>
+                <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i>Invite</button>
                 <% if user_signed_in? %>
                     <% if @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id) %>
                         <%= link_to reviewing_task_path(@task.id), :remote => true do %>
@@ -272,22 +279,21 @@
                         <% end %>
                     <% end %>
                 <% end %>
-              </div>
-              <div class="btn-right">
-                <button id="sharebtn"><i class="fa fa-external-link" aria-hidden="true"></i> Share</button>
-                <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i> Teams</button>
+
+                <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share</button>
+                <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
                 <% if user_signed_in? && current_user.id == @task.project.user_id %>
                     <%= link_to doing_task_path(@task.id), :remote => true do %>
                         <button>
-                          <i class="fa fa-arrow-right" aria-hidden="true"></i> Start
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>Start
                         </button>
                     <% end %>
                 <% end %>
               </div>
             </div>
-            <hr>
+
             <div class="attachments">
-              <h5><i class="fa fa-paperclip" aria-hidden="true"></i> Attachments</h5>
+              <h5>Attachments</h5>
               <% @task_attachments.each do |attachment| %>
                   <div class="attachment">
                     <img src="http://placehold.it/150x150">

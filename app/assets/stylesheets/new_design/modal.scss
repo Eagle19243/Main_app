@@ -534,9 +534,23 @@
 
 #myModal {
   overflow-y: scroll;
-  max-width: 1024px;
-  margin: 0 20px;
+  max-width: 1200px;
+  margin: auto;
   z-index: 1000;
+
+  ::-webkit-scrollbar {
+      width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+      border-radius: 10px;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }
 
   input[type="text"] {
     display: inline-block;
@@ -547,6 +561,14 @@
     &:hover,
     &:focus {
       border-color: #555;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    &:hover,
+    &:focus {
+      text-decoration: none;
     }
   }
 
@@ -642,6 +664,7 @@
       color: #000;
       font-weight: 600;
       text-transform: uppercase;
+      font-size: 1.1em;
       i {
         color: #555;
         font-size: 1.3em;
@@ -717,6 +740,7 @@
       color: #000;
       font-weight: 600;
       text-transform: uppercase;
+      font-size: 1.1em;
       i {
         color: #555;
         font-size: 1.3em;
@@ -798,6 +822,7 @@
         color: #000;
         font-weight: 600;
         text-transform: uppercase;
+        font-size: 1.1em;
       }
       p {
         font-family: 'Libre Franklin';
@@ -818,6 +843,7 @@
         color: #000;
         font-weight: 600;
         text-transform: uppercase;
+        font-size: 1.1em;
       }
       img {
         width: 40px;
@@ -839,6 +865,65 @@
         font-size: 1em;
         color: #555;
       }
+    }
+
+    .approve-block {
+      a.approve-link {
+        display: inline-block;
+        width: 100%;
+        padding: 0;
+        height: 45px;
+        line-height: 45px;
+        border: 2px solid #000;
+        border-radius: 100px;
+        font-family: 'Libre Franklin';
+        font-size: 1.2em;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #fff;
+        color: #000;
+        text-align: center;
+
+        i {
+          font-size: 1.3em;
+          color: #000;
+        }
+      }
+    }
+  }
+
+  .button-group {
+    button {
+      display: inline-block;
+      padding: 0;
+      padding-left: 20px;
+      height: 40px;
+      line-height: 40px;
+      font-family: 'Libre Franklin';
+      font-size: 1.1em;
+      font-weight: bold;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 10px;
+
+      background-color: #eee;
+      border: 1px solid #ddd;
+      color: #555;
+
+      i {
+        padding-right: 10px;
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  .attachments {
+    h5 {
+      font-family: 'Roboto';
+      color: #000;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 1.1em;
     }
   }
 }
