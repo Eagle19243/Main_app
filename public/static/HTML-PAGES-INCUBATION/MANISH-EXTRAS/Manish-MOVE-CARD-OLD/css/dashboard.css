@@ -6,20 +6,6 @@
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
 }
-.side-menu ul{
-	padding-top:0px;
-	background-color: #0e4e6f;
-	height:1024px;
-}
-.side-menu ul li{
-	
-}
-.side-menu ul li a{
-	color:#fff !important;
-	padding:13px 40px !important;
-	font-family: 'Oswald', sans-serif !important;
-	letter-spacing: 1px;
-}
 .fa-bell span {
     background-color: #0d85f1;
     }
