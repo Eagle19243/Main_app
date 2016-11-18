@@ -22,28 +22,12 @@
   window.onload = function() {
     $('#project-url').html(window.location.href);
     // <% if  session[:project_id] != nil %>
-    // var modalteam = document.getElementById('Project-Invite-Model');
-    // modalteam.style.display = "block";
+
     // <%end%>
-    // Get the <span> element that closes the modal
-    // var project_span_team = document.getElementById("inviteclose");
-    // var modalteam = document.getElementById('Project-Invite-Model')
-    // // When the user clicks on <span> (x), close the modal
-    // project_span_team.onclick = function () {
-    //   modalteam.style.display = "none";
-    // }
+
     document.getElementById("loading-mask1").style.display = "none";
   }
 
-  // $(document).keydown(function(e) {
-  //   if (e.keyCode == 27) {
-  //     $('#response').empty();
-  //     $("#guest-email").val("");
-  //     $('#response-failure').empty();
-  //     $("#response-success");
-  //     $("#Project-Invite-Model").hide();
-  //   }
-  // });
 </script>
 
 <div id="product-modal"></div>
@@ -53,7 +37,7 @@
     <a class="close-reveal-modal" aria-label="Close">&times;</a>
     <div class="fund-do">
       <div class="row">
-        <h4 id = 'middle'>Invite People To Participate</h4>
+       <center><h4>Invite People To Participate</h4></center>
         <div class="alert"  id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
@@ -66,7 +50,7 @@
                   <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
                 </div>
                 <div class="large-4 medium-12 small-12 columns cold pl10">
-                  <button class="button round expand modal-btn1 btn-add normal-button" id="send-project-email-button" >Add / Invite</button>
+                  <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button" >Add / Invite</button>
                 </div>
               </div>
 
@@ -89,7 +73,6 @@
                     <span class="mini-divider"></span>
                   </span>
                 </div>
-
                 <%unless session[:failure_contacts].blank? %>
                   <p id="response-failure"><%= session[:failure_contacts] %></p>
                 <%end%>
@@ -109,9 +92,8 @@
                 <ul>
                   <li>
                     <div class="facebook-wrapper" >
-                      <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                        <i class="fa fa-facebook"></i>
-                        <span>Add from Facebook</span>
+                      <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);"><i class="fa fa-facebook"></i>
+                        <span>Share on Facebook</span>
                       </a>
                     </div>
                   </li>
@@ -119,7 +101,7 @@
                     <div class="twitter-wrapper">
                       <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
                         <i class="fa fa-twitter"></i>
-                        <span>Add from twitter</span>
+                        <span>Share on twitter</span>
                       </a>
                     </div>
                   </li>
@@ -127,7 +109,7 @@
                     <div class="pinterest-wrapper">
                       <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
                         <i class="fa fa-google-plus"></i>
-                        <span>Add from Google Plus</span>
+                        <span>Share on Google Plus</span>
                       </a>
                     </div>
                   </li>
@@ -284,7 +266,7 @@
                                 <tr class="value">
                                   <td><%= task.funded %></td>
                                   <td><%=  @tasks_count %></td>
-                                  <td>70</td>
+                                  <td><%= task.donations.count %></td>
                                   <td><%= task.funded_in_btc %></td>
                                 </tr>
                                 <tr class="items">
@@ -658,8 +640,6 @@
       document.getElementById(tabName).style.display = "block";
       evt.currentTarget.className += " active";
     }
-
-
     $(function(){
       $('#testDiv').slimScroll();
       $('#testDiv2').slimScroll({
