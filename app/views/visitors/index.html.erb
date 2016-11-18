@@ -10,7 +10,7 @@
       </div>
       <a href="#" data-reveal-id="AthenticationModal" class="hero-button sign-up">Get Started</a>
     <%else%>
-      <%= link_to "View Projects", projects_path, class: "hero-button projects" %>
+      <%= link_to "View Projects", home_index_path, class: "hero-button projects" %>
     <%end%>
   </div>
 
@@ -20,7 +20,7 @@
       <div class="info">
         You can make things happen by funding projects that your community needs. You choose the project and the task, and 100% of your money goes directly to the people who complete the tasks.
       </div>
-      <%= link_to "Get involved today.", projects_path, class: "hide-mobile" %>
+      <%= link_to "Get involved today.", home_index_path, class: "hide-mobile" %>
     </div>
     <div class="separator-or"></div>
     <div class="give-time">
@@ -28,10 +28,10 @@
       <div class="info">
         Put your time towards your community, and you'll be rewarded. Every task you complete will give you a payout, and there's no limit to the number of projects you can get involved in.
       </div>
-     <%= link_to "See all active projects.", projects_path, class: "hide-mobile" %>
+     <%= link_to "See all active projects.", home_index_path, class: "hide-mobile" %>
     </div>
 
-    <%= link_to "See active projects", projects_path, class: "mobile-only hero-button" %>
+    <%= link_to "See active projects", home_index_path, class: "mobile-only hero-button" %>
   </div>
 
   <% if @project %>

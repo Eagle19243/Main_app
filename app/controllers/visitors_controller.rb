@@ -11,7 +11,7 @@ class VisitorsController < ApplicationController
     end
     session[:counter] = session[:counter] + 1
     if(session[:counter] > 3)
-      redirect_to projects_path
+      redirect_to home_index_path
     else
       @featured_projects = Project.last(3)
     end

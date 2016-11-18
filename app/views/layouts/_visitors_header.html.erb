@@ -3,7 +3,7 @@
   <div class="header-wrap">
     <div class="landing-logo">
       <% if user_signed_in? %>
-          <%= link_to 'WeServe', projects_path %>
+          <%= link_to 'WeServe', home_index_path %>
       <%else %>
           <%= link_to 'WeServe', root_path %>
       <% end %>
