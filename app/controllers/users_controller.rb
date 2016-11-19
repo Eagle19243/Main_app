@@ -2,7 +2,7 @@ include UsersHelper
 
 class UsersController < ApplicationController
   load_and_authorize_resource :except => [:index]
-  layout "dashboard", only: [:show]
+  layout "dashboard", only: [:show, :my_projects]
 
   def index
     authorize! :index, current_user

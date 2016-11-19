@@ -57,16 +57,6 @@ i {
   height: 60px;
 }
 
-.new-message-form span.postfix {
-  height: 60px;
-}
-
-.new-message-form span.postfix i {
-  height: 60px;
-  padding: 4%; 
-  padding-top: 15px;
-}
-
 .send-hint {
   float: left; 
   font-size: 0.85rem;
@@ -149,7 +139,6 @@ h4.message-break span {
   width: 20%;
   background-color: #f0f5f7;
   padding: 0;
-  min-height: 1024px;
 }
 
 .messages-nav-title {

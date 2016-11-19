@@ -1,18 +1,18 @@
-<div class="row margin-none">
-  <div class="small-3 columns full-page" id="messages-nav">
-    <br>
+
+<div class="row group-messages-wrapper margin-none">
+
+  <div class="group-messages-nav" id="messages-nav">
     <div class="messages-nav-title">
-      <i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i>
-      <span>&nbsp;Messages</span>
+      Team Messages
     </div>
-    <div class="messages-menu" style="overflow-y: scroll; max-height: 85%;">
+
+    <div class="messages-menu">
       <div class="messages-submenu">
-        <div class="submenu-title">
+        <!-- <div class="submenu-title">
           <% current_user_projects = @user_projects rescue nil %>
           <span class="menu-subtitle">PROJECTS (<%= @user_projects.count rescue 0 %>)</span>
-          <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
-        </div>
-        <ul class="circle">
+        </div> -->
+        <ul>
           <% unless @user_projects.blank? %>
               <% @user_projects.each.with_index do |project, index| %>
                   <% if index == 0 %>
@@ -24,14 +24,12 @@
                   <% end %>
               <% end %>
           <% end %>
-
         </ul>
       </div>
-      <hr>
+
       <div class="messages-submenu" id="chatrooms_id">
         <div class="submenu-title">
           <span class="menu-subtitle">DIRECT MESSAGES</span>
-          <!--<i class="fa fa-plus-circle" aria-hidden="true"></i>-->
         </div>
         <ul class="circle" id="project-team-members">
           <%= render 'group_messages/project_team' %>
@@ -45,18 +43,24 @@
         </ul>
 
       </div>
-      <hr>
+
+      <div class="search-users">
+        <span><i class="fa fa-plus"></i>&nbsp;&nbsp;Search for user</span>
+      </div>
+
     </div>
   </div>
-  <div class="small-9 columns" id="page-message-content">
-    <br>
+
+  <div class="group-messages-content" id="page-message-content">
+  
     <div id="chat-name">
-      <%= render partial: 'group_messages/chatroom_info', locals: {chat_id: @chatroom} %></div>
-    <hr>
+      <%= render partial: 'group_messages/chatroom_info', locals: {chat_id: @chatroom} %>
+    </div>
+
     <div id="messages">
       <%= render 'group_messages/all_messages' %>
     </div>
-    <hr>
+
     <div id='message-form-div'>
       <% unless @chatroom.blank? %>
           <%= render 'group_messages/form' %>
