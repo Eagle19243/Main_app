@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki, :wiki_edit]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
-  # layout "manish", only: [:taskstab]
 
   def index
     if user_signed_in?
@@ -233,6 +232,11 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+
+  end
+
+  def wiki_edit
+    @project = Project.find(params[:id])
   end
 
   def create
