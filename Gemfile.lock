@@ -133,7 +133,7 @@ GEM
     coffee-script-source (1.10.0)
     colored (1.2)
     concurrent-ruby (1.0.2)
-    connection_pool (2.2.0)
+    connection_pool (2.2.1)
     countries (1.2.5)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
