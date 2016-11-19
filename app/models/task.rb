@@ -59,6 +59,8 @@ class Task < ActiveRecord::Base
 	searchable do
 		text :title
 		text :description
+    text :short_description
+    text :condition_of_execution
 	end
 
 	def assign_address

@@ -94,8 +94,12 @@ class ProjectsController < ApplicationController
 
   def autocomplete_user_search
     term = params[:term]
-    @projects = Project.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|p|"#{p.title}"}
-    @result = @projects + Task.order(:title).where("title LIKE ? or description LIKE ?", "%#{params[:term]}%","%#{params[:term]}%").map{|t|"#{t.title}"}
+    @projects = Project.order(:title).where(
+      "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
+      "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map{|p|"#{p.title}"}
+    @result = @projects + Task.order(:title).where(
+      "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?", 
+      "%#{params[:term]}%","%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map{|t|"#{t.title}"}
     respond_to do |format|
       format.html {render text: @result}
       format.json { render json: @result.to_json,status: :ok}
@@ -105,6 +109,7 @@ class ProjectsController < ApplicationController
   def user_search
     #User search has been disabled because we don't have user's public profile or show page yet available in application we will just add Sunspot.search(Project,Task,User) later
     @search = Sunspot.search(Task,Project) do
+      # keywords params[:title]
       fulltext params[:title] do
         query_phrase_slop 1
       end
