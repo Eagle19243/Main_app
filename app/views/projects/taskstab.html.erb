@@ -247,9 +247,9 @@
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
               <div class="row margin-none mb20">
                 <div class="btn-wrapper pull-right">
-                  <a href="javascript:void(0)" data-toggle="modal" data-target="#editProjectModal" class="btn-edit">
+                  <%= link_to wiki_edit_project_path(@project), :class => 'btn-edit' do %>
                     <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                  </a>
+                  <% end %>
                 </div>
               </div>
               <div class="clearfix"></div>
