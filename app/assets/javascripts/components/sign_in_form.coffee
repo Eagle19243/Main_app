@@ -68,11 +68,7 @@
               className: ''
               href: '/users/password/new'
               'Forgot password?'
-        React.DOM.button
-          className: "btn btn-primary normal-button"
-          type: 'submit'
-          name: 'commit'
-          'Sign in'
+
         React.DOM.div
           className: "checkbox"
           React.DOM.label null,
@@ -82,4 +78,9 @@
               value: @state.remember_me
               onChange: @checkboxChanged
             " Remember me"
+        React.DOM.button
+          className: "btn btn-primary normal-button"
+          type: 'submit'
+          name: 'commit'
+          'Sign in'
 
