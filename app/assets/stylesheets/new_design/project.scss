@@ -464,18 +464,19 @@ div.progress {
 }
 
 
-// media wiki styles goes here
+// source editor styles goes here
 
 .edit-wrapper {
   display: block;
   position: relative;
   width: 100%;
+  display: none;
 
   .editor-banner {
     display: block;
     position: relative;
     width: 100%;
-    padding: 0 5%;
+    padding: 0 6%;
     border-bottom: 2px solid #eee;
 
     table {
@@ -552,7 +553,7 @@ div.progress {
     display: block;
     position: relative;
     width: 100%;
-    padding: 30px 5%;
+    padding: 30px 6%;
     font-family: 'Roboto';
     background-color: #fff;
 

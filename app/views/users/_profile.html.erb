@@ -10,13 +10,6 @@
   <div class="lin2-contents medium-10 columns">
     <div>
       <h1 class="profile-title">
-        <% if (current_user && current_user.id == @user.id) %>
-          <%= best_in_place @user, :name, :as => :input, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
-        
-          <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
-        <% else %>
-          <%= @user.name %>
-        <% end %>
       </h1>        
       <div class="lin2-social">
         <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
@@ -168,3 +161,40 @@
   });
 
 </script>
+
+
+<div class="profile-wrapper">
+  <div class="profile-hero">
+    <%= image_tag(@user.projects.first.picture) %>
+    <div class="hero-promo">
+      <div class="user-name">
+        <% if (current_user && current_user.id == @user.id) %>
+          <%= best_in_place @user, :name, :as => :input, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+          <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+        <% else %>
+          <%= @user.name %>
+        <% end %>
+      </div>
+      <br>
+      <div class="user-location">
+        <i class="fa fa-map-marker" aria-hidden="true"></i> <%= @user.city %>
+        <a href="javascript:void(0)" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+      </div>
+
+      <div class="user-history">
+        <table>
+          <tr>
+            <td>
+              <span class="count"><%= @user.projects.count %></span>
+              <span class="title">Project</br>Leads</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+

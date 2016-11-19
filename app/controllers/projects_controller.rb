@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki, :wiki_edit]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -233,10 +233,6 @@ class ProjectsController < ApplicationController
 
   def edit
 
-  end
-
-  def wiki_edit
-    @project = Project.find(params[:id])
   end
 
   def create
