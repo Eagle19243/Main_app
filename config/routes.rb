@@ -117,7 +117,6 @@ Rails.application.routes.draw do
       get :unfollow
       post :rate
       get :discussions
-      get :wiki_edit
     end
 
     collection do

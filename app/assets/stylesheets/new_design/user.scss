@@ -1,0 +1,137 @@
+
+.profile-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+
+  .profile-hero {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 440px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .hero-promo {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 80px;
+  }
+
+  .user-name {
+    font-family: 'Roboto';
+    font-weight: 600;
+    font-size: 2.5em;
+    color: #fff;
+    display: block;
+    display: inline-block;
+    margin: auto;
+    padding-bottom: 20px;
+
+    a#edit-profile-pencil {
+      display: none;
+      color: #fff;
+      font-size: 0.7em;
+    }
+
+    &:hover {
+      a#edit-profile-pencil {
+        display: inline-block;
+      }
+    }
+
+    form {
+      input[type="text"] {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        border-bottom: 2px solid #fff;
+        font-style: italic;
+        text-align: center;
+      }
+      input[type="submit"],
+      input[type="button"] {
+        height: 40px;
+        line-height: 40px;
+        font-family: 'Roboto';
+        font-size: 16px;
+        margin: 0 10px;
+        padding: 0;
+        width: 100px;
+        border: 2px solid #000;
+        border-radius: 60px;
+        text-transform: uppercase;
+      }
+      input[type="submit"] {
+        background-color: #fff;
+        color: #000;
+      }
+      input[type="button"] {
+        background-color: #000;
+        color: #fff;
+      }
+    }
+  }
+
+  .user-location {
+    font-family: 'Roboto';
+    font-weight: 600;
+    font-size: 1.2em;
+    color: #fff;
+    display: inline-block;
+    margin: auto;
+    padding-bottom: 20px;
+
+    i {
+      margin-right: 10px;
+    }
+    a {
+      color: #fff;
+      margin-left: 10px;
+    }
+  }
+
+  .user-history {
+    display: block;
+    width: 100%;
+
+    table {
+      display: inline-block;
+      width: 30%;
+      margin: auto;
+      min-width: 300px;
+
+      tr {
+        td {
+          padding: 0 20px;
+          margin: 0;
+          height: 50px;
+          line-height: 50px;
+          text-align: left;
+          font-family: 'Libre Franklin';
+          font-weight: 400;
+          vertical-align: middle;
+
+          span.count {
+            font-size: 3em;
+            float: left;
+            line-height: 1em;
+            margin-right: 5px;
+            color: #fff;
+          }
+          span.title {
+            font-size: 1em;
+            float: right;
+            line-height: 1em;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
