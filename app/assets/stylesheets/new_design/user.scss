@@ -272,3 +272,111 @@
   }
 }
 
+
+.myprojets-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 20px 30px;
+
+  h2 {
+    font-family: 'Roboto';
+    color: #000;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .table {
+    thead {
+      th {
+        font-family: 'Roboto';
+        font-weight: 600;
+        font-size: 1em;
+        text-transform: uppercase;
+      }
+    }
+    tbody {
+      td {
+        vertical-align: middle;
+        padding-left: 10px !important;
+      }
+
+      td.project {
+        font-family: 'Roboto';
+        color: #000 !important;
+        font-size: 1em !important;
+        font-weight: 600;
+        padding-right: 20px !important;
+
+        a {
+          color: #555;
+        }
+      }
+
+      td.leader {
+        padding-right: 20px !important;
+        a {
+          font-family: 'Libre Franklin';
+          color: #555;
+          font-size: 0.9em !important;
+        }
+        i {
+          color: #555;
+        }
+      }
+
+      td.team {
+        font-family: 'Libre Franklin';
+        color: #000;
+        font-size: 1.2em !important;
+        text-align: left;
+      }
+
+      td.edit {
+        a {
+          font-family: 'Libre Franklin';
+          color: #555;
+          font-size: 1em !important;
+        }
+      }
+
+      td.delete {
+        a {
+          color: #555;
+          font-size: 1em;
+        }
+      }
+
+      td.fund {
+        padding-right: 20px !important;
+
+        span {
+          font-family: 'Libre Franklin';
+          color: #000;
+          font-size: 1em !important;
+        }
+
+        .progress-percent {
+          font-family: 'Libre Franklin';
+          font-size: 0.8em;
+          color: #aaa;
+          text-align: left;
+        }
+
+        .progress {
+          background-color: #ddd !important;
+          clear: both;
+          height: 5px;
+          .progress-bar {
+            background-color: #555;
+          }
+        }
+      }
+    }
+  }
+
+  .projects-cards {
+    padding-top: 0;
+  }
+}
+
