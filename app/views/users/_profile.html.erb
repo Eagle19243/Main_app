@@ -1,80 +1,3 @@
-<h1>Profile</h1>
-<div class="lin2 row">
-  <div class="lin2-media small-12 medium-2 columns">
-    <% if @user.picture? %>
-      <%= image_tag(@user.picture, size: "123x123") %>
-    <% else %>
-      <%= gravatar_for(@user, 123)%>
-    <%end%>
-  </div>
-  <div class="lin2-contents medium-10 columns">
-    <div>
-      <h1 class="profile-title">
-      </h1>        
-      <div class="lin2-social">
-        <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
-          <i class="fa fa-facebook" aria-hidden="true"></i>
-        </a>
-        <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
-          <i class="fa fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
-          <i class="fa fa-twitter" aria-hidden="true"></i>
-        </a>
-        <a href="<%= url_for("mailto:#{@user.email}") %>" target="_blank">
-          <i class="fa fa-envelope-o" aria-hidden="true"></i>
-        </a>
-      </div>
-    </div>
-    <p>
-      <i class="icon-map-marker margin-right-5"></i>
-      <%= user_short_info(@user) %>
-    </p>
-    <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="button button-send"><i class="icon-comment"></i>Send Message</a>
-    <% if current_user.user_wallet_address.blank?  %>
-        <a href="/user_wallet_transactions/create_wallet" class="button button-send">Create Wallet</a>
-          <%else %>
-            <a href="#" class="button button-send">Wallet Address: <%= @user.user_wallet_address.sender_address rescue 'not found' %></a>
-        <a href="javascript:void(0)" class="button button-send" data-reveal-id="fund-transfer-wallet">Transfer coins
-        </a>
-    <% end %>
-
-  </div>
-</div>
-<div class="lin3">
-  <div class="lin-inner">
-    <span class="no"><%= @user.projects.count %></span>
-    <span class="tx">Project </br>Leads</span>
-  </div>
-  <div class="lin-inner">
-    <span class="no"><%= @user.completed_tasks_count %></span>
-    <span class="tx">Completed </br>Tasks</span>
-  </div>
-  <div class="lin-inner">
-    <span class="no"><%= @user.funded_projects_count %></span>
-    <span class="tx">Funded </br>Projects</span>
-  </div>
-</div>
-<section class="bio">
-    <h1>
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <% if (current_user && current_user.id == @user.id) %>
-        <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
-        <i class="fa fa-pencil" id="bio-edit-pencil"></i>
-      <% end %>
-      Bio
-    </h1>
-    <h4 class="profile-bio">
-      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
-    </h4>
-    <br>
-</section>
-<section class="comments">
-  <div class="row margin-none">
-    <%= render 'users/profile_comments' %>
-    <%= render 'users/profile_projects' %>
-  </div>
-</section>
 
 <div id="fund-transfer-wallet" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
   <div>
@@ -188,11 +111,136 @@
               <span class="count"><%= @user.projects.count %></span>
               <span class="title">Project</br>Leads</span>
             </td>
+            <td>
+              <span class="count"><%= @user.completed_tasks_count %></span>
+              <span class="title">Completed</br>Tasks</span>
+            </td>
+            <td>
+              <span class="count"><%= @user.funded_projects_count %></span>
+              <span class="title">Projects</br>Funded</span>
+            </td>
           </tr>
         </table>
       </div>
+    </div>
+
+    <div class="user-portrait">
+      <% if @user.picture? %>
+        <%= image_tag(@user.picture) %>
+      <% else %>
+        <%= gravatar_for_user(@user)%>
+      <%end%>
+
+      <div class="user-social-links">
+        <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
+          <i class="fa fa-facebook" aria-hidden="true"></i>
+        </a>
+        <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
+          <i class="fa fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
+          <i class="fa fa-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+
+      <div class="user-trans-btns">
+        <a href="javascript:void(0)" class="" data-reveal-id="fund-transfer-wallet">
+          <i class="fa fa-btc" aria-hidden="true"></i>Transfer coins
+        </a>
+        <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="">
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>Message
+        </a>
+      </div>
 
     </div>
+  </div>
+
+  <div class="bio-wrapper">
+    <h3>
+      BIO
+      <% if (current_user && current_user.id == @user.id) %>
+        <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
+        <i class="fa fa-pencil" id="bio-edit-pencil"></i>
+      <% end %>
+    </h3>
+    <p class="profile-bio">
+      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
+    </p>
+  </div>
+
+  <div class="profile-projects">
+    <div class="projects-cards">
+      <h3>Projects</h3>
+      <div class="row padding-none">
+        <% @user.projects.each do |project| %>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
+            <div class="project-card">
+
+              <div class="card-img">
+                <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
+                  <%= image_tag(project.picture.url) %>
+                <% end %>
+                <div class="user-link">
+                  <% if project.user.picture? %>
+                    <%= image_tag(project.user.picture, size: "30x30") %>
+                  <% else %>
+                    <%= gravatar_for_user(project.user)%>
+                  <%end%>
+                  <%= link_to project.user.name, user_path(project.user)%>
+                </div>
+
+                <span class="favor-link">
+                  <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </span>
+              </div>
+
+              <div class="title-banner">
+                <%= link_to project.title, taskstab_project_path(project) ,data: { no_turbolink: false }%>
+              </div>
+
+              <ul class="info-banner">
+                <li>
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  <%= project.country %>
+                </li>
+              </ul>
+
+              <div class="summary-banner mb20">
+                <p>
+                  <%= project.short_description%>
+                </p>
+              </div>
+
+              <div class="progress-banner mb20">
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages%>" >
+                  </div>
+                </div>
+              </div>
+
+              <div class="progress-report">
+                <table>
+                  <tr class="value">
+                    <td><%= project.funded_percentages %></td>
+                    <td><%= project.team_relations_string %></td>
+                    <td><%= project.tasks_relations_string %></td>
+                    <td>$<%= project.funded_budget %></td>
+                  </tr>
+                  <tr class="items">
+                    <td>Funded</td>
+                    <td>Team</td>
+                    <td>Tasks</td>
+                    <td>Raised</td>
+                  </tr>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 
 </div>
