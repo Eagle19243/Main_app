@@ -59,6 +59,8 @@
       padding: 15px 0px;
       padding-left: 20px;
       text-align: left;
+      margin: 0;
+      border-bottom: 2px solid #666;
 
       i {
         color: #fff;
@@ -98,6 +100,7 @@
 .dashboard-content {
   position: relative;
   margin: 0 0 0 220px;
+  width: 60%;
 }
 
 .nav-header.dashboard {
@@ -143,63 +146,6 @@
 #page-message-content {
   padding-left: 30px;
 }
-
-.invitation.notify-card {
-  background-color: #eee;
-  box-shadow: 1px 1px 1px 0px rgba(145, 145, 145, 0.5);
-  border-bottom: none !important;
-  margin-bottom: 10px;
-  padding: 10px;
-
-  .caj {
-    padding: 0;
-  }
-
-  .delete-notification {
-    color: $alt-clr;
-    font-size: 16px;
-  }
-
-  .notification-action {
-    img {
-      float: none !important;
-    }
-    display: block;
-    color: #555;
-    font-style: normal;
-    font-size: 16px;
-  }
-
-  p.img-caj {
-    padding-left: 32px;
-  }
-
-  .simp {
-    padding-left: 0;
-  }
-
-  .notification-body {
-    padding-left: 32px;
-    p {
-      font-size: 15px;
-      color: #666;
-    }
-  }
-}
-
-.load-older-notifications-link {
-  padding: 20px 0px;
-  i {
-    color: $alt-clr;
-    font-size: 16px;
-    margin-right: 5px;
-  }
-  a {
-    font-size: 16px;
-  }
-}
-
-
 
 
 .group-messages-wrapper {
@@ -391,3 +337,108 @@
   }
 }
 
+
+.notifications-wrapper {
+  display: block;
+  width: 100%;
+  position: relative;
+  padding: 20px 30px;
+
+  h2 {
+    font-family: 'Roboto';
+    color: #000;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  a.mark-read {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    font-family: 'Roboto';
+    color: #888;
+    font-size: 1em;
+    i {
+      font-size: 1.2em;
+      color: #555;
+    }
+  }
+
+  .notify-mark {
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+    font-size: 1.3em;
+    color: #555;
+  }
+  .notify-content {
+    display: inline-block;
+    width: 85%;
+
+    .date {
+      font-family: 'Libre Franklin';
+      font-size: 0.9em;
+      color: #aaa;
+    }
+
+    .notify-body {
+      padding: 15px;
+      padding-right: 0px;
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+      background-color: #eee;
+      border-radius: 3px;
+
+      .notification-body {
+        display: inline-block;
+        text-align: left;
+        p {
+        }
+        a {
+          font-family: 'Libre Franklin';
+          font-size: 1em;
+          color: #555;
+          text-decoration: underline;
+        }
+      }
+
+      .action-btns {
+        display: inline-block;
+        float: right;
+
+        a.btn-notify {
+          padding: 8px;
+          font-family: 'Roboto';
+          font-size: 1em;
+          color: #888;
+          border: 1px solid #ddd;
+          background-color: #fff;
+          width: 100px;
+          margin-right: 10px;
+
+          i {
+            font-size: 1.2em;
+            color: #555;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+
+
+  .load-older-notifications-link {
+    padding: 20px 0px;
+    i {
+      color: #333;
+      font-size: 1.2em;
+      margin-right: 5px;
+    }
+    a {
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+    }
+  }
+}
