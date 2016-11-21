@@ -4,7 +4,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" id="closeProjectModal">&times;</button>
-        <h4 class="modal-title">Start New Project</h4>
+        <h3 class="modal-title">Start New Project</h3>
       </div>
       <div class="modal-body">
         <div id="project-status" class="alert alert-danger"></div>
@@ -21,8 +21,14 @@
           </div>
 
           <div class="form-group">
-            <%= f.label :short_description, "Short description for Project" %>
+            <%= f.label :short_description, "Idea" %>
             <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'form-control', required: 'true' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :country, "Location (Where is project located?)" %>
+            <%= f.text_field :country, id: 'country-field', class: 'form-control' %>
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
           </div>
 
           <div class="form-group">
