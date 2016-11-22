@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
   acts_as_paranoid
 
   include Discussable
-  paginates_per 12
+  paginates_per 9
   include AASM
   default_scope -> { order('projects.created_at DESC') }
   mount_uploader :picture, PictureUploader
