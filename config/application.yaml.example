@@ -1,0 +1,20 @@
+bitgo_admin:
+  api_address:
+  access_token:
+mediawiki:
+  secret:
+  domain:
+  username:
+  password:
+email_provider_username:
+email_provider_password:
+facebook_app_id:
+facebook_secret_key:
+twitter_app_id:
+twitter_secret_key:
+gapp_id:
+gapp_secret_key:
+mailer_sender:
+app_secret_key:
+domain_name:
+default_url:
