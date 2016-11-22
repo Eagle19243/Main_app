@@ -1,12 +1,5 @@
-$("#textarea-edit").hide();
-$(".content-section").hide();
-$("#textarea-save").show();
-$("#textarea-editor").show();
-var tempString = "";
-<% @contents.each_with_index do |content, index| %>
-  <% unless index == 0 %>
-    tempString += "\n"
-  <% end %>
-  tempString += "<%= content.html_safe %>";
-<% end %>
-$("#textarea-editor").val(tempString);
+$('#Plan').hide();
+$('#sourceEditor').show();
+$('.plan-hide').show();
+$('.plan-show').hide();
+$("#sourceEditor #editorContents").html("<%= escape_javascript(render partial: 'textarea_editor', locals: {contents: @contents}) %>");

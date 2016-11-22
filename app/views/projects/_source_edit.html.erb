@@ -77,12 +77,7 @@
 
   </div>
 
-  <div class="edit-content-wrapper">
-    <h1>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</h1>
-    <hr/>
-    <p>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
-    </p>
-
+  <div id='editorContents' class='edit-content-wrapper'>
+    <%= render partial: 'textarea_editor', locals: {contents: nil} %>
   </div>
 </div>
