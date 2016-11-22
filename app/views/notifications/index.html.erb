@@ -1,13 +1,13 @@
-<link href="/static/ManishNotifications/css/style.css" rel="stylesheet">
-<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
-rel="stylesheet"  type='text/css'>
 
 <% content_for :title do %>
   My notifications
 <% end %>
 
-<div class="content notifications-container">
-  <h2>My Notificaitons</h2>
+<div class="notifications-wrapper">
+  <h2>Notificaitons</h2>
+  <a href="javascript:void(0)" class="mark-read">
+    <i class="fa fa-check"></i>&nbsp;&nbsp;Mark all as read
+  </a>
 
   <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
   <%= render @notifications %>

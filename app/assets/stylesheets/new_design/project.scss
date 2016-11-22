@@ -376,7 +376,7 @@ div.progress {
       text-align: left;
       font-family: 'Roboto';
       font-weight: normal;
-      font-size: 1.1em;
+      font-size: 1.4em;
       color: #999;
 
       i {
@@ -399,7 +399,8 @@ div.progress {
   }
 
   .progress-banner {
-    padding: 10px 10px 0px;
+    padding: 0 10px;
+
     .progress {
       background-color: #ddd !important;
       .progress-bar {
@@ -409,6 +410,9 @@ div.progress {
   }
 
   .progress-report {
+    padding-right: 10px;
+    padding-left: 10px;
+
     table {
       width: 100%;
     }
@@ -464,18 +468,19 @@ div.progress {
 }
 
 
-// media wiki styles goes here
+// source editor styles goes here
 
 .edit-wrapper {
   display: block;
   position: relative;
   width: 100%;
+  display: none;
 
   .editor-banner {
     display: block;
     position: relative;
     width: 100%;
-    padding: 0 5%;
+    padding: 0 6%;
     border-bottom: 2px solid #eee;
 
     table {
@@ -552,7 +557,7 @@ div.progress {
     display: block;
     position: relative;
     width: 100%;
-    padding: 30px 5%;
+    padding: 30px 6%;
     font-family: 'Roboto';
     background-color: #fff;
 
@@ -567,4 +572,3 @@ div.progress {
     }
   }
 }
-
