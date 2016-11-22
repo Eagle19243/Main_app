@@ -209,7 +209,7 @@
           </a>
         </div>
 
-        <div class="btn-wrapper pull-right plan-hide">
+        <div class="btn-wrapper pull-right plan-hide" id='save-content'>
           <a href="javascript:void(0)" class="btn-visual">
             <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;
             Save
@@ -237,9 +237,7 @@
               </div>
               <div class="clearfix"></div>
               <div class="project-summary">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisi or aliquip ex ea commodo consequat.
-                </p>
+                <%= @contents.html_safe %>
               </div>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
@@ -657,11 +655,21 @@
       $('.nav-pills').find('li:first-child a').click();
     });
 
-    $('#editSource').click(function(){
-      $('#Plan').hide();
-      $('#sourceEditor').show();
-      $('.plan-hide').show();
-      $('.plan-show').hide();
+    $('#editSource').click(function() {
+      $.ajax({
+        type: "GET",
+        url: "/projects/<%= @project.id %>/read_from_mediawiki",
+        dataType: "script"
+      });
+    });
+
+    $('#save-content').click(function() {
+      $.ajax({
+        type: "GET",
+        url: "/projects/<%= @project.id %>/write_to_mediawiki",
+        data: {"data": $("#sourceEditor #textarea-editor").val()},
+        dataType: "script"
+      });
     });
 
     $('.do-model-popup').click(function(){

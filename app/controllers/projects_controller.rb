@@ -98,7 +98,7 @@ class ProjectsController < ApplicationController
       "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
       "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map{|p|"#{p.title}"}
     @result = @projects + Task.order(:title).where(
-      "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?", 
+      "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
       "%#{params[:term]}%","%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map{|t|"#{t.title}"}
     respond_to do |format|
       format.html {render text: @result}
@@ -212,16 +212,17 @@ class ProjectsController < ApplicationController
     @suggested_tasks = tasks.where(state: "suggested_task").all
     @reviewing_tasks = tasks.where(state: "reviewing").all
     @done_tasks = tasks.where(state: "completed").all
+
     @contents = ''
     result = current_user.page_read @project.title
     if result
       if result["status"] == 'success'
         @contents = result["html"]
-      else
-        # Create new page
-        current_user.page_write @project.title, ''
-        result = current_user.page_read @project.title
-        @contents = ''
+      # else
+      #   # Create new page
+      #   current_user.page_write @project.title, ''
+      #   result = current_user.page_read @project.title
+      #   @contents = ''
       end
     end
   end
@@ -251,6 +252,12 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+
+        if current_user.email
+          # Create new page in wiki
+          current_user.page_write @project.title, ''
+        end
+
         @project_team = @project.create_team(name: "Team#{@project.id}")
         TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
         activity = current_user.create_activity(@project, 'created')
@@ -372,20 +379,23 @@ class ProjectsController < ApplicationController
 
   def read_from_mediawiki
 
-    result = current_user.page_read @project.title
+    # Comment this out for now as we may need this in the future
+
+    # result = current_user.page_read @project.title
+    # @contents = ''
+    # if result
+    #   if result["status"] == 'success'
+    #     @contents = result['html'].html_safe
+    #   end
+    # else
+    #   #TODO create new session for mediawiki
+    # end
+
+    # Get Latest Revision editable
+    result = current_user.get_latest_revision @project.title
     @contents = ''
     if result
-      if result["status"] == 'success'
-        @contents = result['html'].html_safe.split("\n")
-      else
-        # Create new page
-        current_user.page_write @project.title, ''
-        result = current_user.page_read @project.title
-        @contents = ''
-      end
-    else
-      #TODO create new session for mediawiki
-      @contents = ''
+      @contents = result
     end
 
     respond_to do |format|
@@ -396,7 +406,6 @@ class ProjectsController < ApplicationController
   def write_to_mediawiki
     if current_user.page_write @project.title, params[:data]
       result = current_user.page_read @project.title
-      @contents = result["non-html"].html_safe.split("\n")
     end
 
     respond_to do |format|
