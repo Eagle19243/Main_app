@@ -581,3 +581,87 @@ div.progress {
     }
   }
 }
+
+
+.revision-wrapper {
+  h4 {
+    font-family: 'Roboto';
+    color: #000;
+    font-weight: 600;
+  }
+
+  .table {
+    thead {
+      th {
+        font-family: 'Roboto';
+        font-weight: 600;
+        font-size: 1em;
+        text-transform: uppercase;
+        vertical-align: middle;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+    }
+    tbody {
+      td {
+        font-family: 'Libre Franklin';
+        color: #000;
+        font-size: 1em;
+        vertical-align: middle;
+        padding-left: 10px !important;
+
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+        }
+
+        a {
+          font-family: 'Libre Franklin';
+          font-size: 1em;
+          color: #555;
+          i {
+            font-size: 1.2em;
+            color: #555;
+          }
+
+          &:hover,
+          &:focus {
+            text-decoration: none;
+          }
+        }
+      }
+      td.contributer {
+        a {
+          text-decoration: underline;
+        }
+      }
+      td.current {
+        i {
+          font-size: 1.5em;
+        }
+      }
+
+      tr.current-version {
+        border-bottom: none;
+        td {
+          border-bottom: none;
+          background-color: #eee;
+          font-family: 'Roboto';
+          font-size: 1.2em;
+          text-transform: uppercase;
+          font-weight: bold;
+          color: #000;
+        }
+      }
+      tr.unapproved {
+        border-top: none;
+        td {
+          border-top: none;
+          background-color: #eee;
+        }
+      }
+    }
+  }
+}
+
