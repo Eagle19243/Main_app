@@ -199,10 +199,14 @@ div.progress {
 .member-box {
   padding: 10px;
   position: relative;
-  background-color: #fff;
+  background-color: #eee;
   border: 1px solid #eee;
   border-radius: 3px;
-  min-height: 250px;
+
+  .member-img-wrapper {
+    position: relative;
+    top: -60px;
+  }
 
   .member-img {
     img {
@@ -221,7 +225,7 @@ div.progress {
     top: 0px;
     right: 7px;
     cursor: pointer;
-    color: #555;
+    color: #aaa;
 
     &:hover {
       color: #333;
@@ -229,6 +233,8 @@ div.progress {
   }
 
   .member-name {
+    margin-top: -80px;
+
     h5 {
       padding-top: 10px;
       font-family: 'Roboto';
@@ -249,7 +255,7 @@ div.progress {
     span.role {
       font-family: 'Libre Franklin';
       color: #888;
-      font-size: 1em;
+      font-size: 0.9em;
       text-transform: uppercase;
     }
 
@@ -259,10 +265,13 @@ div.progress {
     }
   }
 
-  p.member-bio {
+  .member-bio {
+    font-family: 'Libre Franklin';
     padding: 20px 10px 10px 10px;
     font-size: 1em;
     color: #555;
+    display: block;
+    min-height: 100px;
 
     a {
       padding-left: 3px;
@@ -290,11 +299,11 @@ div.progress {
           height: 30px;
           line-height: 30px;
           color: #555;
-          background-color: #fff;
+          background-color: #eee;
           border: 2px solid #888;
           border-radius: 50%;
           padding: 0;
-          font-size: 1.2em;
+          font-size: 1.6em;
           text-align: center;
         }
       }
@@ -572,3 +581,87 @@ div.progress {
     }
   }
 }
+
+
+.revision-wrapper {
+  h4 {
+    font-family: 'Roboto';
+    color: #000;
+    font-weight: 600;
+  }
+
+  .table {
+    thead {
+      th {
+        font-family: 'Roboto';
+        font-weight: 600;
+        font-size: 1em;
+        text-transform: uppercase;
+        vertical-align: middle;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+    }
+    tbody {
+      td {
+        font-family: 'Libre Franklin';
+        color: #000;
+        font-size: 1em;
+        vertical-align: middle;
+        padding-left: 10px !important;
+
+        img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+        }
+
+        a {
+          font-family: 'Libre Franklin';
+          font-size: 1em;
+          color: #555;
+          i {
+            font-size: 1.2em;
+            color: #555;
+          }
+
+          &:hover,
+          &:focus {
+            text-decoration: none;
+          }
+        }
+      }
+      td.contributer {
+        a {
+          text-decoration: underline;
+        }
+      }
+      td.current {
+        i {
+          font-size: 1.5em;
+        }
+      }
+
+      tr.current-version {
+        border-bottom: none;
+        td {
+          border-bottom: none;
+          background-color: #eee;
+          font-family: 'Roboto';
+          font-size: 1.2em;
+          text-transform: uppercase;
+          font-weight: bold;
+          color: #000;
+        }
+      }
+      tr.unapproved {
+        border-top: none;
+        td {
+          border-top: none;
+          background-color: #eee;
+        }
+      }
+    }
+  }
+}
+

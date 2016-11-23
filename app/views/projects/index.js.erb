@@ -1,0 +1,2 @@
+$('.show-projects').append("<%= escape_javascript(render 'projects_page') %>");
+$('#load_more_projects').empty().html("<%= escape_javascript(link_to_next_page(@featured_projects, 'Load More', :remote => true, :id => 'load_more_projects')) %>");

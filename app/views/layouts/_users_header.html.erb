@@ -58,7 +58,7 @@
           <% if current_user.picture? %>
             <%= image_tag(current_user.picture, size: "30x30") %>
           <% else %>
-            <%= gravatar_for_user(current_user)%>
+            <%= gravatar_for_user(current_user) %>
           <%end%>
           <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
             <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -67,7 +67,7 @@
         <ul class="dropdown-menu">
           <li><%= link_to 'My Profile', user_path(current_user)%></li>
           <li><%= link_to 'My Projects', my_projects_path(current_user)%></li>
-          <li><%= link_to 'Messages' , group_messages_path %></li>
+          <li><%= link_to 'Messages' , messages_path %></li>
           <li><%= link_to 'Notifications' , notifications_path %></li>
           <li class="border-top">
             <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
