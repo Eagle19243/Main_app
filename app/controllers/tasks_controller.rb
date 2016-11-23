@@ -105,7 +105,7 @@ class TasksController < ApplicationController
   # DELETE /tasks/1.json
   def destroy
     project= @task.project
-    if (@task.accepted? || @task.pending?)&& (@task.is_leader || current_user.id == project.user_id)
+    if (@task.accepted? || @task.pending?)&& (@task.is_leader(current_user.id) || current_user.id == project.user_id)
       @task.destroy
       respond_to do |format|
         activity = current_user.create_activity(@task, 'deleted')
