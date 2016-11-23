@@ -27,6 +27,11 @@ input[type="password"] {
   font-family: 'Libre Franklin';
   font-size: 1em;
   color: #333;
+
+  &:hover,
+  &:focus {
+    border: 1px solid #888;
+  }
 }
 
 p {

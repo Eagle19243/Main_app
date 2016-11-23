@@ -1,0 +1,110 @@
+<div class="content-details revision-wrapper">
+  <h4 class="mb20">Approve Revisions for "My project"</h4>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Preview</th>
+          <th>Time</th>
+          <th>Contributer</th>
+          <th></th>
+          <th></th>
+          <th>Approve changes</th>
+          <th>Current</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for i in 1..3 %>
+          <tr>
+            <td>
+              <a href="javascript:void(0)">
+                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Preview
+              </a>
+            </td>
+            <td>
+              7:30 PM Oct 28, 2016
+            </td>
+            <td class="contributer">
+              <% if current_user.picture? %>
+                <%= image_tag(current_user.picture, size: "30x30") %>
+              <% else %>
+                <%= gravatar_for_user(current_user)%>
+              <%end%>
+              <%= link_to current_user.name, user_path(current_user) %>
+            </td>
+            <td>
+              <a href="javascript:void(0)">
+                <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
+              </a>
+            </td>
+            <td>
+              <a href="javascript:void(0)">
+                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+              </a>
+            </td>
+            <td>
+              <a href="javascript:void(0)" class="mr10">
+                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Reject
+              </a>
+              <a href="javascript:void(0)">
+                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
+              </a>
+            </td>
+            <td class="current">
+              <a href="javascript:void(0)">
+                <i class="fa fa-star"></i>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+        <tr class="current-version">
+          <td colspan="7">
+            Current Version
+          </td>
+        </tr>
+        <tr class="unapproved">
+          <td>
+            <a href="javascript:void(0)">
+              <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Preview
+            </a>
+          </td>
+          <td>
+            7:30 PM Oct 28, 2016
+          </td>
+          <td class="contributer">
+            <% if current_user.picture? %>
+              <%= image_tag(current_user.picture, size: "30x30") %>
+            <% else %>
+              <%= gravatar_for_user(current_user)%>
+            <%end%>
+            <%= link_to current_user.name, user_path(current_user) %>
+          </td>
+          <td>
+            <a href="javascript:void(0)">
+              <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
+            </a>
+          </td>
+          <td>
+            <a href="javascript:void(0)">
+              <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+            </a>
+          </td>
+          <td>
+            <a href="javascript:void(0)" class="mr10">
+              <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
+            </a>
+            <a href="javascript:void(0)">
+              <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
+            </a>
+          </td>
+          <td class="current">
+            <a href="javascript:void(0)">
+              <i class="fa fa-star"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
