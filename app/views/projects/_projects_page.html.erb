@@ -61,5 +61,16 @@
         </table>
       </div>
     </div>
+
   </div>
 <% end %>
+
+<script type="text/javascript">
+  $('.project-card').each(function() {
+    if ($(this).height() > 386) {
+      $(this).slimScroll({
+        height: "386px"
+      });
+    }
+  });
+</script>
