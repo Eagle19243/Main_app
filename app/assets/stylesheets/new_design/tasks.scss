@@ -591,6 +591,7 @@
   .card-title {
     h5 {
       font-family: 'Roboto';
+      overflow: hidden;
       font-size: 1.2em;
       font-weight: 600;
       color: #000;
@@ -599,10 +600,14 @@
 
     p {
       font-family: 'Libre Franklin';
+      overflow: hidden;
       font-size: 1em;
       color: #777;
       line-height: 1.5em;
       margin-bottom: 10px;
+    }
+    p:hover {
+      overflow: auto;
     }
   }
 
