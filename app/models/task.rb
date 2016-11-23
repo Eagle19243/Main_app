@@ -113,8 +113,8 @@ class Task < ActiveRecord::Base
     number_of_participants.to_s + "/" + target_number_of_participants.to_s
   end
 
-  def is_leader
+  def is_leader(user_id)
     users = self.team_memberships.where(role: 1).collect(&:team_member_id)
-    (users.include? current_user.id) ? true : false
+    (users.include? user_id) ? true : false
   end
 end
