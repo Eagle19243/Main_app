@@ -21,6 +21,10 @@ class ProjectsController < ApplicationController
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def original_url
