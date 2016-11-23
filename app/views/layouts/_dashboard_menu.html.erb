@@ -1,0 +1,56 @@
+<div class="nav-header" data-topbar role="navigation">
+
+  <div class="logo-container">
+    <% if user_signed_in? %>
+        <%= link_to 'WeServe', home_index_path %>
+    <%else %>
+        <%= link_to 'WeServe', root_path %>
+    <% end %>
+  </div>
+
+  <ul class="links-wrapper ml30">
+    <li>
+      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+    </li>
+    <li>
+      <%= link_to 'Active Projects', home_index_path, data: { no_turbolink: true } %>
+    </li>
+  </ul>
+
+  <ul class="links-wrapper pull-right">
+    <li>
+      <div class="dropdown user-dropdown">
+        <a class="dropdown-toggle" type="button" data-toggle="dropdown">
+          <% if current_user.picture? %>
+            <%= image_tag(current_user.picture, size: "30x30") %>
+          <% else %>
+            <%= gravatar_for_user(current_user)%>
+          <%end%>
+          <%= current_user.name %>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to 'Profile', user_path(current_user)%></li>
+          <li><%= link_to 'Messages' , group_messages_path %></li>
+          <li><%= link_to 'Notifications' , notifications_path %></li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <%= link_to group_messages_path, data: { no_turbolink: true } do %>
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to notifications_path, data: { no_turbolink: true } do %>
+        <div class="badge-wrap">
+          <i class="fa fa-bell-o" aria-hidden="true"></i>
+          <span class="count"><%= current_user.notifications.unread.count %></span>
+        </div>
+      <% end %>
+    </li>
+    <li class="active">
+      <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
+    </li>
+  </ul>
+
+</div>

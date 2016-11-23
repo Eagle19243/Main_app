@@ -9,7 +9,7 @@
 
       <ul class="title-area">
         <li>
-          <%= link_to projects_path do %>
+          <%= link_to home_index_path do %>
             Active projects
           <% end %>
         </li>
@@ -42,7 +42,7 @@
     <section class="top-bar-section">
       <ul class="left">
         <li class="active">
-          <%= link_to "<h4 style='color:white'>What is WeServe?</h4>".html_safe, projects_path, data: {no_turbolink: true} %>
+          <%= link_to "<h4 style='color:white'>What is WeServe?</h4>".html_safe, home_index_path, data: {no_turbolink: true} %>
         </li>
         <li class="active">
           <a href="javascript:void(0)"></a>
@@ -68,7 +68,7 @@
         <li class="active" style="margin-left: 20px">
           <h1 style="font-weight:bold; color: white;">
             <% if user_signed_in? %>
-                <%= link_to 'WeServe', projects_path %>
+                <%= link_to 'WeServe', home_index_path %>
             <%else %>
                 <%= link_to 'WeServe', root_path %>
             <% end %>
