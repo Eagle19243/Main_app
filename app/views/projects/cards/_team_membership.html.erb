@@ -3,10 +3,8 @@
     <% if can? :destroy, team_membership %>
       <button type="button" class="delete-member" team-membership-id="<%= team_membership.id %>" title="Delete team member">&times;</button>
     <% end %>
-    <center class="member-name">
-      <h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5>
-    </center>
-    <center>
+
+    <center class="member-img-wrapper">
       <div class="member-img">
         <% if team_membership.team_member.picture? %>
           <%= image_tag(team_membership.team_member.picture, size: "35x35") %>
@@ -14,6 +12,10 @@
           <%= gravatar_for(team_membership.team_member, 35)%>
         <%end%>
       </div>
+    </center>
+
+    <center class="member-name">
+      <h5><%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %></h5>
     </center>
 
     <center class="member-role">
@@ -30,9 +32,9 @@
         <% end %>
       </h5>
     </center>
-    <p class="member-bio">
+    <div class="member-bio">
       <%= team_membership.team_member.try(:bio)[0..80] rescue nil %>&nbsp;<%= link_to "[...]", user_path(team_membership.team_member) %>
-    </p>
+    </div>
 
     <center class="soical-links-wrapper">
       <ul class="inline-list">
