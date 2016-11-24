@@ -102,7 +102,7 @@ Rails.application.routes.draw do
   end
 
   resources :favorite_projects, only: [:create, :destroy]
-
+  resources :home , controller: 'projects'
   resources :projects do
     resources :tasks do
       resources :task_comments

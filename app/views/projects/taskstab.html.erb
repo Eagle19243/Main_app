@@ -412,6 +412,12 @@
                           <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" data-target="#taskDoModal">
                             DO
                           </a>
+                          <% if user_signed_in? %>
+                              <% if @project.user_id == current_user.id || task.is_leader(current_user.id) %>
+                                  <%= link_to 'Destroy', task, method: :delete ,class:'fund-model-popup modal-link' , data: { confirm: 'Are you sure?' } ,title:"Delete"%></td>
+                              <% end %>
+                          <% end %>
+                          </a>
                         </div>
 
                       </div>
