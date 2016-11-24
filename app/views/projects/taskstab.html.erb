@@ -40,7 +40,7 @@
               <div class="row row-custom">
                 <div class="large-8 medium-12 small-12 columns cold">
                   <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
-                  <%session[:idd] = @project.id  %>
+                  <% session[:idd] = @project.id  %>
                   <% session[:project_id] = nil %>
                   <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
                 </div>
@@ -181,7 +181,7 @@
           <li>
             <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
           </li>
-          <a href="javascript:void(0)" data-reveal-id="Project-Invite-Model" class="btn-invite border-link plan-show">
+          <a href="javascript:void(0)" data-toggle="modal" data-target="#projectInviteModal" class="btn-invite border-link plan-show">
             Invite
           </a>
         </ul>
@@ -639,6 +639,7 @@
 <%= render "modal/edit_project_modal" %>
 <%= render "modal/task_fund_modal" %>
 <%= render "modal/task_do_modal" %>
+<%= render "modal/project_invite_modal" %>
 
 <script type="text/javascript">
 
@@ -688,4 +689,12 @@
     $('.do-model-popup').click(function(){
       $('#task-do-request-popup').val($(this).attr('id'));
     });
+
+
+    var invitePeople = localStorage.getItem("invite_people");
+    if( invitePeople == "true" ) {
+      $('#projectInviteModal').modal('toggle');
+      localStorage.removeItem('invite_people');
+    }
 </script>
+

@@ -55,6 +55,15 @@
     </script>
 <% end %>
 
+<% if current_user && current_user.created_wallet_key %>
+  <%= render "modal/created_wallet_modal" %>
+
+  <script type="text/javascript">
+    $('#walletModal').modal('toggle');
+  </script>
+<% end %>
+
+
 <script type="text/javascript">
   $('.pagination').hide();
 </script>

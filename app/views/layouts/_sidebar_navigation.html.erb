@@ -1,20 +1,4 @@
 <div id="side-menu-id" class="side-menu">
-  <div class="side-logo">
-    <% if user_signed_in? %>
-        <%= link_to 'WeServe', home_index_path %>
-    <%else %>
-        <%= link_to 'WeServe', root_path %>
-    <% end %>
-
-    <div class="user-profile">
-      <% if current_user.picture? %>
-        <%= image_tag(current_user.picture, size: "50x50") %>
-      <% else %>
-        <%= gravatar_for_user(current_user)%>
-      <%end%>
-      <span><%= current_user.name %></span>
-    </div>
-  </div>
 
   <ul class="side-nav">
     <li class="<%= active_class(my_projects_path(current_user)) %>">
