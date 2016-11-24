@@ -30,6 +30,9 @@
     width: 767px;
     border-radius: 0;
   }
+  .social-register {
+    border-right: 1px solid #ddd;
+  }
 }
 
 .modal-header {
@@ -46,8 +49,8 @@
   display: block;
   width: 100%;
   margin-top: 40px;
-  border-right: 1px solid #ddd;
   padding: 20px 0px;
+  max-width: 300px;
 
   img {
     width: 100%;
@@ -69,6 +72,9 @@
     }
     &.google {
       background-color: $google-clr;
+    }
+    &.email {
+      background-color: #999;
     }
 
     i {
@@ -942,6 +948,57 @@
       text-transform: uppercase;
       font-size: 1.1em;
     }
+  }
+}
+
+
+.template-content {
+  display: block;
+  position: relative;
+  width: 100%;
+
+  .social-wrapper {
+    .social-register {
+      margin: auto;
+    }
+  }
+
+  .step-title {
+    h2 {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto';
+      color: #000;
+      font-weight: 600;
+      text-align: center;
+    }
+    p {
+      margin: 20px 0px;
+      font-family: 'Libre Franklin';
+      font-size: 1.2em;
+      color: #555;
+      text-align: center;
+    }
+  }
+
+  .sign_up_show,
+  .sign_in_show {
+    display: none;
+  }
+}
+
+.project-signup-modal {
+  .modal-header {
+    padding-bottom: 0;
+  }
+
+  .modal-dialog {
+    width: 800px;
+  }
+
+  .register-form-wrapper {
+    max-width: 300px;
+    margin: auto;
   }
 }
 
