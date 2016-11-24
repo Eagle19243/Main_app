@@ -11,12 +11,12 @@ class TasksController < ApplicationController
       redirect_to '/'
     else
       @task_team=TeamMembership.where(task_id: @task.id)
-      if !(  @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id) )
-       @notice = " you are not allowed to do this opration "
-       respond_to do |format|
-         format.js
-         format.html { redirect_to task_path(@task.id), notice: @notice }
-       end
+      if !(@task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id))
+        @notice = " you are not allowed to do this opration "
+        respond_to do |format|
+          format.js
+          format.html { redirect_to task_path(@task.id), notice: @notice }
+        end
       end
     end
   end
@@ -84,7 +84,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       @task_team=TeamMembership.where(task_id: @task.id)
-       if user_signed_in? && (((current_user.id == @task.project.user_id || ( @task_team.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? ))
+      if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?))
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
           format.html { redirect_to @task, notice: 'Task was successfully updated.' }
@@ -104,12 +104,17 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
-    @task.destroy
-    respond_to do |format|
-      activity = current_user.create_activity(@task, 'deleted')
-      activity.user_id = current_user.id
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
-      format.json { head :no_content }
+    project= @task.project
+    if (@task.accepted? || @task.pending?)&& (@task.is_leader(current_user.id) || current_user.id == project.user_id)
+      @task.destroy
+      respond_to do |format|
+        activity = current_user.create_activity(@task, 'deleted')
+        activity.user_id = current_user.id
+        format.html { redirect_to project_path(project), notice: 'Task was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      format.html { redirect_to project_path(project), notice: 'You can\'t delete this thas' }
     end
   end
 
