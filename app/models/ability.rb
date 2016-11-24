@@ -10,12 +10,12 @@ class Ability
     initializeTasksPermissions(user)
     initializeAdminInvitationsPermissions(user)
     initializeAdminRequestsPermissions(user)
-    initializeTeamMembershipsPermissions(user)
+   initializeTeamMembershipsPermissions(user)
   end
 
   def initializeTeamMembershipsPermissions(user)
     if user
-      can [:update, :destroy], TeamMembership do |team_membership|
+      can [:update], TeamMembership do |team_membership|
         team_membership.team.project.user.id == user.id && !team_membership.project_leader?
       end
     end
