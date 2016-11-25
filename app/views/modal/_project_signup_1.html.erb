@@ -1,0 +1,63 @@
+<div class="row template-content margin-none" id="projectSignup_1">
+  <div class="step-title">
+    <h2>Start Project by Sign Up First...</h2>
+    <p>After sign up and saving your secret key, you can create your project</p>
+  </div>
+
+  <div class="social-wrapper">
+    <%= render "modal/social_register" %>
+
+    <p class="text-center no-margin">OR</p>
+
+    <div class="social-register">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div id="sign_up_email" class="social-link email">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+            <a href="javascript:void(0)">Sign Up using your email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="start_project_show">
+      <p class="text-center">Already have an account? <a href="javascript:void(0)" id="sign_in_a">Sign In</a></p>
+    </div>
+  </div>
+
+  <div class="register-form-wrapper">
+    <div class="row row-custom sign_up_show" id="sign_up_show">
+      <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+    <div class="row row-custom sign_in_show" id="sign_in_show">
+      <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+
+  <div class="row sign_up_show">
+    <div class="terms-intro pt30">
+      <p>By clicking Sign Up or Sign in, you agree to our <a href="/pages/terms_of_use"> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.</p>
+    </div>
+    <div class="signin-intro">
+      <p>Already have an account? <a href="javascript:void(0)" id="sign_in_a">Sign In</a></p>
+    </div>
+  </div>
+
+  <div class="row sign_in_show">
+    <div class="signin-intro pt30">
+      <p>Don't have an account? <a href="javascript:void(0)" id="sign_up_a">Sign Up</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $('#sign_up_email').click(function() {
+    $('.sign_up_show').show();
+    $('.sign_in_show').hide();
+    $('.start_project_show').hide();
+    $('#sign_up_email').hide();
+  });
+</script>
+

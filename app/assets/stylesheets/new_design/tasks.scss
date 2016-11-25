@@ -169,17 +169,30 @@
     padding-top: 10px;
     padding-left: 6%;
     padding-right: 6%;
+    margin: 0;
+
+    .project-btn-group {
+      display: inline-block;
+      float: right;
+
+      a.btn-invite {
+        font-family: 'Roboto';
+        color: #000;
+        text-transform: uppercase;
+        margin: 10px 5px 0px;
+        font-size: 1em;
+      }
+    }
   }
 
   ul.nav {
     margin: 0;
-    width: 100%;
     text-align: left;
-    display: block;
+    display: inline-block;
     position: relative;
 
     li {
-      padding: 10px 20px 0px;
+      padding: 10px 10px 0px;
 
       &:hover {
         a {
@@ -214,15 +227,6 @@
           top: -7px;
         }
       }
-    }
-
-    a.btn-invite {
-      position: absolute;
-      right: 0;
-      font-family: 'Roboto';
-      color: #000;
-      text-transform: uppercase;
-      margin-top: 5px;
     }
   }
 

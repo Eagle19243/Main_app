@@ -266,4 +266,13 @@ class User < ActiveRecord::Base
       0
     end
   end
+
+  def created_wallet_key
+    if self.created_at > 3.minutes.ago
+      true
+    else
+      false
+    end
+  end
+
 end
