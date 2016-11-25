@@ -95,10 +95,62 @@ class Task < ActiveRecord::Base
 				WalletAddress.create(sender_address:nil, task_id: self.id)
 			end
 		end
+  end
+
+  def transfer_to_user_wallet( wallet_address_to_send_btc , amount )
+    transfering_task = self
+    begin
+      @transfer = WalletTransaction.new(amount:amount ,user_wallet: wallet_address_to_send_btc,task_id: self.id)
+      satoshi_amount = nil
+      satoshi_amount = convert_usd_to_btc_and_then_satoshi(params['amount']) if @transfer.valid?
+      if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
+        @transfer.save
+      else
+        access_token = access_wallet
+        address_from = transfering_task.wallet_address.wallet_id
+        sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
+        address_to = wallet_address_to_send_btc.strip
+        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+        @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount:satoshi_amount , wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
+        unless @res["message"].blank?
+          @transfer.save
+        else
+          @transfer.tx_hash = @res["tx"]
+          @transfer.task_id = transfering_task.id
+          @transfer.save
+        end
+      end
+    rescue => e
+      @transfer.save
+    end
+  end
+
+
+	def transfer_task_funds
+		bitgo_fee = 0.10
+		we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
+		wallet_address = self.wallet_address
+		total_budget = self.budget
+		team_members =TeamMembership.where(task_id: self.id)
+    if(team_members.blank? )
+      transfer_to_user_wallet( we_serve_wallet , total_budget  )
+    else
+      num_of_participants = team_members.count
+      total_bitgo_fee = ((total_budget * bitgo_fee) / 100 ) * (num_of_participants  + 1)
+      total_after_bitgo_fee = total_budget - total_bitgo_fee
+      we_serve_fee = ( total_after_bitgo_fee * 5)/100
+      total_after_we_serve_fee = total_after_bitgo_fee - we_serve_fee
+      each_team_member_fee = total_after_we_serve_fee / num_of_participants
+      transfer_to_user_wallet( we_serve_wallet , we_serve_fee )
+      team_members.each do |member|
+        transfer_to_user_wallet( member.team_member.user_wallet_address.sender_address ,  each_team_member_fee)
+      end
+    end
+
 	end
 
   def funded
-		budget == 0 ? "100%" : (((current_fund+(curent_bts_to_usd(id) rescue 0))/budget)*100).round.to_s + " %"
+		budget == 0 ? "100%" : ((( current_fund + ( curent_bts_to_usd ( id ) rescue 0)) / budget ) * 100 ).round.to_s + " %"
 	end
 
 	def funded_in_btc
