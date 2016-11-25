@@ -10,7 +10,7 @@ Rails.application.configure do
   config.assets.debug = true
 
   config.action_mailer.smtp_settings = {
-    address: "email-smtp.us-east-1.amazonaws.com",
+    address: "email-smtp.eu-west-1.amazonaws.com",
     port: 587,
     domain: ENV["domain_name"],
     authentication: "plain",
