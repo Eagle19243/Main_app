@@ -14,7 +14,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "email-smtp.us-east-1.amazonaws.com",
     port: 587,
     domain: ENV["domain_name"],
     authentication: "plain",
