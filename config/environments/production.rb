@@ -14,19 +14,20 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
+    address: "email-smtp.eu-west-1.amazonaws.com",
+    port: 465,
     domain: ENV["domain_name"],
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: ENV["email_provider_username"],
-    password: ENV["email_provider_password"]
+    password: ENV["email_provider_password"],
+    ssl: true
   }
   
   config.action_mailer.default_url_options = { :host => ENV["default_url"] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.active_record.dump_schema_after_migration = false
 

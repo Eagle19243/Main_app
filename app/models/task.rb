@@ -1,47 +1,47 @@
 class Task < ActiveRecord::Base
-	include ApplicationHelper
-	include AASM
-	default_scope -> { order('created_at DESC') }
-	mount_uploader :fileone, PictureUploader
-	mount_uploader :filetwo, PictureUploader
-	mount_uploader :filethree, PictureUploader
-	mount_uploader :filefour, PictureUploader
-	mount_uploader :filefive, PictureUploader
+  include ApplicationHelper
+  include AASM
+  default_scope -> { order('created_at DESC') }
+  mount_uploader :fileone, PictureUploader
+  mount_uploader :filetwo, PictureUploader
+  mount_uploader :filethree, PictureUploader
+  mount_uploader :filefour, PictureUploader
+  mount_uploader :filefive, PictureUploader
 
   belongs_to :project
-	belongs_to :user
-	has_one :wallet_address
-	has_many :task_comments, dependent: :delete_all
-	has_many :assignments, dependent: :delete_all
-	has_many :do_requests, dependent: :delete_all
-	has_many :donations, dependent: :delete_all
-	has_many :task_attachments, dependent: :delete_all
-
-	# after create, assign a Bitcoin address to the task, toggle the comment below to enable
-	#after_create :assign_address
-	aasm :column => 'state', :whiny_transitions => false do
+  belongs_to :user
+  has_one :wallet_address
+  has_many :task_comments, dependent: :delete_all
+  has_many :assignments, dependent: :delete_all
+  has_many :do_requests, dependent: :delete_all
+  has_many :donations, dependent: :delete_all
+  has_many :task_attachments, dependent: :delete_all
+  has_many :team_memberships
+  # after create, assign a Bitcoin address to the task, toggle the comment below to enable
+  #after_create :assign_address
+  aasm :column => 'state', :whiny_transitions => false do
     state :pending
-		state :suggested_task
+    state :suggested_task
     state :accepted
     state :rejected
-		state :doing
-		state :reviewing
-		state :completed
+    state :doing
+    state :reviewing
+    state :completed
 
-		event :accept do
-      transitions :from => [:pending,:suggested_task], :to => :accepted
-		end
-		event :reject do
-      transitions :from => [:pending, :suggested_task],:to => :rejected
+    event :accept do
+      transitions :from => [:pending, :suggested_task], :to => :accepted
     end
-		event :start_doing do
-			transitions :from => [:accepted, :pending], :to => :doing
-		end
-		event :begin_review do
-			transitions :from => [ :doing], :to => :reviewing
-		end
-		event :complete do
-      transitions :from => [ :reviewing], :to => :completed
+    event :reject do
+      transitions :from => [:pending, :suggested_task], :to => :rejected
+    end
+    event :start_doing do
+      transitions :from => [:accepted, :pending], :to => :doing
+    end
+    event :begin_review do
+      transitions :from => [:doing], :to => :reviewing
+    end
+    event :complete do
+      transitions :from => [:reviewing], :to => :completed
     end
 
   end
@@ -56,12 +56,12 @@ class Task < ActiveRecord::Base
   #validates :target_number_of_participants, presence: true
   #validates_numericality_of :target_number_of_participants, :only_integer => true, :greater_than_or_equal_to => 1
 
-	searchable do
-		text :title
-		text :description
+  searchable do
+    text :title
+    text :description
     text :short_description
     text :condition_of_execution
-	end
+  end
 
 	def assign_address
 		if_address_available = GenerateAddress.where(is_available: true)
@@ -153,15 +153,20 @@ class Task < ActiveRecord::Base
 		budget == 0 ? "100%" : ((( current_fund + ( curent_bts_to_usd ( id ) rescue 0)) / budget ) * 100 ).round.to_s + " %"
 	end
 
-	def funded_in_btc
-		(	(self.wallet_address.current_balance.to_s rescue '0' ) + ' ฿')
+  def funded_in_btc
+    ((self.wallet_address.current_balance.to_s rescue '0') + ' ฿')
   end
 
-	def current_fund_of_task
-		(current_fund+(curent_bts_to_usd(id) rescue 0)).round.to_s
-	end
+  def current_fund_of_task
+    (current_fund+(curent_bts_to_usd(id) rescue 0)).round.to_s
+  end
 
   def team_relations_string
     number_of_participants.to_s + "/" + target_number_of_participants.to_s
-	end
+  end
+
+  def is_leader(user_id)
+    users = self.team_memberships.where(role: 1).collect(&:team_member_id)
+    (users.include? user_id) ? true : false
+  end
 end

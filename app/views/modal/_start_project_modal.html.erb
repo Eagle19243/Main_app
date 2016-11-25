@@ -7,7 +7,7 @@
         <h3 class="modal-title">Start New Project</h3>
       </div>
       <div class="modal-body">
-        <div id="project-status" class="alert alert-danger"></div>
+        <div id="project-status" class="alert alert-danger" style="display: none"></div>
         <div id="project-success">
           <%= image_tag("loading.gif", :alt => "rss feed") %>
         </div>
@@ -75,6 +75,7 @@
       $('#project-status').html('');
       $('#project-status').hide();
       $('#project-success').show();
+      localStorage.setItem("invite_people", true);
       event.preventDefault();
       $.ajax({
         url: $(this).attr('action'),

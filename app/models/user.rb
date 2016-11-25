@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   # mount_uploader :picture, PictureUploader
   #after_create :populate_guid_and_token
@@ -266,4 +266,13 @@ class User < ActiveRecord::Base
       0
     end
   end
+
+  def created_wallet_key
+    if self.created_at > 3.minutes.ago
+      true
+    else
+      false
+    end
+  end
+
 end
