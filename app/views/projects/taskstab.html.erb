@@ -684,7 +684,7 @@
 
     $('#save-content').click(function() {
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/projects/<%= @project.id %>/write_to_mediawiki",
         data: {"data": $("#sourceEditor #textarea-editor").val()},
         dataType: "script"
