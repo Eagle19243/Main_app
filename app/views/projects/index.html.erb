@@ -55,7 +55,7 @@
     </script>
 <% end %>
 
-<% if current_user && current_user.created_wallet_key %>
+<% if current_user && current_user.created_wallet_key == true %>
   <%= render "modal/created_wallet_modal" %>
 
   <script type="text/javascript">

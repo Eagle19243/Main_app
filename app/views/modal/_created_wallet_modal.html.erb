@@ -29,7 +29,6 @@
 
 <script type="text/javascript">
   $('#wallet_button').click(function() {
-    localStorage.setItem("start_project", true);
     var startProject = localStorage.getItem("start_project");
     if( startProject == "true" ) {
       $('#walletModal').modal('hide');
