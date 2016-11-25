@@ -24,7 +24,7 @@
       }
       dataType: 'JSON'
       success: (response) =>
-        window.location.replace '/projects'
+        window.location.replace '/home'
       error: (response) =>
         @performNotSuccessResult response
 
