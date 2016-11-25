@@ -176,7 +176,7 @@
             <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
+            <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
           </li>
           <li>
             <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
@@ -627,7 +627,7 @@
       </div>
 
       <div id="Revision" class="tabcontent">
-        <%= render "projects/tabcontent/revision" %>
+        <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
       </div>
 
       <div id="Team" class="tabcontent">
@@ -701,4 +701,3 @@
       localStorage.removeItem('invite_people');
     }
 </script>
-

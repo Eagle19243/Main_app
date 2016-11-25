@@ -267,6 +267,32 @@ class User < ActiveRecord::Base
     end
   end
 
+  # MediaWiki API - Get history
+  def get_history pagename
+    if Rails.configuration.mediawiki_session
+      name = pagename.strip.gsub(" ", "_")
+
+      # Get history
+      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(history.body)["response"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Get revision
+  def get_revision pagename, revision_id
+    if Rails.configuration.mediawiki_session
+      name = pagename.strip.gsub(" ", "_")
+
+      # Get revision
+      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(revision.body)["response"]
+    else
+      0
+    end
+  end
+
   def created_wallet_key
     if self.created_at > 3.minutes.ago
       true

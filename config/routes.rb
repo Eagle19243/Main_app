@@ -117,6 +117,9 @@ Rails.application.routes.draw do
       get :unfollow
       post :rate
       get :discussions
+      get :revisions
+      get :read_from_mediawiki
+      post :write_to_mediawiki
     end
 
     collection do
@@ -141,8 +144,6 @@ Rails.application.routes.draw do
   post '/projects/user_search', to: 'projects#user_search'
   post '/projects/:id/save-edits', to: 'projects#saveEdit'
   post '/projects/:id/update-edits', to: 'projects#updateEdit'
-  get  '/projects/:id/read_from_mediawiki', to: 'projects#read_from_mediawiki'
-  post  '/projects/:id/write_to_mediawiki', to: 'projects#write_to_mediawiki'
 
   get "/oauth2callback" => "projects#contacts_callback"
   get "/callback" => "projects#contacts_callback"

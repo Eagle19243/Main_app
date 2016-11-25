@@ -15,23 +15,27 @@
         </tr>
       </thead>
       <tbody>
-        <% for i in 1..3 %>
-          <tr>
+        <% histories.each do |history| %>
+          <tr class=<%= "unapproved" if history['status'] == 'approved' %>>
             <td>
               <a href="javascript:void(0)">
                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Preview
               </a>
             </td>
             <td>
-              7:30 PM Oct 28, 2016
+              <%= history["datetime"] %>
             </td>
             <td class="contributer">
-              <% if current_user.picture? %>
-                <%= image_tag(current_user.picture, size: "30x30") %>
+              <% if history['user'] %>
+                <% if history['user'].picture? %>
+                  <%= image_tag(history['user'].picture, size: "30x30") %>
+                <% else %>
+                  <%= gravatar_for_user(history['user'])%>
+                <%end%>
+                <%= link_to history['user'].name, user_path(history['user']) %>
               <% else %>
-                <%= gravatar_for_user(current_user)%>
-              <%end%>
-              <%= link_to current_user.name, user_path(current_user) %>
+                <%= link_to 'Anonymous', '' %>
+              <% end %>
             </td>
             <td>
               <a href="javascript:void(0)">
@@ -39,26 +43,38 @@
               </a>
             </td>
             <td>
-              <a href="javascript:void(0)">
-                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
-              </a>
+              <% if project.user_id == current_user.id %>
+                <a href="javascript:void(0)">
+                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+                </a>
+              <% end %>
             </td>
             <td>
-              <a href="javascript:void(0)" class="mr10">
-                <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Reject
-              </a>
-              <a href="javascript:void(0)">
-                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
-              </a>
+              <% if project.user_id == current_user.id %>
+                <% if history['status'] == 'approved' %>
+                  <a href="javascript:void(0)" class="mr10">
+                    <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
+                  </a>
+                <% else %>
+                  <a href="javascript:void(0)" class="mr10">
+                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Reject
+                  </a>
+                  <a href="javascript:void(0)">
+                    <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
+                  </a>
+                <% end %>
+              <% end %>
             </td>
             <td class="current">
-              <a href="javascript:void(0)">
-                <i class="fa fa-star"></i>
-              </a>
+              <% if history['status'] == 'approved' %>
+                <a href="javascript:void(0)">
+                  <i class="fa fa-star"></i>
+                </a>
+              <% end %>
             </td>
           </tr>
         <% end %>
-        <tr class="current-version">
+        <!-- <tr class="current-version">
           <td colspan="7">
             Current Version
           </td>
@@ -103,7 +119,7 @@
               <i class="fa fa-star"></i>
             </a>
           </td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>

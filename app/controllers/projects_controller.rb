@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki, :revisions]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revisions]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -222,12 +222,17 @@ class ProjectsController < ApplicationController
     if result
       if result["status"] == 'success'
         @contents = result["html"]
-      # else
-      #   # Create new page
-      #   current_user.page_write @project.title, ''
-      #   result = current_user.page_read @project.title
-      #   @contents = ''
       end
+    end
+
+    @histories = get_revision_histories @project
+  end
+
+  def revisions
+    @histories = get_revision_histories @project
+
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -433,10 +438,10 @@ class ProjectsController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_project
-    @project = Project.find(params[:id])
-  end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_project
+      @project = Project.find(params[:id])
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
@@ -449,11 +454,31 @@ class ProjectsController < ApplicationController
       )
     end
 
-  def get_project_user
-    @project_user = @project.user
-  end
+    def get_project_user
+      @project_user = @project.user
+    end
 
-  def edit_params
-    params.require(:project).permit(:id, :project_edit, :editItem)
-  end
+    def edit_params
+      params.require(:project).permit(:id, :project_edit, :editItem)
+    end
+
+    def get_revision_histories project
+      result = current_user.get_history project.title
+      @histories = []
+
+      if result
+        result.each do |r|
+          history                = Hash.new
+          history["revision_id"] = r["id"]
+          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+          history["user"]        = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
+          history["status"]      = r['status']
+          history["comment"]     = r['comment']
+          @histories.push(history)
+        end
+        return @histories
+      else
+        return nil
+      end
+    end
 end
