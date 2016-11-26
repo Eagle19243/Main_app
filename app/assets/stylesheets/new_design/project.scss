@@ -641,6 +641,11 @@ div.progress {
           font-size: 1.5em;
         }
       }
+      td.revisions-compare {
+        input[type="radio"] {
+          margin: 0 5px;
+        }
+      }
 
       tr.current-version {
         border-bottom: none;
@@ -663,5 +668,10 @@ div.progress {
       }
     }
   }
+
+  .revisions-compare-button {
+    margin: 0 0 10px 0;
+  }
+
 }
 

@@ -176,7 +176,7 @@
             <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
           </li>
           <li>
-            <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
+            <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none tab-revisions" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
           </li>
           <li>
             <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
@@ -222,7 +222,7 @@
             </a>
           </div>
           <div class="btn-wrapper pull-right plan-hide">
-            <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
+            <a href="http://mw.test-server.local/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
               <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
               Visual Editor
             </a>
@@ -659,7 +659,9 @@
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
       document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
+      if( evt && evt.currentTarget ) {
+        evt.currentTarget.className += " active";
+      }
 
       $('#sourceEditor').hide();
       $('.plan-hide').hide();
@@ -667,19 +669,19 @@
     }
 
     $(function(){
+
       $('#tasks_cards').slimScroll({
         height: '500px'
       });
       $('[data-toggle="tooltip"]').tooltip();
       $('.nav-pills').find('li:first-child a').click();
+
     });
 
-    $('#editSource').click(function() {
-      $.ajax({
-        type: "GET",
-        url: "/projects/<%= @project.id %>/read_from_mediawiki",
-        dataType: "script"
-      });
+    $('#editSource').click(function(event) {
+      openTab({
+        'currentTarget': $('.tab-revisions').get(0)
+      }, 'Revision');
     });
 
     $('#save-content').click(function() {
@@ -700,4 +702,24 @@
       $('#projectInviteModal').modal('toggle');
       localStorage.removeItem('invite_people');
     }
+
+    $(document).on('click', '.revisions-compare-edit-link', function() {
+      $('.tab-revisions').removeClass('active');
+      $('.tabcontent').hide();
+      var revision = $(this).data('revision');
+      //TODO: Garon, modify read_from_mediawiki method to support revision ID input
+      $.ajax({
+        type: "GET",
+        url: "/projects/<%= @project.id %>/read_from_mediawiki",
+        dataType: "script"
+      });
+    });
+
+    $(document).on('click', '.revisions-compare-button', function() {
+      var rev_from = $('input[name="compare_from"]:checked').val();
+      var rev_to = $('input[name="compare_to"]:checked').val();
+      console.log(rev_from, rev_to);
+      //TODO: Garon, please implement method for revision comparison
+    });
+
 </script>
