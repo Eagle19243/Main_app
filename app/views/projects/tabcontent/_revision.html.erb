@@ -26,8 +26,9 @@
               </a>
             </td>
             <td class="revisions-compare">
-              <input type="radio" name="compare_from" value="<%= history['revision_id'] %>" />
-              <input type="radio" name="compare_to" value="<%= history['revision_id'] %>" />
+              <label class="revision-compare-custom-radio" for="input_revision_<%= history['revision_id'] %>">
+                <input type="checkbox" value="<%= history['revision_id'] %>" id="input_revision_<%= history['revision_id'] %>" />
+              </label>
             </td>
             <td>
               <%= history["datetime"] %>
