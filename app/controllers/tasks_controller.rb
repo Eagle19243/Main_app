@@ -178,6 +178,7 @@ class TasksController < ApplicationController
   def completed
     if @task.complete!
       @notice = "Task Completed"
+      @task.transfer_task_funds
     else
       @notice = 'Task was not Completed '
     end
