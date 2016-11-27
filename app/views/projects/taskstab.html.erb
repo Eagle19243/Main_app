@@ -226,7 +226,7 @@
             </a>
           </div>
           <div class="btn-wrapper pull-right plan-hide">
-            <a href="http://mw.test-server.local/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
+            <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
               <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
               Visual Editor
             </a>
@@ -889,7 +889,7 @@
     $('#revisionsDiffModal').on('shown.bs.modal', function(){
       var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
       // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
-      $.get('http://mw.test-server.local/api.php?action=compare&fromrev='+selectedRevs[0]+'&torev='+selectedRevs[1]+'&format=json&origin='+window.location.protocol+'//'+window.location.hostname+':'+window.location.port, function(data) {
+      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev='+selectedRevs[0]+'&torev='+selectedRevs[1]+'&format=json&origin='+window.location.protocol+'//'+window.location.hostname+':'+window.location.port, function(data) {
         var $diffTable = $('<table>' + data.compare['*'] + '</table>');
         // We will receive table contents from API, so wrap it into table
         $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);
