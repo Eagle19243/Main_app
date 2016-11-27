@@ -641,6 +641,41 @@ div.progress {
           font-size: 1.5em;
         }
       }
+      td.revisions-compare {
+        label {
+          display: inline-block;
+          overflow: hidden;
+          width: 20px;
+          height: 20px;
+          margin: 0 0 0 21px;
+          background-color: white;
+          border-radius: 20px;
+          border: 1px solid gray;
+          position: relative;
+
+          input[type="checkbox"] {
+            position: relative;
+            left: -9999px;
+          }
+
+          &.revision-compare-custom-radio--checked::after {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background-color: #9c9c9c;
+            border-radius: 12px;
+            position: absolute;
+            display: block;
+            top: 3px;
+            left: 3px;
+          }
+
+          &.revision-compare-custom-radio--disabled {
+            background-color: #d2d2d2;
+          }
+
+        }
+      }
 
       tr.current-version {
         border-bottom: none;
@@ -663,5 +698,10 @@ div.progress {
       }
     }
   }
+
+  .revisions-compare-button {
+    margin: 0 0 10px 0;
+  }
+
 }
 

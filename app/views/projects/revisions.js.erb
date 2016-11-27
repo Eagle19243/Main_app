@@ -1,1 +1,2 @@
 $("#Revision").html("<%= escape_javascript(render partial: 'projects/tabcontent/revision', locals: {histories: @histories, project: @project}) %>");
+window.revisionSelectorInstance = new window.revisionSelector('.revision-compare-custom-radio');

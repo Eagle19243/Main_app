@@ -1,11 +1,14 @@
 <div class="content-details revision-wrapper">
   <h4 class="mb20">Approve Revisions for "My project"</h4>
 
+  <a class="btn btn-default revisions-compare-button">Compare selected revisions</a>
+
   <div class="table-responsive">
     <table class="table">
       <thead>
         <tr>
-          <th>Preview</th>
+          <th>Edit revision</th>
+          <th>Compare</th>
           <th>Time</th>
           <th>Contributer</th>
           <th></th>
@@ -15,12 +18,17 @@
         </tr>
       </thead>
       <tbody>
-        <% histories.each do |history| %>
+        <% histories.each_with_index do |history, index| %>
           <tr class=<%= "unapproved" if history['status'] == 'approved' %>>
             <td>
-              <a href="javascript:void(0)">
-                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Preview
+              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" >
+                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
               </a>
+            </td>
+            <td class="revisions-compare">
+              <label class="revision-compare-custom-radio" for="input_revision_<%= history['revision_id'] %>">
+                <input type="checkbox" value="<%= history['revision_id'] %>" id="input_revision_<%= history['revision_id'] %>" />
+              </label>
             </td>
             <td>
               <%= history["datetime"] %>
@@ -56,9 +64,6 @@
                     <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
                   </a>
                 <% else %>
-                  <a href="javascript:void(0)" class="mr10">
-                    <i class="fa fa-times" aria-hidden="true"></i>&nbsp;Reject
-                  </a>
                   <a href="javascript:void(0)">
                     <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
                   </a>
