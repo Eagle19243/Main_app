@@ -175,9 +175,13 @@
           <li>
             <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
           </li>
-          <li>
-            <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none tab-revisions" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
-          </li>
+          <% if user_signed_in? %>
+              <% if @project.user_id == current_user.id %>
+                <li>
+                  <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none tab-revisions" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
+                </li>
+              <% end %>
+          <% end %>
           <li>
             <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
           </li>
@@ -646,6 +650,23 @@
 <%= render "modal/task_do_modal" %>
 <%= render "modal/project_invite_modal" %>
 
+<%= render "modal/revisions_diff_modal" %>
+
+<script>
+  // There are lot of javascript behaviors on site, so we should think about exposing
+  // necessary information into global javascript objects accessible to the client
+  // This code below is ugly, please feel free to rework it in a better way:
+  window.weserve_user = {};
+  window.weserve_user.isLoggedIn = false;
+  window.weserve_user.isProjectOwner = false;
+  <% if user_signed_in? %>
+    window.weserve_user.isLoggedIn = true;
+  <% if @project.user_id == current_user.id %>
+    window.weserve_user.isProjectOwner = true;
+  <% end %>
+  <% end %>
+</script>
+
 <script type="text/javascript">
 
     function openTab(evt, tabName) {
@@ -679,9 +700,13 @@
     });
 
     $('#editSource').click(function(event) {
-      openTab({
-        'currentTarget': $('.tab-revisions').get(0)
-      }, 'Revision');
+      if( window.weserve_user.isProjectOwner ) {
+        openTab({
+          'currentTarget': $('.tab-revisions').get(0)
+        }, 'Revision');
+      }else{
+        showSourceEditor();
+      }
     });
 
     $('#save-content').click(function() {
@@ -704,27 +729,83 @@
     }
 
     $(document).on('click', '.revisions-compare-edit-link', function() {
+      var revision = $(this).data('revision');
+      showSourceEditor( revision );
+    });
+
+    // Compare revisions button click handler
+    $(document).on('click', '.revisions-compare-button', function(e) {
+      var selectedRevisions = window.revisionSelectorInstance.getValues().sort();
+      if( selectedRevisions.length > 1 ) {
+
+        populateModalRevisionInfo(selectedRevisions[0], '#revisionsDiffModal .modal-revision-info--left');
+        populateModalRevisionInfo(selectedRevisions[1], '#revisionsDiffModal .modal-revision-info--right');
+
+        $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
+        $('#revisionsDiffModal').modal('show');
+      }
+    });
+
+    // Compare revisions button click handler
+    $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function(e) {
+      var revision = $(this).parents('.modal-revision-info').data('revision');
+      if( revision ) {
+        $('#revisionsDiffModal').modal('hide');
+        showSourceEditor(revision);
+      }
+    });
+
+    function populateModalRevisionInfo( revision_id, selector )
+    {
+      var revisionTr = $('#Revision tr[data-revision="'+revision_id+'"]');
+      var rDate = $(revisionTr).data('revision-date');
+      var rUser = $(revisionTr).data('revision-user');
+      var rUserPic = $(revisionTr).data('revision-user-picture');
+      var rUserLink = $(revisionTr).data('revision-user-link');
+      var rUserId = $(revisionTr).data('revision-user-id');
+
+      $(selector).data('revision', revision_id);
+      $(selector).data('revision-user-id', rUserId);
+
+      $(selector).find('.modal-revision-title span').html(rDate);
+      $(selector).find('.modal-revision-title span').html(rDate);
+
+      if( rUserPic ) {
+        $(selector).find('.modal-revision-user img').attr('src', rUserPic);
+        $(selector).find('.modal-revision-user img').show();
+      }else{
+        $(selector).find('.modal-revision-user img').attr('src', '');
+        $(selector).find('.modal-revision-user img').hide();
+      }
+
+      $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
+      $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
+    }
+
+    function showSourceEditor( revision_id ) {
+
       $('.tab-revisions').removeClass('active');
       $('.tabcontent').hide();
-      var revision = $(this).data('revision');
+
+      var rev = null;
+      if( revision_id != undefined ) {
+        rev = revision_id;
+      }
+
       //TODO: Garon, modify read_from_mediawiki method to support revision ID input
       $.ajax({
         type: "GET",
         url: "/projects/<%= @project.id %>/read_from_mediawiki",
         dataType: "script"
       });
-    });
 
-    $(document).on('click', '.revisions-compare-button', function() {
-      //TODO: Garon, please implement method for revision comparison
-      var selectedRevisions = window.revisionSelectorInstance.getValues();
-      console.log(selectedRevisions);
-    });
+    }
 
 </script>
 
 <!--
  //TODO: for Garon, I've put JS code for radio inputs there, though it is better to extract it into separate module
+ // RevisionSelector input
 -->
 <script>
   $(function(){
@@ -793,10 +874,26 @@
   });
 </script>
 
+<!-- Revision selector input initialization for rendered Revisions tab -->
 <script>
   //This is ugly, but, there is no other way to initialize inputs because Revision tab contents
   //gets both loaded via AJAX and rendered on page load
   $(function(){
     window.revisionSelectorInstance = new window.revisionSelector('.revision-compare-custom-radio');
+  });
+</script>
+
+<!-- Diff modal scripts -->
+<script>
+  $(function(){
+    $('#revisionsDiffModal').on('shown.bs.modal', function(){
+      var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
+      // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
+      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev='+selectedRevs[0]+'&torev='+selectedRevs[1]+'&format=json&origin='+window.location.protocol+'//'+window.location.hostname+':'+window.location.port, function(data) {
+        var $diffTable = $('<table>' + data.compare['*'] + '</table>');
+        // We will receive table contents from API, so wrap it into table
+        $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);
+      });
+    });
   });
 </script>
