@@ -1,7 +1,19 @@
 language: ruby
+
 rvm:
-    - 2.3.1
+  - 2.3.1
+
+services:
+  - postgresql
+
+#bundler_args: --without development
+
+before_script:
+  - psql -c 'create database weserve_development;' -U postgres
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
+  - bundle exec rake sunspot:solr:start
+
 notifications:
-  slack:
-    rooms:
-      - youserve:LZx9PuGbnpt7asZw8Kej4f2B#travis_report
+  email: false
+  slack: false
