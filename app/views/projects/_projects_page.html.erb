@@ -65,6 +65,10 @@
   </div>
 <% end %>
 
+<div id="ajaxLoading" class="hidden-div">
+  <%= image_tag "loading.gif" %>
+</div>
+
 <script type="text/javascript">
   $('.project-card').each(function() {
     if ($(this).height() > 386) {
