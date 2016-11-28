@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-
+  include ApplicationHelper
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
 

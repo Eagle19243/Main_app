@@ -15,13 +15,11 @@ CarrierWave.configure do |config|
   end
 
   config.fog_credentials = {
-    :provider               => 'AWS',                             # required
-    # :aws_access_key_id      => 'AKIAJAB7DXYNQS2GQZJA',            # required
-    # :aws_secret_access_key  => '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',     # required
-    :aws_access_key_id      => 'AKIAJ3YZVD3AAH4PPZUQ',            # required
-    :aws_secret_access_key  => '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',     # required
-    :region                 => 'us-west-2'                        # optional, defaults to 'us-east-1'
+    :provider               => ENV["service_provider"],                           
+    :aws_access_key_id      => ENV["aws_access_key_id"],          
+    :aws_secret_access_key  => ENV["aws_secret_access_key"],
+    :region                 => ENV["s3_bucket_region"]
   }
-  config.fog_directory  = 'youserve'               # required
+  config.fog_directory  = ENV["bucket_name"]
 
 end

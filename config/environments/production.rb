@@ -15,13 +15,11 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = {
     address: "email-smtp.eu-west-1.amazonaws.com",
-    port: 465,
-    domain: ENV["domain_name"],
-    authentication: "plain",
+    port: 587,
+    authentication: :login,
     enable_starttls_auto: true,
     user_name: ENV["email_provider_username"],
     password: ENV["email_provider_password"],
-    ssl: true
   }
   
   config.action_mailer.default_url_options = { :host => ENV["default_url"] }
