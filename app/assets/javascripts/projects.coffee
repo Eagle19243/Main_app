@@ -169,3 +169,24 @@ class CarrierWaveCropper
       height: Math.round(100/coords.h * $('#project_picture_cropbox').height()) + 'px'
       marginLeft: '-' + Math.round(100/coords.w * coords.x) + 'px'
       marginTop: '-' + Math.round(100/coords.h * coords.y) + 'px'
+
+$ ->
+  loading = false
+  ajaxIsLoadingIndicator = $('#ajaxLoading')
+  scrollToLoadMore = $('#scroll-to-load-more')
+  
+  $(document).bindWithDelay "scroll", ->
+    windowBottom = $(window).scrollTop() + $(window).height()
+    
+    # SCROLLED TO THE END OF SCREEN: LOADING NEXT PAGE
+    if !loading && (windowBottom + 15) >= $(document).height()
+      loadItemsFromServer()
+  , 100
+
+  loadItemsFromServer = ->
+    loading = true
+    ajaxIsLoadingIndicator.addClass('show-div')
+    nextLink = $('.next a')
+    nextLink.click()
+    ajaxIsLoadingIndicator.removeClass('show-div')
+    loading = false
