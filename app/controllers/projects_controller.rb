@@ -218,7 +218,7 @@ class ProjectsController < ApplicationController
     @done_tasks = tasks.where(state: "completed").all
 
     @contents = ''
-    result = current_user.page_read @project.title
+    result = @project.page_read
     if result
       if result["status"] == 'success'
         @contents = result["html"]
@@ -263,8 +263,8 @@ class ProjectsController < ApplicationController
       if @project.save
 
         if current_user.email
-          # Create new page in wiki
-          current_user.page_write @project.title, ''
+          # Create new page in wiki and this user will be the owner of this wiki page and project
+          @project.page_write current_user, ''
         end
 
         @project_team = @project.create_team(name: "Team#{@project.id}")
@@ -401,10 +401,18 @@ class ProjectsController < ApplicationController
     # end
 
     # Get Latest Revision editable
-    result = current_user.get_latest_revision @project.title
-    @contents = ''
-    if result
-      @contents = result
+    if params[:rev]
+      result = @project.get_revision params[:rev]
+      @contents = ''
+      if result
+        @contents = result["content"]
+      end
+    else
+      result = @project.get_latest_revision
+      @contents = ''
+      if result
+        @contents = result
+      end
     end
 
     respond_to do |format|
@@ -413,8 +421,8 @@ class ProjectsController < ApplicationController
   end
 
   def write_to_mediawiki
-    if current_user.page_write @project.title, params[:data]
-      result = current_user.page_read @project.title
+    if @project.page_write current_user, params[:data]
+      result = @project.page_read
     end
 
     respond_to do |format|
@@ -463,7 +471,7 @@ class ProjectsController < ApplicationController
     end
 
     def get_revision_histories project
-      result = current_user.get_history project.title
+      result = project.get_history
       @histories = []
 
       if result
@@ -478,7 +486,7 @@ class ProjectsController < ApplicationController
         end
         return @histories
       else
-        return nil
+        return []
       end
     end
 end

@@ -58,23 +58,19 @@
               </a>
             </td>
             <td>
-              <% if project.user_id == current_user.id %>
-                <a href="javascript:void(0)">
-                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
-                </a>
-              <% end %>
+              <a href="javascript:void(0)">
+                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+              </a>
             </td>
             <td>
-              <% if project.user_id == current_user.id %>
-                <% if history['status'] == 'approved' %>
-                  <a href="javascript:void(0)" class="mr10">
-                    <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
-                  </a>
-                <% else %>
-                  <a href="javascript:void(0)">
-                    <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
-                  </a>
-                <% end %>
+              <% if history['status'] == 'approved' %>
+                <a href="javascript:void(0)" class="mr10">
+                  <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
+                </a>
+              <% else %>
+                <a href="javascript:void(0)">
+                  <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
+                </a>
               <% end %>
             </td>
             <td class="current">

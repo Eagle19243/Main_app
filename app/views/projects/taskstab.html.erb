@@ -242,11 +242,17 @@
         <div class="content-details">
           <div class="row">
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-              <div class="row margin-none mb20">
-                <div class="btn-wrapper pull-right">
-                  <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+
+              <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
+
+              <% if user_signed_in? %>
+                <div class="row margin-none mb20">
+                  <div class="btn-wrapper pull-right">
+                    <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                  </div>
                 </div>
-              </div>
+              <% end %>
+
               <div class="clearfix"></div>
               <div class="project-summary">
                 <%= @contents.html_safe %>
@@ -630,9 +636,14 @@
         </div>
       </div>
 
-      <div id="Revision" class="tabcontent">
-        <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
-      </div>
+      <!-- Available for project owner -->
+      <% if user_signed_in? %>
+        <% if current_user.id == @project.user_id %>
+          <div id="Revision" class="tabcontent">
+            <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
+          </div>
+        <% end %>
+      <% end %>
 
       <div id="Team" class="tabcontent">
         <div class="row">
@@ -792,10 +803,9 @@
         rev = revision_id;
       }
 
-      //TODO: Garon, modify read_from_mediawiki method to support revision ID input
       $.ajax({
         type: "GET",
-        url: "/projects/<%= @project.id %>/read_from_mediawiki",
+        url: "/projects/<%= @project.id %>/read_from_mediawiki?rev=" + rev,
         dataType: "script"
       });
 
@@ -803,10 +813,7 @@
 
 </script>
 
-<!--
- //TODO: for Garon, I've put JS code for radio inputs there, though it is better to extract it into separate module
- // RevisionSelector input
--->
+ <!-- RevisionSelector input -->
 <script>
   $(function(){
 
