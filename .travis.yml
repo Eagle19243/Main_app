@@ -9,6 +9,7 @@ services:
 #bundler_args: --without development
 
 before_script:
+  - cp config/application.travis.yml config/application.yml
   - psql -c 'create database weserve_development;' -U postgres
   - bundle exec rake db:migrate
   - bundle exec rake db:seed
