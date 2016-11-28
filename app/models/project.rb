@@ -140,4 +140,86 @@ class Project < ActiveRecord::Base
   def unfollow!(user)
     self.project_users.where(user_id: user.id).destroy_all
   end
+
+  # MediaWiki API - Page Read
+  def page_read
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      parsedResult = JSON.parse(result.body)
+
+      if parsedResult["error"]
+        content = Hash.new
+        content["status"] = "error"
+      else
+        content = Hash.new
+        content["non-html"] = parsedResult["response"]["content"]
+        content["html"] = parsedResult["response"]["contentHtml"]
+        content["status"] = "success"
+      end
+
+      content
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Page Create or Write
+  def page_write user, content
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: user.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
+
+      # Return Response Code
+      JSON.parse(result.body)["response"]["code"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Get latest revision
+  def get_latest_revision
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Get history
+      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      latest_revision_id = JSON.parse(history.body)["response"][0]
+
+      # Get the revision content
+      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+
+      JSON.parse(revision.body)["response"]["content"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Get history
+  def get_history
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Get history
+      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(history.body)["response"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Get revision
+  def get_revision revision_id
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Get revision
+      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(revision.body)["response"]
+    else
+      0
+    end
+  end
 end

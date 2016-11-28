@@ -14,13 +14,12 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "email-smtp.eu-west-1.amazonaws.com",
     port: 587,
-    domain: ENV["domain_name"],
-    authentication: "plain",
+    authentication: :login,
     enable_starttls_auto: true,
     user_name: ENV["email_provider_username"],
-    password: ENV["email_provider_password"]
+    password: ENV["email_provider_password"],
   }
   
   config.action_mailer.default_url_options = { :host => ENV["default_url"] }

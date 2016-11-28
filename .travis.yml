@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+    - 2.3.1
+notifications:
+  slack:
+    rooms:
+      - youserve:LZx9PuGbnpt7asZw8Kej4f2B#travis_report

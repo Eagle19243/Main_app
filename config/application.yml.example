@@ -18,3 +18,8 @@ mailer_sender:
 app_secret_key:
 domain_name:
 default_url:
+service_provider:
+aws_access_key_id:
+aws_secret_access_key:
+s3_bucket_region:
+bucket_name:

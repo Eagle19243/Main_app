@@ -7,7 +7,9 @@
     <div class="heading-banner">
       <div class="project-header">
         <h2>Browse Projects</h2>
-        <%= paginate @featured_projects %>
+        <div id="paginator">
+          <%= paginate @featured_projects, remote: true %>
+        </div>
       </div>
 
       <!-- <div class="search-box-wrapper pull-right">
@@ -29,7 +31,7 @@
     </div>
 
     <div class="load-more">
-      <%= link_to_next_page @featured_projects, "Load More", :remote => true, :id => "load_more_projects" %>
+      <h5>Scroll Down To Load More</h5>
     </div>
 
   </div>
@@ -63,8 +65,3 @@
     $('#walletModal').modal('toggle');
   </script>
 <% end %>
-
-
-<script type="text/javascript">
-  $('.pagination').hide();
-</script>
