@@ -4,4 +4,4 @@ rvm:
 notifications:
   slack:
     rooms:
-      - youserve:LZx9PuGbnpt7asZw8Kej4f2B#server_test_dave
+      - youserve:LZx9PuGbnpt7asZw8Kej4f2B#travis_report
