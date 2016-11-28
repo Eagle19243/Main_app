@@ -45,6 +45,18 @@ a.banner_button:visited {
   }
 }
 
+.hidden-div {
+  display: none;
+}
+
+.show-div {
+  display: block;
+}
+
+.pagination {
+  display: none !important;
+}
+
 // ~~~~~~~~~~~~~~~~~~~~~~
 //  Showing one project
 // ~~~~~~~~~~~~~~~~~~~~~~
