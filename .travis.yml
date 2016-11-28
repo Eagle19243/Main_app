@@ -11,7 +11,7 @@ services:
 
 before_script:
   - git clone https://github.com/BitGo/BitGoJS.git
-  - cd BitgoJs && npm install
+  - cd BitGoJS && npm install
   - cd bin && chmod +x bitgo-express
   - ./bitgo-express --debug --port 3080 --env prod --bind localhost
   - cd ../../
