@@ -198,9 +198,6 @@ class ProjectsController < ApplicationController
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
-    if user_signed_in?
-      @current_user_id = current_user.id
-    end
 
     @followed = false
     @rate = 0
