@@ -10,6 +10,11 @@ services:
 #bundler_args: --without development
 
 before_script:
+  - git clone https://github.com/BitGo/BitGoJS.git
+  - cd BitgoJs && npm install
+  - cd bin && chmod +x bitgo-express
+  - ./bitgo-express --debug --port 3080 --env prod --bind localhost
+  - cd ../../
   - cp config/application.travis.yml config/application.yml
   - psql -c 'create database weserve_development;' -U postgres
   - bundle exec rake db:setup
