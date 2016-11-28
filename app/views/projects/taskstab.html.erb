@@ -175,9 +175,13 @@
           <li>
             <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
           </li>
-          <li>
-            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
-          </li>
+          <% if user_signed_in? %>
+              <% if @project.user_id == current_user.id %>
+                <li>
+                  <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none tab-revisions" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
+                </li>
+              <% end %>
+          <% end %>
           <li>
             <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
           </li>
@@ -226,7 +230,7 @@
             </a>
           </div>
           <div class="btn-wrapper pull-right plan-hide">
-            <a href="javascript:void(0)" class="btn-visual">
+            <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
               <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
               Visual Editor
             </a>
@@ -242,11 +246,17 @@
         <div class="content-details">
           <div class="row">
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-              <div class="row margin-none mb20">
-                <div class="btn-wrapper pull-right">
-                  <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+
+              <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
+
+              <% if user_signed_in? %>
+                <div class="row margin-none mb20">
+                  <div class="btn-wrapper pull-right">
+                    <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                  </div>
                 </div>
-              </div>
+              <% end %>
+
               <div class="clearfix"></div>
               <div class="project-summary">
                 <%= @contents.html_safe %>
@@ -630,9 +640,14 @@
         </div>
       </div>
 
-      <div id="Revision" class="tabcontent">
-        <%= render "projects/tabcontent/revision" %>
-      </div>
+      <!-- Available for project owner -->
+      <% if user_signed_in? %>
+        <% if current_user.id == @project.user_id %>
+          <div id="Revision" class="tabcontent">
+            <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
+          </div>
+        <% end %>
+      <% end %>
 
       <div id="Team" class="tabcontent">
         <div class="row">
@@ -650,6 +665,23 @@
 <%= render "modal/task_do_modal" %>
 <%= render "modal/project_invite_modal" %>
 
+<%= render "modal/revisions_diff_modal" %>
+
+<script>
+  // There are lot of javascript behaviors on site, so we should think about exposing
+  // necessary information into global javascript objects accessible to the client
+  // This code below is ugly, please feel free to rework it in a better way:
+  window.weserve_user = {};
+  window.weserve_user.isLoggedIn = false;
+  window.weserve_user.isProjectOwner = false;
+  <% if user_signed_in? %>
+    window.weserve_user.isLoggedIn = true;
+  <% if @project.user_id == current_user.id %>
+    window.weserve_user.isProjectOwner = true;
+  <% end %>
+  <% end %>
+</script>
+
 <script type="text/javascript">
 
     function openTab(evt, tabName) {
@@ -663,7 +695,9 @@
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
       document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
+      if( evt && evt.currentTarget ) {
+        evt.currentTarget.className += " active";
+      }
 
       $('#sourceEditor').hide();
       $('.plan-hide').hide();
@@ -671,24 +705,28 @@
     }
 
     $(function(){
+
       $('#tasks_cards').slimScroll({
         height: '500px'
       });
       $('[data-toggle="tooltip"]').tooltip();
       $('.nav-pills').find('li:first-child a').click();
+
     });
 
-    $('#editSource').click(function() {
-      $.ajax({
-        type: "GET",
-        url: "/projects/<%= @project.id %>/read_from_mediawiki",
-        dataType: "script"
-      });
+    $('#editSource').click(function(event) {
+      if( window.weserve_user.isProjectOwner ) {
+        openTab({
+          'currentTarget': $('.tab-revisions').get(0)
+        }, 'Revision');
+      }else{
+        showSourceEditor();
+      }
     });
 
     $('#save-content').click(function() {
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/projects/<%= @project.id %>/write_to_mediawiki",
         data: {"data": $("#sourceEditor #textarea-editor").val()},
         dataType: "script"
@@ -704,5 +742,169 @@
       $('#projectInviteModal').modal('toggle');
       localStorage.removeItem('invite_people');
     }
+
+    $(document).on('click', '.revisions-compare-edit-link', function() {
+      var revision = $(this).data('revision');
+      showSourceEditor( revision );
+    });
+
+    // Compare revisions button click handler
+    $(document).on('click', '.revisions-compare-button', function(e) {
+      var selectedRevisions = window.revisionSelectorInstance.getValues().sort();
+      if( selectedRevisions.length > 1 ) {
+
+        populateModalRevisionInfo(selectedRevisions[0], '#revisionsDiffModal .modal-revision-info--left');
+        populateModalRevisionInfo(selectedRevisions[1], '#revisionsDiffModal .modal-revision-info--right');
+
+        $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
+        $('#revisionsDiffModal').modal('show');
+      }
+    });
+
+    // Compare revisions button click handler
+    $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function(e) {
+      var revision = $(this).parents('.modal-revision-info').data('revision');
+      if( revision ) {
+        $('#revisionsDiffModal').modal('hide');
+        showSourceEditor(revision);
+      }
+    });
+
+    function populateModalRevisionInfo( revision_id, selector )
+    {
+      var revisionTr = $('#Revision tr[data-revision="'+revision_id+'"]');
+      var rDate = $(revisionTr).data('revision-date');
+      var rUser = $(revisionTr).data('revision-user');
+      var rUserPic = $(revisionTr).data('revision-user-picture');
+      var rUserLink = $(revisionTr).data('revision-user-link');
+      var rUserId = $(revisionTr).data('revision-user-id');
+
+      $(selector).data('revision', revision_id);
+      $(selector).data('revision-user-id', rUserId);
+
+      $(selector).find('.modal-revision-title span').html(rDate);
+      $(selector).find('.modal-revision-title span').html(rDate);
+
+      if( rUserPic ) {
+        $(selector).find('.modal-revision-user img').attr('src', rUserPic);
+        $(selector).find('.modal-revision-user img').show();
+      }else{
+        $(selector).find('.modal-revision-user img').attr('src', '');
+        $(selector).find('.modal-revision-user img').hide();
+      }
+
+      $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
+      $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
+    }
+
+    function showSourceEditor( revision_id ) {
+
+      $('.tab-revisions').removeClass('active');
+      $('.tabcontent').hide();
+
+      var rev = null;
+      if( revision_id != undefined ) {
+        rev = revision_id;
+      }
+
+      $.ajax({
+        type: "GET",
+        url: "/projects/<%= @project.id %>/read_from_mediawiki?rev=" + rev,
+        dataType: "script"
+      });
+
+    }
+
 </script>
 
+ <!-- RevisionSelector input -->
+<script>
+  $(function(){
+
+    function RevisionSelector( selector ) {
+      this.$nodes = $(selector);
+      this.values = [];
+      this.init();
+    }
+
+    RevisionSelector.prototype.init = function() {
+      var self = this;
+      this.$nodes.each(function(index, element){
+          self.prepareInput( $(element) );
+      });
+    };
+
+    RevisionSelector.prototype.prepareInput = function( $input ) {
+      $input.find('input').change(this.onChange.bind(this));
+    };
+
+    RevisionSelector.prototype.onChange = function(e) {
+      if( $(e.currentTarget).is(':checked') ) {
+        $(e.currentTarget).parent().addClass('revision-compare-custom-radio--checked');
+      }else{
+        $(e.currentTarget).parent().removeClass('revision-compare-custom-radio--checked');
+      }
+      this.updateValues();
+      this.updateStates();
+    };
+
+    RevisionSelector.prototype.updateStates = function() {
+      if( this.values.length > 1 ) {
+        this.$nodes.each(function(index, element){
+          if( !$(element).find('input').is(':checked') ) {
+            $(element).addClass('revision-compare-custom-radio--disabled');
+            $(element).find('input').attr('disabled', true);
+          }
+        });
+      }else{
+        this.$nodes.each(function(index, element){
+          if( !$(element).find('input').is(':checked') ) {
+            $(element).removeClass('revision-compare-custom-radio--disabled');
+            $(element).find('input').attr('disabled', false);
+          }
+        });
+      }
+    };
+
+    RevisionSelector.prototype.updateValues = function() {
+      var self = this;
+      this.values = [];
+      this.$nodes.each(function(index, element) {
+        if( $(element).find('input').is(':checked') ) {
+          self.values.push( $(element).find('input').val() );
+        }
+      })
+    };
+
+    RevisionSelector.prototype.getValues = function() {
+      return this.values;
+    };
+
+    window.revisionSelector = RevisionSelector;
+
+  });
+</script>
+
+<!-- Revision selector input initialization for rendered Revisions tab -->
+<script>
+  //This is ugly, but, there is no other way to initialize inputs because Revision tab contents
+  //gets both loaded via AJAX and rendered on page load
+  $(function(){
+    window.revisionSelectorInstance = new window.revisionSelector('.revision-compare-custom-radio');
+  });
+</script>
+
+<!-- Diff modal scripts -->
+<script>
+  $(function(){
+    $('#revisionsDiffModal').on('shown.bs.modal', function(){
+      var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
+      // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
+      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev='+selectedRevs[0]+'&torev='+selectedRevs[1]+'&format=json&origin='+window.location.protocol+'//'+window.location.hostname+':'+window.location.port, function(data) {
+        var $diffTable = $('<table>' + data.compare['*'] + '</table>');
+        // We will receive table contents from API, so wrap it into table
+        $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);
+      });
+    });
+  });
+</script>
