@@ -28,7 +28,8 @@
 //= require components
 //= require zeroclipboard
 //= require jquery-ui
-//= require best_in_place.jquery-ui
+//= require jquery.purr
+//= require best_in_place.purr
 //= require jquery.validate.min
 //= require jquery.slimscroll
 //= require cocoon
