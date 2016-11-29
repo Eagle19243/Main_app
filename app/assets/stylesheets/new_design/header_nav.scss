@@ -158,7 +158,6 @@ a.header-link {
 
 
 .links-group {
-  margin-top: 14px;
   font-family: 'Roboto';
 
   > div,
@@ -166,6 +165,8 @@ a.header-link {
     display: inline-block;
     margin: 0 10px;
     font-family: 'Roboto';
+    position: relative;
+    top: 6px;
   }
 
   i {
@@ -184,6 +185,8 @@ a.header-link {
 
   .user-dropdown {
     padding-bottom: 10px;
+    position: relative;
+    top: 6px;
 
     a {
       font-family: 'Roboto';
@@ -219,6 +222,8 @@ a.header-link {
 
   .notify-dropdown {
     padding-bottom: 15px;
+    position: relative;
+    top: 6px;
 
     ul.dropdown-menu {
       width: 300px;
@@ -287,6 +292,18 @@ a.header-link {
           }
         }
       }
+    }
+  }
+
+  .search-box-wrapper {
+    margin: 0 10px;
+    padding: 0;
+    vertical-align: middle;
+    position: relative;
+    top: 6px;
+
+    input {
+      margin: 0;
     }
   }
 }

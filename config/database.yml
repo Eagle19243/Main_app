@@ -1,19 +1,20 @@
-production:
+default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  database: weserve_production
   username: postgres
   password: postgres
-  host: localhost
   port: 5432
+  host: localhost
 
 development:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
+  <<: *default
   database: weserve_development
-  username: postgres
-  password: postgres
-  host: localhost
-  port: 5432
+
+test:
+  <<: *default
+  database: weserve_test
+
+production:
+  <<: *default
+  database: weserve_production

@@ -13,7 +13,16 @@
     <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link" %>
 
     <div class="pull-right links-group">
-      
+
+    <div class="search-box-wrapper">
+        <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
+            <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
+            <button type="button" name="" type="submit" >
+              <i class="fa fa-search"></i>
+            </button>
+        <% end %>
+      </div>
+
       <%= link_to group_messages_path, data: { no_turbolink: true } do %>
         <i class="fa fa-envelope-o" aria-hidden="true"></i>
       <% end %>
