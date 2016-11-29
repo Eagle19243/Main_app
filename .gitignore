@@ -23,7 +23,7 @@ db/*.sqlite3
 /tmp/*
 
 # Mysql Database yml used during React integration.
-/config/database.yml
+
 /config/application.yml
 
 # various artifacts
