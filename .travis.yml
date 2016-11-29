@@ -32,8 +32,9 @@ before_script:
 
 script:
   # Run tests here
-  - bundle exec rake test TEST=test/dummy_test.rb
+  - ls
 
 notifications:
-  email: false
-  slack: false
+  slack:
+    rooms:
+      - youserve:LZx9PuGbnpt7asZw8Kej4f2B#travis_report
