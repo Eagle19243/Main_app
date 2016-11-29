@@ -2,12 +2,6 @@
 
 one:
   name: MyString
-  number_of_members: 1
-  number_of_projects: 1
-  mission: MyText
 
 two:
   name: MyString
-  number_of_members: 1
-  number_of_projects: 1
-  mission: MyText

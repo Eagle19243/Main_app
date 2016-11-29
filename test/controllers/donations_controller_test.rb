@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class DonationsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   test "should get new" do
     get :new
     assert_response :success
