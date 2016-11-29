@@ -58,7 +58,7 @@ puts "Created team"
 
 @task = Task.create(title: "Example Task 2",
             user_id: User.first.id,
-            project_id: Project.where(title: "Test project 2").first.id,
+            project_id: @project.id,
             state: "pending",
             budget: 100,
             deadline: Date.new)
