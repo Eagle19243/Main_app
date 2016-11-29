@@ -32,7 +32,7 @@ before_script:
 
 script:
   # Run tests here
-  - rake test TEST=test/dummy_test.rb
+  - bundle exec rake test TEST=test/dummy_test.rb
 
 notifications:
   email: false
