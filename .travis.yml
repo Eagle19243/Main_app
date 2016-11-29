@@ -15,7 +15,7 @@ services:
 #bundler_args: --without development
 
 before_script:
-  # Install and run BitGoJS
+  # Install and run BitGoJS, not sure if it's really necessary - it is better to fully ignore bitgo in tests
   - git clone https://github.com/BitGo/BitGoJS.git
   - cd BitGoJS && npm install
   - cd bin && chmod +x bitgo-express
