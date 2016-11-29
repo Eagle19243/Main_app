@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki, :revisions]
+  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki, :revisions, :revision_action]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revisions]
+  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revisions, :revision_action]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -231,6 +231,16 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def revision_action
+    if params[:type] == 'approve'
+      @project.approve_revision params[:rev]
+    elsif params[:type] == 'unapprove'
+      @project.unapprove_revision params[:rev]
+    end
+
+    redirect_to taskstab_project_path(@project.id)
   end
 
   def show_project_team

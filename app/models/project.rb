@@ -222,4 +222,30 @@ class Project < ActiveRecord::Base
       0
     end
   end
+
+  # MediaWiki API - Approve Revision by id
+  def approve_revision revision_id
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Approve
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=approve&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(result.body)["response"]["code"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Unapprove Revision by id
+  def unapprove_revision revision_id
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Unapprove
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(result.body)["response"]["code"]
+    else
+      0
+    end
+  end
 end

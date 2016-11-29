@@ -120,6 +120,7 @@ Rails.application.routes.draw do
       get :revisions
       get :read_from_mediawiki
       post :write_to_mediawiki
+      get :revision_action
     end
 
     collection do
