@@ -21,7 +21,11 @@ puts "#{count} additional admins created"
                state: "pending",
                short_description: "This is project 1")
 
+puts "Created project 1"
+
 @project_team = Team.create(name: "Team #{@project.id}", project: @project)
+
+puts "Created team"
 
 @task = Task.create(title: "Example Task",
             user_id: User.first.id,
@@ -30,17 +34,25 @@ puts "#{count} additional admins created"
             budget: 100,
             deadline: Date.new)
 
+puts "Created task"
+
 TeamMembership.create(team_member_id: User.first.id,
                team_id: @project_team.id,
                state: 'admin',
                task_id: @task.id)
+
+puts "Created membership"
 
 @project = Project.create(title: "Test project 2",
                user_id: User.first.id,
                state: "pending",
                short_description: "This is project 1")
 
+puts "Created project 2"
+
 @project_team = Team.create(name: "Team #{@project.id}", project: @project)
+
+puts "Created team"
 
 @task = Task.create(title: "Example Task 2",
             user_id: User.first.id,
@@ -48,6 +60,8 @@ TeamMembership.create(team_member_id: User.first.id,
             state: "pending",
             budget: 100,
             deadline: Date.new)
+
+puts "Created task"
 
 TeamMembership.create(team_member_id: User.first.id,
                team_id: @project_team.id,
