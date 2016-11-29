@@ -55,28 +55,33 @@ class User < ActiveRecord::Base
 
   def assign_address
 
-    access_token = access_wallet
-    Rails.logger.info access_token unless Rails.env == "development"
-    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-    secure_passphrase = self.password || self.encrypted_password
-    secure_label = SecureRandom.hex(5)
-    new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-    userKeychain = new_address["userKeychain"]
-    backupKeychain = new_address["backupKeychain"]
-    Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
-    new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-    puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
-    new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
-    new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-    Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-    Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-    Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-    Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
-    unless new_address.blank?
-      UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
-    else
-      UserWalletAddress.create(sender_address: nil, user_id: self.id)
+    if File.basename($0) != 'rake'
+
+      access_token = access_wallet
+      Rails.logger.info access_token unless Rails.env == "development"
+      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      secure_passphrase = self.password || self.encrypted_password
+      secure_label = SecureRandom.hex(5)
+      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+      userKeychain = new_address["userKeychain"]
+      backupKeychain = new_address["backupKeychain"]
+      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
+      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
+      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
+      new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
+      new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
+      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
+      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
+      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
+      Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
+      unless new_address.blank?
+        UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
+      else
+        UserWalletAddress.create(sender_address: nil, user_id: self.id)
+      end
+
     end
+
   end
 
 
@@ -209,62 +214,6 @@ class User < ActiveRecord::Base
 
   def has_pending_admin_requests?(project)
     self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
-  end
-
-  # MediaWiki API - Page Read
-  def page_read pagename
-    if Rails.configuration.mediawiki_session
-      name = pagename.strip.gsub(" ", "_")
-
-      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      parsedResult = JSON.parse(result.body)
-
-      if parsedResult["error"]
-        content = Hash.new
-        content["status"] = "error"
-      else
-        content = Hash.new
-        content["non-html"] = parsedResult["response"]["content"]
-        content["html"] = parsedResult["response"]["contentHtml"]
-        content["status"] = "success"
-      end
-
-      content
-    else
-      0
-    end
-  end
-
-  # MediaWiki API - Page Create or Write
-  def page_write pagename, content
-    if Rails.configuration.mediawiki_session
-      name = pagename.strip.gsub(" ", "_")
-
-      result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: self.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
-
-      # Return Response Code
-      JSON.parse(result.body)["response"]["code"]
-    else
-      0
-    end
-  end
-
-  # MediaWiki API - Get latest revision
-  def get_latest_revision pagename
-    if Rails.configuration.mediawiki_session
-      name = pagename.strip.gsub(" ", "_")
-
-      # Get history
-      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      latest_revision_id = JSON.parse(history.body)["response"][0]
-
-      # Get the revision content
-      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-
-      JSON.parse(revision.body)["response"]["content"]
-    else
-      0
-    end
   end
 
   def created_wallet_key
