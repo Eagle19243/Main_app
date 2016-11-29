@@ -22,14 +22,16 @@ puts "#{count} additional admins created"
                short_description: "This is project 1")
 
 puts "Created project 1"
+puts @project.id
 
 @project_team = Team.create(name: "Team #{@project.id}", project: @project)
 
 puts "Created team"
+puts @project_team.id
 
 @task = Task.create(title: "Example Task",
             user_id: User.first.id,
-            project_id: Project.where(title: "Test project").first.id,
+            project_id: @project.id,
             state: "pending",
             budget: 100,
             deadline: Date.new)
