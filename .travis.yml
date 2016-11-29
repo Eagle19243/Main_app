@@ -18,7 +18,10 @@ before_script:
   - cp config/application.travis.yml config/application.yml
   #- psql -c 'create database weserve_development;' -U postgres
   - bundle exec rake sunspot:solr:start
-  - bundle exec rake db:setup
+  - bundle exec rake db:create
+  - bundle exec rake db:schema:load
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
   #- bundle exec rake db:migrate
 
 script:
