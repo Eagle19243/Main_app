@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource  :except => [:get_activities, :project_admin,:send_project_email, :show_task,:send_project_invite_email,:contacts_callback ,:read_from_mediawiki, :write_to_mediawiki]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
+  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -49,20 +49,20 @@ class ProjectsController < ApplicationController
           @notice = "ERROR: Please sign in to continue."
           format.js {}
         else
-        begin
-          InvitationMailer.invite_user_for_project( params['email'],current_user.name,
-          Project.find(params['project_id']).title , params['project_id']).deliver_later
-          format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
-          @notice = "Project link has been sent to #{params[:email]}"
-          format.js {}
-        rescue => e
-          @notice = "Error ".concat e.inspect
-          format.js {}
-        end
+          begin
+            InvitationMailer.invite_user_for_project(params['email'], current_user.name,
+                                                     Project.find(params['project_id']).title, params['project_id']).deliver_later
+            format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
+            @notice = "Project link has been sent to #{params[:email]}"
+            format.js {}
+          rescue => e
+            @notice = "Error ".concat e.inspect
+            format.js {}
+          end
 
         end
       else
-        session[:project_id] =  session[:idd]
+        session[:project_id] = session[:idd]
         format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
         @notice = 'Please provide receiver email.'
         format.js {}
@@ -79,7 +79,7 @@ class ProjectsController < ApplicationController
 
   def failure
     session[:failure_contacts] = nil
-    session[:project_id] =  session[:idd]
+    session[:project_id] = session[:idd]
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
     session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
@@ -91,7 +91,7 @@ class ProjectsController < ApplicationController
     @task_attachments = @task.task_attachments
     @task_team = TeamMembership.where(task_id: @task.id)
     task_comment_ids = @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC')
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
     project_admin
     respond_to :js
   end
@@ -99,20 +99,20 @@ class ProjectsController < ApplicationController
   def autocomplete_user_search
     term = params[:term]
     @projects = Project.order(:title).where(
-      "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
-      "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map{|p|"#{p.title}"}
+        "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
+        "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map { |p| "#{p.title}" }
     @result = @projects + Task.order(:title).where(
-      "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
-      "%#{params[:term]}%","%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map{|t|"#{t.title}"}
+        "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
+        "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map { |t| "#{t.title}" }
     respond_to do |format|
-      format.html {render text: @result}
-      format.json { render json: @result.to_json,status: :ok}
-     end
+      format.html { render text: @result }
+      format.json { render json: @result.to_json, status: :ok }
+    end
   end
 
   def user_search
     #User search has been disabled because we don't have user's public profile or show page yet available in application we will just add Sunspot.search(Project,Task,User) later
-    @search = Sunspot.search(Task,Project) do
+    @search = Sunspot.search(Task, Project) do
       # keywords params[:title]
       fulltext params[:title] do
         query_phrase_slop 1
@@ -121,13 +121,13 @@ class ProjectsController < ApplicationController
     @results = @search.results
     unless @results.blank?
       respond_to do |format|
-      # format.html {render  :search_results}
+        # format.html {render  :search_results}
         format.js
       end
     else
       respond_to do |format|
         format.js
-       # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
+        # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
       end
     end
   end
@@ -137,7 +137,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_admin
-    @project_admin =  TeamMembership.where( "team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
+    @project_admin = TeamMembership.where("team_id = ? AND state = ?", @task.project.team.id, 'admin').collect(&:team_member_id) rescue nil
   end
 
   def show
@@ -181,17 +181,17 @@ class ProjectsController < ApplicationController
     @rate.rate = params[:rate]
     @rate.save
     render json: {
-      rate: @rate,
-      average: @project.rate_avg
+        rate: @rate,
+        average: @project.rate_avg
     }
   end
 
- def get_activities
-   @task=Task.find(params[:id])
-   task_comment_ids = @task.task_comments.collect(&:id)
-   @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task",@task.id,"TaskComment",task_comment_ids  ).order('created_at DESC').limit(30)
-   respond_to :js
- end
+  def get_activities
+    @task=Task.find(params[:id])
+    task_comment_ids = @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC').limit(30)
+    respond_to :js
+  end
 
   # GET /projects/1/taskstab
   def taskstab
@@ -201,7 +201,6 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       @current_user_id = current_user.id
     end
-
     @followed = false
     @rate = 0
     if user_signed_in?
@@ -212,26 +211,51 @@ class ProjectsController < ApplicationController
     tasks = @project.tasks.all
     @tasks_count =tasks.count
     @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
-    @doing_tasks = tasks.where(state: "doing").all
-    @suggested_tasks = tasks.where(state: "suggested_task").all
-    @reviewing_tasks = tasks.where(state: "reviewing").all
-    @done_tasks = tasks.where(state: "completed").all
-
+    @done_tasks = tasks.where(state: "completed").count
+    # @doing_tasks = tasks.where(state: "doing").all
+    # @suggested_tasks = tasks.where(state: "suggested_task").all
+    # @reviewing_tasks = tasks.where(state: "reviewing").all
+    # @done_tasks = tasks.where(state: "completed").all
     @contents = ''
     result = current_user.page_read @project.title
     if result
       if result["status"] == 'success'
         @contents = result["html"]
-      # else
-      #   # Create new page
-      #   current_user.page_write @project.title, ''
-      #   result = current_user.page_read @project.title
-      #   @contents = ''
+        # else
+        #   # Create new page
+        #   current_user.page_write @project.title, ''
+        #   result = current_user.page_read @project.title
+        #   @contents = ''
       end
     end
   end
 
   def show_project_team
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def show_all_tasks
+    tasks = @project.tasks.all
+    @tasks_count =tasks.count
+    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
+    @doing_tasks = tasks.where(state: "doing").all
+    @suggested_tasks = tasks.where(state: "suggested_task").all
+    @reviewing_tasks = tasks.where(state: "reviewing").all
+    @done_tasks = tasks.where(state: "completed").all
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def show_all_teams
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def show_all_revision
     respond_to do |format|
       format.js
     end
@@ -438,16 +462,16 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
   end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_params
-      params.require(:project).permit(
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_params
+    params.require(:project).permit(
         :title, :short_description, :institution_country, :description, :country,
         :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
         :institution_name, :institution_logo, :institution_description, :section1, :section2,
         :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
         project_edits_attributes: [:id, :_destroy, :description]
-      )
-    end
+    )
+  end
 
   def get_project_user
     @project_user = @project.user

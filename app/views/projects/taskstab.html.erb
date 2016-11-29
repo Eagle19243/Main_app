@@ -14,7 +14,7 @@
   </div>
 </div>
 <script>
-  window.onload = function() {
+  window.onload = function () {
     $('#project-url').html(window.location.href);
     // <% if  session[:project_id] != nil %>
 
@@ -32,48 +32,50 @@
     <a class="close-reveal-modal" aria-label="Close">&times;</a>
     <div class="fund-do">
       <div class="row">
-       <center><h4>Invite People To Participate</h4></center>
-        <div class="alert"  id="response"></div>
+        <center><h4>Invite People To Participate</h4></center>
+        <div class="alert" id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
             <div class="large-10 medium-10 small-12 columns cold">
               <div class="row row-custom">
                 <div class="large-8 medium-12 small-12 columns cold">
-                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
-                  <% session[:idd] = @project.id  %>
+                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
+                  <% session[:idd] = @project.id %>
                   <% session[:project_id] = nil %>
                   <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
                 </div>
                 <div class="large-4 medium-12 small-12 columns cold pl10">
-                  <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button" >Add / Invite</button>
+                  <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button">Add / Invite
+                  </button>
                 </div>
               </div>
 
               <div class="row" id="contacts">
-                <div class="contact-importers" id ="tab">
-                  <span >Import your contacts from
+                <div class="contact-importers" id="tab">
+                  <span>Import your contacts from
                     <span class="contact-importer">
-                       <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
-                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
+                       <span class="loading-trigger" data-source="gmail" id="gmail-icon">
+                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"), contacts_gmail_path %>
                          <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
                        </span>
                     </span>
                     <span class="mini-divider"></span>
                        <span class="contact-importer">
                          <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                            <%= image_tag("yahoo.png" ,:class => "img_preview") %>
-                            <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
+                            <%= image_tag("yahoo.png", :class => "img_preview") %>
+                           <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo!
+                             Mail</a>
                         </span>
                        </span>
                     <span class="mini-divider"></span>
                   </span>
                 </div>
-                <%unless session[:failure_contacts].blank? %>
-                  <p id="response-failure"><%= session[:failure_contacts] %></p>
-                <%end%>
-                <%unless session[:success_contacts].blank? %>
-                  <p  id="response-success"><%= session[:success_contacts] %></p>
-                <%end%>
+                <% unless session[:failure_contacts].blank? %>
+                    <p id="response-failure"><%= session[:failure_contacts] %></p>
+                <% end %>
+                <% unless session[:success_contacts].blank? %>
+                    <p id="response-success"><%= session[:success_contacts] %></p>
+                <% end %>
               </div>
               <%= session[:failure_contacts] = nil %>
               <%= session[:success_contacts] = nil %>
@@ -83,10 +85,10 @@
                 <div id="or">or</div>
               </div>
 
-              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
+              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
                 <ul>
                   <li>
-                    <div class="facebook-wrapper" >
+                    <div class="facebook-wrapper">
                       <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);"><i class="fa fa-facebook"></i>
                         <span>Share on Facebook</span>
                       </a>
@@ -110,7 +112,7 @@
                   </li>
                 </ul>
                 <div class="row share-link">
-                  <hr />
+                  <hr/>
                   <b>URL: </b><span id="project-url"></span>
                 </div>
               </div>
@@ -124,29 +126,29 @@
 
 <div class="md-overlay"></div>
 <script type="text/javascript">
-  $(document).ready(function(){
+  $(document).ready(function () {
     document.getElementById("loading-mask1").style.display = "none";
 
-    $( "#send-project-email" ).submit(function( ) {
+    $("#send-project-email").submit(function () {
       $('#response').empty();
       $('#response').html("loading...")
     });
-    $( "#send-project-email-button" ).click(function( ) {
+    $("#send-project-email-button").click(function () {
       $('#response').empty();
     });
-    $('.btn_movecard').click(function(){
+    $('.btn_movecard').click(function () {
       var loading = document.getElementById('loading-mask1');
-       loading.style.display = "block";
-    //  $("#loading-mask1").show();
+      loading.style.display = "block";
+      //  $("#loading-mask1").show();
 
     });
-    $( "#inviteclose" ).click(function( ) {
-     $('#response').empty();
+    $("#inviteclose").click(function () {
+      $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
       $("#guest-email").val("");
     });
-    $("#guest-email").keyup(function(){
+    $("#guest-email").keyup(function () {
       $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
@@ -159,7 +161,7 @@
     // project_span_team.onclick = function() {
     //   modalteam.style.display = "none";
     // }
-  } );
+  });
 </script>
 
 <%= render "tasks/banner" %>
@@ -173,13 +175,19 @@
             <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
+            <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
+                Tasks<span class="count"><%= @tasks_count %></span>
+            <% end %>
           </li>
           <li>
-            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
+            <%= link_to projects_show_all_revision_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
+                Revisions<span class="count">4</span>
+            <% end %>
           </li>
           <li>
-            <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
+            <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
+                Team<span class="count">12</span>
+            <% end %>
           </li>
         </ul>
 
@@ -195,7 +203,7 @@
             <div class="rank-group">
               <input type="hidden" id="stars" name="stars">
               <% for i in 1..5 %>
-                <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
               <% end %>
             </div>
           </div>
@@ -240,7 +248,8 @@
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
               <div class="row margin-none mb20">
                 <div class="btn-wrapper pull-right">
-                  <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                  <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                  </button>
                 </div>
               </div>
               <div class="clearfix"></div>
@@ -256,49 +265,49 @@
                 </div>
 
                 <div id="tasks_cards">
-                  <% @sourcing_tasks.first(5).each do  |task| %>
-                    <div class="summary-cards">
-                      <div class="card-wrapper">
-                        <div class="card-title">
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-9 col-md-9 col-sm-9 pt15">
-                            <div class="progress">
-                              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
+                  <% @sourcing_tasks.first(5).each do |task| %>
+                      <div class="summary-cards">
+                        <div class="card-wrapper">
+                          <div class="card-title">
+                            <p><%= task.description %></p>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-9 col-md-9 col-sm-9 pt15">
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
+                                </div>
+                              </div>
+                              <div class="report-banner-table tab-task-report mt10">
+                                <table>
+                                  <tr class="value">
+                                    <td><%= task.funded %></td>
+                                    <td><%= @tasks_count %></td>
+                                    <td><%= task.donations.count %></td>
+                                    <td><%= task.funded_in_btc %></td>
+                                  </tr>
+                                  <tr class="items">
+                                    <td>Funded</td>
+                                    <td>Tasks</td>
+                                    <td>Backers</td>
+                                    <td>Raised</td>
+                                  </tr>
+                                </table>
                               </div>
                             </div>
-                            <div class="report-banner-table tab-task-report mt10">
-                              <table>
-                                <tr class="value">
-                                  <td><%= task.funded %></td>
-                                  <td><%=  @tasks_count %></td>
-                                  <td><%= task.donations.count %></td>
-                                  <td><%= task.funded_in_btc %></td>
-                                </tr>
-                                <tr class="items">
-                                  <td>Funded</td>
-                                  <td>Tasks</td>
-                                  <td>Backers</td>
-                                  <td>Raised</td>
-                                </tr>
-                              </table>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                              <div class="fund-do-btns">
+                                <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                                  DO
+                                </a>
+                                <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                                  FUND
+                                </a>
+                              </div>
                             </div>
                           </div>
-                          <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="fund-do-btns">
-                              <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
-                                DO
-                              </a>
-                              <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
-                                FUND
-                              </a>
-                            </div>
-                          </div>
-                        </div>
 
+                        </div>
                       </div>
-                    </div>
                   <% end %>
                 </div>
 
@@ -309,15 +318,13 @@
       </div>
 
       <div id="Tasks" class="tabcontent">
-        <%= render "projects/project_tasks" %>
       </div>
 
       <div id="Revision" class="tabcontent">
-        <%= render "projects/tabcontent/revision" %>
+        <%#= render "projects/tabcontent/revision" %>
       </div>
 
       <div id="Team" class="tabcontent">
-        <%= render "projects/project_teams" %>
 
       </div>
     </div>
@@ -333,57 +340,58 @@
 
 <script type="text/javascript">
 
-    function openTab(evt, tabName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
+  function openTab(evt, tabName) {
 
-      $('#sourceEditor').hide();
-      $('.plan-hide').hide();
-      $('.plan-show').show();
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
     }
-
-    $(function(){
-      $('#tasks_cards').slimScroll({
-        height: '500px'
-      });
-      $('[data-toggle="tooltip"]').tooltip();
-      $('.nav-pills').find('li:first-child a').click();
-    });
-
-    $('#editSource').click(function() {
-      $.ajax({
-        type: "GET",
-        url: "/projects/<%= @project.id %>/read_from_mediawiki",
-        dataType: "script"
-      });
-    });
-
-    $('#save-content').click(function() {
-      $.ajax({
-        type: "GET",
-        url: "/projects/<%= @project.id %>/write_to_mediawiki",
-        data: {"data": $("#sourceEditor #textarea-editor").val()},
-        dataType: "script"
-      });
-    });
-
-    $('.do-model-popup').click(function(){
-      $('#task-do-request-popup').val($(this).attr('id'));
-    });
-
-    var invitePeople = localStorage.getItem("invite_people");
-    if( invitePeople == "true" ) {
-      $('#projectInviteModal').modal('toggle');
-      localStorage.removeItem('invite_people');
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+    $('#sourceEditor').hide();
+    $('.plan-hide').hide();
+    $('.plan-show').show();
+  }
+
+  $(function () {
+    $('#tasks_cards').slimScroll({
+      height: '500px'
+    });
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.nav-pills').find('li:first-child a').click();
+  });
+
+  $('#editSource').click(function () {
+    $.ajax({
+      type: "GET",
+      url: "/projects/<%= @project.id %>/read_from_mediawiki",
+      dataType: "script"
+    });
+  });
+
+  $('#save-content').click(function () {
+    $.ajax({
+      type: "GET",
+      url: "/projects/<%= @project.id %>/write_to_mediawiki",
+      data: {"data": $("#sourceEditor #textarea-editor").val()},
+      dataType: "script"
+    });
+  });
+
+  $('.do-model-popup').click(function () {
+    $('#task-do-request-popup').val($(this).attr('id'));
+  });
+
+  var invitePeople = localStorage.getItem("invite_people");
+  if (invitePeople == "true") {
+    $('#projectInviteModal').modal('toggle');
+    localStorage.removeItem('invite_people');
+  }
 </script>
 
