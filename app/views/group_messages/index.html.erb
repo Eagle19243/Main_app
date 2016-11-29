@@ -1,3 +1,10 @@
+<script>
+  $(document).ready(function(){
+    $("#user-search").click(function(){
+      $("#display-user").toggle();
+    });
+  });
+</script>
 
 <div class="row group-messages-wrapper margin-none">
 
@@ -44,8 +51,13 @@
 
       </div>
 
-      <div class="search-users">
-        <span><i class="fa fa-plus"></i>&nbsp;&nbsp;Search for user</span>
+      <div class="search-users" id="user-search">
+        <span data-toggle="modal" data-target="#searchUser"><i class="fa fa-plus"></i>&nbsp;&nbsp;Search for user</span>
+      </div>
+      <div id="display-user" style="width: 122%;height: 33px !important; margin-left: -20px; display: none ">
+        <%= form_tag(group_messages_search_user_path, :method => "get", id: "search-form") do %>
+            <%= text_field_tag :search, params[:search], class: "search-query", placeholder: "Find or Start a conversation", data: {autocomplete: autocomplete_user_name_group_messages_path} %>
+        <%end%>
       </div>
 
     </div>

@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery.jcrop
 //= require jquery_ujs
+//= require autocomplete-rails
 //= require jquery.remotipart
 //= require best_in_place
 //= require bootstrap-sprockets
