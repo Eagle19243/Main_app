@@ -1,9 +1,39 @@
 language: ruby
+
+# Enable bundler cache to speed up booting
+cache:
+  bundler: true
+  directories:
+    - vendor/bundle
+
 rvm:
-    - 2.3.1
-env:
-  - RAILS_ENV=production
-  - RACK_ENV=production
+  - 2.3.1
+
+services:
+  - postgresql
+
+#bundler_args: --without development
+
+before_script:
+  # Install and run BitGoJS, not sure if it's really necessary - it is better to fully ignore bitgo in tests
+  - git clone https://github.com/BitGo/BitGoJS.git
+  - cd BitGoJS && npm install
+  - cd bin && chmod +x bitgo-express
+  - nohup node bitgo-express --debug --port 3080 --env prod --bind localhost &
+  - cd ../../
+  # Copy Travis application config
+  - cp config/application.travis.yml config/application.yml
+  # Create database and run migrations, seed
+  - bundle exec rake sunspot:solr:start
+  - bundle exec rake db:create
+  - bundle exec rake db:schema:load
+  - bundle exec rake db:migrate
+  - bundle exec rake db:seed
+
+script:
+  # Run tests here
+  - ls
+
 notifications:
   slack:
     rooms:
