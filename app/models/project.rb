@@ -29,7 +29,7 @@ class Project < ActiveRecord::Base
 
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
             uniqueness: true
-  validates :short_description, presence: true, length: {minimum: 3, maximum: 60}
+  validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
   searchable do
