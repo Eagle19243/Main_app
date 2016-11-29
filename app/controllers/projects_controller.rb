@@ -12,10 +12,11 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       if current_user.user_wallet_address.blank?
         current_user.assign_address
-        unless current_user.user_wallet_address.user_keys.blank?
-          @download_keys = true
-        end
       end
+      unless current_user.user_wallet_address.user_keys.blank?
+        @download_keys = true
+      end
+
     end
     @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
