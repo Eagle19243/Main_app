@@ -12,9 +12,12 @@
     font-size: 12px;
     border-radius: 17px;
     padding: 5px 30px 5px 15px;
+    box-shadow: none;
+    background-color: #fff;
 
-    &:focus {
-      border-color: $alt-clr;
+    &:focus,
+    &:hover {
+      border-color: #000;
     }
   }
 
