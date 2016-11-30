@@ -20,6 +20,7 @@
             </button>
         <% end %>
       </div> -->
+
     </div>
 
     <div class="projects-cards"  id="search-results-show">
@@ -36,31 +37,18 @@
   </div>
 </main>
 <% if  @download_keys  %>
-    <div id="backupkeys_popup" class="modal" style="display: block ;">
-      <!-- Modal content -->
-      <div class="modal-content" style="width: 50%">
-
-        <h3>
-          please wait we are creating your Wallet Backup Keys and
-          Downloading  will be Starts Within 5 Second
-          Please Save Your keys at save place  </h3>
-      </div>
-
-    </div>
+    <%= render "modal/created_wallet_modal" %>
+    <script type="text/javascript">
+      $('#walletModal').modal('toggle');
+    </script>
     <script>
-      window.setTimeout(function(){download_keys() },5000);
-      function  download_keys(){
-        window.location = "<%= user_wallet_transactions_download_keys_url %>";
-        $("#backupkeys_popup").hide();
-      }
+      //      window.setTimeout(function(){download_keys() },5000);
+      //      function  download_keys(){
+      //        window.location = "";
+      //        $("#backupkeys_popup").hide();
+      //      }
 
     </script>
 <% end %>
 
-<% if current_user && current_user.created_wallet_key == true %>
-  <%= render "modal/created_wallet_modal" %>
 
-  <script type="text/javascript">
-    $('#walletModal').modal('toggle');
-  </script>
-<% end %>

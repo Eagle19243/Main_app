@@ -29,7 +29,7 @@ class Project < ActiveRecord::Base
 
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
             uniqueness: true
-  validates :short_description, presence: true, length: {minimum: 3, maximum: 60}
+  validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
   searchable do
@@ -218,6 +218,32 @@ class Project < ActiveRecord::Base
       # Get revision
       revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
       JSON.parse(revision.body)["response"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Approve Revision by id
+  def approve_revision revision_id
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Approve
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=approve&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(result.body)["response"]["code"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Unapprove Revision by id
+  def unapprove_revision revision_id
+    if Rails.configuration.mediawiki_session
+      name = self.title.strip.gsub(" ", "_")
+
+      # Unapprove
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      JSON.parse(result.body)["response"]["code"]
     else
       0
     end

@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   post 'projects/send_project_email'
   get 'teams/remove_membership'
   get 'projects/get_activities'
+  get 'projects/show_all_tasks'
+  get 'projects/show_all_teams'
+  get 'projects/show_all_revision'
   get 'projects/show_task'
   # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
@@ -124,6 +127,7 @@ Rails.application.routes.draw do
       get :revisions
       get :read_from_mediawiki
       post :write_to_mediawiki
+      get :revision_action
     end
 
     collection do

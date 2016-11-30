@@ -6,16 +6,10 @@
   </div>
 
   <% if current_user && current_user.id == @project.user_id %>
-    <div class="mid-section" data-target="#project-img-edit" data-toggle="modal">
-  <% else %>
-    <div class="mid-section">
+      <div class="mid-section" data-target="#project-img-edit" data-toggle="modal">
+    <% else %>
+      <div class="mid-section">
   <% end %>
-
-    <% @projec_conut= if @project.tasks.count==0 then
-                        1
-                      else
-                        @project.tasks.count
-                      end %>
 
     <div class="row">
       <center class="project-intro">
@@ -36,14 +30,14 @@
       <center>
         <div class="task-progress-wrapper">
           <div class="progress mb20">
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= (@sourcing_tasks.count / @projec_conut ) * 100 %> %">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= (@sourcing_tasks.count / @projec_conut ) * 100 rescue 0 %> %">
             </div>
           </div>
 
           <table>
             <tr class="value">
-              <td><%= (@sourcing_tasks.count / @projec_conut)*100 %> %</td>
-              <td><%= @done_tasks.count.to_s + "/" + @projec_conut.to_s %></td>
+              <td><%= (@sourcing_tasks.count / @tasks_count)*100 rescue 0 %> %</td>
+              <td><%= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>
 
               <% @particpent=0 %>
               <% @budget=0 %>
