@@ -185,7 +185,7 @@
                 <% if @project.user_id == current_user.id %>
                   <li>
                     <%= link_to projects_show_all_revision_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
-                        Revisions<span class="count">4</span>
+                        Revisions<span class="count"><%= @histories.count %></span>
                     <% end %>                  </li>
               <% end %>
           <% end %>
