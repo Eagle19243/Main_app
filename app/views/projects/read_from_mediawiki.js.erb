@@ -3,3 +3,7 @@ $('#sourceEditor').show();
 $('.plan-hide').show();
 $('.plan-show').hide();
 $("#sourceEditor #editorContents").html("<%= escape_javascript(render partial: 'textarea_editor', locals: {contents: @contents}) %>");
+
+// MarkItUp Editor
+$('#textarea-editor').markItUp(mySettings);
+$("#textarea-editor").focus();
