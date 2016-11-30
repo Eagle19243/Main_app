@@ -218,11 +218,6 @@ class ProjectsController < ApplicationController
     if result
       if result["status"] == 'success'
         @contents = result["html"]
-        # else
-        #   # Create new page
-        #   current_user.page_write @project.title, ''
-        #   result = current_user.page_read @project.title
-        #   @contents = ''
       end
     end
 
@@ -436,20 +431,28 @@ class ProjectsController < ApplicationController
     # else
     #   #TODO create new session for mediawiki
     # end
+    @contents = ''
 
-    # Get Latest Revision editable
     if params[:rev]
+      @revision_id = params[:rev]
       result = @project.get_revision params[:rev]
-      @contents = ''
       if result
         @contents = result["content"]
       end
     else
+      Get Latest Revision editable
       result = @project.get_latest_revision
       @contents = ''
       if result
         @contents = result
       end
+      # result = @project.page_read
+      # if result
+      #   if result["status"] == 'success'
+      #     @contents = result["html"]
+      #     @revision_id = result["revision_id"]
+      #   end
+      # end
     end
 
     respond_to do |format|

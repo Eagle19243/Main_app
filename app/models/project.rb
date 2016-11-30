@@ -154,6 +154,7 @@ class Project < ActiveRecord::Base
         content["status"] = "error"
       else
         content = Hash.new
+        content["revision_id"] = parsedResult["response"]["revision_id"]
         content["non-html"] = parsedResult["response"]["content"]
         content["html"] = parsedResult["response"]["contentHtml"]
         content["status"] = "success"
