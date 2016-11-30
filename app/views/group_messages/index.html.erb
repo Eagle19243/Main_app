@@ -120,9 +120,7 @@
   });
 
 $('#search').bind('railsAutocomplete.select', function(event, data){
-  /* Do something here */
-  alert(data.item.id);
-  window.location.href = '/group_messages/user_messaging?user_id=' + data.item.id
+      window.location.href = '/group_messages/user_messaging?user_id=' + data.item.id
 });
 </script>
 
