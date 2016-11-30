@@ -218,6 +218,16 @@ a.banner_button:visited {
   }
 }
 
+.purr {
+  position: fixed;
+  top: 630px;
+  right: 300px;
+  width: 250px;
+  padding: 20px;
+  background-color: #FCC;
+  border: solid 2px #C66;
+  &:first-letter {text-transform: uppercase;}
+}
 
 // ~~~~~~~~~~~~~~~~~~~~
 //   Project preview

@@ -81,7 +81,6 @@ class User < ActiveRecord::Base
       end
 
     end
-
   end
 
 
@@ -139,6 +138,7 @@ class User < ActiveRecord::Base
             uid: auth.uid,
             name: auth.info.name,
             email: auth.info.email,
+            confirmed_at: DateTime.now,
             password: Devise.friendly_token[0, 20],
             picture: auth.info.image,
             facebook_url: auth.extra.link,
@@ -164,6 +164,7 @@ class User < ActiveRecord::Base
             email: auth.uid+"@twitter.com",
             password: Devise.friendly_token[0, 20],
             picture: auth.info.image,
+            confirmed_at: DateTime.now,
             description: auth.info.description,
             country: auth.info.location,
             twitter_url: auth.info.urls.Twitter,
@@ -188,6 +189,7 @@ class User < ActiveRecord::Base
             email: data["email"],
             uid: access_token.uid,
             name: access_token.info.name,
+            confirmed_at: DateTime.now,
             password: Devise.friendly_token[0, 20],
             picture: access_token.info.image,
             company: access_token.extra.raw_info.hd,
@@ -216,12 +218,68 @@ class User < ActiveRecord::Base
     self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
   end
 
-  def created_wallet_key
-    if self.created_at > 3.minutes.ago
-      true
+  # MediaWiki API - Page Read
+  def page_read pagename
+    if Rails.configuration.mediawiki_session
+      name = pagename.strip.gsub(" ", "_")
+
+      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      parsedResult = JSON.parse(result.body)
+
+      if parsedResult["error"]
+        content = Hash.new
+        content["status"] = "error"
+      else
+        content = Hash.new
+        content["non-html"] = parsedResult["response"]["content"]
+        content["html"] = parsedResult["response"]["contentHtml"]
+        content["status"] = "success"
+      end
+
+      content
     else
-      false
+      0
     end
   end
+
+  # MediaWiki API - Page Create or Write
+  def page_write pagename, content
+    if Rails.configuration.mediawiki_session
+      name = pagename.strip.gsub(" ", "_")
+
+      result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: self.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
+
+      # Return Response Code
+      JSON.parse(result.body)["response"]["code"]
+    else
+      0
+    end
+  end
+
+  # MediaWiki API - Get latest revision
+  def get_latest_revision pagename
+    if Rails.configuration.mediawiki_session
+      name = pagename.strip.gsub(" ", "_")
+
+      # Get history
+      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+      latest_revision_id = JSON.parse(history.body)["response"][0]
+
+      # Get the revision content
+      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+
+      JSON.parse(revision.body)["response"]["content"]
+    else
+      0
+    end
+  end
+  #
+  # def created_wallet_key
+  #   if self.created_at > 3.minutes.ago
+  #     true
+  #   else
+  #     false
+  #   end
+  # end
 
 end

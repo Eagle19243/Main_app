@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag 'social-share' %>
-<%= javascript_include_tag 'social-share' %>
+<!-- <%= javascript_include_tag 'social-share' %> -->
 
 <div id="loading-mask1" class="modal" style="display: block">
   <!-- Modal content -->
@@ -14,7 +14,7 @@
   </div>
 </div>
 <script>
-  window.onload = function() {
+  window.onload = function () {
     $('#project-url').html(window.location.href);
     // <% if  session[:project_id] != nil %>
 
@@ -32,48 +32,50 @@
     <a class="close-reveal-modal" aria-label="Close">&times;</a>
     <div class="fund-do">
       <div class="row">
-       <center><h4>Invite People To Participate</h4></center>
-        <div class="alert"  id="response"></div>
+        <center><h4>Invite People To Participate</h4></center>
+        <div class="alert" id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(projects_send_project_email_path, remote: true, id:'send-project-email')  do %>
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
             <div class="large-10 medium-10 small-12 columns cold">
               <div class="row row-custom">
                 <div class="large-8 medium-12 small-12 columns cold">
-                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil%>">
-                  <% session[:idd] = @project.id  %>
+                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
+                  <% session[:idd] = @project.id %>
                   <% session[:project_id] = nil %>
                   <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
                 </div>
                 <div class="large-4 medium-12 small-12 columns cold pl10">
-                  <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button" >Add / Invite</button>
+                  <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button">Add / Invite
+                  </button>
                 </div>
               </div>
 
               <div class="row" id="contacts">
-                <div class="contact-importers" id ="tab">
-                  <span >Import your contacts from
+                <div class="contact-importers" id="tab">
+                  <span>Import your contacts from
                     <span class="contact-importer">
-                       <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
-                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"),  contacts_gmail_path %>
+                       <span class="loading-trigger" data-source="gmail" id="gmail-icon">
+                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"), contacts_gmail_path %>
                          <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
                        </span>
                     </span>
                     <span class="mini-divider"></span>
                        <span class="contact-importer">
                          <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                            <%= image_tag("yahoo.png" ,:class => "img_preview") %>
-                            <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo! Mail</a>
+                            <%= image_tag("yahoo.png", :class => "img_preview") %>
+                           <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo!
+                             Mail</a>
                         </span>
                        </span>
                     <span class="mini-divider"></span>
                   </span>
                 </div>
-                <%unless session[:failure_contacts].blank? %>
-                  <p id="response-failure"><%= session[:failure_contacts] %></p>
-                <%end%>
-                <%unless session[:success_contacts].blank? %>
-                  <p  id="response-success"><%= session[:success_contacts] %></p>
-                <%end%>
+                <% unless session[:failure_contacts].blank? %>
+                    <p id="response-failure"><%= session[:failure_contacts] %></p>
+                <% end %>
+                <% unless session[:success_contacts].blank? %>
+                    <p id="response-success"><%= session[:success_contacts] %></p>
+                <% end %>
               </div>
               <%= session[:failure_contacts] = nil %>
               <%= session[:success_contacts] = nil %>
@@ -83,10 +85,10 @@
                 <div id="or">or</div>
               </div>
 
-              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil%>" data-url="<%= task_path(@task.id) rescue nil%>" data-img="" data-desc="" data-popup="" data-via="" >
+              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
                 <ul>
                   <li>
-                    <div class="facebook-wrapper" >
+                    <div class="facebook-wrapper">
                       <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);"><i class="fa fa-facebook"></i>
                         <span>Share on Facebook</span>
                       </a>
@@ -110,7 +112,7 @@
                   </li>
                 </ul>
                 <div class="row share-link">
-                  <hr />
+                  <hr/>
                   <b>URL: </b><span id="project-url"></span>
                 </div>
               </div>
@@ -124,29 +126,29 @@
 
 <div class="md-overlay"></div>
 <script type="text/javascript">
-  $(document).ready(function(){
+  $(document).ready(function () {
     document.getElementById("loading-mask1").style.display = "none";
 
-    $( "#send-project-email" ).submit(function( ) {
+    $("#send-project-email").submit(function () {
       $('#response').empty();
       $('#response').html("loading...")
     });
-    $( "#send-project-email-button" ).click(function( ) {
+    $("#send-project-email-button").click(function () {
       $('#response').empty();
     });
-    $('.btn_movecard').click(function(){
+    $('.btn_movecard').click(function () {
       var loading = document.getElementById('loading-mask1');
-       loading.style.display = "block";
-    //  $("#loading-mask1").show();
+      loading.style.display = "block";
+      //  $("#loading-mask1").show();
 
     });
-    $( "#inviteclose" ).click(function( ) {
-     $('#response').empty();
+    $("#inviteclose").click(function () {
+      $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
       $("#guest-email").val("");
     });
-    $("#guest-email").keyup(function(){
+    $("#guest-email").keyup(function () {
       $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
@@ -159,7 +161,7 @@
     // project_span_team.onclick = function() {
     //   modalteam.style.display = "none";
     // }
-  } );
+  });
 </script>
 
 <%= render "tasks/banner" %>
@@ -173,17 +175,24 @@
             <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Tasks')">Tasks <span class="count">12</span></a>
+            <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
+                Tasks<span class="count"><%= @tasks_count %></span>
+            <% end %>
+
           </li>
-          <% if user_signed_in? %>
-              <% if @project.user_id == current_user.id %>
-                <li>
-                  <a href="/projects/<%= @project.id %>/revisions" data-remote='true' class="tablinks border-right-none tab-revisions" onclick="openTab(event, 'Revision')">Revisions <span class="count">4</span></a>
-                </li>
+
+            <% if user_signed_in? %>
+                <% if @project.user_id == current_user.id %>
+                  <li>
+                    <%= link_to projects_show_all_revision_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
+                        Revisions<span class="count">4</span>
+                    <% end %>                  </li>
               <% end %>
           <% end %>
           <li>
-            <a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'Team')">Team <span class="count">12</span></a>
+            <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
+                Team<span class="count">12</span>
+            <% end %>
           </li>
         </ul>
 
@@ -204,7 +213,7 @@
             <div class="rank-group">
               <input type="hidden" id="stars" name="stars">
               <% for i in 1..5 %>
-                <i class="fa fa-star" aria-hidden="true"></i>
+                  <i class="fa fa-star" aria-hidden="true"></i>
               <% end %>
             </div>
           </div>
@@ -263,6 +272,14 @@
                 <%= @contents.html_safe %>
               </div>
             </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+              <strong>Project Idea:</strong>
+              <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
+              <% if user_signed_in? && current_user.id == @project.user_id %>
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
+                <span id="str_length"></span>
+              <% end %>
+            </div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
               <div class="tasks-summary">
                 <div class="summary-header">
@@ -271,49 +288,49 @@
                 </div>
 
                 <div id="tasks_cards">
-                  <% @sourcing_tasks.first(5).each do  |task| %>
-                    <div class="summary-cards">
-                      <div class="card-wrapper">
-                        <div class="card-title">
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-9 col-md-9 col-sm-9 pt15">
-                            <div class="progress">
-                              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
+                  <% @sourcing_tasks.first(5).each do |task| %>
+                      <div class="summary-cards">
+                        <div class="card-wrapper">
+                          <div class="card-title">
+                            <p><%= task.description %></p>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-9 col-md-9 col-sm-9 pt15">
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
+                                </div>
+                              </div>
+                              <div class="report-banner-table tab-task-report mt10">
+                                <table>
+                                  <tr class="value">
+                                    <td><%= task.funded %></td>
+                                    <td><%= @tasks_count %></td>
+                                    <td><%= task.donations.count %></td>
+                                    <td><%= task.funded_in_btc %></td>
+                                  </tr>
+                                  <tr class="items">
+                                    <td>Funded</td>
+                                    <td>Tasks</td>
+                                    <td>Backers</td>
+                                    <td>Raised</td>
+                                  </tr>
+                                </table>
                               </div>
                             </div>
-                            <div class="report-banner-table tab-task-report mt10">
-                              <table>
-                                <tr class="value">
-                                  <td><%= task.funded %></td>
-                                  <td><%=  @tasks_count %></td>
-                                  <td><%= task.donations.count %></td>
-                                  <td><%= task.funded_in_btc %></td>
-                                </tr>
-                                <tr class="items">
-                                  <td>Funded</td>
-                                  <td>Tasks</td>
-                                  <td>Backers</td>
-                                  <td>Raised</td>
-                                </tr>
-                              </table>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                              <div class="fund-do-btns">
+                                <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                                  DO
+                                </a>
+                                <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                                  FUND
+                                </a>
+                              </div>
                             </div>
                           </div>
-                          <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="fund-do-btns">
-                              <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
-                                DO
-                              </a>
-                              <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
-                                FUND
-                              </a>
-                            </div>
-                          </div>
-                        </div>
 
+                        </div>
                       </div>
-                    </div>
                   <% end %>
                 </div>
 
@@ -324,320 +341,8 @@
       </div>
 
       <div id="Tasks" class="tabcontent">
-        <div class="trello-board">
-          <div class="trello-column">
-            <div class="trello-section">
-              <div class="section-header">
-                <a href="javascript:void(0)">
-                  Pending Approval
-                </a>
-              </div>
-
-              <div class="section-content">
-                <% @suggested_tasks.each do |task| %>
-                  <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                    <div class="trello-cards">
-                      <div class="card-wrapper">
-
-                        <div class="card-title">
-                          <h5><%= task.title %></h5>
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-
-                        <div class="card-report">
-                          <table>
-                            <tr class="value">
-                              <td><%= task.funded %></td>
-                              <td><%=  @tasks_count %></td>
-                              <td><%= task.donations.count %></td>
-                              <td><%= task.funded_in_btc %></td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Backers</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-
-              <div class="section-add-task">
-                <a href="javascript:void(0)" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="trello-column">
-            <div class="trello-section">
-              <div class="section-header">
-                <a href="javascript:void(0)">
-                  Funding &amp; Sourcing
-                </a>
-              </div>
-
-              <div class="section-content">
-                <% @sourcing_tasks.each do |task| %>
-                  <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                    <div class="trello-cards">
-                      <div class="card-wrapper">
-
-                        <div class="card-title">
-                          <h5><%= task.title %></h5>
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-
-                        <div class="card-report">
-                          <table>
-                            <tr class="value">
-                              <td><%= task.funded %></td>
-                              <td><%=  @tasks_count %></td>
-                              <td><%= task.donations.count %></td>
-                              <td><%= task.funded_in_btc %></td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Backers</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-
-                        <div class="fund-do-btns">
-                          <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' id="<%= task.id %>" data-target="#taskFundModal">
-                            FUND
-                          </a>
-                          <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" data-target="#taskDoModal">
-                            DO
-                          </a>
-                          <% if user_signed_in? %>
-                              <% if @project.user_id == current_user.id || task.is_leader(current_user.id) %>
-                                  <%= link_to 'Destroy', task, method: :delete ,class:'fund-model-popup modal-link' , data: { confirm: 'Are you sure?' } ,title:"Delete"%></td>
-                              <% end %>
-                          <% end %>
-                          </a>
-                        </div>
-
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-
-              <% if user_signed_in? %>
-                  <% if @project.user_id == current_user.id %>
-                      <div class="section-add-task">
-                        <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
-                      </div>
-                  <% end %>
-              <% end %>
-
-            </div>
-          </div>
-
-          <div class="trello-column">
-            <div class="trello-section">
-              <div class="section-header">
-                <a href="javascript:void(0)">
-                  Doing
-                </a>
-              </div>
-
-              <div class="section-content">
-                <% @doing_tasks.each do |task| %>
-                  <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                    <div class="trello-cards">
-                      <div class="card-wrapper">
-
-                        <div class="card-title">
-                          <h5><%= task.title %></h5>
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-
-                        <div class="card-report">
-                          <table>
-                            <tr class="value">
-                              <td><%= task.funded %></td>
-                              <td><%=  @tasks_count %></td>
-                              <td><%= task.donations.count %></td>
-                              <td><%= task.funded_in_btc %></td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Backers</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-
-                        <% if user_signed_in? %>
-                            <% if @project.user_id == current_user.id %>
-                                <%= link_to reviewing_task_path(task.id) do %>
-                                    <button onClick="window.location.reload()">
-                                      <i class="fa fa-arrow-right" aria-hidden="true"></i> Submit Task for Review
-                                    </button>
-                                <% end %>
-                            <% end %>
-                        <% end %>
-
-                      </div>
-                    </div>
-                  <%end %>
-                <% end %>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="trello-column">
-            <div class="trello-section">
-              <div class="section-header">
-                <a href="javascript:void(0)">
-                  Reviewing
-                </a>
-              </div>
-
-              <div class="section-content">
-                <% @reviewing_tasks.each do |task| %>
-                  <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                    <div class="trello-cards">
-                      <div class="card-wrapper">
-
-                        <div class="card-title">
-                          <h5><%= task.title %></h5>
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-
-                        <div class="card-report">
-                          <table>
-                            <tr class="value">
-                              <td><%= task.funded %></td>
-                              <td><%=  @tasks_count %></td>
-                              <td><%= task.donations.count %></td>
-                              <td><%= task.funded_in_btc %></td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Backers</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-
-                        <% if user_signed_in? %>
-
-                            <% if @project.user_id == current_user.id %>
-                                <div style="margin-top: 1%">
-                                  <%= link_to completed_task_path(task.id) do %>
-                                      <button>
-                                        <i class="fa fa-check" aria-hidden="true"></i>Task Completed
-                                      </button>
-                                  <% end %>
-                                </div>
-                            <% end %>
-                        <% end %>
-
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="trello-column">
-            <div class="trello-section">
-              <div class="section-header">
-                <a href="javascript:void(0)">
-                  Done
-                </a>
-              </div>
-
-              <div class="section-content">
-                <% @done_tasks.each do |task| %>
-                  <%= link_to projects_show_task_path(id: task.id), remote: true do %>
-                    <div class="trello-cards">
-                      <div class="card-wrapper">
-
-                        <div class="card-title">
-                          <h5><%= task.title %></h5>
-                          <p><%= task.description %></p>
-                        </div>
-                        <div class="comment-wrapper">
-                          <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
-                          <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-                          </div>
-                        </div>
-
-                        <div class="card-report">
-                          <table>
-                            <tr class="value">
-                              <td><%= task.funded %></td>
-                              <td><%=  @tasks_count %></td>
-                              <td><%= task.donations.count %></td>
-                              <td><%= task.funded_in_btc %></td>
-                            </tr>
-                            <tr class="items">
-                              <td>Funded</td>
-                              <td>Tasks</td>
-                              <td>Backers</td>
-                              <td>Raised</td>
-                            </tr>
-                          </table>
-                        </div>
-
-                      </div>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-
-            </div>
-          </div>
+        <div class="center">
+          <%= image_tag("loading.gif", :alt => "rss feed") %>
         </div>
       </div>
 
@@ -651,8 +356,8 @@
       <% end %>
 
       <div id="Team" class="tabcontent">
-        <div class="row">
-          <%= render "projects/tabcontent/team" %>
+        <div class="center">
+          <%= image_tag("loading.gif", :alt => "rss feed") %>
         </div>
       </div>
     </div>
@@ -685,6 +390,19 @@
 
 <script type="text/javascript">
 
+    $('.best_in_place').on("input",function() {
+      strlength = $(".form_in_place > input").val().length;
+      string = "(" + strlength + "/60)";
+      if (strlength < 2 || strlength > 60) {
+        $('#str_length').addClass("alert_red");
+        string = string + "Input between 2 ~ 60 characters";
+      }
+      else
+        $('#str_length').removeClass("alert_red");
+
+      $('#str_length').text(string);
+    });
+
     function openTab(evt, tabName) {
       var i, tabcontent, tablinks;
       tabcontent = document.getElementsByClassName("tabcontent");
@@ -700,10 +418,10 @@
         evt.currentTarget.className += " active";
       }
 
-      $('#sourceEditor').hide();
-      $('.plan-hide').hide();
-      $('.plan-show').show();
-    }
+    $('#sourceEditor').hide();
+    $('.plan-hide').hide();
+    $('.plan-show').show();
+  }
 
     $(function(){
 
@@ -734,9 +452,9 @@
       });
     });
 
-    $('.do-model-popup').click(function(){
-      $('#task-do-request-popup').val($(this).attr('id'));
-    });
+  $('.do-model-popup').click(function () {
+    $('#task-do-request-popup').val($(this).attr('id'));
+  });
 
     var invitePeople = localStorage.getItem("invite_people");
     if( invitePeople == "true" ) {

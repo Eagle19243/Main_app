@@ -11,14 +11,14 @@
       <div class="modal-body text-center">
         <div class="wallet-text-wrapper">
           <p class="text-default text-center">
-            We created a bitcoin wallet for you. Short descriptio what is it what they should do with it.
+            We created a bitcoin wallet for you.
           </p>
           <p class="text-default text-center">
-            Lorem ipsum dolor sit amet, quem etiam intellegat ne nam, nec minimum convenire tincidunt ei, ius assum neglegentur ne. Denique honestatis definitionem an has, sumo similique in vix.
-          </p>
+            we have created your Wallet Backup Keys please
+            Download your keys and Save Your keys at save place </p>
         </div>
 
-        <a href="javascript:void(0)" class="btn-wallet" id="wallet_button">download wallet key</a>
+        <a href="<%= user_wallet_transactions_download_keys_url %>" class="btn-wallet" id="wallet_button">download wallet key</a>
       </div>
 
     </div>
@@ -29,11 +29,11 @@
 
 <script type="text/javascript">
   $('#wallet_button').click(function() {
-    var startProject = localStorage.getItem("start_project");
-    if( startProject == "true" ) {
+    //  var startProject = localStorage.getItem("start_project");
+   //if( startProject == "true" ) {
       $('#walletModal').modal('hide');
       $('#startProjectModal').modal('toggle');
       localStorage.removeItem('start_project');
-    }
+    //}
   });
 </script>
