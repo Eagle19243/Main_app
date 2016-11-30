@@ -1,5 +1,6 @@
 class GroupMessagesController < ApplicationController
 #  require 'GroupMessagesHelper'
+  autocomplete :user, :name, :full => true
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!
   before_action :set_group_message, only: [:show, :edit, :update, :destroy]
@@ -14,6 +15,14 @@ class GroupMessagesController < ApplicationController
       return false
     end
     return true
+  end
+
+  def search_user
+    @users = User.all
+    if params[:search]
+      @user = User.name_like("%#{params[:search]}%").order('name')
+    else
+    end
   end
   
   def load_messages_by_chatroom(id)
