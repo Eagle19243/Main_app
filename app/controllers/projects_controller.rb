@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :start_project_by_signup]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -21,6 +21,16 @@ class ProjectsController < ApplicationController
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
+
+    if @download_keys && session[:start_by_signup]
+      if session[:start_by_signup] == "true"
+        @start_project = true
+      elsif session[:start_by_signup] == "false"
+        @start_project = false
+      end
+      session[:start_by_signup] = ''
+    end
+
     respond_to do |format|
       format.html
       format.js
@@ -480,6 +490,13 @@ class ProjectsController < ApplicationController
 
   def featured
     @featured_projects = Project.get_featured_projects
+  end
+
+  def start_project_by_signup
+    session[:start_by_signup] = params[:start_by_signup]
+    render json: {
+        status: true
+    }
   end
 
   private

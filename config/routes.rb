@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post 'projects/send_project_invite_email'
   post 'tasks/send_email'
   post 'projects/send_project_email'
+  post 'projects/start_project_by_signup'
   get 'teams/remove_membership'
   get 'projects/get_activities'
   get 'projects/show_all_tasks'
