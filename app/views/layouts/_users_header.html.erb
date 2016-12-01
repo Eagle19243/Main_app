@@ -3,9 +3,10 @@
   <div class="header-wrap">
     <div class="landing-logo">
       <% if user_signed_in? %>
-          <%= link_to 'WeServe', home_index_path %>
-          <%else %>
-          <%= link_to 'WeServe', root_path %>
+        <!-- For signed users, we should still this to redirect to root path as we have only dummy projects -->
+        <%= link_to 'WeServe', root_path %>
+      <%else %>
+        <%= link_to 'WeServe', root_path %>
       <% end %>
     </div>
 
