@@ -51,4 +51,12 @@
     </script>
 <% end %>
 
-
+<% if @download_keys && @start_project %>
+    <script type="text/javascript">
+      $('#wallet_button').click(function() {
+          $('#walletModal').modal('hide');
+          $('#startProjectModal').modal('toggle');
+          localStorage.removeItem('start_project');
+      });
+    </script>
+<% end %>

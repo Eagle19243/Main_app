@@ -24,16 +24,3 @@
     </div>
   </div>
 </div>
-
-<%= render 'modal/start_project_modal' %>
-
-<script type="text/javascript">
-  $('#wallet_button').click(function() {
-    //  var startProject = localStorage.getItem("start_project");
-   //if( startProject == "true" ) {
-      $('#walletModal').modal('hide');
-      $('#startProjectModal').modal('toggle');
-      localStorage.removeItem('start_project');
-    //}
-  });
-</script>
