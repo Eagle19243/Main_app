@@ -3,3 +3,10 @@ $('#sourceEditor').show();
 $('.plan-hide').show();
 $('.plan-show').hide();
 $("#sourceEditor #editorContents").html("<%= escape_javascript(render partial: 'textarea_editor', locals: {contents: @contents}) %>");
+<% if @revision_id %>
+  $(".btn-visual").attr('href', "http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>&oldid=<%= @revision_id %>")
+<% end %>
+
+// MarkItUp Editor
+$('#textarea-editor').markItUp(mySettings);
+$("#textarea-editor").focus();

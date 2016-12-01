@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class WikisControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @wiki = wikis(:one)
   end

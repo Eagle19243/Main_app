@@ -9,11 +9,18 @@ Rails.application.routes.draw do
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
 
+  resources :group_messages do
+    get :autocomplete_user_name, :on => :collection
+  end
+  get 'group_messages/search_user'
   post 'projects/send_project_invite_email'
   post 'tasks/send_email'
   post 'projects/send_project_email'
   get 'teams/remove_membership'
   get 'projects/get_activities'
+  get 'projects/show_all_tasks'
+  get 'projects/show_all_teams'
+  get 'projects/show_all_revision'
   get 'projects/show_task'
   # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
