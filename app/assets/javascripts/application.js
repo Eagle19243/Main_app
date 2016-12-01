@@ -50,7 +50,7 @@ $(document).on('page:load', function() {
 });
 
 $(function() {
-  $('img').one('error', function() { 
+  $('img').one('error', function() {
     this.src = '/assets/no_image.png';
   });
   $('.task-box').matchHeight();

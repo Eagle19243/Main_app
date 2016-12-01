@@ -146,17 +146,22 @@ class Project < ActiveRecord::Base
     if Rails.configuration.mediawiki_session
       name = self.title.strip.gsub(" ", "_")
 
-      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      parsedResult = JSON.parse(result.body)
+      begin
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        parsedResult = JSON.parse(result.body)
 
-      if parsedResult["error"]
-        content = Hash.new
-        content["status"] = "error"
-      else
-        content = Hash.new
-        content["non-html"] = parsedResult["response"]["content"]
-        content["html"] = parsedResult["response"]["contentHtml"]
-        content["status"] = "success"
+        if parsedResult["error"]
+          content = Hash.new
+          content["status"] = "error"
+        else
+          content = Hash.new
+          content["revision_id"] = parsedResult["response"]["revision_id"]
+          content["non-html"] = parsedResult["response"]["content"]
+          content["html"] = parsedResult["response"]["contentHtml"]
+          content["status"] = "success"
+        end
+      rescue
+        return 0
       end
 
       content
@@ -170,8 +175,11 @@ class Project < ActiveRecord::Base
     if Rails.configuration.mediawiki_session
       name = self.title.strip.gsub(" ", "_")
 
-      result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: user.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
-
+      begin
+        result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: user.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
+      rescue
+        return 0
+      end
       # Return Response Code
       JSON.parse(result.body)["response"]["code"]
     else
@@ -184,14 +192,18 @@ class Project < ActiveRecord::Base
     if Rails.configuration.mediawiki_session
       name = self.title.strip.gsub(" ", "_")
 
-      # Get history
-      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      latest_revision_id = JSON.parse(history.body)["response"][0]
+      begin
+        # Get history
+        history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        latest_revision_id = JSON.parse(history.body)["response"][0]
 
-      # Get the revision content
-      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        # Get the revision content
+        revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
 
-      JSON.parse(revision.body)["response"]["content"]
+        return JSON.parse(revision.body)["response"]["content"]
+      rescue
+        return 0
+      end
     else
       0
     end
@@ -203,8 +215,12 @@ class Project < ActiveRecord::Base
       name = self.title.strip.gsub(" ", "_")
 
       # Get history
-      history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(history.body)["response"]
+      begin
+        history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        return JSON.parse(history.body)["response"]
+      rescue
+        return 0
+      end
     else
       0
     end
@@ -216,8 +232,12 @@ class Project < ActiveRecord::Base
       name = self.title.strip.gsub(" ", "_")
 
       # Get revision
-      revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(revision.body)["response"]
+      begin
+        revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        return JSON.parse(revision.body)["response"]
+      rescue
+        return 0
+      end
     else
       0
     end
@@ -229,8 +249,12 @@ class Project < ActiveRecord::Base
       name = self.title.strip.gsub(" ", "_")
 
       # Approve
-      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=approve&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
+      begin
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=approve&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        return JSON.parse(result.body)["response"]["code"]
+      rescue
+        return 0
+      end
     else
       0
     end
@@ -242,8 +266,12 @@ class Project < ActiveRecord::Base
       name = self.title.strip.gsub(" ", "_")
 
       # Unapprove
-      result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
+      begin
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return 0
+      end
     else
       0
     end
