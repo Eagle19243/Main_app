@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class PlansControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @plan = plans(:one)
   end
