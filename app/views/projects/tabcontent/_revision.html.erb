@@ -33,7 +33,9 @@
               </a>
             </td>
             <td class="revisions-compare">
-              
+              <label class="revision-compare-custom-radio" for="input_revision_<%= history['revision_id'] %>">
+                <input type="checkbox" value="<%= history['revision_id'] %>" id="input_revision_<%= history['revision_id'] %>" />
+              </label>
             </td>
             <td>
               <%= history["datetime"] %>
@@ -51,7 +53,9 @@
               <% end %>
             </td>
             <td>
-
+              <a href="/group_messages/user_messaging?user_id=<%= history['user'].id %>">
+                <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
+              </a>
             </td>
             <td>
               <a href="javascript:void(0)">
