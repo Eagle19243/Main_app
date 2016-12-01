@@ -271,14 +271,15 @@
               <div class="project-summary">
                 <%= @contents.html_safe %>
               </div>
-            </div>
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-              <strong>Project Idea:</strong>
-              <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-              <% if user_signed_in? && current_user.id == @project.user_id %>
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
-                <span id="str_length"></span>
-              <% end %>
+            
+              <div class="project-idea">
+                <strong>Project Idea: &nbsp;&nbsp;</strong>
+                <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
+                <% if user_signed_in? && current_user.id == @project.user_id %>
+                  <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
+                  <span id="str_length"></span>
+                <% end %>
+              </div>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
               <div class="tasks-summary">

@@ -225,6 +225,7 @@
           color: #777;
           position: relative;
           top: -7px;
+          right: -5px;
         }
       }
     }
@@ -366,6 +367,21 @@
     text-align: justify;
     letter-spacing: 1px;
     line-height: 1.5em;
+  }
+}
+
+.project-idea {
+  font-family: 'Libre Franklin';
+  font-size: 1em;
+  color: #555;
+  text-align: justify;
+  letter-spacing: 1px;
+  line-height: 1.5em;
+
+  strong {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    color: #000;
   }
 }
 
