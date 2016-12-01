@@ -184,7 +184,7 @@
             <% if user_signed_in? %>
                 <% if @project.user_id == current_user.id %>
                   <li>
-                    <%= link_to projects_show_all_revision_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
+                    <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
                         Revisions<span class="count"><%= @histories.count %></span>
                     <% end %>                  </li>
               <% end %>
@@ -622,7 +622,8 @@
     $('#revisionsDiffModal').on('shown.bs.modal', function(){
       var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
       // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
-      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev='+selectedRevs[0]+'&torev='+selectedRevs[1]+'&format=json&origin='+window.location.protocol+'//'+window.location.hostname+':'+window.location.port, function(data) {
+      var origin = window.location.protocol+'//'+window.location.hostname+(window.location.port ? ':'+window.location.port: '');
+      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev='+selectedRevs[0]+'&torev='+selectedRevs[1]+'&format=json&origin='+origin, function(data) {
         var $diffTable = $('<table>' + data.compare['*'] + '</table>');
         // We will receive table contents from API, so wrap it into table
         $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);

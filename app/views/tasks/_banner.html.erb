@@ -46,7 +46,7 @@
                   <% @budget=@budget+ p.budget %>
               <% end %>
 
-              <td><%= @project.team.team_memberships.count %>/<%= @particpent %></td>
+              <td></td><!-- <%= @project.team.team_memberships.count %>/<%= @particpent %> -->
               <td>$<%= @budget %></td>
             </tr>
             <tr class="items">
@@ -61,7 +61,12 @@
     </div>
 
     <div class="row">
-      <center><a href="#" id="myBtn" class="button round get-invo-btn">Join the Team</a></center>
+      <% unless user_signed_in? && current_user.is_project_leader?(@project) %>
+        <center>
+          <a href="#" id="myBtn" class="button round get-invo-btn">Apply As Lead Editor</a>
+          <a href="#" id="myBtn" class="button round get-invo-btn">Apply As Executor</a>
+        </center>
+      <% end %>
     </div>
 
   </div>
