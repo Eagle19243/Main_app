@@ -89,8 +89,13 @@ class Project < ActiveRecord::Base
   end
 
   def team_relations_string
+    if team.nil? 
+      return tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+    else 
+      return team.team_memberships.count.to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+    end
     # self.team.team_memberships.count.to_s
-    # tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+    #tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
   end
 
   def rate_avg

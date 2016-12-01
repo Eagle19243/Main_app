@@ -46,7 +46,13 @@
                   <% @budget=@budget+ p.budget %>
               <% end %>
 
-              <td></td><!-- <%= @project.team.team_memberships.count %>/<%= @particpent %> -->
+              <td>
+                <% if !@project.team.nil? %>
+                  <%= @project.team.team_memberships.count %>/<%= @particpent %> 
+                <% else %>
+                  0/<%= @particpent %>
+                <% end %>
+              </td> 
               <td>$<%= @budget %></td>
             </tr>
             <tr class="items">
