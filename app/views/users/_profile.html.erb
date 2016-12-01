@@ -88,7 +88,7 @@
 
 <div class="profile-wrapper">
   <div class="profile-hero">
-    <%= image_tag(@user.projects.first.picture) %>
+    <%= image_tag(@user.projects.first.picture) if @user.projects.count != 0 %>
     <div class="hero-promo">
       <div class="user-name">
         <% if (current_user && current_user.id == @user.id) %>
