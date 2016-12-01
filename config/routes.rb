@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
 
+  resources :group_messages do
+    get :autocomplete_user_name, :on => :collection
+  end
+  get 'group_messages/search_user'
   post 'projects/send_project_invite_email'
   post 'tasks/send_email'
   post 'projects/send_project_email'

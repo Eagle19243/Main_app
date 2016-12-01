@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ChatroomsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @chatroom = chatrooms(:one)
   end

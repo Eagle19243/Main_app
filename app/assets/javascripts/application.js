@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery.jcrop
 //= require jquery_ujs
+//= require autocomplete-rails
 //= require jquery.remotipart
 //= require best_in_place
 //= require bootstrap-sprockets
@@ -46,7 +47,7 @@ $(document).on('page:load', function() {
 });
 
 $(function() {
-  $('img').one('error', function() { 
+  $('img').one('error', function() {
     this.src = '/assets/no_image.png';
   });
   $('.task-box').matchHeight();
