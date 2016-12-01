@@ -12,12 +12,13 @@
       <div class="modal-body">
 
         <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6" id="sign-up-social-buttons">
+          <div class="col-lg-6 col-md-6 col-sm-6 sign_up_show">
             <%= render "modal/social_register" %>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-6" id="sign-in-social-buttons">
+          <div class="col-lg-6 col-md-6 col-sm-6 sign_in_show">
             <%= render "modal/social_sign_in" %>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="row row-custom sign_up_show" id="sign_up_show">
               <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
