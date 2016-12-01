@@ -53,7 +53,7 @@
               <% end %>
             </td>
             <td>
-              <a href="/group_messages/user_messaging?user_id=<%= history['user'].id %>">
+              <a href = <%= history['user'] ? "/group_messages/user_messaging?user_id=#{history['user'].id}" : "" %> >
                 <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
               </a>
             </td>
