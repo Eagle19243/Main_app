@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class CardsControllerTest < ActionController::TestCase
+
+  include Devise::Test::ControllerHelpers
+
   setup do
     @card = cards(:one)
   end

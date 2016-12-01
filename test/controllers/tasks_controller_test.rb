@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TasksControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @task = tasks(:one)
   end

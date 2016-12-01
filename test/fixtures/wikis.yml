@@ -4,7 +4,6 @@ one:
   title: MyString
   description: MyText
   pictureone: MyString
-  string: MyString
   picturetwo: MyString
   picturethree: MyString
   picturefour: MyString
@@ -14,7 +13,6 @@ two:
   title: MyString
   description: MyText
   pictureone: MyString
-  string: MyString
   picturetwo: MyString
   picturethree: MyString
   picturefour: MyString
