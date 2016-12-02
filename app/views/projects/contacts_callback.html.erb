@@ -9,36 +9,36 @@
   <div class="modal-dialog">
     <div class="modal-content" id="gmail-dialog">
       <div class="modal-header">
-        <h4 class="modal-title">Invite Your Friends To This Project <%= @contacts.count.to_s.concat('  Emails found') unless @contacts.blank? %></h4>
+        <h4 class="modal-title">Invite Your Friends To This
+          Project <%= @contacts.count.to_s.concat('  Emails found') unless @contacts.blank? %></h4>
       </div>
       <% unless @contacts.blank? %>
-          <%if  @contacts.count >15 %>
-              <%= form_tag  '/projects/send_project_invite_email' do%>
+          <% if @contacts.count >15 %>
+              <%= form_tag '/projects/send_project_invite_email' do %>
                   <%= hidden_field_tag 'emails' %>
-                  <%= link_to "Cancel",'/projects/failure', class: "btn btn-danger" , id: 'cancel'%>
-
-                  <%= submit_tag "Invite Friends", class: "btn btn-success", id:'succes' %>
-              <%end %>
-          <%end%>
-       <%else%>
+                  <%= link_to "Cancel", contacts_failure_path, class: "btn btn-danger", id: 'cancel' %>
+                  <%= submit_tag "Invite Friends", class: "btn btn-success", id: 'succes' %>
+              <% end %>
+          <% end %>
+      <% else %>
           <p id="failer"> No, Contact Found!</p>
-          <%= link_to 'Go Back',controller: 'projects', action: 'taskstab', id: session[:idd]%>
-      <%end%>
-      <script>var arr=[]</script>
-      <% if !@contacts.nil?%>
-          <% @contacts.each do |c|%>
+          <%= link_to 'Go Back', controller: 'projects', action: 'taskstab', id: session[:idd] %>
+      <% end %>
+      <script>var arr = []</script>
+      <% if !@contacts.nil? %>
+          <% @contacts.each do |c| %>
               <% @contacts.count %>
               <% email = c[:email] %><br>
               <script>arr.push("<%=email%>")</script>
-              <input type="checkbox" id="x" class='email_selected' value="<%=email%>"  checked>
-              <%=email%>
-          <%end%>
-          <%else%>
-          <p id= 'failer'> No, Contact Found!</p>
-          <%= link_to 'Go Back',controller: 'projects', action: 'taskstab', id: session[:idd]%>
-      <%end%>
+              <input type="checkbox" id="x" class='email_selected' value="<%= email %>" checked>
+              <%= email %>
+          <% end %>
+      <% else %>
+          <p id='failer'> No, Contact Found!</p>
+          <%= link_to 'Go Back', controller: 'projects', action: 'taskstab', id: session[:idd] %>
+      <% end %>
       <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
           $('#gmail-invite-modal').modal({
             backdrop: 'static',
             keyboard: false
@@ -59,14 +59,15 @@
           });
           $("#gmail-invite-modal").modal('show');
         });
-      </script><br>
+      </script>
+      <br>
       <% unless @contacts.blank? %>
-      <%= form_tag  '/projects/send_project_invite_email' do%>
-          <%= hidden_field_tag 'emails' %>
-              <%= link_to "Cancel",'/contacts/failure', id:'contacts-failure' , class: "btn btn-danger"%>
-              <%= submit_tag "Invite Friends", id:'invite-friends',  class: "btn btn-success" %>
-      <%end %>
-     <%end%>
+          <%= form_tag '/projects/send_project_invite_email' do %>
+              <%= hidden_field_tag 'emails' %>
+              <%= link_to "Cancel", contacts_failure_path, id: 'contacts-failure', class: "btn btn-danger" %>
+              <%= submit_tag "Invite Friends", id: 'invite-friends', class: "btn btn-success" %>
+          <% end %>
+      <% end %>
     </div>
   </div>
 </div>
