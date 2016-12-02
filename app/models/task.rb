@@ -16,7 +16,8 @@ class Task < ActiveRecord::Base
   has_many :do_requests, dependent: :delete_all
   has_many :donations, dependent: :delete_all
   has_many :task_attachments, dependent: :delete_all
-  has_many :team_memberships
+  has_many :team_memberships, through: :task_members, dependent: :destroy
+
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
   #after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do

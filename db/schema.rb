@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161202175910) do
+ActiveRecord::Schema.define(version: 20161202180354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -350,6 +350,15 @@ ActiveRecord::Schema.define(version: 20161202175910) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "task_members_tables", force: :cascade do |t|
+    t.integer  "team_membership_id"
+    t.integer  "task_id"
+    t.datetime "created_at"
+  end
+
+  add_index "task_members_tables", ["task_id"], name: "index_task_members_tables_on_task_id", using: :btree
+  add_index "task_members_tables", ["team_membership_id"], name: "index_task_members_tables_on_team_membership_id", using: :btree
+
   create_table "tasks", force: :cascade do |t|
     t.integer  "project_id"
     t.string   "title"
@@ -524,6 +533,8 @@ ActiveRecord::Schema.define(version: 20161202175910) do
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "section_details", "projects"
+  add_foreign_key "task_members_tables", "tasks"
+  add_foreign_key "task_members_tables", "team_memberships"
   add_foreign_key "user_wallet_addresses", "users"
   add_foreign_key "wallet_addresses", "tasks"
   add_foreign_key "wallet_transactions", "tasks"
