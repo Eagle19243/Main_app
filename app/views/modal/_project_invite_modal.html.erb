@@ -34,12 +34,18 @@
           </div>
         </div>
 
-        <div class="invite-email-wrapper">
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" name="invite_email">
-            <a href="javascript:void(0)" class="btn-invite">Invite</a>
-          </div>
+        <div class="alert" id="response" style="color: red;margin-left: 17.5%;"></div>
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
+            <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
+            <div class="invite-email-wrapper">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" id="guest-email" required>
+                <!--<a onclick="document.getElementById('send-project-email').submit()"  class="btn-invite" id="send-project-email-button">Invite</a >-->
+                <button class="round modal-btn1 btn-add normal-button btn-invite" id="send-project-email-button">Add / Invite
+                </button>
+              </div>
+        <% end %>
 
           <div class="import-contacts-wrapper">
             <div id="contacts">

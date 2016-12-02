@@ -15,7 +15,7 @@
           <%if  @contacts.count >15 %>
               <%= form_tag  '/projects/send_project_invite_email' do%>
                   <%= hidden_field_tag 'emails' %>
-                  <%= link_to "Cancel",'/contacts/failure', class: "btn btn-danger" , id: 'cancel'%>
+                  <%= link_to "Cancel",'/projects/failure', class: "btn btn-danger" , id: 'cancel'%>
 
                   <%= submit_tag "Invite Friends", class: "btn btn-success", id:'succes' %>
               <%end %>
