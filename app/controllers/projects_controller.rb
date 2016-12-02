@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki]
+  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   # skip_authorization_check []
@@ -21,6 +21,16 @@ class ProjectsController < ApplicationController
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
+
+    if @download_keys && session[:start_by_signup]
+      if session[:start_by_signup] == "true"
+        @start_project = true
+      elsif session[:start_by_signup] == "false"
+        @start_project = false
+      end
+      session[:start_by_signup] = ''
+    end
+
     respond_to do |format|
       format.html
       format.js
@@ -218,11 +228,6 @@ class ProjectsController < ApplicationController
     if result
       if result["status"] == 'success'
         @contents = result["html"]
-        # else
-        #   # Create new page
-        #   current_user.page_write @project.title, ''
-        #   result = current_user.page_read @project.title
-        #   @contents = ''
       end
     end
 
@@ -273,6 +278,8 @@ class ProjectsController < ApplicationController
   end
 
   def show_all_revision
+    @histories = get_revision_histories @project
+
     respond_to do |format|
       format.js
     end
@@ -436,20 +443,28 @@ class ProjectsController < ApplicationController
     # else
     #   #TODO create new session for mediawiki
     # end
+    @contents = ''
 
-    # Get Latest Revision editable
     if params[:rev]
+      @revision_id = params[:rev]
       result = @project.get_revision params[:rev]
-      @contents = ''
       if result
         @contents = result["content"]
       end
     else
+      Get Latest Revision editable
       result = @project.get_latest_revision
       @contents = ''
       if result
         @contents = result
       end
+      # result = @project.page_read
+      # if result
+      #   if result["status"] == 'success'
+      #     @contents = result["html"]
+      #     @revision_id = result["revision_id"]
+      #   end
+      # end
     end
 
     respond_to do |format|
@@ -480,6 +495,13 @@ class ProjectsController < ApplicationController
 
   def featured
     @featured_projects = Project.get_featured_projects
+  end
+
+  def start_project_by_signup
+    session[:start_by_signup] = params[:start_by_signup]
+    render json: {
+        status: true
+    }
   end
 
   private

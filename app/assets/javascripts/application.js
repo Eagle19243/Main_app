@@ -38,10 +38,7 @@
 //= require jquery.slick
 
 //= require_tree .
-// $(function() {
-//   $(document).foundation();
-// });
-// http://stackoverflow.com/questions/25150922/trouble-using-foundation-and-turbolinks-with-rails-4
+
 
 $(document).foundation();
 
@@ -50,7 +47,7 @@ $(document).on('page:load', function() {
 });
 
 $(function() {
-  $('img').one('error', function() { 
+  $('img').one('error', function() {
     this.src = '/assets/no_image.png';
   });
   $('.task-box').matchHeight();

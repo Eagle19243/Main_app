@@ -9,6 +9,9 @@ cache:
 rvm:
   - 2.3.1
 
+env:
+  - RAILS_ENV=test
+
 services:
   - postgresql
 
@@ -28,11 +31,11 @@ before_script:
   - bundle exec rake db:create
   - bundle exec rake db:schema:load
   - bundle exec rake db:migrate
-  - bundle exec rake db:seed
+  # - bundle exec rake db:seed
 
 script:
   # Run tests here
-  - ls
+  # - bundle exec rake test TESTOPTS=-v
 
 notifications:
   slack:
