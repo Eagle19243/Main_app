@@ -57,7 +57,7 @@ gem 'devise'
 gem 'foundation-rails', '~> 5.5'
 gem 'high_voltage'
 gem 'simple_form'
-gem 'newrelic_rpm'
+# gem 'newrelic_rpm'
 gem 'figaro'
 
 # Ajax File Uploading

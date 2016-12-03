@@ -33,7 +33,6 @@
     <div class="fund-do">
       <div class="row">
         <center><h4>Invite People To Participate</h4></center>
-        <div class="alert" id="response"></div>
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
             <div class="large-10 medium-10 small-12 columns cold">
@@ -263,7 +262,11 @@
               <% if user_signed_in? %>
                 <div class="row margin-none mb20">
                   <div class="btn-wrapper pull-right">
-                    <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                    <% if current_user.id == @project.user_id %>
+                      <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                    <% else %>
+                      <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor</a>
+                    <% end %>
                   </div>
                 </div>
               <% end %>
@@ -272,7 +275,7 @@
               <div class="project-summary">
                 <%= @contents.html_safe %>
               </div>
-            
+
               <div class="project-idea">
                 <strong>Project Idea: &nbsp;&nbsp;</strong>
                 <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
@@ -465,10 +468,11 @@
       localStorage.removeItem('invite_people');
     }
 
-    $(document).on('click', '.revisions-compare-edit-link', function() {
-      var revision = $(this).data('revision');
-      showSourceEditor( revision );
-    });
+    // Disable Source Editor
+    // $(document).on('click', '.revisions-compare-edit-link', function() {
+    //   var revision = $(this).data('revision');
+    //   showSourceEditor( revision );
+    // });
 
     // Compare revisions button click handler
     $(document).on('click', '.revisions-compare-button', function(e) {

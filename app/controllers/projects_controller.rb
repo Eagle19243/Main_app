@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :failure, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -46,8 +46,9 @@ class ProjectsController < ApplicationController
     @array.each do |key|
       InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_now
     end
-    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
+    # session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] = session[:idd]
+    session[:email] = "email-success"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
   end
 
@@ -89,8 +90,9 @@ class ProjectsController < ApplicationController
   def failure
     session[:failure_contacts] = nil
     session[:project_id] = session[:idd]
+    session[:email_failure] = "failure_email"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
-    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
+      # session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
 
   def show_task
@@ -212,6 +214,14 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/taskstab
   def taskstab
+    if session[:email] == "email-success"
+      flash[:notice] = "Project link has been shared  successfully with your friends!"
+      session[:email] = nil
+    end
+    if session[:email_failure] == "failure_email"
+      flash[:notice] = "No, Project invitation Email was sent to your Friends!"
+      session[:email_failure] = nil
+    end
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
@@ -342,7 +352,7 @@ class ProjectsController < ApplicationController
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
+        format.json { render :json => @project.errors.full_messages, :status => :unprocessable_entity }
         # format.json {respond_with_bip(@project)}
       end
     end
@@ -512,10 +522,10 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
@@ -528,31 +538,31 @@ class ProjectsController < ApplicationController
     )
   end
 
-    def get_project_user
-      @project_user = @project.user
-    end
+  def get_project_user
+    @project_user = @project.user
+  end
 
-    def edit_params
-      params.require(:project).permit(:id, :project_edit, :editItem)
-    end
+  def edit_params
+    params.require(:project).permit(:id, :project_edit, :editItem)
+  end
 
-    def get_revision_histories project
-      result = project.get_history
-      @histories = []
+  def get_revision_histories project
+    result = project.get_history
+    @histories = []
 
-      if result
-        result.each do |r|
-          history                = Hash.new
-          history["revision_id"] = r["id"]
-          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-          history["user"]        = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
-          history["status"]      = r['status']
-          history["comment"]     = r['comment']
-          @histories.push(history)
-        end
-        return @histories
-      else
-        return []
+    if result
+      result.each do |r|
+        history = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"] = DateTime.strptime(r["timestamp"], "%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"] = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
+        history["status"] = r['status']
+        history["comment"] = r['comment']
+        @histories.push(history)
       end
+      return @histories
+    else
+      return []
     end
+  end
 end
