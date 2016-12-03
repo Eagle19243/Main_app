@@ -60,15 +60,20 @@ class DoRequestsController < ApplicationController
 
   def accept
     @do_request = DoRequest.find(params[:id])
+    task = @do_request.task
     if current_user.id == @do_request.task.project.user_id
       if @do_request.accept!
-        @do_request.user.assign(@do_request.task, @do_request.free)
-        @current_number_of_participants = @do_request.task.try(:number_of_participants) || 0
-        @do_request.task.update_attribute(:deadline, @do_request.task.created_at + 60.days)
-        @do_request.task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
+        @do_request.user.assign(task, @do_request.free)
+        @current_number_of_participants = task.try(:number_of_participants) || 0
+        task.update_attribute(:deadline, task.created_at + 60.days)
+        task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
+
         team = Team.find_or_create_by(project_id: @do_request.project_id)
-        TeamMembership.create(team_member_id: @do_request.user_id, team_id: team.id, task_id: @do_request.task_id, state: "user")
-        Groupmember.create(user_id: @do_request.user_id, chatroom_id: team.project.chatroom.id)
+        if (!team.team_members.include(@do_request.user_id))
+          membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id)
+          Groupmember.create(user_id: @do_request.user_id, chatroom_id: team.project.chatroom.id)
+        end
+        task.team_memberships.add(membership)
         flash[:success] = "Task has been assigned"
       else
         flash[:error] = "Task was not assigned to user"
@@ -76,7 +81,7 @@ class DoRequestsController < ApplicationController
     else
       flash[:error] = "You Are Not Authorized User"
     end
-    redirect_to @do_request.task
+    redirect_to task
   end
 
   def reject
