@@ -101,7 +101,7 @@ class ProjectsController < ApplicationController
     @task_comments = @task.task_comments
     @task_attachment = TaskAttachment.new
     @task_attachments = @task.task_attachments
-    @task_team = TeamMembership.where(task_id: @task.id)
+    @task_memberships = @task.team_memberships
     task_comment_ids = @task.task_comments.collect(&:id)
     @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
     project_admin
