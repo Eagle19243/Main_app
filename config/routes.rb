@@ -133,6 +133,7 @@ Rails.application.routes.draw do
 
     collection do
       get :autocomplete_user_search
+      get :archived
       post :change_leader
     end
 

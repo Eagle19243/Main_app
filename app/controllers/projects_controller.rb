@@ -17,7 +17,6 @@ class ProjectsController < ApplicationController
         @download_keys = true
       end
     end
-    @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
@@ -167,6 +166,14 @@ class ProjectsController < ApplicationController
     # end
 
     redirect_to taskstab_project_path(@project.id)
+  end
+
+  def archived
+    @featured_projects = Project.only_deleted.page params[:page]
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def follow

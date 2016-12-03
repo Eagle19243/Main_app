@@ -1,7 +1,102 @@
 <div class="header-container">
-  <% if user_signed_in? %>
-    <%= render "layouts/users_header" %>
-  <% else %>
-    <%= render "layouts/visitors_header" %>
-  <% end %>
+  <div class="landing-header">
+    <div class="header-wrap">
+      <% if user_signed_in? %>
+        <div class="landing-logo">
+          <%= link_to 'WeServe', home_index_path %>
+        </div>
+
+        <a class="header-link border-link ml30" data-toggle="modal" data-target="#startProjectModal" class="border-link">Start a Project</a>
+        <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link" %>
+
+        <div class="pull-right links-group">
+          <div class="search-box-wrapper">
+            <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
+                <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
+                <button type="button" name="" type="submit" >
+                  <i class="fa fa-search"></i>
+                </button>
+            <% end %>
+          </div>
+
+          <%= link_to group_messages_path, data: { no_turbolink: true } do %>
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+          <% end %>
+
+          <div class="dropdown notify-dropdown">
+            <a class="dropdown-toggle" type="button" data-toggle="dropdown">
+              <div class="badge-wrap">
+                <i class="fa fa-bell-o" aria-hidden="true"></i>
+                <span class="count"><%= current_user.notifications.unread.count %></span>
+              </div>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="notify-count">Notifications&nbsp;
+                <span class="count"><%= current_user.notifications.unread.count %></span>
+              </li>
+              <li class="notify-wrapper">
+                <div class="notify-body">
+                  <div>
+                    <span class="action">Created Project</span>
+                    <span class="date pull-right">Nov 11th</span>
+                  </div>
+                  <p>You have created project MyProject.</p>
+                </div>
+              </li>
+              <li class="notify-wrapper">
+                <div class="notify-body">
+                  <div>
+                    <span class="action">Created Project</span>
+                    <span class="date pull-right">Nov 11th</span>
+                  </div>
+                  <p>You have created project MyProject.</p>
+                </div>
+              </li>
+              <li class="notify-link">
+                <%= link_to 'See All Notifications', notifications_path %>
+              </li>
+            </ul>
+          </div>
+
+          <div class="dropdown user-dropdown">
+            <a class="dropdown-toggle" type="button" data-toggle="dropdown">
+              <% if current_user.picture? %>
+                <%= image_tag(current_user.picture, size: "30x30") %>
+              <% else %>
+                <%= gravatar_for_user(current_user) %>
+              <%end%>
+              <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to 'My Profile', user_path(current_user)%></li>
+              <li><%= link_to 'My Projects', my_projects_path(current_user)%></li>
+              <li><%= link_to 'Messages' , group_messages_path %></li>
+              <li><%= link_to 'Notifications' , notifications_path %></li>
+              <% if current_user.admin? %>
+                <li><%= link_to 'Archived Projects', archived_projects_path %></li>
+              <% end %>
+              <li class="border-top">
+                <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <div class="landing-logo">
+          <%= link_to 'WeServe', root_path %>
+        </div>
+
+        <a class="header-link border-link ml30" data-toggle="modal" data-target="#projectSignupModal" class="border-link" id="start_project_link">Start a Project</a>
+        <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link" %>
+
+        <div class="pull-right register-group">
+          <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal">Login</a>
+          <span>or</span>
+          <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="border-link">Register</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
