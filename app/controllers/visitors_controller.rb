@@ -5,7 +5,6 @@ class VisitorsController < ApplicationController
   end
 
   def landing
-
     # Comment this codes for now as we don't have active project and all projects are dummys
     # if (session[:counter].nil?)
     #   session[:counter] = 1
