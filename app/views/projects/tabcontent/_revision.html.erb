@@ -28,7 +28,7 @@
             data-revision-user-link="<%= history['user'] ? user_path(history['user']) : '' %>"
           >
             <td>
-              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="http://wiki.weserve.io/index.php?title=<%= project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>" >
+              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" >
                 <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
               </a>
             </td>
