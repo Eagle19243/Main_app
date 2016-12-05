@@ -317,7 +317,13 @@ a.header-link {
     cursor:pointer;
     outline:none;
     font-weight: bold;
-    font-size: 1.5em !important;
+    font-size: 26px !important;
+    position: relative;
+    top: -7px;
+
+    i {
+      font-size: 1em;
+    }
   }
 }
 
@@ -444,3 +450,51 @@ a.header-link {
   }
 }
 
+.links-group {
+  .btn-mobile {
+    top: 5px;
+  }
+}
+
+@media(min-width: 1121px) {
+  .links-group {
+    a.show-tablet {
+      display: none !important;
+    }
+  }
+  .register-group {
+    a.show-tablet {
+      display: none !important;
+    }
+  }
+}
+
+@media(max-width: 1120px) {
+  .links-group {
+    a.show-desktop {
+      display: none;
+    }
+    div.show-desktop {
+      display: none;
+    }
+  }
+  .links-group {
+    a.show-tablet {
+      display: inline-block;
+    }
+  }
+
+  .register-group {
+    a.show-desktop {
+      display: none;
+    }
+    span.show-desktop {
+      display: none;
+    }
+  }
+  .register-group {
+    a.show-tablet {
+      display: inline-block;
+    }
+  }
+}

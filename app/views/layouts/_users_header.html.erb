@@ -13,8 +13,7 @@
     <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link" %>
 
     <div class="pull-right links-group">
-
-      <div class="search-box-wrapper">
+      <div class="search-box-wrapper show-desktop">
         <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
             <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
             <button type="button" name="" type="submit" >
@@ -23,11 +22,11 @@
         <% end %>
       </div>
 
-      <%= link_to group_messages_path, data: { no_turbolink: true } do %>
+      <%= link_to group_messages_path, data: { no_turbolink: true }, :class => 'show-desktop' do %>
         <i class="fa fa-envelope-o" aria-hidden="true"></i>
       <% end %>
 
-      <div class="dropdown notify-dropdown">
+      <div class="dropdown notify-dropdown show-desktop">
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <div class="badge-wrap">
             <i class="fa fa-bell-o" aria-hidden="true"></i>
@@ -62,7 +61,7 @@
         </ul>
       </div>
 
-      <div class="dropdown user-dropdown">
+      <div class="dropdown user-dropdown show-desktop">
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <% if current_user.picture? %>
             <%= image_tag(current_user.picture, size: "30x30") %>
@@ -84,7 +83,7 @@
         </ul>
       </div>
 
-      <a href="javascript:void(0)" class="btn-mobile hamburger">
+      <a href="javascript:void(0)" class="btn-mobile hamburger show-tablet">
         <i class="fa fa-bars" aria-hidden="true"></i>
       </a>
       <a href="javascript:void(0)" class="btn-mobile cross">
@@ -125,7 +124,7 @@
     </li>
 
     <li class="border-bottom mobile-user-menu">
-      <a href="javascript:void(0)" id="btnUserToggle">
+      <a href="javascript:void(0)" id="btnUserToggle" class="border-bottom">
         <% if current_user.picture? %>
           <%= image_tag(current_user.picture, size: "30x30") %>
         <% else %>
