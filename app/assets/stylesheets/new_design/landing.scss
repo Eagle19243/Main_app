@@ -15,7 +15,7 @@
   }
 
   .header-wrap {
-    padding: 10px 100px;
+    padding: 10px 3%;
   }
 
   .landing-logo {
@@ -119,7 +119,7 @@
       h1 {
         font-weight: 600;
         text-transform: uppercase;
-        font-size: 3.2em;
+        font-size: 3.5vw;
         padding: 10px;
         letter-spacing: -2px;
       }
@@ -128,7 +128,7 @@
         display: inline-block;
         float: left;
         padding: 8px 10px;
-        font-size: 2em;
+        font-size: 2.5vw;
       }
 
       .promo-wrapper {
@@ -475,6 +475,86 @@
     font-size: 1em;
     padding-top: 20px;
     padding-bottom: 10px;
+  }
+}
+
+@media(max-width: 767px) {
+  .row-first {
+    padding: 0 5% !important;
+  }
+
+  .flow-img.pt15 {
+    img {
+      -ms-transform: rotate(90deg); /* IE 9 */
+      -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+      transform: rotate(90deg);
+    }
+  }
+
+  .promo-wrapper {
+    h1 {
+      font-size: 30px !important;
+    }
+    p {
+      font-size: 18px !important;
+    }
+  }
+
+  .carousel-item {
+    img {
+      width: 100% !important;
+    }
+  }
+
+  .carousel-text {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    padding: 20px !important;
+
+    .text-wrapper {
+      h1 {
+        font-size: 33px !important;
+      }
+      p {
+        font-size: 20px !important;
+        line-height: 1.5em !important;
+      }
+    }
+  }
+}
+
+@media(max-width: 520px) {
+  .hero-start {
+    top: 93% !important;
+  }
+  .promo-wrapper {
+    h1 {
+      font-size: 26px !important;
+      padding: 5px 10px !important;
+    }
+    p {
+      padding: 0 10px !important;
+    }
+  }
+
+  .carousel-text {
+    top: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+
+    .text-wrapper {
+      h1 {
+        font-size: 30px !important;
+        padding-bottom: 0 !important;
+      }
+      p {
+        font-size: 16px !important;
+        line-height: 1.5em !important;
+      }
+    }
+
+    .carousel-start {
+      padding-top: 0 !important;
+    }
   }
 }
 
