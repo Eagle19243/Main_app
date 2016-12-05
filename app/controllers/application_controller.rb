@@ -12,7 +12,9 @@ class ApplicationController < ActionController::Base
   around_filter :set_current_user
 
   def after_sign_in_path_for(resource)
-    projects_path
+    # projects_path
+    # For now after sign in, users should redirect to landing page.
+    root_path
   end
 
   def set_current_user
