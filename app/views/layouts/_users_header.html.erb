@@ -9,8 +9,8 @@
       <% end %>
     </div>
 
-    <a class="header-link border-link ml30" data-toggle="modal" data-target="#startProjectModal" class="border-link">Start a Project</a>
-    <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link" %>
+    <a class="header-link border-link ml30 hidden-mobile" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+    <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link hidden-mobile" %>
 
     <div class="pull-right links-group">
       <div class="search-box-wrapper show-desktop">
@@ -97,6 +97,13 @@
 
 <div class="mobile-menu">
   <ul class="mobile-menu-list">
+    <li class="border-bottom show-mobile">
+      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+    </li>
+    <li class="border-bottom show-mobile">
+      <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
+    </li>
+
     <li class="border-bottom">
       <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
           <button type="button" name="" type="submit" >

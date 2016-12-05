@@ -498,3 +498,22 @@ a.header-link {
     }
   }
 }
+
+@media(min-width: 768px) {
+  .mobile-menu li.show-mobile {
+    display: none !important;
+  }
+}
+
+@media(max-width: 767px) {
+  .header-link.hidden-mobile {
+    display: none;
+  }
+  .projects-link.hidden-mobile {
+    display: none;
+  }
+  .mobile-menu li.show-mobile {
+    display: block;
+  }
+}
+
