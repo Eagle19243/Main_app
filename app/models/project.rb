@@ -89,9 +89,9 @@ class Project < ActiveRecord::Base
   end
 
   def team_relations_string
-    if team.nil? 
+    if team.nil?
       return tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
-    else 
+    else
       return team.team_memberships.count.to_s + " / " + tasks.sum(:target_number_of_participants).to_s
     end
     # self.team.team_memberships.count.to_s
@@ -153,7 +153,7 @@ class Project < ActiveRecord::Base
       name = self.title.strip.gsub(" ", "_")
 
       begin
-        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         parsedResult = JSON.parse(result.body)
 
         if parsedResult["error"]
@@ -167,12 +167,12 @@ class Project < ActiveRecord::Base
           content["status"] = "success"
         end
       rescue
-        return 0
+        return nil
       end
 
       content
     else
-      0
+      nil
     end
   end
 
@@ -182,14 +182,14 @@ class Project < ActiveRecord::Base
       name = self.title.strip.gsub(" ", "_")
 
       begin
-        result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&format=json", {page: "#{name}", user: user.email, content: "#{content}"}, {:cookies => Rails.configuration.mediawiki_session})
+        result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.email}, {:cookies => Rails.configuration.mediawiki_session})
       rescue
-        return 0
+        return nil
       end
       # Return Response Code
       JSON.parse(result.body)["response"]["code"]
     else
-      0
+      nil
     end
   end
 
@@ -200,18 +200,18 @@ class Project < ActiveRecord::Base
 
       begin
         # Get history
-        history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         latest_revision_id = JSON.parse(history.body)["response"][0]
 
         # Get the revision content
-        revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{URI.escape(name)}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
 
         return JSON.parse(revision.body)["response"]["content"]
       rescue
-        return 0
+        return nil
       end
     else
-      0
+      nil
     end
   end
 
@@ -222,13 +222,13 @@ class Project < ActiveRecord::Base
 
       # Get history
       begin
-        history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{name}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        history = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=history&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         return JSON.parse(history.body)["response"]
       rescue
-        return 0
+        return nil
       end
     else
-      0
+      nil
     end
   end
 
@@ -239,13 +239,13 @@ class Project < ActiveRecord::Base
 
       # Get revision
       begin
-        revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        revision = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=revision&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         return JSON.parse(revision.body)["response"]
       rescue
-        return 0
+        return nil
       end
     else
-      0
+      nil
     end
   end
 
@@ -256,13 +256,13 @@ class Project < ActiveRecord::Base
 
       # Approve
       begin
-        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=approve&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=approve&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         return JSON.parse(result.body)["response"]["code"]
       rescue
-        return 0
+        return nil
       end
     else
-      0
+      nil
     end
   end
 
@@ -273,13 +273,13 @@ class Project < ActiveRecord::Base
 
       # Unapprove
       begin
-        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{name}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         JSON.parse(result.body)["response"]["code"]
       rescue
-        return 0
+        return nil
       end
     else
-      0
+      nil
     end
   end
 end
