@@ -1,0 +1,72 @@
+
+<div class="landing-header">
+  <div class="header-wrap">
+    <div class="landing-logo">
+      <% if user_signed_in? %>
+          <!-- For signed users, we should still this to redirect to root path as we have only dummy projects -->
+          <%= link_to 'WeServe', root_path %>
+      <%else %>
+          <%= link_to 'WeServe', root_path %>
+      <% end %>
+    </div>
+
+    <a class="header-link border-link ml30 hidden-mobile" data-toggle="modal" data-target="#projectSignupModal" id="start_project_link">Start a Project</a>
+    <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link hidden-mobile" %>
+
+    <div class="pull-right register-group">
+      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="show-desktop">Login</a>
+      <span class="show-desktop">or</span>
+      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="border-link show-desktop">Register</a>
+      <a href="javascript:void(0)" class="btn-mobile hamburger show-tablet">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </a>
+      <a href="javascript:void(0)" class="btn-mobile cross">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-menu">
+  <ul class="mobile-menu-list">
+    <li class="border-bottom show-mobile">
+      <a data-toggle="modal" data-target="#projectSignupModal" id="start_project_link">Start a Project</a>
+    </li>
+    <li class="border-bottom show-mobile">
+      <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
+    </li>
+    <li class="border-bottom">
+      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal">Login</a>
+    </li>
+    <li>
+      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal">Register</a>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript">
+  function toggleMobileMenu(isShow) {
+    if (isShow) {
+      $( ".mobile-menu" ).slideToggle( "slow", function() {
+        $( ".cross" ).show();
+        $( ".hamburger" ).hide();
+      });
+    } else {
+      $( ".mobile-menu" ).slideToggle( "slow", function() {
+        $( ".cross" ).hide();
+        $( ".hamburger" ).show();
+      });
+    }
+  }
+  $( ".cross" ).hide();
+  $( ".mobile-menu" ).hide();
+  $( ".hamburger" ).click(function() {
+    toggleMobileMenu(true);
+  });
+  $( ".cross" ).click(function() {
+    toggleMobileMenu(false);
+  });
+  $( ".mobile-menu ul a" ).click(function() {
+    toggleMobileMenu(false);
+  });
+</script>
