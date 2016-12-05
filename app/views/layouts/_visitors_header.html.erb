@@ -16,6 +16,54 @@
       <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal">Login</a>
       <span>or</span>
       <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="border-link">Register</a>
+      <a href="javascript:void(0)" class="btn-mobile hamburger">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </a>
+      <a href="javascript:void(0)" class="btn-mobile cross">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </a>
     </div>
   </div>
 </div>
+
+<div class="mobile-menu">
+  <ul class="mobile-menu-list">
+    <li class="border-bottom">
+      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal">Login</a>
+    </li>
+    <li>
+      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal">Register</a>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript">
+  function toggleMobileMenu(isShow) {
+    if (isShow) {
+      $( ".mobile-menu" ).slideToggle( "slow", function() {
+        $( ".cross" ).show();
+        $( ".hamburger" ).hide();
+      });
+    } else {
+      $( ".mobile-menu" ).slideToggle( "slow", function() {
+        $( ".cross" ).hide();
+        $( ".hamburger" ).show();
+      });
+    }
+  }
+
+  $( ".cross" ).hide();
+  $( ".mobile-menu" ).hide();
+  $( ".hamburger" ).click(function() {
+    toggleMobileMenu(true);
+  });
+
+  $( ".cross" ).click(function() {
+    toggleMobileMenu(false);
+  });
+
+  $( ".mobile-menu ul a" ).click(function() {
+    toggleMobileMenu(false);
+  });
+
+</script>
