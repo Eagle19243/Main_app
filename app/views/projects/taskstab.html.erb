@@ -14,6 +14,7 @@
   </div>
 </div>
 <script>
+
   window.onload = function () {
     $('#project-url').html(window.location.href);
     // <% if  session[:project_id] != nil %>
@@ -22,7 +23,11 @@
 
     document.getElementById("loading-mask1").style.display = "none";
   }
-
+    function doPopup(id){
+      debugger;
+      $('#task-do-request-popup').val(id);
+     // document.getElementsById('task-do-request-popup').val(id);
+    }
 </script>
 
 <div id="product-modal"></div>
@@ -327,10 +332,10 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                               <div class="fund-do-btns">
-                                <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                                <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)"  data-toggle="modal" data-target="#taskDoModal">
                                   DO
                                 </a>
-                                <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                                <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
                                   FUND
                                 </a>
                               </div>
@@ -643,3 +648,5 @@
     });
   });
 </script>
+
+<!--do model popup script -->
