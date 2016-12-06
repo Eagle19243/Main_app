@@ -77,6 +77,9 @@
           <li><%= link_to 'My Projects', my_projects_path(current_user)%></li>
           <li><%= link_to 'Messages' , group_messages_path %></li>
           <li><%= link_to 'Notifications' , notifications_path %></li>
+          <% if current_user.admin? %>
+            <li><%= link_to 'Archived Projects', archived_projects_path %></li>
+          <% end %>
           <li class="border-top">
             <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
           </li>

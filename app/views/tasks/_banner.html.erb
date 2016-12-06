@@ -6,9 +6,9 @@
   </div>
 
   <% if current_user && current_user.id == @project.user_id %>
-      <div class="mid-section" data-target="#project-img-edit" data-toggle="modal">
-    <% else %>
-      <div class="mid-section">
+    <div class="mid-section" data-target="#project-img-edit" data-toggle="modal">
+  <% else %>
+    <div class="mid-section">
   <% end %>
 
     <div class="row">
@@ -38,27 +38,15 @@
             <tr class="value">
               <td><%= (@sourcing_tasks.count / @tasks_count)*100 rescue 0 %> %</td>
               <td><%= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>
-
-              <% @particpent=0 %>
-              <% @budget=0 %>
-              <% @project.tasks.each do |p| %>
-                  <% @particpent=@particpent+ p.number_of_participants rescue 0 %>
-                  <% @budget=@budget+ p.budget %>
-              <% end %>
-
               <td>
-                <% if !@project.team.nil? %>
-                  <%= @project.team.team_memberships.count %>/<%= @particpent %> 
-                <% else %>
-                  0/<%= @particpent %>
-                <% end %>
+                <%= @project.team_relations_string %>
               </td> 
-              <td>$<%= @budget %></td>
+              <td>$<%= @project.needed_budget %></td>
             </tr>
             <tr class="items">
               <td>Funded</td>
               <td>Completed Tasks</td>
-              <td>Tearmates</td>
+              <td>Teammates</td>
               <td>Raised</td>
             </tr>
           </table>
@@ -75,5 +63,6 @@
       <% end %>
     </div>
 
+    </div>
   </div>
 </div>
