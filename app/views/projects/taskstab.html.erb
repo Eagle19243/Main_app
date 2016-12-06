@@ -14,6 +14,7 @@
   </div>
 </div>
 <script>
+
   window.onload = function () {
     $('#project-url').html(window.location.href);
     // <% if  session[:project_id] != nil %>
@@ -22,7 +23,11 @@
 
     document.getElementById("loading-mask1").style.display = "none";
   }
-
+    function doPopup(id){
+      debugger;
+      $('#task-do-request-popup').val(id);
+     // document.getElementsById('task-do-request-popup').val(id);
+    }
 </script>
 
 <div id="product-modal"></div>
@@ -264,6 +269,11 @@
                   <div class="btn-wrapper pull-right">
                     <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
                   </div>
+                  <% if current_user.is_admin_for?(@project)%>
+                    <div class="btn-wrapper pull-right">
+                      <span class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
+                    </div>
+                  <% end %>
                 </div>
               <% end %>
 
@@ -321,10 +331,10 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                               <div class="fund-do-btns">
-                                <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                                <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)"  data-toggle="modal" data-target="#taskDoModal">
                                   DO
                                 </a>
-                                <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                                <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
                                   FUND
                                 </a>
                               </div>
@@ -404,6 +414,13 @@
 
       $('#str_length').text(string);
     });
+
+    function projectImgEdit(e) {
+      $('#project-img-edit').modal('show');
+      if (!e) var e = window.event;
+      e.cancelBubble = true;
+      if (e.stopPropagation) e.stopPropagation();
+    };
 
     function openTab(evt, tabName) {
       var i, tabcontent, tablinks;
@@ -630,3 +647,5 @@
     });
   });
 </script>
+
+<!--do model popup script -->
