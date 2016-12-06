@@ -1,17 +1,20 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :removeMember]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
+  layout false, only: [:show]
+  before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
+
 
   def validate_team_member
     @task= Task.find(params[:id]) rescue nil
     if @task.blank?
       redirect_to '/'
     else
-      @task_team=TeamMembership.where(task_id: @task.id)
-      if !(@task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id))
+      @task_memberships = @task.team_memberships
+      if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
         @notice = " you are not allowed to do this opration "
         respond_to do |format|
           format.js
@@ -29,16 +32,12 @@ class TasksController < ApplicationController
       if !(current_user.id == @task.project.user_id && @task.reviewing?)
         @notice = " you are not allowed to do this opration "
         respond_to do |format|
-
           format.js
           format.html { redirect_to task_path(@task.id), notice: @notice }
         end
       end
     end
   end
-
-  layout false, only: [:show]
-  before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
 
   def show
     redirect_to taskstab_project_path(@task.project.id)
@@ -83,8 +82,8 @@ class TasksController < ApplicationController
   # PATCH/PUT /tasks/1.json
   def update
     respond_to do |format|
-      @task_team=TeamMembership.where(task_id: @task.id)
-      if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?))
+      @task_memberships = @task.team_memberships
+      if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?))
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
           format.html { redirect_to @task, notice: 'Task was successfully updated.' }
@@ -192,6 +191,17 @@ class TasksController < ApplicationController
     InvitationMailer.invite_user(params['email'], current_user.name, Task.find(params['task_id'])).deliver_later
     flash[:success] = "Task link has been send to #{params[:email]}"
     redirect_to task_path(params['task_id'])
+  end
+
+  def removeMember
+    @team_membership = TeamMembership.find(params[:team_membership_id])
+    respond_to do |format|
+      if @task.team_memberships.destroy(@team_membership)
+        format.json { render json: @team_membership.id, status: :ok }
+      else
+        format.json { render status: :internal_server_error }
+      end
+    end
   end
 
   private

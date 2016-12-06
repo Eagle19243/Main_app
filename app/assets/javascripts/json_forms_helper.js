@@ -15,6 +15,10 @@ var JsonFormsHelper = {
     
     InitializeTeamMembersControls: function () {
         initializeTeamMembersControls();
+    },
+
+    InitializeTaskMembersControls: function () {
+        initializeTaskMemberDeleteControls();
     }
 }
 
@@ -95,5 +99,20 @@ function initializeNotificationFormControl(formSelector, formParentSelector) {
         }).fail(function(data) {
             console.log(data);
         });
+    });
+}
+
+function initializeTaskMemberDeleteControls() {
+    $('.delete-task-member').click(function(e) {
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                type: 'DELETE',
+                url: "/tasks/" + $('#task-members-container').attr('task-id') + "/members/" + $(this).attr('task-membership-id'),
+            }).done(function(data) {
+                $("#task-membership-" + data).hide(500);
+            }).fail(function(data) {
+                console.log(data);
+            });
+        }
     });
 }

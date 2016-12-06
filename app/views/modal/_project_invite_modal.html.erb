@@ -1,67 +1,52 @@
-<script type="text/javascript">
-  $(document).ready(function () {
-    document.getElementById("loading-mask1").style.display = "none";
 
-    $("#send-project-email").submit(function () {
-      $('#response').empty();
-      $('#response').html("loading...")
-    });
-    $("#send-project-email-button").click(function () {
-      $('#response').empty();
-    });
-  });
-</script>
 <div id="projectInviteModal" class="modal fade project-invite-modal" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
+
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h2 class="modal-title sign_up_show">Share/Invite People to Participate</h2>
       </div>
+
       <div class="modal-body">
-        <div class="social-project-share" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
+
+        <div class="social-project-share">
           <h5>Share on social media</h5>
           <div class="row margin-none">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-custom text-right">
               <div class="social-link facebook">
-                <a href="#" data-site="facebook" title="Share on Facebook" onclick="return SocialShareButton.share(this);">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                  Share on Facebook</a>
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+                <%= link_to 'Share on Facebook', user_facebook_omniauth_authorize_path %>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div class="social-link twitter">
-                <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                  <i class="fa fa-twitter" aria-hidden="true"></i>
-                  Share on Twitter</a>
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+                <%= link_to 'Share on Twitter',  user_twitter_omniauth_authorize_path %>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-custom text-left">
               <div class="social-link google">
-                <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                  <i class="fa fa-google-plus" aria-hidden="true"></i>
-                  Share on Google +</a>
+                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <%= link_to 'Share on Google +',  user_google_oauth2_omniauth_authorize_path %>
               </div>
             </div>
           </div>
         </div>
-        <div class="alert" id="response" style="color: red;margin-left: 17.5%;"></div>
-        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
-            <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
-            <div class="invite-email-wrapper">
-              <div class="form-group">
-                <% session[:idd] = @project.id %>
-                <label>Email Address</label>
-                <input type="email" name="email" id="guest-email" required>
-                <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a>
-              </div>
-        <% end %>
-        <div class="import-contacts-wrapper">
-          <div id="contacts">
-            <div class="contact-importers" id="tab">
-              <p>Import your contacts from</p>
+
+        <div class="invite-email-wrapper">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="invite_email">
+            <a href="javascript:void(0)" class="btn-invite">Invite</a>
+          </div>
+
+          <div class="import-contacts-wrapper">
+            <div id="contacts">
+              <div class="contact-importers" id ="tab">
+                <p>Import your contacts from</p>
                 <span class="contact-importer">
-                  <span class="loading-trigger" data-source="gmail" id="gmail-icon">
+                  <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
                     <%= link_to image_tag("gmail.png", :alt => "Gmail Contacts"), contacts_gmail_path %>
                   </span>
                 </span>
@@ -70,18 +55,21 @@
                     <%= link_to image_tag("yahoo.png", :alt => "Yahoo Contacts"), contacts_yahoo_path %>
                   </span>
                 </span>
-              <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
-            </div>
-            <% unless session[:failure_contacts].blank? %>
+              </div>
+
+              <%unless session[:failure_contacts].blank? %>
                 <p id="response-failure"><%= session[:failure_contacts] %></p>
-            <% end %>
-            <% unless session[:success_contacts].blank? %>
-                <p id="response-success"><%= session[:success_contacts] %></p>
-            <% end %>
+              <%end%>
+              <%unless session[:success_contacts].blank? %>
+                <p  id="response-success"><%= session[:success_contacts] %></p>
+              <%end%>
+            </div>
+
           </div>
         </div>
-        </div>
+
       </div>
+
     </div>
   </div>
 </div>
