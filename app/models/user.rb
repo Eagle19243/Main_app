@@ -45,6 +45,8 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
 
+  validates :name, presence: true,uniqueness: true
+
   def self.current_user
     Thread.current[:current_user]
   end
@@ -142,6 +144,7 @@ class User < ActiveRecord::Base
             password: Devise.friendly_token[0, 20],
             picture: auth.info.image,
             facebook_url: auth.extra.link,
+            username: auth.info.name + auth.uid
         )
       end
     end
@@ -168,6 +171,7 @@ class User < ActiveRecord::Base
             description: auth.info.description,
             country: auth.info.location,
             twitter_url: auth.info.urls.Twitter,
+            username: auth.info.name + auth.uid,
         )
       end
 
@@ -193,6 +197,7 @@ class User < ActiveRecord::Base
             password: Devise.friendly_token[0, 20],
             picture: access_token.info.image,
             company: access_token.extra.raw_info.hd,
+            username: access_token.info.name + access_token.uid,
         )
       end
     end
