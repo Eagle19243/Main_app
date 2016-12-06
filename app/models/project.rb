@@ -11,9 +11,9 @@ class Project < ActiveRecord::Base
 
   attr_accessor :discussed_description, :crop_x, :crop_y, :crop_w, :crop_h
 
-  has_many :tasks, dependent: :delete_all
-  has_many :wikis, dependent: :delete_all
-  has_many :project_comments, dependent: :delete_all
+  has_many :tasks, dependent: :destroy
+  has_many :wikis, dependent: :destroy
+  has_many :project_comments, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins
   has_one :chat_room
@@ -62,7 +62,7 @@ class Project < ActiveRecord::Base
   def self.get_featured_projects
     Project.last(6)
   end
-
+  
   def country_name
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name

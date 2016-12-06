@@ -270,6 +270,11 @@
                   <div class="btn-wrapper pull-right">
                     <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
                   </div>
+                  <% if current_user.is_admin_for?(@project)%>
+                    <div class="btn-wrapper pull-right">
+                      <span class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
+                    </div>
+                  <% end %>
                 </div>
               <% end %>
 
@@ -410,6 +415,13 @@
 
       $('#str_length').text(string);
     });
+
+    function projectImgEdit(e) {
+      $('#project-img-edit').modal('show');
+      if (!e) var e = window.event;
+      e.cancelBubble = true;
+      if (e.stopPropagation) e.stopPropagation();
+    };
 
     function openTab(evt, tabName) {
       var i, tabcontent, tablinks;
