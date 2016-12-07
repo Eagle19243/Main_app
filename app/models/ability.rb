@@ -10,7 +10,7 @@ class Ability
     initializeTasksPermissions(user)
     initializeAdminInvitationsPermissions(user)
     initializeAdminRequestsPermissions(user)
-   initializeTeamMembershipsPermissions(user)
+    initializeTeamMembershipsPermissions(user)
   end
 
   def initializeTeamMembershipsPermissions(user)
@@ -46,6 +46,7 @@ class Ability
       can [:update, :change_leader], Project do |project|
         user.is_admin_for?(project) 
       end
+      can :archived, Project if user.admin?
       can :destroy, Project, :user_id => user.id
     end
   end

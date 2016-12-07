@@ -1,6 +1,13 @@
 class RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
+
+  def create
+    super
+    @user.username = @user.name + @user.id.to_s
+    @user.save
+  end
+
   private
 
   def sign_up_params

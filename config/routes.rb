@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   post 'tasks/send_email'
   post 'projects/send_project_email'
   post 'projects/start_project_by_signup'
-  get 'teams/remove_membership'
   get 'projects/get_activities'
   get 'projects/show_all_tasks'
   get 'projects/show_all_teams'
@@ -56,7 +55,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
   resources :team_memberships, only: [:update, :destroy]
   resources :work_records
   get 'wallet_transactions/new'
@@ -100,6 +98,7 @@ Rails.application.routes.draw do
   resources :tasks do
     member do
       get :accept, :reject, :doing, :reviewing, :completed
+      delete '/members/:team_membership_id', to: 'tasks#removeMember', as: :remove_task_member
     end
   end
 
@@ -133,6 +132,7 @@ Rails.application.routes.draw do
 
     collection do
       get :autocomplete_user_search
+      get :archived
       post :change_leader
     end
 

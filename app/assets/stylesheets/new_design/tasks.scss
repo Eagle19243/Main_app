@@ -35,6 +35,25 @@
     font-family: 'Roboto';
     color: #fff;
     text-align: center;
+
+    .form_in_place {
+      font-size: 15px;
+      input[name=title] {
+        width: 40%;
+        text-align: center;
+        margin: auto;
+      }
+    }
+    
+    span#title-pencil {
+      display: none;
+    }
+
+    &:hover {
+      span#title-pencil {
+        display: inline-block;
+      }
+    }
   }
 
   .project-city {

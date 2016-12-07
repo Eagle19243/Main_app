@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  acts_as_paranoid
+  
   include ApplicationHelper
   include AASM
   default_scope -> { order('created_at DESC') }
@@ -16,7 +18,9 @@ class Task < ActiveRecord::Base
   has_many :do_requests, dependent: :delete_all
   has_many :donations, dependent: :delete_all
   has_many :task_attachments, dependent: :delete_all
-  has_many :team_memberships
+  has_many :team_memberships, through: :task_members, dependent: :destroy
+  has_many :task_members
+
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
   #after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do
@@ -166,7 +170,7 @@ class Task < ActiveRecord::Base
   end
 
   def is_leader(user_id)
-    users = self.team_memberships.where(role: 1).collect(&:team_member_id)
+    users = team_memberships.where(role: 1).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
 end

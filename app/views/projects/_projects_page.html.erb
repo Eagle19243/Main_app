@@ -7,12 +7,16 @@
           <%= image_tag(project.picture.url) %>
         <% end %>
         <div class="user-link">
-          <% if project.user.picture? %>
-            <%= image_tag(project.user.picture, size: "30x30") %>
+          <% if project.user %>
+            <% if project.user.picture %>
+              <%= image_tag(project.user.picture, size: "30x30") %>
+            <% else %>
+              <%= gravatar_for_user(project.user)%>
+            <%end%>
+            <%= link_to project.user.name, user_path(project.user)%>
           <% else %>
-            <%= gravatar_for_user(project.user)%>
-          <%end%>
-          <%= link_to project.user.name, user_path(project.user)%>
+            <a href="javascript:void">User nolonger exist!</a>
+          <% end %>
         </div>
 
         <span class="favor-link">

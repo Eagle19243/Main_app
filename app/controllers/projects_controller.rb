@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :failure, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -17,7 +17,6 @@ class ProjectsController < ApplicationController
         @download_keys = true
       end
     end
-    @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
@@ -47,7 +46,7 @@ class ProjectsController < ApplicationController
     @array.each do |key|
       InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_now
     end
-    # session[:success_contacts] = "Project link has been shared  successfully with your friends!"
+    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] = session[:idd]
     session[:email] = "email-success"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
@@ -93,7 +92,7 @@ class ProjectsController < ApplicationController
     session[:project_id] = session[:idd]
     session[:email_failure] = "failure_email"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
-      # session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
+    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
 
   def show_task
@@ -101,7 +100,7 @@ class ProjectsController < ApplicationController
     @task_comments = @task.task_comments
     @task_attachment = TaskAttachment.new
     @task_attachments = @task.task_attachments
-    @task_team = TeamMembership.where(task_id: @task.id)
+    @task_memberships = @task.team_memberships
     task_comment_ids = @task.task_comments.collect(&:id)
     @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
     project_admin
@@ -171,6 +170,14 @@ class ProjectsController < ApplicationController
     redirect_to taskstab_project_path(@project.id)
   end
 
+  def archived
+    @featured_projects = Project.only_deleted.page params[:page]
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
   def follow
     redirect_to @project and return if current_user.id == @project.user_id
     if params[:follow] == 'true'
@@ -209,10 +216,12 @@ class ProjectsController < ApplicationController
   def taskstab
     if session[:email] == "email-success"
       flash[:notice] = "Project link has been shared  successfully with your friends!"
+      flash.discard(:notice)
       session[:email] = nil
     end
     if session[:email_failure] == "failure_email"
       flash[:notice] = "No, Project invitation Email was sent to your Friends!"
+      flash.discard(:notice)
       session[:email_failure] = nil
     end
     @comments = @project.project_comments.all
@@ -345,7 +354,7 @@ class ProjectsController < ApplicationController
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render :json => @project.errors.full_messages, :status => :unprocessable_entity }
+        format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
         # format.json {respond_with_bip(@project)}
       end
     end
@@ -517,9 +526,13 @@ class ProjectsController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_project
-    @project = Project.find(params[:id])
-  end
+    if user_signed_in? && current_user.admin?
+      @project = Project.with_deleted.find(params[:id])
+    else
+      @project = Project.find(params[:id])
+    end
 
+  end
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
     params.require(:project).permit(
@@ -531,31 +544,31 @@ class ProjectsController < ApplicationController
     )
   end
 
-  def get_project_user
-    @project_user = @project.user
-  end
-
-  def edit_params
-    params.require(:project).permit(:id, :project_edit, :editItem)
-  end
-
-  def get_revision_histories project
-    result = project.get_history
-    @histories = []
-
-    if result
-      result.each do |r|
-        history = Hash.new
-        history["revision_id"] = r["id"]
-        history["datetime"] = DateTime.strptime(r["timestamp"], "%s").strftime("%l:%M %p %^b %d, %Y")
-        history["user"] = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
-        history["status"] = r['status']
-        history["comment"] = r['comment']
-        @histories.push(history)
-      end
-      return @histories
-    else
-      return []
+    def get_project_user
+      @project_user = @project.user
     end
-  end
+
+    def edit_params
+      params.require(:project).permit(:id, :project_edit, :editItem)
+    end
+
+    def get_revision_histories project
+      result = project.get_history
+      @histories = []
+
+      if result
+        result.each do |r|
+          history                = Hash.new
+          history["revision_id"] = r["id"]
+          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+          history["user"]        = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
+          history["status"]      = r['status']
+          history["comment"]     = r['comment']
+          @histories.push(history)
+        end
+        return @histories
+      else
+        return []
+      end
+    end
 end

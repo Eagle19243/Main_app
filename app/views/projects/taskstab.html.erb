@@ -10,307 +10,257 @@
   </div>
 </div>
 
-<script>
-  window.onload = function () {
-    $('#project-url').html(window.location.href);
-    document.getElementById("loading-mask1").style.display = "none";
-  }
-</script>
+<div class="project-page-container">
+  <div id="product-modal"></div>
 
-<div id="product-modal"></div>
-
-<div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
-  <div>
-    <a class="close-reveal-modal" aria-label="Close">&times;</a>
-    <div class="fund-do">
-      <div class="row">
-        <center><h4>Invite People To Participate</h4></center>
-        <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
-            <div class="large-10 medium-10 small-12 columns cold">
-              <div class="row row-custom">
-                <div class="large-8 medium-12 small-12 columns cold">
-                  <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
-                  <% session[:idd] = @project.id %>
-                  <% session[:project_id] = nil %>
-                  <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
+  <div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
+    <div>
+      <a class="close-reveal-modal" aria-label="Close">&times;</a>
+      <div class="fund-do">
+        <div class="row">
+          <center><h4>Invite People To Participate</h4></center>
+          <div class="large-1 medium-1 small-0 columns"></div>
+          <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
+              <div class="large-10 medium-10 small-12 columns cold">
+                <div class="row row-custom">
+                  <div class="large-8 medium-12 small-12 columns cold">
+                    <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
+                    <% session[:idd] = @project.id %>
+                    <% session[:project_id] = nil %>
+                    <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
+                  </div>
+                  <div class="large-4 medium-12 small-12 columns cold pl10">
+                    <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button">Add / Invite
+                    </button>
+                  </div>
                 </div>
-                <div class="large-4 medium-12 small-12 columns cold pl10">
-                  <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button">Add / Invite
-                  </button>
-                </div>
-              </div>
 
-              <div class="row" id="contacts">
-                <div class="contact-importers" id="tab">
-                  <span>Import your contacts from
-                    <span class="contact-importer">
-                       <span class="loading-trigger" data-source="gmail" id="gmail-icon">
-                         <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"), contacts_gmail_path %>
-                         <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
-                       </span>
+                <div class="row" id="contacts">
+                  <div class="contact-importers" id="tab">
+                    <span>Import your contacts from
+                      <span class="contact-importer">
+                         <span class="loading-trigger" data-source="gmail" id="gmail-icon">
+                           <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"), contacts_gmail_path %>
+                           <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
+                         </span>
+                      </span>
+                      <span class="mini-divider"></span>
+                         <span class="contact-importer">
+                           <span class="loading-trigger" data-source="yahoo" id="yahoo">
+                              <%= image_tag("yahoo.png", :class => "img_preview") %>
+                             <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo!
+                               Mail</a>
+                          </span>
+                         </span>
+                      <span class="mini-divider"></span>
                     </span>
-                    <span class="mini-divider"></span>
-                       <span class="contact-importer">
-                         <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                            <%= image_tag("yahoo.png", :class => "img_preview") %>
-                           <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo!
-                             Mail</a>
-                        </span>
-                       </span>
-                    <span class="mini-divider"></span>
-                  </span>
+                  </div>
+                  <% unless session[:failure_contacts].blank? %>
+                      <p id="response-failure"><%= session[:failure_contacts] %></p>
+                  <% end %>
+                  <% unless session[:success_contacts].blank? %>
+                      <p id="response-success"><%= session[:success_contacts] %></p>
+                  <% end %>
                 </div>
-                <% unless session[:failure_contacts].blank? %>
-                    <p id="response-failure"><%= session[:failure_contacts] %></p>
-                <% end %>
-                <% unless session[:success_contacts].blank? %>
-                    <p id="response-success"><%= session[:success_contacts] %></p>
-                <% end %>
-              </div>
-              <%= session[:failure_contacts] = nil %>
-              <%= session[:success_contacts] = nil %>
+                <%= session[:failure_contacts] = nil %>
+                <%= session[:success_contacts] = nil %>
 
-              <div class="or-container">
-                <hr class="or-hr">
-                <div id="or">or</div>
-              </div>
+                <div class="or-container">
+                  <hr class="or-hr">
+                  <div id="or">or</div>
+                </div>
 
-              <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
-                <ul>
-                  <li>
-                    <div class="facebook-wrapper">
-                      <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);"><i class="fa fa-facebook"></i>
-                        <span>Share on Facebook</span>
-                      </a>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="twitter-wrapper">
-                      <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                        <i class="fa fa-twitter"></i>
-                        <span>Share on twitter</span>
-                      </a>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="pinterest-wrapper">
-                      <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                        <i class="fa fa-google-plus"></i>
-                        <span>Share on Google Plus</span>
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-                <div class="row share-link">
-                  <hr/>
-                  <b>URL: </b><span id="project-url"></span>
+                <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
+                  <ul>
+                    <li>
+                      <div class="facebook-wrapper">
+                        <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);"><i class="fa fa-facebook"></i>
+                          <span>Share on Facebook</span>
+                        </a>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="twitter-wrapper">
+                        <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                          <i class="fa fa-twitter"></i>
+                          <span>Share on twitter</span>
+                        </a>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="pinterest-wrapper">
+                        <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                          <i class="fa fa-google-plus"></i>
+                          <span>Share on Google Plus</span>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="row share-link">
+                    <hr/>
+                    <b>URL: </b><span id="project-url"></span>
+                  </div>
                 </div>
               </div>
-            </div>
-        <% end %>
-        <div class="large-1 medium-1 small-0 columns"></div>
+          <% end %>
+          <div class="large-1 medium-1 small-0 columns"></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="md-overlay"></div>
-<script type="text/javascript">
-  $(document).ready(function () {
-    document.getElementById("loading-mask1").style.display = "none";
+  <div class="md-overlay"></div>
 
-    $("#send-project-email").submit(function () {
-      $('#response').empty();
-      $('#response').html("loading...")
-    });
-    $("#send-project-email-button").click(function () {
-      $('#response').empty();
-    });
-    $('.btn_movecard').click(function () {
-      var loading = document.getElementById('loading-mask1');
-      loading.style.display = "block";
-      //  $("#loading-mask1").show();
+  <%= render "tasks/banner" %>
 
-    });
-    $("#inviteclose").click(function () {
-      $('#response').empty();
-      $('#response-failure').empty();
-      $("#response-success");
-      $("#guest-email").val("");
-    });
-    $("#guest-email").keyup(function () {
-      $('#response').empty();
-      $('#response-failure').empty();
-      $("#response-success");
-    });
-    // $('#invite-people-on-project').click(function(){
-    //   var modalteam = document.getElementById('Project-Invite-Model');
-    //   modalteam.style.display = "block";
-    // });
-    // var project_span_team= document.getElementById("inviteclose");
-    // project_span_team.onclick = function() {
-    //   modalteam.style.display = "none";
-    // }
-  });
-</script>
-
-<%= render "tasks/banner" %>
-
-<div class="project-detail-wrapper">
-  <div class="project-tab-wrapper">
-    <div class="row tabs-menu">
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <ul class="nav nav-pills nav-left">
-          <li>
-            <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
-          </li>
-          <li>
-            <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
-                Tasks<span class="count"><%= @tasks_count %></span>
+  <div class="project-detail-wrapper">
+    <div class="project-tab-wrapper">
+      <div class="row tabs-menu">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <ul class="nav nav-pills nav-left">
+            <li>
+              <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
+            </li>
+            <li>
+              <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
+                  Tasks<span class="count"><%= @tasks_count %></span>
+              <% end %>
+            </li>
+              <% if user_signed_in? %>
+                  <% if @project.user_id == current_user.id %>
+                    <li>
+                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
+                          Revisions<span class="count"><%= @histories.count %></span>
+                      <% end %>                  </li>
+                <% end %>
             <% end %>
+            <li>
+              <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
+                  Team<span class="count">12</span>
+              <% end %>
+            </li>
+          </ul>
 
-          </li>
+          <div class="project-btn-group">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#projectInviteModal" class="btn-invite border-link plan-show">
+              Invite
+            </a>
             <% if user_signed_in? %>
-                <% if @project.user_id == current_user.id %>
-                  <li>
-                    <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
-                        Revisions<span class="count"><%= @histories.count %></span>
-                    <% end %>
-                  </li>
-              <% end %>
-          <% end %>
-          <li>
-            <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
-                Team<span class="count">12</span>
-            <% end %>
-          </li>
-        </ul>
-
-        <div class="project-btn-group">
-          <a href="javascript:void(0)" data-toggle="modal" data-target="#projectInviteModal" class="btn-invite border-link plan-show">
-            Invite
-          </a>
-          <% if user_signed_in? %>
-            <% if @project.user_id != current_user.id %>
-              <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-invite border-link plan-show', method: :post do %>
-                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
-                <%= @followed ? "Unfollow" : "Follow" %>
+              <% if @project.user_id != current_user.id %>
+                <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-invite border-link plan-show', method: :post do %>
+                  <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
+                  <%= @followed ? "Unfollow" : "Follow" %>
+                <% end %>
               <% end %>
             <% end %>
-          <% end %>
 
-          <div class="btn-wrapper plan-show">
-            <div class="rank-group">
-              <input type="hidden" id="stars" name="stars">
-              <% for i in 1..5 %>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-              <% end %>
+            <div class="btn-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);" class="btn-share">
+                <i class="fa fa-facebook"></i>&nbsp;&nbsp;Share
+              </a>
+            </div>
+
+            <div class="btn-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);" class="btn-share">
+                <i class="fa fa-twitter"></i>&nbsp;&nbsp;Tweet
+              </a>
+            </div>
+
+            <div class="btn-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" class="btn-share">
+                <i class="fa fa-google-plus"></i>&nbsp;&nbsp;Share
+              </a>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <div class="rank-group">
+                <input type="hidden" id="stars" name="stars">
+                <% for i in 1..5 %>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                <i class="fa fa-facebook"></i>
+              </a>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+">
+                <i class="fa fa-google-plus"></i>
+              </a>
+            </div>
+
+            <div class="btn-wiki-wrapper pull-right plan-hide" id='save-content'>
+              <a href="javascript:void(0)" class="btn-visual">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;
+                Save
+              </a>
+            </div>
+
+            <div class="btn-wiki-wrapper pull-right plan-hide">
+              <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
+                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
+                Visual Editor
+              </a>
             </div>
           </div>
 
-          <div class="btn-wrapper plan-show">
-            <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);" class="btn-share">
-              <i class="fa fa-facebook"></i>&nbsp;&nbsp;Share
-            </a>
-          </div>
-
-          <div class="btn-wrapper plan-show">
-            <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);" class="btn-share">
-              <i class="fa fa-twitter"></i>&nbsp;&nbsp;Tweet
-            </a>
-          </div>
-
-          <div class="btn-wrapper plan-show">
-            <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" class="btn-share">
-              <i class="fa fa-google-plus"></i>&nbsp;&nbsp;Share
-            </a>
-          </div>
-
-          <div class="btn-alt-wrapper plan-show">
-            <div class="rank-group">
-              <input type="hidden" id="stars" name="stars">
-              <% for i in 1..5 %>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-              <% end %>
-            </div>
-          </div>
-
-          <div class="btn-alt-wrapper plan-show">
-            <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-              <i class="fa fa-facebook"></i>
-            </a>
-          </div>
-
-          <div class="btn-alt-wrapper plan-show">
-            <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </div>
-
-          <div class="btn-alt-wrapper plan-show">
-            <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </div>
-
-          <div class="btn-wiki-wrapper pull-right plan-hide" id='save-content'>
-            <a href="javascript:void(0)" class="btn-visual">
-              <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;
-              Save
-            </a>
-          </div>
-
-          <div class="btn-wiki-wrapper pull-right plan-hide">
-            <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
-              <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
-              Visual Editor
-            </a>
-          </div>
         </div>
 
       </div>
 
-    </div>
+      <div class="tabs-wrapper">
+        <div id="Plan" class="tabcontent">
+          <div class="content-details">
+            <div class="row">
 
-    <div class="tabs-wrapper">
-      <div id="Plan" class="tabcontent">
-        <div class="content-details">
-          <div class="row">
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
 
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
 
-              <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
-
-              <% if user_signed_in? %>
-                <div class="row margin-none mb20">
-                  <div class="btn-wrapper pull-right">
-                    <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                <% if user_signed_in? %>
+                  <div class="row margin-none mb20">
+                    <div class="btn-wrapper pull-right">
+                      <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
+                    </div>
+                    <% if current_user.is_admin_for?(@project)%>
+                      <div class="btn-wrapper pull-right">
+                        <button class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
+                      </div>
+                    <% end %>
                   </div>
-                </div>
-              <% end %>
-
-              <div class="clearfix"></div>
-              <div class="project-summary">
-                <%= @contents.html_safe %>
-              </div>
-            
-              <div class="project-idea">
-                <strong>Project Idea: &nbsp;&nbsp;</strong>
-                <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-                <% if user_signed_in? && current_user.id == @project.user_id %>
-                  <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
-                  <span id="str_length"></span>
                 <% end %>
-              </div>
-            </div>
 
-            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-              <div class="tasks-summary">
-                <div class="summary-header">
-                  <strong>Tasks</strong>
-                  <a href="javascript:void(0)" class="pull-right">View All</a>
+                <div class="clearfix"></div>
+                <div class="project-summary">
+                  <%= @contents.html_safe %>
                 </div>
+
+                <div class="project-idea">
+                  <strong>Project Idea: &nbsp;&nbsp;</strong>
+                  <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
+                  <% if user_signed_in? && current_user.id == @project.user_id %>
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
+                    <span id="str_length"></span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                <div class="tasks-summary">
+                  <div class="summary-header">
+                    <strong>Tasks</strong>
+                    <a href="javascript:void(0)" class="pull-right">View All</a>
+                  </div>
 
                 <div id="tasks_cards">
                   <% @sourcing_tasks.first(5).each do |task| %>
@@ -344,45 +294,46 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                               <div class="fund-do-btns">
-                                <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
+                                <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)"  data-toggle="modal" data-target="#taskDoModal">
                                   DO
                                 </a>
-                                <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
+                                <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
                                   FUND
                                 </a>
                               </div>
                             </div>
                           </div>
 
+                          </div>
                         </div>
-                      </div>
-                  <% end %>
-                </div>
+                    <% end %>
+                  </div>
 
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div id="Tasks" class="tabcontent">
-        <div class="center">
-          <%= image_tag("loading.gif", :alt => "rss feed") %>
-        </div>
-      </div>
-
-      <!-- Available for project owner -->
-      <% if user_signed_in? %>
-        <% if current_user.id == @project.user_id %>
-          <div id="Revision" class="tabcontent">
-            <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
+        <div id="Tasks" class="tabcontent">
+          <div class="center">
+            <%= image_tag("loading.gif", :alt => "rss feed") %>
           </div>
-        <% end %>
-      <% end %>
+        </div>
 
-      <div id="Team" class="tabcontent">
-        <div class="center">
-          <%= image_tag("loading.gif", :alt => "rss feed") %>
+        <!-- Available for project owner -->
+        <% if user_signed_in? %>
+          <% if current_user.id == @project.user_id %>
+            <div id="Revision" class="tabcontent">
+              <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div id="Team" class="tabcontent">
+          <div class="center">
+            <%= image_tag("loading.gif", :alt => "rss feed") %>
+          </div>
         </div>
       </div>
     </div>
@@ -399,6 +350,18 @@
 <%= render "modal/revisions_diff_modal" %>
 
 <script>
+  window.onload = function () {
+    $('#project-url').html(window.location.href);
+    document.getElementById("loading-mask1").style.display = "none";
+  }
+
+  function doPopup(id){
+    $('#task-do-request-popup').val(id);
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+</script>
+
+<script>
   // There are lot of javascript behaviors on site, so we should think about exposing
   // necessary information into global javascript objects accessible to the client
   // This code below is ugly, please feel free to rework it in a better way:
@@ -407,14 +370,55 @@
   window.weserve_user.isProjectOwner = false;
   <% if user_signed_in? %>
     window.weserve_user.isLoggedIn = true;
-  <% if @project.user_id == current_user.id %>
-    window.weserve_user.isProjectOwner = true;
-  <% end %>
+    <% if @project.user_id == current_user.id %>
+      window.weserve_user.isProjectOwner = true;
+    <% end %>
   <% end %>
 </script>
 
 <script type="text/javascript">
+  $(document).ready(function () {
+    document.getElementById("loading-mask1").style.display = "none";
 
+    $("#send-project-email").submit(function () {
+      $('#response').empty();
+      $('#response').html("loading...")
+    });
+
+    $("#send-project-email-button").click(function () {
+      $('#response').empty();
+    });
+
+    $('.btn_movecard').click(function () {
+      var loading = document.getElementById('loading-mask1');
+      loading.style.display = "block";
+      //  $("#loading-mask1").show();
+    });
+
+    $("#inviteclose").click(function () {
+      $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+      $("#guest-email").val("");
+    });
+
+    $("#guest-email").keyup(function () {
+      $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+    });
+    // $('#invite-people-on-project').click(function(){
+    //   var modalteam = document.getElementById('Project-Invite-Model');
+    //   modalteam.style.display = "block";
+    // });
+    // var project_span_team= document.getElementById("inviteclose");
+    // project_span_team.onclick = function() {
+    //   modalteam.style.display = "none";
+    // }
+  });
+</script>
+
+<script type="text/javascript">
     $('.best_in_place').on("input",function() {
       strlength = $(".form_in_place > input").val().length;
       string = "(" + strlength + "/60)";
@@ -427,6 +431,13 @@
 
       $('#str_length').text(string);
     });
+
+    function projectImgEdit(e) {
+      $('#project-img-edit').modal('show');
+      if (!e) var e = window.event;
+      e.cancelBubble = true;
+      if (e.stopPropagation) e.stopPropagation();
+    };
 
     function openTab(evt, tabName) {
       var i, tabcontent, tablinks;
