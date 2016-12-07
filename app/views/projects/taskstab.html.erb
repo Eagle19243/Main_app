@@ -1,6 +1,17 @@
 <%= stylesheet_link_tag 'social-share' %>
 <!-- <%= javascript_include_tag 'social-share' %> -->
 
+<% if @change_leader_invitation && @change_leader_invitation.is_valid? %>
+  <div class="center-block">
+    <p class="bg-info lead text-center">
+      You were invited as a leader for this project. Please review the project and accept.
+      <br/>
+      <%= link_to "Accept", accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
+      <%= link_to "Reject", reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
+    </p>
+  </div>
+<% end %>
+
 <div id="loading-mask1">
   <div class="modal-content2">
     <center><h3>Loading...</h3></center>
@@ -428,156 +439,156 @@
 </script>
 
 <script type="text/javascript">
-    $('.best_in_place').on("input",function() {
-      strlength = $(".form_in_place > input").val().length;
-      string = "(" + strlength + "/60)";
-      if (strlength < 2 || strlength > 60) {
-        $('#str_length').addClass("alert_red");
-        string = string + "Input between 2 ~ 60 characters";
-      }
-      else
-        $('#str_length').removeClass("alert_red");
+  $('.best_in_place').on("input",function() {
+    strlength = $(".form_in_place > input").val().length;
+    string = "(" + strlength + "/60)";
+    if (strlength < 2 || strlength > 60) {
+      $('#str_length').addClass("alert_red");
+      string = string + "Input between 2 ~ 60 characters";
+    }
+    else
+      $('#str_length').removeClass("alert_red");
 
-      $('#str_length').text(string);
-    });
+    $('#str_length').text(string);
+  });
 
-    function projectImgEdit(e) {
-      $('#project-img-edit').modal('show');
-      if (!e) var e = window.event;
-      e.cancelBubble = true;
-      if (e.stopPropagation) e.stopPropagation();
-    };
+  function projectImgEdit(e) {
+    $('#project-img-edit').modal('show');
+    if (!e) var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+  };
 
-    function openTab(evt, tabName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-      if( evt && evt.currentTarget ) {
-        evt.currentTarget.className += " active";
-      }
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    if( evt && evt.currentTarget ) {
+      evt.currentTarget.className += " active";
+    }
 
     $('#sourceEditor').hide();
     $('.plan-hide').hide();
     $('.plan-show').show();
   }
 
-    $(function(){
+  $(function(){
 
-      $('#tasks_cards').slimScroll({
-        height: '500px'
-      });
-      $('[data-toggle="tooltip"]').tooltip();
-      $('.nav-pills').find('li:first-child a').click();
-
+    $('#tasks_cards').slimScroll({
+      height: '500px'
     });
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.nav-pills').find('li:first-child a').click();
 
-    $('#editSource').click(function(event) {
-      if( window.weserve_user.isProjectOwner ) {
-        openTab({
-          'currentTarget': $('.tab-revisions').get(0)
-        }, 'Revision');
-      }else{
-        showSourceEditor();
-      }
-    });
+  });
 
-    $('#save-content').click(function() {
-      $.ajax({
-        type: "POST",
-        url: "/projects/<%= @project.id %>/write_to_mediawiki",
-        data: {"data": $("#sourceEditor #textarea-editor").val()},
-        dataType: "script"
-      });
+  $('#editSource').click(function(event) {
+    if( window.weserve_user.isProjectOwner ) {
+      openTab({
+        'currentTarget': $('.tab-revisions').get(0)
+      }, 'Revision');
+    }else{
+      showSourceEditor();
+    }
+  });
+
+  $('#save-content').click(function() {
+    $.ajax({
+      type: "POST",
+      url: "/projects/<%= @project.id %>/write_to_mediawiki",
+      data: {"data": $("#sourceEditor #textarea-editor").val()},
+      dataType: "script"
     });
+  });
 
   $('.do-model-popup').click(function () {
     $('#task-do-request-popup').val($(this).attr('id'));
   });
 
-    var invitePeople = localStorage.getItem("invite_people");
-    if( invitePeople == "true" ) {
-      $('#projectInviteModal').modal('toggle');
-      localStorage.removeItem('invite_people');
+  var invitePeople = localStorage.getItem("invite_people");
+  if( invitePeople == "true" ) {
+    $('#projectInviteModal').modal('toggle');
+    localStorage.removeItem('invite_people');
+  }
+
+  $(document).on('click', '.revisions-compare-edit-link', function() {
+    var revision = $(this).data('revision');
+    showSourceEditor( revision );
+  });
+
+  // Compare revisions button click handler
+  $(document).on('click', '.revisions-compare-button', function(e) {
+    var selectedRevisions = window.revisionSelectorInstance.getValues().sort();
+    if( selectedRevisions.length > 1 ) {
+
+      populateModalRevisionInfo(selectedRevisions[0], '#revisionsDiffModal .modal-revision-info--left');
+      populateModalRevisionInfo(selectedRevisions[1], '#revisionsDiffModal .modal-revision-info--right');
+
+      $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
+      $('#revisionsDiffModal').modal('show');
+    }
+  });
+
+  // Compare revisions button click handler
+  $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function(e) {
+    var revision = $(this).parents('.modal-revision-info').data('revision');
+    if( revision ) {
+      $('#revisionsDiffModal').modal('hide');
+      showSourceEditor(revision);
+    }
+  });
+
+  function populateModalRevisionInfo( revision_id, selector )
+  {
+    var revisionTr = $('#Revision tr[data-revision="'+revision_id+'"]');
+    var rDate = $(revisionTr).data('revision-date');
+    var rUser = $(revisionTr).data('revision-user');
+    var rUserPic = $(revisionTr).data('revision-user-picture');
+    var rUserLink = $(revisionTr).data('revision-user-link');
+    var rUserId = $(revisionTr).data('revision-user-id');
+
+    $(selector).data('revision', revision_id);
+    $(selector).data('revision-user-id', rUserId);
+
+    $(selector).find('.modal-revision-title span').html(rDate);
+    $(selector).find('.modal-revision-title span').html(rDate);
+
+    if( rUserPic ) {
+      $(selector).find('.modal-revision-user img').attr('src', rUserPic);
+      $(selector).find('.modal-revision-user img').show();
+    }else{
+      $(selector).find('.modal-revision-user img').attr('src', '');
+      $(selector).find('.modal-revision-user img').hide();
     }
 
-    $(document).on('click', '.revisions-compare-edit-link', function() {
-      var revision = $(this).data('revision');
-      showSourceEditor( revision );
-    });
+    $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
+    $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
+  }
 
-    // Compare revisions button click handler
-    $(document).on('click', '.revisions-compare-button', function(e) {
-      var selectedRevisions = window.revisionSelectorInstance.getValues().sort();
-      if( selectedRevisions.length > 1 ) {
+  function showSourceEditor( revision_id ) {
 
-        populateModalRevisionInfo(selectedRevisions[0], '#revisionsDiffModal .modal-revision-info--left');
-        populateModalRevisionInfo(selectedRevisions[1], '#revisionsDiffModal .modal-revision-info--right');
+    $('.tab-revisions').removeClass('active');
+    $('.tabcontent').hide();
 
-        $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
-        $('#revisionsDiffModal').modal('show');
-      }
-    });
-
-    // Compare revisions button click handler
-    $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function(e) {
-      var revision = $(this).parents('.modal-revision-info').data('revision');
-      if( revision ) {
-        $('#revisionsDiffModal').modal('hide');
-        showSourceEditor(revision);
-      }
-    });
-
-    function populateModalRevisionInfo( revision_id, selector )
-    {
-      var revisionTr = $('#Revision tr[data-revision="'+revision_id+'"]');
-      var rDate = $(revisionTr).data('revision-date');
-      var rUser = $(revisionTr).data('revision-user');
-      var rUserPic = $(revisionTr).data('revision-user-picture');
-      var rUserLink = $(revisionTr).data('revision-user-link');
-      var rUserId = $(revisionTr).data('revision-user-id');
-
-      $(selector).data('revision', revision_id);
-      $(selector).data('revision-user-id', rUserId);
-
-      $(selector).find('.modal-revision-title span').html(rDate);
-      $(selector).find('.modal-revision-title span').html(rDate);
-
-      if( rUserPic ) {
-        $(selector).find('.modal-revision-user img').attr('src', rUserPic);
-        $(selector).find('.modal-revision-user img').show();
-      }else{
-        $(selector).find('.modal-revision-user img').attr('src', '');
-        $(selector).find('.modal-revision-user img').hide();
-      }
-
-      $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
-      $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
+    var rev = null;
+    if( revision_id != undefined ) {
+      rev = revision_id;
     }
 
-    function showSourceEditor( revision_id ) {
+    $.ajax({
+      type: "GET",
+      url: "/projects/<%= @project.id %>/read_from_mediawiki?rev=" + rev,
+      dataType: "script"
+    });
 
-      $('.tab-revisions').removeClass('active');
-      $('.tabcontent').hide();
-
-      var rev = null;
-      if( revision_id != undefined ) {
-        rev = revision_id;
-      }
-
-      $.ajax({
-        type: "GET",
-        url: "/projects/<%= @project.id %>/read_from_mediawiki?rev=" + rev,
-        dataType: "script"
-      });
-
-    }
+  }
 
 </script>
 

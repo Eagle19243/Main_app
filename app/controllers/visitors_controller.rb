@@ -16,10 +16,6 @@ class VisitorsController < ApplicationController
     # else
     #   @featured_projects = Project.last(3)
     # end
-    @featured_projects = Project.last(3)
-  end
-
-  def restricted
   end
 
   private
