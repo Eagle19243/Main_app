@@ -322,6 +322,8 @@ class ProjectsController < ApplicationController
     end
 
     @project.wiki_page_name = filter_page_name @project.title
+    puts "------------------"
+    puts filter_page_name @project.title
 
     respond_to do |format|
       if @project.save
@@ -577,7 +579,6 @@ class ProjectsController < ApplicationController
 
     # Fitler wiki page name regarding page title
     def filter_page_name title
-      title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ")
-      title.strip
+      title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
     end
 end
