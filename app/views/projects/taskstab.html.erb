@@ -247,11 +247,15 @@
 
                 <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
 
-                <% if user_signed_in? %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-wrapper pull-right">
+              <% if user_signed_in? %>
+                <div class="row margin-none mb20">
+                  <div class="btn-wrapper pull-right">
+                    <% if current_user.id == @project.user_id %>
                       <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
-                    </div>
+                    <% else %>
+                      <a href="http://wiki.weserve.io/index.php?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor</a>
+                    <% end %>
+                  </div>
                     <% if current_user.is_admin_for?(@project)%>
                       <div class="btn-wrapper pull-right">
                         <button class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
@@ -259,20 +263,20 @@
                     <% end %>
                   </div>
                 <% end %>
+              </div>
 
                 <div class="clearfix"></div>
                 <div class="project-summary">
                   <%= @contents.html_safe %>
                 </div>
 
-                <div class="project-idea">
-                  <strong>Project Idea: &nbsp;&nbsp;</strong>
-                  <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-                  <% if user_signed_in? && current_user.id == @project.user_id %>
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
-                    <span id="str_length"></span>
-                  <% end %>
-                </div>
+              <div class="project-idea">
+                <strong>Project Idea: &nbsp;&nbsp;</strong>
+                <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
+                <% if user_signed_in? && current_user.id == @project.user_id %>
+                  <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
+                  <span id="str_length"></span>
+                <% end %>
               </div>
 
               <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
@@ -518,10 +522,11 @@
     localStorage.removeItem('invite_people');
   }
 
-  $(document).on('click', '.revisions-compare-edit-link', function() {
-    var revision = $(this).data('revision');
-    showSourceEditor( revision );
-  });
+  // Disable Source Editor
+  // $(document).on('click', '.revisions-compare-edit-link', function() {
+  //   var revision = $(this).data('revision');
+  //   showSourceEditor( revision );
+  // });
 
   // Compare revisions button click handler
   $(document).on('click', '.revisions-compare-button', function(e) {
