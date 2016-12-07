@@ -1,4 +1,6 @@
 class Wiki < ActiveRecord::Base
+  acts_as_paranoid
+  
 	include AASM
 	 default_scope -> { order('created_at DESC') }
 	mount_uploader :pictureone, PictureUploader

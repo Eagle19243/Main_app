@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  acts_as_paranoid
+  
   include ApplicationHelper
   include AASM
   default_scope -> { order('created_at DESC') }

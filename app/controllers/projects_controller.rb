@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -17,7 +17,6 @@ class ProjectsController < ApplicationController
         @download_keys = true
       end
     end
-    @projects = Project.all
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.page params[:page]
@@ -49,6 +48,7 @@ class ProjectsController < ApplicationController
     end
     session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] = session[:idd]
+    session[:email] = "email-success"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
   end
 
@@ -90,6 +90,7 @@ class ProjectsController < ApplicationController
   def failure
     session[:failure_contacts] = nil
     session[:project_id] = session[:idd]
+    session[:email_failure] = "failure_email"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
     session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
   end
@@ -169,6 +170,14 @@ class ProjectsController < ApplicationController
     redirect_to taskstab_project_path(@project.id)
   end
 
+  def archived
+    @featured_projects = Project.only_deleted.page params[:page]
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
   def follow
     redirect_to @project and return if current_user.id == @project.user_id
     if params[:follow] == 'true'
@@ -205,6 +214,16 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/taskstab
   def taskstab
+    if session[:email] == "email-success"
+      flash[:notice] = "Project link has been shared  successfully with your friends!"
+      flash.discard(:notice)
+      session[:email] = nil
+    end
+    if session[:email_failure] == "failure_email"
+      flash[:notice] = "No, Project invitation Email was sent to your Friends!"
+      flash.discard(:notice)
+      session[:email_failure] = nil
+    end
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
@@ -505,11 +524,15 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    if user_signed_in? && current_user.admin?
+      @project = Project.with_deleted.find(params[:id])
+    else
       @project = Project.find(params[:id])
     end
 
+  end
   # Never trust parameters from the scary internet, only allow the white list through.
   def project_params
     params.require(:project).permit(

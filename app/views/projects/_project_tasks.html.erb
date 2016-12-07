@@ -50,7 +50,7 @@
       </div>
 
       <div class="section-add-task">
-        <a href="javascript:void(0)" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
+        <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
       </div>
     </div>
   </div>
@@ -103,7 +103,7 @@
                       <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' id="<%= task.id %>" data-target="#taskFundModal">
                         FUND
                       </a>
-                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" data-target="#taskDoModal">
+                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)"  data-target="#taskDoModal">
                         DO
                       </a>
                       <% if user_signed_in? %>

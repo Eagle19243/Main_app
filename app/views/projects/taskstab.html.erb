@@ -23,7 +23,6 @@
       <div class="fund-do">
         <div class="row">
           <center><h4>Invite People To Participate</h4></center>
-          <div class="alert" id="response"></div>
           <div class="large-1 medium-1 small-0 columns"></div>
           <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
               <div class="large-10 medium-10 small-12 columns cold">
@@ -217,6 +216,11 @@
                     <div class="btn-wrapper pull-right">
                       <button type="button" class="btn-edit" id="editSource"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit</button>
                     </div>
+                    <% if current_user.is_admin_for?(@project)%>
+                      <div class="btn-wrapper pull-right">
+                        <span class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
+                      </div>
+                    <% end %>
                   </div>
                 <% end %>
 
@@ -242,47 +246,47 @@
                     <a href="javascript:void(0)" class="pull-right">View All</a>
                   </div>
 
-                  <div id="tasks_cards">
-                    <% @sourcing_tasks.first(5).each do |task| %>
-                        <div class="summary-cards">
-                          <div class="card-wrapper">
-                            <div class="card-title">
-                              <p><%= task.description %></p>
-                            </div>
-                            <div class="row">
-                              <div class="col-lg-9 col-md-9 col-sm-9 pt15">
-                                <div class="progress">
-                                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
-                                  </div>
-                                </div>
-                                <div class="report-banner-table tab-task-report mt10">
-                                  <table>
-                                    <tr class="value">
-                                      <td><%= task.funded %></td>
-                                      <td><%= @tasks_count %></td>
-                                      <td><%= task.donations.count %></td>
-                                      <td><%= task.funded_in_btc %></td>
-                                    </tr>
-                                    <tr class="items">
-                                      <td>Funded</td>
-                                      <td>Tasks</td>
-                                      <td>Backers</td>
-                                      <td>Raised</td>
-                                    </tr>
-                                  </table>
+                <div id="tasks_cards">
+                  <% @sourcing_tasks.first(5).each do |task| %>
+                      <div class="summary-cards">
+                        <div class="card-wrapper">
+                          <div class="card-title">
+                            <p><%= task.description %></p>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-9 col-md-9 col-sm-9 pt15">
+                              <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
                                 </div>
                               </div>
-                              <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="fund-do-btns">
-                                  <a href="javascript:void(0)" title="DO" data-toggle="modal" data-target="#taskDoModal">
-                                    DO
-                                  </a>
-                                  <a href="javascript:void(0)" title="FUND" data-toggle="modal" data-target="#taskFundModal">
-                                    FUND
-                                  </a>
-                                </div>
+                              <div class="report-banner-table tab-task-report mt10">
+                                <table>
+                                  <tr class="value">
+                                    <td><%= task.funded %></td>
+                                    <td><%= @tasks_count %></td>
+                                    <td><%= task.donations.count %></td>
+                                    <td><%= task.funded_in_btc %></td>
+                                  </tr>
+                                  <tr class="items">
+                                    <td>Funded</td>
+                                    <td>Tasks</td>
+                                    <td>Backers</td>
+                                    <td>Raised</td>
+                                  </tr>
+                                </table>
                               </div>
                             </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                              <div class="fund-do-btns">
+                                <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)"  data-toggle="modal" data-target="#taskDoModal">
+                                  DO
+                                </a>
+                                <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
+                                  FUND
+                                </a>
+                              </div>
+                            </div>
+                          </div>
 
                           </div>
                         </div>
@@ -334,6 +338,11 @@
     $('#project-url').html(window.location.href);
     document.getElementById("loading-mask1").style.display = "none";
   }
+
+  function doPopup(id){
+    $('#task-do-request-popup').val(id);
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
 </script>
 
 <script>
@@ -354,24 +363,29 @@
 <script type="text/javascript">
   $(document).ready(function () {
     document.getElementById("loading-mask1").style.display = "none";
+
     $("#send-project-email").submit(function () {
       $('#response').empty();
       $('#response').html("loading...")
     });
+
     $("#send-project-email-button").click(function () {
       $('#response').empty();
     });
+
     $('.btn_movecard').click(function () {
       var loading = document.getElementById('loading-mask1');
       loading.style.display = "block";
       //  $("#loading-mask1").show();
     });
+
     $("#inviteclose").click(function () {
       $('#response').empty();
       $('#response-failure').empty();
       $("#response-success");
       $("#guest-email").val("");
     });
+
     $("#guest-email").keyup(function () {
       $('#response').empty();
       $('#response-failure').empty();
@@ -401,6 +415,13 @@
 
       $('#str_length').text(string);
     });
+
+    function projectImgEdit(e) {
+      $('#project-img-edit').modal('show');
+      if (!e) var e = window.event;
+      e.cancelBubble = true;
+      if (e.stopPropagation) e.stopPropagation();
+    };
 
     function openTab(evt, tabName) {
       var i, tabcontent, tablinks;
