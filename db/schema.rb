@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161202180354) do
+ActiveRecord::Schema.define(version: 20161206072609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -277,7 +277,10 @@ ActiveRecord::Schema.define(version: 20161202180354) do
     t.integer  "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "project_comments", ["deleted_at"], name: "index_project_comments_on_deleted_at", using: :btree
 
   create_table "project_edits", force: :cascade do |t|
     t.datetime "created_at",                      null: false
@@ -286,7 +289,10 @@ ActiveRecord::Schema.define(version: 20161202180354) do
     t.integer  "user_id"
     t.integer  "project_id"
     t.text     "description"
+    t.datetime "deleted_at"
   end
+
+  add_index "project_edits", ["deleted_at"], name: "index_project_edits_on_deleted_at", using: :btree
 
   create_table "project_rates", force: :cascade do |t|
     t.integer  "project_id"
@@ -382,7 +388,10 @@ ActiveRecord::Schema.define(version: 20161202180354) do
     t.text     "proof_of_execution"
     t.text     "short_description"
     t.boolean  "marker",                        default: false
+    t.datetime "deleted_at"
   end
+
+  add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
 
   create_table "team_memberships", force: :cascade do |t|
     t.integer  "team_id",                    null: false
@@ -468,6 +477,7 @@ ActiveRecord::Schema.define(version: 20161202180354) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "username"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -511,7 +521,10 @@ ActiveRecord::Schema.define(version: 20161202180354) do
     t.datetime "updated_at",   null: false
     t.integer  "user_id"
     t.string   "state"
+    t.datetime "deleted_at"
   end
+
+  add_index "wikis", ["deleted_at"], name: "index_wikis_on_deleted_at", using: :btree
 
   create_table "work_records", force: :cascade do |t|
     t.datetime "created_at", null: false

@@ -26,66 +26,6 @@
   </div>
 </div>
 
-<script>
-
-  $('#wallet_transaction_amount').keypress(function(eve) {
-    if(eve.which == 8 || eve.which == 0){
-      return true;
-    }
-    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
-      document.getElementById("wallet_btc").innerHTML = '';
-      var usd = document.getElementById("wallet_transaction_amount");
-      var current_btc = '<%=  get_current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
-      eve.preventDefault();
-    }
-
-    // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
-    $('#wallet_transaction_amount').keyup(function(eve) {
-      if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
-      }
-      document.getElementById("wallet_btc").innerHTML = '';
-      var usd = document.getElementById("wallet_transaction_amount");
-      var current_btc = '<%=  get_current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
-
-    });
-
-  });
-
-  $('#save-wallet-teansaction').click(function(){
-    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != ''  ){
-      $('#save-wallet-teansaction').disabled = true ;
-      $('#response-from-wallet').html("");
-    $('#response-from-wallet').html("Requesting ... please Wait ");}
-  });
-
-  $(".close-reveal-modal").click(function(){
-    $('#response-from-wallet').html("");
-  });
-
-  $(".profile-title").hover(
-    function() {
-      $("#edit-profile-pencil").show();
-    },
-    function() {
-      $("#edit-profile-pencil").hide();
-    }
-  )
-
-  $('.profile-bio .best_in_place').focusin(function(){
-    $("#bio-edit-pencil").hide();
-    $("#bio-edit-save").show();
-  });
-  
-  $('.profile-bio .best_in_place').focusout(function(){
-    $("#bio-edit-save").hide();
-    $("#bio-edit-pencil").show();
-  });
-
-</script>
-
-
 <div class="profile-wrapper">
   <div class="profile-hero">
     <%= image_tag(@user.projects.first.picture) if @user.projects.count != 0 %>
@@ -156,15 +96,16 @@
   </div>
 
   <div class="bio-wrapper">
-    <h3>
+    <h3 class="bio-header">
       BIO
       <% if (current_user && current_user.id == @user.id) %>
-        <i class="icon-save" id="bio-edit-save" style="display: none;"></i>
-        <i class="fa fa-pencil" id="bio-edit-pencil"></i>
+        <i class="fa fa-pencil" id="bio-edit-pencil" style="display: none;"></i>
       <% end %>
     </h3>
     <p class="profile-bio">
-      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button" %>
+      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea,
+                           activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button",
+                           ok_button: "Save", ok_button_class: "button ok-button"%>
     </p>
   </div>
 
@@ -245,4 +186,61 @@
 
 </div>
 
+<script>
+
+  $('#wallet_transaction_amount').keypress(function(eve) {
+    if(eve.which == 8 || eve.which == 0){
+      return true;
+    }
+    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
+      document.getElementById("wallet_btc").innerHTML = '';
+      var usd = document.getElementById("wallet_transaction_amount");
+      var current_btc = '<%=  get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      eve.preventDefault();
+    }
+
+    // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
+    $('#wallet_transaction_amount').keyup(function(eve) {
+      if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
+      }
+      document.getElementById("wallet_btc").innerHTML = '';
+      var usd = document.getElementById("wallet_transaction_amount");
+      var current_btc = '<%=  get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+
+    });
+
+  });
+
+  $('#save-wallet-teansaction').click(function(){
+    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != ''  ){
+      $('#save-wallet-teansaction').disabled = true ;
+      $('#response-from-wallet').html("");
+      $('#response-from-wallet').html("Requesting ... please Wait ");}
+  });
+
+  $(".close-reveal-modal").click(function(){
+    $('#response-from-wallet').html("");
+  });
+
+  $(".profile-title").hover(
+      function() {
+        $("#edit-profile-pencil").show();
+      },
+      function() {
+        $("#edit-profile-pencil").hide();
+      }
+  )
+
+  $(".bio-wrapper .bio-header").hover(
+      function() {
+        $("#bio-edit-pencil").show();
+      },
+      function() {
+        $("#bio-edit-pencil").hide();
+      }
+  );
+
+</script>
 
