@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag 'social-share' %>
 <!-- <%= javascript_include_tag 'social-share' %> -->
+
 <% if @change_leader_invitation && @change_leader_invitation.is_valid? %>
   <div class="center-block">
     <p class="bg-info lead text-center">
@@ -10,16 +11,13 @@
     </p>
   </div>
 <% end %>
-<div id="loading-mask1" class="modal" style="display: block">
-  <!-- Modal content -->
-  <div class="modal-content2" style="width:25%">
-    <div class="fund-do">
-      <div class="row">
-        <center><h3>Loading...</h3></center>
-        <center>  <%= image_tag "hourglass.gif", :style => "width : 80px;" %>
-        </center>
-      </div>
-    </div>
+
+<div id="loading-mask1">
+  <div class="modal-content2">
+    <center><h3>Loading...</h3></center>
+    <center>
+      <%= image_tag "hourglass.gif" %>
+    </center>
   </div>
 </div>
 
@@ -138,9 +136,7 @@
               <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
                   Tasks<span class="count"><%= @tasks_count %></span>
               <% end %>
-
             </li>
-
               <% if user_signed_in? %>
                   <% if @project.user_id == current_user.id %>
                     <li>
@@ -177,29 +173,60 @@
                 <% end %>
               </div>
             </div>
+
             <div class="btn-wrapper plan-show">
               <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);" class="btn-share">
                 <i class="fa fa-facebook"></i>&nbsp;&nbsp;Share
               </a>
             </div>
+
             <div class="btn-wrapper plan-show">
               <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);" class="btn-share">
                 <i class="fa fa-twitter"></i>&nbsp;&nbsp;Tweet
               </a>
             </div>
+
             <div class="btn-wrapper plan-show">
               <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" class="btn-share">
                 <i class="fa fa-google-plus"></i>&nbsp;&nbsp;Share
               </a>
             </div>
 
-            <div class="btn-wrapper pull-right plan-hide" id='save-content'>
+            <div class="btn-alt-wrapper plan-show">
+              <div class="rank-group">
+                <input type="hidden" id="stars" name="stars">
+                <% for i in 1..5 %>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                <i class="fa fa-facebook"></i>
+              </a>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </div>
+
+            <div class="btn-alt-wrapper plan-show">
+              <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+">
+                <i class="fa fa-google-plus"></i>
+              </a>
+            </div>
+
+            <div class="btn-wiki-wrapper pull-right plan-hide" id='save-content'>
               <a href="javascript:void(0)" class="btn-visual">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;
                 Save
               </a>
             </div>
-            <div class="btn-wrapper pull-right plan-hide">
+
+            <div class="btn-wiki-wrapper pull-right plan-hide">
               <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                 Visual Editor
@@ -330,7 +357,7 @@
         </div>
       </div>
     </div>
-  </div>`
+  </div>
 </div>
 
 <%= render "projects/source_edit" %>
