@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :removeMember]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing,:task_fund_info, :removeMember]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
@@ -78,6 +78,12 @@ class TasksController < ApplicationController
     end
   end
 
+
+  def task_fund_info
+    respond_to do |format|
+       format.json { render json: {wallet_address: @task.wallet_address.sender_address, balance:curent_bts_to_usd( @task.id ) , status: 200} }
+    end
+  end
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update

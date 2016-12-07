@@ -24,10 +24,27 @@
     document.getElementById("loading-mask1").style.display = "none";
   }
     function doPopup(id){
-      debugger;
       $('#task-do-request-popup').val(id);
      // document.getElementsById('task-do-request-popup').val(id);
     }
+  function fundPopup(id){
+    $.ajax({
+      url: "/tasks/task_fund_info",
+      type: "get", //send it through get method
+      data: {id: id},
+      success: function (response) {
+        $('#wallet-address').html('wallet Address: '+ response.wallet_address )
+
+        $('#wallet_transaction_user_wallet').val(response.wallet_address);
+        $('#task-balance').html(response.balance +" $" );
+      },
+      error: function (xhr) {
+        debugger
+
+      }
+    });
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
 </script>
 
 <div id="product-modal"></div>
@@ -330,7 +347,7 @@
                                 <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)"  data-toggle="modal" data-target="#taskDoModal">
                                   DO
                                 </a>
-                                <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
+                                <a href="javascript:void(0)" title="FUND" name="fund-button" onclick="fundPopup(<%= task.id %>)"  id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
                                   FUND
                                 </a>
                               </div>
