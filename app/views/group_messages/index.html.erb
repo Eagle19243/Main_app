@@ -86,6 +86,7 @@
 <script>
   function load_messages() {
     var chatroom_id = $("#group_message_chatroom_id").val();
+    if (chatroom_id != undefined){
     $.ajax({
       url: "/group_messages/load_group_messages",
       type: "post",
@@ -93,7 +94,7 @@
       success: function () {
         $('#messages').scrollTop(1E10)
       }
-    });
+    });}
   }
 </script>
 <script type="text/javascript">
