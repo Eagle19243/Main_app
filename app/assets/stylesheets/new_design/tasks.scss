@@ -770,3 +770,41 @@
   }
 }
 
+
+#loading-mask1 {
+  display: block;
+  overflow: hidden;
+  position: fixed;
+  top: 0 !important;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  .modal-content2 {
+    width: 300px;
+    border: none;
+    text-align: center;
+    font-family: 'Roboto';
+    background: transparent;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    top: 40%;
+    -webkit-transform: translate(0, 40%);
+            transform: translate(0, 40%);
+
+    h3 {
+      color: #fff !important;
+      font-weight: bold;
+    }
+
+    img {
+      width: 80px;
+    }
+  }
+}
+

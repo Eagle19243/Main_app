@@ -1,28 +1,20 @@
 <%= stylesheet_link_tag 'social-share' %>
 <!-- <%= javascript_include_tag 'social-share' %> -->
 
-<div id="loading-mask1" class="modal" style="display: block">
-  <!-- Modal content -->
-  <div class="modal-content2" style="width:25%">
-    <div class="fund-do">
-      <div class="row">
-        <center><h3>Loading...</h3></center>
-        <center>  <%= image_tag "hourglass.gif", :style => "width : 80px;" %>
-        </center>
-      </div>
-    </div>
+<div id="loading-mask1">
+  <div class="modal-content2">
+    <center><h3>Loading...</h3></center>
+    <center>
+      <%= image_tag "hourglass.gif" %>
+    </center>
   </div>
 </div>
+
 <script>
   window.onload = function () {
     $('#project-url').html(window.location.href);
-    // <% if  session[:project_id] != nil %>
-
-    // <%end%>
-
     document.getElementById("loading-mask1").style.display = "none";
   }
-
 </script>
 
 <div id="product-modal"></div>
