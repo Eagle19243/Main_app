@@ -332,13 +332,8 @@
 <script>
   window.onload = function () {
     $('#project-url').html(window.location.href);
-    // <% if  session[:project_id] != nil %>
-
-    // <%end%>
-
     document.getElementById("loading-mask1").style.display = "none";
   }
-
 </script>
 
 <script>
@@ -350,14 +345,50 @@
   window.weserve_user.isProjectOwner = false;
   <% if user_signed_in? %>
     window.weserve_user.isLoggedIn = true;
-  <% if @project.user_id == current_user.id %>
-    window.weserve_user.isProjectOwner = true;
-  <% end %>
+    <% if @project.user_id == current_user.id %>
+      window.weserve_user.isProjectOwner = true;
+    <% end %>
   <% end %>
 </script>
 
 <script type="text/javascript">
+  $(document).ready(function () {
+    document.getElementById("loading-mask1").style.display = "none";
+    $("#send-project-email").submit(function () {
+      $('#response').empty();
+      $('#response').html("loading...")
+    });
+    $("#send-project-email-button").click(function () {
+      $('#response').empty();
+    });
+    $('.btn_movecard').click(function () {
+      var loading = document.getElementById('loading-mask1');
+      loading.style.display = "block";
+      //  $("#loading-mask1").show();
+    });
+    $("#inviteclose").click(function () {
+      $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+      $("#guest-email").val("");
+    });
+    $("#guest-email").keyup(function () {
+      $('#response').empty();
+      $('#response-failure').empty();
+      $("#response-success");
+    });
+    // $('#invite-people-on-project').click(function(){
+    //   var modalteam = document.getElementById('Project-Invite-Model');
+    //   modalteam.style.display = "block";
+    // });
+    // var project_span_team= document.getElementById("inviteclose");
+    // project_span_team.onclick = function() {
+    //   modalteam.style.display = "none";
+    // }
+  });
+</script>
 
+<script type="text/javascript">
     $('.best_in_place').on("input",function() {
       strlength = $(".form_in_place > input").val().length;
       string = "(" + strlength + "/60)";
