@@ -516,10 +516,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def featured
-    @featured_projects = Project.get_featured_projects
-  end
-
   def start_project_by_signup
     session[:start_by_signup] = params[:start_by_signup]
     render json: {

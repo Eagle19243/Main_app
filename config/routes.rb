@@ -64,7 +64,6 @@ Rails.application.routes.draw do
   post 'user_wallet_transactions/create'
   get 'payment_notifications/create'
   get 'proj_admins/new'
-  get "/users/:provider/callback" => "visitors#landing"
   get 'proj_admins/create'
   get 'proj_admins/destroy'
   resources :proj_admins do
@@ -86,7 +85,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'projects/featured', as: :featured_projects
   resources :do_requests do
     member do
       get :accept, :reject
@@ -168,7 +166,5 @@ Rails.application.routes.draw do
   resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
-  get 'visitors' => 'visitors#restricted'
-
   root to: 'visitors#landing'
 end
