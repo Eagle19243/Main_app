@@ -29,6 +29,7 @@ class Project < ActiveRecord::Base
 
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
             uniqueness: true
+  validates :wiki_page_name, presence: true, uniqueness: true
   validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
@@ -62,7 +63,7 @@ class Project < ActiveRecord::Base
   def self.get_featured_projects
     Project.last(6)
   end
-  
+
   def country_name
     country = ISO3166::Country[country_code]
     country.translations[I18n.locale.to_s] || country.name
@@ -150,7 +151,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Page Read
   def page_read
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       begin
         result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
@@ -179,7 +184,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Page Create or Write
   def page_write user, content
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       begin
         result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.email}, {:cookies => Rails.configuration.mediawiki_session})
@@ -196,7 +205,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Get latest revision
   def get_latest_revision
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       begin
         # Get history
@@ -218,7 +231,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Get history
   def get_history
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       # Get history
       begin
@@ -235,7 +252,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Get revision
   def get_revision revision_id
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       # Get revision
       begin
@@ -252,7 +273,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Approve Revision by id
   def approve_revision revision_id
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       # Approve
       begin
@@ -269,7 +294,11 @@ class Project < ActiveRecord::Base
   # MediaWiki API - Unapprove Revision by id
   def unapprove_revision revision_id
     if Rails.configuration.mediawiki_session
-      name = self.title.strip.gsub(" ", "_")
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
 
       # Unapprove
       begin
