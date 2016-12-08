@@ -191,7 +191,7 @@ class Project < ActiveRecord::Base
       end
 
       begin
-        result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.email}, {:cookies => Rails.configuration.mediawiki_session})
+        result = RestClient.post("http://wiki.weserve.io/api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.username}, {:cookies => Rails.configuration.mediawiki_session})
       rescue
         return nil
       end
