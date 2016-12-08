@@ -10,13 +10,6 @@
   margin-bottom: 5rem;
 }
 
-a.banner_button:visited {
-  color: white; 
-}
-
-.banner_content .row {
-  max-width: none;
-}
 .project-page-info {
   background-color: $success-green;
   border-top: 1px solid $light-gray;
@@ -61,54 +54,6 @@ a.banner_button:visited {
 //  Showing one project
 // ~~~~~~~~~~~~~~~~~~~~~~
 
-
-.project-hero {
-  background: linear-gradient( rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5) ),url(garden.jpeg) no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-
-  height: 25rem;
-  position: relative;
-  width: 100%;
-
-  h2 {
-    bottom: 2rem;
-    color: $white;
-    font-family: $display;
-    font-size: 2.75rem;
-    left: 50%;
-    max-width: 980px;
-    position: absolute;
-    transform: translateX(-50%);
-    width: 80%;
-
-    span {
-      // font-family: $sans;
-      font-size: 1rem;
-      padding-left: 0.5rem;
-    }
-  }
-}
-
-.admin-actions {
-  width: 100%;
-  background-color: $opaque-white;
-
-  div {
-    margin: 0 auto;
-    max-width: 980px;
-    padding: 2rem 0;
-    text-align: center;
-    width: 90%;
-  }
-}
-
-.project-show-info {
-  margin: 4rem auto;
-}
-
 .admin-info {
   color: $medium-gray;
   display: inline-block;
@@ -148,73 +93,6 @@ a.banner_button:visited {
   &:first-letter {
     font-size: 1.5rem;
     line-height: 1rem;
-  }
-}
-
-.project-tasks-header {
-  background-color: $sky-blue;
-  color: $white;
-  padding: 4rem 0;
-  text-align: center;
-  width: 100%;
-
-  h2 {
-    color: white;
-    // font-family: $sans;
-    font-size: 3rem;
-  }
-
-  p {
-    color: $opaque-white;
-
-    span {
-      color: $white;
-      font-weight: 800;
-    }
-  }
-}
-
-.project-tasks-show {
-  background-color: $opaque-white;
-  padding: 4rem 0;
-  width: 100%;
-
-  .task-view {
-    background-color: $white;
-    margin: 2rem auto;
-    max-width: 600px;
-    padding: 2rem;
-    width: 90%;
-
-    h4 {
-      // font-family: $sans;
-    }
-
-    .do-buttons {
-      clear: both;
-      padding-top: 1rem;
-      text-align: center;
-    }
-  }
-}
-
-.comment-builder {
-  width: 100%;
-
-  form {
-    width: 90%;
-    margin: 2rem auto 6rem;
-    max-width: 600px;
-
-    label {
-      color: $medium-gray;
-      font-style: italic;
-      padding-bottom: 1rem;
-    }
-  }
-
-  .float-right {
-    float: right;
   }
 }
 
@@ -348,16 +226,6 @@ a.banner_button:visited {
   }
 }
 
-.no-dialog-padding,
- .no-dialog-padding .ui-dialog-content{
-   border: none;
-   padding: 0;
- }
-.no-dialog-padding.ui-widget, .no-dialog-padding.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-size: 12px;
-}
-.no-dialog-padding, .ui-dialog-titlebar {display: none }
-
 del {
   color: #ce8483;
 }
@@ -384,11 +252,6 @@ ins {
     max-width: 600px;
     width: 90%;
   }
-
-  .project-show-info {
-    margin: 3rem auto;
-  }
-
 
 }
 

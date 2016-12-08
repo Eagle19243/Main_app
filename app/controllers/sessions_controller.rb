@@ -16,12 +16,12 @@ class SessionsController < Devise::SessionsController
     }
 
     cookies.permanent[:_ws_user_name] = {
-        value: current_user.email,
+        value: current_user.username,
         domain: domain
     }
 
     cookies.permanent[:_ws_user_token] = {
-        value: Digest::MD5.hexdigest("#{secret}#{current_user.id}#{current_user.email}"),
+        value: Digest::MD5.hexdigest("#{secret}#{current_user.id}#{current_user.username}"),
         domain: domain
     }
   end
