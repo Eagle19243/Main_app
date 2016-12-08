@@ -360,7 +360,7 @@ class ProjectsController < ApplicationController
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
+        format.json { render :json => @project.errors.full_messages, :status => :unprocessable_entity }
         # format.json {respond_with_bip(@project)}
       end
     end
@@ -526,57 +526,58 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      if user_signed_in? && current_user.admin?
-        @project = Project.with_deleted.find(params[:id])
-      else
-        @project = Project.find(params[:id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    if user_signed_in? && current_user.admin?
+      @project = Project.with_deleted.find(params[:id])
+    else
+      @project = Project.find(params[:id])
+    end
+
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_params
+    params.require(:project).permit(
+        :title, :short_description, :institution_country, :description, :country,
+        :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
+        :institution_name, :institution_logo, :institution_description, :section1, :section2,
+        :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
+        project_edits_attributes: [:id, :_destroy, :description]
+    )
+  end
+
+  def get_project_user
+    @project_user = @project.user
+  end
+
+  def edit_params
+    params.require(:project).permit(:id, :project_edit, :editItem)
+  end
+
+  # Get revision histories
+  def get_revision_histories project
+    result = project.get_history
+    @histories = []
+
+    if result
+      result.each do |r|
+        history = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"] = DateTime.strptime(r["timestamp"], "%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"] = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
+        history["status"] = r['status']
+        history["comment"] = r['comment']
+        @histories.push(history)
       end
-
+      return @histories
+    else
+      return []
     end
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_params
-      params.require(:project).permit(
-          :title, :short_description, :institution_country, :description, :country,
-          :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
-          :institution_name, :institution_logo, :institution_description, :section1, :section2,
-          :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
-          project_edits_attributes: [:id, :_destroy, :description]
-      )
-    end
+  end
 
-    def get_project_user
-      @project_user = @project.user
-    end
-
-    def edit_params
-      params.require(:project).permit(:id, :project_edit, :editItem)
-    end
-
-    # Get revision histories
-    def get_revision_histories project
-      result = project.get_history
-      @histories = []
-
-      if result
-        result.each do |r|
-          history                = Hash.new
-          history["revision_id"] = r["id"]
-          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-          history["user"]        = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
-          history["status"]      = r['status']
-          history["comment"]     = r['comment']
-          @histories.push(history)
-        end
-        return @histories
-      else
-        return []
-      end
-    end
-
-    # Fitler wiki page name regarding page title
-    def filter_page_name title
-      title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
-    end
+  # Fitler wiki page name regarding page title
+  def filter_page_name title
+    title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
+  end
 end

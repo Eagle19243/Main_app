@@ -42,9 +42,9 @@ class Ability
   def initializeProjectsPermissions(user)
     can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin], Project
     if user
-      can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project     
+      can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
       can [:update, :change_leader], Project do |project|
-        user.is_admin_for?(project) 
+        user.is_admin_for?(project)
       end
       can :archived, Project if user.admin?
       can :destroy, Project, :user_id => user.id
@@ -55,7 +55,7 @@ class Ability
     can :show, User
     if user
       can [:my_projects], User
-      can [:update, :destroy], User, :id => user.id 
+      can [:update, :destroy], User, :id => user.id
       if user.admin
         can :index, User
       end
@@ -89,10 +89,10 @@ class Ability
     if user
       can :create, Task
       can [:update, :destroy], Task do |task|
-        user.is_admin_for?(task.project) 
-      end 
+        user.is_admin_for?(task.project)
+      end
 
-      if user.admin? 
+      if user.admin?
         can [:update, :destroy], Task
       end
     end
