@@ -246,7 +246,7 @@
           display: inline-block;
           top: 22%;
           left: 0;
-          padding-left: 20px;
+          padding-left: 5%;
 
           .text-wrapper {
             // position: absolute;
@@ -556,5 +556,20 @@
       padding-top: 0 !important;
     }
   }
+}
+
+
+// temporary style
+
+.hero-banner {
+  height: 50vw;
+  background-color: #000;
+  min-height: 500px;
+}
+
+.carousel-item {
+  height: 40vw !important;
+  background-color: #000;
+  min-height: 350px !important;
 }
 
