@@ -1,4 +1,15 @@
-
+<script type="text/javascript">
+  $(document).ready(function () {
+    document.getElementById("loading-mask1").style.display = "none";
+    $("#send-project-email").submit(function () {
+      $('#response').empty();
+      $('#response').html("loading...")
+    });
+    $("#send-project-email-button").click(function () {
+      $('#response').empty();
+    });
+  });
+</script>
 <div id="projectInviteModal" class="modal fade project-invite-modal" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -15,31 +26,41 @@
           <div class="row margin-none">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-custom text-right">
               <div class="social-link facebook">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-                <%= link_to 'Share on Facebook', user_facebook_omniauth_authorize_path %>
+                <a href="#" data-site="facebook" title="Share on Facebook" onclick="return SocialShareButton.share(this);">
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                  Share on Facebook</a>
               </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
               <div class="social-link twitter">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-                <%= link_to 'Share on Twitter',  user_twitter_omniauth_authorize_path %>
+                <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                  Share on Twitter</a>
               </div>
             </div>
+
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-custom text-left">
               <div class="social-link google">
-                <i class="fa fa-google-plus" aria-hidden="true"></i>
-                <%= link_to 'Share on Google +',  user_google_oauth2_omniauth_authorize_path %>
+                <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                  <i class="fa fa-google-plus" aria-hidden="true"></i>
+                  Share on Google +</a>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="invite-email-wrapper">
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" name="invite_email">
-            <a href="javascript:void(0)" class="btn-invite">Invite</a>
-          </div>
+        <div class="alert" id="response" style="color: red;margin-left: 17.5%;"></div>
+
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
+            <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
+            <div class="invite-email-wrapper">
+              <div class="form-group">
+                <% session[:idd] = @project.id %>
+                <label>Email Address</label>
+                <input type="email" name="email" id="guest-email" required>
+                <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a>
+              </div>
+        <% end %>
 
           <div class="import-contacts-wrapper">
             <div id="contacts">
@@ -55,6 +76,7 @@
                     <%= link_to image_tag("yahoo.png", :alt => "Yahoo Contacts"), contacts_yahoo_path %>
                   </span>
                 </span>
+                <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
               </div>
 
               <%unless session[:failure_contacts].blank? %>

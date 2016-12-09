@@ -49,12 +49,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     }
 
     cookies.permanent[:_ws_user_name] = {
-      value: user.email,
+      value: user.username,
       domain: domain
     }
 
     cookies.permanent[:_ws_user_token] = {
-      value: Digest::MD5.hexdigest("#{secret}#{user.id}#{user.email}"),
+      value: Digest::MD5.hexdigest("#{secret}#{user.id}#{user.username}"),
       domain: domain
     }
   end

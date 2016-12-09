@@ -2,15 +2,16 @@
 <div id="startProjectModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
+      <div id="project-success">
+        <%= image_tag("loading.gif", :alt => "rss feed") %>
+      </div>
+
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" id="closeProjectModal">&times;</button>
         <h3 class="modal-title">Start New Project</h3>
       </div>
       <div class="modal-body">
         <div id="project-status" class="alert alert-danger" style="display: none"></div>
-        <div id="project-success">
-          <%= image_tag("loading.gif", :alt => "rss feed") %>
-        </div>
 
         <%= simple_form_for(Project.new, html: {id: 'project-form', multipart: true}) do |f| %>
           <%= f.error_notification %>
