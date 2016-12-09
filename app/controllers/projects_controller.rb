@@ -324,13 +324,11 @@ class ProjectsController < ApplicationController
     end
 
     @project.wiki_page_name = filter_page_name @project.title
-    puts "------------------"
-    puts filter_page_name @project.title
 
     respond_to do |format|
       if @project.save
 
-        if current_user.email
+        if current_user.username
           # Create new page in wiki and this user will be the owner of this wiki page and project
           @project.page_write current_user, ''
         end
@@ -360,7 +358,7 @@ class ProjectsController < ApplicationController
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
-        format.json { render :json => @project.errors.full_messages, :status => :unprocessable_entity }
+        format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
         # format.json {respond_with_bip(@project)}
       end
     end
@@ -560,21 +558,21 @@ class ProjectsController < ApplicationController
     result = project.get_history
     @histories = []
 
-    if result
-      result.each do |r|
-        history = Hash.new
-        history["revision_id"] = r["id"]
-        history["datetime"] = DateTime.strptime(r["timestamp"], "%s").strftime("%l:%M %p %^b %d, %Y")
-        history["user"] = User.find_by_email(r["author"][0].downcase+r["author"][1..-1])
-        history["status"] = r['status']
-        history["comment"] = r['comment']
-        @histories.push(history)
+      if result
+        result.each do |r|
+          history                = Hash.new
+          history["revision_id"] = r["id"]
+          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+          history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1])
+          history["status"]      = r['status']
+          history["comment"]     = r['comment']
+          @histories.push(history)
+        end
+        return @histories
+      else
+        return []
       end
-      return @histories
-    else
-      return []
     end
-  end
 
   # Fitler wiki page name regarding page title
   def filter_page_name title
