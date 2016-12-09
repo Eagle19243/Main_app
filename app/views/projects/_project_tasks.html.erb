@@ -30,7 +30,7 @@
                       <table>
                         <tr class="value">
                           <td><%= task.funded %></td>
-                          <td><%=  @tasks_count %></td>
+                          <td><%= @tasks_count %></td>
                           <td><%= task.donations.count %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
@@ -50,7 +50,8 @@
       </div>
 
       <div class="section-add-task">
-        <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
+        <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
+          a Task</a>
       </div>
     </div>
   </div>
@@ -86,7 +87,7 @@
                       <table>
                         <tr class="value">
                           <td><%= task.funded %></td>
-                          <td><%=  @tasks_count %></td>
+                          <td><%= @tasks_count %></td>
                           <td><%= task.donations.count %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
@@ -103,12 +104,12 @@
                       <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' id="<%= task.id %>" data-target="#taskFundModal">
                         FUND
                       </a>
-                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)"  data-target="#taskDoModal">
+                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-target="#taskDoModal">
                         DO
                       </a>
                       <% if user_signed_in? %>
                           <% if @project.user_id == current_user.id || task.is_leader(current_user.id) %>
-                              <%= link_to 'Destroy', task, method: :delete ,class:'fund-model-popup modal-link' , data: { confirm: 'Are you sure?' } ,title:"Delete"%></td>
+                              <%= link_to 'Destroy', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
                           <% end %>
                       <% end %>
                       </a>
@@ -123,7 +124,8 @@
       <% if user_signed_in? %>
           <% if @project.user_id == current_user.id %>
               <div class="section-add-task">
-                <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <a href="<%= new_project_task_path(@project) %>" data-no-turbolink="true" class=""><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
+                  a Task</a>
               </div>
           <% end %>
       <% end %>
@@ -162,7 +164,7 @@
                       <table>
                         <tr class="value">
                           <td><%= task.funded %></td>
-                          <td><%=  @tasks_count %></td>
+                          <td><%= @tasks_count %></td>
                           <td><%= task.donations.count %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
@@ -187,7 +189,7 @@
 
                   </div>
                 </div>
-            <%end %>
+            <% end %>
         <% end %>
       </div>
 
@@ -225,7 +227,7 @@
                       <table>
                         <tr class="value">
                           <td><%= task.funded %></td>
-                          <td><%=  @tasks_count %></td>
+                          <td><%= @tasks_count %></td>
                           <td><%= task.donations.count %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
@@ -291,7 +293,7 @@
                       <table>
                         <tr class="value">
                           <td><%= task.funded %></td>
-                          <td><%=  @tasks_count %></td>
+                          <td><%= @tasks_count %></td>
                           <td><%= task.donations.count %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
