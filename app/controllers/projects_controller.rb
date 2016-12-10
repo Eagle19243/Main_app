@@ -1,11 +1,13 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure]
+  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure]
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
   before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
+  before_filter :authenticate_user!, only: [:contacts_callback]
+
   # skip_authorization_check []
 
   def index
@@ -522,38 +524,39 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      if user_signed_in? && current_user.admin?
-        @project = Project.with_deleted.find(params[:id])
-      else
-        @project = Project.find(params[:id])
-      end
-
-    end
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_params
-      params.require(:project).permit(
-          :title, :short_description, :institution_country, :description, :country,
-          :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
-          :institution_name, :institution_logo, :institution_description, :section1, :section2,
-          :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
-          project_edits_attributes: [:id, :_destroy, :description]
-      )
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    if user_signed_in? && current_user.admin?
+      @project = Project.with_deleted.find(params[:id])
+    else
+      @project = Project.find(params[:id])
     end
 
-    def get_project_user
-      @project_user = @project.user
-    end
+  end
 
-    def edit_params
-      params.require(:project).permit(:id, :project_edit, :editItem)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_params
+    params.require(:project).permit(
+        :title, :short_description, :institution_country, :description, :country,
+        :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
+        :institution_name, :institution_logo, :institution_description, :section1, :section2,
+        :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
+        project_edits_attributes: [:id, :_destroy, :description]
+    )
+  end
 
-    # Get revision histories
-    def get_revision_histories project
-      result = project.get_history
-      @histories = []
+  def get_project_user
+    @project_user = @project.user
+  end
+
+  def edit_params
+    params.require(:project).permit(:id, :project_edit, :editItem)
+  end
+
+  # Get revision histories
+  def get_revision_histories project
+    result = project.get_history
+    @histories = []
 
       if result
         result.each do |r|
@@ -571,8 +574,8 @@ class ProjectsController < ApplicationController
       end
     end
 
-    # Fitler wiki page name regarding page title
-    def filter_page_name title
-      title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
-    end
+  # Fitler wiki page name regarding page title
+  def filter_page_name title
+    title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
+  end
 end

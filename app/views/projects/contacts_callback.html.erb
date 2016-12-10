@@ -61,7 +61,7 @@
         });
       </script><br>
       <% unless @contacts.blank? %>
-      <%= form_tag  '/projects/send_project_invite_email' do%>
+      <%= form_tag('/projects/send_project_invite_email' , :method => "post") do%>
           <%= hidden_field_tag 'emails' %>
               <%= link_to "Cancel",'/contacts/failure', id:'contacts-failure' , class: "btn btn-danger"%>
               <%= submit_tag "Invite Friends", id:'invite-friends',  class: "btn btn-success" %>
