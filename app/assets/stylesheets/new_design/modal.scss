@@ -1170,3 +1170,20 @@
   }
 }
 
+
+#project-img-edit {
+  .modal-content {
+    box-shadow: none;
+    border: 0;
+  }
+}
+
+#taskDoModal {
+  textarea {
+    font-family: 'Libre Franklin';
+    font-size: 1em;
+    font-weight: normal;
+    color: #555;
+  }  
+}
+

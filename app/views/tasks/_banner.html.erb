@@ -9,16 +9,16 @@
       <center class="project-intro">
         <div class="text-center">
           <% if @project.user.picture? %>
-            <%= image_tag(@project.user.picture, size: "50x50") %>
+              <%= image_tag(@project.user.picture, size: "50x50") %>
           <% else %>
-            <%= gravatar_for_user(@project.user)%>
-          <%end%>
+              <%= gravatar_for_user(@project.user) %>
+          <% end %>
         </div>
         <p class="project-owner">by <%= @project.user.name %></p>
         <h2 class="project-title">
-          <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#title-pencil'%>
+          <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#title-pencil' %>
           <% if user_signed_in? && current_user.is_admin_for?(@project) %>
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
           <% end %>
         </h2>
         <p class="project-city"><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.user.city %></p>
@@ -39,7 +39,7 @@
               <td><%= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>
               <td>
                 <%= @project.team_relations_string %>
-              </td> 
+              </td>
               <td>$<%= @project.needed_budget %></td>
             </tr>
             <tr class="items">
@@ -67,6 +67,6 @@
       <% end %>
     </div>
 
-    </div>
   </div>
+</div>
 </div>

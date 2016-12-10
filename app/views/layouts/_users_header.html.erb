@@ -2,28 +2,29 @@
   <div class="header-wrap">
     <div class="landing-logo">
       <% if user_signed_in? %>
-        <!-- For signed users, we should still this to redirect to root path as we have only dummy projects -->
-        <%= link_to 'WeServe', root_path %>
-      <%else %>
-        <%= link_to 'WeServe', root_path %>
+          <!-- For signed users, we should still this to redirect to root path as we have only dummy projects -->
+          <%= link_to 'WeServe', root_path %>
+      <% else %>
+          <%= link_to 'WeServe', root_path %>
       <% end %>
     </div>
 
-    <a class="header-link border-link ml30 hidden-mobile" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
-    <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true }, :class => "projects-link hidden-mobile" %>
+    <a class="header-link border-link ml30 hidden-mobile" data-toggle="modal" data-target="#startProjectModal">Start a
+      Project</a>
+    <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>
 
     <div class="pull-right links-group">
       <div class="search-box-wrapper show-desktop">
-        <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
-            <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
-            <button type="button" name="" type="submit" >
+        <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
+            <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %>
+            <button type="button" name="" type="submit">
               <i class="fa fa-search"></i>
             </button>
         <% end %>
       </div>
 
-      <%= link_to group_messages_path, data: { no_turbolink: true }, :class => 'show-desktop' do %>
-        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+      <%= link_to group_messages_path, data: {no_turbolink: true}, :class => 'show-desktop' do %>
+          <i class="fa fa-envelope-o" aria-hidden="true"></i>
       <% end %>
 
       <div class="dropdown notify-dropdown show-desktop">
@@ -64,24 +65,24 @@
       <div class="dropdown user-dropdown show-desktop">
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <% if current_user.picture? %>
-            <%= image_tag(current_user.picture, size: "30x30") %>
+              <%= image_tag(current_user.picture, size: "30x30") %>
           <% else %>
-            <%= gravatar_for_user(current_user) %>
-          <%end%>
+              <%= gravatar_for_user(current_user) %>
+          <% end %>
           <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
             <i class="fa fa-chevron-down" aria-hidden="true"></i>
           </span>
         </a>
         <ul class="dropdown-menu">
-          <li><%= link_to 'My Profile', user_path(current_user)%></li>
-          <li><%= link_to 'My Projects', my_projects_path%></li>
-          <li><%= link_to 'Messages' , group_messages_path %></li>
-          <li><%= link_to 'Notifications' , notifications_path %></li>
+          <li><%= link_to 'My Profile', user_path(current_user) %></li>
+          <li><%= link_to 'My Projects', my_projects_path %></li>
+          <li><%= link_to 'Messages', group_messages_path %></li>
+          <li><%= link_to 'Notifications', notifications_path %></li>
           <% if current_user.admin? %>
-            <li><%= link_to 'Archived Projects', archived_projects_path %></li>
+              <li><%= link_to 'Archived Projects', archived_projects_path %></li>
           <% end %>
           <li class="border-top">
-            <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
+            <%= link_to 'Logout', destroy_user_session_path, :method => 'delete' %>
           </li>
         </ul>
       </div>
@@ -104,15 +105,15 @@
       <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
     </li>
     <li class="border-bottom show-mobile">
-      <%= link_to 'Active Projects', projects_path, data: { no_turbolink: true } %>
+      <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true} %>
     </li>
 
     <li class="border-bottom">
-      <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
-          <button type="button" name="" type="submit" >
+      <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
+          <button type="button" name="" type="submit">
             <i class="fa fa-search"></i>
           </button>
-          <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
+          <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %>
       <% end %>
     </li>
 
@@ -139,7 +140,7 @@
           <%= image_tag(current_user.picture, size: "30x30") %>
         <% else %>
           <%= gravatar_for_user(current_user) %>
-        <%end%>
+        <% end %>
         <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
           <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -147,62 +148,14 @@
       </a>
       <div class="mobile-user-submenu">
         <ul>
-          <li><%= link_to 'My Profile', user_path(current_user)%></li>
-          <li><%= link_to 'My Projects', my_projects_path(current_user)%></li>
+          <li><%= link_to 'My Profile', user_path(current_user) %></li>
+          <li><%= link_to 'My Projects', my_projects_path(current_user) %></li>
         </ul>
       </div>
     </li>
 
     <li>
-      <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
+      <%= link_to 'Logout', destroy_user_session_path, :method => 'delete' %>
     </li>
   </ul>
 </div>
-
-<script type="text/javascript">
-  function toggleMobileMenu(isShow) {
-    if (isShow) {
-      $( ".mobile-menu" ).slideToggle( "slow", function() {
-        $( ".cross" ).show();
-        $( ".hamburger" ).hide();
-      });
-    } else {
-      $( ".mobile-menu" ).slideToggle( "slow", function() {
-        $( ".cross" ).hide();
-        $( ".hamburger" ).show();
-      });
-    }
-  }
-  function toggleMobileUserMenu(isShow) {
-    if (isShow) {
-      $( ".mobile-user-submenu" ).slideToggle( "slow", function() {
-        $( ".mobile-user-menu .fa-chevron-right" ).show();
-        $( ".mobile-user-menu .fa-chevron-down" ).hide();
-      });
-    } else {
-      $( ".mobile-user-submenu" ).slideToggle( "slow", function() {
-        $( ".mobile-user-menu .fa-chevron-right" ).hide();
-        $( ".mobile-user-menu .fa-chevron-down" ).show();
-      });
-    }
-  }
-  $( ".cross" ).hide();
-  $( ".mobile-menu" ).hide();
-  $( ".hamburger" ).click(function() {
-    toggleMobileMenu(true);
-  });
-  $( ".cross" ).click(function() {
-    toggleMobileMenu(false);
-  });
-  // $( ".mobile-menu ul a" ).click(function() {
-  //   toggleMobileMenu(false);
-  // });
-  $(".mobile-user-menu .fa-chevron-right").hide();
-  $( ".mobile-user-submenu" ).hide();
-  $(".mobile-user-menu .fa-chevron-down").click(function() {
-    toggleMobileUserMenu(true);
-  });
-  $(".mobile-user-menu .fa-chevron-right").click(function() {
-    toggleMobileUserMenu(false);
-  });
-</script>
