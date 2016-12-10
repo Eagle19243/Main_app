@@ -5,11 +5,13 @@ $().ready ->
     $('.sign_in_show').show()
     $('.start_project_show').hide()
     return
+
   $('#sign_up_a, #sign_up_nav').click ->
     $('.sign_in_show').hide()
     $('.sign_up_show').show()
     $('.start_project_show').hide()
     return
+
   $('#start_project_link').click ->
     $('.sign_in_show').hide()
     $('.sign_up_show').hide()
@@ -17,3 +19,5 @@ $().ready ->
     $('#sign_up_email').show()
     localStorage.setItem 'start_project', true
     return
+
+  return

@@ -43,30 +43,3 @@
     </li>
   </ul>
 </div>
-
-<script type="text/javascript">
-  function toggleMobileMenu(isShow) {
-    if (isShow) {
-      $( ".mobile-menu" ).slideToggle( "slow", function() {
-        $( ".cross" ).show();
-        $( ".hamburger" ).hide();
-      });
-    } else {
-      $( ".mobile-menu" ).slideToggle( "slow", function() {
-        $( ".cross" ).hide();
-        $( ".hamburger" ).show();
-      });
-    }
-  }
-  $( ".cross" ).hide();
-  $( ".mobile-menu" ).hide();
-  $( ".hamburger" ).click(function() {
-    toggleMobileMenu(true);
-  });
-  $( ".cross" ).click(function() {
-    toggleMobileMenu(false);
-  });
-  $( ".mobile-menu ul a" ).click(function() {
-    toggleMobileMenu(false);
-  });
-</script>
