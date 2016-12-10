@@ -137,9 +137,9 @@
     <li class="border-bottom mobile-user-menu">
       <a href="javascript:void(0)" id="btnUserToggle" class="border-bottom">
         <% if current_user.picture? %>
-            <%= image_tag(current_user.picture, size: "30x30") %>
+          <%= image_tag(current_user.picture, size: "30x30") %>
         <% else %>
-            <%= gravatar_for_user(current_user) %>
+          <%= gravatar_for_user(current_user) %>
         <% end %>
         <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
@@ -159,51 +159,3 @@
     </li>
   </ul>
 </div>
-
-<script type="text/javascript">
-  function toggleMobileMenu(isShow) {
-    if (isShow) {
-      $(".mobile-menu").slideToggle("slow", function () {
-        $(".cross").show();
-        $(".hamburger").hide();
-      });
-    } else {
-      $(".mobile-menu").slideToggle("slow", function () {
-        $(".cross").hide();
-        $(".hamburger").show();
-      });
-    }
-  }
-  function toggleMobileUserMenu(isShow) {
-    if (isShow) {
-      $(".mobile-user-submenu").slideToggle("slow", function () {
-        $(".mobile-user-menu .fa-chevron-right").show();
-        $(".mobile-user-menu .fa-chevron-down").hide();
-      });
-    } else {
-      $(".mobile-user-submenu").slideToggle("slow", function () {
-        $(".mobile-user-menu .fa-chevron-right").hide();
-        $(".mobile-user-menu .fa-chevron-down").show();
-      });
-    }
-  }
-  $(".cross").hide();
-  $(".mobile-menu").hide();
-  $(".hamburger").click(function () {
-    toggleMobileMenu(true);
-  });
-  $(".cross").click(function () {
-    toggleMobileMenu(false);
-  });
-  // $( ".mobile-menu ul a" ).click(function() {
-  //   toggleMobileMenu(false);
-  // });
-  $(".mobile-user-menu .fa-chevron-right").hide();
-  $(".mobile-user-submenu").hide();
-  $(".mobile-user-menu .fa-chevron-down").click(function () {
-    toggleMobileUserMenu(true);
-  });
-  $(".mobile-user-menu .fa-chevron-right").click(function () {
-    toggleMobileUserMenu(false);
-  });
-</script>
