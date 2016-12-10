@@ -22,8 +22,11 @@ class Project < ActiveRecord::Base
   has_many :project_users
   has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
+  has_many :executors, through: :project_users, class_name: 'User', source: :executor, dependent: :destroy
+  has_many :lead_editors, through: :project_users, class_name: 'User', source: :lead_editor, dependent: :destroy
   has_one :team, dependent: :destroy
   has_many :change_leader_invitations
+  has_many :apply_requests, dependent: :destroy
 
   belongs_to :user
 

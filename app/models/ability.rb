@@ -10,6 +10,7 @@ class Ability
     initializeTasksPermissions(user)
     initializeAdminInvitationsPermissions(user)
     initializeAdminRequestsPermissions(user)
+    initializeApplyRequestsPermissions(user)
     initializeTeamMembershipsPermissions(user)
   end
 
@@ -39,8 +40,17 @@ class Ability
     end
   end
 
+  def initializeApplyRequestsPermissions(user)
+    if user
+      can [:create], ApplyRequest
+      can [:accept, :reject], ApplyRequest do |apply_request|
+        apply_request.project.user.id == user.id
+      end
+    end
+  end
+
   def initializeProjectsPermissions(user)
-    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin], Project
+    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin, :get_in], Project
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project     
       can [:update, :change_leader], Project do |project|
