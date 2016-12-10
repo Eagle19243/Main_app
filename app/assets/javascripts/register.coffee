@@ -20,4 +20,11 @@ $().ready ->
     localStorage.setItem 'start_project', true
     return
 
+  $('#sign_up_email').click ->
+    $('.sign_up_show').show()
+    $('.sign_in_show').hide()
+    $('.start_project_show').hide()
+    $('#sign_up_email').hide()
+    return
+
   return
