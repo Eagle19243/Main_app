@@ -1,6 +1,11 @@
 
 @import 'variables';
 
+.dashboard-wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
 .lin2-social {
   a:hover {
     text-decoration: none;
