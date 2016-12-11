@@ -40,8 +40,13 @@
       </div>
       <br>
       <div class="user-location">
-        <i class="fa fa-map-marker" aria-hidden="true"></i> <%= @user.city %>
-        <a href="javascript:void(0)" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+        <% if (current_user && current_user.id == @user.id) %>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+          <a id="edit-location-pencil" href="javascript:void(0)" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+        <% else %>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;<%= @user.city %>
+        <% end %>
       </div>
 
       <div class="user-history">
@@ -222,15 +227,6 @@
   $(".close-reveal-modal").click(function(){
     $('#response-from-wallet').html("");
   });
-
-  $(".profile-title").hover(
-      function() {
-        $("#edit-profile-pencil").show();
-      },
-      function() {
-        $("#edit-profile-pencil").hide();
-      }
-  )
 
   $(".bio-wrapper .bio-header").hover(
       function() {
