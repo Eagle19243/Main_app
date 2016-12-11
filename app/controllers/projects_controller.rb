@@ -1,5 +1,7 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure]
+
+  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in]
+
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
@@ -154,21 +156,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @followed = false
-    # @current_user_id = 0
-    # @rate = @project.rate_avg
-    # if user_signed_in?
-    #   @followed = @project.followers.pluck(:id).include? current_user.id
-    #   @current_user_id = current_user.id
-    #   @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
-    # end
-    # respond_to do |format|
-    #   format.html
-    #   format.js {render(layout: false)}
-    # end
-
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -253,6 +240,7 @@ class ProjectsController < ApplicationController
     end
 
     @histories = get_revision_histories @project
+    @apply_requests = @project.apply_requests.pending.all
   end
 
   def revisions
@@ -432,7 +420,7 @@ class ProjectsController < ApplicationController
     if @project.accept!
       activity = current_user.create_activity(@project, 'accepted')
       activity.user_id = current_user.id
-      @project.user.update_attribute(:role, 'manager');
+      @project.user.update_attribute(:role, 'manager')
       #Change all pending projects for user
       flash[:success] = "Project Request accepted"
     else
@@ -451,6 +439,24 @@ class ProjectsController < ApplicationController
       flash[:error] = "Project could not be rejected"
     end
     redirect_to current_user
+  end
+
+  def get_in
+    type = params[:type]
+    request_type = type=="1" ? "Lead_Editor" : "Executor"
+    project = Project.find(params[:id])
+    if type==1 && current_user.is_lead_editor_for?(project)
+      flash[:notice] = "You are already Lead Editor of this project."
+    elsif type==2 && current_user.is_executor_for?(project)
+      flash[:notice] = "You are already excutor of this project."
+    elsif current_user.has_pending_apply_requests?(project, request_type)
+      flash[:notice] = "You have submitted this request already."
+    else
+      ApplyRequest.create( user_id: current_user.id,project_id: project.id, request_type: request_type)
+      flash[:notice] = "Your request has been submitted"
+    end
+
+    redirect_to project    
   end
 
   def read_from_mediawiki

@@ -35,7 +35,7 @@ module YouServe
 
     config.active_record.observers = [
         :team_membership_observer, :project_observer, :admin_invitation_observer,
-        :task_observer, :do_request_observer, :admin_request_observer
+        :task_observer, :do_request_observer, :admin_request_observer, :apply_request_observer,
     ]
 
   end

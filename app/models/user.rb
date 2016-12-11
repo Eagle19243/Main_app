@@ -44,6 +44,7 @@ class User < ActiveRecord::Base
   has_one :user_wallet_address
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
+  has_many :apply_requests, dependent: :destroy
 
   validates :name, presence: true,uniqueness: true
 
@@ -206,6 +207,12 @@ class User < ActiveRecord::Base
   def is_admin_for? proj
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
+  def is_executor_for? proj
+    proj.executors.pluck(:id).include? self.id
+  end
+  def is_lead_editor_for? proj
+    proj.lead_editors.pluck(:id).include? self.id
+  end
 
   def can_apply_as_admin?(project)
     !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
@@ -221,6 +228,10 @@ class User < ActiveRecord::Base
 
   def has_pending_admin_requests?(project)
     self.admin_requests.where(project_id: project.id, status: AdminRequest.statuses[:pending]).any?
+  end
+
+  def has_pending_apply_requests?(proj, type)
+    self.apply_requests.where(project_id: proj.id, request_type: type).pending.any?
   end
 
   # MediaWiki API - Page Read

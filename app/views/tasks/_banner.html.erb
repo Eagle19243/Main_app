@@ -54,11 +54,16 @@
     </div>
 
     <div class="row">
-      <% unless user_signed_in? && current_user.is_project_leader?(@project) %>
-          <center>
-            <a href="#" id="myBtn" class="button round get-invo-btn">Apply As Lead Editor</a>
-            <a href="#" id="myBtn" class="button round get-invo-btn">Apply As Executor</a>
-          </center>
+      <% if !user_signed_in?%>
+        <center>
+          <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal"}>Apply As Lead Editor</a>
+          <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal">Apply As Executor</a>
+        </center>
+      <% elsif !current_user.is_admin_for?(@project) %>
+        <center>
+          <%= link_to "Apply As Lead Editor", get_in_projects_path(type: "1", id: @project.id ), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Lead Editor?"} %>
+          <%= link_to "Apply As Executor", get_in_projects_path(type: "2", id: @project.id), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Executor?"} %>
+        </center>
       <% end %>
     </div>
 
