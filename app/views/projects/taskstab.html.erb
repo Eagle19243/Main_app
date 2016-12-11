@@ -352,7 +352,7 @@
               </div>
 
               <div class="requests col-md-7">
-                <% if current_user.is_admin_for?(@project) %>
+                <% if current_user && current_user.is_admin_for?(@project) %>
                   <% @apply_requests.find_each do |apply| %>
                     <%= apply.user_name %> sent you <%= apply.request_type %> Request
                     <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
