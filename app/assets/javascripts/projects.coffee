@@ -216,3 +216,6 @@ $ ->
     nextLink.click()
     ajaxIsLoadingIndicator.removeClass('show-div')
     loading = false
+
+  $(document).on "click", "#be_lead_editor", (e) ->
+    alert "Hello";

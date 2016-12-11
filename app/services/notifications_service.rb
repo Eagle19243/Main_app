@@ -40,6 +40,18 @@ class NotificationsService
     self.create_notification(admin_request, admin_request.user, Notification.actions[:accept_admin_request], origin_user)
   end
 
+  def self.notify_about_apply_request(apply_request)
+    self.create_notification(apply_request, apply_request.project.user, Notification.actions[:apply_request], apply_request.user)
+  end
+
+  def self.notify_about_reject_admin_request(admin_request, origin_user)
+    self.create_notification(apply_request, apply_request.user, Notification.actions[:reject_apply_request], origin_user)
+  end
+
+  def self.notify_about_accept_admin_request(admin_request, origin_user)
+    self.create_notification(apply_request, apply_request.user, Notification.actions[:accept_apply_request], origin_user)
+  end
+
   def self.notify_about_suggested_task(task)
     self.create_notification(task, task.project.user, Notification.actions[:suggested_task], task.user)
   end
