@@ -26,6 +26,8 @@
             data-revision-user="<%= (history['user']) ? history['user'].name : 'Anonymous' %>"
             data-revision-user-id="<%= (history['user']) ? history['user'].id : '' %>"
             data-revision-user-link="<%= history['user'] ? user_path(history['user']) : '' %>"
+            data-revision-user-blocked="<%= history['is_blocked'] %>"
+            data-revision-username="<%= history['username'] %>"
           >
             <td>
               <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="http://wiki.weserve.io/index.php?title=<%= URI.escape(project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>">
@@ -58,9 +60,15 @@
               </a>
             </td>
             <td>
-              <a href="javascript:void(0)">
-                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
-              </a>
+              <% if history['is_blocked'] == 0 %>
+                <a href="javascript:void(0)" class='block-user'>
+                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+                </a>
+              <% else %>
+                <a href="/projects/<%= project.id %>/unblock_user?username=<%= history['username'] %>" class='unblock-user'>
+                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Unblock
+                </a>
+              <% end %>
             </td>
             <td>
               <% if history['status'] == 'approved' %>

@@ -250,14 +250,18 @@
                 <% if user_signed_in? %>
                   <div class="row margin-none mb20">
                     <div class="btn-edit-wrapper pull-right">
-                      <% if current_user.id == @project.user_id %>
-                        <button type="button" class="btn-edit" id="editSource">
-                          <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                        </button>
+                      <% if @is_blocked == 0 %>
+                        <% if current_user.id == @project.user_id %>
+                          <button type="button" class="btn-edit" id="editSource">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                          </button>
+                        <% else %>
+                          <a href="http://wiki.weserve.io/index.php?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
+                          </a>
+                        <% end %>
                       <% else %>
-                        <a href="http://wiki.weserve.io/index.php?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
-                          <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
-                        </a>
+                        <!-- TODO: for blocked users -->
                       <% end %>
 
                       <% if current_user.is_admin_for?(@project)%>
@@ -397,6 +401,7 @@
 <%= render "modal/edit_project_modal" %>
 
 <%= render "modal/revisions_diff_modal" %>
+<%= render "modal/block_user_modal" %>
 <%= render "modal/new_task_modal" %>
 
 <script>
@@ -524,6 +529,20 @@
       $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
       $('#revisionsDiffModal').modal('show');
     }
+  });
+
+  $(document).on('click', '.block-user', function(e) {
+    if ($(this).parent().parent().data("revision-user-id")) {
+      $('#blockUserModal .modal-title a').attr('href', $(this).parent().parent().data("revision-user-link"));
+      $('#blockUserModal .modal-title a').text($(this).parent().parent().data("revision-user"));
+    } else {
+      $('#blockUserModal .modal-title a').attr('href', '#');
+      $('#blockUserModal .modal-title a').text('Anonymous');
+    }
+
+    $('#blockUserModal .modal-body-block-user a').attr('href', "/projects/<%= @project.id %>/block_user?username=" + $(this).parent().parent().data("revision-username"))
+
+    $('#blockUserModal').modal('show');
   });
 
   // Compare revisions button click handler

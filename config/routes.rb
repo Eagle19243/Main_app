@@ -132,6 +132,8 @@ Rails.application.routes.draw do
       get :read_from_mediawiki
       post :write_to_mediawiki
       get :revision_action
+      get :unblock_user
+      get :block_user
     end
 
     collection do
