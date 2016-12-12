@@ -37,9 +37,9 @@ $().ready ->
     toggleMobileMenu false
     return
 
-  $('.mobile-menu ul a').click ->
-    toggleMobileMenu false
-    return
+  # $('.mobile-menu ul a').click ->
+  #   toggleMobileMenu false
+  #   return
 
   $('.mobile-user-menu .fa-chevron-right').hide()
   $('.mobile-user-submenu').hide()

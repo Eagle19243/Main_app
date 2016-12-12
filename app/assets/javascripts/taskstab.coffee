@@ -1,6 +1,6 @@
 
 $().ready ->
-  document.getElementById('loading-mask1').style.display = 'none'
+  $('#loading-mask1').hide()
 
   $('#send-project-email').submit ->
     $('#response').empty()
