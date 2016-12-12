@@ -871,4 +871,13 @@ div.progress {
   }
 }
 
+#blockUserModal {
+  .modal-body-block-user {
+    padding: 25px;
+    text-align: center;
 
+    a {
+      margin-right: 50px;
+    }
+  }
+}

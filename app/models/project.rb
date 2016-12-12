@@ -152,7 +152,7 @@ class Project < ActiveRecord::Base
   end
 
   # MediaWiki API - Page Read
-  def page_read
+  def page_read username
     if Rails.configuration.mediawiki_session
       if self.wiki_page_name.present?
         name = self.wiki_page_name.gsub(" ", "_")
@@ -161,7 +161,11 @@ class Project < ActiveRecord::Base
       end
 
       begin
-        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        if username == nil
+          result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        else
+          result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=read&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        end
         parsedResult = JSON.parse(result.body)
 
         if parsedResult["error"]
@@ -172,6 +176,7 @@ class Project < ActiveRecord::Base
           content["revision_id"] = parsedResult["response"]["revision_id"]
           content["non-html"] = parsedResult["response"]["content"]
           content["html"] = parsedResult["response"]["contentHtml"]
+          content["is_blocked"] = parsedResult["response"]["is_blocked"]
           content["status"] = "success"
         end
       rescue
@@ -306,6 +311,48 @@ class Project < ActiveRecord::Base
       # Unapprove
       begin
         result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unapprove&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
+  # MediaWiki API - Block user
+  def block_user username
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Block
+      begin
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=block&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
+  # MediaWiki API - Unblock user
+  def unblock_user username
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Unblock
+      begin
+        result = RestClient.get("http://wiki.weserve.io/api.php?action=weserve&method=unblock&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         JSON.parse(result.body)["response"]["code"]
       rescue
         return nil

@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
 
-  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in]
+  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user]
 
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision]
+  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   before_filter :authenticate_user!, only: [:contacts_callback]
@@ -232,10 +232,16 @@ class ProjectsController < ApplicationController
     # @reviewing_tasks = tasks.where(state: "reviewing").all
     # @done_tasks = tasks.where(state: "completed").all
     @contents = ''
-    result = @project.page_read
+    @is_blocked = 0
+    if current_user
+      result = @project.page_read current_user.username
+    else
+      result = @project.page_read nil
+    end
     if result
       if result["status"] == 'success'
         @contents = result["html"]
+        @is_blocked = result["is_blocked"]
       end
     end
 
@@ -258,6 +264,16 @@ class ProjectsController < ApplicationController
       @project.unapprove_revision params[:rev]
     end
 
+    redirect_to taskstab_project_path(@project.id)
+  end
+
+  def block_user
+    @project.block_user params[:username]
+    redirect_to taskstab_project_path(@project.id)
+  end
+
+  def unblock_user
+    @project.unblock_user params[:username]
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -503,7 +519,7 @@ class ProjectsController < ApplicationController
 
   def write_to_mediawiki
     if @project.page_write current_user, params[:data]
-      result = @project.page_read
+      result = @project.page_read nil
     end
 
     respond_to do |format|
@@ -572,6 +588,16 @@ class ProjectsController < ApplicationController
           history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
           history["status"]      = r['status']
           history["comment"]     = r['comment']
+          history["username"]    = r["author"]
+          history["is_blocked"]  = 0
+
+          result_block = @project.page_read history["username"]
+          if result_block
+            if result_block["status"] == 'success'
+              history["is_blocked"] = result_block["is_blocked"]
+            end
+          end
+
           @histories.push(history)
         end
         return @histories
