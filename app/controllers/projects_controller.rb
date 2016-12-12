@@ -456,7 +456,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = "Your request has been submitted"
     end
 
-    redirect_to project    
+    redirect_to project
   end
 
   def read_from_mediawiki
@@ -569,7 +569,7 @@ class ProjectsController < ApplicationController
           history                = Hash.new
           history["revision_id"] = r["id"]
           history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-          history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1])
+          history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
           history["status"]      = r['status']
           history["comment"]     = r['comment']
           @histories.push(history)
