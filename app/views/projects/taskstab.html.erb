@@ -398,6 +398,7 @@
 <%= render "modal/task_fund_modal" %>
 <%= render "modal/task_do_modal" %>
 <%= render "modal/project_invite_modal" %>
+<%= render "modal/edit_project_modal" %>
 
 <%= render "modal/revisions_diff_modal" %>
 <%= render "modal/block_user_modal" %>
@@ -451,7 +452,6 @@
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
   }
-  ;
 
   function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
