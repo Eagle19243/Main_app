@@ -57,7 +57,6 @@ class User < ActiveRecord::Base
   end
 
   def assign_address
-
     if File.basename($0) != 'rake'
 
       access_token = access_wallet

@@ -92,6 +92,8 @@ group :test do
   gem 'poltergeist'
   gem 'fivemat', require: false
   gem 'database_cleaner'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 # Code metric tool for rails projects
