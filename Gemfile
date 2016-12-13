@@ -81,12 +81,15 @@ gem "bullet", :group => "development"
 group :development do
   gem 'brakeman', :require => false
   gem 'letter_opener'
+  gem 'spring-commands-rspec'
 end
 
 # CSS coverage tool
 group :test do
   gem 'colored'
   gem 'deadweight', :require => 'deadweight/hijack/rails'
+  gem 'capybara'
+  gem 'poltergeist'
 end
 
 # Code metric tool for rails projects
@@ -102,11 +105,11 @@ gem "rubycritic", :require => false
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'pry-rails'
 end
 
 group :test do
   gem 'faker'
-  gem 'capybara-webkit'
 end
 
 # Auto deployment to AWS

@@ -99,3 +99,5 @@ pickle-email-*.html
 !.elasticbeanstalk/*.global.yml
 
 .byebug_history
+
+.foreman

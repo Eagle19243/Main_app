@@ -5,6 +5,7 @@ cache:
   bundler: true
   directories:
     - vendor/bundle
+    - public/assets
 
 rvm:
   - 2.3.1
@@ -28,10 +29,8 @@ before_script:
   - cp config/application.travis.yml config/application.yml
   # Create database and run migrations, seed
   - bundle exec rake sunspot:solr:start
-  - bundle exec rake db:create
-  - bundle exec rake db:schema:load
-  - bundle exec rake db:migrate
-  # - bundle exec rake db:seed
+  - bundle exec rake db:create db:schema:load db:migrate # db:seed
+  - bundle exec rake assets:precompile
 
 script:
   # Run tests here
