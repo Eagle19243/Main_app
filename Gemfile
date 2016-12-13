@@ -90,6 +90,8 @@ group :test do
   gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capybara'
   gem 'poltergeist'
+  gem 'fivemat', require: false
+  gem 'database_cleaner'
 end
 
 # Code metric tool for rails projects
