@@ -8,6 +8,8 @@ feature 'Main page popups' do
 
     modal = find('div#registerModal', visible: true)
 
+    expect(modal).to be_visible
+
     expect(modal).to have_link 'Sign In with Google'
     expect(modal).to have_link 'Sign In with Twitter'
     expect(modal).to have_link 'Sign In with Facebook'

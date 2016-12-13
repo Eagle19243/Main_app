@@ -89,7 +89,7 @@ group :test do
   gem 'colored'
   gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capybara'
-  gem 'selenium-webdriver'
+  gem 'poltergeist'
 end
 
 # Code metric tool for rails projects
