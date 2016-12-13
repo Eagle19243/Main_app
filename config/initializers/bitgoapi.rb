@@ -9,7 +9,7 @@ module Bitgo
 
       TEST = 'https://test.bitgo.com/api/v1'
       LIVE = 'https://bitgo.com/api/v1'
-      EXPRESS = 'http://127.0.0.1:3080/api/v1'
+      EXPRESS = 'http://localhost:3080/api/v1'
 
       def initialize(end_point)
         @end_point = end_point

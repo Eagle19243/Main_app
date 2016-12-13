@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Main page popups' do
   scenario 'when anonymous user visits', js: true do
-    visit '/'
+    visit root_path
 
     click_pseudo_link 'Register'
 

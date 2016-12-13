@@ -33,8 +33,7 @@ before_script:
   - bundle exec rake assets:precompile
 
 script:
-  # Run tests here
-  # - bundle exec rake test TESTOPTS=-v
+  - bundle exec rspec
 
 notifications:
   slack:
