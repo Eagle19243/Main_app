@@ -1,1 +1,2 @@
 pg: postgres -D tmp/postgresql
+solt: RAILS_ENV=test bundle exec spring rake sunspot:solr:run
