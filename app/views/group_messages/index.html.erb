@@ -71,7 +71,7 @@
     </div>
   </div>
 </div>
-<script>
+<script type="text/javascript">
   function load_messages() {
     var chatroom_id = $("#group_message_chatroom_id").val();
     if (chatroom_id != undefined) {
@@ -85,13 +85,11 @@
       });
     }
   }
-</script>
-<script type="text/javascript">
   $(document).ready(function () {
     $.ajaxSetup({cache: false});
     window.setInterval(function () {
       load_messages();
-    }, 3000);
+    }, 7000);
     $(".projects-chat").click(function () {
       project_id = $(this).attr('id')
       $("div#message-load-image").show();
