@@ -79,7 +79,20 @@ input[type="password"] {
 
   &:hover,
   &:focus {
-    border: 1px solid #888;
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+}
+
+textarea {
+  font-family: 'Libre Franklin';
+  font-size: 1em;
+  color: #333;
+
+  &:hover,
+  &:focus {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
   }
 }
 
@@ -88,3 +101,4 @@ p {
   font-size: 1em;
   text-align: left;
 }
+
