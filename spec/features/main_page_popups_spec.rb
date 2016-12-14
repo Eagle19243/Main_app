@@ -20,4 +20,13 @@ feature 'Main page popups' do
     expect(modal).to have_field 'password_confirmation'
     expect(modal).to have_button 'Sign up'
   end
+
+  scenario 'Projects page is working for anonymous user', js: true do
+    visit '/'
+
+    click_pseudo_link 'Active Projects'
+
+    expect(page).to have_current_path(projects_path)
+    
+  end
 end
