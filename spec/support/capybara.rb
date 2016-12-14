@@ -12,6 +12,7 @@ end
 
 Capybara.javascript_driver = :poltergeist
 Capybara.ignore_hidden_elements = false
+Capybara.server_port = 35792
 
 RSpec.configure do |c|
   c.include Capybara::DSL
