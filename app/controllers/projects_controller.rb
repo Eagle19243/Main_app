@@ -246,11 +246,14 @@ class ProjectsController < ApplicationController
     end
 
     @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
     @apply_requests = @project.apply_requests.pending.all
   end
 
   def revisions
     @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     respond_to do |format|
       format.js
@@ -489,6 +492,7 @@ class ProjectsController < ApplicationController
     #   #TODO create new session for mediawiki
     # end
     @contents = ''
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     if params[:rev]
       @revision_id = params[:rev]

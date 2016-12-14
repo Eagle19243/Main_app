@@ -227,7 +227,7 @@
             </div>
 
             <div class="btn-wiki-wrapper pull-right plan-hide">
-              <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
+              <a href="<%= @mediawiki_api_base_url %>?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                 Visual Editor
               </a>
@@ -256,7 +256,7 @@
                             <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
                           </button>
                         <% else %>
-                          <a href="http://wiki.weserve.io/index.php?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
+                          <a href="<%= @mediawiki_api_base_url %>?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
                             <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
                           </a>
                         <% end %>
@@ -378,7 +378,7 @@
         <% if user_signed_in? %>
             <% if current_user.id == @project.user_id %>
                 <div id="Revision" class="tabcontent">
-                  <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
+                  <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project, mediawiki_api_base_url: @mediawiki_api_base_url} %>
                 </div>
             <% end %>
         <% end %>
@@ -686,7 +686,7 @@
       var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
       // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
       var origin = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev=' + selectedRevs[0] + '&torev=' + selectedRevs[1] + '&format=json&origin=' + origin, function (data) {
+      $.get('<%= @mediawiki_api_base_url %>?action=compare&fromrev=' + selectedRevs[0] + '&torev=' + selectedRevs[1] + '&format=json&origin=' + origin, function (data) {
         var $diffTable = $('<table>' + data.compare['*'] + '</table>');
         // We will receive table contents from API, so wrap it into table
         $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);
