@@ -9,7 +9,7 @@ module Bitgo
 
       TEST = 'https://test.bitgo.com/api/v1'
       LIVE = 'https://bitgo.com/api/v1'
-      EXPRESS = 'http://127.0.0.1:3080/api/v1'
+      EXPRESS = 'http://localhost:3080/api/v1'
 
       def initialize(end_point)
         @end_point = end_point
@@ -25,7 +25,7 @@ module Bitgo
 
       # Get a token for first-party access to the BitGo API. First-party access is only intended for users accessing their own BitGo accounts.
       # For 3rd party access to the BitGo API on behalf of another user, please see Partner Authentication.
-      def login(email: email, password: password, otp: otp)
+      def login(email: nil, password: nil, otp: nil)
         login_params = {
           email: email,
           password: password,
@@ -52,7 +52,7 @@ module Bitgo
         call :get, '/user/session'
       end
 
-      def unlock(otp: otp, duration_seconds: duration_seconds)
+      def unlock(otp: nil, duration_seconds: nil)
         unlock_params = {
           otp: otp,
           duration: duration_seconds
@@ -87,7 +87,7 @@ module Bitgo
         end
       end
 
-      def add_keychain(xpub: xpub, encrypted_xprv: encrypted_xprv)
+      def add_keychain(xpub: nil, encrypted_xprv: nil)
         call :post, '/keychain', { xpub: xpub, encrypted_xprv: encrypted_xprv }
       end
 
@@ -103,15 +103,15 @@ module Bitgo
         call :get, '/labels'
       end
 
-      def list_labels_for_wallet(wallet_id: wallet_id)
+      def list_labels_for_wallet(wallet_id: nil)
         call :get, '/labels/' + wallet_id
       end
 
-      def set_label(wallet_id: wallet_id, address: address, label: label)
+      def set_label(wallet_id: nil, address: nil, label: nil)
         call :put, '/labels/' + wallet_id + '/' + address, { label: label }
       end
 
-      def delete_label(wallet_id: wallet_id, address: address)
+      def delete_label(wallet_id: nil, address: nil)
         call :delete, '/labels/' + wallet_id + '/' + address
       end
 
@@ -178,7 +178,7 @@ module Bitgo
       #         "unconfirmedReceives" => 0,
       #            "pendingApprovals" => []
       #     },
-      #       "userKeychain" => { 
+      #       "userKeychain" => {
       #                  "xpub" => "xpub661MyMwAqRbcF5jq3P7NkbMfFK9HDEYppZXxzmAsid5AvAPF1UyN1vsuePn9HNy3ZgYgUaANt1tkpxtZ2NLxUp1qeiPApMNu2uCJivmEDob",
       #                  "xprv" => "xprv9s21ZrQH143K2bfMwMaNPTQvhHJnompyTLcNCNmGAHYC3N46Twf7U8ZRo7isyYM7c5KriFYPdMnpB3CL9sKWyJYjQNri6mVNEvFXFZGx8J8",
       #         "encryptedXprv" => "{\"iv\":\"EnVDttt82SOMdk5+nxl6Yg==\",\"v\":1,\"iter\":10000,\"ks\":256,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"6E6KxZSKJ1U=\",\"ct\":\"PPIBVErcWkBUTl5ceqUulvDLsbZl17fhLt1CFnsA6Ay9R9NU6utNxst9SvcaeMEwItdSTUOfWvg7rokpR+0g8yHsqouf3qCiqk9RZLy0jKReje5/SC2J5SPp6yIsfT8q0y8QwKjVNx2FULLpJeHQ9yv/+TE+lvo=\"}"
@@ -194,7 +194,7 @@ module Bitgo
       #     },
       #            "warning" => "Be sure to backup the backup keychain -- it is not stored anywhere else!"
       # }
-      def simple_create_wallet(passphrase: passphrase, label: label, access_token: access_token )
+      def simple_create_wallet(passphrase: nil, label: nil, access_token: nil )
         @session_token = access_token
         call :post, '/wallets/simplecreate', {passphrase: passphrase, label: label}
       end
@@ -210,7 +210,7 @@ module Bitgo
       # n: number (Required)  The number of keys in the wallet (must be 3)
       # keychains: array  (Required)  An array of n keychain xpubs to use with this wallet; last must be a BitGo key
       # enterprise :string (Optional) Enterprise ID to create this wallet under.
-      def add_wallet(label: label, m: m, n: n, keychains: keychains, enterprise: nil)
+      def add_wallet(label: nil, m: nil, n: nil, keychains: nil, enterprise: nil)
         wallet_params = { label: label, m: m, n: n, keychains: keychains }
         if enterprise.present?
           wallet_params[:enterprise] = enterprise
@@ -220,8 +220,8 @@ module Bitgo
       end
 
       # Lookup wallet information, returning the wallet model including balances, permissions etc. The ID of a wallet is its first receiving address (/0/0)
-      # 
-      # Response: 
+      #
+      # Response:
       # id        id of the wallet (also the first receiving address)
       # label       the wallet label, as shown in the UI
       # index       the index of the address within the chain (0, 1, 2, …)
@@ -231,25 +231,25 @@ module Bitgo
       # pendingApprovals  pending transaction approvals on the wallet
       # confirmedBalance  the confirmed balance
       # balance the balance, including transactions with 0 confirmations
-      def get_wallet(wallet_id: wallet_id,access_token: access_token )
+      def get_wallet(wallet_id: nil, access_token: nil)
         @session_token = access_token
-        call :get, '/wallet/' + wallet_id 
+        call :get, '/wallet/' + wallet_id
       end
 
       # Gets a list of addresses which have been instantiated for a wallet using the New Address API.
-      def list_wallet_addresses(wallet_id: wallet_id)
+      def list_wallet_addresses(wallet_id: nil)
         call :get, '/wallet/' + wallet_id + '/addresses'
       end
 
       # Creates a new address for an existing wallet. BitGo wallets consist of two independent chains of addresses, designated 0 and 1.
       # The 0-chain is typically used for receiving funds, while the 1-chain is used internally for creating change when spending from a wallet.
       # It is considered best practice to generate a new receiving address for each new incoming transaction, in order to help maximize privacy.
-      def create_address(wallet_id: wallet_id, chain: chain, access_token: access_token)
+      def create_address(wallet_id: nil, chain: nil, access_token: nil)
         @session_token = access_token
         call :post, '/wallet/' + wallet_id + '/address/' + chain
       end
 
-      def send_coins_to_address(wallet_id: wallet_id, address: address, amount: amount, wallet_passphrase: wallet_passphrase, min_confirmations: min_confirmations, fee: fee, access_token:access_token)
+      def send_coins_to_address(wallet_id: nil, address: nil, amount: nil, wallet_passphrase: nil, min_confirmations: nil, fee: nil, access_token: nil)
         @session_token = access_token
 
         call :post, '/wallet/'+"#{wallet_id}"+ '/sendcoins', {
@@ -263,18 +263,18 @@ module Bitgo
       end
 
       def send_coins_to_multiple_addresses()
-        
+
       end
 
       ###############
       # Webhook APIs
       ###############
-      # Adds a Webhook that will result in a HTTP callback at the specified URL from BitGo when events are triggered. There is a limit of 5 Webhooks of each type per wallet. 
+      # Adds a Webhook that will result in a HTTP callback at the specified URL from BitGo when events are triggered. There is a limit of 5 Webhooks of each type per wallet.
       #
       # type        string  (Required)  type of Webhook, e.g. transaction
       # url       string  (Required)  valid http/https url for callback requests
       # numConfirmations  integer (Optional)  number of confirmations before triggering the webhook. If 0 or unspecified, requests will be sent to the callback endpoint will be called when the transaction is first seen and when it is confirmed.
-      def add_webhook(wallet_id: wallet_id, type: type, url: url, confirmations: confirmations)
+      def add_webhook(wallet_id: nil, type: nil, url: nil, confirmations: nil)
         add_webhook_params = {
           type: type,
           url: url,
@@ -284,7 +284,7 @@ module Bitgo
       end
 
 
-      def remove_webhook(wallet_id: wallet_id, type: type, url: url)
+      def remove_webhook(wallet_id: nil, type: nil, url: nil)
         remove_webhook_params = {
           type: type,
           url: url
@@ -292,7 +292,7 @@ module Bitgo
         call :delete, '/wallet/' + wallet_id + '/webhooks', remove_webhook_params
       end
 
-      def list_webhooks(wallet_id: wallet_id)
+      def list_webhooks(wallet_id: nil)
         call :get, '/wallet/' + wallet_id + '/webhooks'
       end
 
@@ -300,16 +300,16 @@ module Bitgo
       # Utilities (Via Bitgo Express API)
       ###############
 
-      def encrypt(input: input, password: password)
+      def encrypt(input: nil, password: nil)
         call :post, '/encrypt', { input: input, password: password }
       end
 
-      def decrypt(input: input, password: password)
+      def decrypt(input: nil, password: nil)
         call :post, '/decrypt', { input: input, password: password }
       end
 
       # Client-side function to verify that a given string is a valid Bitcoin Address. Supports both v1 addresses (e.g. “1…”) and P2SH addresses (e.g. “3…”).
-      def verify_address(address: address)
+      def verify_address(address: nil)
         verify_address_params = {
           address: address
         }
@@ -338,7 +338,7 @@ module Bitgo
         request = nil
         if method == :get
           request = Net::HTTP::Get.new(uri.request_uri)
-          
+
         elsif method == :post
           request = Net::HTTP::Post.new(uri.request_uri)
         elsif method == :delete

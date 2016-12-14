@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class WorkRecordsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @work_record = work_records(:one)
   end

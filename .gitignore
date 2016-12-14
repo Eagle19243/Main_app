@@ -24,6 +24,7 @@ db/*.sqlite3
 
 # Mysql Database yml used during React integration.
 /config/database.yml
+/config/database.yml.example
 /config/application.yml
 
 # various artifacts
@@ -98,3 +99,5 @@ pickle-email-*.html
 !.elasticbeanstalk/*.global.yml
 
 .byebug_history
+
+.foreman

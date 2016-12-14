@@ -1,7 +1,7 @@
 <div class="content-details revision-wrapper">
-  <h4 class="mb20">Approve Revisions for "My project"</h4>
+  <h4 class="mb20">Revisions for "<%= project.title %>"</h4>
 
-  <a class="btn btn-default revisions-compare-button">Compare selected revisions</a>
+  <a class="btn-default-weserve revisions-compare-button">Compare selected revisions</a>
 
   <div class="table-responsive">
     <table class="table">
@@ -26,9 +26,11 @@
             data-revision-user="<%= (history['user']) ? history['user'].name : 'Anonymous' %>"
             data-revision-user-id="<%= (history['user']) ? history['user'].id : '' %>"
             data-revision-user-link="<%= history['user'] ? user_path(history['user']) : '' %>"
+            data-revision-user-blocked="<%= history['is_blocked'] %>"
+            data-revision-username="<%= history['username'] %>"
           >
             <td>
-              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" >
+              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="<%= mediawiki_api_base_url %>?title=<%= URI.escape(project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>">
                 <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
               </a>
             </td>
@@ -53,14 +55,20 @@
               <% end %>
             </td>
             <td>
-              <a href="javascript:void(0)">
+              <a href = <%= history['user'] ? "/group_messages/user_messaging?user_id=#{history['user'].id}" : "" %> >
                 <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
               </a>
             </td>
             <td>
-              <a href="javascript:void(0)">
-                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
-              </a>
+              <% if history['is_blocked'] == 0 %>
+                <a href="javascript:void(0)" class='block-user'>
+                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+                </a>
+              <% else %>
+                <a href="/projects/<%= project.id %>/unblock_user?username=<%= history['username'] %>" class='unblock-user'>
+                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Unblock
+                </a>
+              <% end %>
             </td>
             <td>
               <% if history['status'] == 'approved' %>

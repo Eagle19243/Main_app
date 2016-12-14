@@ -13,13 +13,13 @@
 //= require jquery
 //= require jquery.jcrop
 //= require jquery_ujs
+//= require autocomplete-rails
 //= require jquery.remotipart
 //= require best_in_place
 //= require bootstrap-sprockets
 //= require foundation
 //= require foundation-datetimepicker
 //= require chosen-jquery
-//= require scaffold
 //= require jquery-ui/datepicker
 //= require tinymce-jquery
 //= require social-share-button
@@ -37,10 +37,7 @@
 //= require jquery.slick
 
 //= require_tree .
-// $(function() {
-//   $(document).foundation();
-// });
-// http://stackoverflow.com/questions/25150922/trouble-using-foundation-and-turbolinks-with-rails-4
+
 
 $(document).foundation();
 
@@ -49,7 +46,7 @@ $(document).on('page:load', function() {
 });
 
 $(function() {
-  $('img').one('error', function() { 
+  $('img').one('error', function() {
     this.src = '/assets/no_image.png';
   });
   $('.task-box').matchHeight();

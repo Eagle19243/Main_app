@@ -14,7 +14,7 @@
     <%= yield :customhead %>
   </head>
 
-  <body <%= landing_class %>>
+  <body>
     <script>
       window.fbAsyncInit = function() {
         FB.init({
@@ -47,30 +47,6 @@
     </div>
 
     <%= render 'layouts/footer' %>
-
-    <script type="text/javascript">
-      $('#sign_in_a ,#sign_in_nav').click(function() {
-        $('.sign_up_show').hide();
-        $('#sign-up-social-buttons').hide();
-        $('.sign_in_show').show();
-        $('.start_project_show').hide();
-        $('#sign-in-social-buttons').show();
-      });
-      $('#sign_up_a, #sign_up_nav').click(function() {
-        $('.sign_in_show').hide();
-        $('#sign-in-social-buttons').hide();
-        $('.sign_up_show').show();
-        $('.start_project_show').hide();
-      });
-      $('#start_project_link').click(function() {
-        $('.sign_in_show').hide();
-        $('.sign_up_show').hide();
-        $('.start_project_show').show();
-        localStorage.setItem("start_project", true);
-
-        $('#sign-up-social-buttons').show();
-      });
-    </script>
 
   </body>
 </html>

@@ -1,0 +1,23 @@
+<div class="project-wrapper">
+
+  <div class="heading-banner">
+    <div class="project-header">
+      <h2>Archived Projects</h2>
+      <div id="paginator">
+        <%= paginate @featured_projects, remote: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="projects-cards" id="search-results-show">
+    <div id="error-message-show" style="background-color: red"></div>
+    <div class="row padding-none show-projects">
+      <%= render "projects_page" %>
+    </div>
+  </div>
+
+  <div class="load-more">
+    <h5>Scroll Down To Load More</h5>
+  </div>
+
+</div>

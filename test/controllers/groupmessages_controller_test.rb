@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class GroupmessagesControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @groupmessage = groupmessages(:one)
   end

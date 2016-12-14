@@ -8,26 +8,28 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h3 class="modal-title">Sign In</h3>
-          <h4 class="modal-title">Join In WeServe today!</h4>
+          <h2 class="modal-title">Sign In</h2>
         </div>
 
         <div class="modal-body">
-          <%= render "modal/social_register" %>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <%= render "modal/social_sign_in" %>
+            </div>
 
-          <div class="or-container">
-            <hr class="or-hr">
-            <div id="or">or</div>
-          </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="row row-custom" id="sign_in_show">
+                <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+              </div>
+            </div>
+            <div class="clearfix"></div>
 
-          <div id="">
-            <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-
-            <div class="signin-intro pt20">
-              <p>Don't have an account? <%= link_to 'Sign Up', new_user_registration_path %></p>
+            <div class="row">
+              <div class="signin-intro pt30">
+                <p>Don't have an account? <%= link_to 'Sign Up', new_user_registration_path %></p>
+              </div>
             </div>
           </div>
-
         </div>
 
       </div>

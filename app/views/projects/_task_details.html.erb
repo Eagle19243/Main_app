@@ -83,8 +83,8 @@
         <!--left side -->
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
           <div class="task-details-left-side">
-            <!--@task_team=TeamMembership.where(task_id: @task.id)-->
-            <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
+
+            <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
 
                 <div class="task-desc">
                   <div class="desc-block">
@@ -247,7 +247,7 @@
                 <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                 Approve
               </a>
-              <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
+              <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
                 <a href="javascript:void(0)" class="approve-link">
                   <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
                   Delete Task
@@ -257,7 +257,7 @@
 
             <div class="button-group">
               <div class="btn-left">
-                <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_team.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
+                <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
                     <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
@@ -270,7 +270,7 @@
                 <% end %>
                 <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i>Invite</button>
                 <% if user_signed_in? %>
-                    <% if @task.doing? && (@task_team.collect(&:team_member_id).include? current_user.id) %>
+                    <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) %>
                         <%= link_to reviewing_task_path(@task.id), :remote => true do %>
                             <button>
                               <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
@@ -331,22 +331,21 @@
     <b> <span id="teamclose" class="close">×</span></b>
     <div class="fund-do">
       <div class="row">
-        <center><h4>Team</h4>
-          <!---->
+        <center><h4 id="task-members-container" task-id="<%= @task.id %>">Team</h4>
           <p id="team-message"></p>
-          <% @task_team.each do |team_member| %>
-              <div style="width:200px;height: 50px;background-color: #dddddd;margin: 5px;padding-top:8px;">
+          <% @task_memberships.each do |team_membership| %>
+              <div id="task-membership-<%=team_membership.id%>" style="width:200px;height: 50px;background-color: #dddddd;margin: 5px;padding-top:8px;">
                 <% if user_signed_in? && (current_user.id == @task.project.user.id || ((!@project_admin.blank?) &&(@project_admin.include? current_user.id))) %>
-                    <b> <%= link_to teams_remove_membership_path(id: team_member.id), remote: true, data: {confirm: 'Are you sure to remove?'} do %>
-                          <span id="Removeteammember" class="close">×</span>
-                      <% end %></b>
+                    <b>
+                      <span class="delete-task-member" task-membership-id="<%=team_membership.id%>" class="close">×</span>
+                    </b>
                 <% end %>
-                <% if team_member.team_member.picture? %>
-                    <%= image_tag(team_member.team_member.picture, size: "35x35") %>
+                <% if team_membership.team_member.picture? %>
+                    <%= image_tag(team_membership.team_member.picture, size: "35x35") %>
                 <% else %>
-                    <%= gravatar_for(team_member.team_member, 35) %>
+                    <%= gravatar_for(team_membership.team_member, 35) %>
                 <% end %>
-                <%= link_to team_member.team_member.name, user_path(team_member.team_member) %>
+                <%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %>
               </div>
           <% end %></center>
       </div> <!--row ends -->
@@ -508,6 +507,8 @@
 </div>
 
 <script type="text/javascript">
+  JsonFormsHelper.InitializeTaskMembersControls();
+
   $("#approveTaskPopover").popover({
     html : true, 
     content: function() {

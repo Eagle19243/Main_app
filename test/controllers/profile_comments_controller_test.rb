@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ProfileCommentsControllerTest < ActionController::TestCase
+  include Devise::Test::ControllerHelpers
   setup do
     @profile_comment = profile_comments(:one)
   end

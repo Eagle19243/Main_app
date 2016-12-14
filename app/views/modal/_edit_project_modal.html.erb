@@ -42,7 +42,6 @@
                   </div>
 
                   <div class="card-box">
-                    <img class="portrait" src="images/autor.png" alt="" />
                     <div class="name-date">
                       <h6>Caju Costa...</h6>
                       <span>12:00 am Today</span>
@@ -91,15 +90,13 @@
   
       <%= form_for @project do |f| %>
         <div class="modal-content">
-          <div class="row">
-            <div class="col-md-3"> </div>
-            <div class="col-md-6"><%= f.cropbox :picture %></div>
-            <div class="col-md-3"> </div>
+          <div class="cropbox-wrap">
+            <%= f.cropbox :picture %>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancel </button>
-          <%= f.submit "Save Changes", :class => "btn btn-primary" %>
+          <%= f.submit "Save Changes", :class => "btn-default-weserve" %>
+          <button type="button" class="btn-alt-weserve" data-dismiss="modal"> Cancel </button>
         </div>
       <% end %>
     </div>

@@ -9,10 +9,14 @@ Rails.application.routes.draw do
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
 
+  resources :group_messages do
+    get :autocomplete_user_name, :on => :collection
+  end
+  get 'group_messages/search_user'
   post 'projects/send_project_invite_email'
   post 'tasks/send_email'
   post 'projects/send_project_email'
-  get 'teams/remove_membership'
+  post 'projects/start_project_by_signup'
   get 'projects/get_activities'
   get 'projects/show_all_tasks'
   get 'projects/show_all_teams'
@@ -51,7 +55,12 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'projects/:project_id/team_memberships', to: 'teams#team_memberships'
+  resources :apply_requests, only: [:create] do
+    member do
+      post :accept, :reject
+    end
+  end
+
   resources :team_memberships, only: [:update, :destroy]
   resources :work_records
   get 'wallet_transactions/new'
@@ -61,7 +70,6 @@ Rails.application.routes.draw do
   post 'user_wallet_transactions/create'
   get 'payment_notifications/create'
   get 'proj_admins/new'
-  get "/users/:provider/callback" => "visitors#landing"
   get 'proj_admins/create'
   get 'proj_admins/destroy'
   resources :proj_admins do
@@ -83,7 +91,6 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'projects/featured', as: :featured_projects
   resources :do_requests do
     member do
       get :accept, :reject
@@ -95,6 +102,7 @@ Rails.application.routes.draw do
   resources :tasks do
     member do
       get :accept, :reject, :doing, :reviewing, :completed
+      delete '/members/:team_membership_id', to: 'tasks#removeMember', as: :remove_task_member
     end
   end
 
@@ -124,11 +132,15 @@ Rails.application.routes.draw do
       get :read_from_mediawiki
       post :write_to_mediawiki
       get :revision_action
+      get :unblock_user
+      get :block_user
     end
 
     collection do
       get :autocomplete_user_search
+      get :archived
       post :change_leader
+      get :get_in
     end
 
     member do
@@ -163,7 +175,5 @@ Rails.application.routes.draw do
   resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
-  get 'visitors' => 'visitors#restricted'
-
   root to: 'visitors#landing'
 end

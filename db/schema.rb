@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124111334) do
+ActiveRecord::Schema.define(version: 20161210155337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20161124111334) do
 
   add_index "admin_requests", ["project_id"], name: "index_admin_requests_on_project_id", using: :btree
   add_index "admin_requests", ["user_id"], name: "index_admin_requests_on_user_id", using: :btree
+
+  create_table "apply_requests", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.integer  "request_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"
@@ -277,7 +287,10 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.integer  "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "project_comments", ["deleted_at"], name: "index_project_comments_on_deleted_at", using: :btree
 
   create_table "project_edits", force: :cascade do |t|
     t.datetime "created_at",                      null: false
@@ -286,7 +299,10 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.integer  "user_id"
     t.integer  "project_id"
     t.text     "description"
+    t.datetime "deleted_at"
   end
+
+  add_index "project_edits", ["deleted_at"], name: "index_project_edits_on_deleted_at", using: :btree
 
   create_table "project_rates", force: :cascade do |t|
     t.integer  "project_id"
@@ -318,6 +334,7 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.string   "short_description"
     t.string   "video_id"
     t.datetime "deleted_at"
+    t.string   "wiki_page_name"
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
@@ -350,6 +367,15 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "task_members", force: :cascade do |t|
+    t.integer  "team_membership_id"
+    t.integer  "task_id"
+    t.datetime "created_at"
+  end
+
+  add_index "task_members", ["task_id"], name: "index_task_members_on_task_id", using: :btree
+  add_index "task_members", ["team_membership_id"], name: "index_task_members_on_team_membership_id", using: :btree
+
   create_table "tasks", force: :cascade do |t|
     t.integer  "project_id"
     t.string   "title"
@@ -373,7 +399,10 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.text     "proof_of_execution"
     t.text     "short_description"
     t.boolean  "marker",                        default: false
+    t.datetime "deleted_at"
   end
+
+  add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
 
   create_table "team_memberships", force: :cascade do |t|
     t.integer  "team_id",                    null: false
@@ -381,8 +410,6 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "role",           default: 0
-    t.integer  "task_id"
-    t.string   "state"
   end
 
   add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true, using: :btree
@@ -461,6 +488,7 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "username"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -504,7 +532,10 @@ ActiveRecord::Schema.define(version: 20161124111334) do
     t.datetime "updated_at",   null: false
     t.integer  "user_id"
     t.string   "state"
+    t.datetime "deleted_at"
   end
+
+  add_index "wikis", ["deleted_at"], name: "index_wikis_on_deleted_at", using: :btree
 
   create_table "work_records", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -526,6 +557,8 @@ ActiveRecord::Schema.define(version: 20161124111334) do
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "section_details", "projects"
+  add_foreign_key "task_members", "tasks"
+  add_foreign_key "task_members", "team_memberships"
   add_foreign_key "user_wallet_addresses", "users"
   add_foreign_key "wallet_addresses", "tasks"
   add_foreign_key "wallet_transactions", "tasks"

@@ -14,7 +14,6 @@ class TeamMembershipsController < ApplicationController
   end
 
   def destroy
-
     @team_membership = TeamMembership.find(params[:id])
     respond_to do |format|
       if current_user.id == @team_membership.team.project.user_id || (@team_membership.team.project.user_id != current_user.id && @team_membership.role == 1)

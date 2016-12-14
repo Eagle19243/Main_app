@@ -25,7 +25,7 @@
 
     <div class="projects-cards"  id="search-results-show">
       <div id="error-message-show" style="background-color: red"> </div>
-      <div class="row padding-none show-projects">
+      <div class="row margin-none show-projects">
         <%= render "projects_page" %>
       </div>
     </div>
@@ -47,8 +47,15 @@
       //        window.location = "";
       //        $("#backupkeys_popup").hide();
       //      }
-
     </script>
 <% end %>
 
-
+<% if @download_keys && @start_project %>
+    <script type="text/javascript">
+      $('#wallet_button').click(function() {
+          $('#walletModal').modal('hide');
+          $('#startProjectModal').modal('toggle');
+          localStorage.removeItem('start_project');
+      });
+    </script>
+<% end %>

@@ -1,4 +1,3 @@
-
 <div id="walletModal" class="modal fade wallet-modal" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -11,29 +10,17 @@
       <div class="modal-body text-center">
         <div class="wallet-text-wrapper">
           <p class="text-default text-center">
-            We created a bitcoin wallet for you.
+            We have created a bitcoin wallet for you.
           </p>
           <p class="text-default text-center">
-            we have created your Wallet Backup Keys please
-            Download your keys and Save Your keys at save place </p>
+            We have created a bitcoin wallet for you.
+            Please Download your keys and save it in a safe place.</p>
         </div>
 
-        <a href="<%= user_wallet_transactions_download_keys_url %>" class="btn-wallet" id="wallet_button">download wallet key</a>
+        <a href="<%= user_wallet_transactions_download_keys_url %>" class="btn-wallet" id="wallet_button">download
+          wallet keys</a>
       </div>
 
     </div>
   </div>
 </div>
-
-<%= render 'modal/start_project_modal' %>
-
-<script type="text/javascript">
-  $('#wallet_button').click(function() {
-    //  var startProject = localStorage.getItem("start_project");
-   //if( startProject == "true" ) {
-      $('#walletModal').modal('hide');
-      $('#startProjectModal').modal('toggle');
-      localStorage.removeItem('start_project');
-    //}
-  });
-</script>

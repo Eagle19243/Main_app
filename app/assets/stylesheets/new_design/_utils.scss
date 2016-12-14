@@ -168,3 +168,55 @@ h2:before {
   color: #555;
 }
 
+.btn-default-weserve,
+.btn-alt-weserve {
+  display: inline-block;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  margin: 0;
+  border: 2px solid #000;
+  border-radius: 100px !important;
+  font-family: 'Roboto';
+  font-size: 1em;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+.btn-default-weserve {
+  background-color: #fff;
+  color: #000;
+
+  &:hover,
+  &:focus {
+    background-color: #fff;
+    border: 2px solid #000;
+    color: #000;
+  }
+}
+
+.btn-alt-weserve {
+  background-color: #000;
+  color: #fff;
+
+  &:hover,
+  &:focus {
+    background-color: #000;
+    border: 2px solid #000;
+    color: #fff;
+  }
+}
+
+
+.position-relative {
+  position: relative;
+}
+

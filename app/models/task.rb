@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  acts_as_paranoid
+
   include ApplicationHelper
   include AASM
   default_scope -> { order('created_at DESC') }
@@ -16,7 +18,9 @@ class Task < ActiveRecord::Base
   has_many :do_requests, dependent: :delete_all
   has_many :donations, dependent: :delete_all
   has_many :task_attachments, dependent: :delete_all
-  has_many :team_memberships
+  has_many :team_memberships, through: :task_members, dependent: :destroy
+  has_many :task_members
+
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
   #after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do
@@ -63,44 +67,44 @@ class Task < ActiveRecord::Base
     text :condition_of_execution
   end
 
-	def assign_address
-		if_address_available = GenerateAddress.where(is_available: true)
-		unless if_address_available.blank?
-			begin
-				WalletAddress.create(address: if_address_available.first.address, task_id: self.id)
-				update_address_availability = if_address_available.first
-				update_address_availability.update_attribute('is_available', 'false')
-			rescue => e
-				puts e.message unless Rails.env == "development"
-			end
-		else
-			access_token = access_wallet
-			Rails.logger.info access_token unless Rails.env == "development"
-			api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-			secure_passphrase = SecureRandom.hex(5)
-			secure_label = SecureRandom.hex(5)
-			new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-			Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
-			new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-			puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
-			new_wallet_address_sender = api.create_address(wallet_id:new_address_id, chain: "0", access_token: access_token) rescue "create address"
-			new_wallet_address_receiver = api.create_address(wallet_id:new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-			Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-			Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-			Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-			Rails.logger.info"#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
-			unless new_address.blank?
-				WalletAddress.create(sender_address:new_wallet_address_sender["address"], receiver_address:new_wallet_address_receiver["address"],pass_phrase:secure_passphrase , task_id: self.id, wallet_id:new_address_id)
-			else
-				WalletAddress.create(sender_address:nil, task_id: self.id)
-			end
-		end
+  def assign_address
+    if_address_available = GenerateAddress.where(is_available: true)
+    unless if_address_available.blank?
+      begin
+        WalletAddress.create(address: if_address_available.first.address, task_id: self.id)
+        update_address_availability = if_address_available.first
+        update_address_availability.update_attribute('is_available', 'false')
+      rescue => e
+        puts e.message unless Rails.env == "development"
+      end
+    else
+      access_token = access_wallet
+      Rails.logger.info access_token unless Rails.env == "development"
+      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      secure_passphrase = SecureRandom.hex(5)
+      secure_label = SecureRandom.hex(5)
+      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
+      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
+      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
+      new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
+      new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
+      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
+      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
+      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
+      Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
+      unless new_address.blank?
+        WalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, task_id: self.id, wallet_id: new_address_id)
+      else
+        WalletAddress.create(sender_address: nil, task_id: self.id)
+      end
+    end
   end
 
-  def transfer_to_user_wallet( wallet_address_to_send_btc , amount )
+  def transfer_to_user_wallet(wallet_address_to_send_btc, amount)
     transfering_task = self
     begin
-      @transfer = WalletTransaction.new(amount:amount ,user_wallet: wallet_address_to_send_btc,task_id: self.id)
+      @transfer = WalletTransaction.new(amount: amount, user_wallet: wallet_address_to_send_btc, task_id: self.id)
       satoshi_amount = nil
       satoshi_amount = convert_usd_to_btc_and_then_satoshi(params['amount']) if @transfer.valid?
       if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
@@ -111,7 +115,7 @@ class Task < ActiveRecord::Base
         sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
         address_to = wallet_address_to_send_btc.strip
         api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-        @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount:satoshi_amount , wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
+        @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
         unless @res["message"].blank?
           @transfer.save
         else
@@ -126,32 +130,32 @@ class Task < ActiveRecord::Base
   end
 
 
-	def transfer_task_funds
-		bitgo_fee = 0.10
-		we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
-		wallet_address = self.wallet_address
-		total_budget = self.budget
-		team_members =TeamMembership.where(task_id: self.id)
-    if(team_members.blank? )
-      transfer_to_user_wallet( we_serve_wallet , total_budget  )
+  def transfer_task_funds
+    bitgo_fee = 0.10
+    we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
+    wallet_address = self.wallet_address
+    total_budget = self.budget
+    team_members =TeamMembership.where(task_id: self.id)
+    if (team_members.blank?)
+      transfer_to_user_wallet(we_serve_wallet, total_budget)
     else
       num_of_participants = team_members.count
-      total_bitgo_fee = ((total_budget * bitgo_fee) / 100 ) * (num_of_participants  + 1)
+      total_bitgo_fee = ((total_budget * bitgo_fee) / 100) * (num_of_participants + 1)
       total_after_bitgo_fee = total_budget - total_bitgo_fee
-      we_serve_fee = ( total_after_bitgo_fee * 5)/100
+      we_serve_fee = (total_after_bitgo_fee * 5)/100
       total_after_we_serve_fee = total_after_bitgo_fee - we_serve_fee
       each_team_member_fee = total_after_we_serve_fee / num_of_participants
-      transfer_to_user_wallet( we_serve_wallet , we_serve_fee )
+      transfer_to_user_wallet(we_serve_wallet, we_serve_fee)
       team_members.each do |member|
-        transfer_to_user_wallet( member.team_member.user_wallet_address.sender_address ,  each_team_member_fee)
+        transfer_to_user_wallet(member.team_member.user_wallet_address.sender_address, each_team_member_fee)
       end
     end
 
-	end
+  end
 
   def funded
-		budget == 0 ? "100%" : ((( current_fund + ( curent_bts_to_usd ( id ) rescue 0)) / budget ) * 100 ).round.to_s + " %"
-	end
+    budget == 0 ? "100%" : (((current_fund + (curent_bts_to_usd (id) rescue 0)) / budget) * 100).round.to_s + " %"
+  end
 
   def funded_in_btc
     ((self.wallet_address.current_balance.to_s rescue '0') + ' ฿')
@@ -166,7 +170,7 @@ class Task < ActiveRecord::Base
   end
 
   def is_leader(user_id)
-    users = self.team_memberships.where(role: 1).collect(&:team_member_id)
+    users = team_memberships.where(role: 1).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
 end

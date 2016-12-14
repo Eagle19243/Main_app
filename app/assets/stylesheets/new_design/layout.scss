@@ -5,11 +5,12 @@
 
 html, body {
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .page-wrapper {
   min-height: 100%;
-  /* equal to footer height */
 }
 
 .page-wrapper:after {

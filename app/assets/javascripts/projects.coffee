@@ -145,6 +145,32 @@ jQuery ->
       projectEditId = $(this).data("rejects-edit")
       updateEdit(projectEditId, "rejected")
 
+  $(document).on "click", "#sign_up_nav", (e) ->
+    start_by_signup = false
+    $.ajax(
+      url: "/projects/start_project_by_signup"
+      dataType: "json"
+      method: "POST"
+      data:
+        start_by_signup: start_by_signup
+    ).done (status) ->
+      return true
+    .error (e) ->
+      return false
+
+  $(document).on "click", "#start_project_link", (e) ->
+    start_by_signup = true
+    $.ajax(
+      url: "/projects/start_project_by_signup"
+      dataType: "json"
+      method: "POST"
+      data:
+        start_by_signup: start_by_signup
+    ).done (status) ->
+      return true
+    .error (e) ->
+      return false
+
 jQuery ->
   new CarrierWaveCropper()
 
@@ -190,3 +216,6 @@ $ ->
     nextLink.click()
     ajaxIsLoadingIndicator.removeClass('show-div')
     loading = false
+
+  $(document).on "click", "#be_lead_editor", (e) ->
+    alert "Hello";

@@ -124,7 +124,7 @@
       margin: 0;
       &:hover,
       &:focus {
-        border: 1px solid #ADD8E6;
+        border: 1px solid #aaa;
       }
     }
 
@@ -1148,4 +1148,47 @@
   .import-contacts-wrapper {
   }
 }
+
+
+#project-success {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 999;
+
+  img {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(0, -50%);
+            transform: translate(0, -50%);
+    z-index: 999;
+    background: transparent;
+  }
+}
+
+
+#project-img-edit {
+  .modal-content {
+    box-shadow: none;
+    border: 0;
+  }
+}
+
+#taskDoModal {
+  textarea {
+    font-family: 'Libre Franklin';
+    font-size: 1em;
+    font-weight: normal;
+    color: #555;
+  }  
+}
+
+a.fund-model-popup {
+  color: #000;
+}
+
 
