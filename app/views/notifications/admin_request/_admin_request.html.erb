@@ -1,13 +1,11 @@
 <%= link_to notification.origin_user.name, user_path(notification.origin_user) %> applies to become an admin for project
 <%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>
-<% if notification.source_model.pending? %>
-    <div id="request-<%= notification.source_model.id %>">
-      <%= button_to "Accept", accept_admin_request_path(notification.source_model),
-                    form_class: "accept-request", class: "button round accept-button" %>
-      <%= button_to "Reject", reject_admin_request_path(notification.source_model),
-                    form_class: "reject-request", class: "button round decline-button" %>
-    </div>
-<% else %>
-    <br/>
-    You have <%= notification.source_model.status %> the invitation
-<% end %>
+<%# if notification.source_model.pending? %>
+    <!--<div id="request-<%#= notification.source_model.id %>">-->
+      <%#= button_to "Accept", accept_admin_request_path(notification.source_model), form_class: "accept-request", class: "button round accept-button" %>
+      <%#= button_to "Reject", reject_admin_request_path(notification.source_model), form_class: "reject-request", class: "button round decline-button" %>
+    <!--</div>-->
+<%# else %>
+    <!--<br/>-->
+    <!--You have <%#= notification.source_model.status %> the invitation-->
+<%# end %>

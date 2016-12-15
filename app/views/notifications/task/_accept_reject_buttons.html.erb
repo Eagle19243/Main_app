@@ -1,0 +1,16 @@
+<div class="action-btns">
+  <% if notification.source_model.state == "suggested_task" %>
+      <a href="<%= accept_task_path(notification.source_model) %>" class="btn-notify">
+        <i class="fa fa-check"></i>&nbsp;&nbsp;Approve
+      </a>
+      <a href="<%=reject_task_path(notification.source_model)%>" remote='true' class="delete-notification btn-notify" title="Delete" notification-id="<%= notification.id %>">
+        <i class="fa fa-times"></i>&nbsp;&nbsp;Deny
+      </a>
+  <%end %>
+  <% if notification.source_model.state == "accepted" %>
+      <a href="#" class="btn-notify">
+        <i class="fa fa-check"></i>&nbsp;&nbsp;Accepted
+      </a>
+  <%end %>
+</div>
+
