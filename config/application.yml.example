@@ -4,6 +4,7 @@ bitgo_admin:
 mediawiki:
   secret:
   domain:
+  api_base_url:
   username:
   password:
 email_provider_username:
