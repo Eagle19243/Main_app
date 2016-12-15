@@ -69,12 +69,12 @@ class DoRequestsController < ApplicationController
         task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
         team = Team.find_or_create_by(project_id: @do_request.project_id)
         users_ids = team.team_memberships.collect(&:team_member_id)
-       if (!users_ids.include?(@do_request.user_id))
+        if (!users_ids.include?(@do_request.user_id))
           Groupmember.create(user_id: @do_request.user_id, chatroom_id: team.project.chatroom.id)
-       end
+        end
         membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id)
         #task.team_memberships.add(membership)
-        TaskMember.create(task_id: task.id, team_membership_id:membership.id )
+        TaskMember.create(task_id: task.id, team_membership_id: membership.id)
         flash[:success] = "Task has been assigned"
       else
         flash[:error] = "Task was not assigned to user"

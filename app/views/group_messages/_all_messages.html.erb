@@ -16,12 +16,14 @@
               <%= message.message %>
               <% if message.attachment? %>
                   <br>
-                  <%  if %w{jpg png jpg gif bmp}.include?( message.attachment.file.extension) %>
+                  <% if %w{jpg png jpg gif bmp}.include?(message.attachment.file.extension) %>
                       <%= image_tag message.attachment.url %>
-                      Download image: <%= link_to  message.attachment.file.filename, message.attachment.url , target: '_blank'%>
-                  <%else %>
-                      Download file: <%= link_to  message.attachment.file.filename, message.attachment.url , target: '_blank'%>
-                  <%end %>
+                      Download
+                      image: <%= link_to message.attachment.file.filename, message.attachment.url, target: '_blank' %>
+                  <% else %>
+                      Download
+                      file: <%= link_to message.attachment.file.filename, message.attachment.url, target: '_blank' %>
+                  <% end %>
                   <br>
                   <br>
               <% end %>
