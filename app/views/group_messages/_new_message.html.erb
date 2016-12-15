@@ -1,24 +1,30 @@
 </hr>
 <div class="row message">
-  <div class="small-1 columns">
+  <div class="message-sender">
     <a href="#">
       <% if @group_message.user.picture? %>
           <%= image_tag(@group_message.user.picture, class: "profile-image") %>
       <% else %>
-          <%= gravatar_for(@group_message.user, class: "profile-image") %>
+          <%= gravatar_for(@group_message.user, 35) %>
       <% end %>
-
     </a>
   </div>
-  <div class="small-11 columns message-content">
-    <span style="color: skyblue"><%= @group_message.user.try(:name) %></span>
+  <div class="message-content">
+    <div class="message-text"><%= @group_message.message %>
+      <% if @group_message.attachment? %>
+          <br>
+          <% if %w{jpg png jpg gif bmp}.include?(@group_message.attachment.file.extension) %>
+              <%= image_tag @group_message.attachment.url %>
+          <% else %>
+              Download
+              file: <%= link_to @group_message.attachment.file.filename, @group_message.attachment.url, target: '_blank' %>
+          <% end %>
+          <br>
+          <br>
+      <% end %>
+    </div>
+    <span class="name"><%= @group_message.user.try(:name) %></span>
     <span class="message-date"><%= time_ago_in_words(@group_message.created_at) %></span>
     <br>
-    <% if @group_message.attachment? %>
-
-    <%= image_tag  @group_message.attachment.url %>
-    <% end %>
-    <span><%= @group_message.message %>
-     </span>
   </div>
 </div>
