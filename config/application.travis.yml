@@ -4,7 +4,7 @@ bitgo_admin:
 mediawiki:
   secret: "3eab6c8832c64bf66904f38c9978801c3f0b5deb144ac262ccc9312e4f35c150"
   domain: ".weserve.io"
-  api_base_url: "http://wiki.weserve.io/api.php"
+  api_base_url: "http://wiki.weserve.io/"
   username: "WeServeBot"
   password: "q1w2e3r4"
 email_provider_username: "AKIAITT2AN4UF3XNSWGQ"
