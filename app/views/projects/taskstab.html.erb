@@ -547,13 +547,13 @@
   });
 
   // Compare revisions button click handler
-  $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
-    var revision = $(this).parents('.modal-revision-info').data('revision');
-    if (revision) {
-      $('#revisionsDiffModal').modal('hide');
-      showSourceEditor(revision);
-    }
-  });
+  // $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
+  //   var revision = $(this).parents('.modal-revision-info').data('revision');
+  //   if (revision) {
+  //     $('#revisionsDiffModal').modal('hide');
+  //     showSourceEditor(revision);
+  //   }
+  // });
 
   function populateModalRevisionInfo(revision_id, selector) {
     var revisionTr = $('#Revision tr[data-revision="' + revision_id + '"]');
@@ -562,9 +562,12 @@
     var rUserPic = $(revisionTr).data('revision-user-picture');
     var rUserLink = $(revisionTr).data('revision-user-link');
     var rUserId = $(revisionTr).data('revision-user-id');
+    var rEditLink = "<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>&oldid=" + revision_id;
 
     $(selector).data('revision', revision_id);
     $(selector).data('revision-user-id', rUserId);
+
+    $(selector).find('.modal-revision-edit-link').attr('href', rEditLink);
 
     $(selector).find('.modal-revision-title span').html(rDate);
     $(selector).find('.modal-revision-title span').html(rDate);
