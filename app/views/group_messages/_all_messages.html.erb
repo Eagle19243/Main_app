@@ -11,7 +11,9 @@
             </a>
           </div>
           <div class="message-content">
-            <div class="message-text"><%= message.message %></div>
+            <% unless message.message.blank? %>
+              <div class="message-text"><%= message.message %></div>
+            <% end %>
             <span class="name"><%= message.user.try(:name) %></span>
             <span class="message-date"><%= time_ago_in_words(message.created_at) %></span>
             <br>
@@ -30,5 +32,3 @@
       </div>
     </div>
 <% end %>
-
-

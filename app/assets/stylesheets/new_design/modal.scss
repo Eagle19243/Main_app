@@ -1192,3 +1192,31 @@ a.fund-model-popup {
 }
 
 
+#newTaskModal {
+  .modal-dialog {
+    width: 800px;
+  }
+
+  .modal-body {
+    padding: 15px 30px;
+
+    form {
+      .form-group {
+        label {
+          font-family: 'Libre Franklin';
+          font-size: 1em;
+          color: #000;
+          display: block;
+        }
+
+        .datetime.task_deadline {
+          select {
+            display: inline-block;
+            width: 18%;
+          }
+        }
+      }
+    }
+  }
+}
+
