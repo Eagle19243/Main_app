@@ -1,8 +1,9 @@
 bitgo_admin:
   api_address: "http://localhost:3080/api/v1"
-  access_token: "5bb0a9fbffb132ea88dc1fe2cf6b460d65258bc48134cefb13d83f0158b34e28"
+  access_token: "8fdd92e45ee7e7b2bfd6143992c5a5c26016412a8cffc4acf67e286039ab9ec6"
 mediawiki:
   secret: "ee71978fdfd5f21eeffca16fd31425129063678bb6bb6b90fda1b42c44704b14"
+  api_base_url: "http://wiki.weserve.io/api.php"
   username: Admin
   password: q1w2e3r4
 service_provider: "AWS"
