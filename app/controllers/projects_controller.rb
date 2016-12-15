@@ -16,9 +16,10 @@ class ProjectsController < ApplicationController
     if user_signed_in?
       if current_user.user_wallet_address.blank?
         current_user.assign_address
-      end
-      unless current_user.user_wallet_address.user_keys.blank?
-        @download_keys = true
+      else
+        unless current_user.user_wallet_address.user_keys.blank?
+          @download_keys = true
+        end
       end
     end
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
@@ -246,11 +247,14 @@ class ProjectsController < ApplicationController
     end
 
     @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
     @apply_requests = @project.apply_requests.pending.all
   end
 
   def revisions
     @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     respond_to do |format|
       format.js
@@ -489,6 +493,7 @@ class ProjectsController < ApplicationController
     #   #TODO create new session for mediawiki
     # end
     @contents = ''
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     if params[:rev]
       @revision_id = params[:rev]
