@@ -30,7 +30,9 @@
         <a class="dropdown-toggle" type="button" data-toggle="dropdown">
           <div class="badge-wrap">
             <i class="fa fa-bell-o" aria-hidden="true"></i>
-            <span class="count"><%= current_user.notifications.unread.count %></span>
+            <% if current_user.notifications.unread.count > 0 %>
+              <span class="count"><%= current_user.notifications.unread.count %></span>
+            <% end %>
           </div>
         </a>
         <ul class="dropdown-menu">
