@@ -15,9 +15,12 @@
           <br>
           <% if %w{jpg png jpg gif bmp}.include?(@group_message.attachment.file.extension) %>
               <%= image_tag @group_message.attachment.url %>
+              <br>
+              Download
+              image: <%= link_to @group_message.attachment.file.filename, group_messages_download_files_path(id: @group_message.id), target: '_blank' %>
           <% else %>
               Download
-              file: <%= link_to @group_message.attachment.file.filename, @group_message.attachment.url, target: '_blank' %>
+              file: <%= link_to @group_message.attachment.file.filename, group_messages_download_files_path(id: @group_message.id), target: '_blank' %>
           <% end %>
           <br>
           <br>

@@ -147,7 +147,7 @@
             <% end %>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
-                  Team<span class="count"><%=  @tasks_count %></span>
+                  Team<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
           </ul>
@@ -248,38 +248,40 @@
                 <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
 
                 <% if user_signed_in? %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-edit-wrapper pull-right">
-                      <% if @is_blocked == 0 %>
-                        <% if current_user.id == @project.user_id %>
-                          <button type="button" class="btn-edit" id="editSource">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                          </button>
+                    <div class="row margin-none mb20">
+                      <div class="btn-edit-wrapper pull-right">
+                        <% if @is_blocked == 0 %>
+                            <% if current_user.id == @project.user_id %>
+                                <button type="button" class="btn-edit" id="editSource">
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                                </button>
+                            <% else %>
+                                <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
+                                  <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
+                                </a>
+                            <% end %>
                         <% else %>
-                          <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
-                          </a>
+                            <!-- TODO: for blocked users -->
                         <% end %>
-                      <% else %>
-                        <!-- TODO: for blocked users -->
-                      <% end %>
 
-                      <% if current_user.is_admin_for?(@project)%>
-                        <button class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
-                      <% end %>
+                        <% if current_user.is_admin_for?(@project) %>
+                            <button class="btn-edit" onclick="projectImgEdit();">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
+                            </button>
+                        <% end %>
+                      </div>
                     </div>
-                  </div>
                 <% else %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-edit-wrapper pull-right">
-                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                      </a>
-                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
-                      </a>
+                    <div class="row margin-none mb20">
+                      <div class="btn-edit-wrapper pull-right">
+                        <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+                          <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                        </a>
+                        <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+                          <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
+                        </a>
+                      </div>
                     </div>
-                  </div>
                 <% end %>
 
                 <div class="clearfix"></div>
@@ -291,8 +293,8 @@
                   <strong>Project Idea: &nbsp;&nbsp;</strong>
                   <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
                   <% if user_signed_in? && current_user.id == @project.user_id %>
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
-                    <span id="str_length"></span>
+                      <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
+                      <span id="str_length"></span>
                   <% end %>
                 </div>
 
@@ -357,11 +359,11 @@
 
               <div class="requests col-md-7">
                 <% if current_user && current_user.is_admin_for?(@project) %>
-                  <% @apply_requests.find_each do |apply| %>
-                    <%= apply.user_name %> sent you <%= apply.request_type %> Request
-                    <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
-                    <%= link_to "Reject", reject_apply_request_path(apply), method: :post %>
-                  <% end %>
+                    <% @apply_requests.find_each do |apply| %>
+                        <%= apply.user_name %> sent you <%= apply.request_type %> Request
+                        <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
+                        <%= link_to "Reject", reject_apply_request_path(apply), method: :post %>
+                    <% end %>
                 <% end %>
               </div>
             </div>
@@ -531,7 +533,7 @@
     }
   });
 
-  $(document).on('click', '.block-user', function(e) {
+  $(document).on('click', '.block-user', function (e) {
     if ($(this).parent().parent().data("revision-user-id")) {
       $('#blockUserModal .modal-title a').attr('href', $(this).parent().parent().data("revision-user-link"));
       $('#blockUserModal .modal-title a').text($(this).parent().parent().data("revision-user"));

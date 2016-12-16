@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'group_messages/users_chat'
   post 'group_messages/one_to_one_chat'
   get 'group_messages/user_messaging'
+  get 'group_messages/download_files'
   get 'user_wallet_transactions/create_wallet'
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'

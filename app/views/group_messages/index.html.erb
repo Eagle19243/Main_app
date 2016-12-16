@@ -49,7 +49,7 @@
         <span data-toggle="modal" data-target="#searchUser"><i class="fa fa-plus"></i>&nbsp;&nbsp;Search for user</span>
       </div>
       <div id="display-user" style="width: 122%;height: 33px !important; margin-left: -20px; display: none ">
-        <%= form_tag(group_messages_search_user_path, :method => "get", id: "search-form") do %>
+        <%= form_tag(group_messages_search_user_path, :method => "get", remote: true, id: "search-form") do %>
             <%= text_field_tag :search, params[:search], class: "search-query", placeholder: "Find or Start a conversation", data: {autocomplete: autocomplete_user_name_group_messages_path, :id_element => '#some_element'} %>
         <% end %>
       </div>
@@ -106,6 +106,7 @@
     }
   });
   $('#search').bind('railsAutocomplete.select', function (event, data) {
-    window.location.href = '/group_messages/user_messaging?user_id=' + data.item.id
+    if (data.item.id != '')
+      window.location.href = '/group_messages/user_messaging?user_id=' + data.item.id
   });
 </script>

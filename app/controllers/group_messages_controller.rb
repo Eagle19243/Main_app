@@ -18,7 +18,8 @@ class GroupMessagesController < ApplicationController
   end
 
   def search_user
-    @users = User.all
+
+    @user = current_user
     if params[:search]
       @user = User.name_like("%#{params[:search]}%").order('name')
     else
@@ -71,8 +72,11 @@ class GroupMessagesController < ApplicationController
   end
 
   def user_messaging
+
     user = User.find(params[:user_id]) rescue nil
-    unless user.blank?
+    if user.blank?
+      redirect_to group_messages_path
+      else
       user_id = params[:user_id]
       chatroom = Chatroom.where("project_id is NULL AND ( (user_id = ? AND friend_id = ? ) OR ( user_id = ? AND friend_id = ?  ) )", current_user.id, user_id, user_id, current_user.id) rescue nil
       if chatroom.blank?
@@ -101,10 +105,10 @@ class GroupMessagesController < ApplicationController
       ids = ids + one_to_one_chatrooms.collect(&:friend_id)
       ids = ids.uniq
       @one_to_one_chat_users = User.find(ids)
-
+      render :index
     end
 
-    render :index
+
   end
 
   # GET /group_messages/new
@@ -138,6 +142,11 @@ class GroupMessagesController < ApplicationController
       @group_messages = GroupMessage.where(chatroom_id: @chatroom)
       respond_to :js
     end
+  end
+
+  def download_files
+    group_message = GroupMessage.find(params[:id])
+    send_file  group_message.attachment.path
   end
 
   def get_messages_by_room
