@@ -147,7 +147,7 @@
             <% end %>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
-                  Team<span class="count">12</span>
+                  Team<span class="count"><%=  @tasks_count %></span>
               <% end %>
             </li>
           </ul>
