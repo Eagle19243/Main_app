@@ -145,7 +145,7 @@ class GroupMessagesController < ApplicationController
   end
 
   def download_files
-    group_message = GroupMessage.find(params[:id])
+    group_message = GroupMessage.find(params[:id]) rescue nil
     send_file  group_message.attachment.path
   end
 
@@ -176,13 +176,17 @@ class GroupMessagesController < ApplicationController
 
   def create
     @group_message = GroupMessage.new(group_message_params)
-    @group_message.user_id = current_user.id
-    respond_to do |format|
-      if @group_message.save
-        format.json { render :show, status: :created, location: @group_message }
-        format.js
+    if (@group_message.message.blank? && @group_message.attachment.blank?)
+      @group_message = nil
       else
-        format.json { render json: @group_message.errors, status: :unprocessable_entity }
+      @group_message.user_id = current_user.id
+      respond_to do |format|
+        if @group_message.save
+          format.json { render :show, status: :created, location: @group_message }
+          format.js
+        else
+          format.json { render json: @group_message.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
