@@ -585,31 +585,24 @@ class ProjectsController < ApplicationController
     result = project.get_history
     @histories = []
 
-      if result
-        result.each do |r|
-          history                = Hash.new
-          history["revision_id"] = r["id"]
-          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-          history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
-          history["status"]      = r['status']
-          history["comment"]     = r['comment']
-          history["username"]    = r["author"]
-          history["is_blocked"]  = 0
+    if result
+      result.each do |r|
+        history                = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
+        history["status"]      = r['status']
+        history["comment"]     = r['comment']
+        history["username"]    = r["author"]
+        history["is_blocked"]  = r["is_blocked"]
 
-          result_block = @project.page_read history["username"]
-          if result_block
-            if result_block["status"] == 'success'
-              history["is_blocked"] = result_block["is_blocked"]
-            end
-          end
-
-          @histories.push(history)
-        end
-        return @histories
-      else
-        return []
+        @histories.push(history)
       end
+      return @histories
+    else
+      return []
     end
+  end
 
   # Fitler wiki page name regarding page title
   def filter_page_name title
