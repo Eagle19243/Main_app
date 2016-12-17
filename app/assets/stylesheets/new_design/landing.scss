@@ -7,7 +7,7 @@
   margin: 0;
   background-color: #fff;
   border-bottom: 2px solid #eee;
-  
+  z-index: 4;
 
   a:hover,
   a:focus {
@@ -78,6 +78,7 @@
   position: relative;
   display: block;
   width: 100%;
+  margin: 0;
 
   a:hover,
   a:focus {
@@ -92,6 +93,8 @@
     display: block;
     width: 100%;
     position: relative;
+    z-index: 4;
+    background-color: #fff;
 
     img {
       width: 100%;
@@ -165,6 +168,7 @@
     width: 100%;
     position: relative;
     background-color: #efefef;
+    z-index: 4;
 
     .hiw-text {
       display: inline-block;
@@ -227,10 +231,13 @@
 
       .carousel-item {
         display: block;
-        position: relative;
+        position: absolute;
+        top: 0;
+        right: 0;
         width: 100%;
         height: 50vw;
         min-height: 350px;
+        background-color: #fff;
 
         img {
           width: auto;
@@ -338,6 +345,7 @@
     position: relative;
     background-color: #efefef;
     text-align: center;
+    z-index: 4;
 
     .wwd-text {
       display: inline-block;
