@@ -1,0 +1,54 @@
+<div id="newTaskModal" class="modal fade new-task-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h2 class="modal-title sign_up_show">Create New Task</h2>
+      </div>
+
+      <div class="modal-body">
+        <%= simple_form_for(Task.new) do |f| %>
+          <%= f.error_notification %>
+
+          <%= render 'shared/error_messages', object: f.object %>
+
+          <div class="form-inputs">
+            <div class="form-group">
+              <%= f.input :title, class: '', required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :short_description, required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :description, required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :budget, required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :condition_of_execution, required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :proof_of_execution, required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :deadline, :ampm => true, required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.input :target_number_of_participants, required: true %>
+            </div>
+
+            <%= f.hidden_field :project_id, value: @project.id %>
+          </div>
+
+          <div class="form-actions text-right">
+            <%= f.button :submit, class: 'btn-default-weserve' %>
+          </div>
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206220312) do
+ActiveRecord::Schema.define(version: 20161210155337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20161206220312) do
 
   add_index "admin_requests", ["project_id"], name: "index_admin_requests_on_project_id", using: :btree
   add_index "admin_requests", ["user_id"], name: "index_admin_requests_on_user_id", using: :btree
+
+  create_table "apply_requests", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.integer  "request_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.datetime "accepted_at"
+    t.datetime "rejected_at"
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.integer  "task_id"

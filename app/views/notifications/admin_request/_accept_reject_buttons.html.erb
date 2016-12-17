@@ -1,0 +1,18 @@
+<div class="action-btns">
+  <% if notification.source_model.pending? %>
+      <div id="request-<%= notification.source_model.id %>">
+        <%= button_to accept_admin_request_path(notification.source_model), form_class: "accept-request", class: "btn-notify", id: 'notification_button' do %>
+            <i class="fa fa-check"></i>&nbsp;&nbsp;Approve
+        <% end %>
+        <%= button_to reject_admin_request_path(notification.source_model), form_class: "reject-request", class: "btn-notify", id: 'notification_button' do %>
+            <i class="fa fa-times"></i>&nbsp;&nbsp;Deny
+        <% end %>
+      </div>
+  <% else %>
+      <a href="#" class="btn-notify">
+        <i class="fa fa-check"></i>&nbsp;&nbsp;Accepted
+      </a>
+      <br/>
+      You have <%= notification.source_model.status %> the invitation
+  <% end %>
+</div>

@@ -1,18 +1,15 @@
 <script>
-  $(document).ready(function(){
-    $("#user-search").click(function(){
+  $(document).ready(function () {
+    $("#user-search").click(function () {
       $("#display-user").toggle();
     });
   });
 </script>
-
 <div class="row group-messages-wrapper margin-none">
-
   <div class="group-messages-nav" id="messages-nav">
     <div class="messages-nav-title">
       Team Messages
     </div>
-
     <div class="messages-menu">
       <div class="messages-submenu">
         <!-- <div class="submenu-title">
@@ -33,7 +30,6 @@
           <% end %>
         </ul>
       </div>
-
       <div class="messages-submenu" id="chatrooms_id">
         <div class="submenu-title">
           <span class="menu-subtitle">DIRECT MESSAGES</span>
@@ -48,31 +44,24 @@
         <ul class="circle" id="project-team-members">
           <%= render 'group_messages/one_to_one_members' %>
         </ul>
-
       </div>
-
       <div class="search-users" id="user-search">
         <span data-toggle="modal" data-target="#searchUser"><i class="fa fa-plus"></i>&nbsp;&nbsp;Search for user</span>
       </div>
       <div id="display-user" style="width: 122%;height: 33px !important; margin-left: -20px; display: none ">
         <%= form_tag(group_messages_search_user_path, :method => "get", id: "search-form") do %>
             <%= text_field_tag :search, params[:search], class: "search-query", placeholder: "Find or Start a conversation", data: {autocomplete: autocomplete_user_name_group_messages_path, :id_element => '#some_element'} %>
-        <%end%>
+        <% end %>
       </div>
-
     </div>
   </div>
-
   <div class="group-messages-content" id="page-message-content">
-  
     <div id="chat-name">
       <%= render partial: 'group_messages/chatroom_info', locals: {chat_id: @chatroom} %>
     </div>
-
     <div id="messages">
       <%= render 'group_messages/all_messages' %>
     </div>
-
     <div id='message-form-div'>
       <% unless @chatroom.blank? %>
           <%= render 'group_messages/form' %>
@@ -82,32 +71,30 @@
     </div>
   </div>
 </div>
-
-<script>
+<script type="text/javascript">
   function load_messages() {
     var chatroom_id = $("#group_message_chatroom_id").val();
-    $.ajax({
-      url: "/group_messages/load_group_messages",
-      type: "post",
-      data: {id: chatroom_id},
-      success: function () {
-        $('#messages').scrollTop(1E10)
-      }
-    });
+    if (chatroom_id != undefined) {
+      $.ajax({
+        url: "/group_messages/load_group_messages",
+        type: "post",
+        data: {id: chatroom_id},
+        success: function () {
+          $('#messages').scrollTop(1E10)
+        }
+      });
+    }
   }
-</script>
-<script type="text/javascript">
   $(document).ready(function () {
     $.ajaxSetup({cache: false});
     window.setInterval(function () {
       load_messages();
-    }, 3000);
+    }, 5000);
     $(".projects-chat").click(function () {
       project_id = $(this).attr('id')
       $("div#message-load-image").show();
       callAjax(project_id);
     });
-
     function callAjax(project_id) {
       $.ajax({
         url: "/group_messages/get_messages_by_room",
@@ -118,16 +105,7 @@
       });
     }
   });
-
-$('#search').bind('railsAutocomplete.select', function(event, data){
-      window.location.href = '/group_messages/user_messaging?user_id=' + data.item.id
-});
+  $('#search').bind('railsAutocomplete.select', function (event, data) {
+    window.location.href = '/group_messages/user_messaging?user_id=' + data.item.id
+  });
 </script>
-
-
-
-
-
-
-
-

@@ -192,12 +192,13 @@ h2:before {
 }
 
 .btn-default-weserve {
-  background-color: #fff;
+  background-color: #fff !important;
   color: #000;
 
   &:hover,
   &:focus {
     background-color: #fff;
+    border: 2px solid #000;
     color: #000;
   }
 }
@@ -209,8 +210,13 @@ h2:before {
   &:hover,
   &:focus {
     background-color: #000;
+    border: 2px solid #000;
     color: #fff;
   }
 }
 
+
+.position-relative {
+  position: relative;
+}
 

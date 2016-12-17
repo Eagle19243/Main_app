@@ -100,9 +100,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.11.1)
-      capybara (>= 2.3.0, < 2.8.0)
-      json
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -116,6 +113,7 @@ GEM
       coffee-rails (>= 3.2)
       railties (>= 3.0)
       sass-rails (>= 3.2)
+    cliver (0.3.2)
     cocoon (1.2.9)
     code_analyzer (0.4.7)
       sexp_processor
@@ -140,11 +138,14 @@ GEM
     country_select (2.5.2)
       countries (~> 1.2.0)
       sort_alphabetical (~> 1.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     css_parser (1.2.6)
       addressable
       rdoc
     currencies (0.4.2)
     dalli (2.7.6)
+    database_cleaner (1.5.3)
     deadweight (0.2.2)
       css_parser (~> 1.2.6)
       nokogiri
@@ -179,6 +180,7 @@ GEM
     firebase_token_generator (2.0.0)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
+    fivemat (1.3.2)
     flay (2.8.1)
       erubis (~> 2.7.0)
       path_expander (~> 1.0)
@@ -324,6 +326,7 @@ GEM
       activesupport (>= 4.1.0)
     gravatar_image_tag (1.2.0)
     groupify (0.8.0)
+    hashdiff (0.3.1)
     hashie (3.4.6)
     high_voltage (3.0.0)
     highline (1.7.8)
@@ -367,6 +370,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -425,6 +429,10 @@ GEM
       multi_json (~> 1.0)
       xml-simple
     pg (0.19.0)
+    poltergeist (1.12.0)
+      capybara (~> 2.1)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
     pp-adaptive (1.0.0)
       json
@@ -434,6 +442,12 @@ GEM
     progress_bar (1.0.5)
       highline (~> 1.6)
       options (~> 2.3.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
     public_suffix (2.0.4)
     puma (3.6.2)
     quiet_assets (1.1.0)
@@ -546,6 +560,7 @@ GEM
       ruby_parser (~> 3.8)
       virtus (~> 1.0)
     rufus-scheduler (3.2.2)
+    safe_yaml (1.0.4)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -557,6 +572,7 @@ GEM
     simple_form (3.3.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
+    slop (3.6.0)
     social-share-button (0.8.5)
       coffee-rails
       sass-rails
@@ -564,6 +580,8 @@ GEM
       unicode_utils (>= 1.2.2)
     spring (2.0.0)
       activesupport (>= 4.2)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     sprockets (3.7.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -610,6 +628,7 @@ GEM
     uniform_notifier (1.10.0)
     validates_timeliness (4.0.2)
       timeliness (~> 0.3.7)
+    vcr (3.0.3)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -622,6 +641,13 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    webmock (2.3.1)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
+    websocket-driver (0.6.4)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
     xml-simple (1.1.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -646,7 +672,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano3-puma
-  capybara-webkit
+  capybara
   carrierwave (~> 0.9)
   carrierwave-crop
   chosen-rails
@@ -655,6 +681,7 @@ DEPENDENCIES
   colored
   country_select
   dalli
+  database_cleaner
   deadweight
   devise
   differ
@@ -662,6 +689,7 @@ DEPENDENCIES
   faker
   figaro
   firebase_token_generator
+  fivemat
   fog
   font-awesome-rails
   foundation-datetimepicker-rails
@@ -689,8 +717,10 @@ DEPENDENCIES
   paranoia (~> 2.0)
   paypal-sdk-adaptivepayments
   pg
+  poltergeist
   pp-adaptive
   progress_bar
+  pry-rails
   puma
   quiet_assets
   rack-mini-profiler
@@ -709,6 +739,7 @@ DEPENDENCIES
   simple_form
   social-share-button
   spring
+  spring-commands-rspec
   sqlite3
   sunspot_rails
   sunspot_solr
@@ -718,7 +749,9 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   validates_timeliness (~> 4.0)
+  vcr
   web-console (~> 2.0)
+  webmock
   zeroclipboard-rails
 
 RUBY VERSION

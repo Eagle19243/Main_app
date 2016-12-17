@@ -170,7 +170,7 @@
             <% if user_signed_in? %>
                 <% if @project.user_id == current_user.id %>
                     <li>
-                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
+                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none tab-revisions ", onclick: "openTab(event, 'Revision')" do %>
                           Revisions<span class="count"><%= @histories.count %></span>
                       <% end %>                  </li>
                 <% end %>
@@ -257,12 +257,13 @@
             </div>
 
             <div class="btn-wiki-wrapper pull-right plan-hide">
-              <a href="http://wiki.weserve.io/index.php?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
+              <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                 Visual Editor
               </a>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -275,40 +276,54 @@
                 <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
 
                 <% if user_signed_in? %>
-                    <div class="row margin-none mb20">
-                      <div class="btn-wrapper pull-right">
+                  <div class="row margin-none mb20">
+                    <div class="btn-edit-wrapper pull-right">
+                      <% if @is_blocked == 0 %>
                         <% if current_user.id == @project.user_id %>
-                            <button type="button" class="btn-edit" id="editSource">
-                              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                            </button>
+                          <button type="button" class="btn-edit" id="editSource">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                          </button>
                         <% else %>
-                            <a href="http://wiki.weserve.io/index.php?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go
-                              to Visual Editor</a>
+                          <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
+                          </a>
                         <% end %>
-                      </div>
-                      <% if current_user.is_admin_for?(@project) %>
-                          <div class="btn-wrapper pull-right">
-                            <button class="btn-edit" onclick="projectImgEdit();">
-                              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
-                            </button>
-                          </div>
+                      <% else %>
+                        <!-- TODO: for blocked users -->
+                      <% end %>
+
+                      <% if current_user.is_admin_for?(@project)%>
+                        <button class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
                       <% end %>
                     </div>
+                  </div>
+                <% else %>
+                  <div class="row margin-none mb20">
+                    <div class="btn-edit-wrapper pull-right">
+                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                      </a>
+                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
+                      </a>
+                    </div>
+                  </div>
                 <% end %>
-              </div>
 
-              <div class="clearfix"></div>
-              <div class="project-summary">
-                <%= @contents.html_safe %>
-              </div>
+                <div class="clearfix"></div>
+                <div class="project-summary">
+                  <%= @contents.html_safe %>
+                </div>
 
-              <div class="project-idea">
-                <strong>Project Idea: &nbsp;&nbsp;</strong>
-                <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-                <% if user_signed_in? && current_user.id == @project.user_id %>
+                <div class="project-idea">
+                  <strong>Project Idea: &nbsp;&nbsp;</strong>
+                  <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
+                  <% if user_signed_in? && current_user.id == @project.user_id %>
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
                     <span id="str_length"></span>
-                <% end %>
+                  <% end %>
+                </div>
+
               </div>
 
               <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
@@ -367,6 +382,16 @@
 
                 </div>
               </div>
+
+              <div class="requests col-md-7">
+                <% if current_user && current_user.is_admin_for?(@project) %>
+                  <% @apply_requests.find_each do |apply| %>
+                    <%= apply.user_name %> sent you <%= apply.request_type %> Request
+                    <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
+                    <%= link_to "Reject", reject_apply_request_path(apply), method: :post %>
+                  <% end %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
@@ -381,7 +406,7 @@
         <% if user_signed_in? %>
             <% if current_user.id == @project.user_id %>
                 <div id="Revision" class="tabcontent">
-                  <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project} %>
+                  <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project, mediawiki_api_base_url: @mediawiki_api_base_url} %>
                 </div>
             <% end %>
         <% end %>
@@ -398,12 +423,14 @@
 
 <%= render "projects/source_edit" %>
 
-<%= render "modal/edit_project_modal" %>
 <%= render "modal/task_fund_modal" %>
 <%= render "modal/task_do_modal" %>
 <%= render "modal/project_invite_modal" %>
+<%= render "modal/edit_project_modal" %>
 
 <%= render "modal/revisions_diff_modal" %>
+<%= render "modal/block_user_modal" %>
+<%= render "modal/new_task_modal" %>
 
 <script>
   window.onload = function () {
@@ -432,47 +459,6 @@
   <% end %>
 </script>
 
-<script type="text/javascript">
-  $(document).ready(function () {
-    document.getElementById("loading-mask1").style.display = "none";
-
-    $("#send-project-email").submit(function () {
-      $('#response').empty();
-      $('#response').html("loading...")
-    });
-
-    $("#send-project-email-button").click(function () {
-      $('#response').empty();
-    });
-
-    $('.btn_movecard').click(function () {
-      var loading = document.getElementById('loading-mask1');
-      loading.style.display = "block";
-      //  $("#loading-mask1").show();
-    });
-
-    $("#inviteclose").click(function () {
-      $('#response').empty();
-      $('#response-failure').empty();
-      $("#response-success");
-      $("#guest-email").val("");
-    });
-
-    $("#guest-email").keyup(function () {
-      $('#response').empty();
-      $('#response-failure').empty();
-      $("#response-success");
-    });
-    // $('#invite-people-on-project').click(function(){
-    //   var modalteam = document.getElementById('Project-Invite-Model');
-    //   modalteam.style.display = "block";
-    // });
-    // var project_span_team= document.getElementById("inviteclose");
-    // project_span_team.onclick = function() {
-    //   modalteam.style.display = "none";
-    // }
-  });
-</script>
 
 <script type="text/javascript">
   $('.best_in_place').on("input", function () {
@@ -494,7 +480,6 @@
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
   }
-  ;
 
   function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
@@ -531,6 +516,7 @@
       openTab({
         'currentTarget': $('.tab-revisions').get(0)
       }, 'Revision');
+
     } else {
       showSourceEditor();
     }
@@ -574,14 +560,28 @@
     }
   });
 
-  // Compare revisions button click handler
-  $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
-    var revision = $(this).parents('.modal-revision-info').data('revision');
-    if (revision) {
-      $('#revisionsDiffModal').modal('hide');
-      showSourceEditor(revision);
+  $(document).on('click', '.block-user', function(e) {
+    if ($(this).parent().parent().data("revision-user-id")) {
+      $('#blockUserModal .modal-title a').attr('href', $(this).parent().parent().data("revision-user-link"));
+      $('#blockUserModal .modal-title a').text($(this).parent().parent().data("revision-user"));
+    } else {
+      $('#blockUserModal .modal-title a').attr('href', '#');
+      $('#blockUserModal .modal-title a').text('Anonymous');
     }
+
+    $('#blockUserModal .modal-body-block-user a').attr('href', "/projects/<%= @project.id %>/block_user?username=" + $(this).parent().parent().data("revision-username"))
+
+    $('#blockUserModal').modal('show');
   });
+
+  // Compare revisions button click handler
+  // $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
+  //   var revision = $(this).parents('.modal-revision-info').data('revision');
+  //   if (revision) {
+  //     $('#revisionsDiffModal').modal('hide');
+  //     showSourceEditor(revision);
+  //   }
+  // });
 
   function populateModalRevisionInfo(revision_id, selector) {
     var revisionTr = $('#Revision tr[data-revision="' + revision_id + '"]');
@@ -590,9 +590,12 @@
     var rUserPic = $(revisionTr).data('revision-user-picture');
     var rUserLink = $(revisionTr).data('revision-user-link');
     var rUserId = $(revisionTr).data('revision-user-id');
+    var rEditLink = "<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>&oldid=" + revision_id;
 
     $(selector).data('revision', revision_id);
     $(selector).data('revision-user-id', rUserId);
+
+    $(selector).find('.modal-revision-edit-link').attr('href', rEditLink);
 
     $(selector).find('.modal-revision-title span').html(rDate);
     $(selector).find('.modal-revision-title span').html(rDate);
@@ -607,6 +610,8 @@
 
     $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
     $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
+
+    $(selector).find('.modal-revision-user .modal-revision-user-message').attr('href', "/group_messages/user_messaging?user_id=" + rUserId);
   }
 
   function showSourceEditor(revision_id) {
@@ -713,7 +718,7 @@
       var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
       // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
       var origin = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-      $.get('http://wiki.weserve.io/api.php?action=compare&fromrev=' + selectedRevs[0] + '&torev=' + selectedRevs[1] + '&format=json&origin=' + origin, function (data) {
+      $.get('<%= @mediawiki_api_base_url %>api.php?action=compare&fromrev=' + selectedRevs[0] + '&torev=' + selectedRevs[1] + '&format=json&origin=' + origin, function (data) {
         var $diffTable = $('<table>' + data.compare['*'] + '</table>');
         // We will receive table contents from API, so wrap it into table
         $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);

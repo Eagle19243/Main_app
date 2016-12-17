@@ -17,23 +17,23 @@
           <%= f.error_notification %>
 
           <div class="form-group">
-            <%= f.label :title, error: 'Username is mandatory, please specify one' %>
-            <%= f.text_field :title, class: 'form-control', id: 'title-field' %>
+            <%= f.label :title, "*Title", error: 'Username is mandatory, please specify one' %>
+            <%= f.text_field :title, class: 'form-control', id: 'title-field', required: true %>
           </div>
 
           <div class="form-group">
-            <%= f.label :short_description, "Idea" %>
-            <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'form-control', required: 'true' %>
+            <%= f.label :short_description, "*Idea", error: 'Username is mandatory, please specify one' %>
+            <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'form-control', required: true %>
           </div>
 
           <div class="form-group">
-            <%= f.label :country, "Location (Where is project located?)" %>
-            <%= f.text_field :country, id: 'country-field', class: 'form-control' %>
+            <%= f.label :country, "*Location (Where is project located?)" %>
+            <%= f.text_field :country, id: 'country-field', class: 'form-control', required: true %>
             <i class="fa fa-map-marker" aria-hidden="true"></i>
           </div>
 
           <div class="form-group">
-            <%= f.label :Project_Image %>
+            <%= f.label :Project_Image, "*Project Image" %>
             <%= f.file_field :picture, required: true, id: 'upload_button', class: 'btn btn-primary' %>
           </div>
 

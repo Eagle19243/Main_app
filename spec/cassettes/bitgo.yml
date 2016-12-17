@@ -1,0 +1,249 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3080/api/v1/ping
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.0 (darwin16.1.0 x86_64) ruby/2.3.1p112
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Date:
+      - Tue, 13 Dec 2016 11:52:09 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Set-Cookie:
+      - AWSELB=75BB19411EBBBEAEF3CAAE775E741DEE0D9822E95CCBABC95F4CEE710E983FE066FEB1E8AF68FA7FA12CC0C31A4332E6918ABD4F9BDF06113D98ACA06207EF516D05E9ACD6;PATH=/;MAX-AGE=300
+      - __cfduid=d31b47a12ea780e98e8f33fea5635a6da1481629929; expires=Wed, 13-Dec-17
+        11:52:09 GMT; path=/; domain=.bitgo.com; HttpOnly
+      - bgAbTest.sig=wlD-4UkbiYRH8YUdLd6Enhibkko; path=/
+      - bgAbTest=eyJjaWQiOiJjZDk2NjkxNS01ODY2LTQ0MGItYmQ4ZS04NTA2M2VmMmU3NDIifQ==;
+        path=/
+      Access-Control-Allow-Headers:
+      - content-type, authorization, signature, timestamp
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate, no-cache="set-cookie"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=0; includeSubDomains; preload
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 310935521d4e4e2a-DME
+    body:
+      encoding: ASCII-8BIT
+      string: '{"status":"service is ok!","environment":"BitGo","configEnv":"production_www","configVersion":0}'
+    http_version: 
+  recorded_at: Tue, 13 Dec 2016 11:52:09 GMT
+- request:
+    method: post
+    uri: http://localhost:3080/api/v1/wallets/simplecreate
+    body:
+      encoding: UTF-8
+      string: '{"passphrase":"surripere","label":"ff7d5db8a4"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer BITGO_ACCESS_TOKEN
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '2823'
+      Etag:
+      - W/"b07-/zEBWmTqJwDYlIvwWbF+1w"
+      Date:
+      - Tue, 13 Dec 2016 11:52:13 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"wallet":{"_id":"584fe0ec1577f155088b1d916936e871","id":"38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV","label":"ff7d5db8a4","isActive":true,"type":"safehd","freeze":{},"adminCount":1,"disableTransactionNotifications":false,"private":{"keychains":[{"xpub":"xpub661MyMwAqRbcGPekNeHXzygGoAsMNamXBQiyTNjSNp29K3k45S5PUE6ykPVFUj3fq2JbMmpFQnbVqQUj6bec3eaEgSNd4H7uDCK1EpAYY7f","path":"/0/0","params":{"pubKey":"026ce7bff61e3b1a2c113ddbb06919b5164beb3ce6dc691f8e15e14e00a9d38d44","chainCode":"b9ac8d1f9cf117b2f86c487cbfbd0a6feffde9dcf62c03a0478a6d75c7382324","depth":0,"index":0,"parentFingerprint":0}},{"xpub":"xpub661MyMwAqRbcGfRzVVYNKoPxTkb8h2hdZmBPjo9kJMvQemPFUh1K6rNaNZVBMiNmbkvjdjgDYa7SVYsECsZYqtF1KkgTti6d8EqPLEEEgJ4","path":"/0/0","params":{"pubKey":"029d3613f1ca6bb47137ada38dd486abb7cd24f31c021a869536f336e325a157cf","chainCode":"d5004d62fbf48ecf3bd796364b8a27051985dcf6a7a439ccf4d7b2af33626982","depth":0,"index":0,"parentFingerprint":0}},{"xpub":"xpub661MyMwAqRbcGsVZpTKDVFLQ7DXBYnFqt2EVghTrMR6QGq2v5emwamCZVEutAPdYfexfcBFotSqCMWbqrxJu6wdw6bfbSAwVL4vAgRUucWg","path":"/0/0","params":{"pubKey":"0337eb1c0cd059bc44fa7af07cb522f579bdd6d91b009f36a08ce666a2a1cf5d02","chainCode":"e9e3916955cf61c2155d4496c9887503660abca1916502bcc4284094df44d063","depth":0,"index":0,"parentFingerprint":0}}]},"permissions":"admin,spend,view","spendingAccount":true,"pendingApprovals":[],"balance":0,"instantBalance":0,"spendableConfirmedBalance":0,"confirmedBalance":0,"spendableBalance":0,"sent":0,"received":0,"unconfirmedSends":0,"unconfirmedReceives":0},"userKeychain":{"xpub":"xpub661MyMwAqRbcGPekNeHXzygGoAsMNamXBQiyTNjSNp29K3k45S5PUE6ykPVFUj3fq2JbMmpFQnbVqQUj6bec3eaEgSNd4H7uDCK1EpAYY7f","xprv":"xprv9s21ZrQH143K3uaHGckXdqjYF92ry83fpBoNezKppUVASFQuXtm8vRnVu8dX9dEYeLc4mhrEyCFm9iNPXQoyjkSPZmrb9LpAEEUoNX4a6jf","ethAddress":"0x5575879c04d6ec11733605597b4c73abf12d0f9d","encryptedXprv":"{\"iv\":\"t1W/PJ9KOH1u/qTaQTNGPg==\",\"v\":1,\"iter\":10000,\"ks\":256,\"ts\":64,\"mode\":\"ccm\",\"adata\":\"\",\"cipher\":\"aes\",\"salt\":\"qk8hrlEiMe4=\",\"ct\":\"c7lbOGtroMPaljldzL3ho24HiMgqBxjltRnLRg9jZDXwArKrHSOCaDPDc9Wq9R8EEN87Rw9NJ4/hPnE+eo9vPG7OrD2Rpc0eGwfC319hjJuCwBWsT922+GosjQ8edZ1NtX2judGMCoEU77W9opQU/y+aoac2Xk8=\"}"},"backupKeychain":{"xpub":"xpub661MyMwAqRbcGfRzVVYNKoPxTkb8h2hdZmBPjo9kJMvQemPFUh1K6rNaNZVBMiNmbkvjdjgDYa7SVYsECsZYqtF1KkgTti6d8EqPLEEEgJ4","xprv":"xprv9s21ZrQH143K4BMXPU1MxfTDuikeHZynCYFnwQk8k2PRmy46w9h4Z446XK9tduAr1hj7meEbPB8U4Pr5dkZ8jgqJru1Tt6eAWMjmLiTdNrr","ethAddress":"0x9e9785b0ecd8a281c95a6915fe3610722f347a35"},"bitgoKeychain":{"xpub":"xpub661MyMwAqRbcGsVZpTKDVFLQ7DXBYnFqt2EVghTrMR6QGq2v5emwamCZVEutAPdYfexfcBFotSqCMWbqrxJu6wdw6bfbSAwVL4vAgRUucWg","ethAddress":"0x4ad62313e391263588b426f0087482f339a52fab","isBitGo":true,"path":"m"},"warning":"Be
+        sure to backup the backup keychain -- it is not stored anywhere else!"}'
+    http_version: 
+  recorded_at: Tue, 13 Dec 2016 11:52:13 GMT
+- request:
+    method: post
+    uri: http://localhost:3080/api/v1/wallet/38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV/address/0
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer BITGO_ACCESS_TOKEN
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Date:
+      - Tue, 13 Dec 2016 11:52:13 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Set-Cookie:
+      - AWSELB=75BB19411EBBBEAEF3CAAE775E741DEE0D9822E95CBEFFC4EE0E49EEB2513BC9FC6D726CAD33B8A4B009FAD02AEC07E7DC8D3F8885E3E38A1E2F3E025C4F8FD9E17D00F8A7;PATH=/;MAX-AGE=300
+      - __cfduid=dfab7b7b119fd9f1fe2465567dcd627771481629933; expires=Wed, 13-Dec-17
+        11:52:13 GMT; path=/; domain=.bitgo.com; HttpOnly
+      - bgAbTest.sig=R-C1-W4eELgk5BOJyMG9YscEeQc; path=/
+      - bgAbTest=eyJjaWQiOiJhY2FjYjA3NS0wYmE2LTRiNTgtYmFhMS03YTEzMDc3MDViYzYifQ==;
+        path=/
+      Access-Control-Allow-Headers:
+      - content-type, authorization, signature, timestamp
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate, no-cache="set-cookie"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=0; includeSubDomains; preload
+      Vary:
+      - X-HTTP-Method-Override, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3109356b2b1d4ee4-DME
+    body:
+      encoding: ASCII-8BIT
+      string: '{"address":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","chain":0,"index":1,"path":"/0/1","redeemScript":"5221033a310b96167035e32e2b1b51a008dd5012fe8bcae050697047aea93505d0009a2102badb75a836b07fe48d212f19cb53cd91da50600d8d9fa62af95c643002dfc6052102a71e4b834eaa128ecdf9f633091b49972ea69f479de63b7ffd7b7ad2a9d9579d53ae","wallet":"38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV"}'
+    http_version: 
+  recorded_at: Tue, 13 Dec 2016 11:52:13 GMT
+- request:
+    method: post
+    uri: http://localhost:3080/api/v1/wallet/38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV/address/1
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer BITGO_ACCESS_TOKEN
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Date:
+      - Tue, 13 Dec 2016 11:52:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Set-Cookie:
+      - AWSELB=75BB19411EBBBEAEF3CAAE775E741DEE0D9822E95C64EA53497C159E3DA1CAA39B1B79B82333B8A4B009FAD02AEC07E7DC8D3F888509C9C57357E1728103CBCB65D0328AA7;PATH=/;MAX-AGE=300
+      - __cfduid=dce1029c240cac977bb50c16961882f541481629933; expires=Wed, 13-Dec-17
+        11:52:13 GMT; path=/; domain=.bitgo.com; HttpOnly
+      - bgAbTest.sig=huQOU-v28qiLpz9Sf2Nk5m4WM84; path=/
+      - bgAbTest=eyJjaWQiOiIxOGYxYTkyYy0yMjZhLTQxMjItYmYyZS0zNGZmMWFhYTIwZWYifQ==;
+        path=/
+      Access-Control-Allow-Headers:
+      - content-type, authorization, signature, timestamp
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate, no-cache="set-cookie"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=0; includeSubDomains; preload
+      Vary:
+      - X-HTTP-Method-Override, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 3109356eedc44f38-DME
+    body:
+      encoding: ASCII-8BIT
+      string: '{"address":"39ixPRpp3JxwEJQ86Z15KKZ1AEzV3JxBpD","chain":1,"index":0,"path":"/1/0","redeemScript":"522102dba1ab639fd949c17ee80f6f15a5f4090ff2279f3bee9e9c16a3ea60f115490f210296e409d5d510b9b3eecc15ed3682ab778dd2fde0d50e2df01d29f0d2bc6a364f2103c800391214d8d4e72f608a5d078971c16081a68ec7b84238026d571088eb7ea653ae","wallet":"38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV"}'
+    http_version: 
+  recorded_at: Tue, 13 Dec 2016 11:52:14 GMT
+recorded_with: VCR 3.0.3

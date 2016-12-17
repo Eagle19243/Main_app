@@ -1,20 +1,25 @@
 class ProjectsController < ApplicationController
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure]
+
+  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user]
+
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision]
+  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
+  before_filter :authenticate_user!, only: [:contacts_callback]
+
   # skip_authorization_check []
 
   def index
     if user_signed_in?
       if current_user.user_wallet_address.blank?
         current_user.assign_address
-      end
-      unless current_user.user_wallet_address.user_keys.blank?
-        @download_keys = true
+      else
+        unless current_user.user_wallet_address.user_keys.blank?
+          @download_keys = true
+        end
       end
     end
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
@@ -152,21 +157,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    # @comments = @project.project_comments.all
-    # @proj_admins_ids = @project.proj_admins.ids
-    # @followed = false
-    # @current_user_id = 0
-    # @rate = @project.rate_avg
-    # if user_signed_in?
-    #   @followed = @project.followers.pluck(:id).include? current_user.id
-    #   @current_user_id = current_user.id
-    #   @change_leader_invitation = @project.change_leader_invitations.pending.where(new_leader: current_user.email).first
-    # end
-    # respond_to do |format|
-    #   format.html
-    #   format.js {render(layout: false)}
-    # end
-
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -243,18 +233,28 @@ class ProjectsController < ApplicationController
     # @reviewing_tasks = tasks.where(state: "reviewing").all
     # @done_tasks = tasks.where(state: "completed").all
     @contents = ''
-    result = @project.page_read
+    @is_blocked = 0
+    if current_user
+      result = @project.page_read current_user.username
+    else
+      result = @project.page_read nil
+    end
     if result
       if result["status"] == 'success'
         @contents = result["html"]
+        @is_blocked = result["is_blocked"]
       end
     end
 
     @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
+    @apply_requests = @project.apply_requests.pending.all
   end
 
   def revisions
     @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     respond_to do |format|
       format.js
@@ -268,6 +268,16 @@ class ProjectsController < ApplicationController
       @project.unapprove_revision params[:rev]
     end
 
+    redirect_to taskstab_project_path(@project.id)
+  end
+
+  def block_user
+    @project.block_user params[:username]
+    redirect_to taskstab_project_path(@project.id)
+  end
+
+  def unblock_user
+    @project.unblock_user params[:username]
     redirect_to taskstab_project_path(@project.id)
   end
 
@@ -430,7 +440,7 @@ class ProjectsController < ApplicationController
     if @project.accept!
       activity = current_user.create_activity(@project, 'accepted')
       activity.user_id = current_user.id
-      @project.user.update_attribute(:role, 'manager');
+      @project.user.update_attribute(:role, 'manager')
       #Change all pending projects for user
       flash[:success] = "Project Request accepted"
     else
@@ -451,6 +461,24 @@ class ProjectsController < ApplicationController
     redirect_to current_user
   end
 
+  def get_in
+    type = params[:type]
+    request_type = type=="1" ? "Lead_Editor" : "Executor"
+    project = Project.find(params[:id])
+    if type==1 && current_user.is_lead_editor_for?(project)
+      flash[:notice] = "You are already Lead Editor of this project."
+    elsif type==2 && current_user.is_executor_for?(project)
+      flash[:notice] = "You are already excutor of this project."
+    elsif current_user.has_pending_apply_requests?(project, request_type)
+      flash[:notice] = "You have submitted this request already."
+    else
+      ApplyRequest.create( user_id: current_user.id,project_id: project.id, request_type: request_type)
+      flash[:notice] = "Your request has been submitted"
+    end
+
+    redirect_to project
+  end
+
   def read_from_mediawiki
 
     # Comment this out for now as we may need this in the future
@@ -465,6 +493,7 @@ class ProjectsController < ApplicationController
     #   #TODO create new session for mediawiki
     # end
     @contents = ''
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     if params[:rev]
       @revision_id = params[:rev]
@@ -495,7 +524,7 @@ class ProjectsController < ApplicationController
 
   def write_to_mediawiki
     if @project.page_write current_user, params[:data]
-      result = @project.page_read
+      result = @project.page_read nil
     end
 
     respond_to do |format|
@@ -522,57 +551,61 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      if user_signed_in? && current_user.admin?
-        @project = Project.with_deleted.find(params[:id])
-      else
-        @project = Project.find(params[:id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    if user_signed_in? && current_user.admin?
+      @project = Project.with_deleted.find(params[:id])
+    else
+      @project = Project.find(params[:id])
+    end
+
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def project_params
+    params.require(:project).permit(
+        :title, :short_description, :institution_country, :description, :country,
+        :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
+        :institution_name, :institution_logo, :institution_description, :section1, :section2,
+        :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
+        project_edits_attributes: [:id, :_destroy, :description]
+    )
+  end
+
+  def get_project_user
+    @project_user = @project.user
+  end
+
+  def edit_params
+    params.require(:project).permit(:id, :project_edit, :editItem)
+  end
+
+  # Get revision histories
+  def get_revision_histories project
+    result = project.get_history
+    @histories = []
+
+    if result
+      result.each do |r|
+        history                = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
+        history["status"]      = r['status']
+        history["comment"]     = r['comment']
+        history["username"]    = r["author"]
+        history["is_blocked"]  = r["is_blocked"]
+
+        @histories.push(history)
       end
-
+      return @histories
+    else
+      return []
     end
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def project_params
-      params.require(:project).permit(
-          :title, :short_description, :institution_country, :description, :country,
-          :picture, :user_id, :institution_location, :state, :expires_at, :request_description,
-          :institution_name, :institution_logo, :institution_description, :section1, :section2,
-          :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
-          project_edits_attributes: [:id, :_destroy, :description]
-      )
-    end
+  end
 
-    def get_project_user
-      @project_user = @project.user
-    end
-
-    def edit_params
-      params.require(:project).permit(:id, :project_edit, :editItem)
-    end
-
-    # Get revision histories
-    def get_revision_histories project
-      result = project.get_history
-      @histories = []
-
-      if result
-        result.each do |r|
-          history                = Hash.new
-          history["revision_id"] = r["id"]
-          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-          history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1])
-          history["status"]      = r['status']
-          history["comment"]     = r['comment']
-          @histories.push(history)
-        end
-        return @histories
-      else
-        return []
-      end
-    end
-
-    # Fitler wiki page name regarding page title
-    def filter_page_name title
-      title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
-    end
+  # Fitler wiki page name regarding page title
+  def filter_page_name title
+    title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
+  end
 end

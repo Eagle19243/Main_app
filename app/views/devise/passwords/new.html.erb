@@ -1,12 +1,16 @@
-<div class="authform large-12 columns">
-  <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :role => 'form'}) do |f| %>
-    <h3>Forgot your password?</h3>
-    <p>We'll send password reset instructions.</p>
-    <%= devise_error_messages! %>
-    <div class="form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
-    </div>
-     <%= f.submit 'Reset Password', :class => 'button right' %>
-  <% end %>
+<div class="forgot-pwd-wrapper">
+  <div class="forgot-pwd-form">
+    <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :role => 'form'}) do |f| %>
+      <h3>Forgot your password?</h3>
+      <p class="text-center">We'll send password reset instructions.</p>
+      <%= devise_error_messages! %>
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, :autofocus => true, class: 'form-control' %>
+      </div>
+      <div class="text-right">
+       <%= f.submit 'Reset Password', :class => 'btn-default-weserve' %>        
+      </div>
+    <% end %>
+  </div>
 </div>

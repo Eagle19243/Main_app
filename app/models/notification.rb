@@ -12,7 +12,10 @@ class Notification < ActiveRecord::Base
       :accept_admin_request,
       :suggested_task,
       :pending_do_request,
-      :leader_change
+      :leader_change,
+      :apply_requset,
+      :accept_apply_request,
+      :reject_apply_request
   ]
 
   belongs_to :user

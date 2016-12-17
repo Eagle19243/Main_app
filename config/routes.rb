@@ -56,6 +56,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :apply_requests, only: [:create] do
+    member do
+      post :accept, :reject
+    end
+  end
+
   resources :team_memberships, only: [:update, :destroy]
   resources :work_records
   get 'wallet_transactions/new'
@@ -127,12 +133,15 @@ Rails.application.routes.draw do
       get :read_from_mediawiki
       post :write_to_mediawiki
       get :revision_action
+      get :unblock_user
+      get :block_user
     end
 
     collection do
       get :autocomplete_user_search
       get :archived
       post :change_leader
+      get :get_in
     end
 
     member do
