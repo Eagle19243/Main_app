@@ -457,3 +457,25 @@
   }
 }
 
+
+#notification_button{
+
+    padding: 8px;
+    font-family: 'Roboto';
+    font-size: 1em;
+    color: #888;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 100px;
+    margin-right: 10px;
+  display: inline;
+
+    i {
+      font-size: 1.2em;
+      color: #555;
+      margin-right: 5px;
+    }
+
+}
+
+

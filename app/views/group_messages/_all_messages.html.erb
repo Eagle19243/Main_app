@@ -11,17 +11,27 @@
             </a>
           </div>
           <div class="message-content">
-            <% unless message.message.blank? %>
-              <div class="message-text"><%= message.message %></div>
-            <% end %>
+
+            <div class="message-text">
+              <%= message.message %>
+              <% if message.attachment? %>
+                  <br>
+                  <% if %w{jpg png jpg gif bmp}.include?(message.attachment.file.extension) %>
+                      <%= image_tag message.attachment.url %>
+                      Download
+                      image: <%= link_to message.attachment.file.filename, message.attachment.url, target: '_blank' %>
+                  <% else %>
+                      Download
+                      file: <%= link_to message.attachment.file.filename, message.attachment.url, target: '_blank' %>
+                  <% end %>
+                  <br>
+                  <br>
+              <% end %>
+            </div>
             <span class="name"><%= message.user.try(:name) %></span>
             <span class="message-date"><%= time_ago_in_words(message.created_at) %></span>
             <br>
-            <% if message.attachment? %>
-                <%= image_tag message.attachment.url %>
-                <br>
-                <br>
-            <% end %>
+
           </div>
         </div>
     <% end %>

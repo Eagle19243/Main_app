@@ -30,7 +30,7 @@
             data-revision-username="<%= history['username'] %>"
           >
             <td>
-              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="<%= mediawiki_api_base_url %>?title=<%= URI.escape(project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>">
+              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>">
                 <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
               </a>
             </td>

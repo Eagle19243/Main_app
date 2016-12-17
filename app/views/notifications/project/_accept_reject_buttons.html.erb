@@ -1,0 +1,15 @@
+<div class="action-btns">
+  <% if notification.source_model.state == "pending" %>
+      <a href="/projects/<%= notification.source_model.id %>/accept" class="btn-notify">
+        <i class="fa fa-check"></i>&nbsp;&nbsp;Approve
+      </a>
+      <a href="/projects/<%= notification.source_model.id %>/reject" class="delete-notification btn-notify" title="Delete" notification-id="<%= notification.id %>">
+        <i class="fa fa-times"></i>&nbsp;&nbsp;Deny
+      </a>
+  <% end %>
+  <% if notification.source_model.state == "accepted" %>
+      <a href="#" class="btn-notify">
+        <i class="fa fa-check"></i>&nbsp;&nbsp;Accepted
+      </a>
+  <% end %>
+</div>
