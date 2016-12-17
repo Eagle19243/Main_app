@@ -1,6 +1,0 @@
-$("#conversation-name").text("<%= escape_javascript(conversation_companion_name(@user, @conversation)) %>")
-$("#conversation_messages").replaceWith("<%= escape_javascript(render @conversation) %>");
-$("#new-message-form").replaceWith("<%= escape_javascript(render partial: 'messages/new_message_form', locals: { conversation: @conversation}) %>");
-var conversationId = <%= @conversation.id %>;
-$("li[conversation-id].active").removeClass("active");
-$("li[conversation-id='" + conversationId +"']").addClass("active");

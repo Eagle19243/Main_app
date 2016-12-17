@@ -26,7 +26,6 @@ Rails.application.routes.draw do
   # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'
-  get 'chat_rooms/create_room'
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
@@ -173,7 +172,6 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"}
 
   resources :users
-  resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
   root to: 'visitors#landing'
