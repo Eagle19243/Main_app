@@ -140,7 +140,7 @@
             <% if user_signed_in? %>
                 <% if @project.user_id == current_user.id %>
                     <li>
-                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
+                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none tab-revisions ", onclick: "openTab(event, 'Revision')" do %>
                           Revisions<span class="count"><%= @histories.count %></span>
                       <% end %>                  </li>
                 <% end %>
@@ -490,6 +490,7 @@
       openTab({
         'currentTarget': $('.tab-revisions').get(0)
       }, 'Revision');
+
     } else {
       showSourceEditor();
     }
@@ -548,13 +549,13 @@
   });
 
   // Compare revisions button click handler
-  $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
-    var revision = $(this).parents('.modal-revision-info').data('revision');
-    if (revision) {
-      $('#revisionsDiffModal').modal('hide');
-      showSourceEditor(revision);
-    }
-  });
+  // $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
+  //   var revision = $(this).parents('.modal-revision-info').data('revision');
+  //   if (revision) {
+  //     $('#revisionsDiffModal').modal('hide');
+  //     showSourceEditor(revision);
+  //   }
+  // });
 
   function populateModalRevisionInfo(revision_id, selector) {
     var revisionTr = $('#Revision tr[data-revision="' + revision_id + '"]');
@@ -563,9 +564,12 @@
     var rUserPic = $(revisionTr).data('revision-user-picture');
     var rUserLink = $(revisionTr).data('revision-user-link');
     var rUserId = $(revisionTr).data('revision-user-id');
+    var rEditLink = "<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>&oldid=" + revision_id;
 
     $(selector).data('revision', revision_id);
     $(selector).data('revision-user-id', rUserId);
+
+    $(selector).find('.modal-revision-edit-link').attr('href', rEditLink);
 
     $(selector).find('.modal-revision-title span').html(rDate);
     $(selector).find('.modal-revision-title span').html(rDate);
