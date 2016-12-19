@@ -167,7 +167,7 @@
     display: block;
     width: 100%;
     position: relative;
-    background-color: #efefef;
+    background-color: #333;
     z-index: 4;
 
     .hiw-text {
@@ -180,7 +180,7 @@
       h2 {
         font-family: 'Roboto';
         text-align: center;
-        color: #000;
+        color: #fff;
       }
     }
 
@@ -197,12 +197,14 @@
 
         img {
           width: 100px;
-          height: auto;
+          height: 110px;
         }
 
         &.pt15 {
           img {
             width: 70px;
+            height: auto;
+            padding-top: 20px;
           }
         }
       }
@@ -210,7 +212,7 @@
         p {
           font-family: 'Libre Franklin';
           text-transform: uppercase;
-          color: #222;
+          color: #fff;
           font-size: 0.9em;
           line-height: 1.5em;
           text-align: center;
@@ -343,7 +345,7 @@
     display: block;
     width: 100%;
     position: relative;
-    background-color: #efefef;
+    background-color: #333;
     text-align: center;
     z-index: 4;
 
@@ -357,7 +359,7 @@
       h2 {
         font-family: 'Roboto';
         text-align: center;
-        color: #000;
+        color: #fff;
       }
     }
 
@@ -387,14 +389,14 @@
         }
         h4 {
           font-family: 'Roboto';
-          color: #222;
+          color: #ddd;
           display: inline-block;
           padding-left: 20px;
           font-weight: 600;
         }
         p {
           font-family: 'Libre Franklin';
-          color: #666;
+          color: #ddd;
           line-height: 1.5em;
           margin: 0;
         }
@@ -413,15 +415,23 @@
       a {
         font-family: 'Roboto';
         font-size: 1.2em;
-        color: #fff;
+        color: #000;
         font-weight: 600;
-        background-color: #000;
+        background-color: #fff;
         padding: 10px 25px;
         border-radius: 30px;
         text-transform: uppercase;
         vertical-align: text-top;
       }
     }
+  }
+
+  hr {
+    padding: 0;
+    margin: 0;
+    border-top: 2px solid #aaa;
+    width: 80%;
+    margin: 0 auto;
   }
 
 }
