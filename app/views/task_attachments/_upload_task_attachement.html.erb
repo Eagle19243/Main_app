@@ -1,0 +1,9 @@
+<div class="attachment">
+  <img src="http://placehold.it/150x150">
+  <h4><%=@task_attachment.attachment.file.filename %></h4>
+  <span>Added <%=   @task_attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
+  <div class="attachment-actions">
+    <%= link_to "Open",   @task_attachment.attachment_url, target: '_blank' %>
+    <a href="#" name="delete_attachment" id="<%=   @task_attachment.id %>">X Remove</a>
+  </div>
+</div>
