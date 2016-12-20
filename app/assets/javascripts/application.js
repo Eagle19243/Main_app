@@ -35,6 +35,8 @@
 //= require cocoon
 //= require bootstrap-sprockets
 //= require jquery.slick
+//= require jquery.vcarousel-min
+//= require underscore-min
 
 //= require_tree .
 
@@ -81,7 +83,3 @@ $(document).ready(function() {
 //          }, REFRESH_INTERVAL_IN_MILLIS);
 //     }
 // });
-
-
-
-

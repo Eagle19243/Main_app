@@ -1,5 +1,5 @@
 <% @featured_projects.each do |project| %>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
+    <li class="l-project-cards__item">
       <div class="project-card">
 
         <div class="card-img">
@@ -62,17 +62,18 @@
         </div>
       </div>
 
-    </div>
+    </li>
 <% end %>
 
 <div id="ajaxLoading" class="hidden-div">
   <%= image_tag "loading.gif" %>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"> // todo DESIGNER/FD: Do we really need this? We can replace it on webkit/blink browsers with native scroll: it would be much better for performance
   $('.project-card').each(function () {
-    if ($(this).height() > 386) {
-      $(this).slimScroll({
+    var $that = $(this);
+    if ($that.height() > 386) {
+      $that.slimScroll({
         height: "386px"
       });
     }
