@@ -117,11 +117,11 @@
   </div>
 
   <div class="profile-projects">
-    <div class="projects-cards">
-      <h3>Projects</h3>
-      <div class="row padding-none">
+    <div class="l-project-cards">
+      <h3 class="l-project-cards__title">Projects</h3>
+      <ul class="l-project-cards__list">
         <% @user.projects.each do |project| %>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
+          <li class="l-project-cards__item">
             <div class="project-card">
 
               <div class="card-img">
@@ -181,9 +181,9 @@
               </div>
 
             </div>
-          </div>
+          </li>
         <% end %>
-      </div>
+      </ul>
     </div>
 
   </div>
