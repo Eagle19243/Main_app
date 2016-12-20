@@ -18,7 +18,7 @@ feature 'Registration', js: true, vcr: { cassette_name: 'bitgo' } do
     modal.fill_in 'password_confirmation', with: 'surripere'
     modal.click_button 'Sign up'
 
-    expect(page).to have_current_path(root_path)
+    expect(page).to have_current_path(home_index_path)
     expect(page).to have_text 'A message with a confirmation link has been sent'
     expect(last_delivery.body.raw_source).to include "Welcome #{email}"
     expect(last_delivery.body.raw_source).to include "You can confirm your account email"
