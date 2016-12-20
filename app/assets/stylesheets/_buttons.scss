@@ -35,3 +35,26 @@
   padding-bottom: 6rem !important
 }
 
+.btn-root {
+  display: inline-block;
+  vertical-align: middle;
+  font-family: 'Roboto';
+  font-size: 17px;
+  font-weight: 600;
+  padding: 7px 25px 6px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: 2px solid #000;
+  color: #000;
+  transition: background .2s ease-out, color .2s ease-out;
+  &._light {
+    background-color: #fff;
+    border-color: #fff;
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: #fff;
+    }
+  }
+}
