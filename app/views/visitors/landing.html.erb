@@ -1,4 +1,3 @@
-
 <div class="landing-content">
   <div class="hero-banner">
     <div class="row margin-none">
@@ -9,7 +8,12 @@
             <p>Share your vision and your audience will make it happen</p>
 
             <div class="hero-start">
-              <a class="btn-start" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% if user_signed_in? %>
+                  <a class="btn-start" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% else %>
+                  <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+
+              <% end %>
             </div>
           </div>
         </div>
@@ -118,7 +122,11 @@
             <h1>Create Your Prototype</h1>
             <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
             <div class="carousel-start">
-              <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% if user_signed_in? %>
+                  <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% else %>
+                  <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+              <% end %>
             </div>
           </div>
         </div>
@@ -128,9 +136,14 @@
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Serve as a Leader</h1>
-            <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as an independent leader.</p>
+            <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as
+              an independent leader.</p>
             <div class="carousel-start">
-              <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% if user_signed_in? %>
+                  <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% else %>
+                  <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+              <% end %>
             </div>
           </div>
         </div>
@@ -142,7 +155,11 @@
             <h1>Build Your Own Lab</h1>
             <p>Bridge the gap between theory and action;<br>Publicize and expand your academic projects.</p>
             <div class="carousel-start">
-              <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% if user_signed_in? %>
+                  <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% else %>
+                  <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+              <% end %>
             </div>
           </div>
         </div>
@@ -195,7 +212,8 @@
             <div class="intro">
               <p>
                 WeServe brings contrasting people together in a unique efforts to achieve common goals.<br>
-                Volunteers can refund the amount they earned towards a new task. People who cannot afford to volunteer may keep the money they earned.
+                Volunteers can refund the amount they earned towards a new task. People who cannot afford to volunteer
+                may keep the money they earned.
               </p>
             </div>
           </div>
@@ -204,7 +222,8 @@
             <h4>Anti Corruption</h4>
             <div class="intro">
               <p>
-                Build powerful actions for your community without having to belong to the ruling clubs, and without being bound by political or financial partisanship.
+                Build powerful actions for your community without having to belong to the ruling clubs, and without
+                being bound by political or financial partisanship.
               </p>
             </div>
           </div>
@@ -213,7 +232,8 @@
             <h4>Transparency</h4>
             <div class="intro">
               <p>
-                Projects are open for public reviews, and constant feedback. So your project is protected by the crowd and gains legitimacy.
+                Projects are open for public reviews, and constant feedback. So your project is protected by the crowd
+                and gains legitimacy.
               </p>
             </div>
           </div>
@@ -222,7 +242,11 @@
     </div>
 
     <div class="wwd-start">
-      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+      <% if user_signed_in? %>
+          <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+      <% else %>
+          <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+      <% end %>
     </div>
 
   </div>
