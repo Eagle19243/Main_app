@@ -1,3 +1,4 @@
+
 <div class="landing-content">
   <div class="hero-banner">
     <div class="row margin-none">
@@ -38,23 +39,23 @@
           <div class="row">
             <div class="col-md-5 col-md-5 col-sm-5 col-custom">
               <div class="flow-img">
-                <%= image_tag("icons/group.png") %>
+                <%= image_tag("icons/icon_people.png") %>
               </div>
               <div class="flow-text">
-                <p>expand your idea into plan of action</p>
+                <p>expand your idea into a plan of action</p>
               </div>
             </div>
             <div class="col-md-2 col-md-2 col-sm-2 col-custom">
               <div class="flow-img pt15">
-                <%= image_tag("icons/icon-arrow.png") %>
+                <%= image_tag("icons/icon_arrow.png") %>
               </div>
             </div>
             <div class="col-md-5 col-md-5 col-sm-5 col-custom">
               <div class="flow-img">
-                <%= image_tag("icons/project-task.png") %>
+                <%= image_tag("icons/icon_page.png") %>
               </div>
               <div class="flow-text">
-                <p>break your project down into task</p>
+                <p>break your project down into tasks</p>
               </div>
             </div>
           </div>
@@ -64,12 +65,12 @@
           <div class="row">
             <div class="col-md-4 col-md-4 col-sm-4 col-custom">
               <div class="flow-img pt15">
-                <%= image_tag("icons/icon-arrow.png") %>
+                <%= image_tag("icons/icon_arrow.png") %>
               </div>
             </div>
             <div class="col-md-4 col-md-4 col-sm-4 col-custom">
               <div class="flow-img">
-                <%= image_tag("icons/payment.png") %>
+                <%= image_tag("icons/icon_bmoney.png") %>
               </div>
               <div class="flow-text">
                 <p>fund tasks</p>
@@ -77,7 +78,7 @@
             </div>
             <div class="col-md-4 col-md-4 col-sm-4 col-custom">
               <div class="flow-img pt15">
-                <%= image_tag("icons/icon-arrow.png") %>
+                <%= image_tag("icons/icon_arrow.png") %>
               </div>
             </div>
           </div>
@@ -87,7 +88,7 @@
           <div class="row">
             <div class="col-md-5 col-md-5 col-sm-5 col-custom">
               <div class="flow-img">
-                <%= image_tag("icons/task-list.png") %>
+                <%= image_tag("icons/icon_checklist.png") %>
               </div>
               <div class="flow-text">
                 <p>complete tasks</p>
@@ -95,12 +96,12 @@
             </div>
             <div class="col-md-2 col-md-2 col-sm-2 col-custom">
               <div class="flow-img pt15">
-                <%= image_tag("icons/icon-arrow.png") %>
+                <%= image_tag("icons/icon_arrow.png") %>
               </div>
             </div>
             <div class="col-md-5 col-md-5 col-sm-5 col-custom">
               <div class="flow-img">
-                <%= image_tag("icons/task-check.png") %>
+                <%= image_tag("icons/icon_chacklist_look.png") %>
               </div>
               <div class="flow-text">
                 <p>review tasks</p>
@@ -113,53 +114,98 @@
     </div>
   </div>
 
-  <div class="carousel-banner">
+<!--   <div class="carousel-banner" id="carousel_banner">
     <div class="landing-carousel">
       <div class="carousel-item">
-        <%= image_tag("carousel/carousel_1.jpg") %>
+        <%#= image_tag("carousel/carousel_1.jpg") %>
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Create Your Prototype</h1>
             <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
             <div class="carousel-start">
-              <% if user_signed_in? %>
-                  <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
-              <% else %>
-                  <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
-              <% end %>
+              <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
             </div>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <%= image_tag("carousel/carousel_2.jpg") %>
+        <%#= image_tag("carousel/carousel_2.jpg") %>
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Serve as a Leader</h1>
-            <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as
-              an independent leader.</p>
+            <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as an independent leader.</p>
             <div class="carousel-start">
-              <% if user_signed_in? %>
-                  <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
-              <% else %>
-                  <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
-              <% end %>
+              <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
             </div>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <%= image_tag("carousel/carousel_3.jpg") %>
+        <%#= image_tag("carousel/carousel_3.jpg") %>
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Build Your Own Lab</h1>
             <p>Bridge the gap between theory and action;<br>Publicize and expand your academic projects.</p>
             <div class="carousel-start">
-              <% if user_signed_in? %>
-                  <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
-              <% else %>
-                  <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
-              <% end %>
+              <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="hero-rotator js-hero-rotator carousel-banner">
+    <div class="landing-carousel">
+      <div class="hero-rotator__slide js-hero-rotator__slide active">
+        <div class="carousel-item">
+          <%= image_tag("carousel/carousel_1.jpg") %>
+          <div class="carousel-text">
+            <div class="text-wrapper">
+              <h1>Create Your Prototype</h1>
+              <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
+              <div class="carousel-start">
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-rotator__slide js-hero-rotator__slide">
+        <div class="carousel-item">
+          <%= image_tag("carousel/carousel_2.jpg") %>
+          <div class="carousel-text">
+            <div class="text-wrapper">
+              <h1>Serve as a Leader</h1>
+              <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as an independent leader.</p>
+              <div class="carousel-start">
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-rotator__slide js-hero-rotator__slide">
+        <div class="carousel-item">
+          <%= image_tag("carousel/carousel_3.jpg") %>
+          <div class="carousel-text">
+            <div class="text-wrapper">
+              <h1>Build Your Own Lab</h1>
+              <p>Bridge the gap between theory and action;<br>Publicize and expand your academic projects.</p>
+              <div class="carousel-start">
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
@@ -167,89 +213,87 @@
     </div>
   </div>
 
-  <div class="wwd-banner">
-    <div class="wwd-text">
-      <h2>
-        Things that Weserve does for you
-      </h2>
-    </div>
+  <div class="js-content content--rel">
+    <div class="s-service">
+      <div class="s-service__heading">
+        <h2 class="s-service__title">
+          Things that Weserve does for you
+        </h2>
+      </div>
 
-    <div class="wwd-flow">
-      <div class="row-first">
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6 wwd-block">
+      <div class="s-service__flow">
+        <div class="s-service__item">
+          <div class="s-service__item-content">
             <%= image_tag("icons/icon-market.png") %>
             <h4>Market Validation</h4>
-            <div class="intro">
-              <p>
+            <ul>
+              <li>
                 &ndash;&nbsp;build an active community around a real story
-              </p>
-              <p>
+              </li>
+              <li>
                 &ndash;&nbsp;get community feedback and improvement
-              </p>
-              <p>
+              </li>
+              <li>
                 &ndash;&nbsp;analyse traffic on your project
-              </p>
-            </div>
+              </li>
+            </ul>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 wwd-block">
+        </div>
+        <div class="s-service__item">
+          <div class="s-service__item-content">
             <%= image_tag("icons/icon-group.png") %>
             <h4>Stimulate your Audience</h4>
-            <div class="intro">
+            <div class="s-service__intro">
               <p>
                 Turn your followers into actors, and increase trust and support to your project.
               </p>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row-second">
-        <div class="row">
-          <div class="col-lg-4 col-md-4 col-sm-4 wwd-block">
+        <br>
+        <div class="s-service__item">
+          <div class="s-service__item-content">
             <%= image_tag("icons/icon-inclusive.png") %>
             <h4>Inclusive</h4>
-            <div class="intro">
+            <div class="s-service__intro">
               <p>
                 WeServe brings contrasting people together in a unique efforts to achieve common goals.<br>
-                Volunteers can refund the amount they earned towards a new task. People who cannot afford to volunteer
-                may keep the money they earned.
+                Volunteers can refund the amount they earned towards a new task. People who cannot afford to volunteer may keep the money they earned.
               </p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 wwd-block">
+        </div>
+        <div class="s-service__item">
+          <div class="s-service__item-content">
             <%= image_tag("icons/icon-corruption.png") %>
             <h4>Anti Corruption</h4>
-            <div class="intro">
+            <div class="s-service__intro">
               <p>
-                Build powerful actions for your community without having to belong to the ruling clubs, and without
-                being bound by political or financial partisanship.
+                Build powerful actions for your community without having to belong to the ruling clubs, and without being bound by political or financial partisanship.
               </p>
             </div>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 wwd-block">
+        </div>
+        <div class="s-service__item">
+          <div class="s-service__item-content">
             <%= image_tag("icons/icon-transparent.png") %>
             <h4>Transparency</h4>
-            <div class="intro">
+            <div class="s-service__intro">
               <p>
-                Projects are open for public reviews, and constant feedback. So your project is protected by the crowd
-                and gains legitimacy.
+                Projects are open for public reviews, and constant feedback. So your project is protected by the crowd and gains legitimacy.
               </p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="wwd-start">
       <% if user_signed_in? %>
-          <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+          <a class="btn-root _light" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
       <% else %>
-          <a data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+          <a class="btn-root _light" class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
       <% end %>
-    </div>
+      <!--<a data-toggle="modal" data-target="#startProjectModal" class="btn-root _light">Start a Project</a>-->
 
+    </div>
   </div>
 
 </div>
-
