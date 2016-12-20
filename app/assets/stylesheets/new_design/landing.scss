@@ -1,3 +1,5 @@
+@import "../sections/s-service";
+
 
 .landing-header {
   position: relative;
@@ -341,91 +343,6 @@
     }
   }
 
-  .wwd-banner {
-    display: block;
-    width: 100%;
-    position: relative;
-    background-color: #333;
-    text-align: center;
-    z-index: 4;
-
-    .wwd-text {
-      display: inline-block;
-      width: 80%;
-      margin: auto;
-      padding-top: 6%;
-      max-width: 1024px;
-
-      h2 {
-        font-family: 'Roboto';
-        text-align: center;
-        color: #fff;
-      }
-    }
-
-    .wwd-flow {
-      display: block;
-      width: 100%;
-      position: relative;
-      text-align: center;
-
-      .row-first {
-        display: block;
-        padding: 0 15%;
-        padding-top: 5%;
-      }
-
-      .row-second {
-        display: block;
-        padding: 0 5%;
-        padding-top: 5%;
-      }
-
-      .wwd-block {
-        text-align: left;
-
-        img {
-          width: 50px;
-        }
-        h4 {
-          font-family: 'Roboto';
-          color: #ddd;
-          display: inline-block;
-          padding-left: 20px;
-          font-weight: 600;
-        }
-        p {
-          font-family: 'Libre Franklin';
-          color: #ddd;
-          line-height: 1.5em;
-          margin: 0;
-        }
-
-        .intro {
-          padding-left: 75px;
-        }
-      }
-
-    }
-
-    .wwd-start {
-      padding-top: 4%;
-      padding-bottom: 6%;
-
-      a {
-        font-family: 'Roboto';
-        font-size: 1.2em;
-        color: #000;
-        font-weight: 600;
-        background-color: #fff;
-        padding: 10px 25px;
-        border-radius: 30px;
-        text-transform: uppercase;
-        vertical-align: text-top;
-      }
-    }
-  }
-
   hr {
     padding: 0;
     margin: 0;
@@ -495,15 +412,10 @@
   }
 }
 
+
+
 @media(max-width: 767px) {
   .landing-content {
-    .wwd-banner {
-      .wwd-flow {
-        .row-first {
-          padding: 0 5%;
-        }
-      }
-    }
 
     .hiw-banner {
       .hiw-flow {
