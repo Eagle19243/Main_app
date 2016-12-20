@@ -446,7 +446,7 @@
   // });
 
   function populateModalRevisionInfo(revision_id, selector) {
-    var revisionTr = $('#Revision tr[data-revision="' + revision_id + '"]');
+    var revisionTr = $('#Plan tr[data-revision="' + revision_id + '"]');
     var rDate = $(revisionTr).data('revision-date');
     var rUser = $(revisionTr).data('revision-user');
     var rUserPic = $(revisionTr).data('revision-user-picture');
@@ -458,8 +458,6 @@
     $(selector).data('revision-user-id', rUserId);
 
     $(selector).find('.modal-revision-edit-link').attr('href', rEditLink);
-
-    $(selector).find('.modal-revision-title span').html(rDate);
     $(selector).find('.modal-revision-title span').html(rDate);
 
     if (rUserPic) {
