@@ -129,6 +129,7 @@ Rails.application.routes.draw do
       post :rate
       get :discussions
       get :revisions
+      get :plan
       get :read_from_mediawiki
       post :write_to_mediawiki
       get :revision_action
