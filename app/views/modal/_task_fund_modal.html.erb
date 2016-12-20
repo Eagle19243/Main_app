@@ -6,12 +6,73 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Fund to Task Today!</h4>
+        <h4 class="modal-title" id="wallet-address"></h4>
+
+        <center>  <span>current Fund :  </span> <span id="task-balance"></span></center>
       </div>
 
-      <div class="modal-body">
-        <p>Coinbase widget will be displayed here ...</p>
+      <div class="modal-body" >
+        <div class="row">
+          <center>  <div style="background-color: darkorange ;font-size: large ;margin:0 3%"  id="response-from-wallet"></div></center>
+          <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true ) do %>
+              <center>   <div class="form-group" style="margin:0 3%">
+                <label class="control-label" >Enter Amount</label>
+                <input type="text" id="wallet_transaction_amount" name="amount"  class="form-control" required="true" placeholder='Enter USD Amount to Send'/>
+                <span id="wallet_btc"style="color: darkorange"></span>
+              </div></center>
+                <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control"  />
+              <div class="form-group" style="margin:0 3%">
+                <button type="submit" class="  btn btn-primary btn-danger" id="save-wallet-teansaction" style="margin: 10px" value="save">Save</button>
+              </div>
+          <% end %>
+         <center><div id="coin-base-widget"> </div></center>
+
+        </div>
       </div>
 
     </div>
   </div>
 </div>
+<script>
+
+  $('#wallet_transaction_amount').keypress(function(eve) {
+    if(eve.which == 8 || eve.which == 0){
+      return true;
+    }
+    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
+      document.getElementById("wallet_btc").innerHTML = '';
+      var usd = document.getElementById("wallet_transaction_amount");
+      var current_btc = '<%=  get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      eve.preventDefault();
+    }
+
+    // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
+    $('#wallet_transaction_amount').keyup(function(eve) {
+      if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
+      }
+      document.getElementById("wallet_btc").innerHTML = '';
+      var usd = document.getElementById("wallet_transaction_amount");
+      var current_btc = '<%=  get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+
+    });
+
+  });
+
+  $('#save-wallet-teansaction').click(function(){
+    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != ''  ){
+      $('#save-wallet-teansaction').disabled = true ;
+      $('#response-from-wallet').html("");
+      $('#response-from-wallet').html("Requesting ... please Wait ");}
+  });
+
+  $(".close-reveal-modal").click(function(){
+    $('#response-from-wallet').html("");
+  });
+
+
+
+
+
+</script>

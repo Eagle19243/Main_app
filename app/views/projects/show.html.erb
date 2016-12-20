@@ -8,39 +8,6 @@
     </p>
   </div>
 <% end %>
-<%if !current_user.blank? %>
-  <% if @project.chat_room.blank?%>
-    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <%= javascript_include_tag 'firechat_merged' %>
-
-    <script type='text/javascript'>
-      var firechatRef = new Firebase('https://chatapp-f41bd.firebaseio.com');
-      firechatRef.auth('<%= current_user.chat_token %>');
-      var chat = new Firechat(firechatRef);
-      chat.setUser('<%= current_user.id%>',  '<%= current_user.name %>', function(user) {
-        console.log("Creating chatroom...");
-        chat.createRoom("<%= @project.title %>", "private", function(roomId) {
-          if (roomId) {
-            $.ajax({
-              url: "/chat_rooms/create_room",
-              type: "get", //send it through get method
-              data: {project_id:<%=@project.id %>, room_id: roomId},
-              success: function (response) {
-                $("chat_success").innerHTML = 'seccessfully create chat room ';
-              },
-              error: function (xhr) {
-                $("chat_success").innerHTML = ' Error in  chat room creation ';
-              }
-            });
-
-            console.log("Created room " + roomId);
-            chat.enterRoom(roomId);
-          }
-        });
-      });
-    </script>
-  <% end %>
-<%end %>
 
 
 <%= render 'project_top_banner' %>
