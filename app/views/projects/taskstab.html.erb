@@ -20,10 +20,40 @@
     </center>
   </div>
 </div>
+<script>
+  window.onload = function () {
+    $('#project-url').html(window.location.href);
+    // <% if  session[:project_id] != nil %>
+
+    // <%end%>
+
+    document.getElementById("loading-mask1").style.display = "none";
+  }
+  function doPopup(id) {
+    $('#task-do-request-popup').val(id);
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+  function fundPopup(id) {
+    $.ajax({
+      url: "/tasks/task_fund_info",
+      type: "get", //send it through get method
+      data: {id: id},
+      success: function (response) {
+        $('#wallet-address').html('wallet Address: ' + response.wallet_address)
+
+        $('#wallet_transaction_user_wallet').val(response.wallet_address);
+        $('#task-balance').html(response.balance + " $");
+        $('#coin-base-widget').html("<h4><a href='https://buy.coinbase.com?code=9023urn3f8934hg34&amount=5&address=" + response.wallet_address + "&crypto_currency=BTC'  target='_blank'> Fund by Coinbase</a></h4>")
+      },
+      error: function (xhr) {
+      }
+    });
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+</script>
 
 <div class="project-page-container">
   <div id="product-modal"></div>
-
   <div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
     <div>
       <a class="close-reveal-modal" aria-label="Close">&times;</a>
@@ -229,7 +259,6 @@
           </div>
 
         </div>
-
       </div>
 
       <div class="tabs-wrapper">

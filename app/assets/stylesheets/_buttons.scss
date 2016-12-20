@@ -47,14 +47,24 @@
   background-color: transparent;
   border: 2px solid #000;
   color: #000;
-  transition: background .2s ease-out, color .2s ease-out;
+  .desktop & {
+    transition: background .2s ease-out, color .2s ease-out;
+  }
   &._light {
     background-color: #fff;
     border-color: #fff;
-    &:hover,
-    &:focus {
+    .tablet &:hover,
+    .mobile &:hover,
+    .tablet &:focus,
+    .mobile &:focus {
+      color: #000;
+      outline: none;
+    }
+    .desktop &:hover,
+    .desktop &:focus {
       background-color: transparent;
       color: #fff;
+      outline: none;
     }
   }
 }
