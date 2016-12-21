@@ -58,8 +58,10 @@
                 <% session[:idd] = @project.id %>
                 <label>Email Address</label>
                 <input type="email" name="email" id="guest-email" required>
-                <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a>
+                <!-- <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a> -->
               </div>
+            </div>
+            <%= submit_tag 'Invite' %>
         <% end %>
 
           <div class="import-contacts-wrapper">
