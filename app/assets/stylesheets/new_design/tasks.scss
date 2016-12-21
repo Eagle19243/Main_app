@@ -13,13 +13,17 @@
     height: 440px;
   }
   a.btn-edit {
-    background-color: lightgrey;
-    font-size: 35px;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 20px;
     text-decoration: none;
     position: absolute;
     bottom: 0;
     left: 0;
     opacity: 0;
+    color: #fff;
+    padding: 5px 15px;
+    font-family: 'Roboto';
+    font-weight: bold;
   }
 }
 
