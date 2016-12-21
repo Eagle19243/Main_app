@@ -1,8 +1,11 @@
 <!--<section  class='welcome-banner'>-->
 
 <div class='welcome-banner'>
-  <div>
+  <div class="project_picture">
     <%= image_tag(@project.picture) %>
+    <% if user_signed_in? && current_user.id == @project.user_id %>
+      <a class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
+    <% end %>
   </div>
   <div class="mid-section">
     <div class="row">
