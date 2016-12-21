@@ -160,22 +160,15 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <ul class="nav nav-pills nav-left">
             <li>
-              <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
+              <%= link_to plan_project_path(id: @project.id), remote: true, class: "tablinks border-right-none", onclick: "openTab(event, 'Plan')" do %>
+                Plan
+              <% end %>
             </li>
             <li>
               <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
                   Tasks<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
-            <% if user_signed_in? %>
-                <% if @project.user_id == current_user.id %>
-                    <li>
-                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none tab-revisions ", onclick: "openTab(event, 'Revision')" do %>
-                          Revisions<span class="count"><%= @histories.count %></span>
-                      <% end %>
-                    </li>
-                <% end %>
-            <% end %>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
                   Team<span class="count"><%= @tasks_count %></span>
@@ -270,128 +263,7 @@
 
       <div class="tabs-wrapper">
         <div id="Plan" class="tabcontent">
-          <div class="content-details">
-            <div class="row">
-              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-
-                <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
-
-                <% if user_signed_in? %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-edit-wrapper pull-right">
-                      <% if @is_blocked == 0 %>
-                        <% if current_user.id == @project.user_id %>
-                          <button type="button" class="btn-edit" id="editSource">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                          </button>
-                        <% else %>
-                          <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
-                          </a>
-                        <% end %>
-                      <% else %>
-                        <!-- TODO: for blocked users -->
-                      <% end %>
-
-                    </div>
-                  </div>
-                <% else %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-edit-wrapper pull-right">
-                      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                      </a>
-                      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
-                      </a>
-                    </div>
-                  </div>
-                <% end %>
-
-                <div class="clearfix"></div>
-                <div class="project-summary">
-                  <%= @contents.html_safe %>
-                </div>
-
-                <div class="project-idea">
-                  <strong>Project Idea: &nbsp;&nbsp;</strong>
-                  <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-                  <% if user_signed_in? && current_user.id == @project.user_id %>
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
-                    <span id="str_length"></span>
-                  <% end %>
-                </div>
-
-              </div>
-
-              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                <div class="tasks-summary">
-                  <div class="summary-header">
-                    <strong>Tasks</strong>
-                    <a href="javascript:void(0)" class="pull-right">View All</a>
-                  </div>
-
-                  <div id="tasks_cards">
-                    <% @sourcing_tasks.first(5).each do |task| %>
-                        <div class="summary-cards">
-                          <div class="card-wrapper">
-                            <div class="card-title">
-                              <p><%= task.description %></p>
-                            </div>
-                            <div class="row">
-                              <div class="col-lg-9 col-md-9 col-sm-9 pt15">
-                                <div class="progress">
-                                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
-                                  </div>
-                                </div>
-                                <div class="report-banner-table tab-task-report mt10">
-                                  <table>
-                                    <tr class="value">
-                                      <td><%= task.funded %></td>
-                                      <td><%= @tasks_count %></td>
-                                      <td><%= task.donations.count %></td>
-                                      <td><%= task.funded_in_btc %></td>
-                                    </tr>
-                                    <tr class="items">
-                                      <td>Funded</td>
-                                      <td>Tasks</td>
-                                      <td>Backers</td>
-                                      <td>Raised</td>
-                                    </tr>
-                                  </table>
-                                </div>
-                              </div>
-                              <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="fund-do-btns">
-                                  <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)" data-toggle="modal" data-target="#taskDoModal">
-                                    DO
-                                  </a>
-                                  <a href="javascript:void(0)" title="FUND" name="fund-button" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
-                                    FUND
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
-                    <% end %>
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="requests col-md-7">
-                <% if current_user && current_user.is_admin_for?(@project) %>
-                  <% @apply_requests.find_each do |apply| %>
-                    <%= apply.user_name %> sent you <%= apply.request_type %> Request
-                    <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
-                    <%= link_to "Reject", reject_apply_request_path(apply), method: :post %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
+          <%= render partial: 'projects/tabcontent/plan', locals: {project: @project, is_blocked: @is_blocked, mediawiki_api_base_url: @mediawiki_api_base_url, contents: @contents, sourcing_tasks: @sourcing_tasks, tasks_count: @tasks_count, apply_requests: @apply_requests} %>
         </div>
 
         <div id="Tasks" class="tabcontent">
@@ -400,14 +272,6 @@
           </div>
         </div>
 
-        <!-- Available for project owner -->
-        <% if user_signed_in? %>
-            <% if current_user.id == @project.user_id %>
-                <div id="Revision" class="tabcontent">
-                  <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project, mediawiki_api_base_url: @mediawiki_api_base_url} %>
-                </div>
-            <% end %>
-        <% end %>
 
         <div id="Team" class="tabcontent">
           <div class="center">
@@ -444,10 +308,10 @@
   <% if user_signed_in? && current_user.is_admin_for?(@project)%>
     $('.welcome-banner').hover(
       function() {
-      $('a.btn-edit').stop().animate({"opacity":"1"}, "medium");
+      $('a.btn-edit.btn-edit-image').stop().animate({"opacity":"1"}, "medium");
       },
       function() {
-        $('a.btn-edit').stop().animate({"opacity":"0"}, "medium");
+        $('a.btn-edit.btn-edit-image').stop().animate({"opacity":"0"}, "medium");
       }
     );
   <% end %>
@@ -521,16 +385,16 @@
 
   });
 
-  $('#editSource').click(function (event) {
-    if (window.weserve_user.isProjectOwner) {
-      openTab({
-        'currentTarget': $('.tab-revisions').get(0)
-      }, 'Revision');
+  // $('#editSource').click(function (event) {
+  //   if (window.weserve_user.isProjectOwner) {
+  //     openTab({
+  //       'currentTarget': $('.tab-revisions').get(0)
+  //     }, 'Revision');
 
-    } else {
-      showSourceEditor();
-    }
-  });
+  //   } else {
+  //     showSourceEditor();
+  //   }
+  // });
 
   $('#save-content').click(function () {
     $.ajax({
@@ -594,7 +458,7 @@
   // });
 
   function populateModalRevisionInfo(revision_id, selector) {
-    var revisionTr = $('#Revision tr[data-revision="' + revision_id + '"]');
+    var revisionTr = $('#Plan tr[data-revision="' + revision_id + '"]');
     var rDate = $(revisionTr).data('revision-date');
     var rUser = $(revisionTr).data('revision-user');
     var rUserPic = $(revisionTr).data('revision-user-picture');
@@ -606,8 +470,6 @@
     $(selector).data('revision-user-id', rUserId);
 
     $(selector).find('.modal-revision-edit-link').attr('href', rEditLink);
-
-    $(selector).find('.modal-revision-title span').html(rDate);
     $(selector).find('.modal-revision-title span').html(rDate);
 
     if (rUserPic) {
