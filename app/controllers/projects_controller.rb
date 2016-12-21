@@ -386,7 +386,12 @@ class ProjectsController < ApplicationController
 
   def update
     respond_to do |format|
+      old_name = @project.wiki_page_name
+      @project.wiki_page_name = filter_page_name project_params["title"] if project_params["title"].present?
       if @project.update(project_params)
+        if old_name != @project.wiki_page_name
+          @project.rename_page current_user.username, old_name
+        end
         activity = current_user.create_activity(@project, 'updated')
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
