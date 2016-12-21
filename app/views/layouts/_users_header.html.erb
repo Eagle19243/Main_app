@@ -1,3 +1,4 @@
+<div class="s-header__wrapper">
   <div class="s-header__left">
     <div class="s-header__logo">
       <% if user_signed_in? %>
@@ -8,7 +9,7 @@
       <% end %>
     </div>
 
-    <button type="button" class="btn-root _small hidden-mobile" data-toggle="modal" data-target="#startProjectModal">Start a Project</button>
+    <a type="button" class="btn-root _small hidden-mobile" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
     <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>
 
   </div>
@@ -33,7 +34,7 @@
     <% end %>
 
     <div class="dropdown notify-dropdown show-desktop">
-      <button class="dropdown-toggle btn-reset btn-bell" type="button" data-toggle="dropdown">
+      <a class="dropdown-toggle btn-reset btn-bell" type="button" data-toggle="dropdown">
           <div class="btn-bell__wrapper">
               <svg focusable="false" version="1.1" aria-labelledby="title-bell desc-bell" class="svg-bell">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bell"></use>
@@ -43,7 +44,7 @@
                 <span class="btn-bell__counter"><%= current_user.notifications.unread.count %></span>
               <% end %>
           </div>
-      </button>
+      </a>
 
       <ul class="dropdown-menu">
         <li class="notify-count">Notifications&nbsp;
@@ -109,6 +110,7 @@
     </a>
 
   </div>
+</div>
 
 
 <div class="mobile-menu">
