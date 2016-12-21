@@ -1,17 +1,15 @@
 @import '../new_design/variables';
 
 .s-header {
-  &__wrapper {
-    width: 100%;
-    background-color: #fff;
-    border-bottom: 2px solid #eee;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 3%;
-    position: relative;
-  }
+  width: 100%;
+  background-color: #fff;
+  border-bottom: 2px solid #eee;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 3%;
+  position: relative;
   &__left {
     display: flex;
     align-items: center;
