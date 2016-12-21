@@ -257,10 +257,7 @@
             </div>
 
             <div class="btn-wiki-wrapper pull-right plan-hide">
-              <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
-                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
-                Visual Editor
-              </a>
+              
             </div>
           </div>
 
@@ -284,9 +281,7 @@
                             <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
                           </button>
                         <% else %>
-                          <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
-                          </a>
+                          
                         <% end %>
                       <% else %>
                         <!-- TODO: for blocked users -->
@@ -299,9 +294,6 @@
                     <div class="btn-edit-wrapper pull-right">
                       <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                      </a>
-                      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
                       </a>
                     </div>
                   </div>
@@ -599,7 +591,7 @@
     var rUserPic = $(revisionTr).data('revision-user-picture');
     var rUserLink = $(revisionTr).data('revision-user-link');
     var rUserId = $(revisionTr).data('revision-user-id');
-    var rEditLink = "<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>&oldid=" + revision_id;
+    
 
     $(selector).data('revision', revision_id);
     $(selector).data('revision-user-id', rUserId);
