@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'new_design/variables';
 
 .hero-button {
   background-color: $sky-blue;
@@ -50,6 +51,21 @@
   .desktop & {
     transition: background .2s ease-out, color .2s ease-out;
   }
+  .tablet &:hover,
+  .mobile &:hover,
+  .tablet &:focus,
+  .mobile &:focus {
+    color: #000;
+    outline: none;
+    border: 2px solid #000;
+  }
+  .desktop &:hover,
+  .desktop &:focus {
+    background-color: #000;
+    color: #fff;
+    outline: none;
+    border: 2px solid #000;
+  }
   &._light {
     background-color: #fff;
     border-color: #fff;
@@ -66,5 +82,137 @@
       color: #fff;
       outline: none;
     }
+  }
+  &._small {
+    font-size: 13px;
+    padding: 5px 8px 4px;
+    border: 1px solid #000;
+    .tablet &:hover,
+    .mobile &:hover,
+    .tablet &:focus,
+    .mobile &:focus {
+      color: #000;
+      outline: none;
+      background-color: #000;
+      border: 1px solid #000;
+    }
+    .desktop &:hover,
+    .desktop &:focus {
+      background-color: #000;
+      color: #fff;
+      outline: none;
+      border: 1px solid #000;
+    }
+  }
+}
+
+.btn-reset {
+  outline: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+
+  &:hover {
+    background: transparent;
+  }
+}
+
+.btn-notification {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .tablet &:hover,
+  .mobile &:hover,
+  .tablet &:focus,
+  .mobile &:focus {
+    outline: none;
+    background-color: transparent;
+  }
+  .desktop &:hover,
+  .desktop &:focus {
+    outline: none;
+    background-color: transparent;
+  }
+  &__wrapper {
+    position: relative;
+  }
+  .svg-envelope {
+    width: 23px;
+    height: 18px;
+    fill: $darkBackground;
+  }
+}
+.btn-bell {
+  width: 40px;
+  height: 40px;
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .svg-bell {
+    width: 19px;
+    height: 21px;
+    fill: $darkBackground;
+  }
+  &__counter {
+    color: #fff;
+    background: #000;
+    top: 0;
+    right: 0;
+    display: block;
+    border-radius: 50%;
+    text-align: center;
+    position: absolute;
+    padding: 2px 6px;
+    font-size: 11px;
+  }
+}
+.btn-search {
+  width: 40px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .svg-search {
+    width: 21px;
+    height: 21px;
+    fill: $darkBackground;
+  }
+}
+.btn-mobile {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  &._open {
+    .svg-cross {
+      display: block;
+    }
+    .svg-ham {
+      display: none;
+    }
+  }
+  .svg-ham {
+    width: 30px;
+    height: 30px;
+  }
+  .svg-cross {
+    display: none;
+    width: 20px;
+    height: 20px;
+  }
+  .svg-ham,
+  .svg-cross {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }

@@ -334,6 +334,17 @@ a.header-link {
   z-index: 100;
   width: 300px;
 
+  .search-project-box button {
+    position: absolute;
+    background-color: transparent;
+    padding: 5px 10px;
+    display: block;
+    top: 2px;
+    color: #555;
+    right: 5px;
+    padding-right: 5px;
+  }
+
   ul.mobile-menu-list {
     margin: 0;
     padding: 0;
@@ -390,7 +401,7 @@ a.header-link {
   .border-bottom {
     border-bottom: 1px solid #ddd;
   }
-
+  // todo FD: remove dublicate styles
   form.search-project-box {
     width: 100%;
     margin: 0;
