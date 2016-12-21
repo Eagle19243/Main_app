@@ -18,10 +18,6 @@
             <% else %>
               <!-- TODO: for blocked users -->
             <% end %>
-
-            <% if current_user.is_admin_for?(project)%>
-              <button class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
-            <% end %>
           </div>
         </div>
       <% else %>

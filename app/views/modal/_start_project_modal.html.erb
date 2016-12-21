@@ -92,6 +92,8 @@
         $('#project-status').show();
         $('#project-status').html(response.responseText);
         if (response.status == 200) {
+          $('#project-status').removeClass('alert-danger');
+          $('#project-status').addClass('alert-success');
           $('#project-status').html(response.responseText + ". Redirecting  ...");
           $('#project-success').show();
           setTimeout(

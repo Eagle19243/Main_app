@@ -1,8 +1,11 @@
 <!--<section  class='welcome-banner'>-->
 
 <div class='welcome-banner'>
-  <div>
+  <div class="project_picture">
     <%= image_tag(@project.picture) %>
+    <% if user_signed_in? && current_user.id == @project.user_id %>
+      <a class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
+    <% end %>
   </div>
   <div class="mid-section">
     <div class="row">
@@ -21,7 +24,14 @@
               <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
           <% end %>
         </h2>
-        <p class="project-city"><i class="fa fa-map-marker" aria-hidden="true"></i> <%= @project.user.city %></p>
+        <p class="project-city"><i class="fa fa-map-marker" aria-hidden="true"></i>
+          <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
+          <% if user_signed_in? && current_user.is_admin_for?(@project) %>
+              <%#= @project.country %>
+              <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="country-pencil"></span>
+
+          <% end %>
+        </p>
       </center>
     </div>
 
@@ -54,16 +64,18 @@
     </div>
 
     <div class="row">
-      <% if !user_signed_in?%>
-        <center>
-          <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal"}>Apply As Lead Editor</a>
-          <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal">Apply As Executor</a>
-        </center>
+      <% if !user_signed_in? %>
+          <center>
+            <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal" }>Apply As Lead
+              Editor</a>
+            <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal">Apply As
+              Executor</a>
+          </center>
       <% elsif !current_user.is_admin_for?(@project) %>
-        <center>
-          <%= link_to "Apply As Lead Editor", get_in_projects_path(type: "1", id: @project.id ), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Lead Editor?"} %>
-          <%= link_to "Apply As Executor", get_in_projects_path(type: "2", id: @project.id), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Executor?"} %>
-        </center>
+          <center>
+            <%= link_to "Apply As Lead Editor", get_in_projects_path(type: "1", id: @project.id), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Lead Editor?"} %>
+            <%= link_to "Apply As Executor", get_in_projects_path(type: "2", id: @project.id), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Executor?"} %>
+          </center>
       <% end %>
     </div>
 

@@ -171,7 +171,7 @@
             </li>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
-                  Team<span class="count">12</span>
+                  Team<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
           </ul>
@@ -304,6 +304,18 @@
     $('#task-do-request-popup').val(id);
     // document.getElementsById('task-do-request-popup').val(id);
   }
+
+  <% if user_signed_in? && current_user.is_admin_for?(@project)%>
+    $('.welcome-banner').hover(
+      function() {
+      $('a.btn-edit').stop().animate({"opacity":"1"}, "medium");
+      },
+      function() {
+        $('a.btn-edit').stop().animate({"opacity":"0"}, "medium");
+      }
+    );
+  <% end %>
+
 </script>
 
 <script>

@@ -262,6 +262,7 @@
     .message-content {
       margin-bottom: 20px;
       .message-text {
+        overflow: hidden;
         display: block;
         width: 100%;
         padding: 10px;
@@ -270,6 +271,10 @@
         font-size: 1em;
         color: #555;
       }
+      .message-text:hover{
+        overflow: auto;
+      }
+
 
       span.name,
       span.message-date {
