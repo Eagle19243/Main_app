@@ -142,7 +142,8 @@
                     <li>
                       <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none tab-revisions ", onclick: "openTab(event, 'Revision')" do %>
                           Revisions<span class="count"><%= @histories.count %></span>
-                      <% end %>                  </li>
+                      <% end %>
+                    </li>
                 <% end %>
             <% end %>
             <li>
