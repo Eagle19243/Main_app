@@ -25,7 +25,7 @@ class GroupMessagesController < ApplicationController
     else
     end
   end
-  
+
   def load_messages_by_chatroom(id)
     chat_room = Chatroom.find(id) rescue nil
     project = Project.find(chat_room.project_id) rescue nil
@@ -76,7 +76,7 @@ class GroupMessagesController < ApplicationController
     user = User.find(params[:user_id]) rescue nil
     if user.blank?
       redirect_to group_messages_path
-      else
+    else
       user_id = params[:user_id]
       chatroom = Chatroom.where("project_id is NULL AND ( (user_id = ? AND friend_id = ? ) OR ( user_id = ? AND friend_id = ?  ) )", current_user.id, user_id, user_id, current_user.id) rescue nil
       if chatroom.blank?
@@ -145,8 +145,16 @@ class GroupMessagesController < ApplicationController
   end
 
   def download_files
-    group_message = GroupMessage.find(params[:id]) rescue nil
-    send_file  group_message.attachment.path
+    group_message = GroupMessage.find(params[:id])
+    if load_messages_by_chatroom (group_message.chatroom_id)
+      if group_message.attachment.blank?
+        redirect_to group_messages_path
+      else
+        send_file group_message.attachment.path
+      end
+    else
+      redirect_to group_messages_path
+    end
   end
 
   def get_messages_by_room
@@ -178,7 +186,7 @@ class GroupMessagesController < ApplicationController
     @group_message = GroupMessage.new(group_message_params)
     if (@group_message.message.blank? && @group_message.attachment.blank?)
       @group_message = nil
-      else
+    else
       @group_message.user_id = current_user.id
       respond_to do |format|
         if @group_message.save
