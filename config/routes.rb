@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'user_wallet_transactions/create_wallet'
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
+  get 'tasks/task_fund_info'
 
   resources :group_messages do
     get :autocomplete_user_name, :on => :collection

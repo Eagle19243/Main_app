@@ -20,10 +20,40 @@
     </center>
   </div>
 </div>
+<script>
+  window.onload = function () {
+    $('#project-url').html(window.location.href);
+    // <% if  session[:project_id] != nil %>
+
+    // <%end%>
+
+    document.getElementById("loading-mask1").style.display = "none";
+  }
+  function doPopup(id) {
+    $('#task-do-request-popup').val(id);
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+  function fundPopup(id) {
+    $.ajax({
+      url: "/tasks/task_fund_info",
+      type: "get", //send it through get method
+      data: {id: id},
+      success: function (response) {
+        $('#wallet-address').html('wallet Address: ' + response.wallet_address)
+
+        $('#wallet_transaction_user_wallet').val(response.wallet_address);
+        $('#task-balance').html(response.balance + " $");
+        $('#coin-base-widget').html("<h4><a href='https://buy.coinbase.com?code=9023urn3f8934hg34&amount=5&address=" + response.wallet_address + "&crypto_currency=BTC'  target='_blank'> Fund by Coinbase</a></h4>")
+      },
+      error: function (xhr) {
+      }
+    });
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+</script>
 
 <div class="project-page-container">
   <div id="product-modal"></div>
-
   <div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
     <div>
       <a class="close-reveal-modal" aria-label="Close">&times;</a>
@@ -235,14 +265,12 @@
           </div>
 
         </div>
-
       </div>
 
       <div class="tabs-wrapper">
         <div id="Plan" class="tabcontent">
           <div class="content-details">
             <div class="row">
-
               <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
 
                 <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
@@ -269,10 +297,10 @@
                 <% else %>
                   <div class="row margin-none mb20">
                     <div class="btn-edit-wrapper pull-right">
-                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+                      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
                       </a>
-                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+                      <a id="sign_up_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
                       </a>
                     </div>
@@ -337,7 +365,7 @@
                                   <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)" data-toggle="modal" data-target="#taskDoModal">
                                     DO
                                   </a>
-                                  <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
+                                  <a href="javascript:void(0)" title="FUND" name="fund-button" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
                                     FUND
                                   </a>
                                 </div>
