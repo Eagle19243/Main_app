@@ -308,10 +308,10 @@
   <% if user_signed_in? && current_user.is_admin_for?(@project)%>
     $('.welcome-banner').hover(
       function() {
-      $('a.btn-edit').stop().animate({"opacity":"1"}, "medium");
+      $('a.btn-edit.btn-edit-image').stop().animate({"opacity":"1"}, "medium");
       },
       function() {
-        $('a.btn-edit').stop().animate({"opacity":"0"}, "medium");
+        $('a.btn-edit.btn-edit-image').stop().animate({"opacity":"0"}, "medium");
       }
     );
   <% end %>

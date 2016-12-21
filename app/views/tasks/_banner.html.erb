@@ -4,7 +4,7 @@
   <div class="project_picture">
     <%= image_tag(@project.picture) %>
     <% if user_signed_in? && current_user.id == @project.user_id %>
-      <a class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
+      <a class="btn-edit btn-edit-image" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
     <% end %>
   </div>
   <div class="mid-section">
