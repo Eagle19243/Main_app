@@ -74,7 +74,7 @@ class Ability
 
   def initializeMessagesPermissions(user)
     if user
-      can :manage, Message
+      can :manage, GroupMessage
     end
   end
 
