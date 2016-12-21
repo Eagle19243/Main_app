@@ -126,17 +126,17 @@
                     <% if user_signed_in? %>
                         <div class="post-person">
                           <% if current_user.picture? %>
-                            <%= image_tag(current_user.picture, size: "30x30") %>
+                              <%= image_tag(current_user.picture, size: "30x30") %>
                           <% else %>
-                            <%= gravatar_for_user(current_user)%>
-                          <%end%>
+                              <%= gravatar_for_user(current_user) %>
+                          <% end %>
                         </div>
                         <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
                             <div class="post-comment">
                               <%= f.text_area :body %>
                               <%= f.hidden_field :task_id, value: @task.id %>
                               <%= f.hidden_field :user_id, value: current_user.id %>
-                              <button type="submit" name="commit"  value="Send"> Send</button>
+                              <button type="submit" name="commit" value="Send"> Send</button>
                               &nbsp;&nbsp;
                               <a href="javascript:void(0)"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                             </div>
@@ -156,7 +156,7 @@
                   <%= render ("projects/task_comment") %>
                   <div class="comments-block">
                     <% if user_signed_in? %>
-                        <%= form_for [@task.project, @task, @task.task_comments.build] , remote: true ,html: {id: 'comment-form'} do |f| %>
+                        <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
                             <div class="post-comment">
                               <%= f.text_area :body %>
                               <%= f.hidden_field :task_id, value: @task.id %>
@@ -201,7 +201,7 @@
                 <table>
                   <tr class="value">
                     <td><%= @task.funded %></td>
-                    <td><%= @task.number_of_participants%>/<%= @task.target_number_of_participants %></td>
+                    <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
                     <td><%= @task.assignments.count %>/<%= @task.target_number_of_participants %></td>
                     <td>$<%= @task.budget %></td>
                   </tr>
@@ -217,7 +217,7 @@
               <div class="team-block mb30">
                 <h5>Team</h5>
                 <% for i in 1..5 %>
-                  <%= image_tag("no_image.png") %>
+                    <%= image_tag("no_image.png") %>
                 <% end %>
               </div>
 
@@ -243,15 +243,18 @@
             <hr>
 
             <div class="approve-block mb20">
-              <a href="javascript:void(0)" class="approve-link mb10" id="approveTaskPopover" tabindex="0" data-trigger="focus" data-placement="top">
-                <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
-                Approve
-              </a>
+              <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
+
+                  <a href="javascript:void(0)" class="approve-link mb10" id="approveTaskPopover" tabindex="0" data-trigger="focus" data-placement="top">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
+                    Approve
+                  </a>
+              <% end %>
               <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
-                <a href="javascript:void(0)" class="approve-link">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
-                  Delete Task
-                </a>
+                  <a href="javascript:void(0)" class="approve-link">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
+                    Delete Task
+                  </a>
               <% end %>
             </div>
 
@@ -298,12 +301,12 @@
               </div>
             </div>
 
-            <div class="attachments">
+            <div class="attachments" id="task-attachments-div">
               <h5>Attachments</h5>
               <% @task_attachments.each do |attachment| %>
                   <div class="attachment">
                     <img src="http://placehold.it/150x150">
-                    <!--<h4>Project_Overview.ppt</h4>-->
+                    <h4><%=attachment.attachment.file.filename %></h4>
                     <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                     <div class="attachment-actions">
                       <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
@@ -334,10 +337,10 @@
         <center><h4 id="task-members-container" task-id="<%= @task.id %>">Team</h4>
           <p id="team-message"></p>
           <% @task_memberships.each do |team_membership| %>
-              <div id="task-membership-<%=team_membership.id%>" style="width:200px;height: 50px;background-color: #dddddd;margin: 5px;padding-top:8px;">
+              <div id="task-membership-<%= team_membership.id %>" style="width:200px;height: 50px;background-color: #dddddd;margin: 5px;padding-top:8px;">
                 <% if user_signed_in? && (current_user.id == @task.project.user.id || ((!@project_admin.blank?) &&(@project_admin.include? current_user.id))) %>
                     <b>
-                      <span class="delete-task-member" task-membership-id="<%=team_membership.id%>" class="close">×</span>
+                      <span class="delete-task-member" task-membership-id="<%= team_membership.id %>" class="close">×</span>
                     </b>
                 <% end %>
                 <% if team_membership.team_member.picture? %>
@@ -486,36 +489,40 @@
     </div>
 <% end %>
 
+<% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
 
-<div id="approveTaskPopoverTitle" class="hidden">
-  <b>Are you sure?</b>
-</div>
-
-<div id="approveTaskPopoverContent" class="hidden">
-  <div class="popover-content">
-    <p>Are you sure want to approve this task?</p>
-    <p>This is a irreversible action.</p>
-    <div class="approve-btns mt10">
-      <a href="javascript:void(0)" title="approve">
-        <i class="fa fa-check"></i>Yes, approve
-      </a>
-      <a href="javascript:void(0)" title="cancel" onclick="$(&quot;#approveTaskPopover&quot;).popover(&quot;hide&quot;)">
-        No
-      </a>
+    <div id="approveTaskPopoverTitle" class="hidden">
+      <b>Are you sure?</b>
     </div>
-  </div>
-</div>
 
+    <div id="approveTaskPopoverContent" class="hidden">
+      <div class="popover-content">
+        <p>Are you sure want to approve this task?</p>
+        <p>This is a irreversible action.</p>
+        <div class="approve-btns mt10">
+          <a href=<%= accept_task_path(@task.id) %> title="approve">
+            <i class="fa fa-check"></i>Yes, approve
+          </a>
+          <a href="<%= reject_task_path(@task.id) %>" title="cancel" onclick="$(&quot;#approveTaskPopover&quot;).popover(&quot;hide&quot;)">
+            No
+          </a>
+        </div>
+      </div>
+    </div>
+    <script>
+      $("#approveTaskPopover").popover({
+        html: true,
+        content: function () {
+          return $("#approveTaskPopoverContent").html();
+        },
+        title: function () {
+          return $("#approveTaskPopoverTitle").html();
+        }
+      });
+    </script>
+<% end %>
 <script type="text/javascript">
   JsonFormsHelper.InitializeTaskMembersControls();
 
-  $("#approveTaskPopover").popover({
-    html : true, 
-    content: function() {
-      return $("#approveTaskPopoverContent").html();
-    },
-    title: function() {
-      return $("#approveTaskPopoverTitle").html();
-    }
-  });
+
 </script>

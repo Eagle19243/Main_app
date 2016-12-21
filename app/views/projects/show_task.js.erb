@@ -1,34 +1,33 @@
 $("#product-modal").html("<%= escape_javascript(render :partial => 'task_details') %>")
-$("#myModal").css("display","block");
-$("#close").click(function(){
+$("#myModal").css("display", "block");
+$("#close").click(function () {
   $("#myModal").hide();
   $("#product-modal").html("");
 });
-$( "#Do-request-form" ).submit(function( ) {
+$("#Do-request-form").submit(function () {
   $('#Do-request-form-response').html(" Requesting ...")
 });
-$( "#comment-form" ).submit(function( ) {
+$("#comment-form").submit(function () {
 });
 $('.hide-input').hide()
 $("#loading-mask1").hide();
-$('a[name=delete_attachment]').click(function() {
+$('a[name=delete_attachment]').click(function () {
   //alert($(this).attr('id'));
-  var id= $(this).attr('id')
+  var id = $(this).attr('id')
   $.ajax({
     url: "/task_attachments/destroy_attachment",
     type: "post", //send it through get method
-    data:{id:id},
-    success: function(response) {
-      if( response== true )
-      {
+    data: {id: id},
+    success: function (response) {
+      if (response == true) {
         alert('Successfully destroy ');
-        location.reload();}
-      else
-      {
+        location.reload();
+      }
+      else {
         alert('You are not authorized  to remove');
       }
     },
-    error: function(xhr) {
+    error: function (xhr) {
       alert('You are not authorized  to remove');
     }
   });
@@ -39,15 +38,15 @@ $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
-  $("#upload-button").show();
+  $("#upload-button").click();
 
 })
 $("#upload-button").hide();
-$("#upload-button").click(function(){
+$("#upload-button").click(function () {
   $("#upload-button").hide();
 })
 
-$("#task-title" ).dblclick(function() {
+$("#task-title").dblclick(function () {
   $(this).hide();
   $("#task-update-title-form").show();
   $("#input-task-title").show();
@@ -55,7 +54,7 @@ $("#task-title" ).dblclick(function() {
   $("#task-update-title").next().hide();
 
 });
-$("#task-description" ).dblclick(function() {
+$("#task-description").dblclick(function () {
   $(this).hide();
   $("#task-update-description-form").show();
   $("#input-task-description").show();
@@ -63,7 +62,7 @@ $("#task-description" ).dblclick(function() {
   $("#task-update-description").next().hide();
 
 });
-$("#task-condition" ).dblclick(function() {
+$("#task-condition").dblclick(function () {
   $(this).hide();
   $("#task-update-condition-form").show();
   $("#input-task-condition").show();
@@ -71,7 +70,7 @@ $("#task-condition" ).dblclick(function() {
   $("#task-update-condition").next().hide();
 
 });
-$("#task-proof" ).dblclick(function() {
+$("#task-proof").dblclick(function () {
   $(this).hide();
   $("#task-update-proof-form").show();
   $("#input-task-proof").show();
@@ -110,8 +109,8 @@ $('#input-task-condition').keypress(function (e) {
 });
 
 
-$("#edit-title").click(function(){
-$(this).hide();
+$("#edit-title").click(function () {
+  $(this).hide();
   $("#task-update-title").show();
   $('#input-task-title').show();
   $("#task-update-title-form").show();
@@ -119,7 +118,7 @@ $(this).hide();
   $("#cancel-title").show();
 
 });
-$("#edit-proof").click(function(){
+$("#edit-proof").click(function () {
   $(this).hide();
   $("#task-update-proof").show();
   $('#input-task-proof').show();
@@ -128,7 +127,7 @@ $("#edit-proof").click(function(){
   $("#cancel-proof").show();
 
 });
-$("#edit-description").click(function(){
+$("#edit-description").click(function () {
   $(this).hide();
   $("#task-update-description").show();
   $('#input-task-description').show();
@@ -136,7 +135,7 @@ $("#edit-description").click(function(){
   $("#task-description").show();
   $("#cancel-description").show();
 });
-$("#edit-condition").click(function(){
+$("#edit-condition").click(function () {
   $(this).hide();
   $("#task-update-condition").show();
   $('#input-task-condition').show();
@@ -144,7 +143,7 @@ $("#edit-condition").click(function(){
   $("#task-condition").show();
   $("#cancel-condition").show();
 });
-$("#cancel-title").click(function(){
+$("#cancel-title").click(function () {
   $(this).hide();
   $("#task-update-title").hide();
   $('#input-task-title').hide();
@@ -152,7 +151,7 @@ $("#cancel-title").click(function(){
   $("#task-title").show();
   $('#edit-title').show();
 });
-$("#cancel-proof").click(function(){
+$("#cancel-proof").click(function () {
   $(this).hide();
   $("#task-update-proof").hide();
   $('#input-task-proof').hide();
@@ -160,7 +159,7 @@ $("#cancel-proof").click(function(){
   $("#task-proof").show();
   $("#edit-proof").show();
 });
-$("#cancel-description").click(function(){
+$("#cancel-description").click(function () {
   $(this).hide();
   $("#task-update-description").hide();
   $('#input-task-description').hide();
@@ -168,7 +167,7 @@ $("#cancel-description").click(function(){
   $("#task-description").show();
   $("#edit-description").show();
 });
-$("#cancel-condition").click(function(){
+$("#cancel-condition").click(function () {
   $(this).hide();
   $("#task-update-condition").hide();
   $('#input-task-condition').hide();
@@ -176,7 +175,7 @@ $("#cancel-condition").click(function(){
   $("#task-condition").show();
   $("#edit-condition").show();
 });
-$("#task-update-title").click(function(){
+$("#task-update-title").click(function () {
   $(this).hide();
   $("#cancel-title").hide();
   $('#input-task-title').hide();
@@ -184,7 +183,7 @@ $("#task-update-title").click(function(){
   $("#task-title").show();
   $('#edit-title').show();
 });
-$("#task-update-proof").click(function(){
+$("#task-update-proof").click(function () {
   $(this).hide();
   $("#cancel-proof").hide();
   $('#input-task-proof').hide();
@@ -192,7 +191,7 @@ $("#task-update-proof").click(function(){
   $("#task-proof").show();
   $("#edit-proof").show();
 });
-$("#task-update-description").click(function(){
+$("#task-update-description").click(function () {
   $(this).hide();
   $("#cancel-description").hide();
   $('#input-task-description').hide();
@@ -200,7 +199,7 @@ $("#task-update-description").click(function(){
   $("#task-description").show();
   $("#edit-description").show();
 });
-$("#task-update-condition").click(function(){
+$("#task-update-condition").click(function () {
   $(this).hide();
   $("#cancel-condition").hide();
   $('#input-task-condition').hide();
@@ -209,45 +208,45 @@ $("#task-update-condition").click(function(){
   $("#edit-condition").show();
 });
 <% end  %>
-  // Get the modal
-  var modalinvite = document.getElementById('InviteModel');
-  // Get the button that opens the modal
-  var btninvite = document.getElementById("invbtn");
-  // Get the <span> element that closes the modal
-  var spaninvite = document.getElementById("inviteclose");
-  // When the user clicks the button, open the modal
-  btninvite.onclick = function() {
-      modalinvite.style.display = "block";
-      }
-  // When the user clicks on <span> (x), close the modal
-    spaninvite.onclick = function() {
-        modalinvite.style.display = "none";
-        }
-  // Get the modal
-  var modalshare = document.getElementById('share');
-  // Get the button that opens the modal
-  var btnshare = document.getElementById("sharebtn");
-  // Get the <span> element that closes the modal
-  var spanshare = document.getElementById("shareclose");
-  // When the user clicks the button, open the modal
-  btnshare.onclick = function() {
-      modalshare.style.display = "block";
-      }
-  // When the user clicks on <span> (x), close the modal
-    spanshare.onclick = function() {
-        modalshare.style.display = "none";
-        }
-  var modalteam = document.getElementById('team');
-  // Get the button that opens the modal
-  var btnteam = document.getElementById("teambtn");
-  // Get the <span> element that closes the modal
-  var spanteam = document.getElementById("teamclose");
- btnteam.onclick = function() {
-      modalteam.style.display = "block";
-      }
- spanteam.onclick = function() {
-        modalteam.style.display = "none";
-        }
+// Get the modal
+var modalinvite = document.getElementById('InviteModel');
+// Get the button that opens the modal
+var btninvite = document.getElementById("invbtn");
+// Get the <span> element that closes the modal
+var spaninvite = document.getElementById("inviteclose");
+// When the user clicks the button, open the modal
+btninvite.onclick = function () {
+  modalinvite.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+spaninvite.onclick = function () {
+  modalinvite.style.display = "none";
+}
+// Get the modal
+var modalshare = document.getElementById('share');
+// Get the button that opens the modal
+var btnshare = document.getElementById("sharebtn");
+// Get the <span> element that closes the modal
+var spanshare = document.getElementById("shareclose");
+// When the user clicks the button, open the modal
+btnshare.onclick = function () {
+  modalshare.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+spanshare.onclick = function () {
+  modalshare.style.display = "none";
+}
+var modalteam = document.getElementById('team');
+// Get the button that opens the modal
+var btnteam = document.getElementById("teambtn");
+// Get the <span> element that closes the modal
+var spanteam = document.getElementById("teamclose");
+btnteam.onclick = function () {
+  modalteam.style.display = "block";
+}
+spanteam.onclick = function () {
+  modalteam.style.display = "none";
+}
 
 var modal = document.getElementById('myModal');
 
@@ -255,26 +254,26 @@ var btn = document.getElementById("myBtn");
 
 var span = document.getElementById("myModalclose");
 
-btn.onclick = function() {
+btn.onclick = function () {
   modal.style.display = "block";
 }
 
-span.onclick = function() {
+span.onclick = function () {
   modal.style.display = "none";
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   $(document).keydown(function (e) {
-      if (e.keyCode == 27) {
-        $("#myModal").hide();
-        $("#share").hide();
-        $("#team").hide();
-        $("#suggested_task_popup").hide();
-        $("#InviteModel").hide();
-        $("#myModal2").hide();
-        $("#popup-for-free-paid").hide();        
-      }
-    });
+    if (e.keyCode == 27) {
+      $("#myModal").hide();
+      $("#share").hide();
+      $("#team").hide();
+      $("#suggested_task_popup").hide();
+      $("#InviteModel").hide();
+      $("#myModal2").hide();
+      $("#popup-for-free-paid").hide();
+    }
+  });
 })
 
 
@@ -292,12 +291,12 @@ var btn2 = document.getElementById("myBtn2");
 var span2 = document.getElementById("popup-for-free-paidclose");
 
 // When the user clicks on the button, open the modal
-btn2.onclick = function() {
+btn2.onclick = function () {
   modal2.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-span2.onclick = function() {
+span2.onclick = function () {
   modal2.style.display = "none";
 }
 
@@ -307,18 +306,18 @@ span2.onclick = function() {
 //}
 
 function setpaid() {
-    $("#cover-leter-header-text").html("");
-    $("#cover-leter-header-text").html("You will do this task for Compensation");
-    document.getElementById("do_request_free").value= "false";
-    $("#popup-for-free-paid").show();
+  $("#cover-leter-header-text").html("");
+  $("#cover-leter-header-text").html("You will do this task for Compensation");
+  document.getElementById("do_request_free").value = "false";
+  $("#popup-for-free-paid").show();
 
-  }
-  function setfree() {
-    $("#cover-leter-header-text").html("");
-    document.getElementById("do_request_free").value= "true";
-    $("#cover-leter-header-text").html("You will do this task for FREE");
-    $("#popup-for-free-paid").show();
-  }
+}
+function setfree() {
+  $("#cover-leter-header-text").html("");
+  document.getElementById("do_request_free").value = "true";
+  $("#cover-leter-header-text").html("You will do this task for FREE");
+  $("#popup-for-free-paid").show();
+}
 <%else  %>
 
 var suggested_task_model = document.getElementById('suggested_task_popup');
@@ -331,19 +330,19 @@ var suggested_do = document.getElementById("suggested_task_do");
 var suggested_task_popup_close = document.getElementById("suggested_task_popup_close");
 
 // When the user clicks on the button, open the modal
-suggested_fund.onclick = function() {
+suggested_fund.onclick = function () {
   suggested_task_model.style.display = "block";
 }
-suggested_do.onclick = function() {
+suggested_do.onclick = function () {
   suggested_task_model.style.display = "block";
 }
 // When the user clicks on <span> (x), close the modal
-suggested_task_popup_close.onclick = function() {
+suggested_task_popup_close.onclick = function () {
   suggested_task_model.style.display = "none";
 }
 <%end %>
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
@@ -364,7 +363,7 @@ window.onclick = function(event) {
   }
 }
 
-$(function() {
+$(function () {
   callAjax();
 });
 
@@ -373,10 +372,10 @@ function callAjax() {
   $.ajax({
     url: "/projects/get_activities",
     type: "get",
-    data:{id: <%= @task.id %>},
+    data: {id: <%= @task.id %>},
 
-    success: function() {
-      setTimeout(callAjax,199000);
+    success: function () {
+      setTimeout(callAjax, 199000);
     }
   });
 }
