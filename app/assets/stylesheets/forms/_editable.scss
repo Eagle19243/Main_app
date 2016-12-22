@@ -1,0 +1,14 @@
+._editable {
+  [type="text"] {
+    background: #fff;
+    -webkit-appearance: none;
+    border: 2px solid #000;
+    padding: 0 15px;
+  }
+  .btn-root {
+    border-radius: 20px;
+    &+.btn-root {
+      margin-left: 15px;
+    }
+  }
+}
