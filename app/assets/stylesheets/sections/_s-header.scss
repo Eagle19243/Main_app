@@ -1,0 +1,236 @@
+@import '../new_design/variables';
+
+.s-header {
+  &__wrapper {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 2px solid #eee;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 3%;
+    position: relative;
+  }
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+  &__logo {
+    margin-right: 60px;
+
+    a {
+      display: inline-block;
+      vertical-align: middle;
+      color: #000;
+      font-weight: 600;
+      font-size: 32px;
+
+      &:hover {
+        color: #000;
+        text-decoration: none;
+      }
+    }
+  }
+  &__right {
+    display: flex;
+    align-items: center;
+    font-family: 'Roboto';
+
+
+    .svg-arrow-down {
+      width: 11px;
+      height: 7px;
+      fill: $darkBackground;
+    }
+
+    .user-dropdown {
+      margin-left: 26px;
+
+      a {
+        font-family: 'Roboto';
+        color: #333;
+        display: block;
+        text-decoration: none;
+      }
+
+      .dropdown-menu {
+        li {
+          background-color: #fff;
+          text-align: left;
+          padding: 5px 10px;
+
+          &:hover,
+          &:focus {
+            background-color: #eee;
+          }
+          a:hover,
+          a:focus {
+            background-color: #eee;
+          }
+
+          &.border-top {
+            padding: 8px 10px;
+          }
+        }
+      }
+
+      img {
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+    }
+
+    .notify-dropdown {
+      margin-left: 14px;
+
+      ul.dropdown-menu {
+        width: 300px;
+        left: -140px;
+        padding: 0;
+
+        li {
+          padding: 15px 0px;
+
+          &.notify-count {
+            font-family: 'Roboto';
+            color: #000;
+            font-size: 1.2em;
+            text-align: center;
+
+            span.count {
+              font-family: 'Roboto';
+              font-size: 1em;
+              font-weight: normal;
+              background: #000;
+              color: #fff;
+              border-radius: 50%;
+              display: inline-block;
+              width: 20px;
+              height: 20px;
+              line-height: 20px;
+              vertical-align: middle;
+            }
+          }
+          &.notify-wrapper {
+            background-color: #efefef;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-bottom: 1px solid #ddd;
+
+            .action {
+              font-family: 'Roboto';
+              color: #000;
+              font-size: 0.9em;
+            }
+            .date, p {
+              font-family: 'Roboto';
+              color: #777;
+              font-size: 0.9em;
+            }
+            p {
+              color: #555;
+              margin: 0;
+            }
+          }
+          &.notify-wrapper:last-child {
+            border-bottom: none;
+          }
+
+          &.notify-link {
+            text-align: center;
+            a {
+              font-family: 'Roboto';
+              color: #999;
+              font-size: 0.9em;
+
+              &:hover {
+                background-color: #fff;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .search-box-wrapper {
+      margin: 0 10px;
+      padding: 0;
+
+      input[type="text"] {
+        height: 34px;
+        width: 100%;
+        font-size: 12px;
+        border-radius: 17px;
+        padding: 0 30px 0 15px;
+        margin: 0;
+        box-shadow: none;
+        background-color: #fff;
+      }
+    }
+
+
+    .btn-mobile {
+      color: #000;
+      background: none;
+      color: #000;
+      border: 0;
+      cursor: pointer;
+      outline: none;
+      font-weight: bold;
+      font-size: 26px !important;
+      position: relative;
+      text-align: center;
+    }
+  }
+
+  .projects-link {
+    margin-left: 20px;
+    font-family: 'Roboto';
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 20px;
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+}
+
+
+@media(min-width: 1121px) {
+  .s-header__right {
+    a.show-tablet {
+      display: none !important;
+    }
+  }
+}
+
+@media(max-width: 1120px) {
+  .s-header__right {
+    .btn-notification,
+    a.show-desktop {
+      display: none;
+    }
+    div.show-desktop {
+      display: none;
+    }
+    a.show-tablet {
+      display: inline-block;
+    }
+  }
+}
+
+@media(max-width: 767px) {
+  .s-header {
+    .hidden-mobile {
+      display: none;
+    }
+  }
+}
+
+// todo FD: remove unnecessary styles from previous version
