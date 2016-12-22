@@ -6,6 +6,7 @@ class TasksController < ApplicationController
   protect_from_forgery :except => :update
   layout false, only: [:show]
   before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
+  include ApplicationHelper
 
 
   def validate_team_member
