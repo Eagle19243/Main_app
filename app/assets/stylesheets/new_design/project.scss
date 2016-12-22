@@ -877,3 +877,20 @@ div.progress {
     }
   }
 }
+
+.project-title {
+  font-family: 'Roboto';
+  font-size: 1.3em;
+  color: #000;
+}
+
+.project-country {
+  font-family: 'Roboto';
+  font-size: 1em;
+  color: #777;
+
+  i {
+    padding-left: 0;
+  }
+}
+

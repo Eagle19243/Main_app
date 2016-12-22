@@ -17,7 +17,10 @@
             <a class="image-with-title" href="<%= taskstab_project_path(result)%>">
           <% end %>
               <h4 class="project-title"><%= result.title %></h4>
-              <span class="project-country"><%= result.country %></span>
+              <span class="project-country">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <%= result.country %>
+              </span>
             </a>
         </div>
         <div class="project-info">

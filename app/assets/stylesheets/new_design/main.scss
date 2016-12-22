@@ -112,3 +112,10 @@ select {
   color: #333;
   box-shadow: none;
 }
+
+.separator {
+  box-shadow: none;
+  border-top: 2px solid #ddd;
+  border-bottom: 0;
+}
+
