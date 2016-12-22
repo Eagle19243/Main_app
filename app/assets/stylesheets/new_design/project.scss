@@ -3,7 +3,6 @@
 
 .search-project-box {
   position: relative;
-  display: inline-block;
   width: 250px;
 
   input[type="text"] {
@@ -21,16 +20,12 @@
     }
   }
 
-  button {
+  .btn-search {
     position: absolute;
     background-color: transparent;
-    padding: 5px 10px;
-    display: block;
-    display: block;
-    top: 2px;
     color: #555;
-    right: 5px;
-    padding-right: 5px;
+    top: 0;
+    right: 0;
   }
 }
 

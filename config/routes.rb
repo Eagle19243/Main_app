@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'group_messages/users_chat'
   post 'group_messages/one_to_one_chat'
   get 'group_messages/user_messaging'
+  get 'group_messages/download_files'
   get 'user_wallet_transactions/create_wallet'
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
@@ -26,7 +27,6 @@ Rails.application.routes.draw do
   # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'
-  get 'chat_rooms/create_room'
   get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
@@ -130,6 +130,7 @@ Rails.application.routes.draw do
       post :rate
       get :discussions
       get :revisions
+      get :plan
       get :read_from_mediawiki
       post :write_to_mediawiki
       get :revision_action
@@ -173,7 +174,6 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"}
 
   resources :users
-  resources :messages
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
   root to: 'visitors#landing'

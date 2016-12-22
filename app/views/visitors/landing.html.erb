@@ -9,7 +9,12 @@
             <p>Share your vision and your audience will make it happen</p>
 
             <div class="hero-start">
-              <a class="btn-start" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% if user_signed_in? %>
+                  <a class="btn-start" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+              <% else %>
+                  <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+
+              <% end %>
             </div>
           </div>
         </div>
@@ -112,7 +117,7 @@
 <!--   <div class="carousel-banner" id="carousel_banner">
     <div class="landing-carousel">
       <div class="carousel-item">
-        <%= image_tag("carousel/carousel_1.jpg") %>
+        <%#= image_tag("carousel/carousel_1.jpg") %>
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Create Your Prototype</h1>
@@ -124,7 +129,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <%= image_tag("carousel/carousel_2.jpg") %>
+        <%#= image_tag("carousel/carousel_2.jpg") %>
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Serve as a Leader</h1>
@@ -136,7 +141,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <%= image_tag("carousel/carousel_3.jpg") %>
+        <%#= image_tag("carousel/carousel_3.jpg") %>
         <div class="carousel-text">
           <div class="text-wrapper">
             <h1>Build Your Own Lab</h1>
@@ -159,7 +164,11 @@
               <h1>Create Your Prototype</h1>
               <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
               <div class="carousel-start">
-                <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
               </div>
             </div>
           </div>
@@ -173,7 +182,11 @@
               <h1>Serve as a Leader</h1>
               <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as an independent leader.</p>
               <div class="carousel-start">
-                <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
               </div>
             </div>
           </div>
@@ -187,7 +200,11 @@
               <h1>Build Your Own Lab</h1>
               <p>Bridge the gap between theory and action;<br>Publicize and expand your academic projects.</p>
               <div class="carousel-start">
-                <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
               </div>
             </div>
           </div>
@@ -269,8 +286,12 @@
           </div>
         </div>
       </div>
-
-      <a data-toggle="modal" data-target="#startProjectModal" class="btn-root _light">Start a Project</a>
+      <% if user_signed_in? %>
+          <a class="btn-root _light" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+      <% else %>
+          <a class="btn-root _light" class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+      <% end %>
+      <!--<a data-toggle="modal" data-target="#startProjectModal" class="btn-root _light">Start a Project</a>-->
 
     </div>
   </div>
