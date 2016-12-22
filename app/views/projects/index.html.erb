@@ -8,16 +8,6 @@
           <%= paginate @featured_projects, remote: true %>
         </div>
       </div>
-
-      <!-- <div class="search-box-wrapper pull-right">
-        <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
-            <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
-            <button type="button" name="" type="submit" >
-              <i class="fa fa-search"></i>
-            </button>
-        <% end %>
-      </div> -->
-
     </div>
 
     <div class="l-project-cards"  id="search-results-show">
