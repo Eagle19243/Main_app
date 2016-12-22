@@ -44,22 +44,29 @@
                       </table>
                     </div>
                     <div class="fund-do-btns">
-                      <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link'  data-target="#suggested_task_model_for_fund">
+                      <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
                         FUND
                       </a>
-                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link'  data-target="#suggested_task_model_for_fund">
+                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' data-target="#suggested_task_model_for_fund">
                         DO
                       </a>
+                      <% if user_signed_in? %>
+                          <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
+                              <%= link_to 'Destroy', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
+                          <% end %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
             <% end %>
         <% end %>
       </div>
-
-      <div class="section-add-task">
-        <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
-      </div>
+      <% if current_user && current_user.id != @project.user_id %>
+          <div class="section-add-task">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
+              a Task</a>
+          </div>
+      <% end %>
     </div>
   </div>
 
@@ -115,7 +122,7 @@
                         DO
                       </a>
                       <% if user_signed_in? %>
-                          <% if @project.user_id == current_user.id || task.is_leader(current_user.id) %>
+                          <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
                               <%= link_to 'Destroy', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
                           <% end %>
                       <% end %>
@@ -131,7 +138,8 @@
       <% if user_signed_in? %>
           <% if @project.user_id == current_user.id %>
               <div class="section-add-task">
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
+                  a Task</a>
               </div>
           <% end %>
       <% end %>

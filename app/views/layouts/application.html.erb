@@ -1,52 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "WeServe" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= content_for?(:title) ? yield(:title) : "WeServe" %></title>
+  <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
 
-    <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
 
-    <%= javascript_include_tag 'vendor/modernizr' %>
-    <%= javascript_include_tag 'application' %>
-    <%= csrf_meta_tags %>
+  <%= javascript_include_tag 'vendor/modernizr' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
 
-    <%= yield :customhead %>
-  </head>
+  <%= yield :customhead %>
+</head>
 
-  <body>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '1204824659546785',
-          xfbml      : true,
-          version    : 'v2.5'
-        });
-      };
+<body>
+<script>
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: '1204824659546785',
+      xfbml: true,
+      version: 'v2.5'
+    });
+  };
 
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/en_US/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-    </script>
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 
-    <div class="page-wrapper">
+<div class="page-wrapper">
 
-      <%= render 'layouts/menu' %>
-      <%= render 'layouts/messages' %>
+  <%= render 'layouts/menu' %>
+  <%= render 'layouts/messages' %>
 
-      <%= yield %>
-
+  <%= yield %>
+  <% unless user_signed_in? %>
       <%= render "modal/register_modal" %>
       <%= render "modal/start_project_modal" %>
       <%= render "modal/project_signup_modal" %>
+  <% end %>
+</div>
 
-    </div>
+<%= render 'layouts/footer' %>
 
-    <%= render 'layouts/footer' %>
-
-  </body>
+</body>
 </html>
