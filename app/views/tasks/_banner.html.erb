@@ -7,7 +7,7 @@
       <a class="btn-edit btn-edit-image" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
     <% end %>
   </div>
-  <div class="mid-section">
+  <div class="welcome-banner__content">
     <div class="row">
       <div class="b-project-info">
         <div class="b-project-info__wrapper">
@@ -25,14 +25,16 @@
 
             </div>
             <div class="b-project-info__title _editable">
-              <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :title, :ok_button => "Save", ok_button_class: "btn-root", :cancel_button => "Cancel", cancel_button_class: "btn-root", :activator => '#title-pencil' %>
+              <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :title, :ok_button => "Save", ok_button_class: "btn-root _light", :cancel_button => "Cancel", cancel_button_class: "btn-root _light", :activator => '#title-pencil' %>
               <% if user_signed_in? && current_user.is_admin_for?(@project) %>
               <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
               <% end %>
             </div>
-            <a class="b-project-info__city">
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-              <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
+            <a class="b-project-info__city _editable">
+              <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
+              </svg>
+              <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :country, :ok_button => "Save", ok_button_class: "btn-root _light", :cancel_button => "Cancel", cancel_button_class: "btn-root _light", :activator => '#country-pencil' %>
               <% if user_signed_in? && current_user.is_admin_for?(@project) %>
               <%#= @project.country %>
               <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="country-pencil"></span>
@@ -45,7 +47,7 @@
     <div class="row">
       <center>
         <div class="task-progress-wrapper">
-          <div class="progress mb20">
+          <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= (@sourcing_tasks.count / @projec_conut ) * 100 rescue 0 %> %">
             </div>
           </div>

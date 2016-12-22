@@ -1,7 +1,7 @@
 
 <div class='welcome-banner'>
   <%= image_tag(@project.picture) %>
-  <div class="mid-section">
+  <div class="welcome-banner__content">
 
     <div class="row">
       <center class="project-intro">
@@ -35,7 +35,7 @@
     <div class="row">
       <center>
         <div class="task-progress-wrapper">
-          <div class="progress mb20">
+          <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @project.funded_percentages %>">
             </div>
           </div>
