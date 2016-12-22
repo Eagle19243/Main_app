@@ -89,7 +89,7 @@
       </div>
 
       <div class="user-trans-btns">
-        <% if current_user.id == @user.id %>
+        <% if current_user && current_user.id == @user.id %>
         <a href="javascript:void(0)" class="" data-reveal-id="fund-transfer-wallet">
           <i class="fa fa-btc" aria-hidden="true"></i>Transfer coins
         </a>
