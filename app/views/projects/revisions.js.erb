@@ -1,4 +1,4 @@
-$("#Revision").html("<%= escape_javascript(render partial: 'projects/tabcontent/revision', locals: {histories: @histories, project: @project, mediawiki_api_base_url: @mediawiki_api_base_url}) %>");
+$("#Plan").html("<%= escape_javascript(render partial: 'projects/tabcontent/revision', locals: {histories: @histories, project: @project, mediawiki_api_base_url: @mediawiki_api_base_url}) %>");
 
 <!-- Revision selector input initialization for loaded via AJAX Revisions tab -->
 window.revisionSelectorInstance = new window.revisionSelector('.revision-compare-custom-radio');
