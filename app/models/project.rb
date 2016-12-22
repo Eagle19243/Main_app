@@ -368,4 +368,27 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # MediaWiki API - Change page title
+  def rename_page username, old_title
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        new_title = self.wiki_page_name.gsub(" ", "_")
+      else
+        new_title = self.title.strip.gsub(" ", "_")
+      end
+
+      old_title = old_title.gsub(" ", "_")
+
+      # Change page title
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=move&page=#{URI.escape(old_title)}&page_new=#{URI.escape(new_title)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
 end
