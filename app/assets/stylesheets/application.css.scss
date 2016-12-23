@@ -18,10 +18,11 @@
  *= require chosen
  *= require_self
  *= require jquery.jcrop
- */
+  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 @import "font-awesome";
 
 @import 'colors';

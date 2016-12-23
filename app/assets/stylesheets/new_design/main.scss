@@ -114,8 +114,8 @@ select {
 }
 
 .separator {
-  box-shadow: none;
-  border-top: 2px solid #ddd;
-  border-bottom: 0;
+  box-shadow: none !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
 }
 

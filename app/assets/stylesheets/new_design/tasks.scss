@@ -932,3 +932,8 @@
   display: inline-block !important;
 }
 
+.deadline-group {
+  span.input-group-addon {
+    border-radius: 0;
+  }
+}

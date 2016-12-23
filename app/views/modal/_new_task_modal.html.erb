@@ -36,6 +36,25 @@
               <%= f.input :target_number_of_participants, required: true %>
             </div>
 
+            <div class="deadline-group">
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker9'>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar">
+                            </span>
+                        </span>
+                        <input type='text' class="form-control" />
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker9').datetimepicker({
+                            viewMode: 'years'
+                        });
+                    });
+                </script>
+            </div>
+
             <%= f.hidden_field :project_id, value: @project.id %>
           </div>
 
