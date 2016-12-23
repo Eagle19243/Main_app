@@ -199,7 +199,7 @@ class CarrierWaveCropper
 $ ->
   loading = false
   ajaxIsLoadingIndicator = $('#ajaxLoading')
-  scrollToLoadMore = $('#scroll-to-load-more')
+  scrollToLoadMore = $('#scroll-to-load-more')    # todo FD: look like dead code
   
   $(document).bindWithDelay "scroll", ->
     windowBottom = $(window).scrollTop() + $(window).height()
