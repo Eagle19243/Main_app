@@ -29,10 +29,10 @@
     <h4 class="subheader"><center>Project details</center></h4>
     <div id="section-details">
       <%=f.simple_fields_for :section_details do |section_detail_fields|%>
-          <%= render 'section_detail_fields', f: section_detail_fields%>
+        <%= render 'section_detail_fields', f: section_detail_fields%>
       <%end%>
       <div class='links'>
-        <%= link_to_add_association('Add section', f, :section_details, class:'button tiny')%>
+        <%= link_to_add_association('Add section', f, :section_details, class:'button radius')%>
       </div>
     </div>
 
@@ -48,7 +48,7 @@
     Upload Project Picture:<%= f.file_field :picture %>
   </div>
   <div class="form-actions">
-    <%= f.button :submit, class: "button tiny radius" %>
+    <%= f.button :submit, class: "radius" %>
   </div>
 <% end %>
 <%=javascript_tag do%>
