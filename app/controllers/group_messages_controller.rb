@@ -150,7 +150,10 @@ class GroupMessagesController < ApplicationController
       if group_message.attachment.blank?
         redirect_to group_messages_path
       else
-        send_file group_message.attachment.path
+        data = open(group_message.attachment.file.url)
+        send_data data.read, filename:group_message.attachment.file.filename, stream: 'true'
+       # redirect_to group_message.attachment.file.url
+       # send_file group_message.attachment.to_s
       end
     else
       redirect_to group_messages_path
