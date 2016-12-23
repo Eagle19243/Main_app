@@ -83,18 +83,18 @@
   position: relative;
 }
 
-.project-wrapper {
+.project-wrapper {    // todo FD: check this group (used only in search flow)
   padding: 2rem 0;
   text-align: center;
 
-  &.landing {
+  &.landing {   // todo FD: look like dead code
     background-color: $white-green;
     border-top: 3px solid $border-light;
     padding: 7rem 0;
     position: relative;
   }
 
-  h3 {
+  h3 {  // todo FD: look like dead code
     color: $light-gray;
     font-family: Raleway;
     font-size: 1.0625rem;
