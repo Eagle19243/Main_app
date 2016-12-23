@@ -43,28 +43,12 @@
   position: relative;
 }
 
-.heading-banner {
-  display: block;
-  width: 100%;
-  text-align: left;
-}
-
-.project-header {
-  text-align: left;
-  display: inline-block;
-
-  h2 {
-    font-family: 'Roboto';
-    color: #000;
-  }
-}
-
 .search-box-wrapper {
   padding-top: 20px;
 }
 
 div.progress {
-  height: 7px;
+  height: 6px;
   margin-bottom: 0;
   border: none;
   padding: 0;
@@ -307,155 +291,7 @@ div.progress {
 
 
 
-.project-card {
-  border: 2px solid #eee;
-  background-color: #fff;
-  font-size: 14px; // todo FD: remove when begin refactoring this component
 
-  .card-img {
-    border-bottom: 1px solid #ddd;
-    position: relative;
-
-    img {
-      height: 180px;
-      width: 100%;
-      margin: auto;
-    }
-
-    .user-link {
-      position: absolute;
-      display: inline-block;
-      left: 0px;
-      bottom: 0px;
-      background-color: rgba(0, 0, 0, 0.25);
-      width: 100%;
-      padding: 2px 10px;
-      text-align: left;
-
-      a {
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        font-weight: 600;
-        color: #fff;
-      }
-
-      img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-right: 10px;
-        border: 2px solid #fff;
-      }
-    }
-
-    .favor-link {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 1.5em;
-      font-weight: bold;
-      color: #fff;
-
-      i {
-        padding: 3px;
-        background-color: rgba(0,0,0, 0.3);
-        border-radius: 50%;
-        vertical-align: middle;
-      }
-    }
-  }
-
-  .title-banner {
-    padding: 10px;
-    text-align: left;
-
-    a {
-      font-family: 'Libre Franklin';
-      font-weight: 600;
-      color: #000;
-      font-size: 1.3em;
-    }
-  }
-
-  ul.info-banner {
-    padding: 0px 10px 0px;
-    margin: 0;
-    display: inline-block;
-    list-style-type: none;
-    overflow: hidden;
-    width: 100%;
-
-    li {
-      float: left;
-      text-align: left;
-      font-family: 'Roboto';
-      font-weight: normal;
-      font-size: 1.4em;
-      color: #999;
-
-      i {
-        color: #aaa;
-        padding: 0px !important;
-        font-size: 16px !important;
-        margin-right: 8px;
-      }
-    }
-  }
-
-  .summary-banner {
-    padding: 10px 10px 0px;
-    p {
-      font-family: 'Libre Franklin';
-      font-weight: normal;
-      font-size: 1em;
-      color: #555;
-    }
-  }
-
-  .progress-banner {
-    padding: 0 10px;
-
-    .progress {
-      background-color: #ddd !important;
-      .progress-bar {
-        background-color: #555;
-      }
-    }
-  }
-
-  .progress-report {
-    padding-right: 10px;
-    padding-left: 10px;
-
-    table {
-      width: 100%;
-    }
-
-    tbody {
-      tr td {
-        padding: 0 !important;
-        font-family: 'Libre Franklin';
-        text-align: left;
-        line-height: 1.3em !important;
-      }
-      tr.value {
-        td {
-          font-family: 'Libre Franklin';
-          color: #333 !important;
-          font-size: 1.3em !important;
-        }
-      }
-      tr.items {
-        td {
-          font-family: 'Libre Franklin';
-          color: $grey-clr !important;
-          font-size: 0.9em !important;
-          text-align: left;
-        }
-      }
-    }
-  }
-}
 
 .load-more {
   padding-top: 30px;
@@ -872,3 +708,56 @@ div.progress {
     }
   }
 }
+
+.project-search-wrapper {
+
+  .project-title {
+    font-family: 'Roboto';
+    font-size: 1.3em;
+    color: #000;
+  }
+
+  .project-country {
+    font-family: 'Roboto';
+    font-size: 1em;
+    color: #777;
+
+    i {
+      padding-left: 0;
+    }
+  }
+}
+
+#projects-search-results {
+  display: block;
+  position: relative;
+  background-color: #fff;
+
+  .result-title {
+    font-family: 'Roboto';
+    color: #000;
+    text-align: left;
+  }
+
+  .content.projects {
+    margin-bottom: 10rem;
+  }
+}
+
+.ui-autocomplete {
+  z-index: 3000;
+}
+
+.edit-content {
+  #project-form {
+    .form-inputs {
+      label {
+        font-size: 1.875rem;
+      }
+    }
+    .button {
+      font-size: 1.5rem;
+    }
+  }
+}
+

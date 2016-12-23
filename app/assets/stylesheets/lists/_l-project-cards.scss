@@ -1,5 +1,5 @@
 .l-project-cards {
-  padding-top: 40px;
+  padding-top: 11px;
   .myprojets-table & {
     padding-top: 0;
   }
@@ -16,13 +16,16 @@
     font-size: 0;
     margin: 0 -15px;
     text-align: left;
+    display: flex;
+    flex-wrap: wrap;
   }
   &__item {
-    vertical-align: top;
-    display: inline-block;
+    max-width: 33.3333%;
+    flex-basis: 33.33333%;
     width: 33.33333%;
     padding: 0 15px;
     margin-bottom: 30px;
+    display: flex;
   }
 }
 
@@ -31,6 +34,8 @@
   .l-project-cards {
     &__item {
       .myprojets-table & {
+        max-width: 50%;
+        flex-basis: 50%;
         width: 50%;
       }
     }
@@ -42,10 +47,12 @@
     &__list {
       .myprojets-table & {
         max-width: 420px;
+        display: block;
       }
     }
     &__item {
       .myprojets-table & {
+        max-width: 100%;
         width: 100%;
       }
     }
@@ -55,6 +62,8 @@
 @media(max-width: 840px) {  // todo DESIGNER/FD: should be defined better breakpoints accordingly real data inside project card
   .l-project-cards {
     &__item {
+      max-width: 50%;
+      flex-basis: 50%;
       width: 50%;
     }
   }
@@ -65,8 +74,10 @@
     &__list {
       max-width: 420px;
       margin: 0 auto 30px;
+      display: block;
     }
     &__item {
+      max-width: 100%;
       width: 100%;
       padding: 0;
     }

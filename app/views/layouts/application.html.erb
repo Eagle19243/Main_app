@@ -40,7 +40,10 @@
       <%= render 'layouts/menu' %>
       <%= render 'layouts/messages' %>
 
-      <%= yield %>
+      <div id="projects-search-results">
+        <div id="error-message-show"></div>
+        <%= yield %>
+      </div>
 
       <%= render "modal/register_modal" %>
       <%= render "modal/start_project_modal" %>

@@ -19,7 +19,7 @@
       <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
           <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %>
           <button name="" class="btn-search btn-reset">
-              <svg focusable="false" version="1.1" aria-labelledby="title-search desc-search" class="svg-search">
+              <svg focusable="false" version="1.1" class="svg-search">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-search"></use>
               </svg>
           </button>
@@ -27,7 +27,7 @@
     </div>
 
     <%= link_to group_messages_path, data: {no_turbolink: true}, :class => 'btn-reset btn-notification' do %>
-      <svg focusable="false" version="1.1" aria-labelledby="title-envelope desc-envelope" class="svg-envelope">
+      <svg focusable="false" version="1.1" class="svg-envelope">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
       </svg>
 
@@ -36,7 +36,7 @@
     <div class="dropdown notify-dropdown show-desktop">
       <a class="dropdown-toggle btn-reset btn-bell" type="button" data-toggle="dropdown">
           <div class="btn-bell__wrapper">
-              <svg focusable="false" version="1.1" aria-labelledby="title-bell desc-bell" class="svg-bell">
+              <svg focusable="false" version="1.1" class="svg-bell">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bell"></use>
               </svg>
 
@@ -83,7 +83,7 @@
         <% end %>
         <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
 
-          <svg focusable="false" version="1.1" aria-labelledby="title-arrow-down desc-arrow-down" class="svg-arrow-down">
+          <svg focusable="false" version="1.1" class="svg-arrow-down">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
           </svg>
         </span>
