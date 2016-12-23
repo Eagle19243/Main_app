@@ -18,10 +18,11 @@
  *= require chosen
  *= require_self
  *= require jquery.jcrop
- */
+  */
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 @import "font-awesome";
 
 @import 'colors';
@@ -33,3 +34,9 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 @import 'slick';
+.modal-backdrop{
+  z-index: 999;
+}
+#project-location-icon{
+  cursor:default;
+}

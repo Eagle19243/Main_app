@@ -1,41 +1,27 @@
-<!-- Autocomplete tag is only used in this page -->
-<%= javascript_include_tag "autocomplete-rails.js"%>
-
 <main class="main-wrapper">
-  <div class="project-wrapper">
-
-    <div class="heading-banner">
-      <div class="project-header">
-        <h2>Browse Projects</h2>
+  <section class="s-projects">
+    <div class="s-projects__container">
+      <div class="s-projects__heading">
+        <h2 class="s-projects__title">Browse Projects</h2>
         <div id="paginator">
-          <%= paginate @featured_projects, remote: true %>
+            <%= paginate @featured_projects, remote: true %>
         </div>
       </div>
 
-      <!-- <div class="search-box-wrapper pull-right">
-        <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
-            <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
-            <button type="button" name="" type="submit" >
-              <i class="fa fa-search"></i>
-            </button>
-        <% end %>
-      </div> -->
+      <div class="l-project-cards"  id="search-results-show">
+          <div id="error-message-show" style="background-color: red"> </div>
+          <ul class="l-project-cards__list">
+              <%= render "projects_page" %>
+          </ul>
+      </div>
 
+      <div class="load-more">
+          <h5>Scroll Down To Load More</h5>
+      </div>
     </div>
-
-    <div class="l-project-cards"  id="search-results-show">
-      <div id="error-message-show" style="background-color: red"> </div>
-      <ul class="l-project-cards__list">
-        <%= render "projects_page" %>
-      </ul>
-    </div>
-
-    <div class="load-more">
-      <h5>Scroll Down To Load More</h5>
-    </div>
-
-  </div>
+  </section>
 </main>
+
 <% if  @download_keys  %>
     <%= render "modal/created_wallet_modal" %>
     <script type="text/javascript">

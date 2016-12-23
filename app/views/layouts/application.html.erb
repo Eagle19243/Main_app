@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "WeServe" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "YouServe" %>">
-
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyArO4kJXYuWNWA47l20aDlstpi1oFA9f7A&&libraries=places"></script>
     <%= stylesheet_link_tag 'application', media: 'all' %>
 
     <%= javascript_include_tag 'vendor/modernizr' %>
@@ -40,7 +40,10 @@
       <%= render 'layouts/menu' %>
       <%= render 'layouts/messages' %>
 
-      <%= yield %>
+      <div id="projects-search-results">
+        <div id="error-message-show"></div>
+        <%= yield %>
+      </div>
 
       <%= render "modal/register_modal" %>
       <%= render "modal/start_project_modal" %>
