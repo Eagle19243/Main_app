@@ -1,4 +1,4 @@
-<div id="InviteModel" class="modal">
+<div id="InviteModel" class="modal" style="z-index: 2">
 
   <!-- Modal content -->
   <div class="modal-content2 yes">
@@ -72,11 +72,13 @@
         <div id="task-related-messages" style=""></div>
         <div class="title-wrapper">
           <h2 class="task-proof" id="task-title"><%= @task.title %></h2>
-          <a href="#" id="edit-title"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-          <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
-              <%= f.text_field :title, id: "input-task-title" %>
-              <button name="button" type="submit" id="task-update-title">save</button>
-              <button type="reset" id="cancel-title">cancel</button>
+          <% if user_signed_in? && (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+              <a href="#" id="edit-title"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+              <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
+                  <%= f.text_field :title, id: "input-task-title" %>
+                  <button name="button" type="submit" id="task-update-title">save</button>
+                  <button type="reset" id="cancel-title">cancel</button>
+              <% end %>
           <% end %>
         </div>
 
@@ -84,7 +86,7 @@
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
           <div class="task-details-left-side">
 
-            <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
+            <% if user_signed_in? && (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
 
                 <div class="task-desc">
                   <div class="desc-block">
@@ -181,14 +183,19 @@
             <div class="fund">
               <center class="mb30">
                 <% unless @task.suggested_task? %>
-                    <%= link_to new_donation_path(task_id: @task.id), data: {no_turbolink: false, :style => "color:white"} do %>
-                        <button title="fund">Fund</button>
-                    <% end %>
-                    <button id="myBtn2" title="do">DO</button>
+                    <a href="javascript:void(0)" title="FUND" data-toggle="modal" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-target="#taskFundModal">
+                      <button title="fund">Fund</button>
+                    </a>
+                    <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-target="#taskDoModal">
+                      <button title="do">DO</button>
+                    </a>
                 <% else %>
-                    <button id="suggested_task_fund" title="fund">Fund</button>
-                    <button id="suggested_task_do" title="do">DO</button>
-                    <!--<button> This is Sugggested Task and Waiting For Admin Approval</button>-->
+                    <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
+                      <button title="fund">Fund</button>
+                    </a>
+                    <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
+                      <button title="do">DO</button>
+                    </a>
                 <% end %>
               </center>
 
@@ -244,14 +251,13 @@
 
             <div class="approve-block mb20">
               <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
-
                   <a href="javascript:void(0)" class="approve-link mb10" id="approveTaskPopover" tabindex="0" data-trigger="focus" data-placement="top">
                     <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                     Approve
                   </a>
               <% end %>
-              <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
-                  <a href="javascript:void(0)" class="approve-link">
+              <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+                  <a href="<%= reject_task_path(@task.id) %>" class="approve-link">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
                     Delete Task
                   </a>
@@ -260,7 +266,7 @@
 
             <div class="button-group">
               <div class="btn-left">
-                <% if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || (current_user.id == @task.user_id && @task.suggested_task?)) %>
+                <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
                     <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                         <%= f.hidden_field :task_id, :value => @task.id %>
                         <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
@@ -274,14 +280,14 @@
                 <button id="invbtn"><i class="fa fa-users" aria-hidden="true"></i>Invite</button>
                 <% if user_signed_in? %>
                     <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) %>
-                        <%= link_to reviewing_task_path(@task.id), :remote => true do %>
+                        <%= link_to reviewing_task_path(@task.id) do %>
                             <button>
                               <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
                             </button>
                         <% end %>
                     <% end %>
                     <% if current_user.id == @task.project.user_id && @task.reviewing? %>
-                        <%= link_to completed_task_path(@task.id), :remote => true do %>
+                        <%= link_to completed_task_path(@task.id), data: {confirm: 'do you confirm that you have reviewed the task and that it is completed?'} do %>
                             <button>
                               <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
                             </button>
@@ -291,8 +297,8 @@
 
                 <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share</button>
                 <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
-                <% if user_signed_in? && current_user.id == @task.project.user_id %>
-                    <%= link_to doing_task_path(@task.id), :remote => true do %>
+                <% if user_signed_in? && @task.accepted? && (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) %>
+                    <%= link_to doing_task_path(@task.id) do %>
                         <button>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>Start
                         </button>
@@ -306,7 +312,7 @@
               <% @task_attachments.each do |attachment| %>
                   <div class="attachment">
                     <img src="http://placehold.it/150x150">
-                    <h4><%=attachment.attachment.file.filename %></h4>
+                    <h4><%= attachment.attachment.file.filename %></h4>
                     <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                     <div class="attachment-actions">
                       <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
@@ -404,90 +410,6 @@
     </div> <!-- task details ends -->
   </div>
 </div>
-<% unless @task.suggested_task? %>
-
-    <div id="myModal2" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content2">
-        <b><span id="myModal2close" class="close">x</span></b>
-        <div class="fund-do">
-          <div class="row">
-            <center><h4><%= @task.title %></h4></center>
-            <center><h6>Choose the best option for you to do this task.</h6></center>
-            <div class="large-1 medium-1 small-0 columns"></div>
-            <div class="large-5 medium-5 small-12 columns">
-              <button class="button round expand modal-btn1" id="free" onclick="setfree()">Do this task for FREE
-              </button>
-              <p>By choosing this option, you will become a team member and you will recieve an e-mail, confirming that
-                you
-                joined this team.</p>
-            </div>
-            <div class="large-5 medium-5 small-12 columns">
-              <button class="button round expand modal-btn2" id="paid" onclick="setpaid()">Get compensation to do this
-                task
-              </button>
-              <p>Your individual compensation for this task will be <strong>$<%= @task.budget rescue 0 %></strong>
-                divided
-                by number of compensated teammates.</p>
-            </div>
-            <div class="large-1 medium-1 small-0 columns"></div>
-          </div> <!--row ends -->
-          <div class="large-1 medium-1 small-0 columns"></div>
-        </div>
-      </div> <!-- task details ends -->
-
-    </div>
-
-    <div id="popup-for-free-paid" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content2" style="width:60%">
-        <b><span id="popup-for-free-paidclose" class="close">x</span></b>
-        <div class="fund-do">
-          <div class="row">
-            <center><h4 id="cover-leter-header-text"><%= @task.title %></h4></center>
-            <div class="large-1 medium-1 small-0 columns"></div>
-          </div> <!--row ends -->
-          <div class="row">
-            <div class="post-comment columns">
-              <p id="Do-request-form-response" style="color: red"></p>
-              <center><h4>Add Cover Letter</h4></center>
-              <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
-                  <%= form.hidden_field :task_id, value: @task.id %>
-                  <%= form.text_area :application %>
-                  <%= form.hidden_field :free, value: true %>
-                  <% if user_signed_in? %>
-                      <% if current_user.picture? %><%= link_to (image_tag current_user.picture, :size => "30x30"), current_user %>
-                      <% else %>
-                          <%= gravatar_for_user(current_user) %>
-                      <% end %>
-                      <button id="cover_letter_button" type="submit">Submit Application</button>
-                      &nbsp;&nbsp;
-                  <% else %>
-                      <a href="/users/sign_in"><h4>Please Signin to Do this task</h4></a>
-                  <% end %>
-              <% end %>
-            </div>
-          </div><!--row ends -->
-          <div class="large-1 medium-1 small-0 columns"></div>
-        </div>
-      </div> <!-- task details ends -->
-    </div>
-
-<% else %>
-
-    <div id="suggested_task_popup" class="modal">
-      <!-- Modal content -->
-      <div class="modal-content2">
-        <b><span id="suggested_task_popup_close" class="close">x</span></b>
-        <div class="fund-do">
-          <div class="row">
-            <center><h4><%= @task.title %></h4></center>
-            <center><h6>this task has not yet been approved by admin</h6></center>
-          </div>
-        </div>
-      </div>
-    </div>
-<% end %>
 
 <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
 

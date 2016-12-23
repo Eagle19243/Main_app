@@ -1,25 +1,24 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing,:task_fund_info, :removeMember]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
   layout false, only: [:show]
   before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
+  include ApplicationHelper
 
 
   def validate_team_member
     @task= Task.find(params[:id]) rescue nil
-    if @task.blank?
-      redirect_to '/'
-    else
-      @task_memberships = @task.team_memberships
-      if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
-        @notice = " you are not allowed to do this opration "
-        respond_to do |format|
-          format.js
-          format.html { redirect_to task_path(@task.id), notice: @notice }
-        end
+
+
+    @task_memberships = @task.team_memberships
+    if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
+      @notice = " you are not allowed to do this opration "
+      respond_to do |format|
+        format.js
+        format.html { redirect_to task_path(@task.id), notice: @notice }
       end
     end
   end
@@ -59,7 +58,9 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-    if @task.project.user_id != current_user.id
+    if @task.project.user_id == current_user.id
+      @task.state = 'accepted'
+    else
       @task.state = 'suggested_task'
     end
     respond_to do |format|
@@ -81,9 +82,10 @@ class TasksController < ApplicationController
 
   def task_fund_info
     respond_to do |format|
-       format.json { render json: {wallet_address: @task.wallet_address.sender_address, balance:curent_bts_to_usd( @task.id ) , status: 200} }
+      format.json { render json: {wallet_address: @task.wallet_address.sender_address, balance: curent_bts_to_usd(@task.id), status: 200} }
     end
   end
+
   # PATCH/PUT /tasks/1
   # PATCH/PUT /tasks/1.json
   def update
@@ -143,7 +145,7 @@ class TasksController < ApplicationController
     if @task.suggested_task?
       @notice = "You can't Do this Task"
     else
-      if current_user.id == @task.project.user_id && @task.start_doing!
+      if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
         @notice = "Task Status changed to Doing "
       else
         @notice = "Error in Moving  Task"
@@ -214,9 +216,6 @@ class TasksController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_task
     @task = Task.find(params[:id]) rescue nil
-    if @task.blank?
-      redirect_to '/'
-    end
   end
 
   def validate_user
