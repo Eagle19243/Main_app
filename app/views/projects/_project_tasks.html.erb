@@ -52,7 +52,7 @@
                       </a>
                       <% if user_signed_in? %>
                           <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
-                              <%= link_to 'Destroy', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
+                              <%= link_to 'Delete', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
                           <% end %>
                       <% end %>
                     </div>
@@ -121,12 +121,6 @@
                       <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-target="#taskDoModal">
                         DO
                       </a>
-                      <% if user_signed_in? %>
-                          <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
-                              <%= link_to 'Destroy', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
-                          <% end %>
-                      <% end %>
-                      </a>
                     </div>
 
                   </div>
@@ -191,16 +185,6 @@
                       </table>
                     </div>
 
-                    <% if user_signed_in? %>
-                        <% if @project.user_id == current_user.id %>
-                            <%= link_to reviewing_task_path(task.id) do %>
-                                <button onClick="window.location.reload()">
-                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Submit Task for Review
-                                </button>
-                            <% end %>
-                        <% end %>
-                    <% end %>
-
                   </div>
                 </div>
             <% end %>
@@ -253,20 +237,6 @@
                         </tr>
                       </table>
                     </div>
-
-                    <% if user_signed_in? %>
-
-                        <% if @project.user_id == current_user.id %>
-                            <div style="margin-top: 1%">
-                              <%= link_to completed_task_path(task.id) do %>
-                                  <button>
-                                    <i class="fa fa-check" aria-hidden="true"></i>Task Completed
-                                  </button>
-                              <% end %>
-                            </div>
-                        <% end %>
-                    <% end %>
-
                   </div>
                 </div>
             <% end %>
