@@ -708,6 +708,46 @@ div.progress {
     }
   }
 }
+
+.project-search-wrapper {
+
+  .project-title {
+    font-family: 'Roboto';
+    font-size: 1.3em;
+    color: #000;
+  }
+
+  .project-country {
+    font-family: 'Roboto';
+    font-size: 1em;
+    color: #777;
+
+    i {
+      padding-left: 0;
+    }
+  }
+}
+
+#projects-search-results {
+  display: block;
+  position: relative;
+  background-color: #fff;
+
+  .result-title {
+    font-family: 'Roboto';
+    color: #000;
+    text-align: left;
+  }
+
+  .content.projects {
+    margin-bottom: 10rem;
+  }
+}
+
+.ui-autocomplete {
+  z-index: 3000;
+}
+
 .edit-content {
   #project-form {
     .form-inputs {
@@ -720,3 +760,4 @@ div.progress {
     }
   }
 }
+

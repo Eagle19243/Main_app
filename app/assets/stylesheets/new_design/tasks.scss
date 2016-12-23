@@ -38,14 +38,18 @@
     object-fit: cover;
   }
   a.btn-edit {
-    background-color: lightgrey;
-    font-size: 35px;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 20px;
     text-decoration: none;
     position: absolute;
     z-index: 1;
     bottom: 0;
     left: 0;
     opacity: 0;
+    color: #fff;
+    padding: 5px 15px;
+    font-family: 'Roboto';
+    font-weight: bold;
   }
   a.btn-edit-image {
     left: auto;
@@ -964,3 +968,8 @@
   display: inline-block !important;
 }
 
+.deadline-group {
+  span.input-group-addon {
+    border-radius: 0;
+  }
+}

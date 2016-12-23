@@ -29,9 +29,28 @@
             <div class="form-group">
               <%= f.input :proof_of_execution, required: true %>
             </div>
-            <div class="form-group">
-              <%= f.input :deadline, :ampm => true, required: true %>
+
+            <div class="deadline-group">
+                <div class="form-group">
+                    <label class="text required" for="deadline">* Deadline</label>
+                    <div class='input-group date' id='deadline_picker'>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar">
+                            </span>
+                        </span>
+                        <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" />
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#deadline_picker').datetimepicker({
+                            viewMode: 'years',
+                            format: 'YYYY-MM-DD HH:mm A'
+                        });
+                    });
+                </script>
             </div>
+
             <div class="form-group">
               <%= f.input :target_number_of_participants, required: true %>
             </div>

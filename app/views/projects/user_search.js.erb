@@ -1,9 +1,7 @@
-<%  unless @results.blank? %>
-$("#search-results-show").html("");
-$("#search-results-show").append("<%= escape_javascript(render 'projects/search_results') %>")
+<% unless @results.blank? %>
+  $("#projects-search-results").html("");
+  $("#projects-search-results").append("<%= escape_javascript(render 'projects/search_results') %>")
 <% else %>
-
-$("#error-message-show").html("");
-$("#error-message-show").html("Sorry no Results match with your search");
-
+  $("#error-message-show").html("");
+  $("#error-message-show").html("Sorry no Results match with your search");
 <%end %>

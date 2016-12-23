@@ -77,6 +77,10 @@ gem 'rack-mini-profiler'
 # Help to kill N+1 queries and unused eager loading
 gem "bullet", :group => "development"
 
+# Bootstrap datetimepicker
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
+
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
