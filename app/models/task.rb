@@ -135,7 +135,10 @@ class Task < ActiveRecord::Base
     we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
     wallet_address = self.wallet_address
     total_budget = self.budget
-    team_members =TeamMembership.where(task_id: self.id)
+    #users = self.team_memberships
+
+    team_members = self.team_memberships
+    #team_members = TeamMembership.where(task_id: self.id)
     if (team_members.blank?)
       transfer_to_user_wallet(we_serve_wallet, total_budget)
     else
@@ -171,6 +174,11 @@ class Task < ActiveRecord::Base
 
   def is_leader(user_id)
     users = team_memberships.where(role: 1).collect(&:team_member_id)
+    (users.include? user_id) ? true : false
+  end
+
+  def is_executer(user_id)
+    users = team_memberships.where(role: 4 ).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
 end

@@ -1,23 +1,21 @@
-<div class="project-wrapper">
-
-  <div class="heading-banner">
-    <div class="project-header">
-      <h2>Archived Projects</h2>
+<section class="s-projects">
+  <div class="s-projects__container">
+    <div class="s-projects__heading">
+      <h2 class="s-projects__title">Archived Projects</h2>
       <div id="paginator">
-        <%= paginate @featured_projects, remote: true %>
+          <%= paginate @featured_projects, remote: true %>
       </div>
     </div>
-  </div>
 
-  <div class="l-project-cards" id="search-results-show">
-    <div id="error-message-show" style="background-color: red"></div>
-    <ul class="l-project-cards__list">
-      <%= render "projects_page" %>
-    </ul>
-  </div>
+    <div class="l-project-cards" id="search-results-show">
+      <div id="error-message-show" style="background-color: red"></div>
+      <ul class="l-project-cards__list">
+        <%= render "projects_page" %>
+      </ul>
+    </div>
 
-  <div class="load-more">
-    <h5>Scroll Down To Load More</h5>
+    <div class="load-more">
+      <h5>Scroll Down To Load More</h5>
+    </div>
   </div>
-
-</div>
+</section>
