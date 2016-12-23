@@ -38,7 +38,7 @@
                             <span class="glyphicon glyphicon-calendar">
                             </span>
                         </span>
-                        <input type='text' class="form-control" id="deadline_input" required="required" aria-required="true" />
+                        <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" />
                     </div>
                 </div>
                 <script type="text/javascript">
@@ -55,8 +55,6 @@
               <%= f.input :target_number_of_participants, required: true %>
             </div>
 
-            <input name="task[deadline]" id="deadline_field" type="hidden">
-
             <%= f.hidden_field :project_id, value: @project.id %>
           </div>
 
@@ -70,15 +68,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  $('form#new_task').submit(function(){
-    beforeSubmit(function(){
-      var deadline = $( "#deadline_input").val();
-      $("#deadline_field").val(deadline);
-    });
-  });
-  function beforeSubmit(fn) {
-    fn();
-  }
-</script>
