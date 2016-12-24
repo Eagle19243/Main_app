@@ -18,6 +18,7 @@ feature 'Wallet modal working correctly', type: :feature, js: true, vcr: { casse
     expect(page).to have_current_path(projects_path)
 
     modal = find('div#walletModal', visible: true)
+    expect(modal).to be_visible
     expect(modal).to have_text('Welcome!')
   end
 end
