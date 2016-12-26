@@ -23,9 +23,9 @@ feature 'After login ' do
     end
 
     modal = find('div#startProjectModal', visible: true)
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop until page.evaluate_script('jQuery.active').zero?
-    end
+    # Timeout.timeout(Capybara.default_max_wait_time) do
+    #   loop until page.evaluate_script('jQuery.active').zero?
+    # end
 
     visit taskstab_project_path(1)
     find('div#projectInviteModal').find('button.close').click
