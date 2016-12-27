@@ -42,11 +42,11 @@
 
 //= require_tree .
 
+var $document = $(document);
+$document.foundation();
 
-$(document).foundation();
-
-$(document).on('page:load', function() {
-  $(document).foundation();
+$document.on('page:load', function() {
+  $document.foundation();
 });
 
 $(function() {
@@ -54,14 +54,24 @@ $(function() {
     this.src = '/assets/no_image.png';
   });
   $('.task-box').matchHeight();
-  $(document).foundation();
+  $document.foundation();
 });
 
 $(function() {
   $('.task-box').matchHeight();
 });
 
-$(document).ready(function() {
+$document.ready(function() {
+
+  var modalsArr = ["#myModal", "#share", "#team", "#suggested_task_popup", "#InviteModel", "#myModal2", "#popup-for-free-paid"];
+  $document.on('keydown.closeAllModals', function (e) {
+      if (e.keyCode == 27) {
+          for (var i = 0, max = modalsArr.length; i < max; i++) {
+              $(modalsArr[i]).fadeOut();
+          }
+      }
+  });
+
   $(".best_in_place").best_in_place();
 });
 
