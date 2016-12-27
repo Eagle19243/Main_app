@@ -38,32 +38,26 @@
 
 
 
-<div id="InviteModel" class="modal">
+<div id="InviteModel" class="modal modal-invite">
 
   <!-- Modal content -->
-  <div class="modal-content2 yes">
-    <span class="closeinvite">×</span>
-    <div class="fund-do">
-      <div class="row">
-        <center><h4>Add / Invite People</h4></center>
-        <center><h6>Type in the e-mail address of the person you like to invite</h6></center>
+  <div class="modal-content2 yes modal-invite__content">
+    <button id="inviteclose" class="modal-invite__close"></button>
+    <h4 class="modal-invite__title">Add / Invite People</h4>
+    <h6 class="modal-invite__subtitle">Type in the e-mail address of the person you like to invite</h6>
+    <%= form_tag(:controller => "tasks", :action => "send_email") do %>
 
-        <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(:controller => "tasks", :action => "send_email") do %>
+      <div class="f-default__joined">
+        <div class="f-default__joined-col _wide">
+          <input type="hidden" name="task_id" value="<%= @task.id %>">
+          <input type="email" name="email" placeholder="E-mail address" class="f-default__field _joined-left">
+        </div>
+        <div class="f-default__joined-col _narrow">
+          <button class="btn-root _joined-right _dark">Add / Invite</button>
+        </div>
+      </div>
 
-      <div class="large-10 medium-10 small-12 columns cold">
-          <div class="large-8 medium-12 small-12 columns cold">
-            <input type="hidden" name="task_id" value="<%=@task.id %>">
-
-            <input type="email" name="email" placeholder="E-mail address" class="add-email">
-          </div>
-          <div class="large-4 medium-12 small-12 columns cold">
-            <button lass="button round expand modal-btn1 btn-add"  >Add / Invite</button>
-          </div>
-
-          <div class="override">
-            <h2 class="background"><span>OR</span></h2>
-          </div>
+      <span class="modal-invite__or">OR</span>
 
           <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
             <ul class="l-share__list">
@@ -1546,13 +1540,13 @@
 
 <style type="text/css">
   #InviteModel {
-    z-index:2 ;
+    z-index:2 ; /* todo FD: why we need this? */
   }
   #team {
     z-index:2 ;
   }
   #share {
-    z-index:2 ;
+    z-index:2 ; /* todo FD: why we need this? */
   }
 
   .portlet-placeholder {
@@ -1601,31 +1595,21 @@
 
 
 <script>
-  // Get the modal
-  var modalinvite = document.getElementById('InviteModel');
-
-  // Get the button that opens the modal
-  var btninvite = document.getElementById("invbtn");
-
-  // Get the <span> element that closes the modal
-  var spaninvite = document.getElementsByClassName("closeinvite")[0];
-
+  var $modalInvite = $('#InviteModel');
   // When the user clicks the button, open the modal
-  btninvite.onclick = function() {
-    modalinvite.style.display = "block";
-  }
-
+  $('#invbtn').on('click.openInviteModal', function () {
+      $modalInvite.fadeIn();
+  });
+  // When the user clicks on black area, close the modal
+  $modalInvite.on('click.closeInviteModal', function (e) {
+      if (e.target === this) {
+          $modalInvite.fadeOut();
+      }
+  });
   // When the user clicks on <span> (x), close the modal
-  spaninvite.onclick = function() {
-    modalinvite.style.display = "none";
-  }
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function(event) {
-    if (event.target == modalinvite) {
-      modalinvite.style.display = "none";
-    }
-  }
+  $('#inviteclose').on('click.closeInviteModal', function (e) {
+      $modalInvite.fadeOut();
+  });
 </script>
 <script>
   // Get the modal

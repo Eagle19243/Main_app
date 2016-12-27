@@ -212,20 +212,22 @@ $("#task-update-condition").click(function () {
   $("#edit-condition").show();
 });
 <% end  %>
-// Get the modal
-var modalinvite = document.getElementById('InviteModel');
-// Get the button that opens the modal
-var btninvite = document.getElementById("invbtn");
-// Get the <span> element that closes the modal
-var spaninvite = document.getElementById("inviteclose");
+
+var $modalInvite = $('#InviteModel');
 // When the user clicks the button, open the modal
-btninvite.onclick = function () {
-  modalinvite.style.display = "block";
-}
+$('#invbtn').on('click.openInviteModal', function () {
+    $modalInvite.fadeIn();
+});
+// When the user clicks on black area, close the modal
+$modalInvite.on('click.closeInviteModal', function (e) {
+    if (e.target === this) {
+        $modalInvite.fadeOut();
+    }
+});
 // When the user clicks on <span> (x), close the modal
-spaninvite.onclick = function () {
-  modalinvite.style.display = "none";
-}
+$('#inviteclose').on('click.closeInviteModal', function (e) {
+    $modalInvite.fadeOut();
+});
 
 var $modalShare = $('#share');
 // When the user clicks the button, open the modal
@@ -242,7 +244,6 @@ $modalShare.on('click.closeShareModal', function (e) {
 $('#shareclose').on('click.closeShareModal', function (e) {
     $modalShare.fadeOut();
 });
-
 var modalteam = document.getElementById('team');
 // Get the button that opens the modal
 var btnteam = document.getElementById("teambtn");
@@ -270,13 +271,14 @@ span.onclick = function () {
 }
 
 $(document).ready(function () {
+  var $modalInvite = $("#InviteModel");
   $(document).keydown(function (e) {
     if (e.keyCode == 27) {
       $("#myModal").hide();
       $("#share").hide();
       $("#team").hide();
       $("#suggested_task_popup").hide();
-      $("#InviteModel").hide();
+      $modalInvite.hide();
       $("#myModal2").hide();
       $("#popup-for-free-paid").hide();
     }
@@ -287,9 +289,6 @@ $(document).ready(function () {
 window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
-  }
-  if (event.target == modalinvite) {
-    modalinvite.style.display = "none";
   }
   if (event.target == modalteam) {
     modalteam.style.display = "none";
