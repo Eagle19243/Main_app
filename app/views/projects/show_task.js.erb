@@ -226,20 +226,23 @@ btninvite.onclick = function () {
 spaninvite.onclick = function () {
   modalinvite.style.display = "none";
 }
-// Get the modal
-var modalshare = document.getElementById('share');
-// Get the button that opens the modal
-var btnshare = document.getElementById("sharebtn");
-// Get the <span> element that closes the modal
-var spanshare = document.getElementById("shareclose");
+
+var $modalShare = $('#share');
 // When the user clicks the button, open the modal
-btnshare.onclick = function () {
-  modalshare.style.display = "block";
-}
+$('#sharebtn').on('click.openShareModal', function () {
+    $modalShare.fadeIn();
+});
+// When the user clicks on black area, close the modal
+$modalShare.on('click.closeShareModal', function (e) {
+    if (e.target === this) {
+        $modalShare.fadeOut();
+    }
+});
 // When the user clicks on <span> (x), close the modal
-spanshare.onclick = function () {
-  modalshare.style.display = "none";
-}
+$('#shareclose').on('click.closeShareModal', function (e) {
+    $modalShare.fadeOut();
+});
+
 var modalteam = document.getElementById('team');
 // Get the button that opens the modal
 var btnteam = document.getElementById("teambtn");
@@ -287,9 +290,6 @@ window.onclick = function (event) {
   }
   if (event.target == modalinvite) {
     modalinvite.style.display = "none";
-  }
-  if (event.target == modalshare) {
-    modalshare.style.display = "none";
   }
   if (event.target == modalteam) {
     modalteam.style.display = "none";
