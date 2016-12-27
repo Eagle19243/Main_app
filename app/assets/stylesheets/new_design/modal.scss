@@ -1108,41 +1108,39 @@
     margin-bottom: 30px;
 
     .form-group {
-      label {
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        color: #555;
-        display: block;
-      }
-      input {
-        display: inline-block;
-        margin: 0px 10px 10px 0px;
-        padding: 0px 10px;
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        color: #555;
-        border: 1px solid #ddd;
-        height: 40px;
-        line-height: 40px;
-        box-shadow: none;
-        width: 70%;
-      }
-      a.btn-invite {
-        display: inline-block;
-        text-align: center;
-        padding: 0 30px;
-        margin: 0;
-        height: 40px;
-        line-height: 40px;
-        font-family: 'Roboto';
-        font-size: 1em;
-        font-weight: 600;
-        color: #000;
-        text-transform: uppercase;
-        border: 2px solid #000;
-        border-radius: 60px;
-      }
+      width: 70%;
+      display: inline-block;
     }
+
+    label {
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+      display: block;
+    }
+    input {
+      display: inline-block;
+      margin: 0px 10px 10px 0px;
+      padding: 0px 10px;
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+      border: 1px solid #ddd;
+      height: 40px;
+      line-height: 40px;
+      box-shadow: none;
+      background-color: #fff;
+    }
+    .btn-invite {
+      padding: 0 30px;
+    }
+  }
+
+  #response {
+    text-align: center;
+    font-family: 'Libre Franklin';
+    color: red;
+    font-weight: normal;
   }
 
   .import-contacts-wrapper {
