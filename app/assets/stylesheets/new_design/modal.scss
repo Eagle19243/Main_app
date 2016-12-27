@@ -1220,3 +1220,47 @@ a.fund-model-popup {
   }
 }
 
+#myModal {
+  .deadline-group {
+    span.input-group-addon {
+      border: 0;
+      background: none;
+      padding: 0;
+
+      .glyphicon-calendar {
+        font-size: 1.3em;
+      }
+    }
+
+    input#deadline_field {
+      border: 0;
+      color: #000;
+      font-family: 'Libre Franklin';
+
+      &::-webkit-input-placeholder {
+        color: #000;
+      }
+      &::-moz-placeholder {
+        color: #000;
+      }
+    }
+
+    button.btn-primary {
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+      width: 34px;
+      height: 34px;
+      line-height: 30px;
+      background-color: #777;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+      font-family: 'Roboto';
+      font-weight: bold;
+      border: 0 !important;
+      border-radius: 3px !important;
+    }
+  }
+}
+

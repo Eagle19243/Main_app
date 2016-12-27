@@ -230,10 +230,25 @@
 
               <div class="deadline-block">
                 <h5>Deadline</h5>
-                <p>
-                  <i class="fa fa-calendar" aria-hidden="true"></i>
-                  <%= @task.deadline.strftime("%b %d, %Y") %>
-                </p>
+                <div class="deadline-group">
+                    <div class="form-group">
+                        <div class='input-group date' id='deadline_editor'>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar">
+                                </span>
+                            </span>
+                            <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" placeholder='<%= @task.deadline.strftime("%Y-%m-%d %I:%M %p") %>' />
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#deadline_editor').datetimepicker({
+                                viewMode: 'years',
+                                format: 'YYYY-MM-DD hh:mm A'
+                            });
+                        });
+                    </script>
+                </div>
               </div>
 
               <!-- <h6>Funded :
