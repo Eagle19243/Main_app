@@ -38,14 +38,16 @@ $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
   console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
-  $("#upload-button").click();
-
 })
+
 $("#upload-button").hide();
+$("input[id^=file]").change(function () {
+  $("#upload-button").click();
+})
 $("#upload-button").click(function () {
   $("#upload-button").hide();
 })
-<%if user_signed_in? &&  (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer( current_user.id) || current_user.id == @task.project.user_id     ) ) %>
+<% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id ||  current_user.id == @task.project.user_id )) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
 
 
 $("#task-title").dblclick(function () {

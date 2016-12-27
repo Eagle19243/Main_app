@@ -32,7 +32,8 @@ class TaskAttachmentsController < ApplicationController
 
   def destroy_attachment
     @task_attachment = TaskAttachment.find(params[:id])
-    if @task_attachment.task.project.user_id == current_user.id
+    if user_signed_in? && ((@task_attachment.task.suggested_task? && (current_user.id == @task_attachment.task.user_id ||  current_user.id == @task_attachment.task.project.user_id )) || (@task_attachment.task.is_executer(current_user.id) || current_user.id == @task_attachment.task.project.user_id))
+        #if @task_attachment.task.project.user_id == current_user.id
       @task_attachment.destroy
       respond_to do |format|
         format.json { render :json => true }
