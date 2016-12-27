@@ -19,10 +19,10 @@
                   <%= image_tag @group_message.attachment.url %>
                   <br>
                   Download
-                  image: <%= link_to @group_message.attachment.file.filename, group_messages_download_files_path(id: @group_message.id), target: '_blank' %>
+                  image: <%= link_to @group_message.attachment.file.filename, group_messages_download_files_path(id: @group_message.id) %>
               <% else %>
                   Download
-                  file: <%= link_to @group_message.attachment.file.filename, group_messages_download_files_path(id: @group_message.id), target: '_blank' %>
+                  file: <%= link_to @group_message.attachment.file.filename, group_messages_download_files_path(id: @group_message.id) %>
               <% end %>
               <br>
               <br>
