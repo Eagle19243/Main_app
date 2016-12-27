@@ -20,40 +20,28 @@
               <div class="override">
                 <h2 class="background"><span>OR</span></h2>
               </div>
-              <div class="social-icons" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
-                <!-- Facebook Button Start //-->
-                <ul>
-                  <li>
-                    <div class="facebook-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
-                      <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                        <i class="fa fa-facebook"></i>
-                        <span>share on Facebook</span>
-                      </a>
-                    </div>
+
+              <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
+                <ul class="l-share__list">
+                  <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+                    <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+                      <i class="fa fa-facebook"></i>
+                      <span>Share on Facebook</span>
+                    </a>
                   </li>
-                  <!-- Facebook Button End //-->
-                  <!-- Linkedin Button Start //-->
-                  <li>
-                    <div class="twitter-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
-                      <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                        <i class="fa fa-twitter"></i>
-                        <span>Share on twitter</span>
-                      </a>
-                    </div>
+                  <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+                    <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                      <i class="fa fa-twitter"></i>
+                      <span>Share on twitter</span>
+                    </a>
                   </li>
-                  <!-- Linkedin Button End //-->
-                  <!-- Pinterest Button Start //-->
-                  <li>
-                    <div class="pinterest-wrapper" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
-                      <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                        <i class="fa fa-google-plus"></i>
-                        <span>Share on Google Plus</span>
-                      </a>
-                    </div>
+                  <li class="l-share__item" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
+                    <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                      <i class="fa fa-google-plus"></i>
+                      <span>Share on Google Plus</span>
+                    </a>
                   </li>
                 </ul>
-                <%#= social_share_button_tag(@task.title, :url => task_path(@task.id)) %>
-                <!-- Pinterest Button End //-->
               </div>
             </div>
         <% end %>
@@ -382,51 +370,31 @@
   </div>
 
 </div>
-<div id="share" class="modal">
-  <div class="modal-content2 yes">
-    <b><span id="shareclose" class="close">×</span></b>
-    <div class="fund-do">
-      <div class="row">
-        <div class="large-1 medium-1 small-0 columns"></div>
-        <div class="large-10 medium-10 small-12 columns cold">
-          <div class="social-icons" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
-            <!-- Facebook Button Start //-->
-            <ul>
-              <li>
-                <div class="facebook-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
-                  <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                    <i class="fa fa-facebook"></i>
-                    <span>share on Facebook</span>
-                  </a>
-                </div>
-              </li>
-              <!-- Facebook Button End //-->
-              <!-- Linkedin Button Start //-->
-              <li>
-                <div class="twitter-wrapper" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
-                  <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                    <i class="fa fa-twitter"></i>
-                    <span>Share on twitter</span>
-                  </a>
-                </div>
-              </li>
-              <!-- Linkedin Button End //-->
-              <!-- Pinterest Button Start //-->
-              <li>
-                <div class="pinterest-wrapper" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
-                  <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                    <i class="fa fa-google-plus"></i>
-                    <span>Share on Google Plus</span>
-                  </a>
-                </div>
-              </li>
-            </ul>
-            <!-- Pinterest Button End //-->
-          </div>
-        </div>
-        <div class="large-1 medium-1 small-0 columns"></div>
-      </div> <!--row ends -->
-    </div> <!-- task details ends -->
+<div id="share" class="modal modal-share">
+  <div class="modal-content2 yes modal-share__content">
+    <button type="button" id="shareclose" class="modal-share__close"></button>
+    <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
+      <ul class="l-share__list">
+        <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+          <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+            <i class="fa fa-facebook"></i>
+            <span>Share on Facebook</span>
+          </a>
+        </li>
+        <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+          <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+            <i class="fa fa-twitter"></i>
+            <span>Share on twitter</span>
+          </a>
+        </li>
+        <li class="l-share__item" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
+          <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+            <i class="fa fa-google-plus"></i>
+            <span>Share on Google Plus</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 

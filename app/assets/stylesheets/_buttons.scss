@@ -109,6 +109,28 @@
   }
 }
 
+.btn-share {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #fff;
+  text-align: center;
+  text-decoration: none;
+  line-height: 38px;
+  padding: 0 10px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+  color: #777;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  transition: color .2s, border-color .2s;
+  &:focus,
+  &:hover {
+    border-color: #000;
+    color: #000;
+    text-decoration: none;
+  }
+}
+
 .btn-reset {
   outline: none;
   border: none;
