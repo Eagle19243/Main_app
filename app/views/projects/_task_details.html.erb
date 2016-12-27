@@ -1,54 +1,46 @@
-<div id="InviteModel" class="modal" style="z-index: 2">
+<div id="InviteModel" class="modal modal-invite">
 
   <!-- Modal content -->
-  <div class="modal-content2 yes">
-    <b> <span id="inviteclose" class="close">×</span></b>
-    <div class="fund-do">
-      <div class="row">
-        <center><h4>Add / Invite People</h4></center>
-        <center><h6>Type in the e-mail address of the person you like to invite</h6></center>
-        <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag(:controller => "tasks", :action => "send_email") do %>
-            <div class="large-10 medium-10 small-12 columns cold">
-              <div class="large-8 medium-12 small-12 columns cold">
-                <input type="hidden" name="task_id" value="<%= @task.id %>">
-                <input type="email" name="email" placeholder="E-mail address" class="add-email">
-              </div>
-              <div class="large-4 medium-12 small-12 columns cold">
-                <button lass="button round expand modal-btn1 btn-add">Add / Invite</button>
-              </div>
-              <div class="override">
-                <h2 class="background"><span>OR</span></h2>
-              </div>
+  <div class="modal-content2 yes modal-invite__content">
+    <button id="inviteclose" class="modal-invite__close"></button>
+    <h4 class="modal-invite__title">Add / Invite People</h4>
+    <h6 class="modal-invite__subtitle">Type in the e-mail address of the person you like to invite</h6>
+    <%= form_tag(:controller => "tasks", :action => "send_email") do %>
+      <div class="f-default__joined">
+        <div class="f-default__joined-col _wide">
+          <input type="hidden" name="task_id" value="<%= @task.id %>">
+          <input type="email" name="email" placeholder="E-mail address" class="f-default__field _joined-left">
+        </div>
+        <div class="f-default__joined-col _narrow">
+          <button class="btn-root _joined-right _dark">Add / Invite</button>
+        </div>
+      </div>
 
-              <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
-                <ul class="l-share__list">
-                  <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
-                    <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                      <i class="fa fa-facebook"></i>
-                      <span>Share on Facebook</span>
-                    </a>
-                  </li>
-                  <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
-                    <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                      <i class="fa fa-twitter"></i>
-                      <span>Share on twitter</span>
-                    </a>
-                  </li>
-                  <li class="l-share__item" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
-                    <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                      <i class="fa fa-google-plus"></i>
-                      <span>Share on Google Plus</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        <% end %>
-        <div class="large-1 medium-1 small-0 columns"></div>
-      </div> <!--row ends -->
+      <span class="modal-invite__or">OR</span>
 
-    </div> <!-- task details ends -->
+      <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
+        <ul class="l-share__list">
+          <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+            <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+              <i class="fa fa-facebook"></i>
+              <span>Share on Facebook</span>
+            </a>
+          </li>
+          <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+            <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+              <i class="fa fa-twitter"></i>
+              <span>Share on twitter</span>
+            </a>
+          </li>
+          <li class="l-share__item" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
+            <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+              <i class="fa fa-google-plus"></i>
+              <span>Share on Google Plus</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    <% end %>
   </div>
 </div>
 <div id="myModal" class="modal">
