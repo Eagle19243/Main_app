@@ -22,8 +22,10 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     text-align: center;
     font-size: 22px;
     background: transparent;
-    &:hover {
+    &:hover,
+    &:focus {
       background: transparent;
+      outline: none;
       &:before,
       &:after {
         background: #000;
