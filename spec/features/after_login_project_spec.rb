@@ -28,7 +28,7 @@ feature 'After login ' do
     # end
 
     visit taskstab_project_path(1)
-    find(document).find('div#projectInviteModal').find('button.close').click
+    find('div#projectInviteModal').find('button.close').click
     expect(page).to have_content "short_description123"
     using_wait_time(2) do
       click_link 'editSource'
