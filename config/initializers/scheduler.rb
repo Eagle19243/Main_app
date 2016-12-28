@@ -20,9 +20,9 @@ scheduler.every '2m' do
        wallet = task.wallet_address
         if  wallet.sender_address.present?
           response = api.get_wallet(wallet_id: wallet.wallet_id, access_token: access_token)
-          puts response.inspect
+         # puts response.inspect
           task.update_attribute('current_fund',response["balance"])
-          puts " Sucessfully updated This #{task.title} with balance #{response["balance"]}"
+         # puts " Sucessfully updated This #{task.title} with balance #{response["balance"]}"
         end
       end
     end
