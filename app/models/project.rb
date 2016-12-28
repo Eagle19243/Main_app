@@ -81,7 +81,7 @@ class Project < ActiveRecord::Base
   end
 
   def funded_percentages
-    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + "%"
+    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + " %"
   end
 
   def accepted_tasks

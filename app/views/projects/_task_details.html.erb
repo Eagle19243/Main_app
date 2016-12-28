@@ -197,7 +197,8 @@
                         <td><%= @task.funded %></td>
                         <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
                         <td><%= @task.assignments.count %>/<%= @task.target_number_of_participants %></td>
-                        <td>$<%= @task.budget %></td>
+                        <td><%= @task.funded_in_btc %></td>
+
                       </tr>
                       <tr class="items">
                         <td>Funded</td>

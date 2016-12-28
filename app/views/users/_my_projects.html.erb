@@ -30,12 +30,13 @@
               <td class="leader">
                 <span class="pull-left"><a href="javascript:void(0)">Marco lglesias</a></span>
                 <a class="pull-right" data-toggle="modal" data-target="#change-leader-modal" data-id="<%= project.id %>">
-                  <i class="fa fa-pencil aria-hidden="true""></i>
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
               </td>
               <td class="fund">
-                <span class="pull-left">$<%= project_funded(project) %></span>
-                <span class="pull-right">$<%= project_budget(project) %></span>
+
+                <span class="pull-left">฿ <%= project.funded_budget%></span>
+                <span class="pull-right">฿ <%= project.needed_budget %></span>
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>" >
                   </div>
@@ -117,7 +118,7 @@
                       <td><%= project.funded_percentages %></td>
                       <td><%= project.team_relations_string %></td>
                       <td><%= project.tasks_relations_string %></td>
-                      <td>$<%= project.funded_budget %></td>
+                      <td>฿ <%= project.funded_budget %></td>
                     </tr>
                     <tr class="items">
                       <td>Funded</td>

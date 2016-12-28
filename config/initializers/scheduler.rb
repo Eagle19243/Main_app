@@ -14,26 +14,39 @@ scheduler.every '2m' do
     puts api.inspect unless Rails.env == "development"
     # puts wallet.inspect
     puts 'inspecting' unless Rails.env == "development"
-
-    #ActiveRecord::Base.logger.silence do
-      # do a lot of querys without noisy logs
-      batch_of_addresses = WalletAddress.all
-    #end
-
-    # puts batch_of_addresses
-    unless batch_of_addresses.blank?
-      batch_of_addresses.each do|this_address|
-        wallet_found = WalletAddress.where(sender_address: this_address.sender_address).first rescue nil
-        if(wallet_found)
-          response = api.get_wallet(wallet_id:this_address.wallet_id, access_token: access_token)
-          puts response.inspect unless Rails.env == "development"
-          # current_amount = this_address['balance'].to_i
-          # current_amount = current_amount/(10**8).to_f rescue 0.0
-          wallet_found.update_attribute('current_balance',response["balance"])
-          puts " Sucessfully updated This #{this_address.sender_address} with balance #{response["balance"]} " unless Rails.env == "development"
+    all_tasks = Task.where(state: 'accepted')
+    unless all_tasks.blank?
+      all_tasks.each do|task|
+       wallet = task.wallet_address
+        if  wallet.sender_address.present?
+          response = api.get_wallet(wallet_id: wallet.wallet_id, access_token: access_token)
+          puts response.inspect
+          task.update_attribute('current_fund',response["balance"])
+          puts " Sucessfully updated This #{task.title} with balance #{response["balance"]}"
         end
       end
     end
+      #   batch_of_addresses.each do|this_address|
+    #ActiveRecord::Base.logger.silence do
+      # do a lot of querys without noisy logs
+     # batch_of_addresses = WalletAddress.all
+    #end
+
+    # puts batch_of_addresses
+    # unless batch_of_addresses.blank?
+    #   batch_of_addresses.each do|this_address|
+    #     wallet_found = WalletAddress.where(sender_address: this_address.sender_address).first rescue nil
+    #     if(wallet_found)
+    #       response = api.get_wallet(wallet_id:this_address.wallet_id, access_token: access_token)
+    #       puts response.inspect unless Rails.env == "development"
+    #       # current_amount = this_address['balance'].to_i
+    #       # current_amount = current_amount/(10**8).to_f rescue 0.0
+    #       #wallet_found.update_attribute('current_balance',response["balance"])
+    #       this_address.task.update_attribute('current_fund',response["balance"])
+    #       puts " Sucessfully updated This #{this_address.sender_address} with balance #{response["balance"]} " unless Rails.env == "development"
+    #     end
+    #   end
+    # end
   rescue => e
     puts "Error"+e.message unless Rails.env == "development"
   end
