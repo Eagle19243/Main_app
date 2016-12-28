@@ -160,9 +160,9 @@
   #messages-nav {
     background-color: #ddd;
     text-align: left;
-    width: 220px;
-    position: absolute;
-    min-height: 1000px;
+    min-width: 220px;
+    position: relative;
+    min-height: 100vh;
     height: 100%;
     padding: 20px;
 
@@ -218,7 +218,7 @@
 
   #page-message-content {
     position: relative;
-    margin: 0 0 0 220px;
+    margin: 0 0 0 20px;
     padding-top: 20px;
 
     h4 {
