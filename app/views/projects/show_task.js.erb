@@ -36,9 +36,17 @@ $('a[name=delete_attachment]').click(function () {
 <%#  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_memberships.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
 $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
-  console.log(this);
+  //console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
 })
+
+$('#task-comment-attachment-icon').click(function () {
+  $('#task-comment-attachment').click();
+})
+$('#task-comment-attachment').change(function () {
+  var x = $('#task-comment-attachment').val();
+  $('#attachment-div').html(x)
+});
 
 $("#upload-button").hide();
 $("input[id^=file]").change(function () {
