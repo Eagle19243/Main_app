@@ -28,79 +28,118 @@
 
 <div class="profile-wrapper">
   <div class="profile-hero">
-    <%= image_tag(@user.projects.first.picture) if @user.projects.count != 0 %>
-    <div class="hero-promo">
-      <div class="user-name">
-        <% if (current_user && current_user.id == @user.id) %>
-          <%= best_in_place @user, :name, :as => :input, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
-          <a id="edit-profile-pencil" href="#" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
-        <% else %>
-          <%= @user.name %>
-        <% end %>
-      </div>
-      <br>
-      <div class="user-location">
-        <% if (current_user && current_user.id == @user.id) %>
-          <i class="fa fa-map-marker" aria-hidden="true"></i>
-          <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
-          <a id="edit-location-pencil" href="javascript:void(0)" class="glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
-        <% else %>
-          <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;<%= @user.city %>
-        <% end %>
+    <div class="profile-hero__img-wrapper">
+      <%= image_tag(@user.projects.first.picture, data: { 'object-fit': "cover" }) if @user.projects.count != 0 %>
+    </div>
+    <div class="profile-hero__content">
+      <div class="profile-hero__user-name-wrap">
+        <div class="profile-hero__user-name">
+          <% if (current_user && current_user.id == @user.id) %>
+            <%= best_in_place @user, :name, :as => :input, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+            <a id="edit-profile-pencil" href="#" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+          <% else %>
+            <%= @user.name %>
+          <% end %>
+        </div>
       </div>
 
-      <div class="user-history">
-        <table>
-          <tr>
-            <td>
-              <span class="count"><%= @user.projects.count %></span>
-              <span class="title">Project</br>Leads</span>
-            </td>
-            <td>
-              <span class="count"><%= @user.completed_tasks_count %></span>
-              <span class="title">Completed</br>Tasks</span>
-            </td>
-            <td>
-              <span class="count"><%= @user.funded_projects_count %></span>
-              <span class="title">Projects</br>Funded</span>
-            </td>
-          </tr>
-        </table>
+      <div class="profile-hero__user-location-wrap">
+        <div class="profile-hero__user-location">
+          <% if (current_user && current_user.id == @user.id) %>
+            <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
+            </svg>
+            <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+            <a id="edit-location-pencil" href="javascript:void(0)" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+          <% else %>
+            <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
+            </svg>&nbsp;&nbsp;<%= @user.city %>
+          <% end %>
+        </div>
       </div>
+
+      <dl class="profile-hero__dl">
+        <div class="profile-hero__dl-item">
+          <dd class="profile-hero__dd"><%= @user.projects.count %></dd>
+          <dt class="profile-hero__dt">Project</br>Leads</dt>
+        </div>
+        <div class="profile-hero__dl-item">
+          <dd class="profile-hero__dd"><%= @user.completed_tasks_count %></dd>
+          <dt class="profile-hero__dt">Completed</br>Tasks</dt>
+        </div>
+        <div class="profile-hero__dl-item">
+          <dd class="profile-hero__dd"><%= @user.funded_projects_count %></dd>
+          <dt class="profile-hero__dt">Projects</br>Funded</dt>
+        </div>
+      </dl>
     </div>
 
-    <div class="user-portrait">
+    <div class="profile-hero__user-portrait">
       <% if @user.picture? %>
         <%= image_tag(@user.picture) %>
       <% else %>
         <%= gravatar_for_user(@user)%>
       <%end%>
 
-      <div class="user-social-links">
-        <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
-          <i class="fa fa-facebook" aria-hidden="true"></i>
-        </a>
-        <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
-          <i class="fa fa-linkedin" aria-hidden="true"></i>
-        </a>
-        <a href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
-          <i class="fa fa-twitter" aria-hidden="true"></i>
-        </a>
-      </div>
+      <ul class="l-socials">
+        <li class="l-socials__item">
+          <a class="l-socials__link" href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
+            <svg focusable="false" version="1.1" class="svg-facebook" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-facebook"></use>
+            </svg>
+          </a>
+        </li>
+        <li class="l-socials__item">
+          <a class="l-socials__link" href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
+            <svg focusable="false" version="1.1" class="svg-linkedin" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-linkedin"></use>
+            </svg>
+          </a>
+        </li>
+        <li class="l-socials__item">
+          <a class="l-socials__link" href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
+            <svg focusable="false" version="1.1" class="svg-twitter" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-twitter"></use>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
 
-      <div class="user-trans-btns">
-        <% if current_user && current_user.id == @user.id %>
-        <a href="javascript:void(0)" class="" data-reveal-id="fund-transfer-wallet">
-          <i class="fa fa-btc" aria-hidden="true"></i>Transfer coins
+    <div class="profile-hero__user-trans-btns">
+      <% if current_user && current_user.id == @user.id %>
+        <a href="javascript:void(0)" class="profile-hero__btn" data-reveal-id="fund-transfer-wallet">
+          <svg focusable="false" version="1.1" class="svg-bitcoin">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bitcoin"></use>
+          </svg>Transfer coins
         </a>
-            <%end %>
-        <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="">
-          <i class="fa fa-envelope-o" aria-hidden="true"></i>Message
-        </a>
-      </div>
-
+      <%end %>
+      <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="profile-hero__btn">
+        <svg focusable="false" version="1.1" class="svg-envelope">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
+        </svg>Message
+      </a>
     </div>
   </div>
+
+
+  <script type="text/javascript">
+    $(function () {
+
+      var $profileHero = $('.profile-hero');
+      $profileHero
+        .on('click.addEditClass', '.btn-edit', function () {
+          $(this).parent().toggleClass('_open-edit-form').parents('.profile-hero').addClass('_form-opened');
+          var $buttons = $profileHero.find('[type="submit"],[type="button"]');
+          $buttons.on('click.removeEditClass', function () {
+            $('._open-edit-form').removeClass('_open-edit-form').parents('.profile-hero').removeClass('_form-opened');
+            $buttons.off('click.removeEditClass');
+          });
+        })
+
+    });
+  </script>
 
   <div class="bio-wrapper">
     <h3 class="bio-header">

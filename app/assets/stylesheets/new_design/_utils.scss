@@ -176,7 +176,7 @@ h2:before {
   line-height: 40px;
   padding: 0 20px;
   margin: 0;
-  border: 2px solid #000;
+  border: 2px solid #000 !important;
   border-radius: 100px !important;
   font-family: 'Roboto';
   font-size: 1em;
@@ -193,7 +193,7 @@ h2:before {
 
 .btn-default-weserve {
   background-color: #fff !important;
-  color: #000;
+  color: #000 !important;
 
   &:hover,
   &:focus {
