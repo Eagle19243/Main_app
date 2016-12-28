@@ -1,40 +1,117 @@
 
-<div id="taskFundModal" class="modal fade fund-modal" role="dialog" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="taskFundModal" class="modal fade fund-modal modal-fund" role="dialog" tabindex="-1">
+  <div class="modal-fund__inner">
+    <div class="modal-fund__content">
+      <div class="modal-fund__top">
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Fund to Task Today!</h4>
-        <h4 class="modal-title" id="wallet-address"></h4>
+        <button type="button" class="modal-fund__close" data-dismiss="modal"></button>
+        <h4 class="modal-fund__title">Fund to Task Today!</h4>
 
-        <center>  <span>current Fund :  </span> <span id="task-balance"></span></center>
+
+        <div class="modal-fund__form-wrap" >
+          <div class="modal-fund__wallet-response" style="background-color: darkorange;font-size: large ;margin:0 3%"  id="response-from-wallet"></div> <!--todo check-->
+          <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default') do %>
+            <div class="f-default__row">
+              <label class="f-default__label" for="wallet_transaction_amount">Enter USD Amount to Send</label>
+              <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
+              <span id="wallet_btc" class="modal-fund__convert"></span>
+            </div>
+            <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required class="form-control"/>
+            <div class="f-default__row _space-between">
+              <button type="button" class="btn-root" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
+              <button type="button" class="btn-root" value="save">Donate with credit card</button>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- todo BE start: Do we need this block? If no - please remove. -->
+        <!--<div class="modal-fund__info">
+          <div class="modal-fund__info-item">
+            <h5 class="modal-fund__info-title">Donations Wikimedia</h5>
+            <p class="modal-fund__info-text">Donations pour Ia Fondation Wikimedia, I’organisation à but non lucratif qui héberge Wikipedia.</p>
+          </div>
+          <div class="modal-fund__info-item">
+            <div class="modal-fund__summary">
+              <label class="modal-fund__field-wrap">
+                <input type="text" class="modal-fund__field" readonly>
+              </label>
+              <div class="modal-fund__currency">USD</div>
+              <div class="modal-fund__btc">0.049866468678316955 BTC</div>
+            </div>
+          </div>
+          <div class="modal-fund__info-item">
+            <h5 class="modal-fund__info-title">Customer Information</h5>
+            <p class="modal-fund__info-text">francis</p>
+            <p class="modal-fund__info-text">34 broadway</p>
+            <p class="modal-fund__info-text">New York, NY 10026 United States</p>
+            <a class="modal-fund__info-link" href="mailto:francischebalier@gmail.com">francischebalier@gmail.com</a>
+          </div>
+        </div>-->
+        <!-- todo BE end -->
       </div>
 
-      <div class="modal-body" >
-        <div class="row">
-          <center>  <div style="background-color: darkorange ;font-size: large ;margin:0 3%"  id="response-from-wallet"></div></center>
-          <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true ) do %>
-              <center>   <div class="form-group" style="margin:0 3%">
-                <label class="control-label" >Enter Amount</label>
-                <input type="text" id="wallet_transaction_amount" name="amount"  class="form-control" required="true" placeholder='Enter USD Amount to Send'/>
-                <span id="wallet_btc"style="color: darkorange"></span>
-              </div></center>
-                <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control"  />
-              <div class="form-group" style="margin:0 3%">
-                <button type="submit" class="  btn btn-primary btn-danger" id="save-wallet-teansaction" style="margin: 10px" value="save">Save</button>
+      <div class="modal-fund__bottom">
+        <div class="modal-fund__tabs">
+          <div class="modal-fund__tab-wrap">
+            <button class="modal-fund__tab _active" type="button">Use your WeServe wallet</button>
+            <button class="modal-fund__tab" type="button">Use bitcoin address</button>
+          </div>
+
+          <% if user_signed_in? %>
+            <div class="modal-fund__content-wrap">
+              <div class="modal-fund__tab-content _active">
+
+                <div class="modal-fund__signed">
+                  <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"></span></div>
+                  <img class="modal-fund__avatar" src="http://placehold.it/44x44"/> <!-- todo BE: add user photo  -->
+                  <div class="modal-fund__field-wrap">
+                    <div class="modal-fund__balance">BTC Wallet (0.0000 BTC)</div>
+                    <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
+                    </svg>
+                  </div>
+
+                  <button class="modal-fund__wrong-user btn-reset">Not you?</button>
+                </div>
+
               </div>
+              <div class="modal-fund__tab-content">
+                <div class="modal-fund__address">
+                  <div class="modal-fund__address-inner">
+                    <div class="modal-fund__signed-label">Send exactly <b class="modal-fund__btc-value">0.011095 BTC</b> to this address:</div>
+                    <input type="text" class="f-default__field"/>
+                    <button type="button" class="btn-root _copy-address _small">Copy address</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn-root _donate _dark">Donate - <span class="modal-fund__donate-value">1.432</span>BTC</button>
+          <% else %>
+            <button type="button" class="btn-root _sign-in _dark">Sign in</button>
           <% end %>
-         <center><div id="coin-base-widget"> </div></center>
 
         </div>
       </div>
+
+      <!-- todo BE: do you need this?
+      <h4 class="modal-title" id="wallet-address"></h4>
+      <span class="modal-fund__current-fund">Current Fund: <span id="task-balance"></span></span>
+      <div id="coin-base-widget"> </div>  -->
+
 
     </div>
   </div>
 </div>
 <script>
 
+  $(document).on('click.tabBehaviour', '.modal-fund__tab', function () {
+    var $that = $(this);
+    $that.addClass('_active').siblings().removeClass('_active');
+    $('.modal-fund__tab-content').removeClass('_active').eq($that.index()).addClass('_active');
+  })
+
+
+  // todo FD: check all this js, do we need this after fund modal will be implemented?
   $('#wallet_transaction_amount').keypress(function(eve) {
     if(eve.which == 8 || eve.which == 0){
       return true;
