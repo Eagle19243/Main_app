@@ -59,6 +59,7 @@ gem 'high_voltage'
 gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'figaro'
+gem 'stripe'
 
 # Ajax File Uploading
 gem 'remotipart'

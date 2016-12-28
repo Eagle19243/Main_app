@@ -117,6 +117,10 @@ Rails.application.routes.draw do
   resources :home , controller: 'projects'
   resources :projects do
     resources :tasks do
+      member do
+        get :card_payment, to: 'payments/stripe#new'
+        post :card_payment, to: 'payments/stripe#create'
+      end
       resources :task_comments
       resources :assignments
     end
