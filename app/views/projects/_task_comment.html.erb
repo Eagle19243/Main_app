@@ -3,17 +3,28 @@
   <% @task_comments.each do |comment| %>
       <div class="comment-view">
         <div class="profile-image">
-          <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture, :size => "30x30"), comment.user  %>
-          <%else%>
+          <% if comment.user.picture? %><%= link_to (image_tag comment.user.picture, :size => "30x30"), comment.user %>
+          <% else %>
               <%= gravatar_for_user(comment.user) %>
-          <%end%>
+          <% end %>
         </div>
         <div class="comment-text">
+          <% if comment.attachment.present? %>
+              <% if %w{jpg png jpg gif bmp}.include?(comment.attachment.file.extension) %>
+                  <%= image_tag comment.attachment.url, style: "width:90px ; height:90px" %>
+
+              <% else %>
+                  <a href="<%= comment.attachment.url %>" target="_blank">
+                    <h4><%= comment.attachment.file.filename %></h4></a>
+
+              <% end %>
+          <% end %>
+
           <P><%= comment.body %></P>
-          <h6><%=comment.created_at.to_formatted_s(:long) if !comment.created_at.nil?%></h6>
+          <h6><%= comment.created_at.to_formatted_s(:long) if !comment.created_at.nil? %></h6>
           <!--<a href="#">Reply</a>-->
         </div>
       </div>
       <hr>
-  <%end%>
+  <% end %>
 </div>
