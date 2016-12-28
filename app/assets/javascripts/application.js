@@ -63,7 +63,7 @@ $(function() {
 
 $document.ready(function() {
 
-  var modalsArr = ["#myModal", "#share", "#team", "#suggested_task_popup", "#InviteModel", "#myModal2", "#popup-for-free-paid"];
+  var modalsArr = ["#myModal", "#share", "#team", "#suggested_task_popup", "#InviteModel", "#myModal2", "#popup-for-free-paid", "#taskFundModal"];
   $document.on('keydown.closeAllModals', function (e) {
       if (e.keyCode == 27) {
           for (var i = 0, max = modalsArr.length; i < max; i++) {
