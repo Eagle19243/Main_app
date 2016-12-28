@@ -23,7 +23,7 @@ var JsonFormsHelper = {
 }
 
 function initializeTeamMembersControls() {
-    $('.delete-team-member').click(function(e) {
+    $('.delete-member').click(function(e) {
         $.ajax({
             type: 'DELETE',
             url: "/team_memberships/" + $(this).attr('team-membership-id'),
