@@ -82,7 +82,7 @@ class TasksController < ApplicationController
 
   def task_fund_info
     respond_to do |format|
-      format.json { render json: {wallet_address: @task.wallet_address.sender_address, balance: curent_bts_to_usd(@task.id), status: 200} }
+      format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address, balance: curent_bts_to_usd(@task.id), status: 200} }
     end
   end
 

@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
 
   # mount_uploader :picture, PictureUploader
   #after_create :populate_guid_and_token
+
   after_create :assign_address
 
   has_many :projects, dependent: :destroy
@@ -55,14 +56,14 @@ class User < ActiveRecord::Base
   def self.current_user=(usr)
     Thread.current[:current_user] = usr
   end
-
+  
   def assign_address
     if File.basename($0) != 'rake'
 
       access_token = access_wallet
       Rails.logger.info access_token unless Rails.env == "development"
       api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-      secure_passphrase = self.password || self.encrypted_password
+      secure_passphrase =  self.encrypted_password
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
       userKeychain = new_address["userKeychain"]
@@ -233,13 +234,5 @@ class User < ActiveRecord::Base
     self.apply_requests.where(project_id: proj.id, request_type: type).pending.any?
   end
 
-  #
-  # def created_wallet_key
-  #   if self.created_at > 3.minutes.ago
-  #     true
-  #   else
-  #     false
-  #   end
-  # end
 
 end
