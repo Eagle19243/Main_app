@@ -234,18 +234,6 @@
 
 
 <script type="text/javascript">
-  $('.best_in_place').on("input", function () {
-    strlength = $(".form_in_place > input").val().length;
-    string = "(" + strlength + "/60)";
-    if (strlength < 2 || strlength > 60) {
-      $('#str_length').addClass("alert_red");
-      string = string + "Input between 2 ~ 60 characters";
-    }
-    else
-      $('#str_length').removeClass("alert_red");
-
-    $('#str_length').text(string);
-  });
 
   function projectImgEdit(e) {
     $('#project-img-edit').modal('show');
