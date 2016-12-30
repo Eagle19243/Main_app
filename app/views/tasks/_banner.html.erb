@@ -25,7 +25,7 @@
 
             </div>
             <div class="b-project-info__title">
-              <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#title-pencil' %>
+              <%= best_in_place_if user_signed_in? && current_user.is_admin_for?(@project), @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#title-pencil' %>
               <% if user_signed_in? && current_user.is_admin_for?(@project) %>
               <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
               <% end %>
@@ -34,7 +34,7 @@
               <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
               </svg>
-              <%= best_in_place_if user_signed_in? && current_user.id == @project.user_id, @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
+              <%= best_in_place_if user_signed_in? && current_user.is_admin_for?(@project), @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
               <% if user_signed_in? && current_user.is_admin_for?(@project) %>
               <%#= @project.country %>
               <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="country-pencil"></span>
@@ -76,7 +76,7 @@
               <td>
                 <%= @project.team_relations_string %>
               </td>
-              <td>$<%= @project.needed_budget %></td>
+              <td>฿ <%= @project.funded_budget %></td>
             </tr>
             <tr class="items">
               <td>Funded</td>

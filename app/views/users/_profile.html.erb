@@ -8,18 +8,22 @@
         <center>  <div style="background-color: red ;font-size: large ;margin:0 3%"  id="response-from-wallet"></div></center>
         <div class="large-1 medium-1 small-0 columns"></div>
         <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true ) do %>
-            <center>   <div class="form-group" style="margin:0 3%">
+          <center>
+            <div class="form-group" style="margin:0 3%">
               <label class="control-label" >Amount</label>
               <input type="text" id="wallet_transaction_amount" name="amount"  class="form-control" required="true" placeholder='Enter USD Amount to Send'/>
               <span id="wallet_btc"style="color: darkorange"></span>
-            </div></center>
-            <center><div class="form-group" style="margin:0 3%">
+            </div>
+          </center>
+          <center>
+            <div class="form-group" style="margin:0 3%">
               <label class="control-label" >User Wallet</label>
               <input type="text" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control" placeholder='Please Enter Receiver Wallet Address' />
-            </div></center>
-            <div class="form-group" style="margin:0 3%">
-                <button type="submit" class="  btn btn-primary btn-danger" id="save-wallet-teansaction" style="margin: 10px" value="save">Save</button>
             </div>
+          </center>
+          <div class="form-group" style="margin:0 3%">
+            <button type="submit" class="  btn btn-primary btn-danger" id="save-wallet-teansaction" style="margin: 10px" value="save">Save</button>
+          </div>
         <% end %>
       </div>
     </div>
@@ -81,30 +85,6 @@
       <% else %>
         <%= gravatar_for_user(@user)%>
       <%end%>
-
-      <ul class="l-socials">
-        <li class="l-socials__item">
-          <a class="l-socials__link" href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank">
-            <svg focusable="false" version="1.1" class="svg-facebook" aria-hidden="true">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-facebook"></use>
-            </svg>
-          </a>
-        </li>
-        <li class="l-socials__item">
-          <a class="l-socials__link" href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank">
-            <svg focusable="false" version="1.1" class="svg-linkedin" aria-hidden="true">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-linkedin"></use>
-            </svg>
-          </a>
-        </li>
-        <li class="l-socials__item">
-          <a class="l-socials__link" href="<%= url_for("http://#{@user.twitter_url}") %>" target="_blank">
-            <svg focusable="false" version="1.1" class="svg-twitter" aria-hidden="true">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-twitter"></use>
-            </svg>
-          </a>
-        </li>
-      </ul>
     </div>
 
     <div class="profile-hero__user-trans-btns">
@@ -205,7 +185,7 @@
                       <td><%= project.funded_percentages %></td>
                       <td><%= project.team_relations_string %></td>
                       <td><%= project.tasks_relations_string %></td>
-                      <td>$<%= project.funded_budget %></td>
+                      <td>฿ <%= project.funded_budget %></td>
                     </tr>
                     <tr class="items">
                       <td>Funded</td>
