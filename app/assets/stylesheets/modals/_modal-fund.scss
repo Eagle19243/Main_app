@@ -57,10 +57,10 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     display: inline-block;
     background: #fff;
     box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
-    padding-bottom: 25px;
     position: relative;
     width: 100%;
     max-width: 810px;
+    padding: 0 0 25px;
 
     transform: translate(0, -25%);
     transition: transform 0.3s ease-out;
@@ -322,5 +322,129 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     bottom: 0;
     margin: auto 0;
     left: 10px;
+  }
+  .js-hidden_card {
+    display: none;
+  }
+  .f-default__label-wrap {
+    position: relative;
+    margin-bottom: 18px;
+    .f-default__field {
+      margin: 0;
+      font-family: Roboto, sans-serif;
+      box-shadow: none; // todo FD: remove when will be removed hindering default styles
+    }
+    .svg-visa {
+      position: absolute;
+      bottom: 10px;
+      right: 19px;
+      width: 52px;
+      height: 15px;
+      fill: #004f8b;
+      color: #ee9f2d;
+    }
+  }
+  ._cvc {
+    max-width: 84px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__cvc-info {
+    display: inline-block;
+    vertical-align: middle;
+    letter-spacing: 0.6px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Roboto, sans-serif;
+    &.btn-reset {
+      margin-left: 20px;
+    }
+    &:hover,
+    &:focus {
+      color: #000;
+      text-decoration: none;
+      background: transparent;
+    }
+  }
+  &__stripe-bottom-inner {
+    max-width: 553px;
+  }
+  &__stripe-top {
+    padding: 7px 55px 7px;
+    border-bottom: 2px solid #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__stripe-bottom {
+    padding: 70px 80px 63px;
+    border-bottom: 2px solid #ccc;
+  }
+  &__stripe-title {
+    text-transform: uppercase;
+    color: #000;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    line-height: 17px;
+    position: relative;
+    top: 2px;
+  }
+  &__stripe-cards {
+    img {
+      max-width: 52px;
+      margin-left: 10px;
+      height: auto;
+    }
+  }
+  &__bottom-content {
+    display: none;
+    &._active {
+      display: block;
+    }
+  }
+  ._flex {
+    display: flex;
+    margin-bottom: 16px;
+  }
+  ._grow {
+    flex-grow: 1;
+    margin-right: 51px;
+  }
+  .f-default__radio-label {
+    margin-bottom: 21px;
+  }
+  .f-default__checkbox-label {
+    margin-bottom: 17px;
+  }
+  [name="cardNumber"] {
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      font-weight: 700;
+      font-size: 24px;
+      position: relative;
+      top: 5px;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+      font-weight: 700;
+      font-size: 24px;
+      position: relative;
+      top: 5px;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+      font-weight: 700;
+      font-size: 24px;
+      position: relative;
+      top: 5px;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      font-weight: 700;
+      font-size: 24px;
+      position: relative;
+      top: 5px;
+    }
   }
 }
