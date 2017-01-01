@@ -764,3 +764,59 @@ div.progress {
 #str_length {
   display: none;
 }
+
+
+.edit-wrapper {
+  display: block;
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+
+  .title-default {
+    font-size: 26px;
+  }
+
+  form {
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    .form-actions {
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      text-align: right;
+    }
+  }
+
+  .subheader {
+    font-family: 'Roboto';
+    color: #000;
+  }
+
+  .form-group {
+    label {
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+    }
+  }
+
+  #section-details {
+    .btn-default-weserve {
+      width: 200px;
+    }
+  }
+
+  .btn-alt-weserve {
+    width: 200px;
+  }
+
+  .button-wrapper {
+    padding: 30px 10px;
+
+    .back-button:before {
+      content: "\003c";
+      padding-right: 10px;
+    }
+  }
+}
+

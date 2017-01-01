@@ -42,7 +42,9 @@
   margin-right: 30px;
 }
 
-
+.mt20 {
+  margin-top: 20px !important;
+}
 .mt80 {
   margin-top: 80px !important;
 }
@@ -168,6 +170,13 @@ h2:before {
   color: #555;
 }
 
+.title-default {
+  font-family: 'Roboto';
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+}
+
 .btn-default-weserve,
 .btn-alt-weserve {
   display: inline-block;
@@ -204,7 +213,7 @@ h2:before {
 }
 
 .btn-alt-weserve {
-  background-color: #000;
+  background-color: #000 !important;
   color: #fff;
 
   &:hover,
