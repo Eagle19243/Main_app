@@ -24,7 +24,7 @@ class Payments::Stripe
     return false
   rescue => error
     @error = 'Payment by card was unavailable, please try again'
-    NewRelic::Agent.notice_error(errosr)
+    NewRelic::Agent.notice_error(error)
     # TO DO: Send an error message to us to handle this, Generic problem or problem with Stripe(e.g. creds, too manny requests)
     return false
   end
