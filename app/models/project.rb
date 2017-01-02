@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
             uniqueness: true
   validates :wiki_page_name, presence: true, uniqueness: true
-  validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length"}
+  validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length. Max length is 60"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
   searchable do
@@ -81,7 +81,7 @@ class Project < ActiveRecord::Base
   end
 
   def funded_percentages
-    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + "%"
+    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + " %"
   end
 
   def accepted_tasks

@@ -6,7 +6,7 @@
         <div class="row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
-              <% if current_user.id == project.user_id %>
+              <% if current_user.is_admin_for?(project) %>
                 <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-edit", id: "editSource" do %>
                   <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
                 <% end %>
@@ -37,10 +37,12 @@
 
       <div class="project-idea">
         <strong>Project Idea: &nbsp;&nbsp;</strong>
-        <%= best_in_place_if user_signed_in? && project.user_id == current_user.id, project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-        <% if user_signed_in? && current_user.id == project.user_id %>
-          <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
+        <% if user_signed_in? && current_user.is_admin_for?(project) %>
+          <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :cancel_button_class => "pencil_cancel", :activator => "#sd_pencil" %>
+          <a class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></a>
           <span id="str_length"></span>
+        <% else %>
+          <%= @project.short_description %>
         <% end %>
       </div>
 

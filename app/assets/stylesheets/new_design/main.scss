@@ -119,3 +119,24 @@ select {
   border-bottom: 0 !important;
 }
 
+.alert {
+  li {
+    font-family: 'Libre Franklin';
+  }
+}
+
+.field_with_errors {
+  width: 100%;
+  background-color: transparent !important;
+  padding: 0 !important;
+
+  label {
+    color: red !important;
+  }
+
+  input {
+    border-color: red !important;
+  }
+}
+
+
