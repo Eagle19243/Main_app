@@ -1,6 +1,7 @@
-
 <div id="taskFundModal" class="modal fade fund-modal modal-fund" role="dialog" tabindex="-1">
-  <div class="modal-fund__inner">
+  <div id="fund-loading"> loading ...   <%= image_tag("loading.gif", :alt => "rss feed") %>
+  </div>
+  <div class="modal-fund__inner" style="display: none">
     <div class="modal-fund__content">
       <div class="modal-fund__top">
 
@@ -8,31 +9,37 @@
         <h4 class="modal-fund__title">Fund to Task Today!</h4>
 
 
-        <div class="modal-fund__form-wrap" >
-          <div class="modal-fund__wallet-response" style="background-color: darkorange;font-size: large ;margin:0 3%"  id="response-from-wallet"></div> <!--todo check-->
-          <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default') do %>
-            <div class="f-default__row">
-              <label class="f-default__label" for="wallet_transaction_amount">Enter USD Amount to Send</label>
-              <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
-              <span id="wallet_btc" class="modal-fund__convert"></span>
-            </div>
-            <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required class="form-control"/>
-            <div class="f-default__row _space-between">
-              <button type="button" class="btn-root" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
-              <button type="button" class="btn-root" id="donate-with-credit-card" value="save">Donate with credit card</button>
-            </div>
-          <% end %>
-         <center><div id="coin-base-widget"> </div>
-
-          <h4>
-
-            <div class="card-payment-link">
-              <%= link_to 'Fund By Debit Card', '#', id: "card-payment-url" %>
+        <div class="modal-fund__form-wrap" id="user-btc-view">
+          <div class="modal-fund__wallet-response" style="background-color: darkorange;font-size: large ;margin:0 3%" id="response-from-wallet"></div> <!--todo check-->
+          <%= form_tag("/user_wallet_transactions/create", method: "post", remote: true, class: 'f-default') do %>
+              <div class="f-default__row">
+                <label class="f-default__label" for="wallet_transaction_amount">Enter USD Amount to Send</label>
+                <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
+                <span id="wallet_btc" class="modal-fund__convert"></span>
               </div>
-          </h4>
-           </center>
-        </div>
+              <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet" required class="form-control"/>
+              <div class="f-default__row _space-between">
+                <button type="button" class="btn-root" id="save-wallet-teansaction" value="save">Donate with bitcoin
+                </button>
+                <button type="button" class="btn-root" id="donate-with-credit-card" value="save">Donate with credit
+                  card
+                </button>
+              </div>
+          <% end %>
+          <center>
+            <div id="coin-base-widget"></div>
 
+            <h4>
+
+              <div class="card-payment-link">
+                <%= link_to 'Fund By Debit Card', '#', id: "card-payment-url" %>
+              </div>
+            </h4>
+          </center>
+        </div>
+        <div class="modal-fund__form-wrap" id="stripe-view" style="display: none">
+          <%= render :template => '/payments/stripe/new' %>
+        </div>
         <!-- todo BE start: Do we need this block? If no - please remove. -->
         <!--<div class="modal-fund__info">
           <div class="modal-fund__info-item">
@@ -67,36 +74,40 @@
           </div>
 
           <% if user_signed_in? %>
-            <div class="modal-fund__content-wrap">
-              <div class="modal-fund__tab-content _active">
+              <div class="modal-fund__content-wrap">
+                <div class="modal-fund__tab-content _active">
 
-                <div class="modal-fund__signed">
-                  <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"></span></div>
-                  <img class="modal-fund__avatar" src="http://placehold.it/44x44"/> <!-- todo BE: add user photo  -->
-                  <div class="modal-fund__field-wrap">
-                    <div class="modal-fund__balance">BTC Wallet (0.0000 BTC)</div>
-                    <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
-                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
-                    </svg>
+                  <div class="modal-fund__signed">
+                    <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"></span></div>
+                    <img class="modal-fund__avatar" src="http://placehold.it/44x44"/> <!-- todo BE: add user photo  -->
+                    <div class="modal-fund__field-wrap">
+                      <div class="modal-fund__balance">BTC Wallet (0.0000 BTC)</div>
+                      <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
+                      </svg>
+                    </div>
+
+                    <button class="modal-fund__wrong-user btn-reset">Not you?</button>
                   </div>
 
-                  <button class="modal-fund__wrong-user btn-reset">Not you?</button>
                 </div>
-
-              </div>
-              <div class="modal-fund__tab-content">
-                <div class="modal-fund__address">
-                  <div class="modal-fund__address-inner">
-                    <div class="modal-fund__signed-label">Send exactly <b class="modal-fund__btc-value">0.011095 BTC</b> to this address:</div>
-                    <input type="text" class="f-default__field"/>
-                    <button type="button" class="btn-root _copy-address _small">Copy address</button>
+                <div class="modal-fund__tab-content">
+                  <div class="modal-fund__address">
+                    <div class="modal-fund__address-inner">
+                      <div class="modal-fund__signed-label">Send exactly
+                        <b class="modal-fund__btc-value">0.011095 BTC</b> to this address:
+                      </div>
+                      <input type="text" class="f-default__field"/>
+                      <button type="button" class="btn-root _copy-address _small">Copy address</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <button type="button" class="btn-root _donate _dark">Donate - <span class="modal-fund__donate-value">1.432</span>BTC</button>
+              <button type="button" class="btn-root _donate _dark">Donate -
+                <span class="modal-fund__donate-value">1.432</span>BTC
+              </button>
           <% else %>
-            <button type="button" class="btn-root _sign-in _dark">Sign in</button>
+              <button type="button" class="btn-root _sign-in _dark">Sign in</button>
           <% end %>
 
         </div>
@@ -121,44 +132,47 @@
 
 
   // todo FD: check all this js, do we need this after fund modal will be implemented?
-  $('#wallet_transaction_amount').keypress(function(eve) {
-    if(eve.which == 8 || eve.which == 0){
+  $('#wallet_transaction_amount').keypress(function (eve) {
+    if (eve.which == 8 || eve.which == 0) {
       return true;
     }
-    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
+    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0)) {
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
       var current_btc = '<%=  get_current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      document.getElementById("wallet_btc").innerHTML = usd.value + " USD = " + (usd.value / current_btc) + " BTC";
       eve.preventDefault();
     }
 
     // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
-    $('#wallet_transaction_amount').keyup(function(eve) {
-      if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
+    $('#wallet_transaction_amount').keyup(function (eve) {
+      if ($(this).val().indexOf('.') == 0) {
+        $(this).val($(this).val().substring(1));
       }
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
       var current_btc = '<%=  get_current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      document.getElementById("wallet_btc").innerHTML = usd.value + " USD = " + (usd.value / current_btc) + " BTC";
 
     });
 
   });
 
-  $('#save-wallet-teansaction').click(function(){
-    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != ''  ){
-      $('#save-wallet-teansaction').disabled = true ;
+  $('#save-wallet-teansaction').click(function () {
+    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != '') {
+      $('#save-wallet-teansaction').disabled = true;
       $('#response-from-wallet').html("");
-      $('#response-from-wallet').html("Requesting ... please Wait ");}
+      $('#response-from-wallet').html("Requesting ... please Wait ");
+    }
   });
 
-  $(".close-reveal-modal").click(function(){
+  $(".close-reveal-modal").click(function () {
     $('#response-from-wallet').html("");
   });
-
-
-
-
-
+  $("#donate-with-credit-card").click(function () {
+    $('#stripe-view').show();
+  });
 </script>
+
+
+
