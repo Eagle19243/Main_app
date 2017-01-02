@@ -365,6 +365,7 @@ ActiveRecord::Schema.define(version: 20161227194556) do
     t.integer  "task_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "attachment"
   end
 
   create_table "task_members", force: :cascade do |t|
