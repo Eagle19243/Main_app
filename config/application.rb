@@ -21,7 +21,10 @@ module YouServe
     config.i18n.default_locale = :en
     config.i18n.available_locales = [:en]
 
-    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths += %w(
+      #{config.root}/lib
+      #{config.root}/app/services
+    )
 
     # For Foundation 5
     config.assets.precompile += %w( vendor/modernizr )

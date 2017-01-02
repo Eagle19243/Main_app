@@ -44,6 +44,7 @@
 
         $('#wallet_transaction_user_wallet').val(response.wallet_address);
         $('#task-balance').html(response.balance + " $");
+        $("#card-payment-url").attr("href", "/projects/" +  response.project_id + "/tasks/" + response.task_id + '/card_payment' );
         $('#coin-base-widget').html("<h4><a href='https://buy.coinbase.com?code=9023urn3f8934hg34&amount=5&address=" + response.wallet_address + "&crypto_currency=BTC'  target='_blank'> Fund by Coinbase</a></h4>")
       },
       error: function (xhr) {
