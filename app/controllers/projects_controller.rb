@@ -113,13 +113,13 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    term = params[:term]
+    term = params[:term].downcase
     @projects = Project.order(:title).where(
         "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
-        "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map { |p| "#{p.title}" }
+        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |p| "#{p.title}" }
     @result = @projects + Task.order(:title).where(
         "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
-        "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map { |t| "#{t.title}" }
+        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |t| "#{t.title}" }
     respond_to do |format|
       format.html { render text: @result }
       format.json { render json: @result.to_json, status: :ok }
