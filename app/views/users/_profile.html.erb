@@ -125,7 +125,7 @@
     <h3 class="bio-header">
       BIO
       <% if (current_user && current_user.id == @user.id) %>
-          <i class="fa fa-pencil" id="bio-edit-pencil" style="display: none;"></i>
+          <i class="fa fa-pencil" id="bio-edit-pencil"></i>
       <% end %>
     </h3>
     <p class="profile-bio">
@@ -243,15 +243,6 @@
   $(".close-reveal-modal").click(function(){
     $('#response-from-wallet').html("");
   });
-
-  $(".bio-wrapper .bio-header").hover(
-      function() {
-        $("#bio-edit-pencil").show();
-      },
-      function() {
-        $("#bio-edit-pencil").hide();
-      }
-  );
 
 </script>
 
