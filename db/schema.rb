@@ -324,6 +324,7 @@ ActiveRecord::Schema.define(version: 20161227194556) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
+    t.datetime "deleted_at"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "user_id"
@@ -333,7 +334,6 @@ ActiveRecord::Schema.define(version: 20161227194556) do
     t.text     "request_description"
     t.string   "short_description"
     t.string   "video_id"
-    t.datetime "deleted_at"
     t.string   "wiki_page_name"
   end
 

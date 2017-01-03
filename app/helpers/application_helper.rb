@@ -41,6 +41,13 @@ module ApplicationHelper
     end
   end
 
+
+  def we_serve_wallet
+    settings = YAML.load_file("#{Rails.root}/config/application.yml")
+    @passphrase = settings['we_serve_admin_wallet']['passphrase']
+    @wallet_id = settings['we_serve_admin_wallet']['wallet_id']
+  end
+
   def convert_usd_to_btc_and_then_satoshi(usd)
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'

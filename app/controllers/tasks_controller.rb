@@ -81,8 +81,12 @@ class TasksController < ApplicationController
 
 
   def task_fund_info
+   if @task.wallet_address.blank?
+     @task.assign_address
+   end
     respond_to do |format|
-      format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address, balance: curent_bts_to_usd(@task.id), status: 200} }
+    #  format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address, balance: curent_bts_to_usd(@task.id), status: 200} }
+       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance:curent_bts_to_usd( @task.id ), task_id: @task.id, project_id: @task.project_id , status: 200} }
     end
   end
 
