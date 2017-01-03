@@ -2,7 +2,6 @@
   <div id="fund-loading"> loading ...   <%= image_tag("loading.gif", :alt => "rss feed") %>
   </div>
   <div class="modal-content2 yes modal-fund__inner">
-   <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default') do %>
 
     <div class="modal-fund__content">
       <div class="modal-fund__top">
@@ -13,54 +12,18 @@
 
         <div class="modal-fund__form-wrap" id="user-btc-view">
             <div class="f-default__row">
-              <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">BTC</span> Amount to Send</label>
-              <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
-              <span id="wallet_btc" class="modal-fund__convert"></span>
+              <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default') do %>
+                <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">BTC</span> Amount to Send</label>
+                <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
+                <span id="wallet_btc" class="modal-fund__convert"></span>
+              <% end %>
             </div>
             <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required class="form-control"/>
             <div class="f-default__row _space-between">
               <button type="button" class="btn-root js-change-payment-type _active" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
               <button type="button" class="btn-root js-change-payment-type" id="donate-with-credit-card" value="save">Donate with credit card</button>
             </div>
-
-            <center>
-              <div id="coin-base-widget"></div>
-
-              <h4>
-
-                <div class="card-payment-link">
-                  <%= link_to 'Fund By Debit Card', '#', id: "card-payment-url" %>
-                </div>
-              </h4>
-            </center>
         </div>
-        <div class="modal-fund__form-wrap" id="stripe-view" style="display: none">
-          <%= render :template => '/payments/stripe/new' %>
-        </div>
-        <!-- todo BE start: Do we need this block? If no - please remove. -->
-        <!--<div class="modal-fund__info">
-          <div class="modal-fund__info-item">
-            <h5 class="modal-fund__info-title">Donations Wikimedia</h5>
-            <p class="modal-fund__info-text">Donations pour Ia Fondation Wikimedia, I’organisation à but non lucratif qui héberge Wikipedia.</p>
-          </div>
-          <div class="modal-fund__info-item">
-            <div class="modal-fund__summary">
-              <label class="modal-fund__field-wrap">
-                <input type="text" class="modal-fund__field" readonly>
-              </label>
-              <div class="modal-fund__currency">USD</div>
-              <div class="modal-fund__btc">0.049866468678316955 BTC</div>
-            </div>
-          </div>
-          <div class="modal-fund__info-item">
-            <h5 class="modal-fund__info-title">Customer Information</h5>
-            <p class="modal-fund__info-text">francis</p>
-            <p class="modal-fund__info-text">34 broadway</p>
-            <p class="modal-fund__info-text">New York, NY 10026 United States</p>
-            <a class="modal-fund__info-link" href="mailto:francischebalier@gmail.com">francischebalier@gmail.com</a>
-          </div>
-        </div>-->
-        <!-- todo BE end -->
       </div>
 
       <div class="modal-fund__bottom">
@@ -120,72 +83,7 @@
               </div>
             </div>
             <% if user_signed_in? %>
-              <div class="modal-fund__stripe-bottom">
-                <div class="modal-fund__stripe-bottom-inner">
-                  <label class="f-default__radio-label">
-                    <input class="f-default__radio-field" name="method" type="radio"/>
-                    <span class="f-default__radio-pseudo"></span>
-                    <span class="f-default__radio-text">ending in (expires 00/)</span>
-                  </label>
-                  <br/>
-                  <label class="f-default__radio-label">
-                    <input class="f-default__radio-field" name="method" type="radio"/>
-                    <span class="f-default__radio-pseudo"></span>
-                    <span class="f-default__radio-text">Use a new payment method</span>
-                  </label>
-                  <div class="f-default__row">
-                    <div class="f-default__label-wrap">
-                      <label class="f-default__label" for="card_number">Card Number</label>
-                      <div class="js-hidden_card"></div>
-                      <input type="tel" autocomplete="off" id="card_number" name="cardNumber" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
-                      <svg focusable="false" version="1.1" class="svg-visa">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-visa"></use>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="f-default__row _flex">
-                    <div class="f-default__label-wrap _grow">
-                      <label class="f-default__label" for="card_expiry">Expiry (MM/YY)</label>
-                      <input type="tel" autocomplete="off" id="card_expiry" name="cardExpiry" maxlength="7" class="f-default__field" placeholder="MM/YY" required/>
-                    </div>
-                    <div class="f-default__label-wrap">
-                      <label class="f-default__label" for="card_code">Card code</label>
-                      <input type="tel" autocomplete="off" id="card_code" name="cardCvc" class="f-default__field _cvc" placeholder="CVC" required/>
-                      <button class="modal-fund__cvc-info btn-reset">What is CVC?</button>
-                    </div>
-                  </div>
-                  <label class="f-default__checkbox-label">
-                    <input class="f-default__checkbox-field" name="method" type="checkbox"/>
-                    <span class="f-default__checkbox-pseudo"></span>
-                    <span class="f-default__checkbox-text">Save to Account</span>
-                  </label>
-                  <br/>
-                  <label class="f-default__checkbox-label">
-                    <input class="f-default__checkbox-field" name="method" type="checkbox"/>
-                    <span class="f-default__checkbox-pseudo"></span>
-                    <span class="f-default__checkbox-text">I've read and accept the <a href='#'><b>terms & conditions</b></a></span>
-                  </label>
-
-                  <script>
-                    // https://github.com/jessepollak/card
-                    new Card({
-                      // a selector or DOM element for the form where users will
-                      // be entering their information
-                      form: '#taskFundModal', // *required*
-                      // a selector or DOM element for the container
-                      // where you want the card to appear
-                      container: '.js-hidden_card', // *required*
-
-                      formSelectors: {
-                          numberInput: '[name="cardNumber"]',
-                          expiryInput: '[name="cardExpiry"]',
-                          cvcInput: '[name="cardCvc"]'
-                      }
-                    });
-                  </script>
-                </div>
-              </div>
-              <button type="button" class="btn-root _donate _dark">Donate - $<span class="modal-fund__donate-value js-usd-value">0.00</span></button>
+              <%= render :template => '/payments/stripe/new' %>
             <% else %>
               <button type="button" class="btn-root _sign-in _dark">Sign in</button>
             <% end %>
@@ -201,7 +99,6 @@
 
 
     </div>
-  <% end %>
   </div>
 </div>
 <script>
@@ -226,6 +123,10 @@
   var $btcValue = $('.js-btc-value');
   var $usdValue = $('.js-usd-value');
   var $currentCurrency = $('.js-current-currency');
+  var $cardNumber = $('#card_number');
+  var $cardExpiry = $('#card_expiry');
+  var $jsCardNumber = $('.js-card-number');
+  var $jsAmount = $('.js-amount');
   $(document)
       .on('click.tabBehaviour', '.modal-fund__tab', function () {
         var $that = $(this);
@@ -269,10 +170,22 @@
     })
     // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
     .on('keyup', function(eve) {
-      if($(this).val().indexOf('.') == 0) {
-        $(this).val($(this).val().substring(1));
+      var currentVal = $(this).val();
+      if(currentVal.indexOf('.') == 0) {
+        $(this).val(currentVal.substring(1));
       }
+      $jsAmount.val(currentVal);
       updateConversion(eve);
+    });
+  $cardNumber
+    .on('keyup', function() {
+      $jsCardNumber.val($(this).val().replace(/\s/g, ''));
+    });
+  $cardExpiry
+    .on('keyup', function() {
+      var valArr = $(this).val().split('');
+      $('[data-stripe="exp_month"]').val(valArr[0] + valArr[1]);
+      $('[data-stripe="exp_month"]').val(valArr[5] + valArr[6]);
     });
 
   $('#save-wallet-teansaction').click(function () {
