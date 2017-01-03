@@ -27,4 +27,10 @@ class CreateAdminService
     count
   end
 
+  def create_admin_wallet
+    unless ( AdminReseveWallet.any?)
+    AdminReseveWallet.new.create_we_serve_wallet
+    end
+  end
+
 end
