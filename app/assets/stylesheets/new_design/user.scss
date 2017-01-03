@@ -342,6 +342,13 @@
     margin: auto;
     position: relative;
   }
+
+  textarea {
+    height: 180px;
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 

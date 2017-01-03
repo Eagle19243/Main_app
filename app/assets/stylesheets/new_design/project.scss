@@ -194,13 +194,14 @@ div.progress {
     padding-bottom: 20px;
   }
 
-  button.delete-member {
+  a.delete-member {
     padding: 0;
     background: transparent;
     font-size: 22px;
     position: absolute;
     top: 0px;
     right: 7px;
+    z-index:2;
     cursor: pointer;
     color: #aaa;
 

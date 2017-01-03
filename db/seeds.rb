@@ -16,6 +16,8 @@ puts 'CREATED ADMIN USER: ' << user.email
 count = CreateAdminService.new.create_additional_admins
 puts "#{count} additional admins created"
 
+CreateAdminService.new.create_admin_wallet
+
 @project = Project.create(title: "Test project",
                user_id: User.first.id,
                state: "pending",
@@ -40,7 +42,7 @@ puts "Created task"
 
 TeamMembership.create(team_member_id: User.first.id,
                team_id: @project_team.id,
-               state: 'admin',
+               role: 1,
                task_id: @task.id)
 
 puts "Created membership"
