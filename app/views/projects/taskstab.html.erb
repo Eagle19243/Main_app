@@ -66,7 +66,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <ul class="nav nav-pills nav-left">
             <li>
-              <%= link_to plan_project_path(id: @project.id), remote: true, class: "tablinks border-right-none", onclick: "openTab(event, 'Plan')" do %>
+              <%= link_to plan_project_path(id: @project.id), remote: true, class: "tablinks border-right-none active", id: "tab-plan", onclick: "openTab(event, 'Plan')" do %>
                 Plan
               <% end %>
             </li>
@@ -234,18 +234,6 @@
 
 
 <script type="text/javascript">
-  $('.best_in_place').on("input", function () {
-    strlength = $(".form_in_place > input").val().length;
-    string = "(" + strlength + "/60)";
-    if (strlength < 2 || strlength > 60) {
-      $('#str_length').addClass("alert_red");
-      string = string + "Input between 2 ~ 60 characters";
-    }
-    else
-      $('#str_length').removeClass("alert_red");
-
-    $('#str_length').text(string);
-  });
 
   function projectImgEdit(e) {
     $('#project-img-edit').modal('show');
@@ -282,6 +270,9 @@
     $('[data-toggle="tooltip"]').tooltip();
     $('.nav-pills').find('li:first-child a').click();
 
+    openTab({
+        'currentTarget': $('#tab-plan').get(0)
+      }, 'Plan');
   });
 
   // $('#editSource').click(function (event) {

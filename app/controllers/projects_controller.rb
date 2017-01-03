@@ -369,7 +369,7 @@ class ProjectsController < ApplicationController
         end
 
         @project_team = @project.create_team(name: "Team#{@project.id}")
-        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
+        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id,role:1 )
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
         chatroom =Chatroom.create(name: @project.title, project_id: @project.id)
@@ -399,7 +399,7 @@ class ProjectsController < ApplicationController
       else
         format.html { render :edit }
         format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
-        # format.json {respond_with_bip(@project)}
+        format.json {respond_with_bip(@project)}
       end
     end
   end

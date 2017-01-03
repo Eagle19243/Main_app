@@ -72,7 +72,7 @@ class DoRequestsController < ApplicationController
         if (!users_ids.include?(@do_request.user_id))
           Groupmember.create(user_id: @do_request.user_id, chatroom_id: team.project.chatroom.id)
         end
-        membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id)
+        membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
         #task.team_memberships.add(membership)
         TaskMember.create(task_id: task.id, team_membership_id: membership.id)
         flash[:success] = "Task has been assigned"

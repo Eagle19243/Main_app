@@ -458,9 +458,8 @@
 
   .forgot-pwd-form {
     display: block;
-    margin-top: 100px !important;
+    margin: 5% auto 3% !important;
     max-width: 350px;
-    margin: auto;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -477,7 +476,7 @@
       font-family: 'Libre Franklin', sans-serif;
       font-size: 1em;
       color: #000;
-      text-align: left;
+      float: left;
     }
 
     .form-group {
