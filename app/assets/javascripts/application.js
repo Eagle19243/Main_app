@@ -69,6 +69,7 @@ $document.ready(function() {
         for (var i = 0, max = modalsArr.length; i < max; i++) {
           $(modalsArr[i]).fadeOut();
         }
+        $('.modal-backdrop').remove();
       }
   });
 
