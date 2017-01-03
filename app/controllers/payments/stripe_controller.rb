@@ -32,7 +32,10 @@ class Payments::StripeController < ApplicationController
   private
 
   def transfer_coin_from_weserver_wallet_to_task_wallet (task, amount)
-    we_serve_wallet
+    unless ( AdminReseveWallet.any?)
+      AdminReseveWallet.new.create_we_serve_wallet
+    end
+    @weserve_wallet = AdminReseveWallet.first
     task_wallet = task.wallet_address.sender_address
     begin
       @transfer = StripePayment.create(amount: amount, task_id: task.id)
@@ -42,8 +45,8 @@ class Payments::StripeController < ApplicationController
         return
       else
         access_token = access_wallet
-        address_from = @wallet_id
-        sender_wallet_pass_phrase = @passphrase
+        address_from = @weserve_wallet.wallet_id
+        sender_wallet_pass_phrase = @weserve_wallet.pass_phrase
         address_to = task_wallet.strip
 
         api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
@@ -53,6 +56,7 @@ class Payments::StripeController < ApplicationController
           @transfer.transferd = true
           @transfer.save!
         end
+
       end
     end
 

@@ -22,11 +22,13 @@
     var $form = $('#payment-form');
 
     if (response.error) { // Problem!
+
       // Show the errors on the form:
       $form.find('.payment-errors').text(response.error.message);
       $form.find('.submit').prop('disabled', false); // Re-enable submission
 
     } else { // Token was created!
+
       // Get the token ID:
       var token = response.id;
 
@@ -41,8 +43,11 @@
 </script>
 
 <div class="row text-center">
-  <div class="medium-2 medium-centered columns">
+  <div>
+     <!--If You want a new page for card payment then use  <%#= card_payment_project_task_path %> in action instead of / on popup
+     i call JQuery function to fill the action path  -->
     <%#= card_payment_project_task_path %>
+
     <form action="/" method="POST" id="payment-form">
       <span class="payment-errors"></span>
 
@@ -59,15 +64,16 @@
           <input type="text" size="20" data-stripe="number">
         </label>
       </div>
-
       <div class="form-row">
+
         <label>
           <span>Expiration (MM/YY)</span>
-          <input type="text" size="2" data-stripe="exp_month">
+
         </label>
+        <input type="text" size="20" data-stripe="exp_month" >
         <span> / </span>
-        <input type="text" size="2" data-stripe="exp_year">
-      </div>
+        <input type="text" size="20" data-stripe="exp_year" >
+</div>
       <div class="form-row">
         <label>
           <span>CVC</span>
