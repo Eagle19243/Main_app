@@ -178,7 +178,7 @@ class Task < ActiveRecord::Base
   end
 
   def is_executer(user_id)
-    users = self.project.team.team_memberships.where(role: 4 ).collect(&:team_member_id)
+    users = self.project.team.team_memberships.where(role: 3 ).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
   def is_team_member( user_id )
