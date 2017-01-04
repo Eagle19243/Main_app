@@ -1,0 +1,49 @@
+.modal-default {
+  &__close {
+    width: 44px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: transparent;
+    &:after {
+      transform: rotate(45deg);
+    }
+    &:before {
+      transform: rotate(-45deg);
+    }
+    &:before,
+    &:after {
+      content: '';
+      width: 22px;
+      height: 1px;
+      background: #777;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: auto;
+      transition: background .2s;
+    }
+    &:focus,
+    &:hover {
+      background: transparent;
+      outline: none;
+      .desktop & {
+        &:before,
+        &:after {
+          background: #000;
+        }
+      }
+    }
+  }
+  &__title {
+    font-size: 30px;
+    font-weight: 600;
+    font-family: Roboto, sans-serif;
+    margin-bottom: 15px;
+    margin-top: 0;
+    text-align: center;
+  }
+}

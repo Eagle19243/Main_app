@@ -24,6 +24,7 @@
     &[text="text"],
     &[text="tel"] {
       box-shadow: none;
+      font-size: 14px;
     }
     &._joined-left {
       border-radius: 20px 0 0 20px;
@@ -35,6 +36,22 @@
         border: 2px solid #000;
         border-right: 0;
       }
+    }
+  }
+  &__textarea {
+    height: 88px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #4a4a4a;
+    display: block;
+    width: 100%;
+    padding: 8px 14px;
+    font-size: 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: border-color .15s linear;
+    &:hover {
+      border: 1px solid #000;
     }
   }
   .f-default__field { // because of bad default styles
@@ -183,6 +200,16 @@
       display: inline-block;
       vertical-align: middle;
     }
+  }
+  &__col-wrap {
+    margin: 0 -10px;
+    font-size: 0;
+  }
+  &__col {
+    display: inline-block;
+    vertical-align: top;
+    width: 33.3333%;
+    padding: 0 10px;
   }
   &__info-message {
     font-size: 12px;
