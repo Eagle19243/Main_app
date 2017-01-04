@@ -3,9 +3,15 @@
     <div class="s-header__logo">
       <% if user_signed_in? %>
           <!-- For signed users, we should still this to redirect to root path as we have only dummy projects -->
-          <%= link_to 'WeServe', root_path %>
+          <%= link_to root_path do %>
+            WeServe
+            <small>Beta</small>
+          <% end %>
       <% else %>
-          <%= link_to 'WeServe', root_path %>
+          <%= link_to root_path do %>
+            WeServe
+            <small>Beta</small>
+          <% end %>
       <% end %>
     </div>
 
@@ -113,7 +119,7 @@
 </div>
 
 
-<div class="mobile-menu">
+<div class="mobile-menu display-none">
   <ul class="mobile-menu-list">
     <li class="border-bottom show-mobile">
       <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
