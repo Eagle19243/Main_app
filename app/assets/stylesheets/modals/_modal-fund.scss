@@ -394,4 +394,16 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     font-family: Roboto, sans-serif;
     display: block;
   }
+  .f-default__card-wrap {
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    img {
+      display: none;
+      max-height: 28px;
+      &._active {
+        display: block;
+      }
+    }
+  }
 }

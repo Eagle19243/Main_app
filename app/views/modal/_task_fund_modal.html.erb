@@ -179,7 +179,9 @@
     });
   $cardNumber
     .on('keyup', function() {
-      $jsCardNumber.val($(this).val().replace(/\s/g, ''));
+      var currentVal = $(this).val().replace(/\s/g, '');
+      $jsCardNumber.val(currentVal);
+      detectCard(currentVal);
     });
   $cardExpiry
     .on('keyup', function() {
@@ -202,7 +204,38 @@
   $("#donate-with-credit-card").click(function () {
     $('#stripe-view').show();
   });
+
+
+  var $cardWrap = $('.f-default__card-wrap');
+
+  function detectCard(str) {
+    var firstLetter = +str[0];
+    var twoFirstLetters = +(firstLetter + '' + str[1]);
+    var threeFirstLetters = +(twoFirstLetters + '' + str[2]);
+    var fourFirstLetters = +(threeFirstLetters + '' + str[3]);
+    var sixFirstLetters = +(fourFirstLetters + '' + str[4] + str[5]);
+    console.log(twoFirstLetters, threeFirstLetters, fourFirstLetters, sixFirstLetters);
+
+    if (twoFirstLetters == 34 || twoFirstLetters == 37) {
+        $cardWrap.find('img').removeClass('_active').filter('._ae').addClass('_active');
+    } else if (twoFirstLetters >= 50 && twoFirstLetters <= 55) {
+        $cardWrap.find('img').removeClass('_active').filter('._mc').addClass('_active');
+    } else if (firstLetter == 4) {
+        $cardWrap.find('img').removeClass('_active').filter('._visa').addClass('_active');
+    } else if (fourFirstLetters >= 3528 && fourFirstLetters <= 3589) {
+        $cardWrap.find('img').removeClass('_active').filter('._jcb').addClass('_active');
+    } else if (twoFirstLetters == 65 ||
+               fourFirstLetters == 6011 ||
+               threeFirstLetters >= 644 && threeFirstLetters <= 649 ||
+               sixFirstLetters >= 62216 && sixFirstLetters <= 622925) {
+        $cardWrap.find('img').removeClass('_active').filter('._discover').addClass('_active');
+    } else if (twoFirstLetters == 36 || twoFirstLetters == 38 || twoFirstLetters == 39 ||
+               fourFirstLetters == 6011 ||
+               threeFirstLetters >= 300 && threeFirstLetters <= 305 || threeFirstLetters == 309) {
+        $cardWrap.find('img').removeClass('_active').filter('._dc').addClass('_active');
+    } else {
+        $cardWrap.find('img').removeClass('_active');
+    }
+  }
+
 </script>
-
-
-
