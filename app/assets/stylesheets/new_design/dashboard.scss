@@ -488,3 +488,21 @@
 }
 
 
+#display-user {
+  input {
+    font-style: italic;
+    background-color: #ddd;
+    border: 0;
+    border-bottom: 1px solid #000;
+    padding: 0;
+  }
+}
+
+.ui-menu {
+  .ui-menu-item {
+    background-color: #eee;
+    color: #555;
+    font-family: 'Libre Franklin';
+  }
+}
+
