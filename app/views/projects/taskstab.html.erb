@@ -45,6 +45,7 @@
 
         $('.modal-fund__user-name').text(response.user_name);
         $('#wallet-address').html('wallet Address: ' + response.wallet_address)
+        $('.js-wallet-address').val(response.wallet_address);
 
         $('#wallet_transaction_user_wallet').val(response.wallet_address);
         $('#task-balance').html(response.balance + " $");
