@@ -272,6 +272,11 @@
     $('#sourceEditor').hide();
     $('.plan-hide').hide();
     $('.plan-show').show();
+
+    if (tabName === "Team")
+      $('.get-invo-btn').show();
+    else
+      $('.get-invo-btn').hide();
   }
 
   $(function () {
