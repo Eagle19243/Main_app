@@ -184,4 +184,18 @@
       vertical-align: middle;
     }
   }
+  &__info-message {
+    font-size: 12px;
+    font-family: Roboto, sans-serif;
+    padding-left: 24px;
+    position: relative;
+    &:before {
+      position: absolute;
+      content: '*';
+      left: 5px;
+      top: 1px;
+      font-size: 14px;
+      color: #000;
+    }
+  }
 }
