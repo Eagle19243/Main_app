@@ -281,10 +281,15 @@
 }
 
 .profile-wrapper {
+  .profile-bio {
+    word-break: break-all;
+    word-break: break-word;
+  }
   .bio-wrapper {
     display: block;
     width: 40%;
     margin: auto;
+    padding-top: 30px;
 
     h3 {
       font-family: 'Roboto', sans-serif;

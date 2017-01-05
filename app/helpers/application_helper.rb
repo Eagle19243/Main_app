@@ -43,9 +43,16 @@ module ApplicationHelper
 
 
   def we_serve_wallet
-    settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    @passphrase = settings['we_serve_admin_wallet']['passphrase']
-    @wallet_id = settings['we_serve_admin_wallet']['wallet_id']
+    begin
+      settings = YAML.load_file("#{Rails.root}/config/application.yml")
+      response = RestClient.get  "http://localhost:3080/api/v1/ping"
+      unless response.blank?
+        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+        access_token = settings['bitgo_admin']['weserve_admin_access_token']
+      end
+    rescue => e
+      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
+    end
   end
 
   def convert_usd_to_btc_and_then_satoshi(usd)
