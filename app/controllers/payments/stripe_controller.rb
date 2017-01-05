@@ -44,7 +44,7 @@ class Payments::StripeController < ApplicationController
       if satoshi_amount.eql?('error') or satoshi_amount.blank?
         return
       else
-        access_token = access_wallet
+        access_token = we_serve_wallet
         address_from = @weserve_wallet.wallet_id
         sender_wallet_pass_phrase = @weserve_wallet.pass_phrase
         address_to = task_wallet.strip
