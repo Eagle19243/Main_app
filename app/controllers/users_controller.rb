@@ -1,7 +1,7 @@
 include UsersHelper
 
 class UsersController < ApplicationController
-  load_and_authorize_resource :except => [:index,:wallet_transactions]
+  load_and_authorize_resource :except => [:index,:my_wallet]
   layout "dashboard", only: [:my_projects]
 
   def index
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     redirect_to users_path, :notice => "User deleted."
   end
 
-  def wallet_transactions
+  def my_wallet
   end
 
   private

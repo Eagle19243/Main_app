@@ -179,7 +179,7 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-    get  :wallet_transactions
+     get  :my_wallet
     end
   end
 
