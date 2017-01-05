@@ -433,6 +433,16 @@ div.progress {
       line-height: 1.5em;
     }
   }
+
+  .deadline-group {
+    padding-bottom: 10px;
+
+    label.error {
+      position: absolute;
+      left: 0;
+      top: 40px;
+    }
+  }
 }
 
 
