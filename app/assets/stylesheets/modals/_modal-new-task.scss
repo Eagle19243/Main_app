@@ -1,11 +1,8 @@
-#product-modal #InviteModel {
-  z-index: 1050 !important; // todo FD: remove this : I see inline z-index without any reason
-}
 
-div.modal-share { // todo FD: remove div : now I need this because of huge amount !important's in code
+div.modal-new-task { // todo FD: remove div : now I need this because of huge amount !important's in code
   top: 0 !important; // todo FD: remove when modals will be refactored : I see top 100px !important without any reason
 }
-.modal-share {
+.modal-new-task {
   font-size: 0;
   background-color: rgba(74, 73, 74, 0.7);
   text-align: center;
@@ -17,7 +14,7 @@ div.modal-share { // todo FD: remove div : now I need this because of huge amoun
     content: '';
   }
   &__content {
-    padding: 40px 80px;
+    padding: 40px 80px 53px;
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -25,5 +22,22 @@ div.modal-share { // todo FD: remove div : now I need this because of huge amoun
     width: auto;
     box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
     background-color: #fff;
+    font-size: 10px;
+    text-align: left;
+  }
+  .f-default__row {
+    margin-bottom: 8px;
+  }
+  .input-group-addon {
+    border-radius: 0;
+  }
+  .btn-root {
+    display: table;
+    margin: 26px 0 0 auto;
+    min-width: 227px;
+  }
+  .f-default__field {
+    font-size: 14px;
+    margin: 0;
   }
 }
