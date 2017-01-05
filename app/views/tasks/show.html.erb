@@ -1026,7 +1026,6 @@
                         <span class="meter" style="width:<%= task.funded %>"></span>
                       </div>
                       <div class="row task-4rd-row">
-                        <center>
                           <table>
                             <tbody><tr>
                               <th><%= task.funded %></th>
@@ -1041,7 +1040,6 @@
                               <td>Needed</td>
                             </tr>
                             </tbody></table>
-                        </center>
                       </div>
                     </div>
 
@@ -1134,19 +1132,17 @@
         <!-- end of row-->
 
       </section>
-      <!-- Task Details Window -->
-      <div id="myModal" class="modal">
+      <!-- Task Details Window -->  <!-- todo Where we can see this page? -->
+      <div id="myModal" class="modal-task modal-default">
 
         <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close">x</span>
+        <div class="modal-content modal-task__content">
+          <button class="modal-default__close" type="button"></button>
 
           <div class="task-details">
-            <div class="row">
 
-              <!--left side -->
-              <div class="large-8 medium-12 small-12 columns">
-                <div class="task-details-left-side">
+            <div class="modal-task__flex">
+              <div class="modal-task__content-side">
                   <div class="task-desc">
                     <h3><%= @task.title %></h3>
                     <p><%= @task.description  %></p>
@@ -1224,11 +1220,9 @@
                   </div>
 
                 </div> <!-- end of task-details-left-side -->
-              </div>
 
               <!-- right side -->
-              <div class="large-4 medium-12 small-12 columns">
-                <div class="task-details-right-side">
+              <div class="modal-task__controls-side">
                   <div class="fund">
                     <center>
                       <% unless  @task.suggested_task? %>
@@ -1251,7 +1245,6 @@
                   <strong>Task Specific Bit Coin Address:</strong>
 
                   <p id='fe_text'><%=@task.wallet_address.sender_address rescue 'Available soon'%></p>
-                  </p>
                   <hr>
                   <div class="button-set">
 
@@ -1301,11 +1294,6 @@
 
                   </div>
                 </div>
-
-
-
-
-              </div> <!--row ends -->
 
             </div> <!-- task details ends -->
 
