@@ -206,7 +206,7 @@
     .on('keyup', function() {
       var valArr = $(this).val().split('');
       $('[data-stripe="exp_month"]').val(valArr[0] + valArr[1]);
-      $('[data-stripe="exp_month"]').val(valArr[5] + valArr[6]);
+      $('[data-stripe="exp_year"]').val(valArr[5] + valArr[6]+valArr[7] + valArr[8]);
     });
 
   $('#save-wallet-teansaction').click(function () {

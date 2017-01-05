@@ -1,7 +1,7 @@
 class AdminReseveWallet < ActiveRecord::Base
 include ApplicationHelper
  def create_we_serve_wallet
-   access_token = access_wallet
+   access_token = we_serve_wallet
    Rails.logger.info access_token unless Rails.env == "development"
    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
    secure_passphrase =  SecureRandom.hex(5)

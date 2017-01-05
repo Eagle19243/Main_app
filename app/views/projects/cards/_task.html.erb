@@ -35,11 +35,11 @@
 </div>
 
 <script type="text/javascript">
-
+    // todo rewrite js
 $(document).ready(function() {
 
   // Open the modal and render the task details via AJAX
-  var modal = document.getElementById('myModal');
+  var $modal = $('#myModal');
 
   // Get the button that opens the modal
   var btn = document.getElementsByClassName("taskLinks");
@@ -49,23 +49,23 @@ $(document).ready(function() {
 
   // When the user clicks on the button, open the modal
   function openModal() {
-      modal.style.display = "block";
+      $modal.fadeIn();
   }
 
 });
 
-
-// Open the modal and render the task details via AJAX
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementsByClassName("taskLinks");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-function openModal() {
-    modal.style.display = "block";
-}
+// todo look like this is unnecessary code
+//// Open the modal and render the task details via AJAX
+//var modal = document.getElementById('myModal');
+//
+//// Get the button that opens the modal
+//var btn = document.getElementsByClassName("taskLinks");
+//
+//// Get the <span> element that closes the modal
+//var span = document.getElementsByClassName("close")[0];
+//
+//// When the user clicks on the button, open the modal
+//function openModal() {
+//    modal.style.display = "block";
+//}
 </script>
