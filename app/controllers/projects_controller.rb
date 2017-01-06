@@ -247,9 +247,9 @@ class ProjectsController < ApplicationController
     end
 
     @histories = get_revision_histories @project
-    if approved_versions?(@histories) == 0
-      @contents = ''
-    end
+    # if approved_versions?(@histories) == 0
+    #   @contents = ''
+    # end
 
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
@@ -285,10 +285,10 @@ class ProjectsController < ApplicationController
       end
     end
 
-    @histories = get_revision_histories @project
-    if approved_versions?(@histories) == 0
-      @contents = ''
-    end
+    # @histories = get_revision_histories @project
+    # if approved_versions?(@histories) == 0
+    #   @contents = ''
+    # end
 
     @apply_requests = @project.apply_requests.pending.all
 
