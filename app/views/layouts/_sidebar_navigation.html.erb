@@ -16,9 +16,9 @@
       <a href="/notifications">Notifications</a>
     </li>
 
-    <li class="">
+    <li class="<%= active_class("/users/#{current_user.id}/my_wallet") %>">
       <i class="fa fa-btc" aria-hidden="true"></i>
-      <a href="javascript:void(0)">Wallet</a>
+      <a href="/users/<%= current_user.id %>/my_wallet">Wallet</a>
     </li>
 
     <li class="<%= active_class(user_path(current_user)) %>">
