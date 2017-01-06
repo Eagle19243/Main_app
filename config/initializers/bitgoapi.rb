@@ -372,7 +372,7 @@ module Bitgo
           if json_resp.kind_of?(Hash) && json_resp["error"].nil? == false
             raise ApiError.new(json_resp["error"])
           end
-          puts "hello00000000000000000"
+          #puts "hello00000000000000000"
           return json_resp
         else
           return response.body
