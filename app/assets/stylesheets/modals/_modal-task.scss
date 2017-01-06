@@ -1,0 +1,333 @@
+@import '../new_design/variables';
+
+div.modal-task { // todo FD: remove div : now I need this because of huge amount !important's in code
+  top: 0 !important; // todo FD: remove when modals will be refactored : I see top 100px !important without any reason
+}
+
+.modal-task {
+  font-size: 0;
+  background-color: rgba(74, 73, 74, 0.7);
+  text-align: center;
+  overflow-y: auto !important; // todo remove important when remove all ugly styles for modal
+  overflow-x: hidden;
+  padding: 30px 20px;
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  &:after {
+    width: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+  }
+  &__content {
+    padding: 40px 40px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    font-size: 14px;
+    max-width: 1200px;
+    text-align: left;
+    width: 100%;
+  }
+  &__flex {
+    display: flex;
+  }
+  &__title-wrap,
+  &__content-side {
+    form {
+      input[type="text"] {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        border-bottom: 2px solid #000;
+        text-align: center;
+        color: #000;
+        max-width: 560px;
+        display: block;
+        font-weight: 600;
+        margin: 0 auto 10px;
+        font-size: 30px;
+        height: 40px;
+        font-family: Roboto, sans-serif;
+      }
+      button[type="submit"],
+      button[type="reset"] {
+        height: 40px;
+        line-height: 40px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        margin: 0 10px;
+        padding: 0;
+        width: 100px;
+        border: 2px solid #000;
+        border-radius: 60px;
+        text-transform: uppercase;
+      }
+      button[type="submit"] {
+        background-color: #fff;
+        color: #000;
+      }
+      button[type="reset"] {
+        background-color: #000;
+        color: #fff;
+      }
+    }
+  }
+  &__content-side {
+    flex-grow: 1;
+    padding-right: 40px;
+    p {
+      word-break: break-all;
+      word-break: break-word;
+    }
+
+    textarea {
+      height: 150px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #4a4a4a;
+      display: block;
+      width: 100%;
+      padding: 8px 14px;
+      font-size: 14px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin-bottom: 15px;
+      transition: border-color .15s linear;
+      &:hover {
+        border: 1px solid #000;
+      }
+    }
+  }
+  &__controls-side {
+    flex-basis: 380px;
+    width: 380px;
+    max-width: 380px;
+    flex-shrink: 0;
+  }
+
+
+  &__title-wrap {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .modal-default__title {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+  }
+  ._form-open .modal-default__title,
+  ._form-open .task-proof {
+    display: none !important; // todo remove when remove all unnecessary js
+  }
+  .btn-edit {
+    display: inline-block;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    position: relative;
+    text-align: center;
+    font-size: 0;
+    &:after {
+      content: '';
+      height: 100%;
+      width: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    i {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+  }
+
+  &__desc-block {
+    margin-bottom: 10px;
+    .btn-edit {
+      float: right;
+    }
+    h4 {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      color: #000;
+      display: inline-block;
+      line-height: 32px;
+      margin-top: 0;
+    }
+    p {
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+  }
+
+
+  // todo styles below should be checked
+  &__controls-side {
+    border-left: none;
+
+    .progress {
+      margin-bottom: 15px;
+    }
+
+    .fund {
+      button {
+        display: inline-block;
+        padding: 0;
+        height: 45px;
+        line-height: 45px;
+        border: 2px solid #000;
+        border-radius: 100px;
+        font-family: 'Libre Franklin', sans-serif;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-transform: uppercase;
+        width: 45%;
+
+        &[title="fund"] {
+          background-color: #fff;
+          color: #000;
+        }
+        &[title="do"] {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+
+      .card-report {
+        table {
+          width: 100%;
+        }
+
+        tbody {
+          tr td {
+            padding: 0 !important;
+            text-align: left;
+            line-height: 20px !important;
+            padding: 0 5px !important;
+          }
+          tr.value {
+            td {
+              font-family: 'Libre Franklin', sans-serif;
+              color: #333 !important;
+              font-size: 1em !important;
+              font-weight: bold;
+            }
+          }
+          tr.items {
+            td {
+              font-family: 'Libre Franklin', sans-serif;
+              color: $grey-clr !important;
+              font-size: 0.9em !important;
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+
+    .deadline-block {
+      h5 {
+        font-family: 'Roboto', sans-serif;
+        color: #000;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 1.1em;
+      }
+      p {
+        font-family: 'Libre Franklin', sans-serif;
+        font-size: 1em;
+        color: #555;
+        i {
+          color: #555;
+          font-size: 1.3em;
+          padding-right: 10px;
+        }
+      }
+    }
+
+    .team-block {
+      padding-top: 5px;
+      h5 {
+        font-family: 'Roboto', sans-serif;
+        color: #000;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 1.1em;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
+    }
+
+    .wallet-block {
+      h5 {
+        font-family: 'Roboto', sans-serif;
+        color: #000;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      p {
+        font-family: 'Libre Franklin', sans-serif;
+        font-size: 1em;
+        color: #555;
+      }
+    }
+
+    .approve-block {
+      a.approve-link {
+        display: inline-block;
+        width: 100%;
+        padding: 0;
+        height: 45px;
+        line-height: 45px;
+        border: 2px solid #000;
+        border-radius: 100px;
+        font-family: 'Libre Franklin', sans-serif;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: #fff;
+        color: #000;
+        text-align: center;
+
+        i {
+          font-size: 1.3em;
+          color: #000;
+        }
+      }
+    }
+  }
+}
+
+
+@media(max-width: 920px) {
+  .modal-task {
+    &__flex {
+      display: block;
+    }
+    &__content-side,
+    &__controls-side {
+      max-width: 100%;
+      width: auto;
+    }
+  }
+}

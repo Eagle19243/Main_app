@@ -1,0 +1,144 @@
+<div class="expanded margin-none dashboard-wrapper">
+    <% if current_user %>
+        <%= render 'layouts/sidebar_navigation' %>
+    <% end %>
+
+    <section class="s-wallet">
+        <div class="container-own">
+            <h1 class="s-wallet__title">My Wallet</h1>
+            <div class="s-wallet__top-bar">
+                <div class="s-wallet__top-bar-left">
+                    <h3 class="s-wallet__subtitle">Receive address</h3>
+                    <div class="s-wallet__btc-address">aasasdv5ads5v56asdv6asdv</div>
+                    <button class="s-wallet__qr">
+                        <svg focusable="false" version="1.1" class="svg-qr">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-qr"></use>
+                        </svg>
+                        Show QR-Code
+                    </button> <!-- todo show qr code -->
+                </div>
+                <div class="s-wallet__top-bar-right">
+                    <div class="s-wallet__btc">
+                        <span class="s-wallet__value">0.0798</span> BTC
+                    </div>
+                    <div class="s-wallet__usd">
+                        $<span class="s-wallet__value">71.39</span> USD
+                    </div>
+                </div>
+            </div>
+            <div class="s-wallet__content _active">
+                <div class="s-wallet__content-header">
+                    <h3 class="s-wallet__subtitle">Transactions</h3>
+                    <button class="btn-root js-toggle-content" type="button">Make a transaction</button>
+                </div>
+                <div class="s-wallet__content-main">
+                    <div class="t-transactions">
+                        <div class="t-transactions__row _head">
+                            <div class="t-transactions__th">Date</div>
+                            <div class="t-transactions__th">Description</div>
+                            <div class="t-transactions__th">Amount</div>
+                            <div class="t-transactions__th">Balance</div>
+                        </div>
+                        <div class="t-transactions__row">
+                            <div class="t-transactions__td">
+                                <svg focusable="false" version="1.1" class="svg-arrow _out">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                                </svg> Aug 4th 2016, 3:09 PM
+                            </div>
+                            <div class="t-transactions__td">Sent to Anton</div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__expense">- 0.0102</div>
+                                <div class="t-transactions__value">$ 5.91</div>
+                            </div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__balance">0.0798</div>
+                            </div>
+                        </div>
+                        <div class="t-transactions__row">
+                            <div class="t-transactions__td">
+                                <svg focusable="false" version="1.1" class="svg-arrow _in">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                                </svg> Aug 4th 2016, 3:09 PM
+                            </div>
+                            <div class="t-transactions__td">Received at 3P6xATQLGDrFmGVqF6Yzfxfywc7eK5Rf1o</div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__income">+ 0.0102</div>
+                                <div class="t-transactions__value">$ 5.91</div>
+                            </div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__balance">0.0798</div>
+                            </div>
+                        </div>
+                        <div class="t-transactions__row">
+                            <div class="t-transactions__td">
+                                <svg focusable="false" version="1.1" class="svg-arrow _out">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                                </svg> Aug 4th 2016, 3:09 PM
+                            </div>
+                            <div class="t-transactions__td">Sent to Anton</div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__expense">- 0.0102</div>
+                                <div class="t-transactions__value">$ 5.91</div>
+                            </div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__balance">0.0798</div>
+                            </div>
+                        </div>
+                        <div class="t-transactions__row">
+                            <div class="t-transactions__td">
+                                <svg focusable="false" version="1.1" class="svg-arrow _in">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                                </svg> Aug 4th 2016, 3:09 PM
+                            </div>
+                            <div class="t-transactions__td">Received at 3P6xATQLGDrFmGVqF6Yzfxfywc7eK5Rf1on</div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__income">+ 0.0102</div>
+                                <div class="t-transactions__value">$ 5.91</div>
+                            </div>
+                            <div class="t-transactions__td _tar">
+                                <div class="t-transactions__balance">0.0798</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="s-wallet__content">
+                <button class="s-wallet__back js-toggle-content" type="button">< Transactions</button>
+                <form action="" class="f-transaction">
+                    <div class="f-transaction__title">Make a transaction</div>
+                    <div class="f-default__row">
+                        <label class="f-default__label">
+                            <span class="f-default__label-text">Bitcoin address or label</span>
+                            <input type="text" class="f-default__field" required>
+                        </label>
+                    </div>
+                    <div class="f-default__row">
+                        <label class="f-default__label _btc">
+                            <span class="f-default__label-text">Enter amount</span>
+                            <input type="number" class="f-default__field numeric integer" required>
+                            <div class="f-transaction__btc">BTC</div>
+                        </label>
+                        <div class="f-transaction__info">
+                            Availabel: <span class="js-btc-value">0.08234553</span> BTC
+                        </div>
+                    </div>
+                    <div class="f-default__row">
+                        <label class="f-default__label">
+                            <span class="f-default__label-text">Optional internal memo</span>
+                            <input type="text" class="f-default__field">
+                        </label>
+                    </div>
+                    <button class="btn-root _dark">Send</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        $(document).ready(function () {
+          $('.js-toggle-content').on('click', function() {
+            $(this).parents('.s-wallet__content').removeClass('_active').siblings('.s-wallet__content').addClass('_active');
+          });
+        });
+    </script>
+
+</div>

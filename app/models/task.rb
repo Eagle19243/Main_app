@@ -23,7 +23,7 @@ class Task < ActiveRecord::Base
   has_many :stripe_payments
 
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
-  #after_create :assign_address
+  after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :suggested_task
@@ -80,20 +80,20 @@ class Task < ActiveRecord::Base
       end
     else
       access_token = access_wallet
-      Rails.logger.info access_token unless Rails.env == "development"
+      #Rails.logger.info access_token unless Rails.env == "development"
       api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
       secure_passphrase = SecureRandom.hex(5)
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
+      #Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
       new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
+     # puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
       new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
       new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-      Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
+    #  Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
+     # Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
+      #Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
+      #Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
       unless new_address.blank?
         WalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, task_id: self.id, wallet_id: new_address_id)
       else
@@ -179,7 +179,7 @@ class Task < ActiveRecord::Base
   end
 
   def is_executer(user_id)
-    users = self.project.team.team_memberships.where(role: 4 ).collect(&:team_member_id)
+    users = self.project.team.team_memberships.where(role: 3 ).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
   def is_team_member( user_id )

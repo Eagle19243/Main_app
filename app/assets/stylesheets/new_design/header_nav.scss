@@ -527,3 +527,20 @@ a.header-link {
     display: block;
   }
 }
+
+.s-header__logo {
+  a {
+    font-family: 'Roboto';
+    font-weight: bold;
+
+    &:hover,
+    &:focus {
+      color: #000;
+      text-decoration: none;
+    }
+  }
+
+  small {
+    font-size: 0.7em;
+  }
+}

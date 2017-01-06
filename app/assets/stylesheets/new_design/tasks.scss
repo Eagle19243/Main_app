@@ -580,13 +580,13 @@
 
 .summary-header {
   strong {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #000;
   }
 
   a {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     font-size: 0.9em;
     color: #aaa;
   }
@@ -602,11 +602,13 @@
 
   .card-title {
     p {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.3em;
       color: #000;
       line-height: 1.5em;
       margin-bottom: 10px;
+      word-break: break-all;
+      word-break: break-word;
     }
   }
 

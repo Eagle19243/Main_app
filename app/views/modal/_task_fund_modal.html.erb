@@ -56,7 +56,7 @@
                 <div class="modal-fund__address">
                   <div class="modal-fund__address-inner">
                     <div class="modal-fund__signed-label">Send exactly <b class="modal-fund__btc-value"><span class="js-btc-value">0</span> BTC</b> to this address:</div>
-                    <input type="text" class="f-default__field"/>
+                    <input type="text" class="f-default__field js-wallet-address" id="wallet_address"/>
                     <button type="button" class="btn-root _copy-address _small">Copy address</button>
                   </div>
                 </div>
@@ -119,6 +119,22 @@
     return !donationObj.isUSD ? 'USD' : 'BTC';
   }
 
+
+  function CopyToClipboard(containerid) {
+    if (document.selection) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(document.getElementById(containerid));
+        range.select().createTextRange();
+        document.execCommand("Copy");
+    } else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(document.getElementById(containerid));
+        window.getSelection().addRange(range);
+        document.execCommand("Copy");
+    }
+  }
+
+
   var $walletTransactionAmount = $('#wallet_transaction_amount');
   var $btcValue = $('.js-btc-value');
   var $usdValue = $('.js-usd-value');
@@ -128,6 +144,9 @@
   var $jsCardNumber = $('.js-card-number');
   var $jsAmount = $('.js-amount');
   $(document)
+      .on('click.copyWallet', '._copy-address', function () {
+        CopyToClipboard('wallet_address');
+      })
       .on('click.tabBehaviour', '.modal-fund__tab', function () {
         var $that = $(this);
         $that.addClass('_active').siblings().removeClass('_active');
@@ -164,7 +183,7 @@
       if(eve.which == 8 || eve.which == 0){
         return true;
       }
-      if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
+      if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
         updateConversion(eve);
       }
     })
@@ -179,13 +198,15 @@
     });
   $cardNumber
     .on('keyup', function() {
-      $jsCardNumber.val($(this).val().replace(/\s/g, ''));
+      var currentVal = $(this).val().replace(/\s/g, '');
+      $jsCardNumber.val(currentVal);
+      detectCard(currentVal);
     });
   $cardExpiry
     .on('keyup', function() {
       var valArr = $(this).val().split('');
       $('[data-stripe="exp_month"]').val(valArr[0] + valArr[1]);
-      $('[data-stripe="exp_month"]').val(valArr[5] + valArr[6]);
+      $('[data-stripe="exp_year"]').val(valArr[5] + valArr[6]+valArr[7] + valArr[8]);
     });
 
   $('#save-wallet-teansaction').click(function () {
@@ -202,7 +223,38 @@
   $("#donate-with-credit-card").click(function () {
     $('#stripe-view').show();
   });
+
+
+  var $cardWrap = $('.f-default__card-wrap');
+
+  function detectCard(str) {
+    var firstLetter = +str[0];
+    var twoFirstLetters = +(firstLetter + '' + str[1]);
+    var threeFirstLetters = +(twoFirstLetters + '' + str[2]);
+    var fourFirstLetters = +(threeFirstLetters + '' + str[3]);
+    var sixFirstLetters = +(fourFirstLetters + '' + str[4] + str[5]);
+    console.log(twoFirstLetters, threeFirstLetters, fourFirstLetters, sixFirstLetters);
+
+    if (twoFirstLetters == 34 || twoFirstLetters == 37) {
+        $cardWrap.find('img').removeClass('_active').filter('._ae').addClass('_active');
+    } else if (twoFirstLetters >= 50 && twoFirstLetters <= 55) {
+        $cardWrap.find('img').removeClass('_active').filter('._mc').addClass('_active');
+    } else if (firstLetter == 4) {
+        $cardWrap.find('img').removeClass('_active').filter('._visa').addClass('_active');
+    } else if (fourFirstLetters >= 3528 && fourFirstLetters <= 3589) {
+        $cardWrap.find('img').removeClass('_active').filter('._jcb').addClass('_active');
+    } else if (twoFirstLetters == 65 ||
+               fourFirstLetters == 6011 ||
+               threeFirstLetters >= 644 && threeFirstLetters <= 649 ||
+               sixFirstLetters >= 62216 && sixFirstLetters <= 622925) {
+        $cardWrap.find('img').removeClass('_active').filter('._discover').addClass('_active');
+    } else if (twoFirstLetters == 36 || twoFirstLetters == 38 || twoFirstLetters == 39 ||
+               fourFirstLetters == 6011 ||
+               threeFirstLetters >= 300 && threeFirstLetters <= 305 || threeFirstLetters == 309) {
+        $cardWrap.find('img').removeClass('_active').filter('._dc').addClass('_active');
+    } else {
+        $cardWrap.find('img').removeClass('_active');
+    }
+  }
+
 </script>
-
-
-

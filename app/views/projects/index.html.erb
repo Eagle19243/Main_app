@@ -21,6 +21,36 @@
     </div>
   </section>
 </main>
+<button class="btn-to-top">
+  <svg focusable="false" version="1.1" class="svg-arrow-down">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+  </svg>
+</button>
+<script type="text/javascript">
+    var $window = $(window),
+        $btnToTop = $('.btn-to-top');
+
+    $(document).ready(function () {
+      function updateBtnToTopVisibility() {
+        var $sFooter = $('.landing-footer');
+        if ($sFooter.length && ($window.scrollTop() + window.innerHeight > $sFooter.offset().top)) {
+            $btnToTop.removeClass('_active');
+        } else if ($window.scrollTop() > 150) {
+            $btnToTop.addClass('_active');
+        } else {
+            $btnToTop.removeClass('_active');
+        }
+      }
+      $btnToTop.on('click', function() {
+        $('body, html').animate({scrollTop: 0}, 600);
+      });
+      $window.on('scroll.toggleBtnToTop', function() {
+        updateBtnToTopVisibility();
+      });
+      updateBtnToTopVisibility();
+
+    });
+</script>
 
 <% if  @download_keys  %>
     <%= render "modal/created_wallet_modal" %>
@@ -38,7 +68,7 @@
 
 <% if @download_keys && @start_project %>
     <script type="text/javascript">
-      $('#wallet_button').click(function() {
+      $('#wallet_button').on('click', function() {
           $('#walletModal').modal('hide');
           $('#startProjectModal').modal('toggle');
           localStorage.removeItem('start_project');
