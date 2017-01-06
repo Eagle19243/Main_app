@@ -247,6 +247,10 @@ class ProjectsController < ApplicationController
     end
 
     @histories = get_revision_histories @project
+    if approved_versions?(@histories) == 0
+      @contents = ''
+    end
+
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     @apply_requests = @project.apply_requests.pending.all
@@ -279,6 +283,11 @@ class ProjectsController < ApplicationController
         @contents = result["html"]
         @is_blocked = result["is_blocked"]
       end
+    end
+
+    @histories = get_revision_histories @project
+    if approved_versions?(@histories) == 0
+      @contents = ''
     end
 
     @apply_requests = @project.apply_requests.pending.all
@@ -634,6 +643,20 @@ class ProjectsController < ApplicationController
     else
       return []
     end
+  end
+
+  # Get status if there are approved versions or not
+  def approved_versions? histories
+    flg = 0
+
+    histories.each do |history|
+      if history["status"] == "approved"
+        flg = 1
+        break
+      end
+    end
+
+    return flg
   end
 
   # Fitler wiki page name regarding page title
