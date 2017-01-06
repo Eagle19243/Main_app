@@ -906,6 +906,11 @@
     top: 50%;
     -webkit-transform: translate(0, -50%);
             transform: translate(0, -50%);
+
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+
     z-index: 999;
     background: transparent;
   }
@@ -1003,6 +1008,46 @@ a.fund-model-popup {
       border: 0 !important;
       border-radius: 3px !important;
     }
+  }
+}
+
+#gmail-invite-modal {
+  padding: 0px 20px 20px;
+
+  .modal-header {
+    h3, h5 {
+      font-family: 'Roboto';
+    }
+  }
+
+  .invite-action__form {
+    padding: 20px 0px;
+    text-align: right;
+  }
+
+  input[type="checkbox"] {
+    vertical-align: top;
+  }
+
+  .email-address {
+    font-family: 'Libre Franklin';
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    display: inline-block;
+    width: 95%;
   }
 }
 
