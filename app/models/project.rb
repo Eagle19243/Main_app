@@ -151,6 +151,10 @@ class Project < ActiveRecord::Base
     self.project_users.where(user_id: user.id).destroy_all
   end
 
+  def is_approval_enabled?
+    self.is_approval_enabled
+  end
+
   # Load MediaWiki API Base URL from application.yml
   def self.load_mediawiki_api_base_url
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
