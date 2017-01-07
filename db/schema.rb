@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170102155629) do
+ActiveRecord::Schema.define(version: 20170107095300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -336,8 +336,8 @@ ActiveRecord::Schema.define(version: 20170102155629) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "user_id"
     t.datetime "expires_at"
     t.integer  "volunteers",          default: 0
@@ -347,6 +347,7 @@ ActiveRecord::Schema.define(version: 20170102155629) do
     t.string   "video_id"
     t.datetime "deleted_at"
     t.string   "wiki_page_name"
+    t.boolean  "is_approval_enabled", default: false
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
