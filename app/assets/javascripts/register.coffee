@@ -27,4 +27,8 @@ $().ready ->
     $('#sign_up_email').hide()
     return
 
-  return
+  $(document).on 'click', '#sign_in_link', (e) ->
+    $('.sign_up_show').hide()
+    $('.sign_in_show').show()
+    $('.start_project_show').hide()
+    return
