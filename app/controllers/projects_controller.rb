@@ -260,22 +260,6 @@ class ProjectsController < ApplicationController
     @histories = get_revision_histories @project
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
-    if params[:is_approval_enabled].present?
-      @project.update_attribute(:is_approval_enabled, params[:is_approval_enabled])
-
-      if @project.is_approval_enabled?
-        # Approve latest revision
-        @project.approve_revision @histories[0]["revision_id"]
-      else
-        @histories.each do |history|
-          if history["status"] == "approved"
-            # Unapprove approved revisions
-            @project.unapprove_revision history["revision_id"]
-          end
-        end
-      end
-    end
-
     respond_to do |format|
       format.js
     end
@@ -292,12 +276,8 @@ class ProjectsController < ApplicationController
         # Approve latest revision
         @project.approve_revision @histories[0]["revision_id"]
       else
-        @histories.each do |history|
-          if history["status"] == "approved"
-            # Unapprove approved revisions
-            @project.unapprove_revision history["revision_id"]
-          end
-        end
+        # Unapprove approved revisions
+        @project.unapprove
       end
 
       @histories = get_revision_histories @project
