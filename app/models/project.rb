@@ -330,6 +330,27 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # MediaWiki API - Unapprove approved revision
+  def unapprove
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Unapprove
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=unapprove&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
   # MediaWiki API - Block user
   def block_user username
     if Rails.configuration.mediawiki_session
