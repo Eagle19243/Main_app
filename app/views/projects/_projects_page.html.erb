@@ -3,7 +3,7 @@
       <div class="b-project-card">
 
         <div class="b-project-card__top">
-          <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
+          <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap', data: {no_turbolink: false} do %>
               <%= image_tag(project.picture.url, data: { 'object-fit': "cover" }) %>
           <% end %>
           <div class="b-project-card__user-link">
