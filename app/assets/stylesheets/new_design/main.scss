@@ -1,5 +1,6 @@
 
 @import 'variables';
+@import 'utils';
 
 body {
   font-family: 'Libre Franklin';
@@ -153,4 +154,26 @@ select {
 label.error {
   color: red !important;
   font-family: 'Libre Franklin' !important;
+}
+
+.modal-backdrop{
+  z-index: 999 !important;
+}
+#project-location-icon{
+  cursor:default !important;
+}
+
+.border-link,
+.btn-start,
+.normal-button,
+.fund-model-popup,
+.btn-share,
+.btn-notify,
+#submit-message,
+#editSource {
+  @extend .hover-default;
+}
+
+.do-model-popup {
+  @extend .hover-alt;
 }
