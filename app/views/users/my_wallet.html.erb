@@ -82,22 +82,29 @@
     </div>
     <div class="s-wallet__content">
       <button class="s-wallet__back js-toggle-content" type="button">< Transactions</button>
-      <form action="" class="f-transaction">
-        <div class="f-transaction__title">Make a transaction</div>
+      <!--<form action="" class="f-transaction">-->
+        <%= form_tag("/user_wallet_transactions/create", method: "post" ,class:"f-transaction" ) do %>
+
+      <div class="f-transaction__title">Make a transaction</div>
+
         <div class="f-default__row">
           <label class="f-default__label">
             <span class="f-default__label-text">Bitcoin address or label</span>
-            <input type="text" class="f-default__field" required>
+            <!--<input type="text" class="f-default__field" required>-->
+            <input type="text" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control" placeholder='Please Enter Receiver Wallet Address' />
+
           </label>
         </div>
         <div class="f-default__row">
           <label class="f-default__label _btc">
             <span class="f-default__label-text">Enter amount</span>
-            <input type="number" class="f-default__field numeric integer" required>
-            <div class="f-transaction__btc">BTC</div>
+            <!--<input type="number" class="f-default__field numeric integer" required>-->
+            <input type="number" id="wallet_transaction_amount" name="amount"  class="f-default__field numeric integer"  required="true" placeholder=''/>
+
+            <div class="f-transaction__btc">USD</div>
           </label>
           <div class="f-transaction__info">
-            Availabel: <span class="js-btc-value">0.08234553</span> BTC
+            Availabel: <span class="js-btc-value"><%= user_wallet_balance_btc (@wallet_address.current_balance) %></span> BTC
           </div>
         </div>
         <div class="f-default__row">
@@ -107,7 +114,8 @@
           </label>
         </div>
         <button class="btn-root _dark">Send</button>
-      </form>
+          <%end %>
+      <!--</form>-->
     </div>
 </div>
 </section>
