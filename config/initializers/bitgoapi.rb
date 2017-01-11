@@ -241,6 +241,10 @@ module Bitgo
         call :get, '/wallet/' + wallet_id + '/addresses'
       end
 
+      def list_wallet_transctions(wallet_id, access_token)
+        @session_token = access_token
+        call :get, '/wallet/' + wallet_id + '/tx'
+      end
       # Creates a new address for an existing wallet. BitGo wallets consist of two independent chains of addresses, designated 0 and 1.
       # The 0-chain is typically used for receiving funds, while the 1-chain is used internally for creating change when spending from a wallet.
       # It is considered best practice to generate a new receiving address for each new incoming transaction, in order to help maximize privacy.
