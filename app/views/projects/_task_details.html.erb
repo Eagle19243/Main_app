@@ -48,7 +48,7 @@
   <div class="modal-content modal-task__content">
     <button type="button" class="modal-default__close"></button>
     <div class="task-details">
-        <div id="task-related-messages"</div>
+        <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
           <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
           <% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id || current_user.id == @task.project.user_id)) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
@@ -149,13 +149,12 @@
                               <button type="submit" name="commit" value="Send"> Send</button>
                               &nbsp;&nbsp;
                               <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                              <div id="attachment-div">
-                                <div>
-                                </div>
+                              <div id="attachment-div"></div>
+                            </div>
                         <% end %>
                     <% end %>
-                    </div>
-                    </div>
+                  </div>
+                </div>
             <% end %>
             <div class="activity" id="task-activity">
               <%= render "projects/task_activities" %>

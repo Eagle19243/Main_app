@@ -56,24 +56,23 @@
         <li class="notify-count">Notifications&nbsp;
           <span class="count"><%= current_user.notifications.unread.count %></span>
         </li>
-        <li class="notify-wrapper">
-          <div class="notify-body">
-            <div>
-              <span class="action">Created Project</span>
-              <span class="date pull-right">Nov 11th</span>
-            </div>
-            <p>You have created project MyProject.</p>
-          </div>
-        </li>
-        <li class="notify-wrapper">
-          <div class="notify-body">
-            <div>
-              <span class="action">Created Project</span>
-              <span class="date pull-right">Nov 11th</span>
-            </div>
-            <p>You have created project MyProject.</p>
-          </div>
-        </li>
+        <% if current_user.notifications.unread.count == 0 %>
+          <li class="notify-link">
+            <span class="action">You have no new notification</span>
+          </li>
+        <% else %>
+          <% for i in 1..current_user.notifications.unread.count %>
+            <li class="notify-wrapper">
+              <div class="notify-body">
+                <div>
+                  <span class="action">Created Project</span>
+                  <span class="date pull-right">Nov 11th</span>
+                </div>
+                <p>You have created project MyProject.</p>
+              </div>
+            </li>
+          <% end %>
+        <% end %>
         <li class="notify-link">
           <%= link_to 'See All Notifications', notifications_path %>
         </li>
@@ -99,6 +98,7 @@
         <li><%= link_to 'My Projects', my_projects_path %></li>
         <li><%= link_to 'Messages', group_messages_path %></li>
         <li><%= link_to 'Notifications', notifications_path %></li>
+        <li><a href="/users/<%= current_user.id %>/my_wallet">My wallet</a></li>
         <% if current_user.admin? %>
             <li><%= link_to 'Archived Projects', archived_projects_path %></li>
         <% end %>
