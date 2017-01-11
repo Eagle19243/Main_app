@@ -6,7 +6,6 @@
         <div class="row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
-              <!-- Leader or Lead Editor of the project can edit project contents -->
               <% if current_user.is_admin_for?(project) || current_user.is_lead_editor_for?(project) %>
                 <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-edit", id: "editSource" do %>
                   <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
