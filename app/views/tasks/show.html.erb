@@ -38,12 +38,12 @@
 
 
 
-<div id="InviteModel" class="modal modal-invite" tabindex="-1">
+<div id="InviteModel" class="modal modal-invite modal-default" tabindex="-1">
 
   <!-- Modal content -->
-  <div class="modal-content2 yes modal-invite__content">
+  <div class="modal-content2 yes modal-default__content">
     <button id="inviteclose" class="modal-default__close"></button>
-    <h4 class="modal-invite__title">Add / Invite People</h4>
+    <h4 class="modal-default__title">Add / Invite People</h4>
     <h6 class="modal-invite__subtitle">Type in the e-mail address of the person you like to invite</h6>
     <%= form_tag(:controller => "tasks", :action => "send_email") do %>
 
