@@ -92,7 +92,7 @@ module ApplicationHelper
     btc_to_usd =  satoshi_to_btc * get_current_btc_rate
     btc_to_usd.round(3)
   end
-  
+
   def projects_taskstab?
     controller_name == 'projects' && action_name == 'taskstab'
   end

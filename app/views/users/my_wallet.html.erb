@@ -11,12 +11,11 @@
           <h3 class="s-wallet__subtitle">Receive address</h3>
           <div class="s-wallet__btc-address"><%= @wallet_address.sender_address rescue 'Available Soon' %></div>
           <button class="s-wallet__qr">
-            <img src=""/>
+            <div id="qrcode"></div>
             .
-            <!--<svg focusable="false" version="1.1" class="svg-qr">-->
-            <!---->
-            <!--&lt;!&ndash;<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-qr"></use>&ndash;&gt;-->
-            <!--</svg>-->
+            <script>
+              $('#qrcode').qrcode("<%= @wallet_address.sender_address %>");
+            </script>
             QR-Code
           </button> <!-- todo show qr code -->
         </div>
@@ -43,87 +42,40 @@
               <div class="t-transactions__th">Balance</div>
             </div>
 
-            <%if @transactions['transactions'].present? %>
-            <% @transactions['transactions'].each do |transaction| %>
-                <% transaction['entries'].each do |entry| %>
-                    <div class="t-transactions__row">
-                      <div class="t-transactions__td">
-                        <% if entry['value'].to_f > 0.0 %>
-                            <svg focusable="false" version="1.1" class="svg-arrow _in">
-                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
-                            </svg>
-                            <%= DateTime.parse(transaction['date']).strftime('%b %d %Y, %I:%M %p') %>
-                            </div>
-                            <div class="t-transactions__td">Recieved From: <%= entry['account'] %></div>
-                        <% else %>
-                            <svg focusable="false" version="1.1" class="svg-arrow _out">
-                              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
-                            </svg>
-                            <%= DateTime.parse(transaction['date']).strftime('%b %d %Y, %I:%M %p') %>
-                            </div>
-                            <div class="t-transactions__td">Sent to: <%= entry['account'] %></div>
-                        <% end %>
+            <% if @transactions['transactions'].present? %>
+                <% @transactions['transactions'].each do |transaction| %>
+                    <% transaction['entries'].each do |entry| %>
+                        <div class="t-transactions__row">
+                          <div class="t-transactions__td">
+                            <% if entry['value'].to_f > 0.0 %>
+                                <svg focusable="false" version="1.1" class="svg-arrow _in">
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                                </svg>
+                                <%= DateTime.parse(transaction['date']).strftime('%b %d %Y, %I:%M %p') %>
+                                </div>
+                                <div class="t-transactions__td">Recieved From: <%= entry['account'] %></div>
+                            <% else %>
+                                <svg focusable="false" version="1.1" class="svg-arrow _out">
+                                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                                </svg>
+                                <%= DateTime.parse(transaction['date']).strftime('%b %d %Y, %I:%M %p') %>
+                                </div>
+                                <div class="t-transactions__td">Sent to: <%= entry['account'] %></div>
+                            <% end %>
 
-                        <div class="t-transactions__td _tar">
-                          <div class="t-transactions__expense"><%= user_wallet_balance_btc(entry['value']) %></div>
-                          <div class="t-transactions__value">$ <%= user_wallet_balance_usd(entry['value']) %></div>
-                        </div>
-                        <div class="t-transactions__td _tar">
-                          <div class="t-transactions__balance"><%= user_wallet_balance_btc(entry['value']) %></div>
-                        </div>
-                        </div>
+                            <div class="t-transactions__td _tar">
+                              <div class="t-transactions__expense"><%= user_wallet_balance_btc(entry['value']) %></div>
+                              <div class="t-transactions__value">$ <%= user_wallet_balance_usd(entry['value']) %></div>
+                            </div>
+                            <div class="t-transactions__td _tar">
+                              <div class="t-transactions__balance"><%= user_wallet_balance_btc(entry['value']) %></div>
+                            </div>
+                            </div>
+                    <% end %>
                 <% end %>
-            <% end %>
             <% else %>
-            No Transaction
+                No Transaction
             <% end %>
-
-
-            <!--<div class="t-transactions__row">-->
-            <!--<div class="t-transactions__td">-->
-            <!--<svg focusable="false" version="1.1" class="svg-arrow _in">-->
-            <!--<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>-->
-            <!--</svg> Aug 4th 2016, 3:09 PM-->
-            <!--</div>-->
-            <!--<div class="t-transactions__td">Received at 3P6xATQLGDrFmGVqF6Yzfxfywc7eK5Rf1o</div>-->
-            <!--<div class="t-transactions__td _tar">-->
-            <!--<div class="t-transactions__income">+ 0.0102</div>-->
-            <!--<div class="t-transactions__value">$ 5.91</div>-->
-            <!--</div>-->
-            <!--<div class="t-transactions__td _tar">-->
-            <!--<div class="t-transactions__balance">0.0798</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="t-transactions__row">-->
-            <!--<div class="t-transactions__td">-->
-            <!--<svg focusable="false" version="1.1" class="svg-arrow _out">-->
-            <!--<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>-->
-            <!--</svg> Aug 4th 2016, 3:09 PM-->
-            <!--</div>-->
-            <!--<div class="t-transactions__td">Sent to Anton</div>-->
-            <!--<div class="t-transactions__td _tar">-->
-            <!--<div class="t-transactions__expense">- 0.0102</div>-->
-            <!--<div class="t-transactions__value">$ 5.91</div>-->
-            <!--</div>-->
-            <!--<div class="t-transactions__td _tar">-->
-            <!--<div class="t-transactions__balance">0.0798</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="t-transactions__row">-->
-            <!--<div class="t-transactions__td">-->
-            <!--<svg focusable="false" version="1.1" class="svg-arrow _in">-->
-            <!--<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>-->
-            <!--</svg> Aug 4th 2016, 3:09 PM-->
-            <!--</div>-->
-            <!--<div class="t-transactions__td">Received at 3P6xATQLGDrFmGVqF6Yzfxfywc7eK5Rf1on</div>-->
-            <!--<div class="t-transactions__td _tar">-->
-            <!--<div class="t-transactions__income">+ 0.0102</div>-->
-            <!--<div class="t-transactions__value">$ 5.91</div>-->
-            <!--</div>-->
-            <!--<div class="t-transactions__td _tar">-->
-            <!--<div class="t-transactions__balance">0.0798</div>-->
-            <!--</div>-->
-            <!--</div>-->
 
             </div>
       </div>

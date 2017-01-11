@@ -46,13 +46,9 @@ class UsersController < ApplicationController
     access_token = access_wallet
     @wallet_address = current_user.user_wallet_address
     api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-    @qr_code = RQRCode::QRCode.new(  @wallet_address.sender_address, :size => 4, :level => :h )
-
-    # response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)
-    response = api.get_wallet(wallet_id:'31rKi1QZSbN38FffFFoidkteQP2MqM9Vam', access_token: access_token) rescue nil
+    response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)
     @wallet_address.update_attribute('current_balance',response["balance"]) rescue nil
-  # @transactions = api.list_wallet_transctions(@wallet_address.sender_address, access_token)
-    @transactions = api.list_wallet_transctions('31rKi1QZSbN38FffFFoidkteQP2MqM9Vam', access_token) rescue nil
+    @transactions = api.list_wallet_transctions(@wallet_address.sender_address, access_token) rescue nil
   end
 
   private
