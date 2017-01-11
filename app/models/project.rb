@@ -416,4 +416,46 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # MediaWiki API - Grant permissions to user
+  def grant_permissions username
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Grant permissions to user
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=grant&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
+  # MediaWiki API - Revoke permissions from user
+  def revoke_permissions username
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Revoke permissions from user
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=revoke&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
 end
