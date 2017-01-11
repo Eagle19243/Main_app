@@ -122,28 +122,10 @@
     <div class="landing-carousel">
       <div class="hero-rotator__slide js-hero-rotator__slide active">
         <div class="carousel-item">
-          <%= image_tag("carousel/carousel_1.jpg") %>
-          <div class="carousel-text">
-            <div class="text-wrapper">
-              <h1>Create Your Prototype</h1>
-              <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
-              <div class="carousel-start">
-                <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
-                <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="hero-rotator__slide js-hero-rotator__slide">
-        <div class="carousel-item">
           <%= image_tag("carousel/carousel_2.jpg") %>
           <div class="carousel-text">
             <div class="text-wrapper">
-              <h1>Serve as a Leader</h1>
+              <h1>Generate Soft Power</h1>
               <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as an independent leader.</p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
@@ -163,6 +145,24 @@
             <div class="text-wrapper">
               <h1>Build Your Own Lab</h1>
               <p>Bridge the gap between theory and action;<br>Publicize and expand your academic projects.</p>
+              <div class="carousel-start">
+                <% if user_signed_in? %>
+                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                <% else %>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-rotator__slide js-hero-rotator__slide">
+        <div class="carousel-item">
+          <%= image_tag("carousel/carousel_1.jpg") %>
+          <div class="carousel-text">
+            <div class="text-wrapper">
+              <h1>Create Your Prototype</h1>
+              <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
                     <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
