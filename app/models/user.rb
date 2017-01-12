@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   def self.current_user=(usr)
     Thread.current[:current_user] = usr
   end
-  
+
   def assign_address
     if File.basename($0) != 'rake'
 
@@ -72,15 +72,9 @@ class User < ActiveRecord::Base
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
       userKeychain = new_address["userKeychain"]
       backupKeychain = new_address["backupKeychain"]
-    #  Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
       new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-     # puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
       new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
       new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
- #     Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-  #    Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-   #   Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-    #  Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
       unless new_address.blank?
         UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
       else
@@ -239,11 +233,31 @@ class User < ActiveRecord::Base
   def is_admin_for? proj
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
+
+  #Comment out this codes since we cannot get appropriate result from this
+
+  # def is_executor_for? proj
+  #   proj.executors.pluck(:id).include? self.id
+  # end
+
+  # def is_lead_editor_for? proj
+  #   proj.lead_editors.pluck(:id).include? self.id
+  # end
+
   def is_executor_for? proj
-    proj.executors.pluck(:id).include? self.id
+    if proj.team.team_memberships.where(:team_member_id => self.id).present?
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "executor")
+    else
+      return false
+    end
   end
+
   def is_lead_editor_for? proj
-    proj.lead_editors.pluck(:id).include? self.id
+    if proj.team.team_memberships.where(:team_member_id => self.id).present?
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "lead_editor")
+    else
+      return false
+    end
   end
 
   def can_apply_as_admin?(project)

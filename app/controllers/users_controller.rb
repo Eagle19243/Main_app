@@ -1,4 +1,5 @@
 include UsersHelper
+include ApplicationHelper
 
 class UsersController < ApplicationController
   load_and_authorize_resource :except => [:index,:my_wallet]
@@ -42,6 +43,12 @@ class UsersController < ApplicationController
   end
 
   def my_wallet
+    access_token = access_wallet
+    @wallet_address = current_user.user_wallet_address
+    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+    response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)
+    @wallet_address.update_attribute('current_balance',response["balance"]) rescue nil
+    @transactions = api.list_wallet_transctions(@wallet_address.sender_address, access_token) rescue nil
   end
 
   private
