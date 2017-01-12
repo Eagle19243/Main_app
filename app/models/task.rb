@@ -72,8 +72,9 @@ class Task < ActiveRecord::Base
     if_address_available = GenerateAddress.where(is_available: true)
     unless if_address_available.blank?
       begin
-        WalletAddress.create(address: if_address_available.first.address, task_id: self.id)
-        update_address_availability = if_address_available.first
+       wallet = if_address_available.first
+       WalletAddress.create(sender_address: wallet.sender_address, receiver_address: wallet.receiver_address, pass_phrase: wallet.pass_phrase, task_id: self.id, wallet_id: wallet.wallet_id)
+        update_address_availability = wallet
         update_address_availability.update_attribute('is_available', 'false')
       rescue => e
         puts e.message unless Rails.env == "development"
