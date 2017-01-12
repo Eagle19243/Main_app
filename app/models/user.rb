@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   mount_uploader :picture, PictureUploader
   crop_uploaded :picture
 
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+
   searchable do
     text :name
   end
@@ -122,9 +124,10 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      user = user.update(
+      user.update(
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
+      user
     else
       registered_user = User.where(:email => auth.info.email).first
       if registered_user
@@ -156,11 +159,12 @@ class User < ActiveRecord::Base
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
-      user = user.update(
+      user.update(
         description: auth.info.description,
         country: auth.info.location,
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
+      user
     else
       registered_user = User.where(:email => auth.uid + "@twitter.com").first
       if registered_user
@@ -199,10 +203,11 @@ class User < ActiveRecord::Base
     data = access_token.info
     user = User.where(:provider => access_token.provider, :uid => access_token.uid).first
     if user
-      user = user.update(
+      user.update(
         company: access_token.extra.raw_info.hd,
         remote_picture_url: access_token.info.image.gsub('http://', 'https://')
       )
+      user
     else
       registered_user = User.where(:email => data["email"]).first
       if registered_user
