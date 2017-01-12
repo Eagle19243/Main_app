@@ -151,6 +151,10 @@ class Project < ActiveRecord::Base
     self.project_users.where(user_id: user.id).destroy_all
   end
 
+  def is_approval_enabled?
+    self.is_approval_enabled
+  end
+
   # Load MediaWiki API Base URL from application.yml
   def self.load_mediawiki_api_base_url
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
@@ -326,6 +330,27 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # MediaWiki API - Unapprove approved revision
+  def unapprove
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Unapprove
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=unapprove&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
   # MediaWiki API - Block user
   def block_user username
     if Rails.configuration.mediawiki_session
@@ -382,6 +407,48 @@ class Project < ActiveRecord::Base
       # Change page title
       begin
         result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=move&page=#{URI.escape(old_title)}&page_new=#{URI.escape(new_title)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
+  # MediaWiki API - Grant permissions to user
+  def grant_permissions username
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Grant permissions to user
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=grant&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
+        JSON.parse(result.body)["response"]["code"]
+      rescue
+        return nil
+      end
+    else
+      nil
+    end
+  end
+
+  # MediaWiki API - Revoke permissions from user
+  def revoke_permissions username
+    if Rails.configuration.mediawiki_session
+      if self.wiki_page_name.present?
+        name = self.wiki_page_name.gsub(" ", "_")
+      else
+        name = self.title.strip.gsub(" ", "_")
+      end
+
+      # Revoke permissions from user
+      begin
+        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=revoke&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
         JSON.parse(result.body)["response"]["code"]
       rescue
         return nil

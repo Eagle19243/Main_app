@@ -42,7 +42,9 @@
   margin-right: 30px;
 }
 
-
+.mt20 {
+  margin-top: 20px !important;
+}
 .mt80 {
   margin-top: 80px !important;
 }
@@ -126,10 +128,6 @@ h2:before {
   font-family: 'Roboto';
   color: #000 !important;
   text-transform: uppercase;
-
-  &:hover {
-    color: #000 !important;
-  }
 }
 
 .col-custom {
@@ -168,6 +166,13 @@ h2:before {
   color: #555;
 }
 
+.title-default {
+  font-family: 'Roboto';
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+}
+
 .btn-default-weserve,
 .btn-alt-weserve {
   display: inline-block;
@@ -197,26 +202,81 @@ h2:before {
 
   &:hover,
   &:focus {
-    background-color: #fff;
+    background-color: #000 !important;
     border: 2px solid #000;
-    color: #000;
+    color: #fff !important;
   }
 }
 
 .btn-alt-weserve {
-  background-color: #000;
+  background-color: #000 !important;
   color: #fff;
 
   &:hover,
   &:focus {
-    background-color: #000;
+    background-color: #fff !important;
     border: 2px solid #000;
-    color: #fff;
+    color: #000 !important;
   }
 }
 
 
 .position-relative {
   position: relative;
+}
+
+.display-none {
+  display: none;
+}
+
+.hover-default {
+  &:hover {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #000 !important;
+    transition: background-color 0.2s linear;
+    text-decoration: none;
+
+    i {
+      color: #fff !important;
+      border-color: #000 !important;
+    }
+  }
+}
+
+.hover-alt {
+  &:hover {
+    background-color: #fff !important;
+    color: #000 !important;
+    transition: background-color 0.2s linear;
+    text-decoration: none;
+
+    i {
+      color: #000 !important;
+    }
+  }
+}
+
+.hover__border-bottom {
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    bottom: -4px;
+    left: 0;
+    background-color: #000;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+            transition: all 0.3s ease-in-out 0s;
+  }
+
+  &:hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
 }
 

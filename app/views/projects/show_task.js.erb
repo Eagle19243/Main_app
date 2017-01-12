@@ -120,106 +120,134 @@ $('#input-task-condition').keypress(function (e) {
   }
 });
 
-
-$("#edit-title").click(function () {
+// todo rewrite all this file it can be 2X smaller and simpler
+$("#edit-title").on('click.openForm', function () {
   $(this).hide();
   $("#task-update-title").show();
   $('#input-task-title').show();
   $("#task-update-title-form").show();
-  $("#task-title").show();
   $("#cancel-title").show();
 
+  $(this).parents('.modal-task__title-wrap').addClass('_form-open');
 });
-$("#edit-proof").click(function () {
-  $(this).hide();
+$("#edit-proof").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-proof").show();
   $('#input-task-proof').show();
   $("#task-update-proof-form").show();
   $("#task-proof").show();
   $("#cancel-proof").show();
-
+  $that.parents('.modal-task__desc-block').addClass('_form-open');
 });
-$("#edit-description").click(function () {
-  $(this).hide();
+$("#edit-description").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-description").show();
   $('#input-task-description').show();
   $("#task-update-description-form").show();
   $("#task-description").show();
   $("#cancel-description").show();
+  $("#cancel-description").show();
+  $that.parents(".modal-task__desc-block").addClass('_form-open');
 });
-$("#edit-condition").click(function () {
-  $(this).hide();
+$("#edit-condition").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-condition").show();
   $('#input-task-condition').show();
   $("#task-update-condition-form").show();
   $("#task-condition").show();
   $("#cancel-condition").show();
+  $that.parents(".modal-task__desc-block").addClass('_form-open');
 });
-$("#cancel-title").click(function () {
+$("#cancel-title").on('click.closeForm', function () {
   $(this).hide();
   $("#task-update-title").hide();
   $('#input-task-title').hide();
   $("#task-update-title-form").hide();
-  $("#task-title").show();
   $('#edit-title').show();
+
+  $(this).parents('.modal-task__title-wrap').removeClass('_form-open');
 });
-$("#cancel-proof").click(function () {
-  $(this).hide();
+$("#cancel-proof").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-proof").hide();
   $('#input-task-proof').hide();
   $("#task-update-proof-form").hide();
   $("#task-proof").show();
   $("#edit-proof").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#cancel-description").click(function () {
-  $(this).hide();
+$("#cancel-description").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-description").hide();
   $('#input-task-description').hide();
   $("#task-update-description-form").hide();
   $("#task-description").show();
   $("#edit-description").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#cancel-condition").click(function () {
-  $(this).hide();
+$("#cancel-condition").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-condition").hide();
   $('#input-task-condition').hide();
   $("#task-update-condition-form").hide();
   $("#task-condition").show();
   $("#edit-condition").show();
+  $that.parents('.modal-task__desc-block').removeClass('_form-open');
 });
-$("#task-update-title").click(function () {
+$("#task-update-title").on('click.closeForm', function () {
   $(this).hide();
   $("#cancel-title").hide();
   $('#input-task-title').hide();
   $("#task-update-title-form").hide();
-  $("#task-title").show();
   $('#edit-title').show();
+
+  $(this).parents('.modal-task__title-wrap').removeClass('_form-open');
 });
-$("#task-update-proof").click(function () {
-  $(this).hide();
+$("#task-update-proof").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#cancel-proof").hide();
   $('#input-task-proof').hide();
   $("#task-update-proof-form").hide();
   $("#task-proof").show();
   $("#edit-proof").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#task-update-description").click(function () {
-  $(this).hide();
+$("#task-update-description").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#cancel-description").hide();
   $('#input-task-description').hide();
   $("#task-update-description-form").hide();
   $("#task-description").show();
   $("#edit-description").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#task-update-condition").click(function () {
-  $(this).hide();
+$("#task-update-condition").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#cancel-condition").hide();
   $('#input-task-condition').hide();
   $("#task-update-condition-form").hide();
   $("#task-condition").show();
   $("#edit-condition").show();
+  $that.parents('.modal-task__desc-block').removeClass('_form-open');
 });
 <% end  %>
+$(document).on('click', ".modal-default__close",function (e) {
+  $(this).parents('.modal-default').fadeOut();
+});
+$(document).on('click', ".modal-default",function (e) {
+    if (e.target == this) {
+      $(this).fadeOut();
+    }
+});
 
 var $modalInvite = $('#InviteModel');
 // When the user clicks the button, open the modal
@@ -268,14 +296,8 @@ var modal = document.getElementById('myModal');
 
 var btn = document.getElementById("myBtn");
 
-var span = document.getElementById("myModalclose");
-
 btn.onclick = function () {
   modal.style.display = "block";
-}
-
-span.onclick = function () {
-  modal.style.display = "none";
 }
 
 $(document).ready(function () {

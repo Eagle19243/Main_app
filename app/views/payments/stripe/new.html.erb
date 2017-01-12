@@ -74,15 +74,24 @@
             <label class="f-default__label" for="card_number">Card Number</label>
             <div class="js-hidden_card"></div>
             <input type="tel" autocomplete="off" id="card_number" name="cardNumber" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
-            <svg focusable="false" version="1.1" class="svg-visa">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-visa"></use>
-            </svg>
+
+            <span class="f-default__card-wrap">
+              <%= image_tag('payments/dc-pay@2x.png', class:"_dc") %>
+              <%= image_tag('payments/jcb-pay@2x.png', class:"_jcb") %>
+              <%= image_tag('payments/discover-pay@2x.png', class:"_discover") %>
+              <%= image_tag('payments/ae-pay@2x.png', class:"_ae") %>
+              <%= image_tag('payments/mc-pay@2x.png', class:"_mc") %>
+              <%= image_tag('payments/visa-pay@2x.png', class:"_visa") %>
+              <!--<svg focusable="false" version="1.1" class="svg-visa">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-visa"></use>
+              </svg>-->
+            </span>
           </div>
         </div>
         <div class="f-default__row _flex">
           <div class="f-default__label-wrap _grow">
-            <label class="f-default__label" for="card_expiry">Expiry (MM/YY)</label>
-            <input type="tel" autocomplete="off" id="card_expiry" name="cardExpiry" maxlength="7" class="f-default__field" placeholder="MM/YY" required/>
+            <label class="f-default__label" for="card_expiry">Expiry (MM/YYYY)</label>
+            <input type="tel" autocomplete="off" id="card_expiry" name="cardExpiry" maxlength="9" class="f-default__field" placeholder="MM/YYYY" required/>
           </div>
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_code">Card code</label>
@@ -103,6 +112,10 @@
         </label>
 
         <span class="modal-fund__payment-errors"></span>
+
+        <div class="f-default__info-message">
+            For USD payments WeServe deduce 5% fee from the resulting BTC amount that will be send to the task wallet from the reserve wallet.
+        </div>
 
         <script>
           // https://github.com/jessepollak/card

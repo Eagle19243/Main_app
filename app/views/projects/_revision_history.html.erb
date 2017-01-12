@@ -1,0 +1,95 @@
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Edit revision</th>
+        <th>Compare</th>
+        <th>Time</th>
+        <th>Contributer</th>
+        <th></th>
+        <th></th>
+        <th>Approve changes</th>
+        <th>Current</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% histories.each_with_index do |history, index| %>
+        <tr class="<%= "unapproved" if history['status'] == 'approved' %>"
+          data-revision="<%= history['revision_id'] %>"
+          data-revision-date="<%= history["datetime"] %>"
+          data-revision-user-picture="<%= history['user'] ? (history['user'].picture? ? history['user'].picture? : gravatar_image_url(history['user'].email) ) : ''  %>"
+          data-revision-user="<%= (history['user']) ? history['user'].name : 'Anonymous' %>"
+          data-revision-user-id="<%= (history['user']) ? history['user'].id : '' %>"
+          data-revision-user-link="<%= history['user'] ? user_path(history['user']) : '' %>"
+          data-revision-user-blocked="<%= history['is_blocked'] %>"
+          data-revision-username="<%= history['username'] %>"
+        >
+          <td>
+            <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>">
+              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
+            </a>
+          </td>
+          <td class="revisions-compare">
+            <label class="revision-compare-custom-radio" for="input_revision_<%= history['revision_id'] %>">
+              <input type="checkbox" value="<%= history['revision_id'] %>" id="input_revision_<%= history['revision_id'] %>" />
+            </label>
+          </td>
+          <td>
+            <%= history["datetime"] %>
+          </td>
+          <td class="contributer">
+            <% if history['user'] %>
+              <% if history['user'].picture? %>
+                <%= image_tag(history['user'].picture, size: "30x30") %>
+              <% else %>
+                <%= gravatar_for_user(history['user'])%>
+              <%end%>
+              <%= link_to history['user'].name, user_path(history['user']) %>
+            <% else %>
+              <%= link_to 'Anonymous', '' %>
+            <% end %>
+          </td>
+          <td>
+            <a href = <%= history['user'] ? "/group_messages/user_messaging?user_id=#{history['user'].id}" : "" %> >
+              <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
+            </a>
+          </td>
+          <td>
+            <% if history['is_blocked'] == 0 %>
+              <a href="javascript:void(0)" class='block-user'>
+                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
+              </a>
+            <% else %>
+              <a href="/projects/<%= project.id %>/unblock_user?username=<%= history['username'] %>" class='unblock-user'>
+                <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Unblock
+              </a>
+            <% end %>
+          </td>
+          <td>
+            <% if history['status'] == 'approved' %>
+              <a href="/projects/<%= project.id %>/revision_action?type=unapprove&rev=<%= history['revision_id'] %>" class="mr10 revision-unapprove">
+                <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
+              </a>
+            <% else %>
+              <a href="/projects/<%= project.id %>/revision_action?type=approve&rev=<%= history['revision_id'] %>" class='revision-approve'>
+                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
+              </a>
+            <% end %>
+          </td>
+          <td class="current">
+            <% if history['status'] == 'approved' %>
+              <a href="javascript:void(0)">
+                <i class="fa fa-star"></i>
+              </a>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <!-- <tr class="current-version">
+        <td colspan="7">
+          Current Version
+        </td>
+      </tr> -->
+    </tbody>
+  </table>
+</div>

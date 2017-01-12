@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161227194556) do
+ActiveRecord::Schema.define(version: 20170107095300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 20161227194556) do
 
   add_index "admin_requests", ["project_id"], name: "index_admin_requests_on_project_id", using: :btree
   add_index "admin_requests", ["user_id"], name: "index_admin_requests_on_user_id", using: :btree
+
+  create_table "admin_reseve_wallets", force: :cascade do |t|
+    t.string   "sender_address"
+    t.string   "wallet_id"
+    t.string   "receiver_address"
+    t.float    "current_balance"
+    t.string   "pass_phrase"
+    t.string   "user_keys"
+    t.string   "backup_keys"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
 
   create_table "apply_requests", force: :cascade do |t|
     t.integer  "project_id"
@@ -324,9 +336,8 @@ ActiveRecord::Schema.define(version: 20161227194556) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
-    t.datetime "deleted_at"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "user_id"
     t.datetime "expires_at"
     t.integer  "volunteers",          default: 0
@@ -334,7 +345,9 @@ ActiveRecord::Schema.define(version: 20161227194556) do
     t.text     "request_description"
     t.string   "short_description"
     t.string   "video_id"
+    t.datetime "deleted_at"
     t.string   "wiki_page_name"
+    t.boolean  "is_approval_enabled", default: false
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
@@ -350,6 +363,17 @@ ActiveRecord::Schema.define(version: 20161227194556) do
   end
 
   add_index "section_details", ["project_id"], name: "index_section_details_on_project_id", using: :btree
+
+  create_table "stripe_payments", force: :cascade do |t|
+    t.decimal  "amount"
+    t.string   "tx_hash"
+    t.integer  "task_id"
+    t.boolean  "transferd"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "stripe_payments", ["task_id"], name: "index_stripe_payments_on_task_id", using: :btree
 
   create_table "task_attachments", force: :cascade do |t|
     t.integer  "task_id"
@@ -558,6 +582,7 @@ ActiveRecord::Schema.define(version: 20161227194556) do
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "section_details", "projects"
+  add_foreign_key "stripe_payments", "tasks"
   add_foreign_key "task_members", "tasks"
   add_foreign_key "task_members", "team_memberships"
   add_foreign_key "user_wallet_addresses", "users"

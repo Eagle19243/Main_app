@@ -134,6 +134,7 @@ Rails.application.routes.draw do
       post :rate
       get :discussions
       get :revisions
+      post :switch_approval_status
       get :plan
       get :read_from_mediawiki
       post :write_to_mediawiki
@@ -177,7 +178,11 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"}
 
-  resources :users
+  resources :users do
+    member do
+     get  :my_wallet
+    end
+  end
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
   root to: 'visitors#landing'

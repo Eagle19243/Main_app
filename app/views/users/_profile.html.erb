@@ -144,7 +144,7 @@
             <div class="b-project-card">
 
               <div class="b-project-card__top">
-                <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
+                <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap' ,data: { no_turbolink: false } do%>
                   <%= image_tag(project.picture.url, data: { 'object-fit': "cover" }) %>
                 <% end %>
                 <div class="b-project-card__user-link">
@@ -212,7 +212,7 @@
     if(eve.which == 8 || eve.which == 0){
       return true;
     }
-    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57) || (eve.which == 46 && $(this).caret().start == 0) ) {
+    if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
       var current_btc = '<%=  get_current_btc_rate  %>'

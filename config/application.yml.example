@@ -24,3 +24,5 @@ aws_access_key_id:
 aws_secret_access_key:
 s3_bucket_region:
 bucket_name:
+consider_all_requests_local: 
+

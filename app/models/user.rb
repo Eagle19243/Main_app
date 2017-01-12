@@ -68,15 +68,9 @@ class User < ActiveRecord::Base
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
       userKeychain = new_address["userKeychain"]
       backupKeychain = new_address["backupKeychain"]
-      Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
       new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-      puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
       new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
       new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-      Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-      Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-      Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-      Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
       unless new_address.blank?
         UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
       else
@@ -115,16 +109,6 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
-  end
-
-  def populate_guid_and_token
-    random = SecureRandom.uuid()
-    arbitraryAuthPayload = {:uid => random, :auth_data => random, :other_auth_data => self.created_at.to_s}
-    generator = Firebase::FirebaseTokenGenerator.new("ZWx3jy7jaz8IuPXjJ8VNlOMlOMGFEIj0aHNE7tMt")
-    random2 = generator.create_token(arbitraryAuthPayload)
-    self.guid = random
-    self.chat_token = random2
-    self.save
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)

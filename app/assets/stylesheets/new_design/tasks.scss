@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'utils';
 
 .welcome-banner {
   text-align: center;
@@ -319,6 +320,8 @@
         padding-bottom: 10px;
         position: relative;
 
+        @extend .hover__border-bottom;
+
         &:focus,
         &.active {
           border-bottom: 4px solid #000;
@@ -449,6 +452,7 @@
       color: #777;
       border: 2px solid #aaa;
       border-radius: 50%;
+      @extend .hover-default;
     }
 
     i.fa-star {
@@ -560,10 +564,12 @@
   input[type="submit"] {
     background-color: #fff;
     color: #000;
+    @extend .hover-default;
   }
   input[type="button"] {
     background-color: #000;
     color: #fff;
+    @extend .hover-alt;
   }
 }
 
@@ -580,13 +586,13 @@
 
 .summary-header {
   strong {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #000;
   }
 
   a {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     font-size: 0.9em;
     color: #aaa;
   }
@@ -602,11 +608,13 @@
 
   .card-title {
     p {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.3em;
       color: #000;
       line-height: 1.5em;
       margin-bottom: 10px;
+      word-break: break-all;
+      word-break: break-word;
     }
   }
 
@@ -640,10 +648,12 @@
     a[title="FUND"] {
       background-color: #fff;
       color: #000;
+      @extend .hover-default;
     }
     a[title="DO"] {
       background-color: #000;
       color: #fff;
+      @extend .hover-alt;
     }
 
     a:hover,
@@ -972,4 +982,11 @@
   span.input-group-addon {
     border-radius: 0;
   }
+}
+
+.bip-flash-error {
+  position: absolute;
+  float: left;
+  left: 120px;
+  margin-top: 30px;
 }
