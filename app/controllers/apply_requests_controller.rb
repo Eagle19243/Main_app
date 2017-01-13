@@ -5,6 +5,14 @@ class ApplyRequestsController < ApplicationController
   def accept
     @apply_request = ApplyRequest.find(params[:id])
     @apply_request.accept!
+
+    if @apply_request.request_type == "Lead_Editor"
+      project = Project.find(@apply_request.project_id)
+      user    = User.find(@apply_request.user_id)
+
+      project.grant_permissions user.username
+    end
+
     role = @apply_request.request_type == "Lead_Editor"? TeamMembership.roles[:lead_editor] : TeamMembership.roles[:executor]
 
     TeamService.add_team_member(@apply_request.project.team, @apply_request.user, role)
