@@ -1,11 +1,23 @@
 class TeamMembershipsController < ApplicationController
   load_and_authorize_resource :except => [:destroy]
-  
+
   def update
     @team_membership = TeamMembership.find(params[:id])
 
+    if @team_membership.role != "lead_editor" && update_params["role"] == "lead_editor"
+      update_type = "grant"
+    elsif @team_membership.role == "lead_editor" && update_params["role"] != "lead_editor"
+      update_type = "revoke"
+    end
+
     respond_to do |format|
       if @team_membership.update(update_params)
+        project = @team_membership.team.project
+        user    = User.find(@team_membership.team_member_id)
+
+        project.grant_permissions user.username if update_type == "grant"
+        project.revoke_permissions user.username if update_type == "revoke"
+
         format.json { respond_with_bip(@team_membership) }
       else
         format.json { respond_with_bip(@team_membership) }
