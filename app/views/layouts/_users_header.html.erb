@@ -61,14 +61,26 @@
             <span class="action">You have no new notification</span>
           </li>
         <% else %>
-          <% for i in 1..current_user.notifications.unread.count %>
+          <% current_user.notifications.unread.each do |n| %>
             <li class="notify-wrapper">
               <div class="notify-body">
-                <div>
-                  <span class="action">Created Project</span>
-                  <span class="date pull-right">Nov 11th</span>
-                </div>
-                <p>You have created project MyProject.</p>
+                <% if n.action == 'created_project' %>
+                  <div>
+                    <span class="action">Created Project</span>
+                    <span class="date pull-right">
+                      <%= "#{n.created_at.strftime(" %b %d")}"%>
+                    </span>
+                  </div>
+                  <p>You have created a new project</p>
+                <% elsif n.action == 'updated_project' %>
+                  <div>
+                    <span class="action">Updated Project</span>
+                    <span class="date pull-right">
+                      <%= "#{n.created_at.strftime(" %b %d")} "%>
+                    </span>
+                  </div>
+                  <p>You have updated existing project</p>
+                <% end %>
               </div>
             </li>
           <% end %>
