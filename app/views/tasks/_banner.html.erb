@@ -72,7 +72,7 @@
           <table>
             <tr class="value">
               <td><%= (@sourcing_tasks.count / @tasks_count)*100 rescue 0 %> %</td>
-              <td><%= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>
+              <!--<td><%#= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>-->
               <td>
                 <%= @project.team_relations_string %>
               </td>
@@ -80,7 +80,7 @@
             </tr>
             <tr class="items">
               <td>Funded</td>
-              <td>Completed Tasks</td>
+              <!--<td>Completed Tasks</td>-->
               <td>Teammates</td>
               <td>Raised</td>
             </tr>
@@ -92,10 +92,8 @@
     <div class="row">
       <% if !user_signed_in? %>
           <center>
-            <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal" }>Apply As Lead
-              Editor</a>
-            <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal">Apply As
-              Executor</a>
+            <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply As Lead Editor</a>
+            <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply As Executor</a>
           </center>
       <% elsif !current_user.is_admin_for?(@project) %>
           <center>

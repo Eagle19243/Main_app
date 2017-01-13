@@ -8,33 +8,27 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h2 class="modal-title">Join In WeServe today!</h2>
+          <h2 class="modal-default__title">Join In WeServe today!</h2>
         </div>
 
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-              <%= render "modal/social_register" %>
-            </div>
+        <div class="modal-sign__col-wrap">
+          <div class="modal-sign__col">
+            <%= render "modal/social_register" %>
+          </div>
 
-            <div class="col-lg-6 col-md-6 col-sm-6">
-              <div class="row row-custom" id="sign_up_show">
-                <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-              </div>
-            </div>
-            <div class="clearfix"></div>
-
-            <div class="row">
-              <div class="terms-intro pt30">
-                <p>By clicking Sign Up or Sign in, you agree to our <a href="/pages/terms_of_use"> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.</p>
-              </div>
-              <div class="signin-intro">
-                <p>Already have an account? <%= link_to 'Sign In', new_user_session_path %></p>
-              </div>
+          <div class="modal-sign__col">
+            <div class="row row-custom" id="sign_up_show">
+              <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
             </div>
           </div>
         </div>
 
+        <p class="modal-default__text">
+            By clicking Sign Up or Sign in, you agree to our <a href="/pages/terms_of_use"> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.
+        </p>
+        <p class="modal-default__text">
+            Already have an account? <%= link_to 'Sign In', new_user_session_path %>
+        </p>
       </div>
     </div>
   </div>

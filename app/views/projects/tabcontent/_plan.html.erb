@@ -23,7 +23,7 @@
       <% else %>
         <div class="row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
-            <a id="sign_in_link" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+            <a id="sign_in_link" data-modal="#registerModal" class="btn-edit">
               <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
             </a>
           </div>
@@ -77,13 +77,13 @@
                           <tr class="value">
                             <td><%= task.funded %></td>
                             <td><%= @tasks_count %></td>
-                            <td><%= task.donations.count %></td>
+                            <td><%= task.number_of_participants %>/<%= task.target_number_of_participants %></td>
                             <td><%= task.funded_in_btc %></td>
                           </tr>
                           <tr class="items">
                             <td>Funded</td>
                             <td>Tasks</td>
-                            <td>Backers</td>
+                            <td>Teammates</td>
                             <td>Raised</td>
                           </tr>
                         </table>

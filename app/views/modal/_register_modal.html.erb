@@ -1,51 +1,32 @@
 
-<div id="registerModal" class="modal fade register-modal" role="dialog" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="registerModal" class="modal-default modal-sign" role="dialog" tabindex="-1">
+  <div class="modal-default__content">
+    <button type="button" class="modal-default__close"></button>
+    <h2 class="modal-default__title _sign-up">Join WeServe Today!</h2>
+    <h2 class="modal-default__title _sign-in">Sign In</h2>
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title sign_up_show">Join WeServe Today!</h2>
-        <h2 class="modal-title sign_in_show">Sign In</h2>
+    <div class="modal-sign__col-wrap">
+      <div class="modal-sign__col _sign-up">
+        <%= render "modal/social_register" %>
+      </div>
+      <div class="modal-sign__col _sign-in">
+        <%= render "modal/social_sign_in" %>
       </div>
 
-      <div class="modal-body">
-
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-sm-6 sign_up_show">
-            <%= render "modal/social_register" %>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 sign_in_show">
-            <%= render "modal/social_sign_in" %>
-          </div>
-
-          <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="row row-custom sign_up_show" id="sign_up_show">
-              <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
-            </div>
-            <div class="row row-custom sign_in_show" id="sign_in_show">
-              <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
-            </div>
-          </div>
-          <div class="clearfix"></div>
-          <p hidden>Password confirmation doesn't match</p>
-          <div class="row sign_up_show">
-            <div class="terms-intro pt30">
-              <p>By clicking Sign Up or Sign in, you agree to our <a href="/pages/terms_of_use"> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.</p>
-            </div>
-            <div class="signin-intro">
-              <p>Already have an account? <a href="javascript:void(0)" id="sign_in_a">Sign In</a></p>
-            </div>
-          </div>
-          <div class="row sign_in_show">
-            <div class="signin-intro pt30">
-              <p>Don't have an account? <a href="javascript:void(0)" id="sign_up_a">Sign Up</a></p>
-            </div>
-          </div>
+      <div class="modal-sign__col">
+        <div class="_sign-up" id="sign_up_show">
+          <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
         </div>
-
+        <div class="_sign-in" id="sign_in_show">
+          <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+        </div>
       </div>
-
     </div>
+    <p hidden>Password confirmation doesn't match</p>
+    <div class="_sign-up">
+      <p class="modal-default__text">By clicking Sign Up or Sign in, you agree to our <a href="/pages/terms_of_use"> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.</p>
+      <p class="modal-default__text">Already have an account? <a href="javascript:void(0)" id="sign_in_a">Sign In</a></p>
+    </div>
+    <p class="modal-default__text _sign-in">Don't have an account? <a href="javascript:void(0)" id="sign_up_a">Sign Up</a></p>
   </div>
 </div>
