@@ -92,10 +92,8 @@
     <div class="row">
       <% if !user_signed_in? %>
           <center>
-            <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal" }>Apply As Lead
-              Editor</a>
-            <a class="button round get-invo-btn" data-toggle="modal" data-target="#projectSignupModal">Apply As
-              Executor</a>
+            <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply As Lead Editor</a>
+            <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply As Executor</a>
           </center>
       <% elsif !current_user.is_admin_for?(@project) %>
           <center>

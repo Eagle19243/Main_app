@@ -43,6 +43,7 @@
 //= require_tree .
 
 var $document = $(document);
+var $html = $('html');
 $document.foundation();
 
 $document.on('page:load', function() {
@@ -63,13 +64,15 @@ $(function() {
 
 $document.ready(function() {
 
-  var modalsArr = ["#myModal", "#share", "#team", "#suggested_task_popup", "#InviteModel", "#myModal2", "#popup-for-free-paid", "#taskFundModal", "#modalVerification"];
+  var modalsArr = ["#myModal", "#share", "#team", "#suggested_task_popup", "#InviteModel", "#myModal2",
+                   "#popup-for-free-paid", "#taskFundModal", "#modalVerification", "#registerModal"];
   $document.keydown(function (e) {
       if (e.keyCode == 27) {
         for (var i = 0, max = modalsArr.length; i < max; i++) {
           $(modalsArr[i]).fadeOut();
         }
         $('.modal-backdrop').remove();
+        $html.removeClass('_open-modal');
       }
   });
 
