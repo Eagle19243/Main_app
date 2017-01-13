@@ -170,6 +170,7 @@
         <ul>
           <li><%= link_to 'My Profile', user_path(current_user) %></li>
           <li><%= link_to 'My Projects', my_projects_path(current_user) %></li>
+          <li><a href="/users/<%= current_user.id %>/my_wallet">My wallet</a></li>
         </ul>
       </div>
     </li>
