@@ -72,7 +72,7 @@
           <table>
             <tr class="value">
               <td><%= (@sourcing_tasks.count / @tasks_count)*100 rescue 0 %> %</td>
-              <td><%= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>
+              <!--<td><%#= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>-->
               <td>
                 <%= @project.team_relations_string %>
               </td>
@@ -80,7 +80,7 @@
             </tr>
             <tr class="items">
               <td>Funded</td>
-              <td>Completed Tasks</td>
+              <!--<td>Completed Tasks</td>-->
               <td>Teammates</td>
               <td>Raised</td>
             </tr>
