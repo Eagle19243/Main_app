@@ -16,6 +16,10 @@ class NotificationsService
     self.create_notification(project, project.user, Notification.actions[:created_project])
   end
 
+  def self.notify_about_project_update(project)
+    self.create_notification(project, project.user, Notification.actions[:updated_project])
+  end
+
   def self.notify_about_admin_invitation(admin_invitation, origin_user)
     self.create_notification(admin_invitation, admin_invitation.user, Notification.actions[:become_project_admin_invitation], origin_user)
   end

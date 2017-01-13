@@ -56,6 +56,7 @@ class UsersController < ApplicationController
   def update_params
     params.require(:user).permit(:picture, :name, :email, :password, :bio,
     :city, :phone_number, :bio, :facebook_url, :twitter_url,
+    :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
     :linkedin_url, :picture_cache)
   end
 

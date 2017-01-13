@@ -1,9 +1,9 @@
-<div id="InviteModel" class="modal modal-invite" tabindex="-1">
+<div id="InviteModel" class="modal modal-invite modal-default" tabindex="-1">
 
   <!-- Modal content -->
-  <div class="modal-content2 yes modal-invite__content">
+  <div class="modal-content2 yes modal-default__content">
     <button id="inviteclose" class="modal-default__close"></button>
-    <h4 class="modal-invite__title">Add / Invite People</h4>
+    <h4 class="modal-default__title">Add / Invite People</h4>
     <h6 class="modal-invite__subtitle">Type in the e-mail address of the person you like to invite</h6>
     <%= form_tag(:controller => "tasks", :action => "send_email") do %>
       <div class="f-default__joined">
@@ -194,14 +194,14 @@
                       <tr class="value">
                         <td><%= @task.funded %></td>
                         <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
-                        <td><%= @task.assignments.count %>/<%= @task.target_number_of_participants %></td>
+                        <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
                         <td><%= @task.funded_in_btc %></td>
 
                       </tr>
                       <tr class="items">
                         <td>Funded</td>
                         <td>Team</td>
-                        <td>Backers</td>
+                        <td>Teammates</td>
                         <td>Raised</td>
                       </tr>
                     </table>
@@ -384,8 +384,8 @@
       </div>
 
 </div>
-<div id="share" class="modal modal-share" tabindex="-1">
-  <div class="modal-content2 yes modal-share__content">
+<div id="share" class="modal modal-share modal-default" tabindex="-1">
+  <div class="modal-content2 yes modal-default__content">
     <button type="button" id="shareclose" class="modal-default__close"></button>
     <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
       <ul class="l-share__list">

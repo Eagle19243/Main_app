@@ -12,8 +12,7 @@
               <% if user_signed_in? %>
                   <a class="btn-start" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
               <% else %>
-                  <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
-
+                  <a class="btn-start" data-modal="#projectSignupModal">Start a Project</a>
               <% end %>
             </div>
           </div>
@@ -131,7 +130,7 @@
                 <% if user_signed_in? %>
                     <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
                 <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                    <a class="btn-start" data-modal="#projectSignupModal">Start a Project</a>
                 <% end %>
               </div>
             </div>
@@ -149,7 +148,7 @@
                 <% if user_signed_in? %>
                     <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
                 <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                    <a class="btn-start" data-modal="#projectSignupModal">Start a Project</a>
                 <% end %>
               </div>
             </div>
@@ -167,7 +166,7 @@
                 <% if user_signed_in? %>
                     <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
                 <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                    <a class="btn-start" data-modal="#projectSignupModal">Start a Project</a>
                 <% end %>
               </div>
             </div>
@@ -253,7 +252,7 @@
       <% if user_signed_in? %>
           <a class="btn-root _light" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
       <% else %>
-          <a class="btn-root _light" class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+          <a class="btn-root _light" class="btn-start" data-modal="#projectSignupModal">Start a Project</a>
       <% end %>
       <!--<a data-toggle="modal" data-target="#startProjectModal" class="btn-root _light">Start a Project</a>-->
 
