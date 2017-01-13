@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
   def self.current_user=(usr)
     Thread.current[:current_user] = usr
   end
-  
+
   def assign_address
     if File.basename($0) != 'rake'
 
@@ -191,11 +191,31 @@ class User < ActiveRecord::Base
   def is_admin_for? proj
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
+
+  #Comment out this codes since we cannot get appropriate result from this
+
+  # def is_executor_for? proj
+  #   proj.executors.pluck(:id).include? self.id
+  # end
+
+  # def is_lead_editor_for? proj
+  #   proj.lead_editors.pluck(:id).include? self.id
+  # end
+
   def is_executor_for? proj
-    proj.executors.pluck(:id).include? self.id
+    if proj.team.team_memberships.where(:team_member_id => self.id).present?
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "executor")
+    else
+      return false
+    end
   end
+
   def is_lead_editor_for? proj
-    proj.lead_editors.pluck(:id).include? self.id
+    if proj.team.team_memberships.where(:team_member_id => self.id).present?
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "lead_editor")
+    else
+      return false
+    end
   end
 
   def can_apply_as_admin?(project)
