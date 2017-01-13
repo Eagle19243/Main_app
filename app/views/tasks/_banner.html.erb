@@ -14,7 +14,7 @@
             <div class="b-project-info__user">
               <div class="b-project-info__user-avatar">
                 <% if @project.user.picture? %>
-                <%= image_tag(@project.user.picture, size: "36x36") %>
+                  <%= image_tag(@project.user.picture, size: "36x36") %>
                 <% else %>
                 <%= gravatar_for_user(@project.user) %>
                 <% end %>

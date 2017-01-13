@@ -3,6 +3,11 @@ class User < ActiveRecord::Base
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
 
+  mount_uploader :picture, PictureUploader
+  crop_uploaded :picture
+
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+
   searchable do
     text :name
   end
@@ -16,7 +21,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
-  # mount_uploader :picture, PictureUploader
   #after_create :populate_guid_and_token
 
   after_create :assign_address
@@ -114,22 +118,33 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
+      user.update(
+        remote_picture_url: auth.info.image.gsub('http://', 'https://')
+      )
       user
     else
       registered_user = User.where(:email => auth.info.email).first
       if registered_user
-        return registered_user
+        registered_user.update(
+          provider: auth.provider,
+          uid: auth.uid,
+          name: auth.info.name,
+          facebook_url: auth.extra.link,
+          username: auth.info.name + auth.uid,
+          remote_picture_url: auth.info.image.gsub('http://', 'https://')
+        )
+        registered_user
       else
         user = User.create(
-            provider: auth.provider,
-            uid: auth.uid,
-            name: auth.info.name,
-            email: auth.info.email,
-            confirmed_at: DateTime.now,
-            password: Devise.friendly_token[0, 20],
-            picture: auth.info.image,
-            facebook_url: auth.extra.link,
-            username: auth.info.name + auth.uid
+          provider: auth.provider,
+          uid: auth.uid,
+          name: auth.info.name,
+          email: auth.info.email,
+          confirmed_at: DateTime.now,
+          password: Devise.friendly_token[0, 20],
+          facebook_url: auth.extra.link,
+          username: auth.info.name + auth.uid,
+          remote_picture_url: auth.info.image.gsub('http://', 'https://')
         )
       end
     end
@@ -138,25 +153,40 @@ class User < ActiveRecord::Base
   def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
+      user.update(
+        description: auth.info.description,
+        country: auth.info.location,
+        remote_picture_url: auth.info.image.gsub('http://', 'https://')
+      )
       user
     else
       registered_user = User.where(:email => auth.uid + "@twitter.com").first
       if registered_user
+        registered_user.update(
+          provider: auth.provider,
+          uid: auth.uid,
+          name: auth.info.name,
+          twitter_url: auth.info.urls.Twitter,
+          username: auth.info.name + auth.uid,
+          description: auth.info.description,
+          country: auth.info.location,
+          remote_picture_url: auth.info.image.gsub('http://', 'https://')
+        )
         registered_user
       else
 
         user = User.create(
-            provider: auth.provider,
-            uid: auth.uid,
-            name: auth.info.name,
-            email: auth.uid+"@twitter.com",
-            password: Devise.friendly_token[0, 20],
-            picture: auth.info.image,
-            confirmed_at: DateTime.now,
-            description: auth.info.description,
-            country: auth.info.location,
-            twitter_url: auth.info.urls.Twitter,
-            username: auth.info.name + auth.uid,
+          provider: auth.provider,
+          uid: auth.uid,
+          name: auth.info.name,
+          email: auth.uid+"@twitter.com",
+          password: Devise.friendly_token[0, 20],
+          confirmed_at: DateTime.now,
+          description: auth.info.description,
+          country: auth.info.location,
+          twitter_url: auth.info.urls.Twitter,
+          username: auth.info.name + auth.uid,
+          remote_picture_url: auth.info.image.gsub('http://', 'https://')
         )
       end
 
@@ -167,10 +197,22 @@ class User < ActiveRecord::Base
     data = access_token.info
     user = User.where(:provider => access_token.provider, :uid => access_token.uid).first
     if user
+      user.update(
+        company: access_token.extra.raw_info.hd,
+        remote_picture_url: access_token.info.image.gsub('http://', 'https://')
+      )
       user
     else
-      registered_user = User.where(:email => access_token.info.email).first
+      registered_user = User.where(:email => data["email"]).first
       if registered_user
+        registered_user.update(
+          provider: access_token.provider,
+          uid: access_token.uid,
+          name: access_token.info.name,
+          username: access_token.info.name + access_token.uid,
+          company: access_token.extra.raw_info.hd,
+          remote_picture_url: access_token.info.image.gsub('http://', 'https://')
+        )
         registered_user
       else
         user = User.create(
@@ -179,10 +221,10 @@ class User < ActiveRecord::Base
             uid: access_token.uid,
             name: access_token.info.name,
             confirmed_at: DateTime.now,
-            password: Devise.friendly_token[0, 20],
-            picture: access_token.info.image,
+            password: Devise.friendly_token[0, 20],   
             company: access_token.extra.raw_info.hd,
             username: access_token.info.name + access_token.uid,
+            remote_picture_url: access_token.info.image.gsub('http://', 'https://')
         )
       end
     end
