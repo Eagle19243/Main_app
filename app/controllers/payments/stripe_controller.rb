@@ -13,7 +13,11 @@ class Payments::StripeController < ApplicationController
 
     if payment_service.charge!(amount: params[:amount], description: payment_description)
       task = Task.find(params[:id])
-      transfer_coin_from_weserver_wallet_to_task_wallet(task, params[:amount])
+      if ENV['skip_wallet_transaction'] == "true"
+        StripePayment.create(amount: params[:amount], task_id: task.id)
+        else
+       transfer_coin_from_weserver_wallet_to_task_wallet(task, params[:amount])
+      end
       # task_id :   amount:;
       #   rails generate model StripePayments amount:decimal task:references
       # 1: TO DO: convert this USD amount from Dollars to Satoshi
