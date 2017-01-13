@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
 
-  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user]
+  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan, :switch_approval_status]
 
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user]
+  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user, :plan, :switch_approval_status]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   before_filter :authenticate_user!, only: [:contacts_callback]
@@ -113,13 +113,13 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    term = params[:term]
+    term = params[:term].downcase
     @projects = Project.order(:title).where(
         "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
-        "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map { |p| "#{p.title}" }
+        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |p| "#{p.title}" }
     @result = @projects + Task.order(:title).where(
         "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
-        "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%", "%#{params[:term]}%").map { |t| "#{t.title}" }
+        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |t| "#{t.title}" }
     respond_to do |format|
       format.html { render text: @result }
       format.json { render json: @result.to_json, status: :ok }
@@ -247,6 +247,10 @@ class ProjectsController < ApplicationController
     end
 
     @histories = get_revision_histories @project
+    # if approved_versions?(@histories) == 0
+    #   @contents = ''
+    # end
+
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     @apply_requests = @project.apply_requests.pending.all
@@ -255,6 +259,61 @@ class ProjectsController < ApplicationController
   def revisions
     @histories = get_revision_histories @project
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def switch_approval_status
+    @histories = get_revision_histories @project
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
+    if params[:is_approval_enabled].present?
+      @project.update_attribute(:is_approval_enabled, params[:is_approval_enabled])
+
+      if @project.is_approval_enabled?
+        # Approve latest revision
+        @project.approve_revision @histories[0]["revision_id"]
+      else
+        # Unapprove approved revisions
+        @project.unapprove
+      end
+
+      @histories = get_revision_histories @project
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def plan
+    tasks = @project.tasks.all
+    @tasks_count =tasks.count
+    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
+    @contents = ''
+    @is_blocked = 0
+    if current_user
+      result = @project.page_read current_user.username
+    else
+      result = @project.page_read nil
+    end
+    if result
+      if result["status"] == 'success'
+        @contents = result["html"]
+        @is_blocked = result["is_blocked"]
+      end
+    end
+
+    # @histories = get_revision_histories @project
+    # if approved_versions?(@histories) == 0
+    #   @contents = ''
+    # end
+
+    @apply_requests = @project.apply_requests.pending.all
 
     respond_to do |format|
       format.js
@@ -342,7 +401,7 @@ class ProjectsController < ApplicationController
         end
 
         @project_team = @project.create_team(name: "Team#{@project.id}")
-        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id)
+        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id,role:1 )
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
         chatroom =Chatroom.create(name: @project.title, project_id: @project.id)
@@ -359,7 +418,12 @@ class ProjectsController < ApplicationController
 
   def update
     respond_to do |format|
+      old_name = @project.wiki_page_name
+      @project.wiki_page_name = filter_page_name project_params["title"] if project_params["title"].present?
       if @project.update(project_params)
+        if old_name != @project.wiki_page_name
+          @project.rename_page current_user.username, old_name
+        end
         activity = current_user.create_activity(@project, 'updated')
         activity.user_id = current_user.id
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
@@ -367,7 +431,7 @@ class ProjectsController < ApplicationController
       else
         format.html { render :edit }
         format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
-        # format.json {respond_with_bip(@project)}
+        format.json {respond_with_bip(@project)}
       end
     end
   end
@@ -585,31 +649,38 @@ class ProjectsController < ApplicationController
     result = project.get_history
     @histories = []
 
-      if result
-        result.each do |r|
-          history                = Hash.new
-          history["revision_id"] = r["id"]
-          history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-          history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
-          history["status"]      = r['status']
-          history["comment"]     = r['comment']
-          history["username"]    = r["author"]
-          history["is_blocked"]  = 0
+    if result
+      result.each do |r|
+        history                = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
+        history["status"]      = r['status']
+        history["comment"]     = r['comment']
+        history["username"]    = r["author"]
+        history["is_blocked"]  = r["is_blocked"]
 
-          result_block = @project.page_read history["username"]
-          if result_block
-            if result_block["status"] == 'success'
-              history["is_blocked"] = result_block["is_blocked"]
-            end
-          end
+        @histories.push(history)
+      end
+      return @histories
+    else
+      return []
+    end
+  end
 
-          @histories.push(history)
-        end
-        return @histories
-      else
-        return []
+  # Get status if there are approved versions or not
+  def approved_versions? histories
+    flg = 0
+
+    histories.each do |history|
+      if history["status"] == "approved"
+        flg = 1
+        break
       end
     end
+
+    return flg
+  end
 
   # Fitler wiki page name regarding page title
   def filter_page_name title

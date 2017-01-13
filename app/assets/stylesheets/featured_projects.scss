@@ -46,11 +46,11 @@ body {
 /*welcome banner */
 .welcome-banner{
   text-align: center;
-    height: 440px;
-    background-size:cover;
+  height: 575px;
+  background-size:cover;
   background-position-x: 0px;
-    background-position-y: 0px;
-    background-repeat: no-repeat;
+  background-position-y: 0px;
+  background-repeat: no-repeat;
 }
 
 .line1{
@@ -449,6 +449,8 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
     padding:10px 0px 10px 0px;
     color:#008CBA;
     font-weight: bold;
+    word-break: break-all;
+    word-break: break-word;
 }
 .task-desc p{
     color:#aaa;
@@ -808,8 +810,4 @@ box-shadow: 10px 10px 33px -5px rgba(0,0,0,0.75);
   .top-searchbox {
     max-width: 195px;
   }
-}
-
-.card-dspt {
-  word-wrap: break-word;
 }

@@ -1,20 +1,12 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-# User.create!(name:  "Test User",
-#              email: "test@test.com",
-#              password:              "test1234",
-#              password_confirmation: "test1234")
+
 
 user = CreateAdminService.new.call
 puts 'CREATED ADMIN USER: ' << user.email
 
 count = CreateAdminService.new.create_additional_admins
 puts "#{count} additional admins created"
+
+CreateAdminService.new.create_admin_wallet
 
 @project = Project.create(title: "Test project",
                user_id: User.first.id,
@@ -38,11 +30,10 @@ puts @project_team.id
 
 puts "Created task"
 
-TeamMembership.create(team_member_id: User.first.id,
+@Team_member = TeamMembership.create(team_member_id: User.first.id,
                team_id: @project_team.id,
-               state: 'admin',
-               task_id: @task.id)
-
+               role: 0)
+TaskMember.create(task_id: @task.id,team_membership_id: @Team_member.id  )
 puts "Created membership"
 
 @project = Project.create(title: "Test project 2",
@@ -65,10 +56,11 @@ puts "Created team"
 
 puts "Created task"
 
-TeamMembership.create(team_member_id: User.first.id,
+@Team_member = TeamMembership.create(team_member_id: User.first.id,
                team_id: @project_team.id,
-               state: 'admin',
-               task_id: @task.id)
+               role: 0)
+TaskMember.create(task_id: @task.id,team_membership_id: @Team_member.id  )
+
 puts "#{count} additional admins created"
 
 

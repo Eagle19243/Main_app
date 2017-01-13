@@ -10,13 +10,13 @@
     });
   });
 </script>
-<div id="projectInviteModal" class="modal fade project-invite-modal" role="dialog">
+<div id="projectInviteModal" class="modal fade project-invite-modal" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title sign_up_show">Share/Invite People to Participate</h2>
+        <h2 class="modal-title">Share/Invite People to Participate</h2>
       </div>
 
       <div class="modal-body">
@@ -49,23 +49,24 @@
           </div>
         </div>
 
-        <div class="alert" id="response" style="color: red;margin-left: 17.5%;"></div>
+        <div class="alert" id="response"></div>
 
-        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email', :class => 'invite-email-wrapper') do %>
             <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
-            <div class="invite-email-wrapper">
-              <div class="form-group">
-                <% session[:idd] = @project.id %>
-                <label>Email Address</label>
-                <input type="email" name="email" id="guest-email" required>
-                <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a>
-              </div>
+            <div class="form-group">
+              <% session[:idd] = @project.id %>
+              <label>Email Address</label>
+              <input type="email" name="email" id="guest-email" required>
+              <!-- <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a> -->
+            </div>
+
+            <%= submit_tag 'Invite', :class => 'btn-default-weserve btn-invite' %>
         <% end %>
 
-          <div class="import-contacts-wrapper">
+          <div class="import-contacts-wrapper text-center">
             <div id="contacts">
               <div class="contact-importers" id ="tab">
-                <p>Import your contacts from</p>
+                <p class="text-center">Import your contacts from</p>
                 <span class="contact-importer">
                   <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
                     <%= link_to image_tag("gmail.png", :alt => "Gmail Contacts"), contacts_gmail_path %>
@@ -79,12 +80,12 @@
                 <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
               </div>
 
-              <%unless session[:failure_contacts].blank? %>
+              <!-- <%unless session[:failure_contacts].blank? %>
                 <p id="response-failure"><%= session[:failure_contacts] %></p>
               <%end%>
               <%unless session[:success_contacts].blank? %>
                 <p  id="response-success"><%= session[:success_contacts] %></p>
-              <%end%>
+              <%end%> -->
             </div>
 
           </div>

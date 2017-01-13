@@ -35,14 +35,19 @@
 //= require cocoon
 //= require bootstrap-sprockets
 //= require jquery.slick
+//= require jquery.vcarousel-min
+//= require underscore-min
+//= require moment
+//= require bootstrap-datetimepicker
 
 //= require_tree .
 
+var $document = $(document);
+var $html = $('html');
+$document.foundation();
 
-$(document).foundation();
-
-$(document).on('page:load', function() {
-  $(document).foundation();
+$document.on('page:load', function() {
+  $document.foundation();
 });
 
 $(function() {
@@ -50,14 +55,27 @@ $(function() {
     this.src = '/assets/no_image.png';
   });
   $('.task-box').matchHeight();
-  $(document).foundation();
+  $document.foundation();
 });
 
 $(function() {
   $('.task-box').matchHeight();
 });
 
-$(document).ready(function() {
+$document.ready(function() {
+
+  var modalsArr = ["#myModal", "#share", "#team", "#suggested_task_popup", "#InviteModel", "#myModal2",
+                   "#popup-for-free-paid", "#taskFundModal", "#modalVerification", "#registerModal"];
+  $document.keydown(function (e) {
+      if (e.keyCode == 27) {
+        for (var i = 0, max = modalsArr.length; i < max; i++) {
+          $(modalsArr[i]).fadeOut();
+        }
+        $('.modal-backdrop').remove();
+        $html.removeClass('_open-modal');
+      }
+  });
+
   $(".best_in_place").best_in_place();
 });
 
@@ -81,7 +99,3 @@ $(document).ready(function() {
 //          }, REFRESH_INTERVAL_IN_MILLIS);
 //     }
 // });
-
-
-
-

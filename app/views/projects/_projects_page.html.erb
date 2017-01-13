@@ -1,15 +1,15 @@
 <% @featured_projects.each do |project| %>
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mb30">
-      <div class="project-card">
+    <li class="l-project-cards__item">
+      <div class="b-project-card">
 
-        <div class="card-img">
-          <%= link_to taskstab_project_path(project), data: {no_turbolink: false} do %>
-              <%= image_tag(project.picture.url) %>
+        <div class="b-project-card__top">
+          <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap', data: {no_turbolink: false} do %>
+              <%= image_tag(project.picture.url, data: { 'object-fit': "cover" }) %>
           <% end %>
-          <div class="user-link">
+          <div class="b-project-card__user-link">
             <% if project.user %>
                 <% if project.user.picture %>
-                    <%= image_tag(project.user.picture, size: "30x30") %>
+                    <%= image_tag(project.user.picture, size: "32x32") %>
                 <% else %>
                     <%= gravatar_for_user(project.user) %>
                 <% end %>
@@ -19,62 +19,50 @@
             <% end %>
           </div>
         </div>
+        <div class="b-project-card__middle">
+          <%= link_to project.title, taskstab_project_path(project), data: {no_turbolink: false}, class: "b-project-card__title" %>
 
-        <div class="title-banner">
-          <%= link_to project.title, taskstab_project_path(project), data: {no_turbolink: false} %>
-        </div>
-
-        <ul class="info-banner">
-          <li>
-            <i class="fa fa-map-marker" aria-hidden="true"></i>
+          <div class="b-project-card__location">
+            <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
+            </svg>
             <%= project.country %>
-          </li>
-        </ul>
+          </div>
 
-        <div class="summary-banner mb20">
-          <p class="card-dspt">
+          <p class="b-project-card__description">
             <%= project.short_description %>
           </p>
         </div>
-
-        <div class="progress-banner mb20">
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>">
+        <div class="b-project-card__bottom">
+          <div class="progress-banner">
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>">
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="progress-report">
-          <table>
-            <tr class="value">
-              <td><%= project.funded_percentages %></td>
-              <td><%= project.team_relations_string %></td>
-              <td><%= project.tasks_relations_string %></td>
-              <td>$<%= project.funded_budget %></td>
-            </tr>
-            <tr class="items">
-              <td>Funded</td>
-              <td>Team</td>
-              <td>Tasks</td>
-              <td>Raised</td>
-            </tr>
-          </table>
+          <div class="progress-report">
+            <table>
+              <tr class="value">
+                <td><%= project.funded_percentages %></td>
+                <td><%= project.team_relations_string %></td>
+                <td><%= project.tasks_relations_string %></td>
+                <td>$<%= project.funded_budget %></td>
+              </tr>
+              <tr class="items">
+                <td>Funded</td>
+                <td>Team</td>
+                <td>Tasks</td>
+                <td>Raised</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
 
-    </div>
+    </li>
 <% end %>
 
 <div id="ajaxLoading" class="hidden-div">
   <%= image_tag "loading.gif" %>
 </div>
-
-<script type="text/javascript">
-  $('.project-card').each(function () {
-    if ($(this).height() > 386) {
-      $(this).slimScroll({
-        height: "386px"
-      });
-    }
-  });
-</script>

@@ -14,6 +14,8 @@
     <%= yield :customhead %>
   </head>
 
+  <%= render 'layouts/noindex' %>
+
   <body <%= landing_class %>>
     <script>
       window.fbAsyncInit = function() {
@@ -37,10 +39,14 @@
     <div class="page-wrapper">
       <%= render 'layouts/menu' %>
 
-      <div class="row expanded margin-none dashboard-wrapper">
-        <%= render 'users/sidebar' %>
-        <div class="dashboard-content">
-          <%= yield %>
+      <div id="projects-search-results">
+        <div id="error-message-show"></div>
+
+        <div class="row expanded margin-none dashboard-wrapper">
+          <%= render 'users/sidebar' %>
+          <div class="dashboard-content">
+            <%= yield %>
+          </div>
         </div>
       </div>
 

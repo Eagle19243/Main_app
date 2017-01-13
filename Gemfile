@@ -8,7 +8,6 @@ gem 'autoprefixer-rails', '>= 5.2.1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'country_select'
 gem 'carrierwave', '~> 0.9'
@@ -26,7 +25,6 @@ gem 'aasm'
 gem 'social-share-button'
 gem 'paypal-sdk-adaptivepayments'
 gem 'pp-adaptive'
-gem 'jquery-turbolinks'
 gem 'chosen-rails'
 gem 'validates_timeliness', '~> 4.0'
 gem 'interactor-rails', '~> 2.0'
@@ -59,6 +57,7 @@ gem 'high_voltage'
 gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'figaro'
+gem 'stripe'
 
 # Ajax File Uploading
 gem 'remotipart'
@@ -76,6 +75,10 @@ gem 'rack-mini-profiler'
 
 # Help to kill N+1 queries and unused eager loading
 gem "bullet", :group => "development"
+
+# Bootstrap datetimepicker
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do

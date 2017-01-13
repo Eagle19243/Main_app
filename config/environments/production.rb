@@ -12,6 +12,7 @@ Rails.application.configure do
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
   config.log_formatter = ::Logger::Formatter.new
+  config.consider_all_requests_local = ENV['consider_all_requests_local'] || false
 
   config.action_mailer.smtp_settings = {
     address: "email-smtp.eu-west-1.amazonaws.com",

@@ -1,5 +1,5 @@
 
-<div id="editProjectModal" class="modal fade edit-project-modal" role="dialog">
+<div id="editProjectModal" class="modal fade edit-project-modal" role="dialog" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content" id="project_content">
 
@@ -95,6 +95,7 @@
           </div>
         </div>
         <div class="modal-footer">
+          <%= f.file_field :picture, class: 'btn btn-primary', onchange: "previewProjectImage(this);"%>
           <%= f.submit "Save Changes", :class => "btn-default-weserve" %>
           <button type="button" class="btn-alt-weserve" data-dismiss="modal"> Cancel </button>
         </div>
@@ -136,4 +137,14 @@
     });
   });
 
+  function previewProjectImage(input) {
+    if(input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#project_picture_cropbox').attr('src', e.target.result);
+        $('.jcrop-holder img').attr('src', e.target.result);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 </script>

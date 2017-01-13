@@ -4,6 +4,7 @@ bitgo_admin:
 mediawiki:
   secret:
   domain:
+  api_base_url:
   username:
   password:
 email_provider_username:
@@ -23,3 +24,5 @@ aws_access_key_id:
 aws_secret_access_key:
 s3_bucket_region:
 bucket_name:
+consider_all_requests_local: 
+

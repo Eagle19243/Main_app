@@ -1,101 +1,83 @@
 <div class="content-details revision-wrapper">
   <h4 class="mb20">Revisions for "<%= project.title %>"</h4>
 
-  <a class="btn-default-weserve revisions-compare-button">Compare selected revisions</a>
+  <div class="row">
+    <div class="col-md-6">
+      <a class="btn-default-weserve revisions-compare-button">Compare selected revisions</a>
 
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Edit revision</th>
-          <th>Compare</th>
-          <th>Time</th>
-          <th>Contributer</th>
-          <th></th>
-          <th></th>
-          <th>Approve changes</th>
-          <th>Current</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% histories.each_with_index do |history, index| %>
-          <tr class="<%= "unapproved" if history['status'] == 'approved' %>"
-            data-revision="<%= history['revision_id'] %>"
-            data-revision-date="<%= history["datetime"] %>"
-            data-revision-user-picture="<%= history['user'] ? (history['user'].picture? ? history['user'].picture? : gravatar_image_url(history['user'].email) ) : ''  %>"
-            data-revision-user="<%= (history['user']) ? history['user'].name : 'Anonymous' %>"
-            data-revision-user-id="<%= (history['user']) ? history['user'].id : '' %>"
-            data-revision-user-link="<%= history['user'] ? user_path(history['user']) : '' %>"
-            data-revision-user-blocked="<%= history['is_blocked'] %>"
-            data-revision-username="<%= history['username'] %>"
-          >
-            <td>
-              <a class="revisions-compare-edit-link" data-revision="<%= history['revision_id'] %>" href="<%= mediawiki_api_base_url %>?title=<%= URI.escape(project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>&oldid=<%= history['revision_id'] %>">
-                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
-              </a>
-            </td>
-            <td class="revisions-compare">
-              <label class="revision-compare-custom-radio" for="input_revision_<%= history['revision_id'] %>">
-                <input type="checkbox" value="<%= history['revision_id'] %>" id="input_revision_<%= history['revision_id'] %>" />
-              </label>
-            </td>
-            <td>
-              <%= history["datetime"] %>
-            </td>
-            <td class="contributer">
-              <% if history['user'] %>
-                <% if history['user'].picture? %>
-                  <%= image_tag(history['user'].picture, size: "30x30") %>
-                <% else %>
-                  <%= gravatar_for_user(history['user'])%>
-                <%end%>
-                <%= link_to history['user'].name, user_path(history['user']) %>
-              <% else %>
-                <%= link_to 'Anonymous', '' %>
-              <% end %>
-            </td>
-            <td>
-              <a href = <%= history['user'] ? "/group_messages/user_messaging?user_id=#{history['user'].id}" : "" %> >
-                <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
-              </a>
-            </td>
-            <td>
-              <% if history['is_blocked'] == 0 %>
-                <a href="javascript:void(0)" class='block-user'>
-                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
-                </a>
-              <% else %>
-                <a href="/projects/<%= project.id %>/unblock_user?username=<%= history['username'] %>" class='unblock-user'>
-                  <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Unblock
-                </a>
-              <% end %>
-            </td>
-            <td>
-              <% if history['status'] == 'approved' %>
-                <a href="/projects/<%= project.id %>/revision_action?type=unapprove&rev=<%= history['revision_id'] %>" class="mr10 revision-unapprove">
-                  <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
-                </a>
-              <% else %>
-                <a href="/projects/<%= project.id %>/revision_action?type=approve&rev=<%= history['revision_id'] %>" class='revision-approve'>
-                  <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
-                </a>
-              <% end %>
-            </td>
-            <td class="current">
-              <% if history['status'] == 'approved' %>
-                <a href="javascript:void(0)">
-                  <i class="fa fa-star"></i>
-                </a>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-        <!-- <tr class="current-version">
-          <td colspan="7">
-            Current Version
-          </td>
-        </tr> -->
-      </tbody>
-    </table>
+      <%= link_to plan_project_path(id: project.id), remote: true, class: "btn-default-weserve", onclick: "openTab(event, 'Plan')" do %>
+        Back
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+      <div class="approval-switch">
+        <label class="switch">
+          <input type="checkbox" <%= project.is_approval_enabled? ? "checked='checked'" : "" %>>
+          <div class="slider round"></div>
+        </label>
+      </div>
+      <h4 style="float: right; margin-right: 10px;">Verification</h4>
+    </div>
+  </div>
+
+  <div class="revision-histories-body">
+    <%= render partial: "projects/revision_history", locals: {histories: histories, project: project, mediawiki_api_base_url: mediawiki_api_base_url } %>
   </div>
 </div>
+
+<div id="modalVerification" class="modal-default modal-verification" tabindex="-1">
+  <div class="modal-default__content" style="max-width: 900px;">
+    <button type="button" id="shareclose" class="modal-default__close"></button>
+    <h4 class="modal-default__title"></h4>
+    <button type='button' class='btn-root _agree'>Ok</button>
+    <button type='button' class='btn-root _decline'>Cancel</button>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var $modalVerification = $('#modalVerification'),
+        $switch = $('.approval-switch input');
+
+    function updateInputState() {
+        if ($switch.is(':checked')) {
+            $switch.prop("checked", "");
+        } else {
+            $switch.prop("checked", "checked")
+        }
+    }
+
+    $switch.on('click.switchApproval', function(e) {
+        e.preventDefault();
+        var confirmContent = "Are you sure you want to turn manual verification on? You will have to review every user's contribution in order for them to be implemented.";
+        if ($switch.is(':checked') == false) {
+            confirmContent = "Are you sure you want to turn manual verification off? Users will be able to edit your project without your approval. You will still be able to edit text, cancel contributions, and block users.";
+        }
+        $modalVerification.fadeIn().find('.modal-default__title').text(confirmContent);
+    });
+
+    $(document)
+        .on('click.agree', '#modalVerification ._agree', function () {
+            $(".revision-histories-body").html("<div class='center'><h4>Please wait....</h4></div>");
+            updateInputState();
+            $.ajax({
+                url: "/projects/<%= project.id %>/switch_approval_status",
+                type: "POST",
+                data: {is_approval_enabled: $switch.is(':checked')},
+                dataType: "script"
+            });
+            $modalVerification.fadeOut();
+        })
+        .on('click.decline', '#modalVerification ._decline', function () {
+            $modalVerification.fadeOut();
+        })
+        .on('click.closeVerificationModal', '.modal-default__close', function (e) {
+            $modalVerification.fadeOut();
+        })
+        .on('click.closeModal', '#modalVerification', function (e) {    // todo organize all modals in separate module
+            if (e.target === this) {
+                $modalVerification.fadeOut();
+            }
+        });
+
+</script>

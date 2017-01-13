@@ -1,3 +1,4 @@
+<%= render 'modal/suggested_task_model' %>
 <div class="trello-board">
   <div class="trello-column">
     <div class="trello-section">
@@ -31,27 +32,41 @@
                         <tr class="value">
                           <td><%= task.funded %></td>
                           <td><%= @tasks_count %></td>
-                          <td><%= task.donations.count %></td>
+                          <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
                         <tr class="items">
                           <td>Funded</td>
                           <td>Tasks</td>
-                          <td>Backers</td>
+                          <td>Teammates </td>
                           <td>Raised</td>
                         </tr>
                       </table>
                     </div>
-
+                    <div class="fund-do-btns">
+                      <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
+                        FUND
+                      </a>
+                      <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' data-target="#suggested_task_model_for_fund">
+                        DO
+                      </a>
+                      <% if user_signed_in? %>
+                          <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
+                              <%= link_to 'Delete', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
+                          <% end %>
+                      <% end %>
+                    </div>
                   </div>
                 </div>
             <% end %>
         <% end %>
       </div>
-
-      <div class="section-add-task">
-        <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
-      </div>
+      <% if current_user && current_user.id != @project.user_id %>
+          <div class="section-add-task">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
+              a Task</a>
+          </div>
+      <% end %>
     </div>
   </div>
 
@@ -87,30 +102,24 @@
                         <tr class="value">
                           <td><%= task.funded %></td>
                           <td><%= @tasks_count %></td>
-                          <td><%= task.donations.count %></td>
+                          <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
                         <tr class="items">
                           <td>Funded</td>
                           <td>Tasks</td>
-                          <td>Backers</td>
+                          <td>Teammates</td>
                           <td>Raised</td>
                         </tr>
                       </table>
                     </div>
 
                     <div class="fund-do-btns">
-                      <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' id="<%= task.id %>" data-target="#taskFundModal">
+                      <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-keyboard="true" data-target="#taskFundModal">
                         FUND
                       </a>
                       <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-target="#taskDoModal">
                         DO
-                      </a>
-                      <% if user_signed_in? %>
-                          <% if @project.user_id == current_user.id || task.is_leader(current_user.id) %>
-                              <%= link_to 'Destroy', task, method: :delete, class: 'fund-model-popup modal-link', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
-                          <% end %>
-                      <% end %>
                       </a>
                     </div>
 
@@ -123,7 +132,8 @@
       <% if user_signed_in? %>
           <% if @project.user_id == current_user.id %>
               <div class="section-add-task">
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
+                  a Task</a>
               </div>
           <% end %>
       <% end %>
@@ -163,27 +173,17 @@
                         <tr class="value">
                           <td><%= task.funded %></td>
                           <td><%= @tasks_count %></td>
-                          <td><%= task.donations.count %></td>
+                          <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
                         <tr class="items">
                           <td>Funded</td>
                           <td>Tasks</td>
-                          <td>Backers</td>
+                          <td>Teammates</td>
                           <td>Raised</td>
                         </tr>
                       </table>
                     </div>
-
-                    <% if user_signed_in? %>
-                        <% if @project.user_id == current_user.id %>
-                            <%= link_to reviewing_task_path(task.id) do %>
-                                <button onClick="window.location.reload()">
-                                  <i class="fa fa-arrow-right" aria-hidden="true"></i> Submit Task for Review
-                                </button>
-                            <% end %>
-                        <% end %>
-                    <% end %>
 
                   </div>
                 </div>
@@ -226,31 +226,17 @@
                         <tr class="value">
                           <td><%= task.funded %></td>
                           <td><%= @tasks_count %></td>
-                          <td><%= task.donations.count %></td>
+                          <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
                         <tr class="items">
                           <td>Funded</td>
                           <td>Tasks</td>
-                          <td>Backers</td>
+                          <td>Teammates</td>
                           <td>Raised</td>
                         </tr>
                       </table>
                     </div>
-
-                    <% if user_signed_in? %>
-
-                        <% if @project.user_id == current_user.id %>
-                            <div style="margin-top: 1%">
-                              <%= link_to completed_task_path(task.id) do %>
-                                  <button>
-                                    <i class="fa fa-check" aria-hidden="true"></i>Task Completed
-                                  </button>
-                              <% end %>
-                            </div>
-                        <% end %>
-                    <% end %>
-
                   </div>
                 </div>
             <% end %>
@@ -292,13 +278,13 @@
                         <tr class="value">
                           <td><%= task.funded %></td>
                           <td><%= @tasks_count %></td>
-                          <td><%= task.donations.count %></td>
+                          <td><%= task.number_of_participants %> / <%= task.target_number_of_participants %></td>
                           <td><%= task.funded_in_btc %></td>
                         </tr>
                         <tr class="items">
                           <td>Funded</td>
                           <td>Tasks</td>
-                          <td>Backers</td>
+                          <td>Teammates</td>
                           <td>Raised</td>
                         </tr>
                       </table>

@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
+
+@import '../new_design/variables';
+@import '../new_design/utils';
+
+.b-project-info {
+  text-align: center;
+  margin-bottom: 35px;
+  &._form-opened {
+    .btn-edit {
+      display: none;
+    }
+  }
+  &__wrapper {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__user {
+    &-avatar {
+      margin: 0 auto 7px;
+      img {
+        border-radius: 50%;
+        display: block;
+        width: 36px;
+        height: 36px;
+        margin: 0 auto;
+        max-width: 36px;
+        max-height: 36px;
+      }
+    }
+    &-name {
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      color: #fff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+  &__title {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 33px;
+    line-height: 45px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    color: #fff;
+    max-width: 570px;
+    margin: 0 auto 18px;
+  }
+  &__city {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 20px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    .svg-marker {
+      width: 8px;
+      height: 12px;
+      fill: #fff;
+    }
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+  }
+
+  &__title,
+  &__city {
+    &._open-edit-form {
+      .btn-edit,
+      .svg-marker {
+        display: none;
+      }
+    }
+    form {
+      input[type="text"] {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        border-bottom: 2px solid #fff;
+        font-style: italic;
+        text-align: center;
+        color: #fff;
+      }
+      input[type="submit"],
+      input[type="button"] {
+        height: 40px;
+        line-height: 40px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        margin: 0 10px;
+        padding: 0;
+        width: 100px;
+        border: 2px solid #000;
+        border-radius: 60px;
+        text-transform: uppercase;
+      }
+      input[type="submit"] {
+        background-color: #fff;
+        color: #000;
+        @extend .hover-default;
+      }
+      input[type="button"] {
+        background-color: #000;
+        color: #fff;
+        @extend .hover-alt;
+      }
+    }
+  }
+}

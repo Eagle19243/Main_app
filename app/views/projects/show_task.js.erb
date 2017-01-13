@@ -1,82 +1,93 @@
 $("#product-modal").html("<%= escape_javascript(render :partial => 'task_details') %>")
-$("#myModal").css("display","block");
-$("#close").click(function(){
+$("#myModal").css("display", "block");
+$("#close").click(function () {
   $("#myModal").hide();
   $("#product-modal").html("");
 });
-$( "#Do-request-form" ).submit(function( ) {
+$("#Do-request-form").submit(function () {
   $('#Do-request-form-response').html(" Requesting ...")
 });
-$( "#comment-form" ).submit(function( ) {
+$("#comment-form").submit(function () {
 });
 $('.hide-input').hide()
 $("#loading-mask1").hide();
-$('a[name=delete_attachment]').click(function() {
+$('a[name=delete_attachment]').click(function () {
   //alert($(this).attr('id'));
-  var id= $(this).attr('id')
+  var id = $(this).attr('id')
   $.ajax({
     url: "/task_attachments/destroy_attachment",
     type: "post", //send it through get method
-    data:{id:id},
-    success: function(response) {
-      if( response== true )
-      {
+    data: {id: id},
+    success: function (response) {
+      if (response == true) {
         alert('Successfully destroy ');
-        location.reload();}
-      else
-      {
+        location.reload();
+      }
+      else {
         alert('You are not authorized  to remove');
       }
     },
-    error: function(xhr) {
+    error: function (xhr) {
       alert('You are not authorized  to remove');
     }
   });
 });
 
-<%  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_memberships.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
+<%#  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_memberships.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
 $('input[id^=file]').hide();
 $('.fa-paperclip, .attachment').click(function () {
-  console.log(this);
+  //console.log(this);
   $(this).closest('form').find('input[id^=file]').click();
-  $("#upload-button").show();
-
 })
+
+$('#task-comment-attachment-icon').click(function () {
+  $('#task-comment-attachment').click();
+})
+$('#task-comment-attachment').change(function () {
+  var x = $('#task-comment-attachment').val();
+  $('#attachment-div').html(x)
+});
+
 $("#upload-button").hide();
-$("#upload-button").click(function(){
+$("input[id^=file]").change(function () {
+  $("#upload-button").click();
+})
+$("#upload-button").click(function () {
   $("#upload-button").hide();
 })
+<% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id ||  current_user.id == @task.project.user_id )) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
 
-$("#task-title" ).dblclick(function() {
+
+$("#task-title").dblclick(function () {
   $(this).hide();
   $("#task-update-title-form").show();
   $("#input-task-title").show();
-  $("#task-update-title").hide();
-  $("#task-update-title").next().hide();
+  $("#task-update-title").show();
+  $("#task-update-title").next().show();
 
 });
-$("#task-description" ).dblclick(function() {
+$("#task-description").dblclick(function () {
   $(this).hide();
   $("#task-update-description-form").show();
   $("#input-task-description").show();
-  $("#task-update-description").hide();
-  $("#task-update-description").next().hide();
+  $("#task-update-description").show();
+  $("#task-update-description").next().show();
 
 });
-$("#task-condition" ).dblclick(function() {
+$("#task-condition").dblclick(function () {
   $(this).hide();
   $("#task-update-condition-form").show();
   $("#input-task-condition").show();
-  $("#task-update-condition").hide();
-  $("#task-update-condition").next().hide();
+  $("#task-update-condition").show();
+  $("#task-update-condition").next().show();
 
 });
-$("#task-proof" ).dblclick(function() {
+$("#task-proof").dblclick(function () {
   $(this).hide();
   $("#task-update-proof-form").show();
   $("#input-task-proof").show();
-  $("#task-update-proof").hide();
-  $("#task-update-proof").next().hide();
+  $("#task-update-proof").show();
+  $("#task-update-proof").next().show();
 
 });
 
@@ -109,262 +120,213 @@ $('#input-task-condition').keypress(function (e) {
   }
 });
 
-
-$("#edit-title").click(function(){
-$(this).hide();
+// todo rewrite all this file it can be 2X smaller and simpler
+$("#edit-title").on('click.openForm', function () {
+  $(this).hide();
   $("#task-update-title").show();
   $('#input-task-title').show();
   $("#task-update-title-form").show();
-  $("#task-title").show();
   $("#cancel-title").show();
 
+  $(this).parents('.modal-task__title-wrap').addClass('_form-open');
 });
-$("#edit-proof").click(function(){
-  $(this).hide();
+$("#edit-proof").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-proof").show();
   $('#input-task-proof').show();
   $("#task-update-proof-form").show();
   $("#task-proof").show();
   $("#cancel-proof").show();
-
+  $that.parents('.modal-task__desc-block').addClass('_form-open');
 });
-$("#edit-description").click(function(){
-  $(this).hide();
+$("#edit-description").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-description").show();
   $('#input-task-description').show();
   $("#task-update-description-form").show();
   $("#task-description").show();
   $("#cancel-description").show();
+  $("#cancel-description").show();
+  $that.parents(".modal-task__desc-block").addClass('_form-open');
 });
-$("#edit-condition").click(function(){
-  $(this).hide();
+$("#edit-condition").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-condition").show();
   $('#input-task-condition').show();
   $("#task-update-condition-form").show();
   $("#task-condition").show();
   $("#cancel-condition").show();
+  $that.parents(".modal-task__desc-block").addClass('_form-open');
 });
-$("#cancel-title").click(function(){
+$("#cancel-title").on('click.closeForm', function () {
   $(this).hide();
   $("#task-update-title").hide();
   $('#input-task-title').hide();
   $("#task-update-title-form").hide();
-  $("#task-title").show();
   $('#edit-title').show();
+
+  $(this).parents('.modal-task__title-wrap').removeClass('_form-open');
 });
-$("#cancel-proof").click(function(){
-  $(this).hide();
+$("#cancel-proof").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-proof").hide();
   $('#input-task-proof').hide();
   $("#task-update-proof-form").hide();
   $("#task-proof").show();
   $("#edit-proof").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#cancel-description").click(function(){
-  $(this).hide();
+$("#cancel-description").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-description").hide();
   $('#input-task-description').hide();
   $("#task-update-description-form").hide();
   $("#task-description").show();
   $("#edit-description").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#cancel-condition").click(function(){
-  $(this).hide();
+$("#cancel-condition").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#task-update-condition").hide();
   $('#input-task-condition').hide();
   $("#task-update-condition-form").hide();
   $("#task-condition").show();
   $("#edit-condition").show();
+  $that.parents('.modal-task__desc-block').removeClass('_form-open');
 });
-$("#task-update-title").click(function(){
+$("#task-update-title").on('click.closeForm', function () {
   $(this).hide();
   $("#cancel-title").hide();
   $('#input-task-title').hide();
   $("#task-update-title-form").hide();
-  $("#task-title").show();
   $('#edit-title').show();
+
+  $(this).parents('.modal-task__title-wrap').removeClass('_form-open');
 });
-$("#task-update-proof").click(function(){
-  $(this).hide();
+$("#task-update-proof").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#cancel-proof").hide();
   $('#input-task-proof').hide();
   $("#task-update-proof-form").hide();
   $("#task-proof").show();
   $("#edit-proof").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#task-update-description").click(function(){
-  $(this).hide();
+$("#task-update-description").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#cancel-description").hide();
   $('#input-task-description').hide();
   $("#task-update-description-form").hide();
   $("#task-description").show();
   $("#edit-description").show();
+  $that.parents(".modal-task__desc-block").removeClass('_form-open');
 });
-$("#task-update-condition").click(function(){
-  $(this).hide();
+$("#task-update-condition").on('click', function () {
+  var $that = $(this);
+  $that.hide();
   $("#cancel-condition").hide();
   $('#input-task-condition').hide();
   $("#task-update-condition-form").hide();
   $("#task-condition").show();
   $("#edit-condition").show();
+  $that.parents('.modal-task__desc-block').removeClass('_form-open');
 });
 <% end  %>
-  // Get the modal
-  var modalinvite = document.getElementById('InviteModel');
-  // Get the button that opens the modal
-  var btninvite = document.getElementById("invbtn");
-  // Get the <span> element that closes the modal
-  var spaninvite = document.getElementById("inviteclose");
-  // When the user clicks the button, open the modal
-  btninvite.onclick = function() {
-      modalinvite.style.display = "block";
-      }
-  // When the user clicks on <span> (x), close the modal
-    spaninvite.onclick = function() {
-        modalinvite.style.display = "none";
-        }
-  // Get the modal
-  var modalshare = document.getElementById('share');
-  // Get the button that opens the modal
-  var btnshare = document.getElementById("sharebtn");
-  // Get the <span> element that closes the modal
-  var spanshare = document.getElementById("shareclose");
-  // When the user clicks the button, open the modal
-  btnshare.onclick = function() {
-      modalshare.style.display = "block";
-      }
-  // When the user clicks on <span> (x), close the modal
-    spanshare.onclick = function() {
-        modalshare.style.display = "none";
-        }
-  var modalteam = document.getElementById('team');
-  // Get the button that opens the modal
-  var btnteam = document.getElementById("teambtn");
-  // Get the <span> element that closes the modal
-  var spanteam = document.getElementById("teamclose");
- btnteam.onclick = function() {
-      modalteam.style.display = "block";
-      }
- spanteam.onclick = function() {
-        modalteam.style.display = "none";
-        }
+$(document).on('click', ".modal-default__close",function (e) {
+  $(this).parents('.modal-default').fadeOut();
+});
+$(document).on('click', ".modal-default",function (e) {
+    if (e.target == this) {
+      $(this).fadeOut();
+    }
+});
+
+var $modalInvite = $('#InviteModel');
+// When the user clicks the button, open the modal
+$('#invbtn').on('click.openInviteModal', function () {
+    $modalInvite.fadeIn();
+});
+// When the user clicks on black area, close the modal
+$modalInvite.on('click.closeInviteModal', function (e) {
+    if (e.target === this) {
+        $modalInvite.fadeOut();
+    }
+});
+// When the user clicks on <span> (x), close the modal
+$('#inviteclose').on('click.closeInviteModal', function (e) {
+    $modalInvite.fadeOut();
+});
+
+var $modalShare = $('#share');
+// When the user clicks the button, open the modal
+$('#sharebtn').on('click.openShareModal', function () {
+    $modalShare.fadeIn();
+});
+// When the user clicks on black area, close the modal
+$modalShare.on('click.closeShareModal', function (e) {
+    if (e.target === this) {
+        $modalShare.fadeOut();
+    }
+});
+// When the user clicks on <span> (x), close the modal
+$('#shareclose').on('click.closeShareModal', function (e) {
+    $modalShare.fadeOut();
+});
+var modalteam = document.getElementById('team');
+// Get the button that opens the modal
+var btnteam = document.getElementById("teambtn");
+// Get the <span> element that closes the modal
+var spanteam = document.getElementById("teamclose");
+btnteam.onclick = function () {
+  modalteam.style.display = "block";
+}
+spanteam.onclick = function () {
+  modalteam.style.display = "none";
+}
 
 var modal = document.getElementById('myModal');
 
 var btn = document.getElementById("myBtn");
 
-var span = document.getElementById("myModalclose");
-
-btn.onclick = function() {
+btn.onclick = function () {
   modal.style.display = "block";
 }
 
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-$(document).ready(function() {
+$(document).ready(function () {
+  var $modalInvite = $("#InviteModel");
   $(document).keydown(function (e) {
-      if (e.keyCode == 27) {
-        $("#myModal").hide();
-        $("#share").hide();
-        $("#team").hide();
-        $("#suggested_task_popup").hide();
-        $("#InviteModel").hide();
-        $("#myModal2").hide();
-        $("#popup-for-free-paid").hide();        
-      }
-    });
+    if (e.keyCode == 27) {
+      $("#myModal").hide();
+      $("#share").hide();
+      $("#team").hide();
+      $("#suggested_task_popup").hide();
+      $modalInvite.hide();
+      $("#myModal2").hide();
+      $("#popup-for-free-paid").hide();
+      $html.removeClass('_open-modal');
+    }
+  });
 })
 
 
-// When the user clicks anywhere outside of the modal, close it
-<% unless @task.suggested_task? %>
-//$("#popup-for-free-paid").show();
-var modal2 = document.getElementById('popup-for-free-paid');
-//var modal2 = document.getElementById('myModal2');
-
-// Get the button that opens the modal
-var btn2 = document.getElementById("myBtn2");
-
-// Get the <span> element that closes the modal
-//var span2 = document.getElementById("myModal2close");
-var span2 = document.getElementById("popup-for-free-paidclose");
-
-// When the user clicks on the button, open the modal
-btn2.onclick = function() {
-  modal2.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span2.onclick = function() {
-  modal2.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close i
-//document.getElementById("popup-for-free-paidclose").onclick = function() {
-//  $("#popup-for-free-paid").hide();
-//}
-
-function setpaid() {
-    $("#cover-leter-header-text").html("");
-    $("#cover-leter-header-text").html("You will do this task for Compensation");
-    document.getElementById("do_request_free").value= "false";
-    $("#popup-for-free-paid").show();
-
-  }
-  function setfree() {
-    $("#cover-leter-header-text").html("");
-    document.getElementById("do_request_free").value= "true";
-    $("#cover-leter-header-text").html("You will do this task for FREE");
-    $("#popup-for-free-paid").show();
-  }
-<%else  %>
-
-var suggested_task_model = document.getElementById('suggested_task_popup');
-
-// Get the button that opens the modal
-var suggested_fund = document.getElementById("suggested_task_fund");
-var suggested_do = document.getElementById("suggested_task_do");
-
-// Get the <span> element that closes the modal
-var suggested_task_popup_close = document.getElementById("suggested_task_popup_close");
-
-// When the user clicks on the button, open the modal
-suggested_fund.onclick = function() {
-  suggested_task_model.style.display = "block";
-}
-suggested_do.onclick = function() {
-  suggested_task_model.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-suggested_task_popup_close.onclick = function() {
-  suggested_task_model.style.display = "none";
-}
-<%end %>
-
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
-  }
-  if (event.target == modalinvite) {
-    modalinvite.style.display = "none";
-  }
-  if (event.target == modalshare) {
-    modalshare.style.display = "none";
   }
   if (event.target == modalteam) {
     modalteam.style.display = "none";
   }
-  if (event.target == modal2) {
-    modal2.style.display = "none";
-  }
-  if (event.target == suggested_task_model) {
-    suggested_task_model.style.display = "none";
-  }
 }
 
-$(function() {
+$(function () {
   callAjax();
 });
 
@@ -373,10 +335,9 @@ function callAjax() {
   $.ajax({
     url: "/projects/get_activities",
     type: "get",
-    data:{id: <%= @task.id %>},
-
-    success: function() {
-      setTimeout(callAjax,199000);
+    data: {id: <%= @task.id %>},
+    success: function () {
+      setTimeout(callAjax, 15000);
     }
   });
 }

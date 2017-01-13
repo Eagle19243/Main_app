@@ -1,41 +1,57 @@
-<!-- Autocomplete tag is only used in this page -->
-<%= javascript_include_tag "autocomplete-rails.js"%>
-
 <main class="main-wrapper">
-  <div class="project-wrapper">
-
-    <div class="heading-banner">
-      <div class="project-header">
-        <h2>Browse Projects</h2>
+  <section class="s-projects">
+    <div class="s-projects__container">
+      <div class="s-projects__heading">
+        <h2 class="s-projects__title">Browse Projects</h2>
         <div id="paginator">
-          <%= paginate @featured_projects, remote: true %>
+            <%= paginate @featured_projects, remote: true %>
         </div>
       </div>
 
-      <!-- <div class="search-box-wrapper pull-right">
-        <%= form_tag projects_user_search_path , :method => :post , :remote => true , :id => 'search-form',:class => "search-project-box" do  %>
-            <%= autocomplete_field_tag :title ,nil,autocomplete_user_search_projects_path , :placeholder =>"Search Causes, Places, or Keyword"%>
-            <button type="button" name="" type="submit" >
-              <i class="fa fa-search"></i>
-            </button>
-        <% end %>
-      </div> -->
+      <div class="l-project-cards"  id="search-results-show">
+          <div id="error-message-show" style="background-color: red"> </div>
+          <ul class="l-project-cards__list">
+              <%= render "projects_page" %>
+          </ul>
+      </div>
 
-    </div>
-
-    <div class="projects-cards"  id="search-results-show">
-      <div id="error-message-show" style="background-color: red"> </div>
-      <div class="row margin-none show-projects">
-        <%= render "projects_page" %>
+      <div class="load-more">
+          <h5>Scroll Down To Load More</h5>
       </div>
     </div>
-
-    <div class="load-more">
-      <h5>Scroll Down To Load More</h5>
-    </div>
-
-  </div>
+  </section>
 </main>
+<button class="btn-to-top">
+  <svg focusable="false" version="1.1" class="svg-arrow-down">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+  </svg>
+</button>
+<script type="text/javascript">
+    var $window = $(window),
+        $btnToTop = $('.btn-to-top');
+
+    $(document).ready(function () {
+      function updateBtnToTopVisibility() {
+        var $sFooter = $('.landing-footer');
+        if ($sFooter.length && ($window.scrollTop() + window.innerHeight > $sFooter.offset().top)) {
+            $btnToTop.removeClass('_active');
+        } else if ($window.scrollTop() > 150) {
+            $btnToTop.addClass('_active');
+        } else {
+            $btnToTop.removeClass('_active');
+        }
+      }
+      $btnToTop.on('click', function() {
+        $('body, html').animate({scrollTop: 0}, 600);
+      });
+      $window.on('scroll.toggleBtnToTop', function() {
+        updateBtnToTopVisibility();
+      });
+      updateBtnToTopVisibility();
+
+    });
+</script>
+
 <% if  @download_keys  %>
     <%= render "modal/created_wallet_modal" %>
     <script type="text/javascript">
@@ -52,7 +68,7 @@
 
 <% if @download_keys && @start_project %>
     <script type="text/javascript">
-      $('#wallet_button').click(function() {
+      $('#wallet_button').on('click', function() {
           $('#walletModal').modal('hide');
           $('#startProjectModal').modal('toggle');
           localStorage.removeItem('start_project');

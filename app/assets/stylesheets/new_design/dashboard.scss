@@ -26,11 +26,15 @@
   }
 }
 
-.bio {
-  i#bio-edit-pencil {
-    font-size: 14px;
-    margin-right: 5px;
-    color: #555;
+
+#bio-edit-pencil {
+  font-size: 14px;
+  margin-right: 5px;
+  color: #555;
+  opacity: 0;
+  transition: opacity .2s linear;
+  .bio-header:hover & {
+    opacity: 1;
   }
 }
 
@@ -160,9 +164,9 @@
   #messages-nav {
     background-color: #ddd;
     text-align: left;
-    width: 220px;
-    position: absolute;
-    min-height: 1000px;
+    min-width: 220px;
+    position: relative;
+    min-height: 100vh;
     height: 100%;
     padding: 20px;
 
@@ -218,7 +222,7 @@
 
   #page-message-content {
     position: relative;
-    margin: 0 0 0 220px;
+    margin: 0 0 0 20px;
     padding-top: 20px;
 
     h4 {
@@ -262,6 +266,7 @@
     .message-content {
       margin-bottom: 20px;
       .message-text {
+        overflow: hidden;
         display: block;
         width: 100%;
         padding: 10px;
@@ -270,6 +275,10 @@
         font-size: 1em;
         color: #555;
       }
+      .message-text:hover{
+        overflow: auto;
+      }
+
 
       span.name,
       span.message-date {
@@ -448,3 +457,52 @@
     }
   }
 }
+
+.message-content {
+  img {
+    width: 50% !important;
+    height: auto !important;
+    border-radius: 5px !important;
+  }
+}
+
+
+#notification_button{
+
+    padding: 8px;
+    font-family: 'Roboto';
+    font-size: 1em;
+    color: #888;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 100px;
+    margin-right: 10px;
+  display: inline;
+
+    i {
+      font-size: 1.2em;
+      color: #555;
+      margin-right: 5px;
+    }
+
+}
+
+
+#display-user {
+  input {
+    font-style: italic;
+    background-color: #ddd;
+    border: 0;
+    border-bottom: 1px solid #000;
+    padding: 0;
+  }
+}
+
+.ui-menu {
+  .ui-menu-item {
+    background-color: #eee;
+    color: #555;
+    font-family: 'Libre Franklin';
+  }
+}
+

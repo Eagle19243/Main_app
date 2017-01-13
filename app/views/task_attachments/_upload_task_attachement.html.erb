@@ -1,0 +1,13 @@
+<div class="attachment">
+  <% if %w{jpg png jpg gif bmp}.include?(@task_attachment.attachment.file.extension) %>
+      <%= image_tag @task_attachment.attachment.url, style: "width:90px ; height:90px" %>
+  <% else %>
+      <img src="http://placehold.it/150x150">
+  <% end %>
+  <h4><%= @task_attachment.attachment.file.filename %></h4>
+  <span>Added <%= @task_attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
+  <div class="attachment-actions">
+    <%= link_to "Open", @task_attachment.attachment_url, target: '_blank' %>
+    <a href="#" name="delete_attachment" id="<%= @task_attachment.id %>">X Remove</a>
+  </div>
+</div>

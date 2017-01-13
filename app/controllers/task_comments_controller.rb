@@ -54,7 +54,7 @@ class TaskCommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:task_comment).permit(:user_id, :body, :task_id)
+    params.require(:task_comment).permit(:user_id, :body, :attachment, :task_id)
   end
 
   def current_task_comment

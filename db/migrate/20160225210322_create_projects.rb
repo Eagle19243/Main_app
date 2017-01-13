@@ -5,8 +5,11 @@ class CreateProjects < ActiveRecord::Migration
       t.text :description
       t.string :country
       t.string :picture
+      t.datetime :deleted_at
 
       t.timestamps null: false
     end
+
+    add_index :projects, :deleted_at
   end
 end

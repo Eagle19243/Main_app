@@ -2,10 +2,10 @@
 
   <div class="message-sender">
     <% if current_user.picture? %>
-      <%= image_tag(current_user.picture, size: "30x30") %>
+        <%= image_tag(current_user.picture, size: "30x30") %>
     <% else %>
-      <%= gravatar_for_user(current_user)%>
-    <%end%>
+        <%= gravatar_for_user(current_user) %>
+    <% end %>
   </div>
 
   <%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'new-message-form'}) do |f| %>
@@ -19,9 +19,9 @@
         <%= f.submit 'Send', id: 'submit-message' %>
       </div>
       <div class="attach-group">
-        <span class="postfix">
+        <span class="postfix text-default">
           <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true" id="file-attachment-icon"></i>
-          Add attachment
+          Add Attachment
         </span>
       </div>
   <% end %>
@@ -47,5 +47,11 @@
   $("#file-attachment-button").change(function () {
     $("#submit-message").click();
     $("#load-image-gif").show();
+  });
+  $("#submit-message").click(function (event) {
+    if (($('#file-attachment-button').val() == "" && $('#group_message_message').val() == "")) {
+      event.preventDefault();
+    }
+
   });
 </script>

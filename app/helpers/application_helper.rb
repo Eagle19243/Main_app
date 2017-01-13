@@ -41,6 +41,20 @@ module ApplicationHelper
     end
   end
 
+
+  def we_serve_wallet
+    begin
+      settings = YAML.load_file("#{Rails.root}/config/application.yml")
+      response = RestClient.get  "http://localhost:3080/api/v1/ping"
+      unless response.blank?
+        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+        access_token = settings['bitgo_admin']['weserve_admin_access_token']
+      end
+    rescue => e
+      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
+    end
+  end
+
   def convert_usd_to_btc_and_then_satoshi(usd)
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
@@ -65,6 +79,17 @@ module ApplicationHelper
   def  curent_bts_to_usd(id)
     satoshi_to_btc = Task.find(id).wallet_address.current_balance.to_f/10**8.to_f
     btc_to_usd = satoshi_to_btc * get_current_btc_rate
+    btc_to_usd.round(3)
+  end
+
+  def  user_wallet_balance_btc( satoshi )
+    satoshi_to_btc = satoshi.to_f/10**8.to_f
+    satoshi_to_btc.round(4)
+  end
+
+  def user_wallet_balance_usd( satoshi )
+    satoshi_to_btc = satoshi.to_f/10**8.to_f
+    btc_to_usd =  satoshi_to_btc * get_current_btc_rate
     btc_to_usd.round(3)
   end
 

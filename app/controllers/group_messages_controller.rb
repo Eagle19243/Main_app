@@ -18,13 +18,14 @@ class GroupMessagesController < ApplicationController
   end
 
   def search_user
-    @users = User.all
+
+    @user = current_user
     if params[:search]
       @user = User.name_like("%#{params[:search]}%").order('name')
     else
     end
   end
-  
+
   def load_messages_by_chatroom(id)
     chat_room = Chatroom.find(id) rescue nil
     project = Project.find(chat_room.project_id) rescue nil
@@ -71,8 +72,11 @@ class GroupMessagesController < ApplicationController
   end
 
   def user_messaging
+
     user = User.find(params[:user_id]) rescue nil
-    unless user.blank?
+    if user.blank?
+      redirect_to group_messages_path
+    else
       user_id = params[:user_id]
       chatroom = Chatroom.where("project_id is NULL AND ( (user_id = ? AND friend_id = ? ) OR ( user_id = ? AND friend_id = ?  ) )", current_user.id, user_id, user_id, current_user.id) rescue nil
       if chatroom.blank?
@@ -101,10 +105,10 @@ class GroupMessagesController < ApplicationController
       ids = ids + one_to_one_chatrooms.collect(&:friend_id)
       ids = ids.uniq
       @one_to_one_chat_users = User.find(ids)
-
+      render :index
     end
 
-    render :index
+
   end
 
   # GET /group_messages/new
@@ -140,6 +144,22 @@ class GroupMessagesController < ApplicationController
     end
   end
 
+  def download_files
+    group_message = GroupMessage.find(params[:id])
+    if load_messages_by_chatroom (group_message.chatroom_id)
+      if group_message.attachment.blank?
+        redirect_to group_messages_path
+      else
+        data = open(group_message.attachment.file.url)
+        send_data data.read, filename:group_message.attachment.file.filename, stream: 'true'
+       # redirect_to group_message.attachment.file.url
+       # send_file group_message.attachment.to_s
+      end
+    else
+      redirect_to group_messages_path
+    end
+  end
+
   def get_messages_by_room
     if validate_user_messages_by_project (params[:id])
       chatroom = Chatroom.where(project_id: params[:id])
@@ -167,13 +187,17 @@ class GroupMessagesController < ApplicationController
 
   def create
     @group_message = GroupMessage.new(group_message_params)
-    @group_message.user_id = current_user.id
-    respond_to do |format|
-      if @group_message.save
-        format.json { render :show, status: :created, location: @group_message }
-        format.js
-      else
-        format.json { render json: @group_message.errors, status: :unprocessable_entity }
+    if (@group_message.message.blank? && @group_message.attachment.blank?)
+      @group_message = nil
+    else
+      @group_message.user_id = current_user.id
+      respond_to do |format|
+        if @group_message.save
+          format.json { render :show, status: :created, location: @group_message }
+          format.js
+        else
+          format.json { render json: @group_message.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

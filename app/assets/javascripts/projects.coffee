@@ -179,6 +179,10 @@ class CarrierWaveCropper
     $('#project_picture_cropbox').Jcrop
       onSelect: @update
       onChange: @update
+      boxHeight: 300
+    $('#user_picture_cropbox').Jcrop
+      onSelect: @update
+      onChange: @update
       boxWidth: 300
       boxHeight: 300
 
@@ -187,6 +191,11 @@ class CarrierWaveCropper
     $('#project_picture_crop_y').val(coords.y)
     $('#project_picture_crop_w').val(coords.w)
     $('#project_picture_crop_h').val(coords.h)
+
+    $('#user_picture_crop_x').val(coords.x)
+    $('#user_picture_crop_y').val(coords.y)
+    $('#user_picture_crop_w').val(coords.w)
+    $('#user_picture_crop_h').val(coords.h)
     @updatePreview(coords)
 
   updatePreview: (coords) =>
@@ -195,11 +204,16 @@ class CarrierWaveCropper
       height: Math.round(100/coords.h * $('#project_picture_cropbox').height()) + 'px'
       marginLeft: '-' + Math.round(100/coords.w * coords.x) + 'px'
       marginTop: '-' + Math.round(100/coords.h * coords.y) + 'px'
+    $('#user_picture_previewbox').css
+      width: Math.round(100/coords.w * $('#user_picture_cropbox').width()) + 'px'
+      height: Math.round(100/coords.h * $('#user_picture_cropbox').height()) + 'px'
+      marginLeft: '-' + Math.round(100/coords.w * coords.x) + 'px'
+      marginTop: '-' + Math.round(100/coords.h * coords.y) + 'px'
 
 $ ->
   loading = false
   ajaxIsLoadingIndicator = $('#ajaxLoading')
-  scrollToLoadMore = $('#scroll-to-load-more')
+  scrollToLoadMore = $('#scroll-to-load-more')    # todo FD: look like dead code
   
   $(document).bindWithDelay "scroll", ->
     windowBottom = $(window).scrollTop() + $(window).height()

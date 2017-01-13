@@ -17,7 +17,7 @@ class Ability
   def initializeTeamMembershipsPermissions(user)
     if user
       can [:update], TeamMembership do |team_membership|
-        team_membership.team.project.user.id == user.id && !team_membership.project_leader?
+        team_membership.team.project.user.id == user.id && user.is_project_leader?(team_membership.team.project)
       end
     end
   end
@@ -74,7 +74,7 @@ class Ability
 
   def initializeMessagesPermissions(user)
     if user
-      can :manage, Message
+      can :manage, GroupMessage
     end
   end
 

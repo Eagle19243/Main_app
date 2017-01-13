@@ -20,105 +20,54 @@
     </center>
   </div>
 </div>
+<script>
+  window.onload = function () {
+    $('#project-url').html(window.location.href);
+    // <% if  session[:project_id] != nil %>
+
+    // <%end%>
+
+    document.getElementById("loading-mask1").style.display = "none";
+  }
+  function doPopup(id) {
+    $('#task-do-request-popup').val(id);
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+  function fundPopup(id) {
+    $("#fund-loading").show();
+    $.ajax({
+
+      url: "/tasks/task_fund_info",
+      type: "get", //send it through get method
+      data: {id: id},
+      success: function (response) {
+        $("#fund-loading").hide();
+
+        $('.modal-fund__user-name').text(response.user_name);
+        $('#wallet-address').html('wallet Address: ' + response.wallet_address)
+        $('.js-wallet-address').val(response.wallet_address);
+
+        $('#wallet_transaction_user_wallet').val(response.wallet_address);
+        $('#task-balance').html(response.balance + " $");
+        url = "/projects/" +  response.project_id + "/tasks/" + response.task_id + '/card_payment';
+        $("#card-payment-url").attr("href",url  );
+        //$('#coin-base-widget').html("<h4><a href='https://buy.coinbase.com?code=9023urn3f8934hg34&amount=5&address=" + response.wallet_address + "&crypto_currency=BTC'  target='_blank'> Fund by Coinbase</a></h4>")
+        $('#payment-form').attr('action', url);
+        //$('#payment-form').setAttribute('action', url );
+        //this works
+        $('.modal-fund__inner').show();
+
+
+      },
+      error: function (xhr) {
+      }
+    });
+    // document.getElementsById('task-do-request-popup').val(id);
+  }
+</script>
 
 <div class="project-page-container">
   <div id="product-modal"></div>
-
-  <div id="Project-Invite-Model" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
-    <div>
-      <a class="close-reveal-modal" aria-label="Close">&times;</a>
-      <div class="fund-do">
-        <div class="row">
-          <center><h4>Invite People To Participate</h4></center>
-          <div class="large-1 medium-1 small-0 columns"></div>
-          <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email') do %>
-              <div class="large-10 medium-10 small-12 columns cold">
-                <div class="row row-custom">
-                  <div class="large-8 medium-12 small-12 columns cold">
-                    <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
-                    <% session[:idd] = @project.id %>
-                    <% session[:project_id] = nil %>
-                    <input type="email" name="email" placeholder="E-mail address" class="add-email" id="guest-email" required>
-                  </div>
-                  <div class="large-4 medium-12 small-12 columns cold pl10">
-                    <button class="round modal-btn1 btn-add normal-button" id="send-project-email-button">Add / Invite
-                    </button>
-                  </div>
-                </div>
-
-                <div class="row" id="contacts">
-                  <div class="contact-importers" id="tab">
-                    <span>Import your contacts from
-                      <span class="contact-importer">
-                         <span class="loading-trigger" data-source="gmail" id="gmail-icon">
-                           <%= link_to image_tag("gmail.png", :alt => "Image Description", :class => "css"), contacts_gmail_path %>
-                           <a href="/contacts/gmail" class="loading-indicator email-import-btn gmail-icon">Gmail</a>
-                         </span>
-                      </span>
-                      <span class="mini-divider"></span>
-                         <span class="contact-importer">
-                           <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                              <%= image_tag("yahoo.png", :class => "img_preview") %>
-                             <a href="/contacts/yahoo" class="loading-indicator email-import-btn yahoo-icon">Yahoo!
-                               Mail</a>
-                          </span>
-                         </span>
-                      <span class="mini-divider"></span>
-                    </span>
-                  </div>
-                  <% unless session[:failure_contacts].blank? %>
-                      <p id="response-failure"><%= session[:failure_contacts] %></p>
-                  <% end %>
-                  <% unless session[:success_contacts].blank? %>
-                      <p id="response-success"><%= session[:success_contacts] %></p>
-                  <% end %>
-                </div>
-                <%= session[:failure_contacts] = nil %>
-                <%= session[:success_contacts] = nil %>
-
-                <div class="or-container">
-                  <hr class="or-hr">
-                  <div id="or">or</div>
-                </div>
-
-                <div class="social-icons col-sm-6" data-title="<%= @task.title rescue nil %>" data-url="<%= task_path(@task.id) rescue nil %>" data-img="" data-desc="" data-popup="" data-via="">
-                  <ul>
-                    <li>
-                      <div class="facebook-wrapper">
-                        <a href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);"><i class="fa fa-facebook"></i>
-                          <span>Share on Facebook</span>
-                        </a>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="twitter-wrapper">
-                        <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                          <i class="fa fa-twitter"></i>
-                          <span>Share on twitter</span>
-                        </a>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="pinterest-wrapper">
-                        <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                          <i class="fa fa-google-plus"></i>
-                          <span>Share on Google Plus</span>
-                        </a>
-                      </div>
-                    </li>
-                  </ul>
-                  <div class="row share-link">
-                    <hr/>
-                    <b>URL: </b><span id="project-url"></span>
-                  </div>
-                </div>
-              </div>
-          <% end %>
-          <div class="large-1 medium-1 small-0 columns"></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="md-overlay"></div>
 
@@ -130,24 +79,18 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <ul class="nav nav-pills nav-left">
             <li>
-              <a href="javascript:void(0)" class="tablinks border-right-none" onclick="openTab(event, 'Plan')">Plan</a>
+              <%= link_to plan_project_path(id: @project.id), remote: true, class: "tablinks border-right-none active", id: "tab-plan", onclick: "openTab(event, 'Plan')" do %>
+                Plan
+              <% end %>
             </li>
             <li>
               <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
                   Tasks<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
-            <% if user_signed_in? %>
-                <% if @project.user_id == current_user.id %>
-                    <li>
-                      <%= link_to revisions_project_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Revision')" do %>
-                          Revisions<span class="count"><%= @histories.count %></span>
-                      <% end %>                  </li>
-                <% end %>
-            <% end %>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
-                  Team<span class="count">12</span>
+                  Team<span class="count"><%= @project.team.team_memberships.count %></span>
               <% end %>
             </li>
           </ul>
@@ -227,7 +170,7 @@
             </div>
 
             <div class="btn-wiki-wrapper pull-right plan-hide">
-              <a href="<%= @mediawiki_api_base_url %>?title=<%= @project.title.strip.gsub(' ', '_') %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
+              <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
                 <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
                 Visual Editor
               </a>
@@ -235,137 +178,11 @@
           </div>
 
         </div>
-
       </div>
 
       <div class="tabs-wrapper">
         <div id="Plan" class="tabcontent">
-          <div class="content-details">
-            <div class="row">
-
-              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-
-                <!-- TODO: Should have registration popup for non signed-in users try to edit project. Removed for now-->
-
-                <% if user_signed_in? %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-edit-wrapper pull-right">
-                      <% if @is_blocked == 0 %>
-                        <% if current_user.id == @project.user_id %>
-                          <button type="button" class="btn-edit" id="editSource">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                          </button>
-                        <% else %>
-                          <a href="<%= @mediawiki_api_base_url %>?title=<%= URI.escape(@project.title.strip.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-edit">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Go to Visual Editor
-                          </a>
-                        <% end %>
-                      <% else %>
-                        <!-- TODO: for blocked users -->
-                      <% end %>
-
-                      <% if current_user.is_admin_for?(@project)%>
-                        <button class="btn-edit" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image</button>
-                      <% end %>
-                    </div>
-                  </div>
-                <% else %>
-                  <div class="row margin-none mb20">
-                    <div class="btn-edit-wrapper pull-right">
-                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                      </a>
-                      <a id="sign_in_nav" data-toggle="modal" data-target="#registerModal" class="btn-edit">
-                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Image
-                      </a>
-                    </div>
-                  </div>
-                <% end %>
-
-                <div class="clearfix"></div>
-                <div class="project-summary">
-                  <%= @contents.html_safe %>
-                </div>
-
-                <div class="project-idea">
-                  <strong>Project Idea: &nbsp;&nbsp;</strong>
-                  <%= best_in_place_if user_signed_in? && @project.user_id == current_user.id, @project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :activator => "#sd_pencil" %>
-                  <% if user_signed_in? && current_user.id == @project.user_id %>
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></span>
-                    <span id="str_length"></span>
-                  <% end %>
-                </div>
-
-              </div>
-
-              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-                <div class="tasks-summary">
-                  <div class="summary-header">
-                    <strong>Tasks</strong>
-                    <a href="javascript:void(0)" class="pull-right">View All</a>
-                  </div>
-
-                  <div id="tasks_cards">
-                    <% @sourcing_tasks.first(5).each do |task| %>
-                        <div class="summary-cards">
-                          <div class="card-wrapper">
-                            <div class="card-title">
-                              <p><%= task.description %></p>
-                            </div>
-                            <div class="row">
-                              <div class="col-lg-9 col-md-9 col-sm-9 pt15">
-                                <div class="progress">
-                                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="<%= task.funded %>;">
-                                  </div>
-                                </div>
-                                <div class="report-banner-table tab-task-report mt10">
-                                  <table>
-                                    <tr class="value">
-                                      <td><%= task.funded %></td>
-                                      <td><%= @tasks_count %></td>
-                                      <td><%= task.donations.count %></td>
-                                      <td><%= task.funded_in_btc %></td>
-                                    </tr>
-                                    <tr class="items">
-                                      <td>Funded</td>
-                                      <td>Tasks</td>
-                                      <td>Backers</td>
-                                      <td>Raised</td>
-                                    </tr>
-                                  </table>
-                                </div>
-                              </div>
-                              <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="fund-do-btns">
-                                  <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)" data-toggle="modal" data-target="#taskDoModal">
-                                    DO
-                                  </a>
-                                  <a href="javascript:void(0)" title="FUND" name="fund-button" id="<%= task.id %>" data-toggle="modal" data-target="#taskFundModal">
-                                    FUND
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
-                    <% end %>
-                  </div>
-
-                </div>
-              </div>
-
-              <div class="requests col-md-7">
-                <% if current_user && current_user.is_admin_for?(@project) %>
-                  <% @apply_requests.find_each do |apply| %>
-                    <%= apply.user_name %> sent you <%= apply.request_type %> Request
-                    <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
-                    <%= link_to "Reject", reject_apply_request_path(apply), method: :post %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
+          <%= render partial: 'projects/tabcontent/plan', locals: {project: @project, is_blocked: @is_blocked, mediawiki_api_base_url: @mediawiki_api_base_url, contents: @contents, sourcing_tasks: @sourcing_tasks, tasks_count: @tasks_count, apply_requests: @apply_requests} %>
         </div>
 
         <div id="Tasks" class="tabcontent">
@@ -374,14 +191,6 @@
           </div>
         </div>
 
-        <!-- Available for project owner -->
-        <% if user_signed_in? %>
-            <% if current_user.id == @project.user_id %>
-                <div id="Revision" class="tabcontent">
-                  <%= render partial: "projects/tabcontent/revision", locals: {histories: @histories, project: @project, mediawiki_api_base_url: @mediawiki_api_base_url} %>
-                </div>
-            <% end %>
-        <% end %>
 
         <div id="Team" class="tabcontent">
           <div class="center">
@@ -414,6 +223,11 @@
     $('#task-do-request-popup').val(id);
     // document.getElementsById('task-do-request-popup').val(id);
   }
+
+  <% if user_signed_in? && current_user.is_admin_for?(@project)%>
+    $('.welcome-banner').addClass('_signed-in');
+  <% end %>
+
 </script>
 
 <script>
@@ -433,18 +247,6 @@
 
 
 <script type="text/javascript">
-  $('.best_in_place').on("input", function () {
-    strlength = $(".form_in_place > input").val().length;
-    string = "(" + strlength + "/60)";
-    if (strlength < 2 || strlength > 60) {
-      $('#str_length').addClass("alert_red");
-      string = string + "Input between 2 ~ 60 characters";
-    }
-    else
-      $('#str_length').removeClass("alert_red");
-
-    $('#str_length').text(string);
-  });
 
   function projectImgEdit(e) {
     $('#project-img-edit').modal('show');
@@ -471,6 +273,11 @@
     $('#sourceEditor').hide();
     $('.plan-hide').hide();
     $('.plan-show').show();
+
+    if (tabName === "Team")
+      $('.get-invo-btn').show();
+    else
+      $('.get-invo-btn').hide();
   }
 
   $(function () {
@@ -481,17 +288,21 @@
     $('[data-toggle="tooltip"]').tooltip();
     $('.nav-pills').find('li:first-child a').click();
 
+    openTab({
+        'currentTarget': $('#tab-plan').get(0)
+      }, 'Plan');
   });
 
-  $('#editSource').click(function (event) {
-    if (window.weserve_user.isProjectOwner) {
-      openTab({
-        'currentTarget': $('.tab-revisions').get(0)
-      }, 'Revision');
-    } else {
-      showSourceEditor();
-    }
-  });
+  // $('#editSource').click(function (event) {
+  //   if (window.weserve_user.isProjectOwner) {
+  //     openTab({
+  //       'currentTarget': $('.tab-revisions').get(0)
+  //     }, 'Revision');
+
+  //   } else {
+  //     showSourceEditor();
+  //   }
+  // });
 
   $('#save-content').click(function () {
     $.ajax({
@@ -546,26 +357,27 @@
   });
 
   // Compare revisions button click handler
-  $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
-    var revision = $(this).parents('.modal-revision-info').data('revision');
-    if (revision) {
-      $('#revisionsDiffModal').modal('hide');
-      showSourceEditor(revision);
-    }
-  });
+  // $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
+  //   var revision = $(this).parents('.modal-revision-info').data('revision');
+  //   if (revision) {
+  //     $('#revisionsDiffModal').modal('hide');
+  //     showSourceEditor(revision);
+  //   }
+  // });
 
   function populateModalRevisionInfo(revision_id, selector) {
-    var revisionTr = $('#Revision tr[data-revision="' + revision_id + '"]');
+    var revisionTr = $('#Plan tr[data-revision="' + revision_id + '"]');
     var rDate = $(revisionTr).data('revision-date');
     var rUser = $(revisionTr).data('revision-user');
     var rUserPic = $(revisionTr).data('revision-user-picture');
     var rUserLink = $(revisionTr).data('revision-user-link');
     var rUserId = $(revisionTr).data('revision-user-id');
+    var rEditLink = "<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>&oldid=" + revision_id;
 
     $(selector).data('revision', revision_id);
     $(selector).data('revision-user-id', rUserId);
 
-    $(selector).find('.modal-revision-title span').html(rDate);
+    $(selector).find('.modal-revision-edit-link').attr('href', rEditLink);
     $(selector).find('.modal-revision-title span').html(rDate);
 
     if (rUserPic) {
@@ -686,7 +498,7 @@
       var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
       // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
       var origin = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
-      $.get('<%= @mediawiki_api_base_url %>?action=compare&fromrev=' + selectedRevs[0] + '&torev=' + selectedRevs[1] + '&format=json&origin=' + origin, function (data) {
+      $.get('<%= @mediawiki_api_base_url %>api.php?action=compare&fromrev=' + selectedRevs[0] + '&torev=' + selectedRevs[1] + '&format=json&origin=' + origin, function (data) {
         var $diffTable = $('<table>' + data.compare['*'] + '</table>');
         // We will receive table contents from API, so wrap it into table
         $('#revisionsDiffModal .modal-body-diff').html('').append($diffTable);

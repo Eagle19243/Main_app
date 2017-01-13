@@ -21,98 +21,20 @@
   border-radius: 0 !important;
 }
 
-
-.register-modal {
-  .modal-body {
-    padding: 10px 50px;
-  }
-  .modal-dialog {
-    width: 767px;
-    border-radius: 0;
-  }
-  .social-register {
-    border-right: 1px solid #ddd;
-  }
-}
-
 .modal-header {
   h2, h3, h4 {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     font-weight: 600;
     padding-top: 20px;
   }
 }
 
-.social-register {
-  text-align: center;
-  display: block;
-  width: 100%;
-  margin-top: 40px;
-  padding: 20px 0px;
-  max-width: 300px;
-
-  img {
-    width: 100%;
-    height: 45px;
-  }
-
-  .social-link {
-    display: inline-block;
-    padding: 5px 10px;
-    width: 250px;
-    text-align: left;
-    margin-bottom: 10px;
-
-    &.facebook {
-      background-color: $facebook-clr;
-    }
-    &.twitter {
-      background-color: $twitter-clr;
-    }
-    &.google {
-      background-color: $google-clr;
-    }
-    &.email {
-      background-color: #999;
-    }
-
-    i {
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      margin: 0 10px;
-      font-weight: bold;
-      font-size: 1.3em;
-      color: #fff;
-      vertical-align: middle;
-      padding: 0;
-    }
-
-    a {
-      font-family: 'Roboto';
-      font-size: 1em;
-      color: #fff;
-      font-weight: bold;
-      vertical-align: middle;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-#sign_up_show,
-#sign_in_show {
-  padding: 20px;
-}
 
 .register-form {
   .form-group {
     label {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       font-size: 1em;
       font-weight: 300;
       color: #333;
@@ -152,40 +74,6 @@
 
   .normal-button {
     width: 100%;
-  }
-}
-
-.terms-intro {
-  padding: 0px 100px;
-
-  p {
-    font-family: 'Roboto';
-    text-align: center;
-    font-size: 1em;
-    color: #555;
-  }
-  a {
-    font-family: 'Roboto';
-    color: #555;
-    font-size: 1em;
-    text-decoration: underline;
-  }
-}
-
-.signin-intro {
-  padding: 0px 100px;
-
-  p {
-    font-family: 'Roboto';
-    text-align: center;
-    font-size: 1em;
-    color: #555;
-  }
-  a {
-    font-family: 'Roboto';
-    font-size: 1em;
-    color: #555;
-    text-decoration: underline;
   }
 }
 
@@ -518,13 +406,6 @@
   }
 }
 
-
-.register-form-wrapper {
-  padding: 0;
-  margin: 0;
-}
-
-
 // project details modal
 
 .base-button {
@@ -556,130 +437,6 @@
 
 
 #myModal {
-  overflow-y: scroll;
-  max-width: 1200px;
-  margin: auto;
-  z-index: 1000;
-
-  ::-webkit-scrollbar {
-      width: 12px;
-  }
-
-  ::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-      border-radius: 10px;
-  }
-   
-  ::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
-  }
-
-  input[type="text"] {
-    display: inline-block;
-    height: 36px;
-    border-color: #ddd;
-    font-family: 'Libre Franklin';
-
-    &:hover,
-    &:focus {
-      border-color: #555;
-    }
-  }
-
-  a {
-    text-decoration: none;
-    &:hover,
-    &:focus {
-      text-decoration: none;
-    }
-  }
-
-  .modal-content {
-    position: relative;
-  }
-  #myModalclose {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    font-size: 22px;
-  }
-
-  .title-wrapper {
-    padding: 40px 20px 30px;
-    text-align: center;
-    h2 {
-      font-family: 'Roboto';
-      font-weight: 600;
-      color: #000;
-      display: inline-block;
-      margin: auto;
-      margin-bottom: 10px;
-    }
-
-    #edit-title {
-      @extend .edit-link;
-    }
-
-    input[type="text"] {
-      width: 50%;
-    }
-
-    button {
-      @extend .base-button;
-      min-width: 100px;
-      vertical-align: middle;
-      text-transform: uppercase;
-
-      &[type="submit"] {
-        background-color: #fff;
-        color: #000;
-      }
-      &[type="reset"] {
-        background-color: #000;
-        color: #fff;
-      }
-    }
-  }
-
-  .desc-block {
-    h4 {
-      font-family: 'Roboto';
-      font-weight: 500;
-      color: #000;
-      display: inline-block;
-    }
-    a {
-      @extend .edit-link;
-    }
-    p {
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
-      line-height: 1.5em;
-    }
-    textarea {
-      margin-bottom: 10px;
-      font-family: 'Libre Franklin';
-      color: #555;
-      font-size: 1em;
-    }
-    button {
-      @extend .base-button;
-      min-width: 100px;
-      vertical-align: middle;
-      text-transform: uppercase;
-
-      &[type="submit"] {
-        background-color: #fff;
-        color: #000;
-      }
-      &[type="reset"] {
-        background-color: #000;
-        color: #fff;
-      }
-    }
-  }
 
   #Task-comments {
     h5 {
@@ -781,139 +538,6 @@
     }
   }
 
-  .task-details-right-side {
-    border-left: none;
-
-    .fund {
-      button {
-        display: inline-block;
-        padding: 0;
-        height: 45px;
-        line-height: 45px;
-        border: 2px solid #000;
-        border-radius: 100px;
-        font-family: 'Libre Franklin';
-        font-size: 1.2em;
-        font-weight: bold;
-        text-transform: uppercase;
-        width: 45%;
-
-        &[title="fund"] {
-          background-color: #fff;
-          color: #000;
-        }
-        &[title="do"] {
-          background-color: #000;
-          color: #fff;
-        }
-      }
-
-      .card-report {
-        table {
-          width: 100%;
-        }
-
-        tbody {
-          tr td {
-            padding: 0 !important;
-            text-align: left;
-            line-height: 1em !important;
-          }
-          tr.value {
-            td {
-              font-family: 'Libre Franklin';
-              color: #333 !important;
-              font-size: 1em !important;
-              font-weight: bold;
-            }
-          }
-          tr.items {
-            td {
-              font-family: 'Libre Franklin';
-              color: $grey-clr !important;
-              font-size: 0.9em !important;
-              text-align: left;
-            }
-          }
-        }
-      }
-    }
-
-    .deadline-block {
-      h5 {
-        font-family: 'Roboto';
-        color: #000;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 1.1em;
-      }
-      p {
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        color: #555;
-        i {
-          color: #555;
-          font-size: 1.3em;
-          padding-right: 10px;
-        }
-      }
-    }
-
-    .team-block {
-      padding-top: 5px;
-      h5 {
-        font-family: 'Roboto';
-        color: #000;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 1.1em;
-      }
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 5px;
-      }
-    }
-
-    .wallet-block {
-      h5 {
-        font-family: 'Roboto';
-        color: #000;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-      p {
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        color: #555;
-      }
-    }
-
-    .approve-block {
-      a.approve-link {
-        display: inline-block;
-        width: 100%;
-        padding: 0;
-        height: 45px;
-        line-height: 45px;
-        border: 2px solid #000;
-        border-radius: 100px;
-        font-family: 'Libre Franklin';
-        font-size: 1.2em;
-        font-weight: bold;
-        text-transform: uppercase;
-        background-color: #fff;
-        color: #000;
-        text-align: center;
-
-        i {
-          font-size: 1.3em;
-          color: #000;
-        }
-      }
-    }
-  }
 
   .button-group {
     button {
@@ -951,58 +575,6 @@
   }
 }
 
-
-.template-content {
-  display: block;
-  position: relative;
-  width: 100%;
-
-  .social-wrapper {
-    .social-register {
-      margin: auto;
-    }
-  }
-
-  .step-title {
-    h2 {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto';
-      color: #000;
-      font-weight: 600;
-      text-align: center;
-    }
-    p {
-      margin: 20px 0px;
-      font-family: 'Libre Franklin';
-      font-size: 1.2em;
-      color: #555;
-      text-align: center;
-    }
-  }
-
-  .sign_up_show,
-  .sign_in_show {
-    display: none;
-  }
-}
-
-.project-signup-modal {
-  .modal-header {
-    padding-bottom: 0;
-  }
-
-  .modal-dialog {
-    width: 800px;
-  }
-
-  .register-form-wrapper {
-    max-width: 300px;
-    margin: auto;
-  }
-}
-
-
 .wallet-modal {
   .modal-dialog {
     width: 800px;
@@ -1036,7 +608,7 @@
     width: 800px;
   }
 
-  .social-link {
+  .m-social__item {
     max-width: 200px;
   }
 
@@ -1108,41 +680,39 @@
     margin-bottom: 30px;
 
     .form-group {
-      label {
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        color: #555;
-        display: block;
-      }
-      input {
-        display: inline-block;
-        margin: 0px 10px 10px 0px;
-        padding: 0px 10px;
-        font-family: 'Libre Franklin';
-        font-size: 1em;
-        color: #555;
-        border: 1px solid #ddd;
-        height: 40px;
-        line-height: 40px;
-        box-shadow: none;
-        width: 70%;
-      }
-      a.btn-invite {
-        display: inline-block;
-        text-align: center;
-        padding: 0 30px;
-        margin: 0;
-        height: 40px;
-        line-height: 40px;
-        font-family: 'Roboto';
-        font-size: 1em;
-        font-weight: 600;
-        color: #000;
-        text-transform: uppercase;
-        border: 2px solid #000;
-        border-radius: 60px;
-      }
+      width: 70%;
+      display: inline-block;
     }
+
+    label {
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+      display: block;
+    }
+    input {
+      display: inline-block;
+      margin: 0px 10px 10px 0px;
+      padding: 0px 10px;
+      font-family: 'Libre Franklin';
+      font-size: 1em;
+      color: #555;
+      border: 1px solid #ddd;
+      height: 40px;
+      line-height: 40px;
+      box-shadow: none;
+      background-color: #fff;
+    }
+    .btn-invite {
+      padding: 0 30px;
+    }
+  }
+
+  #response {
+    text-align: center;
+    font-family: 'Libre Franklin';
+    color: red;
+    font-weight: normal;
   }
 
   .import-contacts-wrapper {
@@ -1165,6 +735,11 @@
     top: 50%;
     -webkit-transform: translate(0, -50%);
             transform: translate(0, -50%);
+
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+
     z-index: 999;
     background: transparent;
   }
@@ -1191,4 +766,117 @@ a.fund-model-popup {
   color: #000;
 }
 
+
+#newTaskModal {
+  .modal-dialog {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .modal-body {
+    padding: 15px 30px;
+
+    form {
+      .form-group {
+        label {
+          font-family: 'Libre Franklin';
+          font-size: 1em;
+          color: #000;
+          display: block;
+        }
+
+        .datetime.task_deadline {
+          select {
+            display: inline-block;
+            width: 18%;
+          }
+        }
+      }
+    }
+  }
+}
+
+#myModal {
+  .deadline-group {
+    span.input-group-addon {
+      border: 0;
+      background: none;
+      padding: 0;
+
+      .glyphicon-calendar {
+        font-size: 1.3em;
+      }
+    }
+
+    input#deadline_field {
+      border: 0;
+      color: #777;
+      font-family: 'Libre Franklin';
+
+      &::-webkit-input-placeholder {
+        color: #777;
+      }
+      &::-moz-placeholder {
+        color: #777;
+      }
+    }
+
+    button.btn-primary {
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+      width: 34px;
+      height: 34px;
+      line-height: 30px;
+      background-color: #777;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+      font-family: 'Roboto';
+      font-weight: bold;
+      border: 0 !important;
+      border-radius: 3px !important;
+    }
+  }
+}
+
+#gmail-invite-modal {
+  padding: 0px 20px 20px;
+
+  .modal-header {
+    h3, h5 {
+      font-family: 'Roboto';
+    }
+  }
+
+  .invite-action__form {
+    padding: 20px 0px;
+    text-align: right;
+  }
+
+  input[type="checkbox"] {
+    vertical-align: top;
+  }
+
+  .email-address {
+    font-family: 'Libre Franklin';
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    display: inline-block;
+    width: 95%;
+  }
+}
 

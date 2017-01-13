@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'After login ' do
-  before do 
+  before do
     @user = FactoryGirl.create(:user)
     @user.confirmed_at = Time.now
     @user.save
@@ -23,15 +23,15 @@ feature 'After login ' do
     end
 
     modal = find('div#startProjectModal', visible: true)
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop until page.evaluate_script('jQuery.active').zero?
-    end
-    
+    # Timeout.timeout(Capybara.default_max_wait_time) do
+    #   loop until page.evaluate_script('jQuery.active').zero?
+    # end
+
     visit taskstab_project_path(1)
     find('div#projectInviteModal').find('button.close').click
     expect(page).to have_content "short_description123"
-    using_wait_time(2) do  
-      click_button 'editSource'
+    using_wait_time(2) do
+      click_link 'editSource'
       expect(page).to have_content "Test_project123"
     end
 

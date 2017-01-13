@@ -29,26 +29,46 @@
     <h4 class="subheader"><center>Project details</center></h4>
     <div id="section-details">
       <%=f.simple_fields_for :section_details do |section_detail_fields|%>
-          <%= render 'section_detail_fields', f: section_detail_fields%>
+        <%= render 'section_detail_fields', f: section_detail_fields%>
       <%end%>
       <div class='links'>
-        <%= link_to_add_association('Add section', f, :section_details, class:'button tiny')%>
+        <%= link_to_add_association('Add section', f, :section_details, class:'btn-default-weserve')%>
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt20">
         <%= f.input :country%>
     </div>
 
-    <div>
-      <%= f.label :expires_at %>
-      <%= f.datetime_field :expires_at, :ampm => true %>
+    <div class="deadline-group">
+        <div class="form-group">
+            <label class="text required" for="deadline">Expires at</label>
+            <div class='input-group date' id='expire_picker'>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar">
+                    </span>
+                </span>
+                <input type='text' name="project[expires_at]" class="form-control" id="deadline_field" required="required" aria-required="true" />
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#expire_picker').datetimepicker({
+                    viewMode: 'years',
+                    format: 'YYYY-MM-DD HH:mm A'
+                });
+            });
+        </script>
     </div>
 
-    Upload Project Picture:<%= f.file_field :picture %>
+    <div class="form-group">
+      <%= f.label :Project_Image, "Upload project picture" %>
+      <%= f.file_field :picture %>
+    </div>
+
   </div>
   <div class="form-actions">
-    <%= f.button :submit, class: "button tiny radius" %>
+    <%= f.button :submit, class: "btn-alt-weserve" %>
   </div>
 <% end %>
 <%=javascript_tag do%>

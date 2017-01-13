@@ -1,16 +1,68 @@
-<div id="newTaskModal" class="modal fade new-task-modal" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="newTaskModal" class="modal fade modal-new-task" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-new-task__content">
+      <button type="button" class="modal-default__close" data-dismiss="modal"></button>
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title sign_up_show">Create New Task</h2>
-      </div>
+      <h2 class="modal-default__title">Create New Task</h2>
 
-      <div class="modal-body">
-        New Task form goes here...
-      </div>
+      <%= simple_form_for(Task.new) do |f| %>
+        <%= f.error_notification %>
 
-    </div>
+        <%= render 'shared/error_messages', object: f.object %>
+
+        <div class="f-default__row">
+          <label class="f-default__label" for="task_title">Title</label>
+          <input class="f-default__field" required="required" maxlength="200" aria-required="true" type="text" name="task[title]" id="task_title">
+        </div>
+
+        <!-- <div class="f-default__row">
+          <label class="f-default__label" for="task_description">Description</label>
+          <textarea class="f-default__textarea" required="required" maxlength="1500" aria-required="true" name="task[description]" id="task_description"></textarea>
+        </div> -->
+
+        <div class="f-default__row">
+          <div class="f-default__col-wrap">
+            <div class="f-default__col">
+              <label class="f-default__label" for="task_description">Budget</label>
+              <input class="f-default__field numeric decimal required" required="required" maxlength="10" aria-required="true" type="number" step="any" name="task[budget]" id="task_budget">
+            </div>
+            <div class="f-default__col">
+              <label class="f-default__label" for="task_description">People Needed</label>
+              <input class="f-default__field numeric integer required" required="required" maxlength="5" aria-required="true" type="number" step="1" value="0" name="task[target_number_of_participants]" id="task_target_number_of_participants">
+            </div>
+          </div>
+        </div>
+
+        <div class="f-default__row">
+          <label class="f-default__label" for="task_condition_of_execution">Condition of Execution</label>
+          <textarea class="f-default__textarea" required="required" maxlength="1500" aria-required="true" name="task[condition_of_execution]" id="task_condition_of_execution"></textarea>
+        </div>
+
+        <div class="f-default__row">
+          <label class="f-default__label" for="task_proof_of_execution">Proof of Execution</label>
+          <textarea class="f-default__textarea" required="required" maxlength="1500" aria-required="true" name="task[proof_of_execution]" id="task_proof_of_execution"></textarea>
+        </div>
+
+        <div class="f-default__row">
+          <label class="f-default__label" for="deadline_field">Deadline</label>
+          <div class='input-group date' id='deadline_picker'>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar">
+                  </span>
+              </span>
+              <input type='text' name="task[deadline]" class="f-default__field" id="deadline_field" required="required" aria-required="true" />
+          </div>
+          <script type="text/javascript">
+              $(function () {
+                  $('#deadline_picker').datetimepicker({
+                      viewMode: 'years',
+                      format: 'YYYY-MM-DD HH:mm A'
+                  });
+              });
+          </script>
+          <%= f.hidden_field :project_id, value: @project.id %>
+        </div>
+
+        <button class="btn-root">Create Task</button>
+      <% end %>
   </div>
 </div>

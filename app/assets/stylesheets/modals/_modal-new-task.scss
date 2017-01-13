@@ -1,0 +1,43 @@
+
+div.modal-new-task { // todo FD: remove div : now I need this because of huge amount !important's in code
+  top: 0 !important; // todo FD: remove when modals will be refactored : I see top 100px !important without any reason
+}
+.modal-new-task {
+  font-size: 0;
+  background-color: rgba(74, 73, 74, 0.7);
+  text-align: center;
+  &:after {
+    width: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+  }
+  &__content {
+    padding: 40px 80px 53px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    width: auto;
+    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    font-size: 10px;
+    text-align: left;
+  }
+  .f-default__row {
+    margin-bottom: 8px;
+  }
+  .input-group-addon {
+    border-radius: 0;
+  }
+  .btn-root {
+    display: table;
+    margin: 26px 0 0 auto;
+    min-width: 227px;
+  }
+  .f-default__field {
+    font-size: 14px;
+    margin: 0;
+  }
+}
