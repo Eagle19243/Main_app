@@ -156,6 +156,15 @@ label.error {
   font-family: 'Libre Franklin' !important;
 }
 
+button {
+  outline: none !important;
+
+  &:hover,
+  &:focus {
+    outline: none !important;
+  }
+}
+
 .modal-backdrop{
   z-index: 999 !important;
 }
