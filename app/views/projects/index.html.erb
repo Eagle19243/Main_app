@@ -55,21 +55,23 @@
 <% if  @download_keys  %>
     <%= render "modal/created_wallet_modal" %>
     <script type="text/javascript">
-      $('#walletModal').modal('toggle');
+      $('#walletModal').fadeIn();
+      $('html').addClass('_open-modal');
     </script>
     <script>
-      //      window.setTimeout(function(){download_keys() },5000);
-      //      function  download_keys(){
-      //        window.location = "";
-      //        $("#backupkeys_popup").hide();
-      //      }
+      // window.setTimeout(function(){download_keys() },5000);
+      // function  download_keys(){
+      //   window.location = "";
+      //   $("#backupkeys_popup").hide();
+      // }
     </script>
 <% end %>
 
 <% if @download_keys && @start_project %>
     <script type="text/javascript">
       $('#wallet_button').on('click', function() {
-          $('#walletModal').modal('hide');
+          $('#walletModal').fadeOut();
+          $('html').removeClass('_open-modal');
           $('#startProjectModal').modal('toggle');
           localStorage.removeItem('start_project');
       });
