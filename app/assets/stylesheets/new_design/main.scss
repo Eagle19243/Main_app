@@ -177,3 +177,12 @@ label.error {
 .do-model-popup {
   @extend .hover-alt;
 }
+
+button {
+  outline: none !important;
+
+  &:hover,
+  &:focus {
+    outline: none !important;
+  }
+}
