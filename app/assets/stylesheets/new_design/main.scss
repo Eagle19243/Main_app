@@ -175,14 +175,9 @@ button {
 .border-link,
 .btn-start,
 .normal-button,
-.fund-model-popup,
 .btn-share,
 .btn-notify,
 #submit-message,
 #editSource {
   @extend .hover-default;
-}
-
-.do-model-popup {
-  @extend .hover-alt;
 }
