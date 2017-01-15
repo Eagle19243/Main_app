@@ -166,23 +166,13 @@
 
               <div class="modal-task__controls-side">
                 <div class="fund">
-                  <center class="mb30">
-                    <% unless @task.suggested_task? %>
-                        <a href="javascript:void(0)" title="FUND" data-toggle="modal" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-keyboard="true" data-target="#taskFundModal">
-                          <button title="fund">Fund</button>
-                        </a>
-                        <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-target="#taskDoModal">
-                          <button title="do">DO</button>
-                        </a>
-                    <% else %>
-                        <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
-                          <button title="fund">Fund</button>
-                        </a>
-                        <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
-                          <button title="do">DO</button>
-                        </a>
-                    <% end %>
-                  </center>
+                  <% unless @task.suggested_task? %>
+                      <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                      <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
+                  <% else %>
+                      <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
+                      <button type="button" title="FUND" class="btn-root _dark" data-modal="#suggested_task_model_for_fund">DO</button>
+                  <% end %>
 
                   <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @task.funded %>">
@@ -196,7 +186,6 @@
                         <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
                         <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
                         <td><%= @task.funded_in_btc %></td>
-
                       </tr>
                       <tr class="items">
                         <td>Funded</td>

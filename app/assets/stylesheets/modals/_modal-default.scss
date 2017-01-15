@@ -3,8 +3,7 @@ div.modal-default { // todo FD: remove div : now I need this because of huge amo
   overflow-y: hidden;
   overflow-x: hidden;
 }
-html._open-modal,
-._open-modal body {
+html._open-modal {
   overflow: hidden;
   .modal-default {
     overflow-y: auto;
@@ -96,6 +95,9 @@ html._open-modal,
     text-align: center;
     font-size: 14px;
     color: #555;
+    &:empty {
+      display: none;
+    }
     a {
       font-family: 'Roboto', sans-serif;
       color: #555;
