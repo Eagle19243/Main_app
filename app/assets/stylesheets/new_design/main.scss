@@ -186,3 +186,24 @@ button {
     outline: none !important;
   }
 }
+
+.ui-autocomplete {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+
+  li.ui-menu-item {
+    background-color: #fff;
+    padding-left: 20px;
+    font-family: 'Roboto';
+    color: #555;
+    font-size: 0.9em;
+  }
+
+  li.ui-state-focus {
+    margin: 0;
+    background: #eee;
+    border: none;
+  }
+}
+
