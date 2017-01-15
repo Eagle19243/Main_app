@@ -92,12 +92,8 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                       <div class="fund-do-btns">
-                        <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)" data-toggle="modal" data-target="#taskDoModal">
-                          DO
-                        </a>
-                        <a href="javascript:void(0)" title="FUND" name="fund-button" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-keyboard="true" data-toggle="modal" data-target="#taskFundModal">
-                          FUND
-                        </a>
+                        <button class="btn-root _dark" type="button" title="DO" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
+                        <button class="btn-root" type="button" title="FUND" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                       </div>
                     </div>
                   </div>

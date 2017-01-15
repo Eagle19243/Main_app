@@ -5,7 +5,9 @@ $document.ready(function() {
     var $html = $('html');
 
     $document
-        .on('click.openModal', '[data-modal]', function () {
+        .on('click.openModal', '[data-modal]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             $($(this).data('modal')).fadeIn();
             $html.addClass('_open-modal');
         })
