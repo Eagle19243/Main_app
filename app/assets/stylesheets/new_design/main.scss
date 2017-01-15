@@ -156,6 +156,15 @@ label.error {
   font-family: 'Libre Franklin' !important;
 }
 
+button {
+  outline: none !important;
+
+  &:hover,
+  &:focus {
+    outline: none !important;
+  }
+}
+
 .modal-backdrop{
   z-index: 999 !important;
 }
@@ -171,4 +180,37 @@ label.error {
 #submit-message,
 #editSource {
   @extend .hover-default;
+}
+
+.do-model-popup {
+  @extend .hover-alt;
+}
+
+button {
+  outline: none !important;
+
+  &:hover,
+  &:focus {
+    outline: none !important;
+  }
+}
+
+.ui-autocomplete {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+
+  li.ui-menu-item {
+    background-color: #fff;
+    padding-left: 20px;
+    font-family: 'Roboto';
+    color: #555;
+    font-size: 0.9em;
+  }
+
+  li.ui-state-focus {
+    margin: 0;
+    background: #eee;
+    border: none;
+  }
 }
