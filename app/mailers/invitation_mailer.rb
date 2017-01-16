@@ -20,4 +20,9 @@ class InvitationMailer < ApplicationMailer
     @url = project_url(@invitation.project)
     mail(to: @invitation.new_leader, subject: "Invitation for Project")
   end
+
+  def welcome_user(email_address)
+    @user_name = User.find_by(email: email_address).name
+    mail(to: email_address, subject: "Welcome to Weserve")
+  end
 end

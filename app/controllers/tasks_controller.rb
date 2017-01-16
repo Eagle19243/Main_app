@@ -4,15 +4,12 @@ class TasksController < ApplicationController
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
-  layout false, only: [:show]
   before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
   include ApplicationHelper
 
 
   def validate_team_member
     @task= Task.find(params[:id]) rescue nil
-
-
     @task_memberships = @task.team_memberships
     if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
       @notice = " you are not allowed to do this opration "
@@ -38,8 +35,73 @@ class TasksController < ApplicationController
     end
   end
 
+  def get_revision_histories project
+    result = project.get_history
+    @histories = []
+
+    if result
+      result.each do |r|
+        history                = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
+        history["status"]      = r['status']
+        history["comment"]     = r['comment']
+        history["username"]    = r["author"]
+        history["is_blocked"]  = r["is_blocked"]
+
+        @histories.push(history)
+      end
+      return @histories
+    else
+      return []
+    end
+  end
+
   def show
-    redirect_to taskstab_project_path(@task.project.id)
+   # @task = Task.find(params[:id])
+    @project = @task.project
+    @comments = @project.project_comments.all
+    @proj_admins_ids = @project.proj_admins.ids
+    @current_user_id = 0
+    @followed = false
+    @rate = 0
+    if user_signed_in?
+      @followed = @project.project_users.pluck(:user_id).include? current_user.id
+      @current_user_id = current_user.id
+      @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
+    end
+    tasks = @project.tasks.all
+    @tasks_count =tasks.count
+    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
+    @done_tasks = tasks.where(state: "completed").count
+    @contents = ''
+    @is_blocked = 0
+    if current_user
+      result = @project.page_read current_user.username
+    else
+      result = @project.page_read nil
+    end
+    if result
+      if result["status"] == 'success'
+        @contents = result["html"]
+        @is_blocked = result["is_blocked"]
+      end
+    end
+
+    @histories = get_revision_histories @project
+
+    @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
+
+    @apply_requests = @project.apply_requests.pending.all
+    @task_comments = @task.task_comments
+    @task_attachment = TaskAttachment.new
+    @task_attachments = @task.task_attachments
+    @task_memberships = @task.team_memberships
+    task_comment_ids = @task.task_comments.collect(&:id)
+    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
+  #  project_admin
+  #  redirect_to taskstab_project_path(@task.project.id)
   end
 
   # GET /tasks/new
