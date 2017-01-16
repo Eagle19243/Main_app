@@ -85,6 +85,10 @@
       <% else %>
         <%= gravatar_for_user(@user)%>
       <%end%>
+
+      <% if user_signed_in? && current_user.id == @user.id %>
+        <a class="btn-edit btn-edit-image" onclick="profileImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
+      <% end %>
     </div>
 
     <div class="profile-hero__user-trans-btns">
@@ -95,11 +99,13 @@
           </svg>Transfer coins
         </a>
       <%end %>
-      <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="profile-hero__btn">
-        <svg focusable="false" version="1.1" class="svg-envelope">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
-        </svg>Message
-      </a>
+      <% if current_user && current_user.id != @user.id %>
+        <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="profile-hero__btn">
+          <svg focusable="false" version="1.1" class="svg-envelope">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
+          </svg>Message
+        </a>
+      <% end %>
     </div>
   </div>
 
@@ -144,7 +150,7 @@
             <div class="b-project-card">
 
               <div class="b-project-card__top">
-                <%= link_to taskstab_project_path(project) ,data: { no_turbolink: false } do%>
+                <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap' ,data: { no_turbolink: false } do%>
                   <%= image_tag(project.picture.url, data: { 'object-fit': "cover" }) %>
                 <% end %>
                 <div class="b-project-card__user-link">
@@ -206,7 +212,13 @@
 
 </div>
 
+<%= render "profile_edit_dialog" %>
+
 <script>
+
+  <% if user_signed_in? && current_user.id == @user.id %>
+    $('.profile-hero__user-portrait').addClass('_signed-in');
+  <% end %>
 
   $('#wallet_transaction_amount').keypress(function(eve) {
     if(eve.which == 8 || eve.which == 0){
@@ -243,6 +255,24 @@
   $(".close-reveal-modal").click(function(){
     $('#response-from-wallet').html("");
   });
+
+  function profileImgEdit(e) {
+    $('#profile-img-edit').modal('show');
+    if (!e) var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+  }
+
+  function previewProfileImage(input) {
+    if(input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#user_picture_cropbox').attr('src', e.target.result);
+        $('.jcrop-holder img').attr('src', e.target.result);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 
 </script>
 

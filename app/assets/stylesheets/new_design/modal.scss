@@ -21,98 +21,20 @@
   border-radius: 0 !important;
 }
 
-
-.register-modal {
-  .modal-body {
-    padding: 10px 50px;
-  }
-  .modal-dialog {
-    width: 767px;
-    border-radius: 0;
-  }
-  .social-register {
-    border-right: 1px solid #ddd;
-  }
-}
-
 .modal-header {
   h2, h3, h4 {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     text-align: center;
     font-weight: 600;
     padding-top: 20px;
   }
 }
 
-.social-register {
-  text-align: center;
-  display: block;
-  width: 100%;
-  margin-top: 40px;
-  padding: 20px 0px;
-  max-width: 300px;
-
-  img {
-    width: 100%;
-    height: 45px;
-  }
-
-  .social-link {
-    display: inline-block;
-    padding: 5px 10px;
-    width: 250px;
-    text-align: left;
-    margin-bottom: 10px;
-
-    &.facebook {
-      background-color: $facebook-clr;
-    }
-    &.twitter {
-      background-color: $twitter-clr;
-    }
-    &.google {
-      background-color: $google-clr;
-    }
-    &.email {
-      background-color: #999;
-    }
-
-    i {
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      margin: 0 10px;
-      font-weight: bold;
-      font-size: 1.3em;
-      color: #fff;
-      vertical-align: middle;
-      padding: 0;
-    }
-
-    a {
-      font-family: 'Roboto';
-      font-size: 1em;
-      color: #fff;
-      font-weight: bold;
-      vertical-align: middle;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-#sign_up_show,
-#sign_in_show {
-  padding: 20px;
-}
 
 .register-form {
   .form-group {
     label {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       font-size: 1em;
       font-weight: 300;
       color: #333;
@@ -152,40 +74,6 @@
 
   .normal-button {
     width: 100%;
-  }
-}
-
-.terms-intro {
-  padding: 0px 100px;
-
-  p {
-    font-family: 'Roboto';
-    text-align: center;
-    font-size: 1em;
-    color: #555;
-  }
-  a {
-    font-family: 'Roboto';
-    color: #555;
-    font-size: 1em;
-    text-decoration: underline;
-  }
-}
-
-.signin-intro {
-  padding: 0px 100px;
-
-  p {
-    font-family: 'Roboto';
-    text-align: center;
-    font-size: 1em;
-    color: #555;
-  }
-  a {
-    font-family: 'Roboto';
-    font-size: 1em;
-    color: #555;
-    text-decoration: underline;
   }
 }
 
@@ -518,13 +406,6 @@
   }
 }
 
-
-.register-form-wrapper {
-  padding: 0;
-  margin: 0;
-}
-
-
 // project details modal
 
 .base-button {
@@ -685,7 +566,7 @@
 
   .attachments {
     h5 {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       color: #000;
       font-weight: 600;
       text-transform: uppercase;
@@ -693,203 +574,6 @@
     }
   }
 }
-
-
-.template-content {
-  display: block;
-  position: relative;
-  width: 100%;
-
-  .social-wrapper {
-    .social-register {
-      margin: auto;
-    }
-  }
-
-  .step-title {
-    h2 {
-      margin: 0;
-      padding: 0;
-      font-family: 'Roboto';
-      color: #000;
-      font-weight: 600;
-      text-align: center;
-    }
-    p {
-      margin: 20px 0px;
-      font-family: 'Libre Franklin';
-      font-size: 1.2em;
-      color: #555;
-      text-align: center;
-    }
-  }
-
-  .sign_up_show,
-  .sign_in_show {
-    display: none;
-  }
-}
-
-.project-signup-modal {
-  .modal-header {
-    padding-bottom: 0;
-  }
-
-  .modal-dialog {
-    width: 800px;
-  }
-
-  .register-form-wrapper {
-    max-width: 300px;
-    margin: auto;
-  }
-}
-
-
-.wallet-modal {
-  .modal-dialog {
-    width: 800px;
-  }
-
-  .wallet-text-wrapper {
-    width: 90%;
-    margin: auto;
-    p {
-      line-height: 2em;
-    }
-  }
-
-  .btn-wallet {
-    padding: 10px 30px;
-    margin: 30px auto;
-    text-transform: uppercase;
-    font-family: 'Roboto';
-    font-size: 1em;
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 60px;
-    font-weight: 600;
-    display: inline-block;
-  }
-}
-
-
-#projectInviteModal {
-  .modal-dialog {
-    width: 800px;
-  }
-
-  .social-link {
-    max-width: 200px;
-  }
-
-  .social-project-share {
-    text-align: center;
-    display: block;
-    width: 100%;
-    margin: 0;
-    padding: 0px 0px 20px 0px;
-
-    h5 {
-      font-family: 'Roboto';
-      font-weight: 600;
-      color: #000;
-    }
-
-    img {
-      width: 100%;
-      height: 45px;
-    }
-
-    .social-link {
-      display: inline-block;
-      padding: 5px 10px;
-      max-width: 230px;
-      text-align: left;
-      margin-bottom: 10px;
-
-      &.facebook {
-        background-color: $facebook-clr;
-      }
-      &.twitter {
-        background-color: $twitter-clr;
-      }
-      &.google {
-        background-color: $google-clr;
-      }
-
-      i {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        margin: 0 10px;
-        font-weight: bold;
-        font-size: 1.3em;
-        color: #fff;
-        vertical-align: middle;
-        padding: 0;
-      }
-
-      a {
-        font-family: 'Roboto';
-        font-size: 1em;
-        color: #fff;
-        font-weight: bold;
-        vertical-align: middle;
-
-        &:hover {
-          text-decoration: none;
-        }
-      }
-    }
-  }
-
-  .invite-email-wrapper {
-    width: 60%;
-    margin: auto;
-    margin-bottom: 30px;
-
-    .form-group {
-      width: 70%;
-      display: inline-block;
-    }
-
-    label {
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
-      display: block;
-    }
-    input {
-      display: inline-block;
-      margin: 0px 10px 10px 0px;
-      padding: 0px 10px;
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
-      border: 1px solid #ddd;
-      height: 40px;
-      line-height: 40px;
-      box-shadow: none;
-      background-color: #fff;
-    }
-    .btn-invite {
-      padding: 0 30px;
-    }
-  }
-
-  #response {
-    text-align: center;
-    font-family: 'Libre Franklin';
-    color: red;
-    font-weight: normal;
-  }
-
-  .import-contacts-wrapper {
-  }
-}
-
 
 #project-success {
   position: absolute;
@@ -924,20 +608,6 @@
   }
 }
 
-#taskDoModal {
-  textarea {
-    font-family: 'Libre Franklin';
-    font-size: 1em;
-    font-weight: normal;
-    color: #555;
-  }  
-}
-
-a.fund-model-popup {
-  color: #000;
-}
-
-
 #newTaskModal {
   .modal-dialog {
     max-width: 800px;
@@ -950,7 +620,7 @@ a.fund-model-popup {
     form {
       .form-group {
         label {
-          font-family: 'Libre Franklin';
+          font-family: 'Libre Franklin', sans-serif;
           font-size: 1em;
           color: #000;
           display: block;

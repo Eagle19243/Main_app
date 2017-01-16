@@ -23,7 +23,7 @@
       <% else %>
         <div class="row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
-            <a id="sign_in_link" data-toggle="modal" data-target="#registerModal" class="btn-edit">
+            <a id="sign_in_link" data-modal="#registerModal" class="btn-edit">
               <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
             </a>
           </div>
@@ -76,14 +76,14 @@
                         <table>
                           <tr class="value">
                             <td><%= task.funded %></td>
-                            <td><%= @tasks_count %></td>
-                            <td><%= task.donations.count %></td>
+                            <!--<td><%#= @tasks_count %></td>-->
+                            <td><%= task.number_of_participants %>/<%= task.target_number_of_participants %></td>
                             <td><%= task.funded_in_btc %></td>
                           </tr>
                           <tr class="items">
                             <td>Funded</td>
-                            <td>Tasks</td>
-                            <td>Backers</td>
+                            <!--<td>Tasks</td>-->
+                            <td>Teammates</td>
                             <td>Raised</td>
                           </tr>
                         </table>
@@ -92,12 +92,8 @@
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                       <div class="fund-do-btns">
-                        <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)" data-toggle="modal" data-target="#taskDoModal">
-                          DO
-                        </a>
-                        <a href="javascript:void(0)" title="FUND" name="fund-button" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-keyboard="true" data-toggle="modal" data-target="#taskFundModal">
-                          FUND
-                        </a>
+                        <button class="btn-root _dark" type="button" title="DO" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
+                        <button class="btn-root" type="button" title="FUND" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                       </div>
                     </div>
                   </div>

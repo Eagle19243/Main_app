@@ -10,7 +10,7 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
   text-align: center;
   overflow-y: auto !important; // todo remove important when remove all ugly styles for modal
   overflow-x: hidden;
-  padding: 30px 20px;
+  padding: 80px 20px; // TODO why it is possible to see header when modal is open?
   display: none;
   position: fixed;
   top: 0;
@@ -87,6 +87,7 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
   &__content-side {
     flex-grow: 1;
     padding-right: 40px;
+    max-width: calc(100% - 380px);
     p {
       word-break: break-all;
       word-break: break-word;
@@ -182,31 +183,13 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
     border-left: none;
 
     .progress {
+      margin-top: 30px;
       margin-bottom: 15px;
     }
 
     .fund {
-      button {
-        display: inline-block;
-        padding: 0;
-        height: 45px;
-        line-height: 45px;
-        border: 2px solid #000;
-        border-radius: 100px;
-        font-family: 'Libre Franklin', sans-serif;
-        font-size: 1.2em;
-        font-weight: bold;
-        text-transform: uppercase;
-        width: 45%;
-
-        &[title="fund"] {
-          background-color: #fff;
-          color: #000;
-        }
-        &[title="do"] {
-          background-color: #000;
-          color: #fff;
-        }
+      .btn-root {
+        width: calc(50% - 4px);
       }
 
       .card-report {

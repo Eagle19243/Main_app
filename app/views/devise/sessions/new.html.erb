@@ -11,27 +11,23 @@
           <h2 class="modal-title">Sign In</h2>
         </div>
 
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="modal-sign__col-wrap">
+            <div class="modal-sign__col">
               <%= render "modal/social_sign_in" %>
             </div>
 
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="modal-sign__col">
               <div class="row row-custom" id="sign_in_show">
                 <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
               </div>
             </div>
-            <div class="clearfix"></div>
-
-            <div class="row">
-              <div class="signin-intro pt30">
-                <p>Don't have an account? <%= link_to 'Sign Up', new_user_registration_path %></p>
-              </div>
-            </div>
-          </div>
         </div>
 
+        <div class="row">
+          <div class="signin-intro pt30">
+            <p>Don't have an account? <%= link_to 'Sign Up', new_user_registration_path %></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

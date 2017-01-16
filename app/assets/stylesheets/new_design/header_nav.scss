@@ -442,7 +442,8 @@ a.header-link {
     height: auto;
 
     ul {
-      padding-left: 40px;
+      margin-left: 0;
+      padding-left: 30px;
 
       li {
         &:hover {

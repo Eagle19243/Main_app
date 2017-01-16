@@ -1,3 +1,6 @@
+@import 'variables';
+@import 'utils';
+
 .profile-hero {
   position: relative;
   &._form-opened {
@@ -167,10 +170,12 @@
       input[type="submit"] {
         background-color: #fff;
         color: #000;
+        @extend .hover-default;
       }
       input[type="button"] {
         background-color: #000;
         color: #fff;
+        @extend .hover-alt;
       }   // todo FD/DESIGNER: add hover/focus/active states
     }
   }
@@ -284,6 +289,9 @@
   .profile-bio {
     word-break: break-all;
     word-break: break-word;
+    overflow: auto;
+    max-height: 230px;
+
   }
   .bio-wrapper {
     display: block;
@@ -427,9 +435,8 @@
       }
 
       td.delete {
-        a {
+        .btn-reset:hover {
           color: #555;
-          font-size: 1em;
         }
       }
 

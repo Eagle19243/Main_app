@@ -1,9 +1,9 @@
-<div id="InviteModel" class="modal modal-invite" tabindex="-1">
+<div id="InviteModel" class="modal modal-invite modal-default" tabindex="-1">
 
   <!-- Modal content -->
-  <div class="modal-content2 yes modal-invite__content">
+  <div class="modal-content2 yes modal-default__content">
     <button id="inviteclose" class="modal-default__close"></button>
-    <h4 class="modal-invite__title">Add / Invite People</h4>
+    <h4 class="modal-default__title">Add / Invite People</h4>
     <h6 class="modal-invite__subtitle">Type in the e-mail address of the person you like to invite</h6>
     <%= form_tag(:controller => "tasks", :action => "send_email") do %>
       <div class="f-default__joined">
@@ -48,7 +48,7 @@
   <div class="modal-content modal-task__content">
     <button type="button" class="modal-default__close"></button>
     <div class="task-details">
-        <div id="task-related-messages"</div>
+        <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
           <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
           <% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id || current_user.id == @task.project.user_id)) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
@@ -149,13 +149,12 @@
                               <button type="submit" name="commit" value="Send"> Send</button>
                               &nbsp;&nbsp;
                               <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                              <div id="attachment-div">
-                                <div>
-                                </div>
+                              <div id="attachment-div"></div>
+                            </div>
                         <% end %>
                     <% end %>
-                    </div>
-                    </div>
+                  </div>
+                </div>
             <% end %>
             <div class="activity" id="task-activity">
               <%= render "projects/task_activities" %>
@@ -167,23 +166,13 @@
 
               <div class="modal-task__controls-side">
                 <div class="fund">
-                  <center class="mb30">
-                    <% unless @task.suggested_task? %>
-                        <a href="javascript:void(0)" title="FUND" data-toggle="modal" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-keyboard="true" data-target="#taskFundModal">
-                          <button title="fund">Fund</button>
-                        </a>
-                        <a href="javascript:void(0)" title="DO" data-toggle="modal" class='do-model-popup modal-link' id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-target="#taskDoModal">
-                          <button title="do">DO</button>
-                        </a>
-                    <% else %>
-                        <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
-                          <button title="fund">Fund</button>
-                        </a>
-                        <a href="javascript:void(0)" title="FUND" data-toggle="modal" class='fund-model-popup modal-link' data-target="#suggested_task_model_for_fund">
-                          <button title="do">DO</button>
-                        </a>
-                    <% end %>
-                  </center>
+                  <% unless @task.suggested_task? %>
+                      <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                      <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
+                  <% else %>
+                      <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
+                      <button type="button" title="FUND" class="btn-root _dark" data-modal="#suggested_task_model_for_fund">DO</button>
+                  <% end %>
 
                   <div class="progress">
                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @task.funded %>">
@@ -194,15 +183,14 @@
                     <table>
                       <tr class="value">
                         <td><%= @task.funded %></td>
+                        <!--<td><%#= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>-->
                         <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
-                        <td><%= @task.assignments.count %>/<%= @task.target_number_of_participants %></td>
                         <td><%= @task.funded_in_btc %></td>
-
                       </tr>
                       <tr class="items">
                         <td>Funded</td>
-                        <td>Team</td>
-                        <td>Backers</td>
+                        <!--<td>Team</td>-->
+                        <td>Teammates</td>
                         <td>Raised</td>
                       </tr>
                     </table>
@@ -385,8 +373,8 @@
       </div>
 
 </div>
-<div id="share" class="modal modal-share" tabindex="-1">
-  <div class="modal-content2 yes modal-share__content">
+<div id="share" class="modal modal-share modal-default" tabindex="-1">
+  <div class="modal-content2 yes modal-default__content">
     <button type="button" id="shareclose" class="modal-default__close"></button>
     <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
       <ul class="l-share__list">

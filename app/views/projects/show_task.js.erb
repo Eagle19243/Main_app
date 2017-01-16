@@ -239,6 +239,7 @@ $("#task-update-condition").on('click', function () {
   $("#edit-condition").show();
   $that.parents('.modal-task__desc-block').removeClass('_form-open');
 });
+<% end  %>
 $(document).on('click', ".modal-default__close",function (e) {
   $(this).parents('.modal-default').fadeOut();
 });
@@ -247,7 +248,6 @@ $(document).on('click', ".modal-default",function (e) {
       $(this).fadeOut();
     }
 });
-<% end  %>
 
 var $modalInvite = $('#InviteModel');
 // When the user clicks the button, open the modal
@@ -311,6 +311,7 @@ $(document).ready(function () {
       $modalInvite.hide();
       $("#myModal2").hide();
       $("#popup-for-free-paid").hide();
+      $html.removeClass('_open-modal');
     }
   });
 })

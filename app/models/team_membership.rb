@@ -5,11 +5,11 @@ class TeamMembership < ActiveRecord::Base
   has_many :tasks, through: :task_members, dependent: :destroy
   has_many :task_members
 
-  def self.get_roles 
-    humanize_roles = [] 
+  def self.get_roles
+    humanize_roles = []
     roles.each do |key, value|
-      if value != roles[:project_leader] 
-        humanize_roles << [key, key.humanize] 
+      if value != roles[:leader]
+        humanize_roles << [key, key.humanize]
       end
     end
     humanize_roles

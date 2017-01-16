@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Libre+Franklin');
 
 @import '../new_design/variables';
+@import '../new_design/utils';
 
 .b-project-info {
   text-align: center;
@@ -102,10 +103,12 @@
       input[type="submit"] {
         background-color: #fff;
         color: #000;
+        @extend .hover-default;
       }
       input[type="button"] {
         background-color: #000;
         color: #fff;
+        @extend .hover-alt;
       }
     }
   }

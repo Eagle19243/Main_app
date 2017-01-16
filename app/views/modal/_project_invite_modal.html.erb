@@ -10,89 +10,65 @@
     });
   });
 </script>
-<div id="projectInviteModal" class="modal fade project-invite-modal" role="dialog" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title sign_up_show">Share/Invite People to Participate</h2>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="social-project-share">
-          <h5>Share on social media</h5>
-          <div class="row margin-none">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-custom text-right">
-              <div class="social-link facebook">
-                <a href="#" data-site="facebook" title="Share on Facebook" onclick="return SocialShareButton.share(this);">
-                  <i class="fa fa-facebook" aria-hidden="true"></i>
-                  Share on Facebook</a>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <div class="social-link twitter">
-                <a rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
-                  <i class="fa fa-twitter" aria-hidden="true"></i>
-                  Share on Twitter</a>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-custom text-left">
-              <div class="social-link google">
-                <a rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
-                  <i class="fa fa-google-plus" aria-hidden="true"></i>
-                  Share on Google +</a>
-              </div>
-            </div>
-          </div>
+<div id="projectInviteModal" class="modal-default modal-invite" role="dialog" tabindex="-1">
+    <div class="modal-default__content">
+        <button type="button" class="modal-default__close"></button>
+        <h2 class="modal-default__title">Share/Invite People to Participate</h2>
+        <div class="l-share">
+            <h5 class="l-share__title">Share on social media</h5>
+            <ul class="l-share__list">
+                <li class="l-share__item facebook">
+                  <a rel="nofollow" class="btn-share" href="#" data-site="facebook" title="Share on Facebook" onclick="return SocialShareButton.share(this);">
+                    <i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</a>
+                </li>
+                <li class="l-share__item twitter">
+                  <a rel="nofollow" class="btn-share" data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+                    <i class="fa fa-twitter" aria-hidden="true"></i> Share on Twitter</a>
+                </li>
+                <li class="l-share__item google">
+                  <a rel="nofollow" class="btn-share" data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i> Share on Google +</a>
+                </li>
+            </ul>
         </div>
+        <span class="modal-invite__or">OR</span>
+        <div class="modal-default__text" id="response"></div>
 
-        <div class="alert" id="response"></div>
-
-        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email', :class => 'invite-email-wrapper') do %>
+        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email', :class => 'invite-email-wrapper mb30') do %>
             <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
-            <div class="form-group">
-              <% session[:idd] = @project.id %>
-              <label>Email Address</label>
-              <input type="email" name="email" id="guest-email" required>
-              <!-- <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a> -->
+            <div class="f-default__joined">
+                <div class="f-default__joined-col _wide">
+                  <% session[:idd] = @project.id %>
+                  <input type="email" class="f-default__field _joined-left" name="email" id="guest-email" placeholder="E-mail address" required>
+                  <!-- <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a> -->
+                </div>
+                <div class="f-default__joined-col _narrow">
+                  <%= submit_tag 'Invite', :class => 'btn-root _joined-right _dark' %>
+                </div>
             </div>
-
-            <%= submit_tag 'Invite', :class => 'btn-default-weserve btn-invite' %>
         <% end %>
 
-          <div class="import-contacts-wrapper text-center">
-            <div id="contacts">
-              <div class="contact-importers" id ="tab">
-                <p class="text-center">Import your contacts from</p>
-                <span class="contact-importer">
-                  <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
-                    <%= link_to image_tag("gmail.png", :alt => "Gmail Contacts"), contacts_gmail_path %>
-                  </span>
-                </span>
-                <span class="contact-importer">
-                  <span class="loading-trigger" data-source="yahoo" id="yahoo">
-                    <%= link_to image_tag("yahoo.png", :alt => "Yahoo Contacts"), contacts_yahoo_path %>
-                  </span>
-                </span>
-                <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
-              </div>
-
-              <!-- <%unless session[:failure_contacts].blank? %>
-                <p id="response-failure"><%= session[:failure_contacts] %></p>
-              <%end%>
-              <%unless session[:success_contacts].blank? %>
-                <p  id="response-success"><%= session[:success_contacts] %></p>
-              <%end%> -->
-            </div>
-
+        <div id="contacts">
+          <div class="contact-importers" id ="tab">
+            <p class="modal-default__text">Import your contacts from</p>
+            <span class="contact-importer">
+              <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
+                <%= link_to image_tag("gmail.png", :alt => "Gmail Contacts"), contacts_gmail_path %>
+              </span>
+            </span>
+            <span class="contact-importer">
+              <span class="loading-trigger" data-source="yahoo" id="yahoo">
+                <%= link_to image_tag("yahoo.png", :alt => "Yahoo Contacts"), contacts_yahoo_path %>
+              </span>
+            </span>
+            <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
           </div>
+          <!-- <%unless session[:failure_contacts].blank? %>
+            <p id="response-failure"><%= session[:failure_contacts] %></p>
+          <%end%>
+          <%unless session[:success_contacts].blank? %>
+            <p  id="response-success"><%= session[:success_contacts] %></p>
+          <%end%> -->
         </div>
-
-      </div>
-
     </div>
-  </div>
 </div>
