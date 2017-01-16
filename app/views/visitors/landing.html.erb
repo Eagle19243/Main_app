@@ -5,14 +5,14 @@
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="hero-promo">
           <div class="promo-wrapper">
-            <h1>Turn your audience into a task force</h1>
-            <p>Share your vision and your audience will make it happen</p>
+            <h1><%= t('landing.hero-title') %></h1>
+            <p><%= t('landing.hero-subtitle') %></p>
 
             <div class="hero-start">
               <% if user_signed_in? %>
-                  <a class="btn-start" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                  <a class="btn-start" data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
               <% else %>
-                  <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                  <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal"><%= t('commons.start_a_project') %></a>
 
               <% end %>
             </div>
@@ -28,14 +28,14 @@
 
   <section class="s-how-work">
     <div class="s-how-work__container">
-      <h2 class="s-how-work__title">Keep control on collaboration at any step</h2>
+      <h2 class="s-how-work__title"><%= t('landing.hero-collaboration-title') %></h2>
       <div class="s-how-work__item-wrap">
         <div class="s-how-work__item">
           <div class="s-how-work__item-content">
             <div class="s-how-work__img-wrap">
               <%= image_tag("icons/icon_people.png", :class => "s-how-work__img") %>
             </div>
-            <p class="s-how-work__text">expand your idea into a plan of action</p>
+            <p class="s-how-work__text"><%= t('landing.hero-collaboration-item-expand') %></p>
           </div>
         </div>
         <div class="s-how-work__item">
@@ -44,7 +44,7 @@
             <div class="s-how-work__img-wrap">
               <%= image_tag("icons/icon_page.png", :class => "s-how-work__img") %>
             </div>
-            <p class="s-how-work__text">breakdown your project into tasks</p>
+            <p class="s-how-work__text"><%= t('landing.hero-collaboration-item-breakdown') %>></p>
           </div>
         </div>
         <div class="s-how-work__item">
@@ -53,7 +53,7 @@
             <div class="s-how-work__img-wrap">
               <%= image_tag("icons/icon_bmoney.png", :class => "s-how-work__img") %>
             </div>
-            <p class="s-how-work__text">fund tasks</p>
+            <p class="s-how-work__text"><%= t('landing.hero-collaboration-item-fund') %></p>
           </div>
         </div>
         <div class="s-how-work__item">
@@ -62,7 +62,7 @@
             <div class="s-how-work__img-wrap">
               <%= image_tag("icons/icon_checklist.png", :class => "s-how-work__img") %>
             </div>
-            <p class="s-how-work__text">complete tasks</p>
+            <p class="s-how-work__text"><%= t('landing.hero-collaboration-item-complete') %></p>
           </div>
         </div>
         <div class="s-how-work__item">
@@ -71,7 +71,7 @@
             <div class="s-how-work__img-wrap">
               <%= image_tag("icons/icon_chacklist_look.png", :class => "s-how-work__img") %>
             </div>
-            <p class="s-how-work__text">review tasks</p>
+            <p class="s-how-work__text"><%= t('landing.hero-collaboration-item-review') %></p>
           </div>
         </div>
       </div>
@@ -125,13 +125,13 @@
           <%= image_tag("carousel/carousel_2.jpg") %>
           <div class="carousel-text">
             <div class="text-wrapper">
-              <h1>Generate Soft Power</h1>
-              <p>Solve issues with your audience;<br>Action brings legitimacy to what you stand for,<br>So you emerge as an independent leader.</p>
+              <h1><%= t('landing.hero-generate-title') %></h1>
+              <p><%= t('landing.hero-generate-text_html') %></p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                    <a  data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
                 <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal"><%= t('commons.start_a_project') %></a>
                 <% end %>
               </div>
             </div>
@@ -143,13 +143,13 @@
           <%= image_tag("carousel/carousel_3.jpg") %>
           <div class="carousel-text">
             <div class="text-wrapper">
-              <h1>Build Your Own Lab</h1>
-              <p>Bridge the gap between theory and action;<br>Publicize and expand your academic projects.</p>
+              <h1><%= t('landing.hero-lab-title') %></h1>
+              <p><%= t('landing.hero-lab-text_html') %></p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                    <a  data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
                 <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal"><%= t('commons.start_a_project') %></a>
                 <% end %>
               </div>
             </div>
@@ -161,13 +161,13 @@
           <%= image_tag("carousel/carousel_1.jpg") %>
           <div class="carousel-text">
             <div class="text-wrapper">
-              <h1>Create Your Prototype</h1>
-              <p>Build a team;<br>Finance tasks;<br>Gather Data.</p>
+              <h1><%= t('landing.hero-prototype-title') %></h1>
+              <p><%= t('landing.hero-prototype-text_html') %></p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+                    <a  data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
                 <% else %>
-                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+                    <a class="btn-start" data-toggle="modal" data-target="#projectSignupModal"><%= t('commons.start_a_project') %></a>
                 <% end %>
               </div>
             </div>
@@ -181,7 +181,7 @@
     <div class="s-service">
       <div class="s-service__heading">
         <h2 class="s-service__title">
-          Things that Weserve does for you
+          <%= t('landing.hero-footer-title') %>
         </h2>
       </div>
 
@@ -189,16 +189,16 @@
         <div class="s-service__item">
           <div class="s-service__item-content">
             <%= image_tag("icons/wwd_pie-chart.png") %>
-            <h4>Market Validation</h4>
+            <h4><%= t('landing.hero-footer-market-title') %></h4>
             <ul>
               <li>
-                &ndash;&nbsp;build an active community around a real story
+                &ndash;&nbsp;<%= t('landing.hero-footer-market-item-build') %>
               </li>
               <li>
-                &ndash;&nbsp;get community feedback and improvement
+                &ndash;&nbsp;<%= t('landing.hero-footer-market-item-get') %>
               </li>
               <li>
-                &ndash;&nbsp;analyse traffic on your project
+                &ndash;&nbsp;<%= t('landing.hero-footer-market-item-analyse') %>
               </li>
             </ul>
           </div>
@@ -206,10 +206,10 @@
         <div class="s-service__item">
           <div class="s-service__item-content">
             <%= image_tag("icons/wwd_group") %>
-            <h4>Stimulate your Audience</h4>
+            <h4><%= t('landing.hero-footer-stimulate-title') %></h4>
             <div class="s-service__intro">
               <p>
-                Turn your followers into actors, and increase trust and support to your project.
+                <%= t('landing.hero-footer-stimulate-text') %>
               </p>
             </div>
           </div>
@@ -218,22 +218,19 @@
         <div class="s-service__item">
           <div class="s-service__item-content">
             <%= image_tag("icons/wwd_recycle") %>
-            <h4>Inclusive</h4>
+            <h4><%= t('landing.hero-footer-inclusive-title') %></h4>
             <div class="s-service__intro">
-              <p>
-                WeServe brings contrasting people together in a unique efforts to achieve common goals.<br>
-                Volunteers can refund the amount they earned towards a new task. People who cannot afford to volunteer may keep the money they earned.
-              </p>
+              <p><%= t('landing.hero-footer-inclusive-text_html') %></p>
             </div>
           </div>
         </div>
         <div class="s-service__item">
           <div class="s-service__item-content">
             <%= image_tag("icons/wwd_envelope") %>
-            <h4>Anti Corruption</h4>
+            <h4><%= t('landing.hero-footer-corruption-title') %></h4>
             <div class="s-service__intro">
               <p>
-                Build powerful actions for your community without having to belong to the ruling clubs, and without being bound by political or financial partisanship.
+                <%= t('landing.hero-footer-corruption-text_html') %>
               </p>
             </div>
           </div>
@@ -241,19 +238,19 @@
         <div class="s-service__item">
           <div class="s-service__item-content">
             <%= image_tag("icons/wwd_search.png") %>
-            <h4>Transparency</h4>
+            <h4><%= t('landing.hero-footer-transparency-title') %>></h4>
             <div class="s-service__intro">
               <p>
-                Projects are open for public reviews, and constant feedback. So your project is protected by the crowd and gains legitimacy.
+                <%= t('landing.hero-footer-transparency-text_html') %>
               </p>
             </div>
           </div>
         </div>
       </div>
       <% if user_signed_in? %>
-          <a class="btn-root _light" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+          <a class="btn-root _light" data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
       <% else %>
-          <a class="btn-root _light" class="btn-start" data-toggle="modal" data-target="#projectSignupModal">Start a Project</a>
+          <a class="btn-root _light" class="btn-start" data-toggle="modal" data-target="#projectSignupModal"><%= t('commons.start_a_project') %></a>
       <% end %>
       <!--<a data-toggle="modal" data-target="#startProjectModal" class="btn-root _light">Start a Project</a>-->
 
