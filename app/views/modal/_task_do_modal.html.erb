@@ -1,30 +1,19 @@
-
-<div id="taskDoModal" class="modal fade fund-modal" role="dialog" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Do a Task Today!</h4>
-      </div>
-
-      <div class="modal-body">
-        <div class="row margin-none">
-            <p id="Do-request-form-response" class="text-default" style="color: red"></p>
-            <center><h4 class="text-default">Add Cover Letter</h4></center>
-            <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
-                <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
-                <%= form.text_area :application %>
-                <%= form.hidden_field :free, value: false %>
-                <br />
-                <% if user_signed_in? %>
-                  <button  type="submit" id="do-request-button" class="btn-default-weserve pull-right">Submit Application</button>
-                <% else %>
-                  <a href="/users/sign_in" class="btn-default-weserve pull-right">Login</a>
-                <% end %>
+<div id="taskDoModal" class="modal-default modal-do-task" role="dialog" tabindex="-1">
+    <div class="modal-default__content">
+        <button type="button" class="modal-default__close"></button>
+        <h4 class="modal-default__title">Do a Task Today!</h4>
+        <p id="Do-request-form-response" class="text-default" style="color: red; text-align: center;"></p>
+        <h4 class="modal-default__text">Add Cover Letter</h4>
+        <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
+            <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
+            <%= form.text_area :application, class:'f-default__textarea' %>
+            <%= form.hidden_field :free, value: false %>
+            <br />
+            <% if user_signed_in? %>
+              <button  type="submit" id="do-request-button" class="btn-root">Submit Application</button>
+            <% else %>
+              <a href="/users/sign_in" class="btn-root">Login</a>
             <% end %>
-        </div>
-      </div>
+        <% end %>
     </div>
-  </div>
 </div>
