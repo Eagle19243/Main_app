@@ -154,6 +154,7 @@
             index = $that.index();
         $that.addClass('_active').siblings().removeClass('_active');
         donationObj.isUSD = index === 1;
+        $currentCurrency.text(getCurrency());
         $walletTransactionAmount.trigger('keyup');
         $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
       });
