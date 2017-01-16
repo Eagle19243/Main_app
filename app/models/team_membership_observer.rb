@@ -13,7 +13,7 @@ class TeamMembershipObserver < ActiveRecord::Observer
   end
 
   def after_destroy(team_membership)
-    if team_membership.admin?
+    if team_membership.executor?
       NotificationsService.notify_about_lost_admin_permissions(team_membership)
     end
   end
