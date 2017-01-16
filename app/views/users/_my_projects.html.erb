@@ -59,7 +59,7 @@
                 <% end %>
               </td>
               <td class="delete">
-                <button type="button" class="btn-reset js-remove-project">
+                <button type="button" class="btn-reset" data-modal="#modalRemoveProject">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </td>
@@ -233,38 +233,19 @@
 </div>
 
 <script type="text/javascript">
-    var $modalRemoveProject = $('#modalRemoveProject'),
-        $btnRemoveProject = $('.js-remove-project');
-
-    $btnRemoveProject.on('click.showModal', function() {
-        $modalRemoveProject.fadeIn();
-    });
+    var $modalRemoveProject = $('#modalRemoveProject');
 
     $(document)
         .on('click.agree', '#modalRemoveProject ._agree', function () {
                 // ToDO: Add BE to remove the current project
-            /*
-                $.ajax({
-                    url: ""
-                    type: "POST",
-                    data: {is_approval_enabled: $switch.is(':checked')},
-                    dataType: "script"
-                });
-            */
-            console.log('removed');
-            $modalRemoveProject.fadeOut();
+            if ('success') {
+                $modalRemoveProject.trigger('click');
+            } else {
+                // ToDo: show error message
+            }
         })
         .on('click.decline', '#modalRemoveProject ._decline', function () {
-            $modalRemoveProject.fadeOut();
-        })
-        .on('click.closeRemoveProjectModal', '.modal-default__close', function (e) {
-            $modalRemoveProject.fadeOut();
-        })
-        .on('click.closeModal', '#modalRemoveProject', function (e) {    // todo organize all modals in separate module
-            if (e.target === this) {
-                $modalRemoveProject.fadeOut();
-            }
+            $modalRemoveProject.trigger('click');
         });
-
 </script>
 
