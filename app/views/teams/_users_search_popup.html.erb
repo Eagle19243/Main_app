@@ -1,27 +1,22 @@
 <div id="userSearchPopupContainer">
-  <button class="button round" data-reveal-id="userSearchPopup">Invite Admin</button>
-  <div id="userSearchPopup" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <h2 id="userSearchPopupTitle">Search users</h2>
-    <div class="row">
-      <div class="small-8 small-centered columns">
-        <%= form_tag(users_search_teams_path, :method => "get", remote: true) do %>
+  <button class="btn-root" data-modal="#userSearchPopup">Invite Admin</button>
+  <div id="userSearchPopup" class="modal-default modal-search" role="dialog">
+      <div  class="modal-default__content">
+        <button type="button" class="modal-default__close"></button>
+        <h2 id="userSearchPopupTitle" class="modal-default__title">Search users</h2>
+        <%= form_tag(users_search_teams_path, :method => "get", remote: true, class:"f-search") do %>
           <%= hidden_field_tag 'project_id', @project.id %>
-          <div class="small-10 columns">
-            <%= text_field_tag :search, nil, placeholder: "Search Users" %>
-          </div>
-          <div class="small-2 columns">
-            <%= submit_tag "Search", class: "button postfix" %>
+          <div class="f-default__joined">
+            <div class="f-default__joined-col _wide">
+              <%= text_field_tag :search, nil, placeholder: "Search Users", class:"f-default__field _joined-left" %>
+            </div>
+            <div class="f-default__joined-col _narrow">
+              <button class="btn-root _joined-right _dark">Search</button>
+            </div>
           </div>
         <% end %>
 
-        <div class="userSearchResults">
-        </div>
+        <div class="userSearchResults"></div>
       </div>
-    </div>
-    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
   </div>
 </div>
-
-<script type="text/javascript">
-  $("#userSearchPopupContainer").foundation();
-</script>

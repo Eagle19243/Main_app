@@ -1,17 +1,15 @@
-<h4>Found <%= users.count %> users</h4>
-<div class="foundUsers">
-  <div class="small-8 columns">
+<h4 class="modal-default__text _title">Found <%= users.count %> users</h4>
+<div class="modal-search__col-wrap">
     <% users.each do |user| %>
-      <div class="small-8 columns">
-        <%= link_to user.name, user_path(user) %>
+      <div class="modal-search__col _wide">
+        <%= link_to user.name, user_path(user), class:"modal-default__text" %>
       </div>
-      <div class="small-4 columns">
+      <div class="modal-search__col _narrow">
         <div id="invite-<%= user.id %>">
           <%= render partial: "admin_invitations/invite_form", locals: { user: user, project: project } %>
         </div>
       </div>
     <% end %>
-  </div>
 </div>
 
 <script>

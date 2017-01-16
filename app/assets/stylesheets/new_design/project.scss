@@ -231,7 +231,7 @@ div.progress {
       margin: 0;
     }
     span.role {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       color: #888;
       font-size: 0.9em;
       text-transform: uppercase;
@@ -244,12 +244,14 @@ div.progress {
   }
 
   .member-bio {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     padding: 20px 10px 10px 10px;
     font-size: 1em;
     color: #555;
     display: block;
     min-height: 100px;
+    word-break: break-all;
+    word-break: break-word;
 
     a {
       padding-left: 3px;

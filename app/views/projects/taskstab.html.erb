@@ -98,7 +98,7 @@
             <button type="button" data-modal="#projectInviteModal" class="btn-root">Invite</button>
             <% if user_signed_in? %>
                 <% if @project.user_id != current_user.id %>
-                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-invite border-link plan-show', method: :post do %>
+                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-root', method: :post do %>
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
                         <%= @followed ? "Unfollow" : "Follow" %>
                     <% end %>
@@ -244,9 +244,9 @@
 
 
 <script type="text/javascript">
-
   function projectImgEdit(e) {
-    $('#project-img-edit').modal('show');
+    $('#project-img-edit').fadeIn();
+    $('html').addClass('_open-modal');
     if (!e) var e = window.event;
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();

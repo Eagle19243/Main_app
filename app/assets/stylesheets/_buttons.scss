@@ -85,6 +85,7 @@
       background-color: transparent;
       color: #fff;
       outline: none;
+      border-color: #fff;
     }
   }
   &._dark {
@@ -315,4 +316,18 @@
     left: auto;
     right: 32px;
   }
+}
+
+.btn-upload {
+  width: 100% !important;
+  background-color: #fff;
+  display: block;
+  text-align: left;
+  padding: 20px;
+  border: 1px dashed #ddd;
+  border-radius: 0;
+  max-width: none;
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 14px;
+  color: #888;
 }
