@@ -72,7 +72,7 @@
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "You have created a project named #{n.source_model.project.title}"%></p>
+                    <p><%= "You have created a project named #{n.source_model.title}"%></p>
                   <% elsif n.action == 'updated_project'%>
                     <div>
                       <span class="action">Updated Project</span>
@@ -80,7 +80,7 @@
                         <%= "#{n.created_at.strftime(" %b %d")} "%>
                       </span>
                     </div>
-                    <p><%= "You have updated a project named #{n.source_model.project.title}"%></p>
+                    <p><%= "You have updated a project named #{n.source_model.title}"%></p>
                   <% end %>
                 </div>
               </li>
@@ -108,7 +108,7 @@
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "#{n.user.name} have created project named #{n.source_model.project.title}"%></p>
+                    <p><%= "#{n.user.name} have created project named #{n.source_model.title}"%></p>
                   <% elsif n.action == 'updated_project' %>
                     <div>
                       <span class="action">Updated Project</span>
@@ -116,7 +116,7 @@
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "#{n.user.name} have updated project named #{n.source_model.project.title}"%></p>
+                    <p><%= "#{n.user.name} have updated project named #{n.source_model.title}"%></p>
                   <% end %>  
                 </div>
               </li>
