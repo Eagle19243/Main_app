@@ -96,9 +96,7 @@
           </ul>
 
           <div class="project-btn-group">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#projectInviteModal" class="btn-invite border-link plan-show">
-              Invite
-            </a>
+            <button type="button" data-modal="#projectInviteModal" class="btn-root">Invite</button>
             <% if user_signed_in? %>
                 <% if @project.user_id != current_user.id %>
                     <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-invite border-link plan-show', method: :post do %>
@@ -313,13 +311,14 @@
     });
   });
 
-  $('.do-model-popup').click(function () {
+  $('._do-model-popup').on('click', function () {
     $('#task-do-request-popup').val($(this).attr('id'));
   });
 
   var invitePeople = localStorage.getItem("invite_people");
   if (invitePeople == "true") {
-    $('#projectInviteModal').modal('toggle');
+    $('#projectInviteModal').fadeIn();
+    $('html').addClass('_open-modal');
     localStorage.removeItem('invite_people');
   }
 

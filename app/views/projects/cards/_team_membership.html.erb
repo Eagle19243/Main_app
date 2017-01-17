@@ -23,7 +23,7 @@
 
     <center class="member-role">
       <h5>
-        <% if can? :update, team_membership %>
+        <% if (can? :update, team_membership) && !(User.find(team_membership.team_member_id).is_project_leader? @project) %>
           <span class="role">
             <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.get_roles , activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
           </span>

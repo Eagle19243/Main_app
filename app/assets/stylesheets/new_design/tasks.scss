@@ -283,12 +283,11 @@
       display: inline-block;
       float: right;
 
-      a.btn-invite {
-        font-family: 'Roboto';
-        color: #000;
-        text-transform: uppercase;
-        margin: 10px 5px 0px;
-        font-size: 1em;
+      .btn-root {
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 5px 20px 3px;
       }
     }
   }
@@ -605,7 +604,6 @@
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
-
   .card-title {
     p {
       font-family: 'Roboto', sans-serif;
@@ -617,50 +615,23 @@
       word-break: break-word;
     }
   }
-
   .progress {
     background-color: #ddd;
     .progress-bar {
       background-color: #555;
     }
   }
-
   .fund-do-btns {
     text-align: right;
-
-    a {
-      display: inline-block;
-      text-align: center;
+    .btn-root {
       width: 100%;
-      max-width: 100px;
       height: 30px;
-      line-height: 30px;
+      padding: 5px 8px 2px;
       margin-bottom: 5px;
-      text-decoration: none;
-      padding: 0;
-      border: 2px solid #000;
-      border-radius: 40px;
-
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin',sans-serif;
       font-weight: 600;
       font-size: 0.8em;
     }
-    a[title="FUND"] {
-      background-color: #fff;
-      color: #000;
-      @extend .hover-default;
-    }
-    a[title="DO"] {
-      background-color: #000;
-      color: #fff;
-      @extend .hover-alt;
-    }
-
-    a:hover,
-    a:focus {
-      text-decoration: none;
-    }
-
   }
 }
 
@@ -710,38 +681,6 @@
 
     .fund-do-btns {
       text-align: center;
-
-      a.modal-link {
-        display: inline-block;
-        text-align: center;
-        width: 48%;
-        max-width: 100px;
-        height: 30px;
-        line-height: 30px;
-        margin-bottom: 5px;
-        text-decoration: none;
-        padding: 0;
-        border: 2px solid #000;
-        border-radius: 40px;
-
-        font-family: 'Libre Franklin';
-        font-weight: 600;
-        font-size: 0.8em;
-      }
-      a[title="FUND"] {
-        background-color: #fff;
-        color: #000;
-      }
-      a[title="DO"] {
-        background-color: #000;
-        color: #fff;
-      }
-
-      a:hover,
-      a:focus {
-        text-decoration: none;
-      }
-
     }
 
   }
@@ -792,16 +731,23 @@
 }
 
 .trello-cards {
-  padding: 15px 10px 0px;
+  padding: 15px 10px 5px;
   clear: both;
   background-color: #fff;
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
 
+  .btn-root {
+    width: calc(50% - 4px);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 20px 2px;
+  }
+
   .card-title {
     h5 {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       overflow: hidden;
       font-size: 1.2em;
       font-weight: 600;
@@ -810,12 +756,14 @@
     }
 
     p {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       overflow: hidden;
       font-size: 1em;
       color: #777;
       line-height: 1.5em;
       margin-bottom: 10px;
+      word-break: break-all;
+      word-break: break-word;
     }
     p:hover {
       overflow: auto;
@@ -824,7 +772,7 @@
 
   .comment-wrapper {
     span {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       font-size: 1.1em;
       color: #aaa;
       padding-right: 10px;
