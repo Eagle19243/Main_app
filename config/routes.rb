@@ -115,7 +115,7 @@ Rails.application.routes.draw do
 
   resources :favorite_projects, only: [:create, :destroy]
   resources :home , controller: 'projects'
-  resources :projects do
+  resources :projects, :except => [:edit] do
     resources :tasks do
       member do
         get :card_payment, to: 'payments/stripe#new'
