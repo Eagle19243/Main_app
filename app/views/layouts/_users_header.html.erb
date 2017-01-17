@@ -46,43 +46,81 @@
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bell"></use>
               </svg>
 
-              <% if current_user.notifications.unread.count > 0 %>
-                <span class="btn-bell__counter"><%= current_user.notifications.unread.count %></span>
+              <% if Notification.unread.count > 0 %>
+                <span class="btn-bell__counter"><%= Notification.unread.count %></span>
               <% end %>
           </div>
       </a>
 
       <ul class="dropdown-menu">
         <li class="notify-count">Notifications&nbsp;
-          <span class="count"><%= current_user.notifications.unread.count %></span>
+          <span class="count"><%= Notification.unread.count %></span>
         </li>
-        <% if current_user.notifications.unread.count == 0 %>
+        <% if Notification.unread.count == 0 %>
           <li class="notify-link">
-            <span class="action">You have no new notification</span>
+            <span class="action">No new notification</span>
           </li>
         <% else %>
-          <% current_user.notifications.unread.each do |n| %>
-            <li class="notify-wrapper">
-              <div class="notify-body">
-                <% if n.action == 'created_project' %>
-                  <div>
-                    <span class="action">Created Project</span>
-                    <span class="date pull-right">
-                      <%= "#{n.created_at.strftime(" %b %d")}"%>
-                    </span>
-                  </div>
-                  <p>You have created a new project</p>
-                <% elsif n.action == 'updated_project' %>
-                  <div>
-                    <span class="action">Updated Project</span>
-                    <span class="date pull-right">
-                      <%= "#{n.created_at.strftime(" %b %d")} "%>
-                    </span>
-                  </div>
-                  <p>You have updated existing project</p>
-                <% end %>
-              </div>
-            </li>
+          <% Notification.unread.each do |n| %>
+            <% if n.user_id == current_user.id %>
+              <li class="notify-wrapper">
+                <div class="notify-body">
+                  <% if n.action == 'created_project' %>
+                    <div>
+                      <span class="action">Created Project</span>
+                      <span class="date pull-right">
+                        <%= "#{n.created_at.strftime(" %b %d")}"%>
+                      </span>
+                    </div>
+                    <p><%= "You have created a project named #{n.source_model.title}"%></p>
+                  <% elsif n.action == 'updated_project'%>
+                    <div>
+                      <span class="action">Updated Project</span>
+                      <span class="date pull-right">
+                        <%= "#{n.created_at.strftime(" %b %d")} "%>
+                      </span>
+                    </div>
+                    <p><%= "You have updated a project named #{n.source_model.title}"%></p>
+                  <% end %>
+                </div>
+              </li>
+            <% elsif n.origin_user_id == current_user.id %>
+              <li class="notify-wrapper">
+                <div class="notify-body">
+                  <% if n.action == 'suggested_task' %>
+                    <div>
+                      <span class="action">Suggested Task</span>
+                      <span class="date pull-right">
+                        <%= "#{n.created_at.strftime(" %b %d")}"%>
+                      </span>
+                    </div>
+                    <p><%= "You have suggested task #{n.source_model.title} for #{n.source_model.project.title} It`s waiting for approval."%></p>
+                  <% end %>  
+                </div>
+              </li>
+            <% else %>
+              <li class="notify-wrapper">
+                <div class="notify-body">
+                  <% if n.action == 'created_project'%>
+                    <div>
+                      <span class="action">Created Project</span>
+                      <span class="date pull-right">
+                        <%= "#{n.created_at.strftime(" %b %d")}"%>
+                      </span>
+                    </div>
+                    <p><%= "#{n.user.name} have created project named #{n.source_model.title}"%></p>
+                  <% elsif n.action == 'updated_project' %>
+                    <div>
+                      <span class="action">Updated Project</span>
+                      <span class="date pull-right">
+                        <%= "#{n.created_at.strftime(" %b %d")}"%>
+                      </span>
+                    </div>
+                    <p><%= "#{n.user.name} have updated project named #{n.source_model.title}"%></p>
+                  <% end %>  
+                </div>
+              </li>
+            <% end %>
           <% end %>
         <% end %>
         <li class="notify-link">

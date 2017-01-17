@@ -12,14 +12,14 @@ module TasksHelper
  def  get_activity_detail(activity)
    if (activity.targetable_type == "Task")
      if (activity.action == "created")
-       return ( " created this task .")
+       return ( " This task was proposed by ")
      end
      if (activity.action == "edited")
-       return ( " updated this task .")
+       return ( " This task was edited by ")
      end
    end
    if(activity.targetable_type == "TaskComment")
-     return (" commented on this task .")
+     return (" This task was commented by ")
    end
 
  end
