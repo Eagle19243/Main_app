@@ -20,15 +20,12 @@
           <% @user.projects.each do |project| %>
             <tr>
               <td class="project">
-                <span class="pull-left"><%= project.title %></span>
-                <span class="pull-right">
                   <%= link_to project_path(project) do %>
-                    <i class="fa fa-external-link" aria-hidden="true"></i>
+                    <span class="pull-left"><%= project.title %></span>
                   <% end %>
-                </span>
               </td>
               <td class="leader">
-                <span class="pull-left"><a href="javascript:void(0)">Marco lglesias</a></span>
+                <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.name %></a></span>
                 <a class="pull-right" data-modal="#change-leader-modal" data-id="<%= project.id %>">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
@@ -51,12 +48,6 @@
               </td>
               <td class="team">
                 <%= project.accepted_tasks.count %>/<%= project.tasks.count%>
-              </td>
-              <td class="edit">
-                <%= link_to edit_project_path(project) do %>
-                  <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;
-                  Edit
-                <% end %>
               </td>
               <td class="delete">
                 <button type="button" class="btn-reset" data-modal="#modalRemoveProject">
