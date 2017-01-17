@@ -66,24 +66,18 @@
     padding: 0;
 
     li {
-      padding: 15px 0px;
-      padding-left: 20px;
+      height: 62px;
       text-align: left;
       margin: 0;
       border-bottom: 2px solid #666;
 
-      i {
-        color: #fff;
-        font-weight: bold;
-        font-size: 2em;
-      }
 
       a {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         color: #fff !important;
         font-weight: 600 !important;
         font-size: 1.6em !important;
-        display: inline-block !important;
+        display: block;
         margin-left: 20px;
         text-transform: uppercase;
 

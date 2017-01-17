@@ -29,7 +29,7 @@
               </td>
               <td class="leader">
                 <span class="pull-left"><a href="javascript:void(0)">Marco lglesias</a></span>
-                <a class="pull-right" data-toggle="modal" data-target="#change-leader-modal" data-id="<%= project.id %>">
+                <a class="pull-right" data-modal="#change-leader-modal" data-id="<%= project.id %>">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
               </td>
@@ -200,25 +200,16 @@
 
 
 
-<div class="modal fade" id="change-leader-modal" role="dialog" aria-labelledby="changeConfirm" aria-hidden="true" tabindex="-1">
-  <div class="modal-content modal-dialog">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal">&times;</a>
-      <h3 class="modal-title">
-        Who do you want to give your leader's role to?
-      </h3>
-    </div>
-
-    <div class="modal-body">
-      <p>
-        Enter email:
-      </p>
-      <%= form_tag change_leader_projects_path, method: "post" do %>
+<div class="modal-default modal-leader" id="change-leader-modal" role="dialog" aria-hidden="true" tabindex="-1">
+  <div class="modal-default__content">
+    <button type="button" class="modal-default__close"></button>
+    <h3 class="modal-default__title">Who do you want to give your leader's role to?</h3>
+    <%= form_tag change_leader_projects_path, method: "post" do %>
         <%= hidden_field_tag(:project_id) %>
+        <label class="f-default__label" for="leader_address">Enter email:</label>
         <%= email_field(:leader, :address) %>
-        <%= submit_tag "Change", :class => "btn btn-primary" %>
-      <% end %>
-    </div>
+        <button class="btn-root" name="commit">Change</button>
+    <% end %>
   </div>
 </div>
 
