@@ -4,12 +4,12 @@
       <% if user_signed_in? %>
           <!-- For signed users, we should still this to redirect to root path as we have only dummy projects -->
           <%= link_to root_path do %>
-            WeServe.io
+            WeServe
             <small>Beta</small>
           <% end %>
       <% else %>
           <%= link_to root_path do %>
-            WeServe.io
+            WeServe
             <small>Beta</small>
           <% end %>
       <% end %>
@@ -72,15 +72,23 @@
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "You have created a project named #{n.source_model.title}"%></p>
-                  <% elsif n.action == 'updated_project'%>
+                    <p><%= "You have created a project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
+                  <% elsif n.action == 'updated_project' %>
                     <div>
                       <span class="action">Updated Project</span>
                       <span class="date pull-right">
                         <%= "#{n.created_at.strftime(" %b %d")} "%>
                       </span>
                     </div>
-                    <p><%= "You have updated a project named #{n.source_model.title}"%></p>
+                    <p><%= "You have updated a project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
+                  <% elsif n.action == 'suggested_task' %>
+                    <div>
+                      <span class="action">Task Suggestion</span>
+                      <span class="date pull-right">
+                        <%= "#{n.created_at.strftime(" %b %d")} "%>
+                      </span>
+                    </div>
+                    <p><%= "You have task "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span><%= " for "%><span style="font-weight: bolder"><%= "#{n.source_model.project.title}"%></span><%= " suggested by "%><span style="font-weight: bolder"><%= "#{n.origin_user.name}."%></span><%=" It`s waiting for approval."%></p>
                   <% end %>
                 </div>
               </li>
@@ -94,21 +102,21 @@
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "You have suggested task #{n.source_model.title} for #{n.source_model.project.title} It`s waiting for approval."%></p>
-                  <% end %>  
+                    <p><%= "You have suggested task "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span><%= " for "%><span style="font-weight: bolder"><%= "#{n.source_model.project.title}."%></span><%=" It`s waiting for approval."%></p>
+                  <% end %>
                 </div>
               </li>
             <% else %>
               <li class="notify-wrapper">
                 <div class="notify-body">
-                  <% if n.action == 'created_project'%>
+                  <% if n.action == 'created_project' %>
                     <div>
                       <span class="action">Created Project</span>
                       <span class="date pull-right">
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "#{n.user.name} have created project named #{n.source_model.title}"%></p>
+                    <p><%= "#{n.user.name} have created project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
                   <% elsif n.action == 'updated_project' %>
                     <div>
                       <span class="action">Updated Project</span>
@@ -116,7 +124,7 @@
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
                       </span>
                     </div>
-                    <p><%= "#{n.user.name} have updated project named #{n.source_model.title}"%></p>
+                    <p><%= "#{n.user.name} have updated project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
                   <% end %>  
                 </div>
               </li>
@@ -146,8 +154,8 @@
       <ul class="dropdown-menu">
         <li><%= link_to 'My Profile', user_path(current_user) %></li>
         <li><%= link_to 'My Projects', my_projects_path %></li>
-        <!-- <li><%= link_to 'Messages', group_messages_path %></li>
-        <li><%= link_to 'Notifications', notifications_path %></li> -->
+        <li><%= link_to 'Messages', group_messages_path %></li>
+        <li><%= link_to 'Notifications', notifications_path %></li>
         <li><a href="/users/<%= current_user.id %>/my_wallet">My wallet</a></li>
         <% if current_user.admin? %>
             <li><%= link_to 'Archived Projects', archived_projects_path %></li>
