@@ -52,6 +52,9 @@
   .desktop & {
     transition: background .2s ease-out, color .2s ease-out;
   }
+  &:visited {
+    color: #000;
+  }
   .tablet &:hover,
   .mobile &:hover,
   .tablet &:focus,
