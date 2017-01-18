@@ -15,7 +15,7 @@
       <% end %>
     </div>
 
-    <a type="button" class="btn-root _small hidden-mobile" data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+    <a type="button" class="btn-root _small hidden-mobile" data-modal="#startProjectModal">Start a Project</a>
     <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>
 
   </div>
@@ -180,7 +180,7 @@
 <div class="mobile-menu display-none">
   <ul class="mobile-menu-list">
     <li class="border-bottom show-mobile">
-      <a data-toggle="modal" data-target="#startProjectModal">Start a Project</a>
+      <a data-modal="#startProjectModal">Start a Project</a>
     </li>
     <li class="border-bottom show-mobile">
       <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true} %>

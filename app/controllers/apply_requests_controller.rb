@@ -7,8 +7,8 @@ class ApplyRequestsController < ApplicationController
     @apply_request.accept!
 
     if @apply_request.request_type == "Lead_Editor"
-      project = Project.find(@apply_request.project_id)
-      user    = User.find(@apply_request.user_id)
+      project = @apply_request.project
+      user    = @apply_request.user
 
       project.grant_permissions user.username
     end

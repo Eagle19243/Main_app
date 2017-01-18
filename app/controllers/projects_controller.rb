@@ -254,6 +254,7 @@ class ProjectsController < ApplicationController
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
     @apply_requests = @project.apply_requests.pending.all
+    @change_leader_invitation = @project.change_leader_invitations.where(:new_leader => current_user.email).first if current_user && @project.change_leader_invitations.where(:new_leader => current_user.email).present?
   end
 
   def revisions
@@ -439,8 +440,14 @@ class ProjectsController < ApplicationController
   def change_leader
     @project = Project.find params[:project_id]
     @email = params[:leader]["address"]
+    @new_leader = User.where(email: @email).present? ? User.where(email: @email).first : nil
+
     if @project.change_leader_invitations.pending.any?
-      flash[:notice] = "You have already invited a new leader for this project"
+      flash[:notice] = "You have already invited a new leader for this project."
+    elsif @new_leader == nil
+      flash[:notice] = "Can't find the user who have the email address you entered. Please input valid email address."
+    elsif !(@project.team.team_memberships.pluck(:team_member_id).include? @new_leader)
+      flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
     elsif @email != current_user.email
       @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
       InvitationMailer.invite_leader(@invitation.id).deliver_now

@@ -71,8 +71,7 @@
     <script type="text/javascript">
       $('#wallet_button').on('click', function() {
           $('#walletModal').fadeOut();
-          $('html').removeClass('_open-modal');
-          $('#startProjectModal').modal('toggle');
+          $('#startProjectModal').fadeIn();
           localStorage.removeItem('start_project');
       });
     </script>

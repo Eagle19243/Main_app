@@ -60,12 +60,21 @@
     font-weight: 400;
     text-decoration: underline;
     background: transparent;
+    position: relative;
+    transition: color .2s;
     &:hover,
     &:focus {
       background: transparent;
       text-decoration: none;
-      color: #000;
+      color: transparent;
       outline: none;
+      .s-wallet__qr-wrap {
+        display: block;
+        opacity: 1;
+      }
+      .svg-qr {
+        opacity: 0;
+      }
     }
     .svg-qr {
       width: 16px;
@@ -73,7 +82,17 @@
       fill: #000;
       display: inline-block;
       vertical-align: middle;
+      transition: opacity .2s;
     }
+  }
+  &__qr-wrap {
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: opacity .2s;
+    pointer-events: none;
   }
   &__back {
     font-family: Roboto, sans-serif;

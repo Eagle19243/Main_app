@@ -17,7 +17,7 @@ $document.ready(function() {
                 $html.removeClass('_open-modal');
             }
         })
-        .on('click.closeModalByCloseBtn', '.modal-default__close', function (e) {
+        .on('click.closeModalByCloseBtn', '.modal-default__close, [data-modal-close]', function (e) {
             $(this).closest('.modal-default').fadeOut();
             $html.removeClass('_open-modal');
         });
