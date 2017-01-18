@@ -19,13 +19,6 @@
     width: 100%;
     padding: 0 14px;
     font-size: 14px;
-    &[text="password"],
-    &[text="email"],
-    &[text="text"],
-    &[text="tel"] {
-      box-shadow: none;
-      font-size: 14px;
-    }
     &._joined-left {
       border-radius: 20px 0 0 20px;
       border: 2px solid #000;
@@ -49,6 +42,7 @@
     font-size: 14px;
     overflow-y: auto;
     overflow-x: hidden;
+    margin-bottom: 1rem;
     transition: border-color .15s linear;
     &:hover {
       border: 1px solid #000;
@@ -70,6 +64,14 @@
     &._space-between {
       display: flex;
       justify-content: space-between;
+    }
+    [text="password"],
+    [text="email"],
+    [text="text"],
+    [text="tel"] {
+      box-shadow: none;
+      font-size: 14px;
+      font-family: Roboto, sans-serif;
     }
   }
   &__radio {

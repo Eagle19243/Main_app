@@ -61,7 +61,7 @@
       </div>
       <% if current_user && current_user.id != @project.user_id %>
           <div class="section-add-task">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
+            <a data-modal="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
               a Task</a>
           </div>
       <% end %>
@@ -124,7 +124,7 @@
       <% if user_signed_in? %>
           <% if @project.user_id == current_user.id %>
               <div class="section-add-task">
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <a data-modal="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
               </div>
           <% end %>
       <% end %>

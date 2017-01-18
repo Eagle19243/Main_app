@@ -222,9 +222,9 @@
 
 
 <script type="text/javascript">
-
   function projectImgEdit(e) {
-    $('#project-img-edit').modal('show');
+    $('#project-img-edit').fadeIn();
+    $('html').addClass('_open-modal');
     if (!e) var e = window.event;
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
