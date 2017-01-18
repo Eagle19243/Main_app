@@ -296,6 +296,10 @@
     padding-left: 6%;
     padding-right: 6%;
     margin: 0;
+    &__inner {
+      font-size: 0;
+      margin-bottom: -2px;
+    }
 
     .project-btn-group {
       display: inline-block;
@@ -437,7 +441,7 @@
       }
     }
 
-    a, i.fa-star {
+    a:not(.btn-root), i.fa-star {
       color: #ddd;
     }
 
