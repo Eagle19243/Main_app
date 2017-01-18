@@ -38,14 +38,6 @@
     <div class="member-bio">
       <%= team_membership.team_member.try(:bio)[0..80] rescue nil %>&nbsp;<%= link_to "[...]", user_path(team_membership.team_member) %>
     </div>
-
-    <center class="soical-links-wrapper">
-      <ul class="inline-list">
-        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-      </ul>
-    </center>
   </div>
 </div>
 
