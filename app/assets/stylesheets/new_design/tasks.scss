@@ -770,11 +770,20 @@
   .card-title {
     h5 {
       font-family: 'Roboto', sans-serif;
-      overflow: hidden;
-      font-size: 1.2em;
+      font-size: 17px;
       font-weight: 600;
       color: #000;
       margin-top: 0;
+
+      line-height: 19px;
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      max-width: 100%;
+      max-height: 76px; /* $line-height*$lines-to-show Fallback for non-webkit */
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     p {
