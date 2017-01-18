@@ -46,7 +46,7 @@
 <div id="myModal" class="modal-task modal-default" tabindex="-1">
   <!-- Modal content -->
   <div class="modal-content modal-task__content">
-    <button type="button" class="modal-default__close"></button>
+    <button id="task-popup-close" type="button" class="modal-default__close"></button>
     <div class="task-details">
         <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
@@ -435,6 +435,8 @@
     <% end %>
     <script type="text/javascript">
       JsonFormsHelper.InitializeTaskMembersControls();
-
+      $("#task-popup-close").click(function (){
+        window.history.pushState(null, null,"/projects/" +<%= @task.project_id %>+"/taskstab" );
+      });
 
     </script>
