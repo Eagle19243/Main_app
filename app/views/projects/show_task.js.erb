@@ -1,5 +1,10 @@
 $("#product-modal").html("<%= escape_javascript(render :partial => 'task_details') %>")
 $("#myModal").css("display", "block");
+window.history.pushState(null, null,'/tasks/<%= @task.id %>');
+$(document).keydown(function (e) {
+  if (e.keyCode == 27) {
+    window.history.pushState(null, null,"/projects/" +<%= @task.project_id %>+"/taskstab" );
+  }});
 $("#close").click(function () {
   $("#myModal").hide();
   $("#product-modal").html("");
@@ -302,19 +307,22 @@ btn.onclick = function () {
 
 $(document).ready(function () {
   var $modalInvite = $("#InviteModel");
-  $(document).keydown(function (e) {
-    if (e.keyCode == 27) {
-      $("#myModal").hide();
-      $("#share").hide();
-      $("#team").hide();
-      $("#suggested_task_popup").hide();
-      $modalInvite.hide();
-      $("#myModal2").hide();
-      $("#popup-for-free-paid").hide();
-      $html.removeClass('_open-modal');
-    }
-  });
-})
+
+//  $(document).keydown(function (e) {
+//    if (e.keyCode == 27) {
+////      $("#myModal").hide();
+////      $("#share").hide();
+////      $("#team").hide();
+////      $("#suggested_task_popup").hide();
+////      $modalInvite.hide();
+////      $("#myModal2").hide();
+////      $("#popup-for-free-paid").hide();
+////      $html.removeClass('_open-modal');
+//
+//alert('ali ');
+//    }
+//  });
+});
 
 
 window.onclick = function (event) {
@@ -341,5 +349,3 @@ function callAjax() {
     }
   });
 }
-
-
