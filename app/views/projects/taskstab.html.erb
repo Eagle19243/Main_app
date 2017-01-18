@@ -95,42 +95,20 @@
           </ul>
 
           <div class="project-btn-group">
-            <button type="button" data-modal="#projectInviteModal" class="btn-root">Invite</button>
+            <button type="button" data-modal="#projectInviteModal" class="btn-root">
+                <svg focusable="false" version="1.1" class="svg-share">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-share"></use>
+                </svg>
+                Share
+            </button>
             <% if user_signed_in? %>
                 <% if @project.user_id != current_user.id %>
-                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-invite border-link plan-show', method: :post do %>
+                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-root', method: :post do %>
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
                         <%= @followed ? "Unfollow" : "Follow" %>
                     <% end %>
                 <% end %>
             <% end %>
-
-            <div class="btn-wrapper plan-show">
-              <div class="rank-group">
-                <input type="hidden" id="stars" name="stars">
-                <% for i in 1..5 %>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="btn-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);" class="btn-share">
-                <i class="fa fa-facebook"></i>&nbsp;&nbsp;Share
-              </a>
-            </div>
-
-            <div class="btn-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);" class="btn-share">
-                <i class="fa fa-twitter"></i>&nbsp;&nbsp;Tweet
-              </a>
-            </div>
-
-            <div class="btn-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" class="btn-share">
-                <i class="fa fa-google-plus"></i>&nbsp;&nbsp;Share
-              </a>
-            </div>
 
             <div class="btn-alt-wrapper plan-show">
               <div class="rank-group">
