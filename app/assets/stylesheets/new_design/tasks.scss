@@ -269,6 +269,24 @@
 
 .project-tab-wrapper {
 
+  .svg-share {
+    width: 17px;
+    height: 17px;
+    fill: #000;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+    margin-right: 5px;
+    transition: fill .2s linear;
+  }
+  .btn-root:hover,
+  .btn-root:focus {
+    .svg-share {
+      fill: #fff;
+    }
+  }
+
   .tabs-menu {
     display: block;
     position: relative;
