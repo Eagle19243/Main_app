@@ -21,7 +21,6 @@ services:
 #bundler_args: --without development
 
 before_install:
-  - cat encypt_me.txt
   - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
   - tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2
   - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
