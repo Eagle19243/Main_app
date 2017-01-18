@@ -13,7 +13,7 @@ class TeamMembershipsController < ApplicationController
     respond_to do |format|
       if @team_membership.update(update_params)
         project = @team_membership.team.project
-        user    = User.find(@team_membership.team_member_id)
+        user    = @team_membership.team_member
 
         project.grant_permissions user.username if update_type == "grant"
         project.revoke_permissions user.username if update_type == "revoke"
