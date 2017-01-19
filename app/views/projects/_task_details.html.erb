@@ -20,19 +20,19 @@
 
       <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
         <ul class="l-share__list">
-          <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+          <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
             <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
               <i class="fa fa-facebook"></i>
               <span>Share on Facebook</span>
             </a>
           </li>
-          <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+          <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
             <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
               <i class="fa fa-twitter"></i>
               <span>Share on twitter</span>
             </a>
           </li>
-          <li class="l-share__item" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
+          <li class="l-share__item" data-title="<%= @task.title %>" get-url-from-location="true">
             <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
               <i class="fa fa-google-plus"></i>
               <span>Share on Google Plus</span>
@@ -378,19 +378,19 @@
     <button type="button" class="modal-default__close"></button>
     <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
       <ul class="l-share__list">
-        <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+        <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
           <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
             <i class="fa fa-facebook"></i>
             <span>Share on Facebook</span>
           </a>
         </li>
-        <li class="l-share__item" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>">
+        <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
           <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
             <i class="fa fa-twitter"></i>
             <span>Share on twitter</span>
           </a>
         </li>
-        <li class="l-share__item" data-title="<%= @task.title %>" data-url="<%= task_url(@task.id) %>">
+        <li class="l-share__item" data-title="<%= @task.title %>" get-url-from-location="true">
           <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
             <i class="fa fa-google-plus"></i>
             <span>Share on Google Plus</span>

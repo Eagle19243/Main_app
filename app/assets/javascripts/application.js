@@ -166,9 +166,7 @@ var UrlModule = (function () {
     function bindEvents($document) {
         $document
             .on('click.changeUrlTaskModal', '.pr-card', function () {
-                debugger;
                 if (isCardClicked) return;
-                debugger;
                 var taskId = $(this).data('taskId');
                 ModalsModule.togglePreloader(true);
                 window.history.pushState(null, null, window.location.pathname + '?tab=' + tab + '&taskId=' + taskId);

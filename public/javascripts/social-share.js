@@ -15,7 +15,7 @@
             $parent = $(el).parent();
             title = encodeURIComponent($(el).data(site + '-title') || $parent.data('title') || '');
             img = encodeURIComponent($parent.data("img") || '');
-            url = encodeURIComponent($parent.data("url") || '');
+            url = encodeURIComponent($parent.data("url") || $parent.attr("getUrlFromLocation") ? window.location.href : '');
             via = encodeURIComponent($parent.data("via") || '');
             desc = encodeURIComponent($parent.data("desc") || ' ');
             popup = encodeURIComponent($parent.data("popup") || 'false');
