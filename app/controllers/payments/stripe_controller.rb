@@ -1,10 +1,12 @@
 class Payments::StripeController < ApplicationController
   before_filter :check_form_validity, only: :create
   include ApplicationHelper
+  before_action :authenticate_user!
 
   def new
     @task = Task.find(params[:id])
   end
+
 
   def create
     payment_service = Payments::Stripe.new(params[:stripeToken])
@@ -28,7 +30,7 @@ class Payments::StripeController < ApplicationController
       redirect_to taskstab_project_url(id: params[:project_id])
     else
       flash[:alert] = payment_service.error
-      render :new
+      redirect_to taskstab_project_url(id: params[:project_id])
     end
 
   end
@@ -36,15 +38,15 @@ class Payments::StripeController < ApplicationController
   private
 
   def transfer_coin_from_weserver_wallet_to_task_wallet (task, amount)
-    unless ( AdminReseveWallet.any?)
-      AdminReseveWallet.new.create_we_serve_wallet
-    end
+    #unless ( AdminReseveWallet.any?)
+     # AdminReseveWallet.new.create_we_serve_wallet
+    #end
     @weserve_wallet = AdminReseveWallet.first
     task_wallet = task.wallet_address.sender_address
     begin
       @transfer = StripePayment.create(amount: amount, task_id: task.id)
       satoshi_amount = nil
-      satoshi_amount = convert_usd_to_btc_and_then_satoshi(amount) if @transfer.valid?
+      satoshi_amount = convert_us_to_btc_and_then_satoshi(amount) if @transfer.valid?
       if satoshi_amount.eql?('error') or satoshi_amount.blank?
         return
       else
