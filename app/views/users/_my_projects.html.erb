@@ -198,7 +198,7 @@
     <%= form_tag change_leader_projects_path, method: "post" do %>
         <%= hidden_field_tag(:project_id) %>
         <label class="f-default__label" for="leader_address">Enter email:</label>
-        <%= email_field(:leader, :address) %>
+        <%= email_field(:leader, :address, :required => true) %>
         <button class="btn-root" name="commit">Change</button>
     <% end %>
   </div>
