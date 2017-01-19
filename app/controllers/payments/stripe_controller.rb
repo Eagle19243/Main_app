@@ -18,7 +18,7 @@ class Payments::StripeController < ApplicationController
       stripe_response = JSON(payment_service.instance_variable_get(:@stripe_response).to_s)
       if ENV['skip_wallet_transaction'] == "true"
         satoshi_amount = convert_usd_to_btc_and_then_satoshi(params[:amount])
-        StripePayment.create(amount: params[:amount], task_id: task.id,amount_in_satoshi:satoshi_amount,stripe_token:params[:stripeToken],stripe_response_id: stripe_response['id'],balance_transaction: stripe_response['balance_transaction'] ,paid:stripe_response['paid'] ,refund_url: stripe_response['refunds']['url'],status:stripe_response['status'],seller_message: stripe_response['outcome']['seller_message'])
+        StripePayment.create(amount: params[:amount], user_id: current_user.id, task_id: task.id,amount_in_satoshi:satoshi_amount,stripe_token:params[:stripeToken],stripe_response_id: stripe_response['id'],balance_transaction: stripe_response['balance_transaction'] ,paid:stripe_response['paid'] ,refund_url: stripe_response['refunds']['url'],status:stripe_response['status'],seller_message: stripe_response['outcome']['seller_message'])
       else
        transfer_coin_from_weserver_wallet_to_task_wallet(task, params[:amount],params[:stripeToken],stripe_response['id'],stripe_response['balance_transaction'],stripe_response['paid'],stripe_response['refunds']['url'],stripe_response['status'], stripe_response['outcome']['seller_message'])
       end
@@ -43,7 +43,7 @@ class Payments::StripeController < ApplicationController
     @weserve_wallet = AdminReseveWallet.first
     task_wallet = task.wallet_address.sender_address
     begin
-      @transfer = StripePayment.create(amount: amount, task_id: task.id,stripe_token:stripe_token,stripe_response_id: stripe_response_id,balance_transaction: balance_transaction ,paid: paid ,refund_url: refund_url,status:status,seller_message:seller_message)
+      @transfer = StripePayment.create(amount: amount, task_id: task.id, user_id: current_user.id, stripe_token:stripe_token,stripe_response_id: stripe_response_id,balance_transaction: balance_transaction ,paid: paid ,refund_url: refund_url,status:status,seller_message:seller_message)
       satoshi_amount = nil
       satoshi_amount = convert_usd_to_btc_and_then_satoshi(amount) if @transfer.valid?
       if satoshi_amount.eql?('error') or satoshi_amount.blank?
