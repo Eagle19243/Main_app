@@ -57,12 +57,10 @@
         <div id="tasks_cards">
           <% sourcing_tasks.first(5).each do |task| %>
 
-              <div class="summary-cards">
+              <%= link_to projects_show_task_path(id: task.id), class: 'summary-cards pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="card-wrapper">
                   <div class="card-title">
-                    <%= link_to projects_show_task_path(id: task.id), remote: true do %>
                     <p><%= task.description %></p>
-                        <%end %>
                   </div>
                   <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-9 pt15">
@@ -71,7 +69,6 @@
                         </div>
                       </div>
                       <div class="report-banner-table tab-task-report mt10">
-                        <%= link_to projects_show_task_path(id: task.id), remote: true do %>
                         <table>
                           <tr class="value">
                             <td><%= task.funded %></td>
@@ -86,7 +83,6 @@
                             <td>Raised</td>
                           </tr>
                         </table>
-                            <%end %>
                       </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -98,7 +94,7 @@
                   </div>
 
                 </div>
-              </div>
+              <%end %>
           <% end %>
         </div>
 

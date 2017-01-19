@@ -37,7 +37,6 @@
     align-items: center;
     font-family: 'Roboto';
 
-
     .svg-arrow-down {
       width: 11px;
       height: 7px;
@@ -46,12 +45,23 @@
 
     .user-dropdown {
       margin-left: 26px;
+      &__name {
+        span {
+          display: inline-block;
+          vertical-align: middle;
+          max-width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
 
       a {
         font-family: 'Roboto';
         color: #333;
         display: block;
         text-decoration: none;
+        white-space: nowrap;
       }
 
       .dropdown-menu {
@@ -211,16 +221,18 @@
 }
 
 @media(max-width: 1120px) {
-  .s-header__right {
-    .btn-notification,
-    a.show-desktop {
-      display: none;
-    }
-    div.show-desktop {
-      display: none;
-    }
-    a.show-tablet {
-      display: inline-block;
+  .s-header {
+    &__right {
+      .btn-notification,
+      a.show-desktop {
+        display: none;
+      }
+      div.show-desktop {
+        display: none;
+      }
+      a.show-tablet {
+        display: inline-block;
+      }
     }
   }
 }

@@ -10,7 +10,7 @@
 
       <div class="section-content">
         <% @suggested_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -78,7 +78,7 @@
 
       <div class="section-content">
         <% @sourcing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -142,7 +142,7 @@
 
       <div class="section-content">
         <% @doing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <div class="card-title">
@@ -192,7 +192,7 @@
 
       <div class="section-content">
         <% @reviewing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -244,7 +244,7 @@
 
       <div class="section-content">
         <% @done_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 

@@ -1,6 +1,9 @@
 <script type="text/javascript">
   $(document).ready(function () {
-    document.getElementById("loading-mask1").style.display = "none";
+    UrlModule.checkUrl();
+    if (!!UrlModule.getTaskParam() === false) {
+      document.getElementById("loading-mask1").style.display = "none";
+    }
     $("#send-project-email").submit(function () {
       $('#response').empty();
       $('#response').html("loading...")

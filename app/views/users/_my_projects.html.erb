@@ -198,7 +198,7 @@
     <%= form_tag change_leader_projects_path, method: "post" do %>
         <%= hidden_field_tag(:project_id) %>
         <label class="f-default__label" for="leader_address">Enter email:</label>
-        <%= email_field(:leader, :address) %>
+        <%= email_field(:leader, :address, :required => true) %>
         <button class="btn-root" name="commit">Change</button>
     <% end %>
   </div>
@@ -206,7 +206,7 @@
 
 <div id="modalRemoveProject" class="modal-default modal-remove-project" tabindex="-1">
   <div class="modal-default__content" style="max-width: 900px;">
-    <button type="button" id="shareclose" class="modal-default__close"></button>
+    <button type="button" class="modal-default__close"></button>
     <h4 class="modal-default__title">Are you sure you want to delete this project?</h4>
     <button type='button' class='btn-root _agree'>Ok</button>
 
