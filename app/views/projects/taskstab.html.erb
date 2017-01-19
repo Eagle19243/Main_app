@@ -318,18 +318,22 @@
     }
   });
 
-  $(document).on('click', '.block-user', function(e) {
-    if ($(this).parent().parent().data("revision-user-id")) {
-      $('#blockUserModal .modal-title a').attr('href', $(this).parent().parent().data("revision-user-link"));
-      $('#blockUserModal .modal-title a').text($(this).parent().parent().data("revision-user"));
-    } else {
-      $('#blockUserModal .modal-title a').attr('href', '#');
-      $('#blockUserModal .modal-title a').text('Anonymous');
-    }
+  $(document).on('click.openModal', '.block-user', function(e) {
+    var $that = $(this),
+        $parent = $that.parent().parent(),
+        revision = {
+            userId: $parent.data("revision-user-id"),
+            userLink: $parent.data("revision-user-link"),
+            user: $parent.data("revision-user"),
+            userName: $parent.data("revision-username")
+        },
+        $blockUserModal = $('#blockUserModal');
 
-    $('#blockUserModal .modal-body-block-user a').attr('href', "/projects/<%= @project.id %>/block_user?username=" + $(this).parent().parent().data("revision-username"))
+     revision.userId
+        ? $blockUserModal.find('.modal-default__title a').attr('href', revision.userLink).text(revision.user)
+        : $blockUserModal.find('.modal-default__title a').attr('href', '#').text('Anonymous');
 
-    $('#blockUserModal').modal('show');
+    $blockUserModal.find('.btn-root._agree').attr('href', "/projects/<%= @project.id %>/block_user?username=" + revision.userName);
   });
 
   // Compare revisions button click handler
