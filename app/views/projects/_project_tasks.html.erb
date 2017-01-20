@@ -291,11 +291,12 @@
 
 <script type="text/javascript">
   $("#suggest-new-task").click(function() {
-    $("#newTaskModal").modal();
+    $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('suggested_task');
   });
+
   $("#add-new-task").click(function() {
-    $("#newTaskModal").modal();
+    $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('accepted');
   });
 </script>
