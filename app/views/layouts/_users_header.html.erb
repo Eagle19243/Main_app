@@ -62,7 +62,8 @@
           </li>
         <% else %>
           <% Notification.unread.each do |n| %>
-            <% if n.user_id == current_user.id %>
+                <%unless n.source_model.blank?  %>
+      <% if n.user_id == current_user.id %>
               <li class="notify-wrapper">
                 <div class="notify-body">
                   <% if n.action == 'created_project' %>
@@ -125,10 +126,11 @@
                       </span>
                     </div>
                     <p><%= "#{n.user.name} have updated project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
-                  <% end %>  
+                  <% end %>
                 </div>
               </li>
             <% end %>
+                <%end %>
           <% end %>
         <% end %>
         <li class="notify-link">
