@@ -8,7 +8,9 @@
       <div class="notification-body">
         <span><%= yield %></span>
       </div>
-      <%= render partial: "notifications/#{notification.source_model_type.underscore}/accept_reject_buttons", locals: { notification: notification }%>
+      <% if notification.user_id == current_user.id %>
+        <%= render partial: "notifications/#{notification.source_model_type.underscore}/accept_reject_buttons", locals: { notification: notification }%>
+      <% end %>
     </div>
   </div>
 </div>
