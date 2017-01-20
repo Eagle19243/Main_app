@@ -7,15 +7,15 @@ class Payments::Stripe
   end
 
   def charge!(amount:, description:)
-    amount_in_cents =  amount_to_cents(amount)
+    amount_in_cents = amount_to_cents(amount)
 
     raise UnsupportedAmountType("Amount should be > 0 #{amount}") if amount_in_cents.zero?
 
-   @stripe_response = Stripe::Charge.create(
-      :amount => amount_in_cents,
-      :currency => "usd",
-      :source => stripe_token, # obtained with Stripe.js
-      :description => description
+    @stripe_response = Stripe::Charge.create(
+        :amount => amount_in_cents,
+        :currency => "usd",
+        :source => stripe_token, # obtained with Stripe.js
+        :description => description
     )
 
   rescue Stripe::CardError => error
