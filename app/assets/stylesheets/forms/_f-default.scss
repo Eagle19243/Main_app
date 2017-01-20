@@ -227,4 +227,13 @@
       color: #000;
     }
   }
+  &__convert {
+    color: #4a4a4a;
+    font-family: Roboto, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    min-height: 18px;
+    display: block;
+  }
 }

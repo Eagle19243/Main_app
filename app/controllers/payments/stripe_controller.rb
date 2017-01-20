@@ -17,7 +17,6 @@ class Payments::StripeController < ApplicationController
     else
       payment_service = Payments::Stripe.new(params[:stripeToken])
       payment_description = "Payment of #{params[:amount]} for task: #{params[:id]} for project: #{params[:project_id]}"
-
       if payment_service.charge!(amount: params[:amount], description: payment_description)
         task = Task.find(params[:id])
         stripe_response = JSON(payment_service.instance_variable_get(:@stripe_response).to_s)
