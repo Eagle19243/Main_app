@@ -33,7 +33,7 @@ class Payments::StripeController < ApplicationController
         flash[:notice] = 'Thanks for your payment'
         redirect_to taskstab_project_url(id: params[:project_id])
       else
-        flash[:alert] = payment_service.error
+        flash[:alert] = payment_service.instance_variable_get(:@error).to_s
         redirect_to taskstab_project_url(id: params[:project_id])
       end
      end

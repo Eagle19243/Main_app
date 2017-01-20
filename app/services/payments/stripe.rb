@@ -20,7 +20,7 @@ class Payments::Stripe
 
   rescue Stripe::CardError => error
     # Display this to user, Probably invalid card
-    @error = error
+    @error = error.message
     return false
   rescue => error
     @error = 'Payment by card was unavailable, please try again'
