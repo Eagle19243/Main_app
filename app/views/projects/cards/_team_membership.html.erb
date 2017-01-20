@@ -23,7 +23,7 @@
 
     <center class="member-role">
       <h5>
-        <% if (can? :update, team_membership) && !(User.find(team_membership.team_member_id).is_project_leader? @project) %>
+        <% if (can? :update, team_membership) && !(team_membership.team_member.is_project_leader? @project) %>
           <span class="role">
             <%= best_in_place team_membership, :role, :as => :select, :collection => TeamMembership.get_roles , activator: ".role-edit-pencil-#{team_membership.id}", class: "role_in_place-#{team_membership.id}" %>
           </span>
@@ -38,14 +38,6 @@
     <div class="member-bio">
       <%= team_membership.team_member.try(:bio)[0..80] rescue nil %>&nbsp;<%= link_to "[...]", user_path(team_membership.team_member) %>
     </div>
-
-    <center class="soical-links-wrapper">
-      <ul class="inline-list">
-        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-      </ul>
-    </center>
   </div>
 </div>
 

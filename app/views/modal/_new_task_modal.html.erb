@@ -1,5 +1,5 @@
-<div id="newTaskModal" class="modal fade modal-new-task" role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-new-task__content">
+<div id="newTaskModal" class="modal-new-task modal-default" role="dialog" tabindex="-1">
+  <div class="modal-default__content">
       <button type="button" class="modal-default__close" data-dismiss="modal"></button>
 
       <h2 class="modal-default__title">Create New Task</h2>
@@ -22,7 +22,7 @@
         <div class="f-default__row">
           <div class="f-default__col-wrap">
             <div class="f-default__col">
-              <label class="f-default__label" for="task_description">Budget</label>
+              <label class="f-default__label" for="task_description">Enter BTC Amout</label>
               <input class="f-default__field numeric decimal required" required="required" maxlength="10" aria-required="true" type="number" step="any" name="task[budget]" id="task_budget">
             </div>
             <div class="f-default__col">
@@ -30,6 +30,7 @@
               <input class="f-default__field numeric integer required" required="required" maxlength="5" aria-required="true" type="number" step="1" value="0" name="task[target_number_of_participants]" id="task_target_number_of_participants">
             </div>
           </div>
+          <span id="new_task_btc" class="f-default__convert"></span>
         </div>
 
         <div class="f-default__row">
@@ -67,3 +68,36 @@
       <% end %>
   </div>
 </div>
+
+<script>
+    function updateConversion(e) {
+        e.preventDefault();
+        var newTaskBtc = document.getElementById('new_task_btc');
+        newTaskBtc.innerHTML = ''
+
+        var btc = +document.getElementById("task_budget").value;
+        var current_btc = '<%=  get_current_btc_rate  %>';
+        var usd = (btc * current_btc).toFixed(2);
+
+        newTaskBtc.innerHTML= btc + " BTC = " + usd + " USD";
+      }
+
+    $(document)
+        .on('keypress.convertToUsd', '#task_budget', function (e) {
+              if(e.which == 8 || e.which == 0){
+                return true;
+              }
+              if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+                updateConversion(e);
+              }
+        })
+        .on('keyup.convertToUsd', '#task_budget', function (e) {
+            var $that = $(this),
+                currentVal = $that.val();
+
+            if(currentVal.indexOf('.') == 0) {
+                $that.val(currentVal.substring(1));
+            }
+            updateConversion(e);
+        });
+</script>
