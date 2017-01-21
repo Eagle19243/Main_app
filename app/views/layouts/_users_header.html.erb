@@ -169,8 +169,6 @@
       <ul class="dropdown-menu">
         <li><%= link_to 'My Profile', user_path(current_user) %></li>
         <li><%= link_to 'My Projects', my_projects_path %></li>
-        <li><%= link_to 'Messages', group_messages_path %></li>
-        <li><%= link_to 'Notifications', notifications_path %></li>
         <li><a href="/users/<%= current_user.id %>/my_wallet">My wallet</a></li>
         <% if current_user.admin? %>
             <li><%= link_to 'Archived Projects', archived_projects_path %></li>
