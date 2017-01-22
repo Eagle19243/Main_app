@@ -51,12 +51,14 @@ function initializeDeleteNotificationsControls() {
 function initialAdminInvitationsControls() {
     $('form.new_admin_invitation').submit(function(e) {
         e.preventDefault();
+        var $that = $(this);
+
         $.ajax({
             type: $(this).attr('method'),
             url: $(this).attr('action'),
             data: $(this).serialize()
         }).done(function(data) {
-            $("#invite-" + data.user_id).hide();
+            $that.find('.btn-root').addClass('_clicked').text('INVITED');
         }).fail(function(data) {
             console.log(data);
         });

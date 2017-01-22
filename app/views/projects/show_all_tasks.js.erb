@@ -1,2 +1,5 @@
 $('#Tasks').html(' ');
 $('#Tasks').html('<%= escape_javascript render "projects/project_tasks" %>');
+if (!UrlModule.checkIsCardClicked()) {
+    UrlModule.getTaskParam() && $('[data-task-id="' + UrlModule.getTaskParam() + '"]').trigger('click');
+}

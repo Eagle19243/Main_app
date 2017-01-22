@@ -1,14 +1,11 @@
-<div id="taskFundModal" class="modal fade fund-modal modal-fund" role="dialog" tabindex="-1">
-  <div id="fund-loading"> loading ...   <%= image_tag("loading.gif", :alt => "rss feed") %>
-  </div>
-  <div class="modal-content2 yes modal-fund__inner">
+<div id="taskFundModal" class="modal-default modal-fund" role="dialog" tabindex="-1">
+  <div id="fund-loading"> loading ...   <%= image_tag("loading.gif", :alt => "rss feed") %> </div>
+  <div class="modal-fund__inner">
 
     <div class="modal-fund__content">
       <div class="modal-fund__top">
-
-        <button type="button" class="modal-fund__close" data-dismiss="modal"></button>
-        <h4 class="modal-fund__title">Make a donation</h4>
-
+        <button type="button" class="modal-default__close"></button>
+        <h4 class="modal-default__title">Make a donation</h4>
 
         <div class="modal-fund__form-wrap" id="user-btc-view">
             <div class="f-default__row">
@@ -30,7 +27,7 @@
         <div class="modal-fund__bottom-content _active">
           <div class="modal-fund__tabs">
             <div class="modal-fund__tab-wrap">
-              <button class="modal-fund__tab _active" type="button">Use your WeServe wallet</button>
+              <button class="modal-fund__tab _active" type="button">Use your WeServe.io wallet</button>
               <button class="modal-fund__tab" type="button">Use bitcoin address</button>
             </div>
 
@@ -157,6 +154,7 @@
             index = $that.index();
         $that.addClass('_active').siblings().removeClass('_active');
         donationObj.isUSD = index === 1;
+        $currentCurrency.text(getCurrency());
         $walletTransactionAmount.trigger('keyup');
         $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
       });

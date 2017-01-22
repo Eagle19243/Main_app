@@ -7,11 +7,11 @@
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
               <% if current_user.is_admin_for?(project) || current_user.is_lead_editor_for?(project) %>
-                <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-edit", id: "editSource" do %>
-                  <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-root", id: "editSource" do %>
+                  Revisions
                 <% end %>
               <% else %>
-                <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-edit">
+                <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-root">
                   <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
                 </a>
               <% end %>
@@ -38,8 +38,7 @@
       <div class="project-idea">
         <strong>Project Idea: &nbsp;&nbsp;</strong>
         <% if user_signed_in? && current_user.is_admin_for?(project) %>
-          <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", :cancel_button_class => "pencil_cancel", activator: "#sd_pencil" %>
-          <a class="glyphicon glyphicon-pencil" aria-hidden="true" id="sd_pencil"></a>
+          <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", id: 'sd_pencil', :cancel_button_class => "pencil_cancel", activator: "#sd_pencil" %>
           <span id="str_length"></span>
         <% else %>
           <%= @project.short_description %>
@@ -58,12 +57,10 @@
         <div id="tasks_cards">
           <% sourcing_tasks.first(5).each do |task| %>
 
-              <div class="summary-cards">
+              <%= link_to projects_show_task_path(id: task.id), class: 'summary-cards pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="card-wrapper">
                   <div class="card-title">
-                    <%= link_to projects_show_task_path(id: task.id), remote: true do %>
                     <p><%= task.description %></p>
-                        <%end %>
                   </div>
                   <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-9 pt15">
@@ -72,38 +69,32 @@
                         </div>
                       </div>
                       <div class="report-banner-table tab-task-report mt10">
-                        <%= link_to projects_show_task_path(id: task.id), remote: true do %>
                         <table>
                           <tr class="value">
                             <td><%= task.funded %></td>
-                            <td><%= @tasks_count %></td>
+                            <!--<td><%#= @tasks_count %></td>-->
                             <td><%= task.number_of_participants %>/<%= task.target_number_of_participants %></td>
                             <td><%= task.funded_in_btc %></td>
                           </tr>
                           <tr class="items">
                             <td>Funded</td>
-                            <td>Tasks</td>
+                            <!--<td>Tasks</td>-->
                             <td>Teammates</td>
                             <td>Raised</td>
                           </tr>
                         </table>
-                            <%end %>
                       </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                       <div class="fund-do-btns">
-                        <a href="javascript:void(0)" title="DO" onclick="doPopup(<%= task.id %>)" data-toggle="modal" data-target="#taskDoModal">
-                          DO
-                        </a>
-                        <a href="javascript:void(0)" title="FUND" name="fund-button" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-keyboard="true" data-toggle="modal" data-target="#taskFundModal">
-                          FUND
-                        </a>
+                        <button class="btn-root _dark" type="button" title="DO" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
+                        <button class="btn-root" type="button" title="FUND" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                       </div>
                     </div>
                   </div>
 
                 </div>
-              </div>
+              <%end %>
           <% end %>
         </div>
 

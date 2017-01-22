@@ -44,8 +44,7 @@
         $("#fund-loading").hide();
 
         $('.modal-fund__user-name').text(response.user_name);
-        $('#wallet-address').html('wallet Address: ' + response.wallet_address)
-        $('.js-wallet-address').val(response.wallet_address);
+        $('#wallet_address').val(response.wallet_address);
 
         $('#wallet_transaction_user_wallet').val(response.wallet_address);
         $('#task-balance').html(response.balance + " $");
@@ -76,105 +75,40 @@
   <div class="project-detail-wrapper">
     <div class="project-tab-wrapper">
       <div class="row tabs-menu">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-          <ul class="nav nav-pills nav-left">
+        <div class="col-lg-12 col-md-12 col-sm-12 tabs-menu__inner">
+          <ul class="nav nav-pills nav-left m-tabs">
             <li>
-              <%= link_to plan_project_path(id: @project.id), remote: true, class: "tablinks border-right-none active", id: "tab-plan", onclick: "openTab(event, 'Plan')" do %>
+              <%= link_to plan_project_path(id: @project.id), data: {tab: 'Plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
                 Plan
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_tasks_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Tasks')" do %>
+              <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'Tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
                   Tasks<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_teams_path(id: @project.id), remote: true, class: "tablinks border-right-none ", onclick: "openTab(event, 'Team')" do %>
+              <%= link_to projects_show_all_teams_path(id: @project.id), data: {tab: 'Team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
                   Team<span class="count"><%= @project.team.team_memberships.count %></span>
               <% end %>
             </li>
           </ul>
 
           <div class="project-btn-group">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#projectInviteModal" class="btn-invite border-link plan-show">
-              Invite
-            </a>
+            <button type="button" data-modal="#projectInviteModal" class="btn-root">
+                <svg focusable="false" version="1.1" class="svg-share">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-share"></use>
+                </svg>
+                Share
+            </button>
             <% if user_signed_in? %>
                 <% if @project.user_id != current_user.id %>
-                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-invite border-link plan-show', method: :post do %>
+                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-root', method: :post do %>
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
                         <%= @followed ? "Unfollow" : "Follow" %>
                     <% end %>
                 <% end %>
             <% end %>
-
-            <div class="btn-wrapper plan-show">
-              <div class="rank-group">
-                <input type="hidden" id="stars" name="stars">
-                <% for i in 1..5 %>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="btn-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);" class="btn-share">
-                <i class="fa fa-facebook"></i>&nbsp;&nbsp;Share
-              </a>
-            </div>
-
-            <div class="btn-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);" class="btn-share">
-                <i class="fa fa-twitter"></i>&nbsp;&nbsp;Tweet
-              </a>
-            </div>
-
-            <div class="btn-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" class="btn-share">
-                <i class="fa fa-google-plus"></i>&nbsp;&nbsp;Share
-              </a>
-            </div>
-
-            <div class="btn-alt-wrapper plan-show">
-              <div class="rank-group">
-                <input type="hidden" id="stars" name="stars">
-                <% for i in 1..5 %>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="btn-alt-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
-                <i class="fa fa-facebook"></i>
-              </a>
-            </div>
-
-            <div class="btn-alt-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="twitter" title="Share to Twitter" onclick="return SocialShareButton.share(this);">
-                <i class="fa fa-twitter"></i>
-              </a>
-            </div>
-
-            <div class="btn-alt-wrapper plan-show">
-              <a href="javascript:void(0)" data-site="google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+">
-                <i class="fa fa-google-plus"></i>
-              </a>
-            </div>
-
-            <div class="btn-wiki-wrapper pull-right plan-hide" id='save-content'>
-              <a href="javascript:void(0)" class="btn-visual">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;&nbsp;
-                Save
-              </a>
-            </div>
-
-            <div class="btn-wiki-wrapper pull-right plan-hide">
-              <a href="<%= @mediawiki_api_base_url %>index.php?title=<%= URI.escape(@project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(@project.id)) %>" class="btn-visual">
-                <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;
-                Visual Editor
-              </a>
-            </div>
           </div>
 
         </div>
@@ -227,7 +161,6 @@
   <% if user_signed_in? && current_user.is_admin_for?(@project)%>
     $('.welcome-banner').addClass('_signed-in');
   <% end %>
-
 </script>
 
 <script>
@@ -247,50 +180,19 @@
 
 
 <script type="text/javascript">
-
   function projectImgEdit(e) {
-    $('#project-img-edit').modal('show');
+    $('#project-img-edit').fadeIn();
+    $('html').addClass('_open-modal');
     if (!e) var e = window.event;
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
   }
 
-  function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    if (evt && evt.currentTarget) {
-      evt.currentTarget.className += " active";
-    }
-
-    $('#sourceEditor').hide();
-    $('.plan-hide').hide();
-    $('.plan-show').show();
-
-    if (tabName === "Team")
-      $('.get-invo-btn').show();
-    else
-      $('.get-invo-btn').hide();
-  }
-
   $(function () {
-
     $('#tasks_cards').slimScroll({
       height: '500px'
     });
     $('[data-toggle="tooltip"]').tooltip();
-    $('.nav-pills').find('li:first-child a').click();
-
-    openTab({
-        'currentTarget': $('#tab-plan').get(0)
-      }, 'Plan');
   });
 
   // $('#editSource').click(function (event) {
@@ -298,7 +200,6 @@
   //     openTab({
   //       'currentTarget': $('.tab-revisions').get(0)
   //     }, 'Revision');
-
   //   } else {
   //     showSourceEditor();
   //   }
@@ -313,13 +214,14 @@
     });
   });
 
-  $('.do-model-popup').click(function () {
+  $('._do-model-popup').on('click', function () {
     $('#task-do-request-popup').val($(this).attr('id'));
   });
 
   var invitePeople = localStorage.getItem("invite_people");
   if (invitePeople == "true") {
-    $('#projectInviteModal').modal('toggle');
+    $('#projectInviteModal').fadeIn();
+    $('html').addClass('_open-modal');
     localStorage.removeItem('invite_people');
   }
 
@@ -342,18 +244,22 @@
     }
   });
 
-  $(document).on('click', '.block-user', function(e) {
-    if ($(this).parent().parent().data("revision-user-id")) {
-      $('#blockUserModal .modal-title a').attr('href', $(this).parent().parent().data("revision-user-link"));
-      $('#blockUserModal .modal-title a').text($(this).parent().parent().data("revision-user"));
-    } else {
-      $('#blockUserModal .modal-title a').attr('href', '#');
-      $('#blockUserModal .modal-title a').text('Anonymous');
-    }
+  $(document).on('click.openModal', '.block-user', function(e) {
+    var $that = $(this),
+        $parent = $that.parent().parent(),
+        revision = {
+            userId: $parent.data("revision-user-id"),
+            userLink: $parent.data("revision-user-link"),
+            user: $parent.data("revision-user"),
+            userName: $parent.data("revision-username")
+        },
+        $blockUserModal = $('#blockUserModal');
 
-    $('#blockUserModal .modal-body-block-user a').attr('href', "/projects/<%= @project.id %>/block_user?username=" + $(this).parent().parent().data("revision-username"))
+     revision.userId
+        ? $blockUserModal.find('.modal-default__title a').attr('href', revision.userLink).text(revision.user)
+        : $blockUserModal.find('.modal-default__title a').attr('href', '#').text('Anonymous');
 
-    $('#blockUserModal').modal('show');
+    $blockUserModal.find('.btn-root._agree').attr('href', "/projects/<%= @project.id %>/block_user?username=" + revision.userName);
   });
 
   // Compare revisions button click handler

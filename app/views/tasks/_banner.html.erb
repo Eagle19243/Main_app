@@ -43,18 +43,19 @@
 
             <script type="text/javascript">
               $(function () {
-
                 var $bProjectInfo = $('.b-project-info');
                 $bProjectInfo
                   .on('click.addEditClass', '.btn-edit', function () {
+                    $bProjectInfo.find('input[type="text"]').prop('required', true);
                     $(this).parent().toggleClass('_open-edit-form').parents('.b-project-info').addClass('_form-opened');
                     var $buttons = $bProjectInfo.find('[type="submit"],[type="button"]');
+                    var $input_country = $bProjectInfo.find('input[name=country]');
+                    $input_country.geocomplete();
                     $buttons.on('click.removeEditClass', function () {
                       $('._open-edit-form').removeClass('_open-edit-form').parents('.b-project-info').removeClass('_form-opened');
                       $buttons.off('click.removeEditClass');
                     });
-                  })
-
+                  });
               });
             </script>
           </div>

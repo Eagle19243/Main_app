@@ -35,8 +35,8 @@ class User < ActiveRecord::Base
   has_many :donations
   has_many :proj_admins, dependent: :delete_all
 
-  has_many :chatrooms
-  has_many :groupmembers
+  has_many :chatrooms, dependent: :destroy
+  has_many :groupmembers, dependent: :destroy
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
   has_many :project_rates

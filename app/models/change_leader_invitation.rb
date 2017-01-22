@@ -1,5 +1,5 @@
 # project_id
-# email
+# new_leader
 # sent_at
 # accepted_at
 # rejected_at
@@ -16,6 +16,19 @@ class ChangeLeaderInvitation < ActiveRecord::Base
   end
 
   def accept!
+
+    project = self.project
+    new_leader = User.where(:email => self.new_leader).first
+    old_leader = project.user
+
+    # project.update(user_id: new_leader.id)
+
+    project.revoke_permissions old_leader.username
+    project.grant_permissions new_leader.username
+
+    project.team.team_memberships.find_by_team_member_id(new_leader.id).update(role: 1)
+    project.team.team_memberships.find_by_team_member_id(old_leader.id).update(role: 0)
+
     self.update(accepted_at: Time.current)
   end
 

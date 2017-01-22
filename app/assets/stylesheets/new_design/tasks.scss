@@ -269,6 +269,24 @@
 
 .project-tab-wrapper {
 
+  .svg-share {
+    width: 17px;
+    height: 17px;
+    fill: #000;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+    margin-right: 5px;
+    transition: fill .2s linear;
+  }
+  .btn-root:hover,
+  .btn-root:focus {
+    .svg-share {
+      fill: #fff;
+    }
+  }
+
   .tabs-menu {
     display: block;
     position: relative;
@@ -278,17 +296,20 @@
     padding-left: 6%;
     padding-right: 6%;
     margin: 0;
+    &__inner {
+      font-size: 0;
+      margin-bottom: -2px;
+    }
 
     .project-btn-group {
       display: inline-block;
       float: right;
 
-      a.btn-invite {
-        font-family: 'Roboto';
-        color: #000;
-        text-transform: uppercase;
-        margin: 10px 5px 0px;
-        font-size: 1em;
+      .btn-root {
+        margin: 0 5px;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 5px 20px 3px;
       }
     }
   }
@@ -420,16 +441,12 @@
       }
     }
 
-    a, i.fa-star {
+    a:not(.btn-root), i.fa-star {
       color: #ddd;
     }
 
     a:hover {
       text-decoration: none;
-    }
-
-    &.plan-hide {
-      display: none;
     }
   }
 
@@ -605,7 +622,6 @@
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
-
   .card-title {
     p {
       font-family: 'Roboto', sans-serif;
@@ -617,50 +633,23 @@
       word-break: break-word;
     }
   }
-
   .progress {
     background-color: #ddd;
     .progress-bar {
       background-color: #555;
     }
   }
-
   .fund-do-btns {
     text-align: right;
-
-    a {
-      display: inline-block;
-      text-align: center;
+    .btn-root {
       width: 100%;
-      max-width: 100px;
       height: 30px;
-      line-height: 30px;
+      padding: 5px 8px 2px;
       margin-bottom: 5px;
-      text-decoration: none;
-      padding: 0;
-      border: 2px solid #000;
-      border-radius: 40px;
-
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin',sans-serif;
       font-weight: 600;
       font-size: 0.8em;
     }
-    a[title="FUND"] {
-      background-color: #fff;
-      color: #000;
-      @extend .hover-default;
-    }
-    a[title="DO"] {
-      background-color: #000;
-      color: #fff;
-      @extend .hover-alt;
-    }
-
-    a:hover,
-    a:focus {
-      text-decoration: none;
-    }
-
   }
 }
 
@@ -710,38 +699,6 @@
 
     .fund-do-btns {
       text-align: center;
-
-      a.modal-link {
-        display: inline-block;
-        text-align: center;
-        width: 48%;
-        max-width: 100px;
-        height: 30px;
-        line-height: 30px;
-        margin-bottom: 5px;
-        text-decoration: none;
-        padding: 0;
-        border: 2px solid #000;
-        border-radius: 40px;
-
-        font-family: 'Libre Franklin';
-        font-weight: 600;
-        font-size: 0.8em;
-      }
-      a[title="FUND"] {
-        background-color: #fff;
-        color: #000;
-      }
-      a[title="DO"] {
-        background-color: #000;
-        color: #fff;
-      }
-
-      a:hover,
-      a:focus {
-        text-decoration: none;
-      }
-
     }
 
   }
@@ -792,30 +749,48 @@
 }
 
 .trello-cards {
-  padding: 15px 10px 0px;
+  padding: 15px 10px 5px;
   clear: both;
   background-color: #fff;
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
 
+  .btn-root {
+    width: calc(50% - 4px);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 20px 2px;
+  }
+
   .card-title {
     h5 {
-      font-family: 'Roboto';
-      overflow: hidden;
-      font-size: 1.2em;
+      font-family: 'Roboto', sans-serif;
+      font-size: 17px;
       font-weight: 600;
       color: #000;
       margin-top: 0;
+
+      line-height: 19px;
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      max-width: 100%;
+      max-height: 76px; /* $line-height*$lines-to-show Fallback for non-webkit */
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     p {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       overflow: hidden;
       font-size: 1em;
       color: #777;
       line-height: 1.5em;
       margin-bottom: 10px;
+      word-break: break-all;
+      word-break: break-word;
     }
     p:hover {
       overflow: auto;
@@ -824,7 +799,7 @@
 
   .comment-wrapper {
     span {
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       font-size: 1.1em;
       color: #aaa;
       padding-right: 10px;
@@ -875,64 +850,6 @@
 
 .team-buttons {
   margin-bottom: 80px !important;
-
-  button {
-    padding: 0 30px;
-    margin: 0 10px;
-    display: inline-block;
-    text-align: center;
-    height: 40px;
-    line-height: 40px;
-    min-width: 120px;
-    border: 2px solid #000;
-    border-radius: 60px;
-    font-family: 'Roboto';
-    font-weight: bold;
-    font-size: 1em;
-    background-color: #fff;
-    color: #000;
-    text-transform: uppercase;
-
-    &:hover,
-    &:focus {
-      background-color: #fff;
-      color: #000;
-    }
-  }
-}
-
-#userSearchPopup {
-  padding: 40px 20px;
-
-  h2 {
-    font-family: 'Roboto';
-    font-weight: normal;
-    color: #000;
-    text-align: center;
-  }
-
-  input {
-    padding: 0 10px;
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-  }
-
-  input[type="submit"] {
-    text-align: center;
-    padding: 0 20px;
-    min-width: 120px;
-    border: 2px solid #000;
-    border-radius: 60px;
-    font-family: 'Roboto';
-    font-weight: bold;
-    font-size: 1em;
-    background-color: #fff;
-    color: #000;
-    text-transform: uppercase;
-    background-color: #fff;
-    color: #000;
-  }
 }
 
 #loading-mask1 {

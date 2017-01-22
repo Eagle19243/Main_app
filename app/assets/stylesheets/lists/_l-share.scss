@@ -1,4 +1,9 @@
 .l-share {
+  &__title {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Roboto, sans-serif;
+  }
   &__list {
     list-style: none;
     font-size: 0;
