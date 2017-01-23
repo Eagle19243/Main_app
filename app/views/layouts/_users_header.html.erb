@@ -65,7 +65,8 @@
             </li>
           <% else %>
             <% Notification.unread.each do |n| %>
-              <% if n.user_id == current_user.id %>
+                  <%unless n.source_model.blank? %>
+                     <% if n.user_id == current_user.id %>
                 <li class="l-dropdown__item">
                   <div class="l-dropdown__item-wrapper">
                     <% if n.action == 'created_project' %>
@@ -141,6 +142,7 @@
                   </div>
                 </li>
               <% end %>
+                      <% end %>
             <% end %>
           <% end %>
         </ul>
