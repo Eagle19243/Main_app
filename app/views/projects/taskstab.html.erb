@@ -232,15 +232,16 @@
   // });
 
   // Compare revisions button click handler
+  var revisionModalShownEvent = $.Event("revisionModalShown");
   $(document).on('click', '.revisions-compare-button', function (e) {
     var selectedRevisions = window.revisionSelectorInstance.getValues().sort();
     if (selectedRevisions.length > 1) {
-
       populateModalRevisionInfo(selectedRevisions[0], '#revisionsDiffModal .modal-revision-info--left');
       populateModalRevisionInfo(selectedRevisions[1], '#revisionsDiffModal .modal-revision-info--right');
 
       $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
-      $('#revisionsDiffModal').modal('show');
+      $('#revisionsDiffModal').fadeIn().trigger(revisionModalShownEvent);
+      $('html').addClass('_open-modal');
     }
   });
 
@@ -266,7 +267,7 @@
   // $(document).on('click', '#revisionsDiffModal a.modal-revision-edit-link', function (e) {
   //   var revision = $(this).parents('.modal-revision-info').data('revision');
   //   if (revision) {
-  //     $('#revisionsDiffModal').modal('hide');
+  //     $('#revisionsDiffModal').fadeOut();
   //     showSourceEditor(revision);
   //   }
   // });
@@ -400,7 +401,7 @@
 <!-- Diff modal scripts -->
 <script>
   $(function () {
-    $('#revisionsDiffModal').on('shown.bs.modal', function () {
+    $('#revisionsDiffModal').on('revisionModalShown', function () {
       var selectedRevs = window.revisionSelectorInstance.getValues().sort(); // Note, we're sorting revs to make diff in incremental direction
       // Not so elegant, duplication, but at least we already know that there are 2 revisions are selected
       var origin = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');

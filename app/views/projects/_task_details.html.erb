@@ -247,10 +247,10 @@
                       </a>
                   <% end %>
                   <% if user_signed_in? && (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
-                      <a href="<%= reject_task_path(@task.id) %>" class="approve-link">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
-                        Delete Task
-                      </a>
+                      <button type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' class='approve-link' data-modal="#removeTask">
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
+                          Delete Task
+                      </button>
                   <% end %>
                   <% if user_signed_in? && (@task.accepted? && (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
                       <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
