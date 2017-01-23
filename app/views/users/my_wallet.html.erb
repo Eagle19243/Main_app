@@ -11,12 +11,14 @@
           <h3 class="s-wallet__subtitle">Receive address</h3>
           <div class="s-wallet__btc-address"><%= @wallet_address.sender_address rescue 'Available Soon' %></div>
           <button class="s-wallet__qr">
-            <div id="qrcode"></div>
-            .
+            <div id="qrcode" class="s-wallet__qr-wrap"></div>
+            <svg focusable="false" version="1.1" class="svg-qr">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-qr"></use>
+            </svg>
             <script>
               $('#qrcode').qrcode("<%= @wallet_address.sender_address %>");
             </script>
-            QR-Code
+            Show QR-Code
           </button> <!-- todo show qr code -->
         </div>
         <div class="s-wallet__top-bar-right">
@@ -101,7 +103,7 @@
             <!--<input type="number" class="f-default__field numeric integer" required>-->
             <input type="number" id="wallet_transaction_amount" name="amount"  class="f-default__field numeric integer"  required="true" placeholder=''/>
 
-            <div class="f-transaction__btc">USD</div>
+            <div class="f-transaction__btc">BTC</div>
           </label>
           <div class="f-transaction__info">
             Availabel: <span class="js-btc-value"><%= user_wallet_balance_btc (@wallet_address.current_balance) %></span> BTC

@@ -10,7 +10,7 @@
 
       <div class="section-content">
         <% @suggested_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -59,9 +59,9 @@
             <% end %>
         <% end %>
       </div>
-      <% if current_user && current_user.id != @project.user_id %>
+      <% if current_user %>
           <div class="section-add-task">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
+            <a id="suggest-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
               a Task</a>
           </div>
       <% end %>
@@ -78,7 +78,7 @@
 
       <div class="section-content">
         <% @sourcing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -124,7 +124,8 @@
       <% if user_signed_in? %>
           <% if @project.user_id == current_user.id %>
               <div class="section-add-task">
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#newTaskModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <a id="add-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
+                 a Task</a>
               </div>
           <% end %>
       <% end %>
@@ -142,7 +143,7 @@
 
       <div class="section-content">
         <% @doing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <div class="card-title">
@@ -192,7 +193,7 @@
 
       <div class="section-content">
         <% @reviewing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -244,7 +245,7 @@
 
       <div class="section-content">
         <% @done_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', remote: true do %>
+            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
 
@@ -287,3 +288,15 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $("#suggest-new-task").click(function() {
+    $("#newTaskModal").modal('show');
+    $("#newTaskModal #task_state").val('suggested_task');
+  });
+
+  $("#add-new-task").click(function() {
+    $("#newTaskModal").modal('show');
+    $("#newTaskModal #task_state").val('accepted');
+  });
+</script>

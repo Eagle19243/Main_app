@@ -96,7 +96,7 @@
 
                 <div id="tasks_cards">
                   <% for i in 1..5 %>
-                    <div class="summary-cards">
+                    <div class="summary-cards pr-card" >
                       <div class="card-wrapper">
                         <div class="card-title">
                           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam eras volutpat.</p>
@@ -215,7 +215,7 @@
 </div>
 
 <script type="text/javascript">
-
+  // todo look like this view newer used
   function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -230,16 +230,10 @@
     evt.currentTarget.className += " active";
   }
 
-
   $(function(){
     $('#tasks_cards').slimScroll({
       height: '500px'
     });
-
     $('[data-toggle="tooltip"]').tooltip();
-
-    $('.nav-pills').find('li:first-child a').click();
-
   });
-
 </script>

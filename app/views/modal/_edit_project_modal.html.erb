@@ -80,28 +80,20 @@
   </div>
 </div>
 
-<div class="modal fade" id="project-img-edit" role="dialog" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal">&times;</button>
-        <h3>Edit Project Image</h3>
-      </div>
-  
-      <%= form_for @project do |f| %>
-        <div class="modal-content">
-          <div class="cropbox-wrap">
-            <%= f.cropbox :picture %>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <%= f.file_field :picture, class: 'btn btn-primary', onchange: "previewProjectImage(this);"%>
-          <%= f.submit "Save Changes", :class => "btn-default-weserve" %>
-          <button type="button" class="btn-alt-weserve" data-dismiss="modal"> Cancel </button>
-        </div>
-      <% end %>
+<div class="modal-default modal-edit-img" id="project-img-edit" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-default__content">
+        <button type="button" class="modal-default__close"></button>
+        <h3 class="modal-default__title">Edit Project Image</h3>
+
+        <%= form_for @project do |f| %>
+            <div class="cropbox-wrap">
+              <%= f.cropbox :picture %>
+            </div>
+            <%= f.file_field :picture, class: 'btn-upload', onchange: "previewProjectImage(this);"%>
+            <button class="btn-root" name="commit" data-dismiss="modal">Save Changes</button>
+            <button type="button" class="btn-root _dark" data-modal-close>Cancel</button>
+        <% end %>
     </div>
-  </div>
 </div>
 
 <script type="text/javascript">

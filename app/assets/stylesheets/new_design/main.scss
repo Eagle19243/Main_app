@@ -8,6 +8,7 @@ body {
 }
 
 .flash-messages {
+  position: relative;
   .alert-box {
     display: block;
     text-align: center;
@@ -17,6 +18,10 @@ body {
 
     font-family: 'Roboto';
     font-size: 1em;
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
@@ -173,7 +178,6 @@ button {
 }
 
 .border-link,
-.btn-start,
 .normal-button,
 .btn-share,
 .btn-notify,

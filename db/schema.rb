@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107095300) do
+ActiveRecord::Schema.define(version: 20170119102927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -369,11 +369,21 @@ ActiveRecord::Schema.define(version: 20170107095300) do
     t.string   "tx_hash"
     t.integer  "task_id"
     t.boolean  "transferd"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "user_id"
+    t.string   "stripe_token"
+    t.string   "amount_in_satoshi"
+    t.string   "stripe_response_id"
+    t.string   "balance_transaction"
+    t.boolean  "paid"
+    t.string   "refund_url"
+    t.string   "status"
+    t.string   "seller_message"
   end
 
   add_index "stripe_payments", ["task_id"], name: "index_stripe_payments_on_task_id", using: :btree
+  add_index "stripe_payments", ["user_id"], name: "index_stripe_payments_on_user_id", using: :btree
 
   create_table "task_attachments", force: :cascade do |t|
     t.integer  "task_id"
@@ -583,6 +593,7 @@ ActiveRecord::Schema.define(version: 20170107095300) do
   add_foreign_key "notifications", "users", column: "origin_user_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "section_details", "projects"
   add_foreign_key "stripe_payments", "tasks"
+  add_foreign_key "stripe_payments", "users"
   add_foreign_key "task_members", "tasks"
   add_foreign_key "task_members", "team_memberships"
   add_foreign_key "user_wallet_addresses", "users"

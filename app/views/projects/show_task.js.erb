@@ -1,18 +1,17 @@
 $("#product-modal").html("<%= escape_javascript(render :partial => 'task_details') %>")
-$("#myModal").css("display", "block");
-$("#close").click(function () {
-  $("#myModal").hide();
-  $("#product-modal").html("");
-});
+ModalsModule.openModal("#myModal");
+ModalsModule.togglePreloader(false);
+setTimeout(function () {UrlModule.enableCardClick();},0)
+
+
+//$("#close").click(function () {
+//  $("#product-modal").html("");
+//});
 $("#Do-request-form").submit(function () {
   $('#Do-request-form-response').html(" Requesting ...")
 });
-$("#comment-form").submit(function () {
-});
-$('.hide-input').hide()
-$("#loading-mask1").hide();
+$("#comment-form").submit(function () {});
 $('a[name=delete_attachment]').click(function () {
-  //alert($(this).attr('id'));
   var id = $(this).attr('id')
   $.ajax({
     url: "/task_attachments/destroy_attachment",
@@ -250,10 +249,6 @@ $(document).on('click', ".modal-default",function (e) {
 });
 
 var $modalInvite = $('#InviteModel');
-// When the user clicks the button, open the modal
-$('#invbtn').on('click.openInviteModal', function () {
-    $modalInvite.fadeIn();
-});
 // When the user clicks on black area, close the modal
 $modalInvite.on('click.closeInviteModal', function (e) {
     if (e.target === this) {
@@ -270,16 +265,6 @@ var $modalShare = $('#share');
 $('#sharebtn').on('click.openShareModal', function () {
     $modalShare.fadeIn();
 });
-// When the user clicks on black area, close the modal
-$modalShare.on('click.closeShareModal', function (e) {
-    if (e.target === this) {
-        $modalShare.fadeOut();
-    }
-});
-// When the user clicks on <span> (x), close the modal
-$('#shareclose').on('click.closeShareModal', function (e) {
-    $modalShare.fadeOut();
-});
 var modalteam = document.getElementById('team');
 // Get the button that opens the modal
 var btnteam = document.getElementById("teambtn");
@@ -290,40 +275,6 @@ btnteam.onclick = function () {
 }
 spanteam.onclick = function () {
   modalteam.style.display = "none";
-}
-
-var modal = document.getElementById('myModal');
-
-var btn = document.getElementById("myBtn");
-
-btn.onclick = function () {
-  modal.style.display = "block";
-}
-
-$(document).ready(function () {
-  var $modalInvite = $("#InviteModel");
-  $(document).keydown(function (e) {
-    if (e.keyCode == 27) {
-      $("#myModal").hide();
-      $("#share").hide();
-      $("#team").hide();
-      $("#suggested_task_popup").hide();
-      $modalInvite.hide();
-      $("#myModal2").hide();
-      $("#popup-for-free-paid").hide();
-      $html.removeClass('_open-modal');
-    }
-  });
-})
-
-
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-  if (event.target == modalteam) {
-    modalteam.style.display = "none";
-  }
 }
 
 $(function () {
@@ -341,5 +292,3 @@ function callAjax() {
     }
   });
 }
-
-

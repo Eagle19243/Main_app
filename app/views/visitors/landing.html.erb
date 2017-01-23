@@ -10,9 +10,9 @@
 
             <div class="hero-start">
               <% if user_signed_in? %>
-                  <a class="btn-start" data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
               <% else %>
-                  <a class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
               <% end %>
             </div>
           </div>
@@ -88,9 +88,9 @@
               <p><%= t('landing.hero-generate-text_html') %></p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                    <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
                 <% else %>
-                    <a class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                    <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
                 <% end %>
               </div>
             </div>
@@ -106,9 +106,9 @@
               <p><%= t('landing.hero-lab-text_html') %></p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                    <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
                 <% else %>
-                    <a class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                    <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
                 <% end %>
               </div>
             </div>
@@ -124,9 +124,9 @@
               <p><%= t('landing.hero-prototype-text_html') %></p>
               <div class="carousel-start">
                 <% if user_signed_in? %>
-                    <a  data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                    <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
                 <% else %>
-                    <a class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                    <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
                 <% end %>
               </div>
             </div>
@@ -207,11 +207,11 @@
         </div>
       </div>
       <% if user_signed_in? %>
-          <a class="btn-root _light" data-toggle="modal" data-target="#startProjectModal"><%= t('commons.start_a_project') %></a>
+          <a class="btn-root _light" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
       <% else %>
           <a class="btn-root _light" class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
       <% end %>
-      <!--<a data-toggle="modal" data-target="#startProjectModal" class="btn-root _light">Start a Project</a>-->
+      <!--<a data-modal="#startProjectModal" class="btn-root _light">Start a Project</a>-->
 
     </div>
   </div>

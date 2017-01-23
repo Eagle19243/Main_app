@@ -120,11 +120,11 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-    if @task.project.user_id == current_user.id
-      @task.state = 'accepted'
-    else
-      @task.state = 'suggested_task'
-    end
+    # if @task.project.user_id == current_user.id
+    #   @task.state = 'accepted'
+    # else
+    #   @task.state = 'suggested_task'
+    # end
     respond_to do |format|
       if @task.save
         unless @task.suggested_task?
@@ -293,6 +293,6 @@ class TasksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def task_params
-    params.require(:task).permit(:references, :deadline, :target_number_of_participants, :project_id, :short_description, :number_of_participants, :proof_of_execution, :title, :description, :budget, :user_id, :condition_of_execution, :fileone, :filetwo, :filethree, :filefour, :filefive)
+    params.require(:task).permit(:references, :deadline, :target_number_of_participants, :project_id, :short_description, :number_of_participants, :proof_of_execution, :title, :description, :budget, :user_id, :condition_of_execution, :fileone, :filetwo, :filethree, :filefour, :filefive, :state)
   end
 end
