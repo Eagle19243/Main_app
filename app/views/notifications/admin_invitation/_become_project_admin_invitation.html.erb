@@ -1,11 +1,29 @@
-<%= link_to notification.origin_user.name, user_path(notification.origin_user) %> invites you to become an admin on project
-<%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>
+<div class="b-notification__text">
+    <%= link_to notification.origin_user.name, user_path(notification.origin_user) %> invites you to become an admin on project
+    <%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>
+</div>
+
 <% if notification.source_model.pending? %>
-  <div id="invitation-<%= notification.source_model.id %>">
-    <%= button_to "Accept", accept_admin_invitation_path(notification.source_model),
-                  form_class: "accept-invitation", class: "button round" %>
-    <%= button_to "Reject", reject_admin_invitation_path(notification.source_model),
-                  form_class: "reject-invitation", class: "button round" %>
+  <div id="invitation-<%= notification.source_model.id %>" class="b-notification__actions">
+
+  <%= button_to accept_admin_invitation_path(notification.source_model),
+                form_class: "f-accept-invitation",
+                class: "btn-notify _accept" do %>
+        <svg focusable="false" version="1.1" class="svg-check">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
+        </svg>
+        Approve
+  <% end %>
+
+  <%= button_to reject_admin_invitation_path(notification.source_model),
+                form_class: "f-reject-invitation",
+                class: "btn-notify _reject" do %>
+        <svg focusable="false" version="1.1" class="svg-times">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-times"></use>
+        </svg>
+        Reject
+  <% end %>
+
   </div>
 <% else %>
     <br/>
