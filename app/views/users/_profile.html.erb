@@ -118,6 +118,8 @@
         .on('click.addEditClass', '.btn-edit', function () {
           $(this).parent().toggleClass('_open-edit-form').parents('.profile-hero').addClass('_form-opened');
           var $buttons = $profileHero.find('[type="submit"],[type="button"]');
+          var $input_country = $profileHero.find('input[name=city]');
+          $input_country.geocomplete();
           $buttons.on('click.removeEditClass', function () {
             $('._open-edit-form').removeClass('_open-edit-form').parents('.profile-hero').removeClass('_form-opened');
             $buttons.off('click.removeEditClass');
