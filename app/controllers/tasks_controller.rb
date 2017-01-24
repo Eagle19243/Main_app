@@ -120,6 +120,7 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
+    #Someone Recieving Task[state] in params and commented this  . i think this is more safe
     if @task.project.user_id == current_user.id
       @task.state = 'accepted'
     else

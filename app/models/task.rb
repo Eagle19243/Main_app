@@ -23,7 +23,8 @@ class Task < ActiveRecord::Base
   has_many :stripe_payments
 
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
-  after_create :assign_address
+  #commented this as we dont need this for suggested task.Ateq
+ # after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :suggested_task
@@ -166,11 +167,11 @@ class Task < ActiveRecord::Base
   end
 
   def funded
-    budget == 0 ? "100%" : (((current_fund + (curent_bts_to_usd (id) rescue 0)) / budget) * 100).round.to_s + " %"
+    budget == 0 ? "100%" : ((( convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + " %"
   end
 
   def current_fund_of_task
-    (current_fund+(curent_bts_to_usd(id) rescue 0)).round.to_s
+    (convert_satoshi_to_btc(current_fund) rescue 0).round.to_s
   end
 
   def team_relations_string
