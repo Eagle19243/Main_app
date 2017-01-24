@@ -1,23 +1,14 @@
-<div class="modal fade" id="profile-img-edit" role="dialog" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal">&times;</button>
-        <h3>Edit Profile Image</h3>
-      </div>
-  
+<div class="modal-default modal-edit-img" id="profile-img-edit" role="dialog" tabindex="-1" aria-hidden="true">
+  <div class="modal-default__content" role="document">
+      <button class="modal-default__close" type="button"></button>
+      <h3 class="modal-default__title">Edit Profile Image</h3>
       <%= form_for @user do |f| %>
-        <div class="modal-content">
-          <div class="cropbox-wrap">
-            <%= f.cropbox :picture %>
-          </div>
+        <div class="cropbox-wrap">
+          <%= f.cropbox :picture %>
         </div>
-        <div class="modal-footer">
-          <%= f.file_field :picture, class: 'btn btn-primary', onchange: "previewProfileImage(this);"%>
-          <%= f.submit "Save Changes", :class => "btn-default-weserve" %>
-          <button type="button" class="btn-alt-weserve" data-dismiss="modal"> Cancel </button>
-        </div>
+        <%= f.file_field :picture, class: 'btn-upload', onchange: "previewProfileImage(this);"%>
+        <button class="btn-root" name="commit" data-modal-close>Save Changes</button>
+        <button type="button" class="btn-root _dark" data-modal-close>Cancel</button>
       <% end %>
-    </div>
   </div>
 </div>
