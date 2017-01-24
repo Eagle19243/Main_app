@@ -73,11 +73,11 @@ class Project < ActiveRecord::Base
   end
 
   def needed_budget
-    tasks.sum(:budget)
+    convert_satoshi_to_btc(tasks.sum(:satoshi_budget))
   end
 
   def funded_budget
-    tasks.sum(:current_fund)
+    convert_satoshi_to_btc(tasks.sum(:current_fund))
   end
 
   def funded_percentages

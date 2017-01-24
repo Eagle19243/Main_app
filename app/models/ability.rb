@@ -65,7 +65,7 @@ class Ability
     can :show, User
     if user
       can [:my_projects], User
-      can [:update, :destroy], User, :id => user.id
+      can [:update, :destroy,:my_wallet], User, :id => user.id
       if user.admin
         can :index, User
       end

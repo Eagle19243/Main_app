@@ -2,7 +2,7 @@ include UsersHelper
 include ApplicationHelper
 
 class UsersController < ApplicationController
-  load_and_authorize_resource :except => [:index,:my_wallet]
+  load_and_authorize_resource :except => [:index]
   layout "dashboard", only: [:my_projects]
 
   def index
