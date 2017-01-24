@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  include ApplicationHelper
 
   acts_as_paranoid
 
