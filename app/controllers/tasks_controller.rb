@@ -120,18 +120,17 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-    # if @task.project.user_id == current_user.id
-    #   @task.state = 'accepted'
-    # else
-    #   @task.state = 'suggested_task'
-    # end
+    if @task.project.user_id == current_user.id
+      @task.state = 'accepted'
+    else
+      @task.state = 'suggested_task'
+    end
     respond_to do |format|
       if @task.save
         unless @task.suggested_task?
           @task.assign_address
         end
         current_user.create_activity(@task, 'created')
-
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
         format.json { render :show, status: :created, location: @task }
       else
@@ -147,8 +146,8 @@ class TasksController < ApplicationController
      @task.assign_address
    end
     respond_to do |format|
-    #  format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address, balance: curent_bts_to_usd(@task.id), status: 200} }
-       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance:curent_bts_to_usd( @task.id ), task_id: @task.id, project_id: @task.project_id , status: 200} }
+    #  format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address,balance: curent_bts_to_usd(@task.id), status: 200} }
+       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance:convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
     end
   end
 

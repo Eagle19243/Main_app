@@ -131,7 +131,6 @@ class Task < ActiveRecord::Base
     end
   end
 
-
   def transfer_task_funds
     bitgo_fee = 0.10
     we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
@@ -158,12 +157,16 @@ class Task < ActiveRecord::Base
 
   end
 
-  def funded
-    budget == 0 ? "100%" : (((current_fund + (curent_bts_to_usd (id) rescue 0)) / budget) * 100).round.to_s + " %"
+  def budget
+    budget = convert_satoshi_to_btc(self.satoshi_budget)
   end
 
-  def funded_in_btc
-    ((self.wallet_address.current_balance.to_s rescue '0') + ' ฿')
+  def budget=(satoshi_budget)
+    self.satoshi_budget =  convert_btc_to_satoshi(satoshi_budget)
+  end
+
+  def funded
+    budget == 0 ? "100%" : (((current_fund + (curent_bts_to_usd (id) rescue 0)) / budget) * 100).round.to_s + " %"
   end
 
   def current_fund_of_task
