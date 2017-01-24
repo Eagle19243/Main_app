@@ -88,7 +88,7 @@
                       <p class="l-dropdown__text"><%= "You have updated a project named "%>
                         <span><%= "#{n.source_model.title}"%></span>
                       </p>
-                    <% elsif n.action == 'suggested_task' %>
+                    <% elsif n.action == 'suggested_task' && n.source_model%>
                       <div class="l-dropdown__actions">
                         <span class="l-dropdown__action">Task Suggestion</span>
                         <span class="l-dropdown__date">
@@ -104,7 +104,7 @@
                     <% end %>
                   </div>
                 </li>
-              <% elsif n.origin_user_id == current_user.id %>
+              <% elsif n.origin_user_id == current_user.id && n.source_model%>
                 <li class="l-dropdown__item">
                   <div class="l-dropdown__item-wrapper">
                     <% if n.action == 'suggested_task' %>
