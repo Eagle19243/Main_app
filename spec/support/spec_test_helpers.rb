@@ -8,6 +8,14 @@ module SpecTestHelpers
   def finished_all_ajax_requests?
     page.evaluate_script('jQuery.active').zero?
   end
+
+  def set_omniauth(credentials)
+    provider = credentials.provider
+
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[provider] = credentials
+    PictureUploader.any_instance.stub(:download!)
+  end
 end
 
 RSpec.configure do |config|
