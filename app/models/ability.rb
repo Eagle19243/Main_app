@@ -16,9 +16,11 @@ class Ability
 
   def initializeTeamMembershipsPermissions(user)
     if user
-      can [:update], TeamMembership do |team_membership|
-        team_membership.team.project.user.id == user.id && user.is_project_leader?(team_membership.team.project)
+
+      can [:update, :destroy], TeamMembership do |team_membership|
+        user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user
       end
+
     end
   end
 
