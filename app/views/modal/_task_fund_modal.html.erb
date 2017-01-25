@@ -37,7 +37,11 @@
 
                   <div class="modal-fund__signed">
                     <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"></span></div>
-                    <img class="modal-fund__avatar" src="http://placehold.it/44x44"/> <!-- todo BE: add user photo  -->
+                    <% if current_user.picture? %>
+                        <%= image_tag(current_user.picture, class: "modal-fund__avatar") %>
+                    <% else %>
+                        <%= gravatar_for(current_user.user, 44) %>
+                    <% end %>
                     <div class="modal-fund__field-wrap">
                       <div class="modal-fund__balance">BTC Wallet (0.0000 BTC)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">

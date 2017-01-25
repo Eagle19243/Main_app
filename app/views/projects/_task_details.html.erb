@@ -198,12 +198,19 @@
 
                   <div class="team-block mb30">
                     <h5>Team</h5>
-                    <% for i in 1..5 %>
-                        <%= image_tag("no_image.png") %>
+                    <% if @task.team_memberships.blank? %>
+                        <h2>No Teammate Added Yet</h2>
+                    <% else %>
+                        <% @task.team_memberships.each do |team_member| %>
+                            <% if team_member.team_member.picture? %>
+                                <%= image_tag(team_member.team_member.picture, title: team_member.team_member.name) %>
+                            <% else %>
+                                <%= gravatar_for_user(team_member.team_member, title: team_member.team_member.name) %>
+                            <% end %>
+                        <% end %>
                     <% end %>
                   </div>
-
-              <div class="deadline-block">
+                  <div class="deadline-block">
                 <h5>Deadline</h5>
                 <div class="deadline-group">
                     <div class="form-group">
