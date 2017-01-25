@@ -221,7 +221,7 @@ class User < ActiveRecord::Base
             uid: access_token.uid,
             name: access_token.info.name,
             confirmed_at: DateTime.now,
-            password: Devise.friendly_token[0, 20],   
+            password: Devise.friendly_token[0, 20],
             company: access_token.extra.raw_info.hd,
             username: access_token.info.name + access_token.uid,
             remote_picture_url: access_token.info.image.gsub('http://', 'https://')
@@ -255,6 +255,14 @@ class User < ActiveRecord::Base
   def is_lead_editor_for? proj
     if proj.team.team_memberships.where(:team_member_id => self.id).present?
       return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "lead_editor")
+    else
+      return false
+    end
+  end
+
+  def is_teammate_for? proj
+    if proj.team.team_memberships.where(:team_member_id => self.id).present?
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "teammate")
     else
       return false
     end
