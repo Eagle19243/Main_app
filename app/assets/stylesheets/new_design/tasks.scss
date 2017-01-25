@@ -639,6 +639,9 @@
       background-color: #555;
     }
   }
+  ._delete {
+    margin-top: 10px;
+  }
   .fund-do-btns {
     text-align: right;
     .btn-root {
@@ -675,7 +678,7 @@
     text-align: center;
 
     a {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.1em;
       color: #000;
       font-weight: 600;
@@ -687,6 +690,9 @@
     }
   }
 
+  ._delete {
+    margin-top: 10px;
+  }
   .section-content {
     padding: 5px;
     padding-top: 0px;

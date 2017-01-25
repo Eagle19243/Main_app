@@ -14,10 +14,9 @@ module SpecTestHelpers
 
     OmniAuth.config.test_mode = true
     OmniAuth.config.mock_auth[provider] = credentials
-
+    
     PictureUploader.any_instance.stub(:download!)
   end
-
 end
 
 RSpec.configure do |config|
