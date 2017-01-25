@@ -38,8 +38,16 @@
   }
   &__text {
     margin-right: 20px;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 14px;
     a {
       color: #525252;
+      text-decoration: underline;
+      &:hover,
+      &:active,
+      &:visited {
+        color: #525252;
+      }
     }
   }
   &__actions {
