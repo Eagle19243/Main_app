@@ -26,7 +26,7 @@
               </td>
               <td class="leader">
                 <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.name %></a></span>
-                <a class="pull-right" data-modal="#change-leader-modal"  onclick="remove_project(<%=project.id  %>)">
+                <a class="pull-right" data-modal="#change-leader-modal" data-id="<%= project.id %>">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
               </td>
