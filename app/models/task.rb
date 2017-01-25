@@ -134,11 +134,9 @@ class Task < ActiveRecord::Base
 
   def transfer_task_funds
     bitgo_fee = 0.10
-    we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
+    we_serve_wallet = ENV['we_serve_wallet']
     wallet_address = self.wallet_address
     total_budget = self.budget
-    #users = self.team_memberships
-
     team_members = self.team_memberships
     #team_members = TeamMembership.where(task_id: self.id)
     if (team_members.blank?)
