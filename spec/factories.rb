@@ -3,6 +3,7 @@ FactoryGirl.define do
     email 'test_user@example.com'
     password 'secretadmin0password'
     name 'Test0 User'
+    picture { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'user_photo.png'), 'image/png') }
   end
 
   factory :project do
