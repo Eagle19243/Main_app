@@ -48,9 +48,7 @@
                       <button type="button" title="DO" class='btn-root _dark _do-model-popup' data-modal="#suggested_task_model_for_fund">DO</button>
                       <% if user_signed_in? %>
                           <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
-                              <object type="fake">
-                                <%= link_to 'Delete', task, method: :delete, class: 'btn-root', data: {confirm: 'Are you sure?'}, title: "Delete" %></td>
-                              </object>
+                            <button type="button" title="Delete" data-delete-url='<%= reject_task_path(task.id) %>' class='btn-root _dark _delete' data-modal="#removeTask">Delete</button>
                           <% end %>
                       <% end %>
                     </div>
@@ -124,8 +122,7 @@
       <% if user_signed_in? %>
           <% if @project.user_id == current_user.id %>
               <div class="section-add-task">
-                <a id="add-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add
-                 a Task</a>
+                <a id="add-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
               </div>
           <% end %>
       <% end %>
@@ -299,4 +296,32 @@
     $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('accepted');
   });
+</script>
+
+<div id="removeTask" class="modal-default modal-remove-task" tabindex="-1">
+  <div class="modal-default__content" style="max-width: 900px;">
+    <button type="button" class="modal-default__close"></button>
+    <h4 class="modal-default__title">Are you sure you want to delete this task?</h4>
+    <button type="button" class="btn-root _agree">Ok</button>
+    <button type="button" class="btn-root _decline">Cancel</button>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    var $modalRemoveTask = $('#removeTask'),
+        currentTaskUrl = null;
+
+    $(document)
+        .on('click.setCurrentTaskUrl', '[data-modal="#removeTask"]', function () {
+            currentTaskUrl = $(this).data('deleteUrl');
+        })
+        .on('click.agreeRemoveTask', '#removeTask ._agree', function () {
+            $.get(currentTaskUrl, function( data ) {
+                window.location.reload();
+            });
+        })
+        .on('click.declineRemoveTask', '#removeTask ._decline', function () {
+            $modalRemoveTask.trigger('click');
+        });
 </script>

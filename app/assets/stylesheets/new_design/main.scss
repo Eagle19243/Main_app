@@ -218,3 +218,14 @@ button {
     border: none;
   }
 }
+
+#error-message-show {
+  background-color: #fedede;
+  color: #a94442;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 3vw;
+  font-family: 'Libre Franklin';
+  display: none;
+}
+
