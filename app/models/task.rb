@@ -108,8 +108,8 @@ class Task < ActiveRecord::Base
     transfering_task = self
     begin
       @transfer = WalletTransaction.new(amount: amount, user_wallet: wallet_address_to_send_btc, task_id: self.id)
-      satoshi_amount = nil
-      satoshi_amount = convert_usd_to_btc_and_then_satoshi(params['amount']) if @transfer.valid?
+     # satoshi_amount = nil
+      satoshi_amount = amount if @transfer.valid?
       if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
         @transfer.save
       else
