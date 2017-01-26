@@ -108,6 +108,7 @@
 
   &._notifications {
     width: 100%;
+    max-width: calc(100% - 220px)
   }
 }
 
