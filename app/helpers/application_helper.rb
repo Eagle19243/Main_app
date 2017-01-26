@@ -2,7 +2,9 @@ module ApplicationHelper
 	def gravatar_for(user, size = 100, title = user.name )
     image_tag gravatar_image_url(user.email, size: size), title: title, class: 'img-rounded'
   end
-
+  def gravatar_for_fund(user, size = 44, title = user.name )
+    image_tag gravatar_image_url(user.email, size: size), title: title, class: 'modal-fund__avatar'
+  end
   def gravatar_for_user(user, size = 30, title = user.name )
     image_tag gravatar_image_url(user.email, size: size), title: title, class: 'img-rounded'
   end
