@@ -2,7 +2,9 @@ module ApplicationHelper
 	def gravatar_for(user, size = 100, title = user.name )
     image_tag gravatar_image_url(user.email, size: size), title: title, class: 'img-rounded'
   end
-
+  def gravatar_for_fund(user, size = 44, title = user.name )
+    image_tag gravatar_image_url(user.email, size: size), title: title, class: 'modal-fund__avatar'
+  end
   def gravatar_for_user(user, size = 30, title = user.name )
     image_tag gravatar_image_url(user.email, size: size), title: title, class: 'img-rounded'
   end
@@ -55,6 +57,14 @@ module ApplicationHelper
     end
   end
 
+  def get_reserve_wallet_balance
+    access_token = we_serve_wallet
+    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+    wallet = ENV['reserve_wallet_id'].strip
+    response = api.get_wallet(wallet_id: wallet , access_token: access_token)
+    response["balance"]
+  end
+
   def convert_usd_to_btc_and_then_satoshi(usd)
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
@@ -65,6 +75,15 @@ module ApplicationHelper
     rescue => e
       "error"
     end
+  end
+
+  def convert_btc_to_satoshi(btc)
+    satoshi_amount = btc.to_f * (10 ** 8)
+    satoshi_amount.to_i
+  end
+
+  def convert_satoshi_to_btc(satoshi)
+     satoshi.to_f/10**8.to_f
   end
 
   def get_current_btc_rate

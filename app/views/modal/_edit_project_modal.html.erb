@@ -84,13 +84,12 @@
     <div class="modal-default__content">
         <button type="button" class="modal-default__close"></button>
         <h3 class="modal-default__title">Edit Project Image</h3>
-
         <%= form_for @project do |f| %>
             <div class="cropbox-wrap">
               <%= f.cropbox :picture %>
             </div>
             <%= f.file_field :picture, class: 'btn-upload', onchange: "previewProjectImage(this);"%>
-            <button class="btn-root" name="commit" data-dismiss="modal">Save Changes</button>
+            <button class="btn-root" name="commit" data-modal-close>Save Changes</button>
             <button type="button" class="btn-root _dark" data-modal-close>Cancel</button>
         <% end %>
     </div>

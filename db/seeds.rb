@@ -6,7 +6,6 @@ puts 'CREATED ADMIN USER: ' << user.email
 count = CreateAdminService.new.create_additional_admins
 puts "#{count} additional admins created"
 
-CreateAdminService.new.create_admin_wallet
 
 @project = Project.create(title: "Test project",
                user_id: User.first.id,

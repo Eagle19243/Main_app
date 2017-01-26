@@ -344,3 +344,58 @@
   font-size: 14px;
   color: #888;
 }
+
+.btn-edit-image {
+  &._profile {
+    color: #000;
+  }
+}
+
+.btn-notify {
+  font-size: 14px;
+  color: #525252;
+  padding: 5px 15px;
+  background: #fff;
+  border: 1px solid #DADADA;
+  border-radius: 3px;
+  min-width: 110px;
+  font-family: 'Libre Franklin', sans-serif;
+  text-align: center;
+  .desktop & {
+    transition: background .2s ease-out, color .2s ease-out;
+
+  }
+  .desktop &:hover,
+  .desktop &:focus {
+    background-color: $darkBackground;
+    color: #fff;
+    outline: none;
+    border: 1px solid $darkBackground;
+  }
+  &:visited {
+    color: #000;
+  }
+  .tablet &:hover,
+  .mobile &:hover,
+  .tablet &:focus,
+  .mobile &:focus {
+    color: #000;
+    outline: none;
+    border: 2px solid #000;
+    text-decoration: none;
+  }
+
+  .svg-check {
+    width: 14px;
+    height: 11px;
+    fill: currentColor;
+    margin-right: 5px;
+  }
+
+  .svg-times {
+    width: 10px;
+    height: 10px;
+    fill: currentColor;
+    margin-right: 5px;
+  }
+}
