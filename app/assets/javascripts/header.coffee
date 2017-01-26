@@ -52,4 +52,7 @@ $().ready ->
     toggleMobileUserMenu false
     return
 
+  $('.notification-item').click ->
+    window.location = "/notifications"
+
   return

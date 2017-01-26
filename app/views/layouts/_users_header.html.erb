@@ -66,7 +66,7 @@
               <li class="notify-wrapper">
                 <div class="notify-body">
                   <% if n.action == 'created_project' %>
-                    <div>
+                    <div class="notification-item">
                       <span class="action">Created Project</span>
                       <span class="date pull-right">
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
@@ -74,7 +74,7 @@
                     </div>
                     <p><%= "You have created a project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
                   <% elsif n.action == 'updated_project' %>
-                    <div>
+                    <div class="notification-item">
                       <span class="action">Updated Project</span>
                       <span class="date pull-right">
                         <%= "#{n.created_at.strftime(" %b %d")} "%>
@@ -82,7 +82,7 @@
                     </div>
                     <p><%= "You have updated a project named "%><span style="font-weight: bolder"><%= "#{n.source_model.title}"%></span></p>
                   <% elsif n.action == 'suggested_task' %>
-                    <div>
+                    <div class="notification-item">
                       <span class="action">Task Suggestion</span>
                       <span class="date pull-right">
                         <%= "#{n.created_at.strftime(" %b %d")} "%>
