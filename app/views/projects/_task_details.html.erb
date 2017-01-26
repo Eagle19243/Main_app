@@ -247,10 +247,10 @@
                       </a>
                   <% end %>
                   <% if user_signed_in? && (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
-                      <a href="<%= reject_task_path(@task.id) %>" class="approve-link">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
-                        Delete Task
-                      </a>
+                      <button type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' class='approve-link' data-modal="#removeTask">
+                          <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
+                          Delete Task
+                      </button>
                   <% end %>
                   <% if user_signed_in? && (@task.accepted? && (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
                       <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
@@ -273,7 +273,7 @@
                             <%= f.submit "upload", class: "btn btn-primary", id: "upload-button" %>
                         <% end %>
                     <% end %>
-                    <button id="invbtn" data-modal="#InviteModel"><i class="fa fa-users" aria-hidden="true"></i>Invite</button>
+
                     <% if user_signed_in? %>
                         <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) %>
                             <%= link_to reviewing_task_path(@task.id) do %>
@@ -376,7 +376,9 @@
 <div id="share" class="modal modal-share modal-default" tabindex="-1">
   <div class="modal-content2 yes modal-default__content">
     <button type="button" class="modal-default__close"></button>
+    <h2 class="modal-default__title">Share/Invite People to Participate</h2>
     <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
+      <h5 class="l-share__title">Share on social media</h5>
       <ul class="l-share__list">
         <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
           <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
@@ -397,6 +399,40 @@
           </a>
         </li>
       </ul>
+    </div>
+
+    <span class="modal-invite__or">OR</span>
+    <div class="modal-default__text" id="response"></div>
+
+    <%= form_tag(tasks_send_email_path, remote: true, id: 'send-task-email', :class => 'invite-email-wrapper mb30') do %>
+        <input type="hidden" name="project_id" value="<%= @task.id rescue nil %>">
+        <div class="f-default__joined">
+            <div class="f-default__joined-col _wide">
+              <% session[:idd] = @task.id %>
+              <input type="email" class="f-default__field _joined-left" name="email" id="guest-email" placeholder="E-mail address" required>
+              <!-- <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a> -->
+            </div>
+            <div class="f-default__joined-col _narrow">
+              <%= submit_tag 'Invite', :class => 'btn-root _joined-right _dark' %>
+            </div>
+        </div>
+    <% end %>
+
+    <div id="contacts">
+      <div class="contact-importers" id ="tab">
+        <p class="modal-default__text">Import your contacts from</p>
+        <span class="contact-importer">
+          <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
+            <%= link_to image_tag("gmail.png", :alt => "Gmail Contacts"), contacts_gmail_path %>
+          </span>
+        </span>
+        <span class="contact-importer">
+          <span class="loading-trigger" data-source="yahoo" id="yahoo">
+            <%= link_to image_tag("yahoo.png", :alt => "Yahoo Contacts"), contacts_yahoo_path %>
+          </span>
+        </span>
+        <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
+      </div>
     </div>
   </div>
 </div>
