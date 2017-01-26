@@ -37,7 +37,8 @@ feature "Start project", js: true, vcr: { cassette_name: 'bitgo' } do
 
         scenario "Then you are redirected to the project page" do
           project = Project.find_by_title(@project.title)
-          expect(page).to have_current_path taskstab_project_path(project)
+
+          expect(page).to have_current_path taskstab_project_path(project, only_path: true)
         end
 
         scenario "Then the project page contains information you entered" do
