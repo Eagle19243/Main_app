@@ -87,7 +87,7 @@
       <%end%>
 
       <% if user_signed_in? && current_user.id == @user.id %>
-        <a class="btn-edit btn-edit-image" onclick="profileImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit My Profile Image</a>
+        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
       <% end %>
     </div>
 
@@ -257,13 +257,6 @@
   $(".close-reveal-modal").click(function(){
     $('#response-from-wallet').html("");
   });
-
-  function profileImgEdit(e) {
-    $('#profile-img-edit').modal('show');
-    if (!e) var e = window.event;
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-  }
 
   function previewProfileImage(input) {
     if(input.files && input.files[0]) {

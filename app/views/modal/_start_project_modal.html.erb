@@ -17,12 +17,12 @@
 
           <div class="f-default__row">
             <%= f.label :title, "Title", error: 'Username is mandatory, please specify one', class: 'f-default__label' %>
-            <%= f.text_field :title, class: 'form-control', id: 'title-field', required: true %>
+            <%= f.text_field :title, class: 'f-default__field', id: 'title-field', required: true %>
           </div>
 
           <div class="f-default__row">
             <%= f.label :short_description, "Idea", error: 'Username is mandatory, please specify one', class: 'f-default__label' %>
-            <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'form-control', required: true %>
+            <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'f-default__textarea', required: true %>
           </div>
 
           <div class="f-default__row _location">

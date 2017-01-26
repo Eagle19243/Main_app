@@ -53,6 +53,7 @@
         if ($switch.is(':checked') == false) {
             confirmContent = "Are you sure you want to turn manual verification off? Users will be able to edit your project without your approval. You will still be able to edit text, cancel contributions, and block users.";
         }
+        $('html').addClass('_open-modal');
         $modalVerification.fadeIn().find('.modal-default__title').text(confirmContent);
     });
 
@@ -67,9 +68,11 @@
                 dataType: "script"
             });
             $modalVerification.fadeOut();
+            $('html').removeClass('_open-modal');
         })
         .on('click.decline', '#modalVerification ._decline', function () {
             $modalVerification.fadeOut();
+            $('html').removeClass('_open-modal');
         })
         .on('click.closeVerificationModal', '.modal-default__close', function (e) {
             $modalVerification.fadeOut();

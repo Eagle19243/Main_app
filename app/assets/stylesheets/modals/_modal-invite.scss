@@ -6,7 +6,8 @@ div.modal-invite { // todo FD: remove div : now I need this because of huge amou
   top: 0 !important; // todo FD: remove when modals will be refactored : I see top 100px !important without any reason
 }
 
-.modal-invite {
+.modal-invite,
+.modal-share {
   &__subtitle {
     font-size: 14px;
     font-weight: 300;
