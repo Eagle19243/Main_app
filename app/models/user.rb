@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
   has_many :apply_requests, dependent: :destroy
+  has_many :stripe_payments, dependent: :destroy
 
   validates :name, presence: true,uniqueness: true
 

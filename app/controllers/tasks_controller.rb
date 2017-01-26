@@ -192,17 +192,13 @@ class TasksController < ApplicationController
   end
 
   def refund
-   # bitgo_fee= ENV['bitgo_fee']
     bitgo_fee = 0.10
+    #current_fund = @task.current_fund
+    #funded_by_stripe()
     funded_by_stripe = @task.stripe_payments
     funded_from_user_wallets  = UserWalletTransaction.where(user_wallet: @task.wallet_address.sender_address)
-
-  end
-
-  def stripe_refund (funded_by_stripe)
-    funded_by_stripe.each do |stripe_payment|
-
-    end
+    @task.stripe_refund(funded_by_stripe ,bitgo_fee)
+    @task.user_wallet_refund(funded_from_user_wallets, bitgo_fee)
   end
 
   def accept
