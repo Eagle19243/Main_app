@@ -77,6 +77,15 @@ module ApplicationHelper
     end
   end
 
+  def convert_btc_to_satoshi(btc)
+    satoshi_amount = btc.to_f * (10 ** 8)
+    satoshi_amount.to_i
+  end
+
+  def convert_satoshi_to_btc(satoshi)
+     satoshi.to_f/10**8.to_f
+  end
+
   def get_current_btc_rate
     begin
       response ||= RestClient.get 'https://www.bitstamp.net/api/ticker/'
