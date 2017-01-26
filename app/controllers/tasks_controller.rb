@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
@@ -188,6 +188,20 @@ class TasksController < ApplicationController
       end
     else
       format.html { redirect_to project_path(project), notice: 'You can\'t delete this thas' }
+    end
+  end
+
+  def refund
+   # bitgo_fee= ENV['bitgo_fee']
+    bitgo_fee = 0.10
+    funded_by_stripe = @task.stripe_payments
+    funded_from_user_wallets  = UserWalletTransaction.where(user_wallet: @task.wallet_address.sender_address)
+
+  end
+
+  def stripe_refund (funded_by_stripe)
+    funded_by_stripe.each do |stripe_payment|
+
     end
   end
 
