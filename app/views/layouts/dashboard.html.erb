@@ -44,7 +44,8 @@
 
         <div class="row expanded margin-none dashboard-wrapper">
           <%= render 'users/sidebar' %>
-          <div class="dashboard-content">
+
+          <div class="dashboard-content<%= current_page?('/notifications') ? ' _notifications' : '' %>">
             <%= yield %>
           </div>
         </div>
