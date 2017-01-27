@@ -160,7 +160,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       @task_memberships = @task.team_memberships
-      if user_signed_in? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project) || (@task.suggested_task? && (current_user.id == @task.user_id))) && (current_user.any_fundings? == false)
+      if user_signed_in? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project) || (@task.suggested_task? && (current_user.id == @task.user_id))) && (@task.any_fundings? == false)
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
           format.html { redirect_to @task, notice: 'Task was successfully updated.' }
