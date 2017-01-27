@@ -120,12 +120,15 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-    #Someone Recieving Task[state] in params and commented this  . i think this is more safe
-    if @task.project.user_id == current_user.id
-      @task.state = 'accepted'
-    else
-      @task.state = 'suggested_task'
-    end
+    # Someone Recieving Task[state] in params and commented this  . i think this is more safe
+    # Yes, it is really needed because project leader can also suggest task as well. Do not uncomment this code!
+
+    # if @task.project.user_id == current_user.id
+    #   @task.state = 'accepted'
+    # else
+    #   @task.state = 'suggested_task'
+    # end
+
     respond_to do |format|
       if @task.save
         unless @task.suggested_task?
@@ -157,7 +160,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       @task_memberships = @task.team_memberships
-      if user_signed_in? && (((current_user.id == @task.project.user_id || (@task_memberships.collect(&:team_member_id).include? current_user.id)) && (@task.pending? || @task.accepted?)) || (current_user.id == @task.user_id && @task.suggested_task?))
+      if user_signed_in? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project) || (@task.suggested_task? && (current_user.id == @task.user_id)))
         if @task.update(task_params)
           activity = current_user.create_activity(@task, 'edited')
           format.html { redirect_to @task, notice: 'Task was successfully updated.' }
