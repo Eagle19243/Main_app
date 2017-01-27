@@ -21,7 +21,7 @@ class NotificationsService
   end
 
   def self.notify_about_admin_invitation(admin_invitation, origin_user)
-    self.create_notification(admin_invitation, admin_invitation.user, Notification.actions[:become_project_admin_invitation], origin_user)
+    self.create_notification("admin_invitation", admin_invitation.user, Notification.actions[:become_project_admin_invitation], origin_user)
   end
 
   def self.notify_about_reject_admin_invitation(admin_invitation, leader, origin_user)
