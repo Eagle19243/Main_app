@@ -105,6 +105,11 @@
   position: relative;
   margin: 0 0 0 220px;
   width: 70%;
+
+  &._notifications {
+    width: 100%;
+    max-width: calc(100% - 220px)
+  }
 }
 
 .nav-header.dashboard {
@@ -342,112 +347,6 @@
           font-size: 1.2em;
         }
       }
-    }
-  }
-}
-
-
-.notifications-wrapper {
-  display: block;
-  width: 100%;
-  position: relative;
-  padding: 20px 30px;
-
-  h2 {
-    font-family: 'Roboto';
-    color: #000;
-    margin-bottom: 20px;
-    font-weight: 600;
-  }
-
-  a.mark-read {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-    font-family: 'Roboto';
-    color: #888;
-    font-size: 1em;
-    i {
-      font-size: 1.2em;
-      color: #555;
-    }
-  }
-
-  .notify-mark {
-    display: inline-block;
-    float: left;
-    margin-right: 15px;
-    font-size: 1.3em;
-    color: #555;
-  }
-  .notify-content {
-    display: inline-block;
-    width: 85%;
-
-    .date {
-      font-family: 'Libre Franklin';
-      font-size: 0.9em;
-      color: #aaa;
-    }
-
-    .notify-body {
-      padding: 15px;
-      padding-right: 0px;
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
-      background-color: #eee;
-      border-radius: 3px;
-
-      .notification-body {
-        display: inline-block;
-        text-align: left;
-        p {
-        }
-        a {
-          font-family: 'Libre Franklin';
-          font-size: 1em;
-          color: #555;
-          text-decoration: underline;
-        }
-      }
-
-      .action-btns {
-        display: inline-block;
-        float: right;
-
-        a.btn-notify {
-          padding: 8px;
-          font-family: 'Roboto';
-          font-size: 1em;
-          color: #888;
-          border: 1px solid #ddd;
-          background-color: #fff;
-          width: 100px;
-          margin-right: 10px;
-
-          i {
-            font-size: 1.2em;
-            color: #555;
-            margin-right: 5px;
-          }
-        }
-      }
-    }
-  }
-
-
-  .load-older-notifications-link {
-    padding: 20px 0px;
-    i {
-      color: #333;
-      font-size: 1.2em;
-      margin-right: 5px;
-    }
-    a {
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
     }
   }
 }

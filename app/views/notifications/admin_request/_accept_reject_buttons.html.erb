@@ -1,16 +1,24 @@
-<div class="action-btns">
+<div class="b-notification__actions">
   <% if notification.source_model.pending? %>
       <div id="request-<%= notification.source_model.id %>">
-        <%= button_to accept_admin_request_path(notification.source_model), form_class: "accept-request", class: "btn-notify", id: 'notification_button' do %>
-            <i class="fa fa-check"></i>&nbsp;&nbsp;Approve
+        <%= button_to accept_admin_request_path(notification.source_model), form_class: "f-accept-request", class: "btn-notify _accept", id: 'notification_button' do %>
+            <svg focusable="false" version="1.1" class="svg-check">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
+            </svg>
+            Approve
         <% end %>
-        <%= button_to reject_admin_request_path(notification.source_model), form_class: "reject-request", class: "btn-notify", id: 'notification_button' do %>
-            <i class="fa fa-times"></i>&nbsp;&nbsp;Deny
+        <%= button_to reject_admin_request_path(notification.source_model), form_class: "f-reject-request", class: "btn-notify _reject", id: 'notification_button' do %>
+            <svg focusable="false" version="1.1" class="svg-times">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-times"></use>
+            </svg>
+            Deny
         <% end %>
       </div>
   <% else %>
-      <a href="#" class="btn-notify">
-        <i class="fa fa-check"></i>&nbsp;&nbsp;Accepted
+      <a href="#" class="btn-notify _accept">
+        <svg focusable="false" version="1.1" class="svg-check">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
+        </svg>Accepted
       </a>
       <br/>
       You have <%= notification.source_model.status %> the invitation

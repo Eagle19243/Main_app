@@ -23,7 +23,8 @@ class Task < ActiveRecord::Base
   has_many :stripe_payments
 
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
-  after_create :assign_address
+  #commented this as we dont need this for suggested task.Ateq
+ # after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :suggested_task
@@ -107,8 +108,8 @@ class Task < ActiveRecord::Base
     transfering_task = self
     begin
       @transfer = WalletTransaction.new(amount: amount, user_wallet: wallet_address_to_send_btc, task_id: self.id)
-      satoshi_amount = nil
-      satoshi_amount = convert_usd_to_btc_and_then_satoshi(params['amount']) if @transfer.valid?
+     # satoshi_amount = nil
+      satoshi_amount = amount if @transfer.valid?
       if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
         @transfer.save
       else
@@ -131,14 +132,11 @@ class Task < ActiveRecord::Base
     end
   end
 
-
   def transfer_task_funds
     bitgo_fee = 0.10
-    we_serve_wallet = '385dMgNnjxCK5PU84gNSYeRWD668gaG9PL'
+    we_serve_wallet = ENV['we_serve_wallet']
     wallet_address = self.wallet_address
     total_budget = self.budget
-    #users = self.team_memberships
-
     team_members = self.team_memberships
     #team_members = TeamMembership.where(task_id: self.id)
     if (team_members.blank?)
@@ -158,16 +156,20 @@ class Task < ActiveRecord::Base
 
   end
 
-  def funded
-    budget == 0 ? "100%" : (((current_fund + (curent_bts_to_usd (id) rescue 0)) / budget) * 100).round.to_s + " %"
+  def budget
+    budget = convert_satoshi_to_btc(self.satoshi_budget)
   end
 
-  def funded_in_btc
-    ((self.wallet_address.current_balance.to_s rescue '0') + ' ฿')
+  def budget=(satoshi_budget)
+    self.satoshi_budget =  convert_btc_to_satoshi(satoshi_budget)
+  end
+
+  def funded
+    budget == 0 ? "100%" : ((( convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + " %"
   end
 
   def current_fund_of_task
-    (current_fund+(curent_bts_to_usd(id) rescue 0)).round.to_s
+    (convert_satoshi_to_btc(current_fund) rescue 0).round.to_s
   end
 
   def team_relations_string
