@@ -913,3 +913,24 @@
   left: 120px;
   margin-top: 30px;
 }
+
+#task-attachments-div {
+  font-family: 'Libre Franklin';
+
+  h4 {
+    font-family: 'Roboto';
+  }
+
+  span {
+    font-family: 'Libre Franklin';
+  }
+
+  .attachment-actions {
+    a {
+      color: #555;
+      font-family: 'Libre Franklin';
+      text-decoration: underline;
+    }
+  }
+}
+
