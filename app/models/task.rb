@@ -150,6 +150,10 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def fully_funded_and_completed_teammembers
+    current_fund < budget ||  number_of_participants < target_number_of_participants
+  end
+
   def transfer_task_funds
     bitgo_fee = 0.10
     we_serve_wallet = ENV['we_serve_wallet']

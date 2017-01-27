@@ -1,5 +1,6 @@
 class WalletTransactionsController < ApplicationController
     before_action :authenticate_user!
+    include ApplicationHelper
 
     def new
       @task=Task.find( params['id']) rescue nil
