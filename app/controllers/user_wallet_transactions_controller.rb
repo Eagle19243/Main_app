@@ -1,5 +1,5 @@
 class UserWalletTransactionsController < ApplicationController
-
+  include ApplicationHelper
   before_action :authenticate_user!
 
   def new
