@@ -97,13 +97,21 @@ class Ability
   def initializeTasksPermissions(user)
     can :read, Task
     if user
-      can :create, Task
+
+      can :create, Task do |task|
+        task.suggested_task?
+      end
+
+      can :create, Task do |task|
+        task.accepted? && (user.is_admin_for?(task.project) || user.is_executor_for?(task.project))
+      end
+
       can [:update, :destroy], Task do |task|
-        user.is_admin_for?(task.project)
+        user.is_admin_for?(task.project) || user.is_executor_for?(task.project)
       end
 
       if user.admin?
-        can [:update, :destroy], Task
+        can [:create, :update, :destroy], Task
       end
     end
   end
