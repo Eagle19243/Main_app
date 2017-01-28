@@ -42,7 +42,7 @@ feature "Project Short Description", js: true, vcr: { cassette_name: 'bitgo' } d
         expect(@edit_form).to be_visible
       end
 
-      context "When you edit the title and click the 'Save' button" do        
+      context "When you edit the description and click the 'Save' button" do        
         before do
           @new_description = "new description"
           @edit_form.fill_in "short_description", with: @new_description
