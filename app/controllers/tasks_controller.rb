@@ -192,13 +192,17 @@ class TasksController < ApplicationController
   end
 
   def refund
-    bitgo_fee = 0.10
-    #current_fund = @task.current_fund
-    #funded_by_stripe()
-    funded_by_stripe = @task.stripe_payments
-    funded_from_user_wallets  = UserWalletTransaction.where(user_wallet: @task.wallet_address.sender_address)
-    @task.stripe_refund(funded_by_stripe ,bitgo_fee)
-    @task.user_wallet_refund(funded_from_user_wallets, bitgo_fee)
+    if current_user.id == @task.project.user_id
+      bitgo_fee = 0.10
+      funded_by_stripe = @task.stripe_payments
+      funded_from_user_wallets = UserWalletTransaction.where(user_wallet: @task.wallet_address.sender_address)
+      @task.stripe_refund(funded_by_stripe, bitgo_fee)
+      @task.user_wallet_refund(funded_from_user_wallets, bitgo_fee)
+      flash[:notice] = "Successfull refund the task "
+    else
+      flash[:notice] = "Not authorized to refund this task"
+    end
+    redirect_to task_path(@task)
   end
 
   def accept
