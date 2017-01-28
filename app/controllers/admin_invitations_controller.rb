@@ -41,6 +41,6 @@ class AdminInvitationsController < ApplicationController
   end
 
   def create_params
-    params.require(:admin_invitation).permit(:user_id, :project_id, :sender_id)
+    params.require(:admin_invitation).permit(:user_id, :project_id, :sender_id, :controller)
   end
 end

@@ -211,10 +211,10 @@ class TasksController < ApplicationController
     if @task.suggested_task?
       @notice = "You can't Do this Task"
     else
-      if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
+      if (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) && @task.start_doing!
         @notice = "Task Status changed to Doing "
       else
-        @notice = "Error in Moving  Task"
+        @notice = "Error in Moving Task"
       end
     end
     respond_to do |format|
@@ -285,7 +285,7 @@ class TasksController < ApplicationController
   end
 
   def validate_user
-    unless current_user.id == @task.project.user_id
+    unless current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)
       flash[:error] = "You are Not authorized  to do this operation "
       redirect_to taskstab_project_path(@task.project_id)
     end
