@@ -513,7 +513,7 @@ class ProjectsController < ApplicationController
       activity.user_id = current_user.id
       @project.user.update_attribute(:role, 'manager')
       #Change all pending projects for user
-      flash[:success] = "Project Request accepted"
+      flash[:notice] = "Project Request accepted"
     else
       flash[:error] = "Project could not be accepted"
     end
