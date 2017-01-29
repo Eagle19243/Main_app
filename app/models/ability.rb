@@ -55,7 +55,7 @@ class Ability
     can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin, :get_in], Project
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
-      can [:update, :change_leader], Project do |project|
+      can [:update, :change_leader, :accept, :reject ], Project do |project|
         user.is_admin_for?(project)
       end
       can :archived, Project if user.admin?

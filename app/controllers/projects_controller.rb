@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 
-  load_and_authorize_resource :except => [:get_activities, :accept, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan, :switch_approval_status]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan, :switch_approval_status]
 
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
