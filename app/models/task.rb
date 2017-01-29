@@ -151,7 +151,7 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def fully_funded_and_completed_teammembers
+  def not_fully_funded_and_completed_teammembers
     current_fund < budget ||  number_of_participants < target_number_of_participants
   end
 

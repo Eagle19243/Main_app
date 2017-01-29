@@ -232,7 +232,7 @@ class TasksController < ApplicationController
     if @task.suggested_task?
       @notice = "You can't Do this Task"
     else
-      if @task.fully_funded_and_completed_teammembers
+      if @task.not_fully_funded_and_completed_teammembers
         @notice = " Number of team Members  less than Required Number of Team Members  or Current Fund is Less Than Actual Budget"
         else
         if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
