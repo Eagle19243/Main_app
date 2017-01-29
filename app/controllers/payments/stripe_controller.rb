@@ -11,8 +11,8 @@ class Payments::StripeController < ApplicationController
   def create
     reserve_wallet_balance = get_reserve_wallet_balance
     #deduct 5% amount as described in fund_popup
-    deduct_5_persent_amount  = (params[:amount].to_f * 5)/100
-    remaining_amount = params[:amount].to_f - deduct_5_persent
+   fee_amount = (params[:amount].to_f * 5)/100
+    remaining_amount = params[:amount].to_f - fee_amount
     satoshi_amount = convert_usd_to_btc_and_then_satoshi(remaining_amount)
     if reserve_wallet_balance < satoshi_amount && ENV['skip_wallet_transaction'] != "true"
       flash[:alert] = 'Not Enough BTC in Reserve wallet Please Try Again .'
