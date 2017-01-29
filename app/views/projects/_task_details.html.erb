@@ -70,7 +70,7 @@
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
                     <h4>Task Description</h4>
-                    <%if @task.doing? || @task.reviewing? || @task.done? %>
+                    <%if @task.doing? || @task.reviewing? || @task.completed? %>
                         <a href="#" id="openEditTaskWarning" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                         <p class="task-proof" id="task-description"><%= @task.description %></p>
                     <%else %>

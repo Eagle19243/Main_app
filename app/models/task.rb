@@ -135,8 +135,9 @@ class Task < ActiveRecord::Base
   def stripe_refund (funded_by_stripe, bitgo_fee)
     funded_by_stripe.each do |stripe_payment|
       total_bitgo_fee = ((stripe_payment.amount_in_satoshi * bitgo_fee) / 100)
-      transfer_to_user = stripe_payment.amount_in_satoshi - total_bitgo_fee
+      transfer_to_user = stripe_payment.amount_in_satoshi - total_bitgo_fee.to_i
       user_wallet = UserWalletAddress.where(user_id: stripe_payment.user_id).first
+      stripe_payment.update_attribute(amount_in_satoshi:0)
       transfer_to_user_wallet(user_wallet.sender_address,transfer_to_user)
     end
   end
@@ -144,7 +145,7 @@ class Task < ActiveRecord::Base
   def user_wallet_refund(funds_from_user_wallets, bitgo_fee)
     funds_from_user_wallets.each do |wallet_transaction |
       total_bitgo_fee = (wallet_transaction.amount * bitgo_fee) / 100
-      transfer_to_user = wallet_transaction.amount - total_bitgo_fee
+      transfer_to_user = wallet_transaction.amount - total_bitgo_fee.to_i
       user_wallet = UserWalletAddress.where(user_id:  wallet_transaction.user_id).first
       transfer_to_user_wallet(user_wallet.sender_address,transfer_to_user)
     end
