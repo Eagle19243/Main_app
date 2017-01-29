@@ -70,13 +70,19 @@
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
                     <h4>Task Description</h4>
-                    <a href="#" id="edit-description" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    <p class="task-proof" id="task-description"><%= @task.description %></p>
-                    <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "hide-input"} do |f| %>
-                        <%= f.text_area :description, id: "input-task-description" %>
-                        <button name="button" type="submit" id="task-update-description">save</button>
-                        <button type="reset" id="cancel-description">cancel</button>
+                    <%if @task.doing? || @task.reviewing? || @task.completed? %>
+                        <a href="#" id="openEditTaskWarning" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <p class="task-proof" id="task-description"><%= @task.description %></p>
+                    <%else %>
+                        <a href="#" id="edit-description" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <p class="task-proof" id="task-description"><%= @task.description %></p>
+                        <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "hide-input"} do |f| %>
+                            <%= f.text_area :description, id: "input-task-description" %>
+                            <button name="button" type="submit" id="task-update-description">save</button>
+                            <button type="reset" id="cancel-description">cancel</button>
+                        <% end %>
                     <% end %>
+
                   </div>
 
                   <div class="modal-task__desc-block">
@@ -237,11 +243,11 @@
               <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0 %></span> / Needed : -->
             </div>
 
-            <hr>
-            <div class="wallet-block mb20">
-              <h5>Task Specific Bit Coin Address:</h5>
-              <p id='fe_text'><%= @task.wallet_address.sender_address rescue 'Available soon' %></p>
-            </div>
+            <!--<hr>-->
+            <!--<div class="wallet-block mb20">-->
+              <!--<h5>Task Specific Bit Coin Address:</h5>-->
+              <!--<p id='fe_text'><%#= @task.wallet_address.sender_address rescue 'Available soon' %></p>-->
+            <!--</div>-->
             <hr>
 
                 <div class="approve-block mb20">
@@ -305,6 +311,14 @@
                             <button>
                               <i class="fa fa-trash-o" aria-hidden="true"></i>
                               Delete Task
+                            </button>
+                        <% end %>
+                    <% end %>
+                    <% if user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
+                        <%= link_to refund_task_path(@task) do %>
+                            <button>
+                              <i class="fa fa-bitcoin" aria-hidden="true"></i>
+                              Refund Task
                             </button>
                         <% end %>
                     <% end %>
@@ -474,3 +488,4 @@
     <script type="text/javascript">
       JsonFormsHelper.InitializeTaskMembersControls();
     </script>
+<%= render 'modal/warring_pop_up' %>

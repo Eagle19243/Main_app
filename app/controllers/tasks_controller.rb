@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
@@ -191,6 +191,27 @@ class TasksController < ApplicationController
     end
   end
 
+  def refund
+    if current_user.id == @task.project.user_id
+      bitgo_fee = 0.10
+      access_token = access_wallet
+      @wallet_address  = @task.wallet_address
+      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)
+      @wallet_address.update_attribute('current_fund',response["balance"]) rescue nil
+      funded_by_stripe = @task.stripe_payments
+      funded_from_user_wallets = UserWalletTransaction.where(user_wallet: @task.wallet_address.sender_address)
+      @task.stripe_refund(funded_by_stripe, bitgo_fee)
+      @task.user_wallet_refund(funded_from_user_wallets, bitgo_fee)
+      funded_by_stripe.destroy_all
+      funded_from_user_wallets.destroy_all
+      flash[:notice] = "Successfull refund the task "
+    else
+      flash[:notice] = "Not authorized to refund this task"
+    end
+    redirect_to task_path(@task)
+  end
+
   def accept
     previous = @task.suggested_task?
     if @task.accept!
@@ -211,10 +232,14 @@ class TasksController < ApplicationController
     if @task.suggested_task?
       @notice = "You can't Do this Task"
     else
-      if (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) && @task.start_doing!
-        @notice = "Task Status changed to Doing "
-      else
-        @notice = "Error in Moving Task"
+      if @task.not_fully_funded_or_less_teammembers?
+        @notice = " Number of team Members  less than Required Number of Team Members  or Current Fund is Less Than Actual Budget"
+        else
+        if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
+          @notice = "Task Status changed to Doing "
+        else
+          @notice = "Error in Moving  Task"
+        end
       end
     end
     respond_to do |format|

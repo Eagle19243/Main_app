@@ -1,5 +1,5 @@
 class UserWalletTransactionsController < ApplicationController
-
+  include ApplicationHelper
   before_action :authenticate_user!
 
   def new
@@ -63,7 +63,7 @@ class UserWalletTransactionsController < ApplicationController
           @transfer.user_id = current_user.id
           if(@transfer.save!)
             respond_to do |format|
-              @msg = " #{params["amount"]} usd has been successfully sent to #{@transfer.user_wallet}."
+              @msg = " #{params["amount"]} BTC has been successfully sent to #{@transfer.user_wallet}."
               format.js
               format.html {redirect_to user_wallet_transactions_new_path  , notice: @msg  }
             end
