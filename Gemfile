@@ -117,6 +117,7 @@ end
 
 group :test do
   gem 'faker'
+  gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
 end
 
 # Auto deployment to AWS
