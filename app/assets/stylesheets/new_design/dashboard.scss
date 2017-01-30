@@ -159,6 +159,7 @@
 
 .group-messages-wrapper {
   position: relative;
+  min-height: 100vh;
 
   #messages-nav {
     background-color: #ddd;
