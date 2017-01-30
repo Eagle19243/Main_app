@@ -167,7 +167,6 @@
         right: 0;
         width: 100%;
         height: 50vw;
-        min-height: 350px;
         background-color: #fff;
 
         img {
@@ -387,6 +386,10 @@
             right: 0;
             bottom: 0;
             left: 0;
+
+            .btn-root {
+              background-color: #fff;
+            }
           }
 
           .text-wrapper {
@@ -409,6 +412,10 @@
 }
 
 @media(max-width: 520px) {
+
+  .landing-content {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
 
   .landing-content {
     .hero-banner {
@@ -449,16 +456,20 @@
             right: 0;
             bottom: 0;
             left: 0;
+
+            .carousel-start {
+              display: none;
+            }
           }
 
           .text-wrapper {
-            margin-top: 10%;
+            margin-top: 0;
             h1 {
               font-size: 33px;
               color: #fff;
             }
             p {
-              font-size: 20px;
+              font-size: 14px;
               line-height: 1.5em;
               color: #fff;
             }
