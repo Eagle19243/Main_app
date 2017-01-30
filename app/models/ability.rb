@@ -107,7 +107,7 @@ class Ability
       end
 
       can [:update, :destroy], Task do |task|
-        user.is_admin_for?(task.project) || user.is_executor_for?(task.project)
+        (user.is_project_leader?(task.project) || user.is_executor_for?(task.project) || (task.suggested_task? && (user.id == task.user_id))) && (task.any_fundings? == false)
       end
 
       if user.admin?
