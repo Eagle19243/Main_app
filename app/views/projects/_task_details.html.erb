@@ -289,7 +289,7 @@
                     <% end %>
 
                     <% if user_signed_in? %>
-                        <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) %>
+                        <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) && current_user.is_teammate_for?(@task.project) %>
                             <%= link_to reviewing_task_path(@task.id) do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Submit for Review

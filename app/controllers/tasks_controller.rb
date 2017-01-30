@@ -275,11 +275,14 @@ class TasksController < ApplicationController
   end
 
   def reviewing
-    if @task.begin_review!
+    @task_memberships = @task.team_memberships
+
+    if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) && current_user.is_teammate_for?(@task.project) && @task.begin_review!
       @notice = "Task Submitted for Review"
     else
       @notice = "Task Was Not  Submitted for Review"
     end
+
     respond_to do |format|
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
