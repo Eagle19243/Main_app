@@ -287,12 +287,13 @@ class TasksController < ApplicationController
   end
 
   def completed
-    if @task.complete!
+    if (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) && @task.reviewing? && @task.complete!
       @notice = "Task Completed"
       @task.transfer_task_funds
     else
       @notice = 'Task was not Completed '
     end
+
     respond_to do |format|
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
