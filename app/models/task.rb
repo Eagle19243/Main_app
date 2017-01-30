@@ -137,7 +137,6 @@ class Task < ActiveRecord::Base
       total_bitgo_fee = ((stripe_payment.amount_in_satoshi * bitgo_fee) / 100)
       transfer_to_user = stripe_payment.amount_in_satoshi - total_bitgo_fee.to_i
       user_wallet = UserWalletAddress.where(user_id: stripe_payment.user_id).first
-      stripe_payment.update_attribute(amount_in_satoshi:0)
       transfer_to_user_wallet(user_wallet.sender_address,transfer_to_user)
     end
   end
