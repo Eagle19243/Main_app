@@ -6,7 +6,7 @@
   });
 </script>
 <div class="row group-messages-wrapper margin-none">
-  <div class="col-lg-4 col-md-4 col-sm-4 group-messages-nav" id="messages-nav">
+  <div class="group-messages-nav" id="messages-nav">
     <div class="messages-nav-title">
       Team Messages
     </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-8 col-md-8 col-sm-8 group-messages-content" id="page-message-content">
+  <div class="group-messages-content" id="page-message-content">
     <div id="chat-name">
       <%= render partial: 'group_messages/chatroom_info', locals: {chat_id: @chatroom} %>
     </div>
