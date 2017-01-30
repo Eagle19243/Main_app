@@ -159,15 +159,16 @@
 
 .group-messages-wrapper {
   position: relative;
+  min-height: 100vh;
 
   #messages-nav {
     background-color: #ddd;
     text-align: left;
-    min-width: 220px;
-    position: relative;
-    min-height: 100vh;
-    height: 100%;
+    width: 220px;
     padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
     .messages-nav-title {
       margin: 0;
@@ -221,7 +222,7 @@
 
   #page-message-content {
     position: relative;
-    margin: 0 0 0 20px;
+    margin: 0 0 0 220px;
     padding-top: 20px;
 
     h4 {
