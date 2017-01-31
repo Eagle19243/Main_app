@@ -275,9 +275,7 @@ class TasksController < ApplicationController
   end
 
   def reviewing
-    @task_memberships = @task.team_memberships
-
-    if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) && current_user.is_teammate_for?(@task.project) && @task.begin_review!
+    if current_user.can_submit_task?(@task) && @task.begin_review!
       @notice = "Task Submitted for Review"
     else
       @notice = "Task Was Not  Submitted for Review"
