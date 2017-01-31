@@ -287,7 +287,7 @@ class TasksController < ApplicationController
   end
 
   def completed
-    if (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) && @task.reviewing? && @task.complete!
+    if current_user.can_complete_task?(@task) && @task.complete!
       @notice = "Task Completed"
       @task.transfer_task_funds
     else

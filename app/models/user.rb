@@ -289,5 +289,8 @@ class User < ActiveRecord::Base
     self.apply_requests.where(project_id: proj.id, request_type: type).pending.any?
   end
 
+  def can_complete_task?(task)
+    (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
+  end
 
 end
