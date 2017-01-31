@@ -398,7 +398,7 @@
       text-align: center;
       text-decoration: none;
       height: 35px;
-      line-height: 35px;
+      line-height: 33px;
       padding: 0 10px;
 
       font-family: 'Roboto', sans-serif;
@@ -443,6 +443,10 @@
 
     a:not(.btn-root), i.fa-star {
       color: #ddd;
+    }
+
+    a.btn-edit {
+      color: #000;
     }
 
     a:hover {
@@ -915,20 +919,20 @@
 }
 
 #task-attachments-div {
-  font-family: 'Libre Franklin';
+  font-family: 'Libre Franklin', sans-serif;
 
   h4 {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
   }
 
   span {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
   }
 
   .attachment-actions {
     a {
       color: #555;
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
       text-decoration: underline;
     }
   }
