@@ -296,7 +296,7 @@
                                 </button>
                             <% end %>
                         <% end %>
-                        <% if current_user.id == @task.project.user_id && @task.reviewing? %>
+                        <% if current_user.can_complete_task?(@task) %>
                             <%= link_to completed_task_path(@task.id), data: {confirm: 'do you confirm that you have reviewed the task and that it is completed?'} do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed

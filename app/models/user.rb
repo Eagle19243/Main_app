@@ -293,5 +293,9 @@ class User < ActiveRecord::Base
     task_memberships = task.team_memberships
     task.doing? && (task_memberships.collect(&:team_member_id).include? self.id) && self.is_teammate_for?(task.project)
   end
+  
+  def can_complete_task?(task)
+    (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
+  end
 
 end
