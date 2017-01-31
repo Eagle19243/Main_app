@@ -275,11 +275,12 @@ class TasksController < ApplicationController
   end
 
   def reviewing
-    if @task.begin_review!
+    if current_user.can_submit_task?(@task) && @task.begin_review!
       @notice = "Task Submitted for Review"
     else
       @notice = "Task Was Not  Submitted for Review"
     end
+
     respond_to do |format|
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
