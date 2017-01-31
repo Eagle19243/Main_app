@@ -115,7 +115,6 @@
             return false;
         });
 
-    $('#country-field').geocomplete();
   });
 
   $document.ready(function () {
@@ -134,4 +133,7 @@
       });
     });
   });
+    $('[data-modal="#startProjectModal"]').click(function(){
+      $('#country-field').geocomplete();
+    });
 </script>
