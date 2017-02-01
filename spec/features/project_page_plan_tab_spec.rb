@@ -60,7 +60,6 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
       before do
         visit project_path(@project)
         @plan_area = find("#Plan")
-        save_screenshot("file1.png", full: true)
       end
 
       scenario "Then you can see 'Edit' button" do
