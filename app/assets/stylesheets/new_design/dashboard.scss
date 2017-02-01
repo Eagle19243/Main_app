@@ -173,9 +173,9 @@
     .messages-nav-title {
       margin: 0;
       margin-bottom: 20px;
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-weight: 600;
-      font-size: 1em;
+      font-size: 14px;
       color: #000;
       text-transform: uppercase;
     }
@@ -184,9 +184,9 @@
       .submenu-title {
         padding: 0;
         margin-bottom: 20px;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-weight: 600;
-        font-size: 1em;
+        font-size: 14px;
         color: #000;
         text-transform: uppercase;
       }
@@ -197,9 +197,9 @@
           list-style: none;
 
           a {
-            font-family: 'Roboto';
+            font-family: 'Roboto', sans-serif;
             color: #555;
-            font-size: 1em;
+            font-size: 14px;
             font-weight: 600;
           }
         }
@@ -209,7 +209,7 @@
     .search-users {
       padding: 10px 0px;
       span {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         color: #555;
         font-size: 1em;
 
@@ -226,7 +226,7 @@
     padding-top: 20px;
 
     h4 {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       color: #000;
       font-weight: 600;
     }
@@ -259,7 +259,7 @@
       .message-content {
         display: inline-block;
         width: 88%;
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
       }
     }
 
@@ -271,7 +271,7 @@
         width: 100%;
         padding: 10px;
         background-color: #eee;
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         font-size: 1em;
         color: #555;
       }
@@ -282,7 +282,7 @@
 
       span.name,
       span.message-date {
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         font-size: 0.9em;
         color: #aaa;
         margin-top: 5px;
@@ -311,7 +311,7 @@
         background-color: #eee;
         border: none;
         padding: 10px;
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         font-size: 1em;
         min-height: 100px;
       }
@@ -319,7 +319,7 @@
       #submit-message {
         margin-top: 10px;
         padding: 0 30px;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-size: 1em;
         color: #000;
         text-transform: uppercase;
@@ -336,7 +336,7 @@
         right: 0;
 
         span {
-          font-family: 'Libre Franklin';
+          font-family: 'Libre Franklin', sans-serif;
           font-size: 1em;
           color: #555;
           display: inline-block;
@@ -364,7 +364,7 @@
 #notification_button{
 
     padding: 8px;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 1em;
     color: #888;
     border: 1px solid #ddd;
@@ -396,7 +396,7 @@
   .ui-menu-item {
     background-color: #eee;
     color: #555;
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
   }
 }
 
