@@ -35,7 +35,6 @@
 //= require cocoon
 //= require bootstrap-sprockets
 //= require jquery.slick
-//= require jquery.vcarousel-min
 //= require underscore-min
 //= require moment
 //= require bootstrap-datetimepicker

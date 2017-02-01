@@ -152,105 +152,97 @@
 
   }
 
-  .carousel-banner {
+  .landing-carousel {
     display: block;
-    width: 100%;
     position: relative;
+    width: 100%;
+    max-width: 100%;
 
-    .landing-carousel {
+    .carousel-item {
       display: block;
+      position: relative;
+      width: 100%;
 
-      .carousel-item {
-        display: block;
+      img {
+        width: auto;
+        display: inline-block;
+        width: 60%;
+        height: 100%;
+      }
+
+      .carousel-text {
         position: absolute;
-        top: 0;
+        display: inline-block;
+        top: 22%;
         right: 0;
-        width: 100%;
-        height: 50vw;
-        background-color: #fff;
+        padding-right: 5%;
 
-        img {
-          width: auto;
-          float: left;
-          display: inline-block;
-          width: 60%;
-          height: 100%;
+        .text-wrapper {
+          // position: absolute;
+          // left: 5%;
+          // top: 20%;
+          // -webkit-transform: translate(0, 20%);
+          //         transform: translate(0, 20%);
+          // padding: 5%;
         }
 
-        .carousel-text {
-          position: absolute;
-          display: inline-block;
-          top: 22%;
-          right: 0;
-          padding-right: 5%;
+        h1 {
+          font-family: 'Roboto';
+          color: #000;
+          letter-spacing: -1px;
+          margin-top: 0;
+          padding-bottom: 20px;
+          font-size: 3vw;
+        }
 
-          .text-wrapper {
-            // position: absolute;
-            // left: 5%;
-            // top: 20%;
-            // -webkit-transform: translate(0, 20%);
-            //         transform: translate(0, 20%);
-            // padding: 5%;
-          }
+        p {
+          font-family: 'Libre Franklin';
+          color: #000;
+          line-height: 2em;
+          font-size: 1.3vw;
+        }
 
-          h1 {
-            font-family: 'Roboto';
-            color: #000;
-            letter-spacing: -1px;
-            margin-top: 0;
-            padding-bottom: 20px;
-            font-size: 3vw;
-          }
-
-          p {
-            font-family: 'Libre Franklin';
-            color: #000;
-            line-height: 2em;
-            font-size: 1.3vw;
-          }
-
-          .carousel-start {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding-top: 30px;
-          }
+        .carousel-start {
+          display: block;
+          width: 100%;
+          text-align: left;
+          padding-top: 30px;
         }
       }
+    }
 
-      button.slick-arrow {
-        display: none;
-      }
+    button.slick-arrow {
+      display: none;
+    }
 
-      ul.slick-dots {
-        display: block;
-        position: absolute;
-        bottom: 10px;
-        width: 100%;
+    ul.slick-dots {
+      display: block;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+
+      li {
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        margin: 0 5px;
         padding: 0;
-        list-style: none;
-        text-align: center;
+        cursor: pointer;
+        background-color: #fff;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 
-        li {
-          position: relative;
-          display: inline-block;
-          width: 18px;
-          height: 18px;
-          margin: 0 5px;
-          padding: 0;
-          cursor: pointer;
-          background-color: #fff;
-          border-radius: 50%;
-          border: 2px solid #fff;
-          box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+        &.slick-active {
+          background-color: #111;
+        }
 
-          &.slick-active {
-            background-color: #111;
-          }
-
-          button {
-            display: none;
-          }
+        button {
+          display: none;
         }
       }
     }
@@ -371,39 +363,37 @@
       }
     }
 
-    .carousel-banner {
-      .landing-carousel {
+    .landing-carousel {
 
-        .carousel-item {
-          img {
-            width: 100%;
+      .carousel-item {
+        img {
+          width: 100%;
+        }
+
+        .carousel-text {
+          background-color: rgba(0, 0, 0, 0.6);
+          padding: 20px;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+
+          .btn-root {
+            background-color: #fff;
           }
+        }
 
-          .carousel-text {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+        .text-wrapper {
+          margin-top: 10%;
 
-            .btn-root {
-              background-color: #fff;
-            }
+          h1 {
+            font-size: 33px;
+            color: #fff;
           }
-
-          .text-wrapper {
-            margin-top: 10%;
-
-            h1 {
-              font-size: 33px;
-              color: #fff;
-            }
-            p {
-              font-size: 20px;
-              line-height: 1.5em;
-              color: #fff;
-            }
+          p {
+            font-size: 20px;
+            line-height: 1.5em;
+            color: #fff;
           }
         }
       }
@@ -441,38 +431,36 @@
       }
     }
 
-    .carousel-banner {
-      .landing-carousel {
+    .landing-carousel {
 
-        .carousel-item {
-          img {
-            width: 100%;
+      .carousel-item {
+        img {
+          width: 100%;
+        }
+
+        .carousel-text {
+          background-color: rgba(0, 0, 0, 0.6);
+          padding: 20px;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+
+          .carousel-start {
+            display: none;
           }
+        }
 
-          .carousel-text {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 20px;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-
-            .carousel-start {
-              display: none;
-            }
+        .text-wrapper {
+          margin-top: 0;
+          h1 {
+            font-size: 33px;
+            color: #fff;
           }
-
-          .text-wrapper {
-            margin-top: 0;
-            h1 {
-              font-size: 33px;
-              color: #fff;
-            }
-            p {
-              font-size: 14px;
-              line-height: 1.5em;
-              color: #fff;
-            }
+          p {
+            font-size: 14px;
+            line-height: 1.5em;
+            color: #fff;
           }
         }
       }
