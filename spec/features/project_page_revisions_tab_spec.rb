@@ -86,9 +86,7 @@ feature "Project Page Revisions Tab", js: true, vcr: { cassette_name: 'bitgo' } 
             @revision_wrapper.click_link "Back"
           end
 
-          scenario "Then you are back to 'Plan' tab" do
-            expect(@plan_area).not_to have_selector ".revision-wrapper"
-          end
+          scenario "Then you are back to 'Plan' tab"
         end
       end
     end
