@@ -101,7 +101,7 @@
           <label class="f-default__label _btc">
             <span class="f-default__label-text">Enter amount</span>
             <!--<input type="number" class="f-default__field numeric integer" required>-->
-            <input type="number" id="wallet_transaction_amount" name="amount"  class="f-default__field numeric integer"  required="true" placeholder=''/>
+            <input type="number" id="wallet_transaction_amount" name="amount" step="0.001" min="0.001" class="f-default__field numeric integer"  required="true" placeholder=''/>
 
             <div class="f-transaction__btc">BTC</div>
           </label>
@@ -126,6 +126,20 @@
     $('.js-toggle-content').on('click', function () {
       $(this).parents('.s-wallet__content').removeClass('_active').siblings('.s-wallet__content').addClass('_active');
     });
+    $('#wallet_transaction_amount').keypress(function(eve) {
+        if(eve.which == 8 || eve.which == 0){
+          return true;
+        }
+        if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
+          eve.preventDefault();
+        }
+
+    // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
+        $('#wallet_transaction_amount').keyup(function(eve) {
+          if($(this).val().indexOf('.') == 0) {    $(this).val($(this).val().substring(1));
+          }
+        });
+      });
   });
 </script>
 
