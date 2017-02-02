@@ -2,7 +2,12 @@ $("#product-modal").html("<%= escape_javascript(render :partial => 'task_details
 ModalsModule.openModal("#myModal");
 ModalsModule.togglePreloader(false);
 setTimeout(function () {UrlModule.enableCardClick();},0)
-
+$(document).ready(function() {
+  jQuery(".best_in_place").best_in_place();
+});
+$('#openEditBudgetPopup').click(function(){
+  $('#editBudgetPopup').show();
+});
 
 //$("#close").click(function () {
 //  $("#product-modal").html("");
