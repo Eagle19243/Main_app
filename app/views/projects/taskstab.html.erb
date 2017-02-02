@@ -242,6 +242,9 @@
       $('#revisionsDiffModal .modal-body-diff').html('Loading, please wait..');
       $('#revisionsDiffModal').fadeIn().trigger(revisionModalShownEvent);
       $('html').addClass('_open-modal');
+      $('.msg-error').removeClass('_visible');
+    } else {
+        $('.msg-error').addClass('_visible');
     }
   });
 

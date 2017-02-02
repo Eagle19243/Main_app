@@ -66,13 +66,13 @@
       <center>
         <div class="task-progress-wrapper">
           <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= (@sourcing_tasks.count / @projec_conut ) * 100 rescue 0 %> %">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @project.funded_percentages %>">
             </div>
           </div>
 
           <table>
             <tr class="value">
-              <td><%= @project.funded_percentages rescue 0 %> %</td>
+              <td><%= @project.funded_percentages rescue 0 %></td>
               <!--<td><%#= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>-->
               <td>
                 <%= @project.team_relations_string %>

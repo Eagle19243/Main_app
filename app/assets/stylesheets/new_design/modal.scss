@@ -587,6 +587,13 @@
     display: inline-block;
     width: 95%;
   }
+
+  .modal-body {
+    input#succes,
+    a#cancel {
+      display: none;
+    }
+  }
 }
 
 ._project-image {
@@ -638,5 +645,11 @@
     line-height: 40px;
     text-align: center;
     font-family: 'Roboto';
+  }
+}
+
+#projectInviteModal {
+  #response {
+    color: red;
   }
 }

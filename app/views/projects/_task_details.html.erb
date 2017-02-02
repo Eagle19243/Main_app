@@ -51,21 +51,22 @@
         <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
           <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
-          <% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id || current_user.id == @task.project.user_id)) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+          <% if user_signed_in? %>
+            <% if can? :update, @task %>
               <a href="#" id="edit-title" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
               <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
                   <%= f.text_field :title, id: "input-task-title" %>
                   <button name="button" type="submit" id="task-update-title">save</button>
                   <button type="reset" id="cancel-title">cancel</button>
               <% end %>
+            <% end %>
           <% end %>
         </div>
 
         <div class="modal-task__flex">
           <div class="modal-task__content-side">
 
-            <% if user_signed_in? && (
-            (@task.suggested_task? &&(current_user.id == @task.user_id || current_user.id == @task.project.user_id)) ||(@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+            <% if user_signed_in? && (can? :update, @task) %>
 
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
@@ -257,7 +258,7 @@
                         Approve
                       </a>
                   <% end %>
-                  <% if user_signed_in? && (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+                  <% if user_signed_in? && (can? :destroy, @task) %>
                       <button type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' class='approve-link' data-modal="#removeTask">
                           <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
                           Delete Task
@@ -288,14 +289,14 @@
                     <% end %>
 
                     <% if user_signed_in? %>
-                        <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) %>
+                        <% if current_user.can_submit_task?(@task) %>
                             <%= link_to reviewing_task_path(@task.id) do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
                                 </button>
                             <% end %>
                         <% end %>
-                        <% if current_user.id == @task.project.user_id && @task.reviewing? %>
+                        <% if current_user.can_complete_task?(@task) %>
                             <%= link_to completed_task_path(@task.id), data: {confirm: 'do you confirm that you have reviewed the task and that it is completed?'} do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
@@ -306,7 +307,7 @@
 
                     <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share</button>
                     <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
-                    <% if user_signed_in? && @task.accepted? && (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) %>
+                    <% if user_signed_in? && (can? :destroy, @task) %>
                         <%= link_to @task, method: :delete, data: {confirm: 'Are you sure?'} do %>
                             <button>
                               <i class="fa fa-trash-o" aria-hidden="true"></i>
