@@ -58,17 +58,6 @@
 
     <div class="modal-fund__stripe-bottom">
       <div class="modal-fund__stripe-bottom-inner">
-        <label class="f-default__radio-label">
-          <input class="f-default__radio-field" name="method" type="radio"/>
-          <span class="f-default__radio-pseudo"></span>
-          <span class="f-default__radio-text">ending in (expires 00/)</span>
-        </label>
-        <br/>
-        <label class="f-default__radio-label">
-          <input class="f-default__radio-field" name="method" type="radio"/>
-          <span class="f-default__radio-pseudo"></span>
-          <span class="f-default__radio-text">Use a new payment method</span>
-        </label>
         <div class="f-default__row">
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_number">Card Number</label>
@@ -99,18 +88,13 @@
             <button class="modal-fund__cvc-info btn-reset">What is CVC?</button>
           </div>
         </div>
+        <!--Commented this may be we use this in future -->
+        <!--<br/>-->
         <label class="f-default__checkbox-label">
-          <input class="f-default__checkbox-field" name="method" type="checkbox"/>
+          <input class="f-default__checkbox-field" name="method" type="checkbox" />
           <span class="f-default__checkbox-pseudo"></span>
-          <span class="f-default__checkbox-text">Save to Account</span>
+          <span class="f-default__checkbox-text">I've read and accept the <a href='/pages/terms_of_use'><b>terms & conditions</b></a></span>
         </label>
-        <br/>
-        <label class="f-default__checkbox-label">
-          <input class="f-default__checkbox-field" name="method" type="checkbox"/>
-          <span class="f-default__checkbox-pseudo"></span>
-          <span class="f-default__checkbox-text">I've read and accept the <a href='#'><b>terms & conditions</b></a></span>
-        </label>
-
         <span class="modal-fund__payment-errors"></span>
 
         <div class="f-default__info-message">

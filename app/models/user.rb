@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
   has_many :apply_requests, dependent: :destroy
+  has_many :stripe_payments
 
   validates :name, presence: true,uniqueness: true
 
@@ -288,5 +289,13 @@ class User < ActiveRecord::Base
     self.apply_requests.where(project_id: proj.id, request_type: type).pending.any?
   end
 
+  def can_submit_task?(task)
+    task_memberships = task.team_memberships
+    task.doing? && (task_memberships.collect(&:team_member_id).include? self.id) && self.is_teammate_for?(task.project)
+  end
+  
+  def can_complete_task?(task)
+    (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
+  end
 
 end

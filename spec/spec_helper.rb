@@ -1,5 +1,6 @@
 require 'fivemat'
 require 'factory_girl_rails'
+require 'sunspot/rails/spec_helper'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -23,6 +24,14 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.before(:each) do
+    ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
+  end
+
+  config.after(:each) do
+    ::Sunspot.session = ::Sunspot.session.original_session
+  end
 end
 
 FactoryGirl::SyntaxRunner.class_eval do

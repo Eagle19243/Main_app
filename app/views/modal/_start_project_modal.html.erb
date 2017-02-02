@@ -33,9 +33,20 @@
             </svg>
           </div>
 
-          <div class="f-default__row">
-            <%= f.label :Project_Image, "Project Image", class: 'f-default__label' %>
-            <%= f.file_field :picture, required: true, id: 'upload_button', class: 'btn-upload' %>
+          <div class="f-default__row _project-image">
+            <label class="f-default__label">Project Image</label>
+            <div class="f-default__joined">
+              <div class="f-default__joined-col _wide">
+                <span class="_project-image__label"></span>
+              </div>
+              <div class="f-default__joined-col _narrow">
+                <input type="file" class="inputfile" id="file" name="project[picture]" required="required" />
+                <label for="file" class="inputlabel">
+                  <i class="fa fa-upload" aria-hidden="true"></i>
+                  <span>Choose a file</span>
+                </label>
+              </div>
+            </div>
           </div>
 
           <div class="f-start-project__submit-row">
@@ -104,6 +115,25 @@
             return false;
         });
 
-    $('#country-field').geocomplete();
   });
+
+  $document.ready(function () {
+    var inputs = document.querySelectorAll( '.inputfile' );
+    Array.prototype.forEach.call( inputs, function( input ) {
+      var label  = input.nextElementSibling,
+      labelVal = label.innerHTML;
+      input.addEventListener( 'change', function( e ) {
+        var fileName = '';
+        fileName = e.target.value.split( '\\' ).pop();
+
+        if( fileName )
+          document.querySelector( '._project-image__label' ).innerHTML = fileName;
+        else
+          label.innerHTML = labelVal;
+      });
+    });
+  });
+    $('[data-modal="#startProjectModal"]').click(function(){
+      $('#country-field').geocomplete();
+    });
 </script>

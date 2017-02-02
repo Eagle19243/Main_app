@@ -70,7 +70,7 @@
                 <li class="l-dropdown__item">
                   <div class="l-dropdown__item-wrapper">
                     <% if n.action == 'created_project' %>
-                      <div class="l-dropdown__actions">
+                      <div class="notification-item">
                         <span class="l-dropdown__action">Created Project</span>
                         <span class="l-dropdown__date">
                           <%= "#{n.created_at.strftime(" %b %d")}"%>
@@ -80,7 +80,7 @@
                         <span><%= "#{n.source_model.title}"%></span>
                       </p>
                     <% elsif n.action == 'updated_project' %>
-                      <div class="l-dropdown__actions">
+                      <div class="notification-item">
                         <span class="l-dropdown__action">Updated Project</span>
                         <span class="l-dropdown__date">
                           <%= "#{n.created_at.strftime(" %b %d")} "%>
@@ -90,7 +90,7 @@
                         <span><%= "#{n.source_model.title}"%></span>
                       </p>
                     <% elsif n.action == 'suggested_task' && n.source_model%>
-                      <div class="l-dropdown__actions">
+                      <div class="notification-item">
                         <span class="l-dropdown__action">Task Suggestion</span>
                         <span class="l-dropdown__date">
                           <%= "#{n.created_at.strftime(" %b %d")} "%>
@@ -109,7 +109,7 @@
                 <li class="l-dropdown__item">
                   <div class="l-dropdown__item-wrapper">
                     <% if n.action == 'suggested_task' %>
-                    <div class="l-dropdown__actions">
+                    <div class="notification-item">
                       <span class="l-dropdown__action">Suggested Task</span>
                       <span class="l-dropdown__date">
                         <%= "#{n.created_at.strftime(" %b %d")}"%>
@@ -123,7 +123,7 @@
                 <li class="l-dropdown__item">
                   <div class="l-dropdown__item-wrapper">
                     <% if n.action == 'created_project' %>
-                      <div class="l-dropdown__actions">
+                      <div class="notification-item">
                         <span class="l-dropdown__action">Created Project</span>
                         <span class="l-dropdown__date">
                           <%= "#{n.created_at.strftime(" %b %d")}"%>
@@ -131,7 +131,7 @@
                       </div>
                       <p class="l-dropdown__text"><%= "#{n.user.name} have created project named "%><span><%= "#{n.source_model.title}"%></span></p>
                     <% elsif n.action == 'updated_project' %>
-                      <div class="l-dropdown__actions">
+                      <div class="notification-item">
                         <span class="l-dropdown__action">Updated Project</span>
                         <span class="l-dropdown__date">
                           <%= "#{n.created_at.strftime(" %b %d")}"%>
@@ -171,7 +171,7 @@
       <ul class="dropdown-menu">
         <li><%= link_to 'My Profile', user_path(current_user) %></li>
         <li><%= link_to 'My Projects', my_projects_path %></li>
-        <li><a href="/users/<%= current_user.id %>/my_wallet">My wallet</a></li>
+        <li><a href="/users/<%= current_user.id %>/my_wallet">My Wallet</a></li>
         <% if current_user.admin? %>
             <li><%= link_to 'Archived Projects', archived_projects_path %></li>
         <% end %>

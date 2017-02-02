@@ -51,32 +51,39 @@
         <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
           <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
-          <% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id || current_user.id == @task.project.user_id)) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+          <% if user_signed_in? %>
+            <% if can? :update, @task %>
               <a href="#" id="edit-title" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
               <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
                   <%= f.text_field :title, id: "input-task-title" %>
                   <button name="button" type="submit" id="task-update-title">save</button>
                   <button type="reset" id="cancel-title">cancel</button>
               <% end %>
+            <% end %>
           <% end %>
         </div>
 
         <div class="modal-task__flex">
           <div class="modal-task__content-side">
 
-            <% if user_signed_in? && (
-            (@task.suggested_task? &&(current_user.id == @task.user_id || current_user.id == @task.project.user_id)) ||(@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+            <% if user_signed_in? && (can? :update, @task) %>
 
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
                     <h4>Task Description</h4>
-                    <a href="#" id="edit-description" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    <p class="task-proof" id="task-description"><%= @task.description %></p>
-                    <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "hide-input"} do |f| %>
-                        <%= f.text_area :description, id: "input-task-description" %>
-                        <button name="button" type="submit" id="task-update-description">save</button>
-                        <button type="reset" id="cancel-description">cancel</button>
+                    <%if @task.doing? || @task.reviewing? || @task.completed? %>
+                        <a href="#" id="openEditTaskWarning" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <p class="task-proof" id="task-description"><%= @task.description %></p>
+                    <%else %>
+                        <a href="#" id="edit-description" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <p class="task-proof" id="task-description"><%= @task.description %></p>
+                        <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "hide-input"} do |f| %>
+                            <%= f.text_area :description, id: "input-task-description" %>
+                            <button name="button" type="submit" id="task-update-description">save</button>
+                            <button type="reset" id="cancel-description">cancel</button>
+                        <% end %>
                     <% end %>
+
                   </div>
 
                   <div class="modal-task__desc-block">
@@ -162,8 +169,6 @@
             </div>
 
 
-
-
               <div class="modal-task__controls-side">
                 <div class="fund">
                   <% unless @task.suggested_task? %>
@@ -239,11 +244,11 @@
               <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0 %></span> / Needed : -->
             </div>
 
-            <hr>
-            <div class="wallet-block mb20">
-              <h5>Task Specific Bit Coin Address:</h5>
-              <p id='fe_text'><%= @task.wallet_address.sender_address rescue 'Available soon' %></p>
-            </div>
+            <!--<hr>-->
+            <!--<div class="wallet-block mb20">-->
+              <!--<h5>Task Specific Bit Coin Address:</h5>-->
+              <!--<p id='fe_text'><%#= @task.wallet_address.sender_address rescue 'Available soon' %></p>-->
+            <!--</div>-->
             <hr>
 
                 <div class="approve-block mb20">
@@ -253,17 +258,19 @@
                         Approve
                       </a>
                   <% end %>
-                  <% if user_signed_in? && (@task.suggested_task? && (current_user.id == @task.user_id || @task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+                  <% if user_signed_in? && (can? :destroy, @task) %>
                       <button type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' class='approve-link' data-modal="#removeTask">
                           <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
                           Delete Task
                       </button>
                   <% end %>
-                  <% if user_signed_in? && (@task.accepted? && (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+                  <% if user_signed_in? %>
+                    <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) %>
                       <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                           Start
                       <% end %>
+                    <% end %>
                   <% end %>
                 </div>
 
@@ -282,14 +289,14 @@
                     <% end %>
 
                     <% if user_signed_in? %>
-                        <% if @task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id) %>
+                        <% if current_user.can_submit_task?(@task) %>
                             <%= link_to reviewing_task_path(@task.id) do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
                                 </button>
                             <% end %>
                         <% end %>
-                        <% if current_user.id == @task.project.user_id && @task.reviewing? %>
+                        <% if current_user.can_complete_task?(@task) %>
                             <%= link_to completed_task_path(@task.id), data: {confirm: 'do you confirm that you have reviewed the task and that it is completed?'} do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
@@ -300,11 +307,19 @@
 
                     <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share</button>
                     <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
-                    <% if user_signed_in? && @task.accepted? && (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) %>
+                    <% if user_signed_in? && (can? :destroy, @task) %>
                         <%= link_to @task, method: :delete, data: {confirm: 'Are you sure?'} do %>
                             <button>
                               <i class="fa fa-trash-o" aria-hidden="true"></i>
                               Delete Task
+                            </button>
+                        <% end %>
+                    <% end %>
+                    <% if user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
+                        <%= link_to refund_task_path(@task) do %>
+                            <button>
+                              <i class="fa fa-bitcoin" aria-hidden="true"></i>
+                              Refund Task
                             </button>
                         <% end %>
                     <% end %>
@@ -319,19 +334,16 @@
                         <!--</iframe>-->
                         <!--<img src="http://placehold.it/150x150">-->
                         <% if %w{jpg png jpg gif bmp}.include?(attachment.attachment.file.extension) %>
-                            <%= image_tag attachment.attachment.url, style: "width:90px ; height:90px" %>
-
+                          <%= image_tag attachment.attachment.url, style: "width:90px ; height:90px" %>
                         <% else %>
-                            <img src="http://placehold.it/150x150">
-
+                          <img src="http://placehold.it/150x150">
                         <% end %>
                         <h4><%= attachment.attachment.file.filename %></h4>
                         <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                         <div class="attachment-actions">
                           <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
                           <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
-
-                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
+                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">Remove</a>
                           <% end %>
                         </div>
                       </div>
@@ -340,8 +352,6 @@
                 </div>
               </div>
             </div> <!--row ends -->
-
-
         </div>
 
     </div>
@@ -479,3 +489,4 @@
     <script type="text/javascript">
       JsonFormsHelper.InitializeTaskMembersControls();
     </script>
+<%= render 'modal/warring_pop_up' %>

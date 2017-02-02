@@ -16,9 +16,11 @@ class Ability
 
   def initializeTeamMembershipsPermissions(user)
     if user
-      can [:update], TeamMembership do |team_membership|
-        team_membership.team.project.user.id == user.id && user.is_project_leader?(team_membership.team.project)
+
+      can [:update, :destroy], TeamMembership do |team_membership|
+        user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user
       end
+
     end
   end
 
@@ -53,7 +55,7 @@ class Ability
     can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin, :get_in], Project
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
-      can [:update, :change_leader], Project do |project|
+      can [:update, :change_leader, :accept, :reject ], Project do |project|
         user.is_admin_for?(project)
       end
       can :archived, Project if user.admin?
@@ -107,7 +109,7 @@ class Ability
       end
 
       can [:update, :destroy], Task do |task|
-        user.is_admin_for?(task.project) || user.is_executor_for?(task.project)
+        (user.is_project_leader?(task.project) || user.is_executor_for?(task.project) || (task.suggested_task? && (user.id == task.user_id))) && (task.any_fundings? == false)
       end
 
       if user.admin?
