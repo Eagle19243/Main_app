@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
   PER_LOAD_COUNT = 10
 
   def index
-    @notifications = Notification.last(PER_LOAD_COUNT)
+    @notifications = current_user.notifications.last(PER_LOAD_COUNT)
     Notification.where(:read => false).update_all(:read => true)
   end
 

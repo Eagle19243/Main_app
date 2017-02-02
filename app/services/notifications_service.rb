@@ -68,6 +68,11 @@ class NotificationsService
     self.create_notification(project, user, Notification.actions[:leader_change], new_leader)
   end
 
+  def self.notify_about_change_leader_invitation(user, new_leader, project)
+    self.create_notification(project, new_leader, Notification.actions[:change_leader_invitation], user)
+    self.create_notification(project, user, Notification.actions[:change_leader_invitation_sent], new_leader)
+  end
+
   private
 
   def self.create_notification(model, user, action, origin_user = nil)

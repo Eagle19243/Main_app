@@ -14,6 +14,8 @@ class Notification < ActiveRecord::Base
       :suggested_task,
       :pending_do_request,
       :leader_change,
+      :change_leader_invitation,
+      :change_leader_invitation_sent,
       :apply_requset,
       :accept_apply_request,
       :reject_apply_request
