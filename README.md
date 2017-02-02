@@ -6,6 +6,14 @@
 - NodeJS 4.x
 - [Mediawiki](https://mediawiki.org) 1.25+
 
+# Components
+
+Main application is a RoR website, but it depends on set of 3rd paty tools:
+
+- Solr full-text search engine - powered by `sunspot` get (included into bundle)
+- BitGoJs client - running locally and acts as gateway between app and bitgo.com service
+- Mediawiki - running as separate application, provides web-API to store some texts from main app
+
 # Steps to run the app
 
 ### 1. Prepare environment
@@ -34,7 +42,7 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 
 ### 5. Run BigGoJS
 
-* Clone [ButGoJS repository](https://github.com/BitGo/BitGoJS) in a separate directory
+* Clone [BitGoJS repository](https://github.com/BitGo/BitGoJS) in a separate directory
 * Run `npm install`
 * Run it with command `./bitgo-express --debug --port 3080 --env prod --bind localhost`
 
