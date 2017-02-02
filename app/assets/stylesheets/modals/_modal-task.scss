@@ -179,6 +179,9 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
 
 
   // todo styles below should be checked
+  .approve-link+.approve-link {
+    margin-top: 15px;
+  }
   &__controls-side {
     border-left: none;
 
@@ -258,6 +261,10 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
         height: 40px;
         border-radius: 50%;
         margin-right: 5px;
+      }
+      h2 {
+        font-family: 'Roboto', sans-serif;
+        font-size: 26px;
       }
     }
 
