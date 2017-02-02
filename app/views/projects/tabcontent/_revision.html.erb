@@ -21,6 +21,12 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col-md-12">
+        <span class="msg-error">You need to select more than one revisions</span>
+    </div>
+  </div>
+
   <div class="revision-histories-body">
     <%= render partial: "projects/revision_history", locals: {histories: histories, project: project, mediawiki_api_base_url: mediawiki_api_base_url } %>
   </div>
