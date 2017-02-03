@@ -22,7 +22,6 @@
     var $form = $('#payment-form');
 
     if (response.error) { // Problem!
-
       // Show the errors on the form:
       $form.find('.modal-fund__payment-errors').text(response.error.message);
       $form.find('.js-submit-cc').prop('disabled', false); // Re-enable submission
@@ -84,8 +83,8 @@
           </div>
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_code">Card code</label>
-            <input type="tel" autocomplete="off" id="card_code" name="cardCvc" class="f-default__field _cvc" placeholder="CVC" maxlength="4" data-stripe="cvc" required/>
-            <button class="modal-fund__cvc-info btn-reset">What is CVC?</button>
+            <input type="tel" autocomplete="off" id="card_code" name="cardCvc" class="f-default__field _cvc" placeholder="CVV" maxlength="4" data-stripe="cvc" required/>
+            <a href="https://www.strategicprofitsinc.com/cvv_info/cvv_info.html" target="_blank" class="modal-fund__cvc-info btn-reset">What is CVV?</button>
           </div>
         </div>
         <!--Commented this may be we use this in future -->
@@ -95,11 +94,12 @@
           <span class="f-default__checkbox-pseudo"></span>
           <span class="f-default__checkbox-text">I've read and accept the <a href='/pages/terms_of_use'><b>terms & conditions</b></a></span>
         </label>
-        <span class="modal-fund__payment-errors"></span>
 
         <div class="f-default__info-message">
             For USD payments WeServe.io deduce 5% fee from the resulting BTC amount that will be send to the task wallet from the reserve wallet.
         </div>
+
+        <span class="modal-fund__payment-errors"></span>
 
         <script>
           // https://github.com/jessepollak/card
