@@ -31,7 +31,6 @@
                 </a>
               </td>
               <td class="fund">
-
                 <span class="pull-left">฿ <%= project.funded_budget%></span>
                 <span class="pull-right">฿ <%= project.needed_budget %></span>
                 <div class="progress">
@@ -41,13 +40,13 @@
                 <div class="progress-percent"><%= project.funded_percentages %></div>
               </td>
               <td class="team">
-                12/13
+                <%= project.team_relations_string %>
               </td>
               <td class="team">
-                8
+                <%= project.tasks_relations_string %>
               </td>
               <td class="team">
-                <%= project.accepted_tasks.count %>/<%= project.tasks.count%>
+                <%= project.accepted_tasks.count %> / <%= project.tasks.count%>
               </td>
               <td class="delete">
                 <button type="button" class="btn-reset" data-modal="#modalRemoveProject" onclick="remove_project(<%= project.id %>)">
@@ -234,4 +233,3 @@
             $modalRemoveProject.trigger('click');
         });
 </script>
-
