@@ -12,7 +12,7 @@
         <div class="b-notification__wrapper">
           <%= yield %>
 
-        <% if notification.user_id == current_user.id %>
+        <% if notification.user_id == current_user.id && notification.operatable? %>
           <%= render partial: "notifications/#{notification.source_model_type.underscore}/accept_reject_buttons", locals: { notification: notification }%>
         <% end %>
         </div>

@@ -146,6 +146,7 @@ class Project < ActiveRecord::Base
 
   def follow!(user)
     self.project_users.create(user_id: user.id)
+    NotificationsService.notify_about_follow_project(self, user)
   end
 
   def unfollow!(user)
