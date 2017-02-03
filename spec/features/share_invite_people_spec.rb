@@ -41,19 +41,20 @@ feature "Share/Invite People to the Participate", js: true, vcr: { cassette_name
           before do
             @email = "new@email.com"
             @invite_modal.fill_in "email", with: @email
+          end
 
-            @message_delivery = instance_double(ActionMailer::MessageDelivery)
-            allow(InvitationMailer).to receive(:invite_user_for_project).and_return(@message_delivery)            
+          scenario "Then your invitation email has been sent to the person" do
+            expect_any_instance_of(ActionMailer::MessageDelivery).to receive(:deliver_later)
 
             @invite_modal.find('input[name="commit"]').click
           end
 
-          scenario "Then your invitation email has been sent to the person" do
-            expect(@message_delivery).to receive(:deliver_later)
-          end
-
           scenario "Then email sent message appeared" do
-            allow(@message_delivery).to receive(:deliver_later)
+            allow_any_instance_of(ActionMailer::MessageDelivery).to receive(:deliver_later)
+
+            @invite_modal.find('input[name="commit"]').click
+            wait_for_ajax
+
             expect(@invite_modal).to have_content "Project link has been sent to #{@email}"
           end
         end
