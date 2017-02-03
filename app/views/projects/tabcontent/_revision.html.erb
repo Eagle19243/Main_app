@@ -5,7 +5,7 @@
     <div class="col-md-6">
       <a class="btn-default-weserve revisions-compare-button">Compare selected revisions</a>
 
-      <%= link_to plan_project_path(id: project.id), remote: true, class: "btn-default-weserve", onclick: "openTab(event, 'Plan')" do %>
+      <%= link_to plan_project_path(id: project.id), remote: true, class: "btn-default-weserve" do %>
         Back
       <% end %>
     </div>
@@ -18,6 +18,12 @@
         </label>
       </div>
       <h4 style="float: right; margin-right: 10px;">Verification</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        <span class="msg-error">You need to select more than one revisions</span>
     </div>
   </div>
 
