@@ -18,8 +18,11 @@ class Notification < ActiveRecord::Base
       :change_leader_invitation_sent,
       :apply_requset,
       :accept_apply_request,
-      :reject_apply_request
+      :reject_apply_request,
+      :follow_project,
   ]
+
+  enum action_type: [:text, :operatable]
 
   belongs_to :user
   belongs_to :origin_user, :foreign_key => 'origin_user_id', :class_name => 'User'
@@ -30,6 +33,10 @@ class Notification < ActiveRecord::Base
 
   def self.unread
     where(:read => false)
+  end
+
+  def self.operatable?
+    self.action_type == "operatable"
   end
 
 end
