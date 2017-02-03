@@ -19,4 +19,14 @@ FactoryGirl.define do
       TeamMembership.create(team_member_id: project.user.id, team_id: project_team.id, role:1 )
     end
   end
+
+  factory :task do
+    sequence(:title) { |n| "task #{n}" }
+    budget 0
+    target_number_of_participants 0
+    sequence(:condition_of_execution) { |n| "condition_of_execution #{n}" }
+    sequence(:proof_of_execution) { |n| "proof_of_execution #{n}" }
+    sequence(:deadline) { |n| n.days.from_now }
+    state "accepted"
+  end
 end
