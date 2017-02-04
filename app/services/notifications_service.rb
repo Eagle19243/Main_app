@@ -48,7 +48,7 @@ class NotificationsService
   end
 
   def self.notify_about_apply_request(apply_request)
-    self.create_notification(apply_request, apply_request.project.user, Notification.actions[:apply_request], apply_request.user)
+    self.create_notification(apply_request, apply_request.project.user, Notification.actions[:apply_request], apply_request.user, "operatable")
   end
 
   def self.notify_about_reject_admin_request(admin_request, origin_user)
