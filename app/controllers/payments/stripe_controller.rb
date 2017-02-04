@@ -26,7 +26,8 @@ class Payments::StripeController < ApplicationController
         if ENV['skip_wallet_transaction'] == "true"
           StripePayment.create(amount: params[:amount], user_id: current_user.id, task_id: task.id, amount_in_satoshi: satoshi_amount, stripe_token: params[:stripeToken], stripe_response_id: stripe_response['id'], balance_transaction: stripe_response['balance_transaction'], paid: stripe_response['paid'], refund_url: stripe_response['refunds']['url'], status: stripe_response['status'], seller_message: stripe_response['outcome']['seller_message'])
         else
-          transfer_coin_from_weserver_wallet_to_task_wallet(task, satoshi_amount, params[:amount], params[:stripeToken], stripe_response['id'], stripe_response['balance_transaction'], stripe_response['paid'], stripe_response['refunds']['url'], stripe_response['status'], stripe_response['outcome']['seller_message'])
+          transfer_coin_from_weserver_wallet_to_task_wallet(task, satoshi_amount, params[:amount], params[:stripeToken], stripe_response['id'], stripe_response['balance_transaction'], stripe_response['paid'], (stripe_response.fetch('refunds', {})['url']), stripe_response['status'], (stripe_response.fetch('outcome', {})['seller_message']))
+
         end
         # task_id :   amount:;
         #   rails generate model StripePayments amount:decimal task:references
@@ -36,7 +37,7 @@ class Payments::StripeController < ApplicationController
         flash[:notice] = 'Thanks for your payment'
         redirect_to taskstab_project_url(id: params[:project_id])
       else
-        flash[:alert] = payment_service.instance_variable_get(:@error).to_s
+        flash[:alert] = payment_service.error
         redirect_to taskstab_project_url(id: params[:project_id])
       end
     end
