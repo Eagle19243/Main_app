@@ -235,16 +235,6 @@ class User < ActiveRecord::Base
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
 
-  #Comment out this codes since we cannot get appropriate result from this
-
-  # def is_executor_for? proj
-  #   proj.executors.pluck(:id).include? self.id
-  # end
-
-  # def is_lead_editor_for? proj
-  #   proj.lead_editors.pluck(:id).include? self.id
-  # end
-
   def is_executor_for? proj
     if proj.team.team_memberships.where(:team_member_id => self.id).present?
       return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "executor")
@@ -269,12 +259,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def can_apply_as_admin?(project)
-    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
-  end
-
   def is_project_leader?(project)
     project.user.id == self.id
+  end
+
+  def can_apply_as_admin?(project)
+    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
   end
 
   def is_team_admin?(team)
@@ -293,7 +283,7 @@ class User < ActiveRecord::Base
     task_memberships = task.team_memberships
     task.doing? && (task_memberships.collect(&:team_member_id).include? self.id) && self.is_teammate_for?(task.project)
   end
-  
+
   def can_complete_task?(task)
     (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
   end

@@ -258,6 +258,9 @@ class ProjectsController < ApplicationController
   end
 
   def revisions
+
+    authorize! :revisions, @project
+
     @histories = get_revision_histories @project
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
@@ -267,6 +270,9 @@ class ProjectsController < ApplicationController
   end
 
   def switch_approval_status
+
+    authorize! :switch_approval_status, @project
+
     @histories = get_revision_histories @project
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
@@ -322,6 +328,9 @@ class ProjectsController < ApplicationController
   end
 
   def revision_action
+
+    authorize! :revision_action, @project
+
     if params[:type] == 'approve'
       @project.approve_revision params[:rev]
     elsif params[:type] == 'unapprove'
@@ -332,11 +341,17 @@ class ProjectsController < ApplicationController
   end
 
   def block_user
+
+    authorize! :block_user, @project
+
     @project.block_user params[:username]
     redirect_to taskstab_project_path(@project.id)
   end
 
   def unblock_user
+
+    authorize! :unblock_user, @project
+
     @project.unblock_user params[:username]
     redirect_to taskstab_project_path(@project.id)
   end
@@ -552,17 +567,6 @@ class ProjectsController < ApplicationController
 
   def read_from_mediawiki
 
-    # Comment this out for now as we may need this in the future
-
-    # result = current_user.page_read @project.title
-    # @contents = ''
-    # if result
-    #   if result["status"] == 'success'
-    #     @contents = result['html'].html_safe
-    #   end
-    # else
-    #   #TODO create new session for mediawiki
-    # end
     @contents = ''
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
@@ -573,19 +577,12 @@ class ProjectsController < ApplicationController
         @contents = result["content"]
       end
     else
-      Get Latest Revision editable
+      # Get Latest Revision editable
       result = @project.get_latest_revision
       @contents = ''
       if result
         @contents = result
       end
-      # result = @project.page_read
-      # if result
-      #   if result["status"] == 'success'
-      #     @contents = result["html"]
-      #     @revision_id = result["revision_id"]
-      #   end
-      # end
     end
 
     respond_to do |format|
@@ -604,8 +601,9 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    project = Project.find(params[:id])
-    project.destroy
+    authorize! :destroy, @project
+
+    @project.destroy
     respond_to do |format|
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
