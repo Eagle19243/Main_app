@@ -128,6 +128,10 @@ class Ability
         user.can_complete_task?(task)
       end
 
+      can :doing, Task do |task|
+        task.accepted? && user.is_teammember_for?(task)
+      end
+
       if user.admin?
         can [:create, :update, :destroy], Task
       end

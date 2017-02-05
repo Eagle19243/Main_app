@@ -263,6 +263,11 @@ class User < ActiveRecord::Base
     project.user.id == self.id
   end
 
+  def is_teammember_for?(task)
+    task_memberships = task.team_memberships
+    task_memberships.collect(&:team_member_id).include? self.id
+  end
+
   def can_apply_as_admin?(project)
     !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
   end
