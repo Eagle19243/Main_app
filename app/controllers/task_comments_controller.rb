@@ -11,11 +11,14 @@ class TaskCommentsController < ApplicationController
 
   def new
   end
- 
+
   def create
     task = Task.find(params[:task_id])
     @comment = task.task_comments.build(comment_params)
     @comment.user_id = current_user.id
+
+    authorize! :create, @comment
+
     respond_to do |format|
         if @comment.save
           set_activity(task, 'created')
@@ -28,7 +31,7 @@ class TaskCommentsController < ApplicationController
 
     end
   end
-    
+
   def edit
   end
 
@@ -49,8 +52,8 @@ class TaskCommentsController < ApplicationController
     flash[:success] = 'Comment deleted'
     current_user.create_activities(@comment, 'deleted')
     redirect_to users_path
-  end 
-  
+  end
+
   private
 
   def comment_params
