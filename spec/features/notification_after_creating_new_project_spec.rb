@@ -3,7 +3,9 @@ require 'rails_helper'
 feature "Notification After Creating a New Project", js: true, vcr: { cassette_name: 'bitgo' } do
   context "As a logged in user" do
     before do
-      @user = FactoryGirl.create(:user, confirmed_at: Time.now)
+      @users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
+      @user = @users.first
+      @another_user = @users.last
       login_as(@user, :scope => :user, :run_callbacks => false)      
     end
 
@@ -43,8 +45,8 @@ feature "Notification After Creating a New Project", js: true, vcr: { cassette_n
           expect(page).to have_selector(".btn-bell__counter")
         end
 
-        scenario "Then the notification alert indicates the number of unread notifications" do
-          expect(find(".btn-bell__counter").text).to eq Notification.unread.count.to_s
+        scenario "Then the notification alert indicates the number of unread notifications" do          
+          expect(find(".btn-bell__counter").text).to eq @user.notifications.unread.count.to_s
         end
 
         context "When you navigate 'Notifications' page" do
@@ -58,13 +60,21 @@ feature "Notification After Creating a New Project", js: true, vcr: { cassette_n
           end
 
           scenario "Then you can see the notification" do
-            p 'step 4'
-            save_screenshot("file1.png", full: true)
             expect(page).to have_content "You have created project #{@project.title}"
           end
 
           scenario "Then the number of unread notifications has been disappeared on the alert" do
             expect(page).not_to have_selector(".btn-bell__counter")
+          end
+
+          context "When another user creates his or her project" do
+            before do
+              @another_project = FactoryGirl.create(:project, user: @another_user)
+            end
+
+            scenario "Then you can see only your notifications" do
+              expect(page).not_to have_content "You have created project #{@another_project.title}"
+            end
           end
         end
       end
