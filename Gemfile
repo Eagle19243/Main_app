@@ -120,6 +120,7 @@ end
 
 group :test do
   gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
+  gem 'simplecov', :require => false
 end
 
 # Auto deployment to AWS
