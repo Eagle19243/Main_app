@@ -3,7 +3,9 @@ class ApplyRequestsController < ApplicationController
   before_action :set_apply_request, only: [:accept, :reject]
 
   def accept
-    @apply_request = ApplyRequest.find(params[:id])
+
+    authorize! :create, @apply_request
+
     @apply_request.accept!
 
     if @apply_request.request_type == "Lead_Editor"
@@ -22,7 +24,9 @@ class ApplyRequestsController < ApplicationController
   end
 
   def reject
-    @apply_request = ApplyRequest.find(params[:id])
+
+    authorize! :create, @apply_request
+
     @apply_request.reject!
     redirect_to :my_projects
   end
