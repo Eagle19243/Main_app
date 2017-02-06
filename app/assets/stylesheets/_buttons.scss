@@ -144,6 +144,9 @@
     background-color: #000;
     color: #fff;
   }
+  &._hidden {
+    display: none;
+  }
 }
 
 .btn-share {
@@ -176,6 +179,11 @@
   margin: 0;
   box-shadow: none;
   background: transparent;
+  color: #000;
+
+  &:visited {
+    color: #000;
+  }
 
   &:hover {
     background: transparent;
