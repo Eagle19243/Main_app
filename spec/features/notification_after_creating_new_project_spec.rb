@@ -73,7 +73,7 @@ feature "Notification After Creating a New Project", js: true, vcr: { cassette_n
             end
 
             scenario "Then you can see only your notifications" do
-              expect(page).not_to have_content "You have created project #{@another_project.title}"
+              expect(page).not_to have_content "#{@another_project.title}"
             end
           end
         end
