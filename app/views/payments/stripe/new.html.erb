@@ -48,9 +48,6 @@
 <form action="/" method="POST" id="payment-form">
 
   <input type="hidden" class="js-amount" name="amount"/>
-  <input type="hidden" class="js-card-number" size="20" data-stripe="number"/>
-  <input type="hidden" size="20" data-stripe="exp_month"/>
-  <input type="hidden" size="20" data-stripe="exp_year"/>
 
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%#= hidden_field_tag :wallet_transaction_user_wallet,  @task.wallet_address.sender_address %>
@@ -61,7 +58,7 @@
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_number">Card Number</label>
             <div class="js-hidden_card"></div>
-            <input type="tel" autocomplete="off" id="card_number" name="cardNumber" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
+            <input type="tel" autocomplete="off" id="card_number" data-stripe="number" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
 
             <span class="f-default__card-wrap">
               <%= image_tag('payments/dc-pay@2x.png', class:"_dc") %>
@@ -79,11 +76,11 @@
         <div class="f-default__row _flex">
           <div class="f-default__label-wrap _grow">
             <label class="f-default__label" for="card_expiry">Expiry (MM/YYYY)</label>
-            <input type="tel" autocomplete="off" id="card_expiry" name="cardExpiry" maxlength="9" class="f-default__field" placeholder="MM/YYYY" required/>
+            <input type="tel" autocomplete="off" id="card_expiry" data-stripe="exp" maxlength="9" class="f-default__field" placeholder="MM/YYYY" required/>
           </div>
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_code">Card code</label>
-            <input type="tel" autocomplete="off" id="card_code" name="cardCvc" class="f-default__field _cvc" placeholder="CVV" maxlength="4" data-stripe="cvc" required/>
+            <input type="tel" autocomplete="off" id="card_code" class="f-default__field _cvc" placeholder="CVV" maxlength="4" data-stripe="cvc" required/>
             <a href="https://www.strategicprofitsinc.com/cvv_info/cvv_info.html" target="_blank" class="modal-fund__cvc-info btn-reset">What is CVV?</button>
           </div>
         </div>
@@ -112,9 +109,9 @@
             container: '.js-hidden_card', // *required*
 
             formSelectors: {
-                numberInput: '[name="cardNumber"]',
-                expiryInput: '[name="cardExpiry"]',
-                cvcInput: '[name="cardCvc"]'
+                numberInput: '[data-stripe="number"]',
+                expiryInput: '[data-stripe="exp"]',
+                cvcInput: '[data-stripe="cvc"]'
             }
           });
         </script>
