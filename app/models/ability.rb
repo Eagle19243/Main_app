@@ -23,7 +23,7 @@ class Ability
       end
 
       can [:destroy], TeamMembership do |team_membership|
-        user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user
+        (user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user) || (user.is_executor_for?(team_membership.team.project) && team_membership.role == 'teammate')
       end
 
     end
