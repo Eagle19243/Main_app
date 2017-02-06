@@ -21,6 +21,7 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
 * Install & configure Git
 * Install & configure PostgreSQL database
 * Install NodeJS
+* Install Graphicsmagick: `brew install graphicsmagick`
 * Clone the repository and perform `bundle install`
 
 ### 2. Get necessary tokens
