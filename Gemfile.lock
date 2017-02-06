@@ -399,6 +399,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
+    oj (2.12.14)
     omniauth (1.3.1)
       hashie (>= 1.2, < 4)
       rack (>= 1.0, < 3)
@@ -527,6 +528,8 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rollbar (2.14.0)
+      multi_json
     rsolr (1.1.2)
       builder (>= 2.1.2)
     rspec-core (3.5.4)
@@ -724,6 +727,7 @@ DEPENDENCIES
   momentjs-rails (>= 2.9.0)
   newrelic_rpm
   nokogiri (= 1.6.0)
+  oj (~> 2.12.14)
   omniauth
   omniauth-facebook
   omniauth-google-oauth2
@@ -746,6 +750,7 @@ DEPENDENCIES
   rails_layout
   react-rails
   remotipart
+  rollbar
   rspec-rails
   rubocop
   rubycritic

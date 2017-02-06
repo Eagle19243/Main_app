@@ -80,6 +80,10 @@ gem "bullet", :group => "development"
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 
+# Exception monitoring
+gem 'rollbar'
+gem 'oj', '~> 2.12.14'
+
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
