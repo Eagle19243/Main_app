@@ -4,6 +4,8 @@ class TeamMembershipsController < ApplicationController
   def update
     @team_membership = TeamMembership.find(params[:id])
 
+    authorize! :update, @team_membership
+
     if @team_membership.role != "lead_editor" && update_params["role"] == "lead_editor"
       update_type = "grant"
     elsif @team_membership.role == "lead_editor" && update_params["role"] != "lead_editor"
@@ -27,6 +29,9 @@ class TeamMembershipsController < ApplicationController
 
   def destroy
     @team_membership = TeamMembership.find(params[:id])
+
+    authorize! :destroy, @team_membership
+
     respond_to do |format|
       if current_user.id == @team_membership.team.project.user_id || (@team_membership.team.project.user_id != current_user.id && @team_membership.role == 1)
         if @team_membership.destroy

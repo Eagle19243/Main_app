@@ -120,14 +120,8 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
     @task.user_id = current_user.id
-    # Someone Recieving Task[state] in params and commented this  . i think this is more safe
-    # Yes, it is really needed because project leader can also suggest task as well. Do not uncomment this code!
 
-    # if @task.project.user_id == current_user.id
-    #   @task.state = 'accepted'
-    # else
-    #   @task.state = 'suggested_task'
-    # end
+    authorize! :create, @task
 
     respond_to do |format|
       if @task.save
@@ -242,16 +236,20 @@ class TasksController < ApplicationController
   end
 
   def doing
+
+    authorize! :doing, @task
+
     if @task.suggested_task?
       @notice = "You can't Do this Task"
     else
       if @task.not_fully_funded_or_less_teammembers?
-        @notice = " Number of team Members  less than Required Number of Team Members  or Current Fund is Less Than Actual Budget"
-        else
-        if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
+        @notice = "Number of team Members less than Required Number of Team Members or Current Fund is Less Than Actual Budget"
+      else
+        # if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
+        if @task.start_doing!
           @notice = "Task Status changed to Doing "
         else
-          @notice = "Error in Moving  Task"
+          @notice = "Error in Moving Task"
         end
       end
     end
@@ -275,6 +273,9 @@ class TasksController < ApplicationController
   end
 
   def reviewing
+
+    authorize! :reviewing, @task
+
     if current_user.can_submit_task?(@task) && @task.begin_review!
       @notice = "Task Submitted for Review"
     else
@@ -288,6 +289,9 @@ class TasksController < ApplicationController
   end
 
   def completed
+
+    authorize! :completed, @task
+
     if current_user.can_complete_task?(@task) && @task.complete!
       @notice = "Task Completed"
       @task.transfer_task_funds
