@@ -124,7 +124,7 @@ end
 
 group :test do
   gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
-  gem 'simplecov', :require => false
+  gem 'simplecov', require: false
   gem "codeclimate-test-reporter", "~> 1.0.0"
 end
 
