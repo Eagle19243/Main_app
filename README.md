@@ -21,6 +21,12 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
 * Install & configure Git
 * Install & configure PostgreSQL database
 * Install NodeJS
+* Install an image processing tool:
+
+     For OSX: `brew install graphicsmagick` OR  `brew install imagemagick`
+
+     For Ubuntu: `apt-get install graphicsmagick` OR `apt-get install imagemagick` 
+ 
 * Clone the repository and perform `bundle install`
 
 ### 2. Get necessary tokens
