@@ -246,4 +246,53 @@ http_interactions:
       string: '{"address":"39ixPRpp3JxwEJQ86Z15KKZ1AEzV3JxBpD","chain":1,"index":0,"path":"/1/0","redeemScript":"522102dba1ab639fd949c17ee80f6f15a5f4090ff2279f3bee9e9c16a3ea60f115490f210296e409d5d510b9b3eecc15ed3682ab778dd2fde0d50e2df01d29f0d2bc6a364f2103c800391214d8d4e72f608a5d078971c16081a68ec7b84238026d571088eb7ea653ae","wallet":"38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV"}'
     http_version: 
   recorded_at: Tue, 13 Dec 2016 11:52:14 GMT
+- request:
+    method: get
+    uri: https://www.bitstamp.net/api/ticker/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.0 (darwin16.3.0 x86_64) ruby/2.3.1p112
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Etag:
+      - '"61512-b4-54794fd221c9b"'
+      Last-Modified:
+      - Fri, 03 Feb 2017 00:01:51 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '180'
+      Connection:
+      - keep-alive
+      Date:
+      - Fri, 03 Feb 2017 00:01:55 GMT
+      Set-Cookie:
+      - "___utmvavEumyLc=GIa\x01UPBX; path=/; Max-Age=900"
+      - '___utmvbvEumyLc=ZZj XUtORalO: rtH; path=/; Max-Age=900'
+      - ___utmvmvEumyLc=YDRzIjdWNCF; path=/; Max-Age=900
+      - incap_ses_459_99025=Wf/hbCYU0S5IcgmeWbJeBnPIk1gAAAAApYu+gOviDcHXwe7yT27XOw==;
+        path=/; Domain=.bitstamp.net
+      - visid_incap_99025=rp4WWqt7SbKL/GZBgCBGPHPIk1gAAAAAQUIPAAAAAADu2asypTM3LkQkuGzo3oiR;
+        expires=Fri, 02 Feb 2018 12:39:40 GMT; path=/; Domain=.bitstamp.net
+      X-Iinfo:
+      - 8-6029881-6029899 2CNN RT(1486080114950 300) q(0 0 0 -1) r(0 0)
+      X-Cdn:
+      - Incapsula
+    body:
+      encoding: ASCII-8BIT
+      string: '{"high": "1011.65", "last": "1009.17", "timestamp": "1486080106", "bid":
+        "1008.57", "vwap": "994.32", "volume": "8269.14929769", "low": "973.12", "ask":
+        "1009.17", "open": 1009.15}'
+    http_version: 
+  recorded_at: Fri, 03 Feb 2017 00:01:56 GMT
 recorded_with: VCR 3.0.3

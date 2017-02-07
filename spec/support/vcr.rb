@@ -24,6 +24,7 @@ VCR.configure do |c|
   end
 
   c.default_cassette_options = {
+    # record: :new_episodes,
     allow_playback_repeats: true,
     match_requests_on: [:method, :host, :path, :query, :blindfolded_body],
     serialize_with: :syck,

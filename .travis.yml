@@ -18,6 +18,10 @@ env:
 services:
   - postgresql
 
+addons:
+  code_climate:
+    repo_token: fb7dc5454cab6df0a3a22c8dcd35c1418bac0d13
+
 #bundler_args: --without development
 
 before_install:
@@ -41,8 +45,11 @@ before_script:
   - bundle exec rake db:create db:schema:load db:migrate # db:seed
   - bundle exec rake assets:precompile
 
+after_success:
+  - bundle exec codeclimate-test-reporter
+
 script:
-  - bundle exec rspec
+  - bundle exec rspec --format documentation
 
 notifications:
   slack:

@@ -1,28 +1,30 @@
 bitgo_admin:
-  api_address:
-  access_token:
+  api_address: "http://localhost:3080/api/v1"   # where bitgojs client is running
+  access_token:                                 # specify first access token retrieved from bitgo.com ( default token )
+  weserve_admin_access_token:                   # specify second access token retrieved from bitgo.com or keep empty ( reserve wallet token )
 mediawiki:
-  secret:
-  domain:
-  api_base_url:
-  username:
-  password:
-email_provider_username:
-email_provider_password:
-facebook_app_id:
-facebook_secret_key:
-twitter_app_id:
-twitter_secret_key:
-gapp_id:
-gapp_secret_key:
-mailer_sender:
-app_secret_key:
-domain_name:
-default_url:
-service_provider:
-aws_access_key_id:
-aws_secret_access_key:
-s3_bucket_region:
-bucket_name:
-consider_all_requests_local: 
-
+  secret:                                       # local mediawiki installation secret
+  domain:                                       # mediawiki domain for cookies in wide format, eg ".example.com"
+  api_base_url:                                 # base url of mediawiki API, eg "http://mediawiki.local/"
+  username:                                     # mediawiki API username
+  password:                                     # mediawiki API password
+email_provider_username:                        # AWS access ID for email service
+email_provider_password:                        # AWS access secret key for email service
+facebook_app_id:                                # Facebook app ID
+facebook_secret_key:                            # Facebook app secret
+twitter_app_id:                                 # Twitter app ID
+twitter_secret_key:                             # Twitter app secret
+gapp_id:                                        # Google app ID
+gapp_secret_key:                                # Google app secret
+mailer_sender:                                  # From address for mails, eg: "support@domain.com"
+app_secret_key:                                 # Application secret key, generate by `rake secret`
+domain_name:                                    # Application domain name, eg "example.com"
+default_url:                                    # Default url for application, eg: "localhost:3000" (?)
+service_provider: "AWS"                         # Service to store uploads
+aws_access_key_id:                              # AWS access key ID for S3 service
+aws_secret_access_key:                          # AWS access key secret for S3 service
+s3_bucket_region: "us-east-1"                   # S3 bucket region, eg "us-east-1"
+bucket_name: "youserve"                         # S3 bucket name
+consider_all_requests_local:                    # set to 'true' if you want to display backtrace at production env
+rollbar_key:                                    # key for Rollbar service
+newrelic_key:                                   # key for Newrelic service

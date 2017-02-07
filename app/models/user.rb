@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
   has_many :apply_requests, dependent: :destroy
+  has_many :stripe_payments
 
   validates :name, presence: true,uniqueness: true
 
@@ -221,7 +222,7 @@ class User < ActiveRecord::Base
             uid: access_token.uid,
             name: access_token.info.name,
             confirmed_at: DateTime.now,
-            password: Devise.friendly_token[0, 20],   
+            password: Devise.friendly_token[0, 20],
             company: access_token.extra.raw_info.hd,
             username: access_token.info.name + access_token.uid,
             remote_picture_url: access_token.info.image.gsub('http://', 'https://')
@@ -233,16 +234,6 @@ class User < ActiveRecord::Base
   def is_admin_for? proj
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
-
-  #Comment out this codes since we cannot get appropriate result from this
-
-  # def is_executor_for? proj
-  #   proj.executors.pluck(:id).include? self.id
-  # end
-
-  # def is_lead_editor_for? proj
-  #   proj.lead_editors.pluck(:id).include? self.id
-  # end
 
   def is_executor_for? proj
     if proj.team.team_memberships.where(:team_member_id => self.id).present?
@@ -260,12 +251,25 @@ class User < ActiveRecord::Base
     end
   end
 
-  def can_apply_as_admin?(project)
-    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
+  def is_teammate_for? proj
+    if proj.team.team_memberships.where(:team_member_id => self.id).present?
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "teammate")
+    else
+      return false
+    end
   end
 
   def is_project_leader?(project)
     project.user.id == self.id
+  end
+
+  def is_teammember_for?(task)
+    task_memberships = task.team_memberships
+    task_memberships.collect(&:team_member_id).include? self.id
+  end
+
+  def can_apply_as_admin?(project)
+    !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
   end
 
   def is_team_admin?(team)
@@ -280,5 +284,13 @@ class User < ActiveRecord::Base
     self.apply_requests.where(project_id: proj.id, request_type: type).pending.any?
   end
 
+  def can_submit_task?(task)
+    task_memberships = task.team_memberships
+    task.doing? && (task_memberships.collect(&:team_member_id).include? self.id) && self.is_teammate_for?(task.project)
+  end
+
+  def can_complete_task?(task)
+    (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
+  end
 
 end

@@ -49,7 +49,7 @@
     opacity: 0;
     color: #fff;
     padding: 5px 15px;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
   }
   a.btn-edit-image {
@@ -87,7 +87,7 @@
     padding: 48px 20px;
 
     .project-owner {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.2em;
       color: #fff;
       text-align: center;
@@ -95,7 +95,7 @@
     }
 
     .project-title {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       color: #fff;
       text-align: center;
 
@@ -120,7 +120,7 @@
     }
 
     .project-city {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.2em;
       color: #fff;
       text-align: center;
@@ -158,7 +158,7 @@
     }
 
     .get-invo-btn {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.2em;
       color: #000 !important;
       background-color: #fff;
@@ -330,7 +330,7 @@
       }
 
       a {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-size: 1.5em;
         font-weight: 600;
         color: #000;
@@ -350,7 +350,7 @@
         }
 
         span.count {
-          font-family: 'Libre Franklin';
+          font-family: 'Libre Franklin', sans-serif;
           font-size: 0.8em;
           font-weight: 300;
           color: #777;
@@ -379,7 +379,7 @@
       width: 110px;
       padding: 0 5px;
 
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-weight: normal;
       font-size: 1em;
       color: #777;
@@ -398,10 +398,10 @@
       text-align: center;
       text-decoration: none;
       height: 35px;
-      line-height: 35px;
+      line-height: 33px;
       padding: 0 10px;
 
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-weight: normal;
       font-size: 1em;
       color: #000;
@@ -426,7 +426,7 @@
       line-height: 35px;
       padding: 0 10px;
 
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-weight: normal;
       font-size: 1em;
       color: #000;
@@ -443,6 +443,10 @@
 
     a:not(.btn-root), i.fa-star {
       color: #ddd;
+    }
+
+    a.btn-edit {
+      color: #000;
     }
 
     a:hover {
@@ -539,7 +543,7 @@
 
 .project-summary {
   p {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     font-size: 1em;
     color: #555;
     text-align: justify;
@@ -549,7 +553,7 @@
 }
 
 .project-idea {
-  font-family: 'Libre Franklin';
+  font-family: 'Libre Franklin', sans-serif;
   font-size: 1em;
   color: #555;
   text-align: justify;
@@ -557,7 +561,7 @@
   line-height: 1.5em;
 
   strong {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
     color: #000;
   }
@@ -570,11 +574,11 @@
     display: inline-block;
     text-align: center;
     height: 40px;
-    line-height: 40px;
+    line-height: 36px;
     width: 120px;
     border: 2px solid #000;
     border-radius: 60px;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 1em;
   }
@@ -633,11 +637,8 @@
       word-break: break-word;
     }
   }
-  .progress {
-    background-color: #ddd;
-    .progress-bar {
-      background-color: #555;
-    }
+  ._delete {
+    margin-top: 10px;
   }
   .fund-do-btns {
     text-align: right;
@@ -675,7 +676,7 @@
     text-align: center;
 
     a {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-size: 1.1em;
       color: #000;
       font-weight: 600;
@@ -687,6 +688,9 @@
     }
   }
 
+  ._delete {
+    margin-top: 10px;
+  }
   .section-content {
     padding: 5px;
     padding-top: 0px;
@@ -713,7 +717,7 @@
   cursor: pointer;
 
   a {
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #777;
 
@@ -739,7 +743,7 @@
   tbody {
     tr.value {
       td {
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         color: #111 !important;
         font-size: 1.5em !important;
         font-weight: normal;
@@ -830,7 +834,7 @@
       }
       tr.value {
         td {
-          font-family: 'Libre Franklin';
+          font-family: 'Libre Franklin', sans-serif;
           color: #333 !important;
           font-size: 0.9em !important;
           font-weight: bold;
@@ -838,7 +842,7 @@
       }
       tr.items {
         td {
-          font-family: 'Libre Franklin';
+          font-family: 'Libre Franklin', sans-serif;
           color: $grey-clr !important;
           font-size: 0.8em !important;
           text-align: left;
@@ -869,7 +873,7 @@
     width: 300px;
     border: none;
     text-align: center;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     background: transparent;
     margin: 0 auto;
     text-align: center;
@@ -907,3 +911,24 @@
   left: 120px;
   margin-top: 30px;
 }
+
+#task-attachments-div {
+  font-family: 'Libre Franklin', sans-serif;
+
+  h4 {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  span {
+    font-family: 'Libre Franklin', sans-serif;
+  }
+
+  .attachment-actions {
+    a {
+      color: #555;
+      font-family: 'Libre Franklin', sans-serif;
+      text-decoration: underline;
+    }
+  }
+}
+

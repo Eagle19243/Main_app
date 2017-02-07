@@ -22,7 +22,6 @@
     var $form = $('#payment-form');
 
     if (response.error) { // Problem!
-
       // Show the errors on the form:
       $form.find('.modal-fund__payment-errors').text(response.error.message);
       $form.find('.js-submit-cc').prop('disabled', false); // Re-enable submission
@@ -49,31 +48,17 @@
 <form action="/" method="POST" id="payment-form">
 
   <input type="hidden" class="js-amount" name="amount"/>
-  <input type="hidden" class="js-card-number" size="20" data-stripe="number"/>
-  <input type="hidden" size="20" data-stripe="exp_month"/>
-  <input type="hidden" size="20" data-stripe="exp_year"/>
 
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <%#= hidden_field_tag :wallet_transaction_user_wallet,  @task.wallet_address.sender_address %>
 
     <div class="modal-fund__stripe-bottom">
       <div class="modal-fund__stripe-bottom-inner">
-        <label class="f-default__radio-label">
-          <input class="f-default__radio-field" name="method" type="radio"/>
-          <span class="f-default__radio-pseudo"></span>
-          <span class="f-default__radio-text">ending in (expires 00/)</span>
-        </label>
-        <br/>
-        <label class="f-default__radio-label">
-          <input class="f-default__radio-field" name="method" type="radio"/>
-          <span class="f-default__radio-pseudo"></span>
-          <span class="f-default__radio-text">Use a new payment method</span>
-        </label>
         <div class="f-default__row">
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_number">Card Number</label>
             <div class="js-hidden_card"></div>
-            <input type="tel" autocomplete="off" id="card_number" name="cardNumber" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
+            <input type="tel" autocomplete="off" id="card_number" data-stripe="number" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
 
             <span class="f-default__card-wrap">
               <%= image_tag('payments/dc-pay@2x.png', class:"_dc") %>
@@ -91,31 +76,27 @@
         <div class="f-default__row _flex">
           <div class="f-default__label-wrap _grow">
             <label class="f-default__label" for="card_expiry">Expiry (MM/YYYY)</label>
-            <input type="tel" autocomplete="off" id="card_expiry" name="cardExpiry" maxlength="9" class="f-default__field" placeholder="MM/YYYY" required/>
+            <input type="tel" autocomplete="off" id="card_expiry" data-stripe="exp" maxlength="9" class="f-default__field" placeholder="MM/YYYY" required/>
           </div>
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_code">Card code</label>
-            <input type="tel" autocomplete="off" id="card_code" name="cardCvc" class="f-default__field _cvc" placeholder="CVC" maxlength="4" data-stripe="cvc" required/>
-            <button class="modal-fund__cvc-info btn-reset">What is CVC?</button>
+            <input type="tel" autocomplete="off" id="card_code" class="f-default__field _cvc" placeholder="CVV" maxlength="4" data-stripe="cvc" required/>
+            <a href="https://www.strategicprofitsinc.com/cvv_info/cvv_info.html" target="_blank" class="modal-fund__cvc-info btn-reset">What is CVV?</button>
           </div>
         </div>
+        <!--Commented this may be we use this in future -->
+        <!--<br/>-->
         <label class="f-default__checkbox-label">
-          <input class="f-default__checkbox-field" name="method" type="checkbox"/>
+          <input class="f-default__checkbox-field" name="method" type="checkbox" />
           <span class="f-default__checkbox-pseudo"></span>
-          <span class="f-default__checkbox-text">Save to Account</span>
+          <span class="f-default__checkbox-text">I've read and accept the <a href='/pages/terms_of_use'><b>terms & conditions</b></a></span>
         </label>
-        <br/>
-        <label class="f-default__checkbox-label">
-          <input class="f-default__checkbox-field" name="method" type="checkbox"/>
-          <span class="f-default__checkbox-pseudo"></span>
-          <span class="f-default__checkbox-text">I've read and accept the <a href='#'><b>terms & conditions</b></a></span>
-        </label>
-
-        <span class="modal-fund__payment-errors"></span>
 
         <div class="f-default__info-message">
             For USD payments WeServe.io deduce 5% fee from the resulting BTC amount that will be send to the task wallet from the reserve wallet.
         </div>
+
+        <span class="modal-fund__payment-errors"></span>
 
         <script>
           // https://github.com/jessepollak/card
@@ -128,9 +109,9 @@
             container: '.js-hidden_card', // *required*
 
             formSelectors: {
-                numberInput: '[name="cardNumber"]',
-                expiryInput: '[name="cardExpiry"]',
-                cvcInput: '[name="cardCvc"]'
+                numberInput: '[data-stripe="number"]',
+                expiryInput: '[data-stripe="exp"]',
+                cvcInput: '[data-stripe="cvc"]'
             }
           });
         </script>

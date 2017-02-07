@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119102927) do
+ActiveRecord::Schema.define(version: 20170124082128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,18 +50,6 @@ ActiveRecord::Schema.define(version: 20170119102927) do
 
   add_index "admin_requests", ["project_id"], name: "index_admin_requests_on_project_id", using: :btree
   add_index "admin_requests", ["user_id"], name: "index_admin_requests_on_user_id", using: :btree
-
-  create_table "admin_reseve_wallets", force: :cascade do |t|
-    t.string   "sender_address"
-    t.string   "wallet_id"
-    t.string   "receiver_address"
-    t.float    "current_balance"
-    t.string   "pass_phrase"
-    t.string   "user_keys"
-    t.string   "backup_keys"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
 
   create_table "apply_requests", force: :cascade do |t|
     t.integer  "project_id"
@@ -415,7 +403,7 @@ ActiveRecord::Schema.define(version: 20170119102927) do
     t.integer  "project_id"
     t.string   "title"
     t.text     "description"
-    t.decimal  "budget"
+    t.decimal  "satoshi_budget"
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
     t.datetime "deadline"

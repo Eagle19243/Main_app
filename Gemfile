@@ -80,6 +80,10 @@ gem "bullet", :group => "development"
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 
+# Exception monitoring
+gem 'rollbar'
+gem 'oj', '~> 2.12.14'
+
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
@@ -113,32 +117,32 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'faker'
+  gem 'sqlite3'
+  gem 'byebug'
 end
 
 group :test do
-  gem 'faker'
+  gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
+  gem 'simplecov', require: false
+  gem "codeclimate-test-reporter", "~> 1.0.0"
 end
 
 # Auto deployment to AWS
 
 group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-rails',   require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
+  gem 'capistrano', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma', require: false
 end
 
 group :development do
   gem 'better_errors'
-  gem 'hub', :require=>nil
+  gem 'hub', :require => nil
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'web-console', '~> 2.0'
   gem 'spring'
-end
-
-group :development, :test do
-  gem 'sqlite3'
-  gem 'byebug'
 end

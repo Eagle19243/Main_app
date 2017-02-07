@@ -23,7 +23,7 @@
           <div class="f-default__col-wrap">
             <div class="f-default__col">
               <label class="f-default__label" for="task_description">Enter BTC Amout</label>
-              <input class="f-default__field numeric decimal required" required="required" maxlength="10" aria-required="true" type="number" step="any" name="task[budget]" id="task_budget">
+              <input class="f-default__field numeric decimal required" required="required" min="0" maxlength="10" aria-required="true" type="number" step="any" name="task[budget]" id="task_budget">
             </div>
             <div class="f-default__col">
               <label class="f-default__label" for="task_description">People Needed</label>
@@ -56,7 +56,8 @@
               $(function () {
                   $('#deadline_picker').datetimepicker({
                       viewMode: 'years',
-                      format: 'YYYY-MM-DD HH:mm A'
+                      format: 'YYYY-MM-DD HH:mm A',
+                        minDate: new Date()
                   });
               });
           </script>
@@ -75,7 +76,8 @@
         var newTaskBtc = document.getElementById('new_task_btc');
         newTaskBtc.innerHTML = ''
 
-        var btc = +document.getElementById("task_budget").value;
+        var btc = document.getElementById("task_budget").value || 0;
+
         var current_btc = '<%=  get_current_btc_rate  %>';
         var usd = (btc * current_btc).toFixed(2);
 
@@ -91,7 +93,7 @@
                 updateConversion(e);
               }
         })
-        .on('keyup.convertToUsd', '#task_budget', function (e) {
+        .on('input.convertToUsd', '#task_budget', function(e) {
             var $that = $(this),
                 currentVal = $that.val();
 

@@ -105,6 +105,11 @@
   position: relative;
   margin: 0 0 0 220px;
   width: 70%;
+
+  &._notifications {
+    width: 100%;
+    max-width: calc(100% - 220px)
+  }
 }
 
 .nav-header.dashboard {
@@ -154,22 +159,23 @@
 
 .group-messages-wrapper {
   position: relative;
+  min-height: 100vh;
 
   #messages-nav {
     background-color: #ddd;
     text-align: left;
-    min-width: 220px;
-    position: relative;
-    min-height: 100vh;
-    height: 100%;
+    width: 220px;
     padding: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
 
     .messages-nav-title {
       margin: 0;
       margin-bottom: 20px;
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       font-weight: 600;
-      font-size: 1em;
+      font-size: 14px;
       color: #000;
       text-transform: uppercase;
     }
@@ -178,9 +184,9 @@
       .submenu-title {
         padding: 0;
         margin-bottom: 20px;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-weight: 600;
-        font-size: 1em;
+        font-size: 14px;
         color: #000;
         text-transform: uppercase;
       }
@@ -191,9 +197,9 @@
           list-style: none;
 
           a {
-            font-family: 'Roboto';
+            font-family: 'Roboto', sans-serif;
             color: #555;
-            font-size: 1em;
+            font-size: 14px;
             font-weight: 600;
           }
         }
@@ -203,7 +209,7 @@
     .search-users {
       padding: 10px 0px;
       span {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         color: #555;
         font-size: 1em;
 
@@ -216,11 +222,11 @@
 
   #page-message-content {
     position: relative;
-    margin: 0 0 0 20px;
+    margin: 0 0 0 220px;
     padding-top: 20px;
 
     h4 {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       color: #000;
       font-weight: 600;
     }
@@ -253,7 +259,7 @@
       .message-content {
         display: inline-block;
         width: 88%;
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
       }
     }
 
@@ -265,7 +271,7 @@
         width: 100%;
         padding: 10px;
         background-color: #eee;
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         font-size: 1em;
         color: #555;
       }
@@ -276,7 +282,7 @@
 
       span.name,
       span.message-date {
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         font-size: 0.9em;
         color: #aaa;
         margin-top: 5px;
@@ -305,7 +311,7 @@
         background-color: #eee;
         border: none;
         padding: 10px;
-        font-family: 'Libre Franklin';
+        font-family: 'Libre Franklin', sans-serif;
         font-size: 1em;
         min-height: 100px;
       }
@@ -313,7 +319,7 @@
       #submit-message {
         margin-top: 10px;
         padding: 0 30px;
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         font-size: 1em;
         color: #000;
         text-transform: uppercase;
@@ -330,7 +336,7 @@
         right: 0;
 
         span {
-          font-family: 'Libre Franklin';
+          font-family: 'Libre Franklin', sans-serif;
           font-size: 1em;
           color: #555;
           display: inline-block;
@@ -342,112 +348,6 @@
           font-size: 1.2em;
         }
       }
-    }
-  }
-}
-
-
-.notifications-wrapper {
-  display: block;
-  width: 100%;
-  position: relative;
-  padding: 20px 30px;
-
-  h2 {
-    font-family: 'Roboto';
-    color: #000;
-    margin-bottom: 20px;
-    font-weight: 600;
-  }
-
-  a.mark-read {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-    font-family: 'Roboto';
-    color: #888;
-    font-size: 1em;
-    i {
-      font-size: 1.2em;
-      color: #555;
-    }
-  }
-
-  .notify-mark {
-    display: inline-block;
-    float: left;
-    margin-right: 15px;
-    font-size: 1.3em;
-    color: #555;
-  }
-  .notify-content {
-    display: inline-block;
-    width: 85%;
-
-    .date {
-      font-family: 'Libre Franklin';
-      font-size: 0.9em;
-      color: #aaa;
-    }
-
-    .notify-body {
-      padding: 15px;
-      padding-right: 0px;
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
-      background-color: #eee;
-      border-radius: 3px;
-
-      .notification-body {
-        display: inline-block;
-        text-align: left;
-        p {
-        }
-        a {
-          font-family: 'Libre Franklin';
-          font-size: 1em;
-          color: #555;
-          text-decoration: underline;
-        }
-      }
-
-      .action-btns {
-        display: inline-block;
-        float: right;
-
-        a.btn-notify {
-          padding: 8px;
-          font-family: 'Roboto';
-          font-size: 1em;
-          color: #888;
-          border: 1px solid #ddd;
-          background-color: #fff;
-          width: 100px;
-          margin-right: 10px;
-
-          i {
-            font-size: 1.2em;
-            color: #555;
-            margin-right: 5px;
-          }
-        }
-      }
-    }
-  }
-
-
-  .load-older-notifications-link {
-    padding: 20px 0px;
-    i {
-      color: #333;
-      font-size: 1.2em;
-      margin-right: 5px;
-    }
-    a {
-      font-family: 'Libre Franklin';
-      font-size: 1em;
-      color: #555;
     }
   }
 }
@@ -464,7 +364,7 @@
 #notification_button{
 
     padding: 8px;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-size: 1em;
     color: #888;
     border: 1px solid #ddd;
@@ -496,7 +396,7 @@
   .ui-menu-item {
     background-color: #eee;
     color: #555;
-    font-family: 'Libre Franklin';
+    font-family: 'Libre Franklin', sans-serif;
   }
 }
 

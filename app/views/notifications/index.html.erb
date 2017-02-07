@@ -1,21 +1,31 @@
-
 <% content_for :title do %>
   My notifications
 <% end %>
 
-<div class="notifications-wrapper">
-  <h2>Notificaitons</h2>
-  <a href="javascript:void(0)" class="mark-read">
-    <i class="fa fa-check"></i>&nbsp;&nbsp;Mark all as read
-  </a>
+<section class="s-notifications">
+    <div class="container">
+        <div class="s-notifications__top">
+            <h2 class="s-notifications__title">Notifications</h2>
 
-  <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
-  <%= render @notifications %>
-</div>
+            <a href="/notifications" class="s-notifications__mark-read">
+                <svg focusable="false" version="1.1" class="svg-check">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
+                </svg>
+                Mark all as read
+            </a>
+        </div>
+
+        <div class="s-notifications__content">
+            <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
+            <ul class="l-notifications">
+                <%= render @notifications %>
+            </ul>
+        </div>
+    </div>
+</section>
 
 <script>
   $(function() {
     JsonFormsHelper.InitializeNotificationsControls();
-    // $(".notifications-container").scrollTop($(".notifications-container")[0].scrollHeight);
   });
 </script>

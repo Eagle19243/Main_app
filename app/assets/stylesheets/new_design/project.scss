@@ -461,6 +461,17 @@ div.progress {
     font-weight: 600;
   }
 
+  .msg-error {
+    font-family: 'Roboto', sans-serif;
+    opacity: 0;
+    color: #f00;
+    font-size: 14px;
+    transition: opacity 0.2s ease-out;
+    &._visible {
+      opacity: 1;
+    }
+  }
+
   .table {
     thead {
       th {
@@ -708,7 +719,6 @@ div.progress {
 .cropbox-wrap {
   display: block;
   width: 100%;
-  padding: 0 5%;
   text-align: center;
 
   #project_picture_cropbox_wrapper {

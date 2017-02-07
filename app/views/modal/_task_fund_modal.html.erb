@@ -9,7 +9,7 @@
 
         <div class="modal-fund__form-wrap" id="user-btc-view">
             <div class="f-default__row">
-              <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default') do %>
+              <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default f-donate') do %>
                 <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">BTC</span> Amount to Send</label>
                 <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
@@ -36,8 +36,13 @@
                 <div class="modal-fund__tab-content _active">
 
                   <div class="modal-fund__signed">
-                    <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"></span></div>
-                    <img class="modal-fund__avatar" src="http://placehold.it/44x44"/> <!-- todo BE: add user photo  -->
+                    <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"><%= current_user.name %></span>
+                    </div>
+                    <% if current_user.picture? %>
+                        <%= image_tag(current_user.picture, class: "modal-fund__avatar") %>
+                    <% else %>
+                        <%= gravatar_for_fund(current_user, 44) %>
+                    <% end %>
                     <div class="modal-fund__field-wrap">
                       <div class="modal-fund__balance">BTC Wallet (0.0000 BTC)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
@@ -45,7 +50,7 @@
                       </svg>
                     </div>
 
-                    <button class="modal-fund__wrong-user btn-reset">Not you?</button>
+                    <%= link_to 'Not you?', destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
                   </div>
 
               </div>
@@ -59,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <button type="button" class="btn-root _donate _dark">Donate - $<span class="modal-fund__donate-value js-usd-value">0.00</span></button>
+            <button type="button" class="btn-root _donate _dark js-submit-btc">Donate - BTC<span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
           <% else %>
             <button type="button" class="btn-root _sign-in _dark">Sign in</button>
           <% end %>
@@ -124,8 +129,10 @@
         range.select().createTextRange();
         document.execCommand("Copy");
     } else if (window.getSelection) {
+        var selection = window.getSelection();
         var range = document.createRange();
         range.selectNode(document.getElementById(containerid));
+        selection.removeAllRanges();
         window.getSelection().addRange(range);
         document.execCommand("Copy");
     }
@@ -148,6 +155,7 @@
         var $that = $(this);
         $that.addClass('_active').siblings().removeClass('_active');
         $('.modal-fund__tab-content').removeClass('_active').eq($that.index()).addClass('_active');
+        $that.parents('.modal-fund__tabs').find('.js-submit-btc').toggleClass('_hidden');
       })
       .on('click.changePaymentType', '.js-change-payment-type', function () {
         var $that = $(this),
@@ -157,7 +165,19 @@
         $currentCurrency.text(getCurrency());
         $walletTransactionAmount.trigger('keyup');
         $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
-      });
+      })
+      .on('keyup.updateDonation', '#wallet_transaction_amount', function () {
+        var val = $(this).val();
+        !val && (val = '0.00');
+        $('.js-usd-value').text(val);
+        $('.js-btc-amount').text(val);
+      })
+      .on('click.sendForm', '.js-submit-btc', function () {
+        var val = $walletTransactionAmount.val();
+        if (val > 0) {
+            $('.f-donate').trigger('submit');
+        }
+      })
 
   function updateConversion(eve) {
     document.getElementById("wallet_btc").innerHTML = '';

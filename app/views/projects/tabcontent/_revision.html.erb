@@ -5,7 +5,7 @@
     <div class="col-md-6">
       <a class="btn-default-weserve revisions-compare-button">Compare selected revisions</a>
 
-      <%= link_to plan_project_path(id: project.id), remote: true, class: "btn-default-weserve", onclick: "openTab(event, 'Plan')" do %>
+      <%= link_to plan_project_path(id: project.id), remote: true, class: "btn-default-weserve" do %>
         Back
       <% end %>
     </div>
@@ -18,6 +18,12 @@
         </label>
       </div>
       <h4 style="float: right; margin-right: 10px;">Verification</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        <span class="msg-error">You need to select more than one revisions</span>
     </div>
   </div>
 
@@ -53,6 +59,7 @@
         if ($switch.is(':checked') == false) {
             confirmContent = "Are you sure you want to turn manual verification off? Users will be able to edit your project without your approval. You will still be able to edit text, cancel contributions, and block users.";
         }
+        $('html').addClass('_open-modal');
         $modalVerification.fadeIn().find('.modal-default__title').text(confirmContent);
     });
 
@@ -67,9 +74,11 @@
                 dataType: "script"
             });
             $modalVerification.fadeOut();
+            $('html').removeClass('_open-modal');
         })
         .on('click.decline', '#modalVerification ._decline', function () {
             $modalVerification.fadeOut();
+            $('html').removeClass('_open-modal');
         })
         .on('click.closeVerificationModal', '.modal-default__close', function (e) {
             $modalVerification.fadeOut();

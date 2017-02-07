@@ -77,143 +77,137 @@
     </div>
   </section>
 
-  <div class="hero-rotator js-hero-rotator carousel-banner">
-    <div class="landing-carousel">
-      <div class="hero-rotator__slide js-hero-rotator__slide active">
-        <div class="carousel-item">
-          <%= image_tag("carousel/carousel_2.jpg") %>
-          <div class="carousel-text">
-            <div class="text-wrapper">
-              <h1><%= t('landing.hero-generate-title') %></h1>
-              <p><%= t('landing.hero-generate-text_html') %></p>
-              <div class="carousel-start">
-                <% if user_signed_in? %>
-                    <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-                <% else %>
-                    <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-                <% end %>
-              </div>
+  <div class="landing-carousel">
+
+      <div class="carousel-item">
+        <%= image_tag("carousel/carousel_2.jpg") %>
+        <div class="carousel-text">
+          <div class="text-wrapper">
+            <h1><%= t('landing.hero-generate-title') %></h1>
+            <p><%= t('landing.hero-generate-text_html') %></p>
+            <div class="carousel-start">
+              <% if user_signed_in? %>
+                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+              <% else %>
+                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
-      <div class="hero-rotator__slide js-hero-rotator__slide">
-        <div class="carousel-item">
-          <%= image_tag("carousel/carousel_3.jpg") %>
-          <div class="carousel-text">
-            <div class="text-wrapper">
-              <h1><%= t('landing.hero-lab-title') %></h1>
-              <p><%= t('landing.hero-lab-text_html') %></p>
-              <div class="carousel-start">
-                <% if user_signed_in? %>
-                    <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-                <% else %>
-                    <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-                <% end %>
-              </div>
+
+      <div class="carousel-item">
+        <%= image_tag("carousel/carousel_3.jpg") %>
+        <div class="carousel-text">
+          <div class="text-wrapper">
+            <h1><%= t('landing.hero-lab-title') %></h1>
+            <p><%= t('landing.hero-lab-text_html') %></p>
+            <div class="carousel-start">
+              <% if user_signed_in? %>
+                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+              <% else %>
+                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
-      <div class="hero-rotator__slide js-hero-rotator__slide">
-        <div class="carousel-item">
-          <%= image_tag("carousel/carousel_1.jpg") %>
-          <div class="carousel-text">
-            <div class="text-wrapper">
-              <h1><%= t('landing.hero-prototype-title') %></h1>
-              <p><%= t('landing.hero-prototype-text_html') %></p>
-              <div class="carousel-start">
-                <% if user_signed_in? %>
-                    <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-                <% else %>
-                    <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-                <% end %>
-              </div>
+
+      <div class="carousel-item">
+        <%= image_tag("carousel/carousel_1.jpg") %>
+        <div class="carousel-text">
+          <div class="text-wrapper">
+            <h1><%= t('landing.hero-prototype-title') %></h1>
+            <p><%= t('landing.hero-prototype-text_html') %></p>
+            <div class="carousel-start">
+              <% if user_signed_in? %>
+                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+              <% else %>
+                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
   </div>
 
-  <div class="js-content content--rel">
-    <div class="s-service">
-      <div class="s-service__heading">
-        <h2 class="s-service__title">
-          <%= t('landing.hero-footer-title') %>
-        </h2>
-      </div>
-
-      <div class="s-service__flow">
-        <div class="s-service__item">
-          <div class="s-service__item-content">
-            <%= image_tag("icons/wwd_pie-chart.png") %>
-            <h4><%= t('landing.hero-footer-market-title') %></h4>
-            <ul>
-              <li>
-                &ndash;&nbsp;<%= t('landing.hero-footer-market-item-build') %>
-              </li>
-              <li>
-                &ndash;&nbsp;<%= t('landing.hero-footer-market-item-get') %>
-              </li>
-              <li>
-                &ndash;&nbsp;<%= t('landing.hero-footer-market-item-analyse') %>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="s-service__item">
-          <div class="s-service__item-content">
-            <%= image_tag("icons/wwd_group") %>
-            <h4><%= t('landing.hero-footer-stimulate-title') %></h4>
-            <div class="s-service__intro">
-              <p>
-                <%= t('landing.hero-footer-stimulate-text') %>
-              </p>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="s-service__item">
-          <div class="s-service__item-content">
-            <%= image_tag("icons/wwd_recycle") %>
-            <h4><%= t('landing.hero-footer-inclusive-title') %></h4>
-            <div class="s-service__intro">
-              <p><%= t('landing.hero-footer-inclusive-text_html') %></p>
-            </div>
-          </div>
-        </div>
-        <div class="s-service__item">
-          <div class="s-service__item-content">
-            <%= image_tag("icons/wwd_envelope") %>
-            <h4><%= t('landing.hero-footer-corruption-title') %></h4>
-            <div class="s-service__intro">
-              <p>
-                <%= t('landing.hero-footer-corruption-text_html') %>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="s-service__item">
-          <div class="s-service__item-content">
-            <%= image_tag("icons/wwd_search.png") %>
-            <h4><%= t('landing.hero-footer-transparency-title') %>></h4>
-            <div class="s-service__intro">
-              <p>
-                <%= t('landing.hero-footer-transparency-text_html') %>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <% if user_signed_in? %>
-          <a class="btn-root _light" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-      <% else %>
-          <a class="btn-root _light" class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-      <% end %>
-      <!--<a data-modal="#startProjectModal" class="btn-root _light">Start a Project</a>-->
-
+  <div class="s-service">
+    <div class="s-service__heading">
+      <h2 class="s-service__title">
+        <%= t('landing.hero-footer-title') %>
+      </h2>
     </div>
+
+    <div class="s-service__flow">
+      <div class="s-service__item">
+        <div class="s-service__item-content">
+          <%= image_tag("icons/wwd_pie-chart.png") %>
+          <h4><%= t('landing.hero-footer-market-title') %></h4>
+          <ul>
+            <li>
+              &ndash;&nbsp;<%= t('landing.hero-footer-market-item-build') %>
+            </li>
+            <li>
+              &ndash;&nbsp;<%= t('landing.hero-footer-market-item-get') %>
+            </li>
+            <li>
+              &ndash;&nbsp;<%= t('landing.hero-footer-market-item-analyse') %>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="s-service__item">
+        <div class="s-service__item-content">
+          <%= image_tag("icons/wwd_group") %>
+          <h4><%= t('landing.hero-footer-stimulate-title') %></h4>
+          <div class="s-service__intro">
+            <p>
+              <%= t('landing.hero-footer-stimulate-text') %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="s-service__item">
+        <div class="s-service__item-content">
+          <%= image_tag("icons/wwd_recycle") %>
+          <h4><%= t('landing.hero-footer-inclusive-title') %></h4>
+          <div class="s-service__intro">
+            <p><%= t('landing.hero-footer-inclusive-text_html') %></p>
+          </div>
+        </div>
+      </div>
+      <div class="s-service__item">
+        <div class="s-service__item-content">
+          <%= image_tag("icons/wwd_envelope") %>
+          <h4><%= t('landing.hero-footer-corruption-title') %></h4>
+          <div class="s-service__intro">
+            <p>
+              <%= t('landing.hero-footer-corruption-text_html') %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="s-service__item">
+        <div class="s-service__item-content">
+          <%= image_tag("icons/wwd_search.png") %>
+          <h4><%= t('landing.hero-footer-transparency-title') %>></h4>
+          <div class="s-service__intro">
+            <p>
+              <%= t('landing.hero-footer-transparency-text_html') %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if user_signed_in? %>
+        <a class="btn-root _light" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+    <% else %>
+        <a class="btn-root _light" class="btn-start" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+    <% end %>
+    <!--<a data-modal="#startProjectModal" class="btn-root _light">Start a Project</a>-->
+
   </div>
 
 </div>

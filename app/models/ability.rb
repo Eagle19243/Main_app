@@ -16,9 +16,15 @@ class Ability
 
   def initializeTeamMembershipsPermissions(user)
     if user
-      can [:update], TeamMembership do |team_membership|
-        team_membership.team.project.user.id == user.id && user.is_project_leader?(team_membership.team.project)
+
+      can [:create, :update], TeamMembership do |team_membership|
+        user.is_project_leader?(team_membership.team.project)
       end
+
+      can [:destroy], TeamMembership do |team_membership|
+        (user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user) || (user.is_executor_for?(team_membership.team.project) && team_membership.role == 'teammate')
+      end
+
     end
   end
 
@@ -53,8 +59,11 @@ class Ability
     can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin, :get_in], Project
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
-      can [:update, :change_leader], Project do |project|
-        user.is_admin_for?(project)
+      can [:update, :change_leader, :accept, :reject ], Project do |project|
+        user.is_project_leader?(project)
+      end
+      can [:revisions, :revision_action, :block_user, :unblock_user, :switch_approval_status], Project do |project|
+        user.is_project_leader?(project) || user.is_lead_editor_for?(project)
       end
       can :archived, Project if user.admin?
       can :destroy, Project, :user_id => user.id
@@ -65,7 +74,7 @@ class Ability
     can :show, User
     if user
       can [:my_projects], User
-      can [:update, :destroy], User, :id => user.id
+      can [:update, :destroy, :my_wallet], User, :id => user.id
       if user.admin
         can :index, User
       end
@@ -96,14 +105,35 @@ class Ability
 
   def initializeTasksPermissions(user)
     can :read, Task
+
     if user
-      can :create, Task
+
+      can :create, Task do |task|
+        task.suggested_task?
+      end
+
+      can :create, Task do |task|
+        task.accepted? && (user.is_project_leader?(task.project) || user.is_executor_for?(task.project))
+      end
+
       can [:update, :destroy], Task do |task|
-        user.is_admin_for?(task.project)
+        (user.is_project_leader?(task.project) || user.is_executor_for?(task.project) || (task.suggested_task? && (user.id == task.user_id))) && (task.any_fundings? == false)
+      end
+
+      can :reviewing, Task do |task|
+        user.can_submit_task?(task)
+      end
+
+      can :completed, Task do |task|
+        user.can_complete_task?(task)
+      end
+
+      can :doing, Task do |task|
+        task.accepted? && user.is_teammember_for?(task)
       end
 
       if user.admin?
-        can [:update, :destroy], Task
+        can [:create, :update, :destroy], Task
       end
     end
   end

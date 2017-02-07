@@ -4,6 +4,9 @@ class AdminInvitationsController < ApplicationController
 
   def create
     @admin_invitation = AdminInvitation.new(create_params)
+
+    authorize! :create, @admin_invitation
+
     respond_to do |format|
       if @admin_invitation.save
         format.json { render json: @admin_invitation, status: :ok }
@@ -14,6 +17,9 @@ class AdminInvitationsController < ApplicationController
   end
 
   def accept
+
+    authorize! :accept, @admin_invitation
+
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
         TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.user)
@@ -25,6 +31,9 @@ class AdminInvitationsController < ApplicationController
   end
 
   def reject
+
+    authorize! :reject, @admin_invitation
+
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:rejected])
         format.json { render json: @admin_invitation.id, status: :ok }
@@ -41,6 +50,6 @@ class AdminInvitationsController < ApplicationController
   end
 
   def create_params
-    params.require(:admin_invitation).permit(:user_id, :project_id, :sender_id)
+    params.require(:admin_invitation).permit(:user_id, :project_id, :sender_id, :controller)
   end
 end

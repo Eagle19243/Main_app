@@ -31,7 +31,6 @@
                 </a>
               </td>
               <td class="fund">
-
                 <span class="pull-left">฿ <%= project.funded_budget%></span>
                 <span class="pull-right">฿ <%= project.needed_budget %></span>
                 <div class="progress">
@@ -41,16 +40,16 @@
                 <div class="progress-percent"><%= project.funded_percentages %></div>
               </td>
               <td class="team">
-                12/13
+                <%= project.team_relations_string %>
               </td>
               <td class="team">
-                8
+                <%= project.tasks_relations_string %>
               </td>
               <td class="team">
-                <%= project.accepted_tasks.count %>/<%= project.tasks.count%>
+                <%= project.accepted_tasks.count %> / <%= project.tasks.count%>
               </td>
               <td class="delete">
-                <button type="button" class="btn-reset" data-modal="#modalRemoveProject">
+                <button type="button" class="btn-reset" data-modal="#modalRemoveProject" onclick="remove_project(<%= project.id %>)">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </button>
               </td>
@@ -63,7 +62,7 @@
     <h2>Followed Projects</h2>
     <div class="l-project-cards">
       <ul class="l-project-cards__list">
-        <% @user.projects.each do |project| %>
+        <% @user.followed_projects.each do |project| %>
           <li class="l-project-cards__item">
             <div class="b-project-card">
 
@@ -98,7 +97,7 @@
               <div class="b-project-card__bottom">
                 <div class="progress-banner">
                   <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @project.funded_percentages %>">
                     </div>
                   </div>
                 </div>
@@ -208,7 +207,7 @@
   <div class="modal-default__content" style="max-width: 900px;">
     <button type="button" class="modal-default__close"></button>
     <h4 class="modal-default__title">Are you sure you want to delete this project?</h4>
-    <button type='button' class='btn-root _agree'>Ok</button>
+   <a href=""  id="removeprojectpath" data-method="delete" > <button type='button' class='btn-root _agree'>Ok</button></a>
 
     <button type='button' class='btn-root _decline'>Cancel</button>
   </div>
@@ -216,7 +215,11 @@
 
 <script type="text/javascript">
     var $modalRemoveProject = $('#modalRemoveProject');
-
+    var remove_project_id = 0
+    function remove_project (id){
+      var remove_project_id = id
+      $("#removeprojectpath").attr("href", "/projects/"+id)
+    }
     $(document)
         .on('click.agree', '#modalRemoveProject ._agree', function () {
                 // ToDO: Add BE to remove the current project
@@ -230,4 +233,3 @@
             $modalRemoveProject.trigger('click');
         });
 </script>
-

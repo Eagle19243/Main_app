@@ -87,7 +87,7 @@
       <%end%>
 
       <% if user_signed_in? && current_user.id == @user.id %>
-        <a class="btn-edit btn-edit-image" onclick="profileImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit My Profile Image</a>
+        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
       <% end %>
     </div>
 
@@ -98,7 +98,7 @@
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bitcoin"></use>
           </svg>Transfer coins
         </a>
-      <%end %>
+      <% end %>
       <% if current_user && current_user.id != @user.id %>
         <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="profile-hero__btn">
           <svg focusable="false" version="1.1" class="svg-envelope">
@@ -118,6 +118,8 @@
         .on('click.addEditClass', '.btn-edit', function () {
           $(this).parent().toggleClass('_open-edit-form').parents('.profile-hero').addClass('_form-opened');
           var $buttons = $profileHero.find('[type="submit"],[type="button"]');
+          var $input_country = $profileHero.find('input[name=city]');
+          $input_country.geocomplete();
           $buttons.on('click.removeEditClass', function () {
             $('._open-edit-form').removeClass('_open-edit-form').parents('.profile-hero').removeClass('_form-opened');
             $buttons.off('click.removeEditClass');
@@ -255,13 +257,6 @@
   $(".close-reveal-modal").click(function(){
     $('#response-from-wallet').html("");
   });
-
-  function profileImgEdit(e) {
-    $('#profile-img-edit').modal('show');
-    if (!e) var e = window.event;
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-  }
 
   function previewProfileImage(input) {
     if(input.files && input.files[0]) {
