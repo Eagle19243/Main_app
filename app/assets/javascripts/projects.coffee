@@ -233,3 +233,12 @@ $ ->
 
   $(document).on "click", "#be_lead_editor", (e) ->
     alert "Hello";
+
+  # Create new project - short_description limitation
+  text_max = gon.short_descr_limit
+  $('#textarea_feedback > label').html text_max + ' characters remaining'
+  $('#description-field').keyup ->
+    text_length = $('#description-field').val().length
+    text_remaining = text_max - text_length
+    $('#textarea_feedback > label').html text_remaining + ' characters remaining'
+    return

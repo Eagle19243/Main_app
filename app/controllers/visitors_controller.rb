@@ -1,5 +1,6 @@
 class VisitorsController < ApplicationController
   before_action :first_project
+  before_action :set_gon
 
   def index
   end
@@ -18,9 +19,15 @@ class VisitorsController < ApplicationController
     # end
   end
 
+
+
   private
 
   def first_project
     @project = Project.first
+  end
+
+  def set_gon
+    @short_descr_limit = gon.short_descr_limit = Project::SHORT_DESCRIPTION_LIMIT
   end
 end

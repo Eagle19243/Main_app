@@ -107,6 +107,7 @@ gem 'rubocop', require: false
 
 # A Ruby code quality reporter
 gem "rubycritic", :require => false
+gem 'gon'
 
 # TDD/BDD Testing
 group :development, :test do

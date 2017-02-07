@@ -31,11 +31,14 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
+  SHORT_DESCRIPTION_LIMIT = 250
+
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
             uniqueness: true
   validates :wiki_page_name, presence: true, uniqueness: true
-  validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length. Max length is 60"}
+  validates :short_description, presence: true, length: {minimum: 3, maximum: SHORT_DESCRIPTION_LIMIT, message: "Has invalid length. Min length is 3, max length is #{SHORT_DESCRIPTION_LIMIT}"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
+
 
   searchable do
     text :title
