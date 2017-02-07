@@ -113,32 +113,30 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'faker'
+  gem 'sqlite3'
+  gem 'byebug'
 end
 
 group :test do
-  gem 'faker'
+  gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
 end
 
 # Auto deployment to AWS
 
 group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-rails',   require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
+  gem 'capistrano', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma', require: false
 end
 
 group :development do
   gem 'better_errors'
-  gem 'hub', :require=>nil
+  gem 'hub', :require => nil
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'web-console', '~> 2.0'
   gem 'spring'
-end
-
-group :development, :test do
-  gem 'sqlite3'
-  gem 'byebug'
 end
