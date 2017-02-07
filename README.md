@@ -62,6 +62,13 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 * Being in app directory run `RAILS_ENV=development bundle exec rake db:create db:schema:load db:migrate`
 * If necessary, run `RAILS_ENV=development bundle exec rake db:seed` to populate database with sample data
 
+### 8. Configure ENV varialbes
+
+* `mailer_sender` - address of emails sender
+* `RAILS_ENV` - `production` or `development`
+* `reserve_wallet_id` - **only for production**: address of reserve BTC wallet
+* `reserve_wallet_pass_pharse` - **only for production**: passphrase of reserve BTC wallet
+
 ### 8. Run the application
 
 * In app directory run `RAILS_ENV=development rails server`
@@ -69,6 +76,10 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 # Steps to run test
 
 * Within app directory run `RAILS_ENV=testing bundle exec rspec --format documentation`
+
+# Tools
+
+* There is a scpecial task `bundle exec rake admin_wallet:create_wallet_address` to generate reserve wallet automatically
 
 # Troubleshooting
 
