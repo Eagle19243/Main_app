@@ -5,8 +5,8 @@ class NotificationsController < ApplicationController
   PER_LOAD_COUNT = 10
 
   def index
-    @notifications = Notification.last(PER_LOAD_COUNT)
-    Notification.where(:read => false).update_all(:read => true)
+    @notifications = current_user.notifications.last(PER_LOAD_COUNT)
+    Notification.where(read: false, id: @notifications.map(&:id)).update_all(:read => true)
   end
 
   def load_older
@@ -23,7 +23,7 @@ class NotificationsController < ApplicationController
   end
 
   def destroy
-    @notification = Notification.find(params[:id])
+    @notification = current_user.notifications.find(params[:id])
     respond_to do |format|
       if @notification.destroy
         format.json { render json: @notification.id, status: :ok }
