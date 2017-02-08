@@ -7,6 +7,8 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
     @regular_user = users.last
     @project = FactoryGirl.create(:project, user: @user)
     @task = FactoryGirl.create(:task, project: @project)
+    @project_team = @project.create_team(name: "Team#{@project.id}")
+    @team_membership = TeamMembership.create(team_member_id: @user.id, team_id: @project_team.id, role:1)
   end
 
   context "As project leader" do
@@ -58,9 +60,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
               sleep 2
             end
 
-            # scenario "Then the text appeared in the comments section" do
-            #   expect(@comments_section).to have_content @comment
-            # end
+            scenario "Then the text appeared in the comments section" do
+              expect(@comments_section).to have_content @comment
+            end
 
             scenario "Then the attached file appeared in the comments section" do
               expect(@comments_section).to have_xpath("//img[contains(@src, @attach)]")
@@ -81,9 +83,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
                 @comments = find("#Task-comments")
               end
 
-              # scenario "Then the comment exists in the comments section" do
-              #   expect(@comments).to have_content @comment
-              # end
+              scenario "Then the comment exists in the comments section" do
+                expect(@comments).to have_content @comment
+              end
 
               scenario "Then the attach exists in the comments section" do
                 expect(@comments).to have_xpath("//img[contains(@src, @attach)]")
