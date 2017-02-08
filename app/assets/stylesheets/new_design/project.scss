@@ -715,7 +715,7 @@ div.progress {
 }
 
 
-
+// ToDo remove these styles after refactoring views/_edit_project_modal.html.erb, looks like there's a form and these styles should be moved there
 .cropbox-wrap {
   display: block;
   width: 100%;

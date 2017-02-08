@@ -2,13 +2,13 @@
   <div class="modal-default__content" role="document">
       <button class="modal-default__close" type="button"></button>
       <h3 class="modal-default__title">Edit Profile Image</h3>
-      <%= form_for @user do |f| %>
+      <%= form_for(@user, :html => {:class => 'f-edit-img'}) do |f| %>
         <% if @user.picture? %>
-          <div class="cropbox-wrap">
+          <div class="f-edit-img__image">
             <%= f.cropbox :picture %>
           </div>
         <% else %>
-          <div>
+          <div class="f-edit-img__placeholder">
             <%= image_tag(@user.picture) %>
           </div>
         <% end %>
