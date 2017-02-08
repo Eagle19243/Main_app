@@ -51,6 +51,29 @@ feature "Notification After Suggesting a New Task", js: true, vcr: { cassette_na
             scenario "Then a new notification has been created" do
               expect(@user.notifications.count).not_to be_zero
             end
+
+            scenario "Then the notification alert is not created on the top menu" do
+              expect(page).not_to have_selector(".btn-bell__counter")
+            end
+
+            context "When you navigate 'Notifications' page" do
+              before do
+                find(".notify-dropdown").click
+                wait_for_ajax
+
+                @dropdown = find(".b-dropdown", visible: true)
+
+                @dropdown.find(".b-dropdown__link").click_link "See All Notifications"
+              end
+
+              scenario "Then you can not see the notification" do
+                expect(page).not_to have_content "#{@regular_user.name} suggested task #{@task.title}"
+              end
+
+              scenario "Then the number of unread notifications has been disappeared on the alert" do
+                expect(page).not_to have_selector(".btn-bell__counter")
+              end
+            end
           end
         end
       end
