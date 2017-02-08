@@ -5,8 +5,8 @@ class NotificationsController < ApplicationController
   PER_LOAD_COUNT = 10
 
   def index
-    @notifications = current_user.notifications.last(PER_LOAD_COUNT)
-    Notification.where(read: false, id: @notifications.map(&:id)).update_all(:read => true)
+    @notifications = current_user.notifications.order(id: :desc).limit(PER_LOAD_COUNT)
+    @notifications.update_all(read: true)
   end
 
   def load_older
