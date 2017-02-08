@@ -118,10 +118,8 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     }
   }
   &__wrong-user {
-    position: absolute;
-    right: 14px;
+    float: right;
     letter-spacing: 0.6px;
-    top: 0;
     text-decoration: underline;
     text-transform: uppercase;
     font-size: 14px;
@@ -134,9 +132,25 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
       background: transparent;
     }
   }
+  &__wallet {
+    color: #000;
+    vertical-align: middle;
+    margin-left: 15px;
+    letter-spacing: .6px;
+    text-decoration: underline;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Roboto, sans-serif;
+    &:visited {
+      color: #000;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
   &__signed {
     position: relative;
-    padding-right: 70px;
     &-label {
       color: #525252;
       font-size: 14px;
