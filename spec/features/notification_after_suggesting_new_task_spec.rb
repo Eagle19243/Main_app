@@ -52,12 +52,8 @@ feature "Notification After Suggesting a New Task", js: true, vcr: { cassette_na
               expect(@user.notifications.count).not_to be_zero
             end
 
-            scenario "Then the notification creates an alert on the top menu" do
-              expect(page).to have_selector(".btn-bell__counter")
-            end
-
-            scenario "Then the notification alert indicates the number of unread notifications" do
-              expect(find(".btn-bell__counter").text).to eq Notification.unread.count.to_s
+            scenario "Then the notification alert is not created on the top menu" do
+              expect(page).not_to have_selector(".btn-bell__counter")
             end
 
             context "When you navigate 'Notifications' page" do
@@ -70,8 +66,8 @@ feature "Notification After Suggesting a New Task", js: true, vcr: { cassette_na
                 @dropdown.find(".b-dropdown__link").click_link "See All Notifications"
               end
 
-              scenario "Then you can see the notification" do
-                expect(page).to have_content "#{@regular_user.name} suggested task #{@task.title}"
+              scenario "Then you can not see the notification" do
+                expect(page).not_to have_content "#{@regular_user.name} suggested task #{@task.title}"
               end
 
               scenario "Then the number of unread notifications has been disappeared on the alert" do
