@@ -18,6 +18,9 @@ class NotificationsService
 
   def self.notify_about_project_update(project)
     self.create_notification(project, project.user, Notification.actions[:updated_project])
+    project.project_users.each do |member|
+      self.create_notification(project, member, Notification.actions[:updated_project])
+    end
   end
 
   def self.notify_about_admin_invitation(admin_invitation, origin_user)
@@ -45,7 +48,7 @@ class NotificationsService
   end
 
   def self.notify_about_apply_request(apply_request)
-    self.create_notification(apply_request, apply_request.project.user, Notification.actions[:apply_request], apply_request.user)
+    self.create_notification(apply_request, apply_request.project.user, Notification.actions[:apply_request], apply_request.user, "operatable")
   end
 
   def self.notify_about_reject_admin_request(admin_request, origin_user)
