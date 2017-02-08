@@ -21,6 +21,12 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
 * Install & configure Git
 * Install & configure PostgreSQL database
 * Install NodeJS
+* Install an image processing tool:
+
+     For OSX: `brew install graphicsmagick` OR  `brew install imagemagick`
+
+     For Ubuntu: `apt-get install graphicsmagick` OR `apt-get install imagemagick` 
+ 
 * Clone the repository and perform `bundle install`
 
 ### 2. Get necessary tokens
@@ -56,6 +62,13 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 * Being in app directory run `RAILS_ENV=development bundle exec rake db:create db:schema:load db:migrate`
 * If necessary, run `RAILS_ENV=development bundle exec rake db:seed` to populate database with sample data
 
+### 8. Configure ENV varialbes
+
+* `mailer_sender` - address of emails sender
+* `RAILS_ENV` - `production` or `development`
+* `reserve_wallet_id` - **only for production**: address of reserve BTC wallet
+* `reserve_wallet_pass_pharse` - **only for production**: passphrase of reserve BTC wallet
+
 ### 8. Run the application
 
 * In app directory run `RAILS_ENV=development rails server`
@@ -63,6 +76,10 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 # Steps to run test
 
 * Within app directory run `RAILS_ENV=testing bundle exec rspec --format documentation`
+
+# Tools
+
+* There is a scpecial task `bundle exec rake admin_wallet:create_wallet_address` to generate reserve wallet automatically
 
 # Troubleshooting
 
