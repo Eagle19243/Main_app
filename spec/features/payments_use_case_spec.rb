@@ -41,8 +41,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
           before do
             @valid_card_number = "4242424242424242"
             @invalid_card_number = "1111111111111111"
-            @expiry_year = 2020
-            @expiry_month = 12
+            @expiry = 5.years.from_now.strftime('%m/%Y')
             @cvv = "211"
 
             @fund_modal.click_button "Donate with credit card"
@@ -50,10 +49,8 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
 
             @fund_modal.fill_in "amount", with: 10
 
-            find('[data-stripe="exp_month"]').set @expiry_month
-            find('[data-stripe="exp_year"]').set @expiry_year
-
-            @card_modal.fill_in "cardCvc", with: @cvv
+            @card_modal.fill_in('card_expiry', with: @expiry)
+            @card_modal.fill_in('card_code', with: @cvv)
           end
 
           scenario "Then it is available to donate with credit card" do
@@ -62,10 +59,9 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
 
           context "When you fill in the valid card information" do
             before do
-              allow_any_instance_of(Object).to receive(:get_reserve_wallet_balance).and_return(1000)
+              allow_any_instance_of(Payments::StripeController).to receive(:get_reserve_wallet_balance).and_return(1000)
 
-              @card_modal.fill_in "cardNumber", with: @valid_card_number
-
+              @card_modal.fill_in('card_number', with: @valid_card_number)
               @card_modal.find("._donate").click
             end
 
@@ -79,7 +75,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
 
           context "When you fill in the invalid card information" do
             before do
-              @card_modal.fill_in "cardNumber", with: @invalid_card_number
+              @card_modal.fill_in('card_number', with: @invalid_card_number)
 
               @card_modal.find("._donate").click
             end

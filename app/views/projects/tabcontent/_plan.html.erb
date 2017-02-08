@@ -6,7 +6,7 @@
         <div class="row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
-              <% if current_user.is_admin_for?(project) || current_user.is_lead_editor_for?(project) %>
+              <% if can? :revisions, project %>
                 <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-root", id: "editSource" do %>
                   Revisions
                 <% end %>
@@ -37,7 +37,7 @@
 
       <div class="project-idea">
         <strong>Project Idea: &nbsp;&nbsp;</strong>
-        <% if user_signed_in? && current_user.is_admin_for?(project) %>
+        <% if user_signed_in? && current_user.is_project_leader?(project) %>
           <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", id: 'sd_pencil', :cancel_button_class => "pencil_cancel", activator: "#sd_pencil" %>
           <span id="str_length"></span>
         <% else %>
@@ -102,7 +102,7 @@
     </div>
 
     <div class="requests col-md-7">
-      <% if current_user && current_user.is_admin_for?(project) %>
+      <% if current_user && current_user.is_project_leader?(project) %>
         <% apply_requests.find_each do |apply| %>
           <%= apply.user_name %> sent you <%= apply.request_type %> Request
           <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>

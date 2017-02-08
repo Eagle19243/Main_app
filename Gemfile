@@ -80,6 +80,10 @@ gem "bullet", :group => "development"
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 
+# Exception monitoring
+gem 'rollbar'
+gem 'oj', '~> 2.12.14'
+
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
   gem 'brakeman', :require => false
@@ -121,6 +125,8 @@ end
 
 group :test do
   gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
+  gem 'simplecov', require: false
+  gem "codeclimate-test-reporter", "~> 1.0.0"
 end
 
 # Auto deployment to AWS
