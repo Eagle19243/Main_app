@@ -8,7 +8,7 @@ feature 'Sign-in popup displaying correctly', type: :feature, js: true do
 
   scenario 'Anonymous user should see sign-in modal on home page' do
     visit root_path
-    expect(page).to have_text('Turn your audience into a task force')
+    expect(page).to have_text('Turn your followers into a task force')
 
     click_pseudo_link 'Login'
     

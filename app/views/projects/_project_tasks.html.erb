@@ -4,7 +4,7 @@
     <div class="trello-section">
       <div class="section-header">
         <a href="javascript:void(0)">
-          Pending Approval
+          Suggestions
         </a>
       </div>
 
@@ -44,10 +44,8 @@
                       </table>
                     </div>
                     <div class="fund-do-btns">
-                      <button type="button" title="FUND" class='btn-root' data-modal="#suggested_task_model_for_fund">FUND</button>
-                      <button type="button" title="DO" class='btn-root _dark _do-model-popup' data-modal="#suggested_task_model_for_fund">DO</button>
                       <% if user_signed_in? %>
-                          <% if @project.user_id == current_user.id || task.is_executer(current_user.id) %>
+                          <% if can? :destroy, task %>
                             <button type="button" title="Delete" data-delete-url='<%= reject_task_path(task.id) %>' class='btn-root _dark _delete' data-modal="#removeTask">Delete</button>
                           <% end %>
                       <% end %>
@@ -112,6 +110,13 @@
                     <div class="fund-do-btns">
                       <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                       <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
+                    </div>
+                    <div class="fund-do-btns">
+                      <% if user_signed_in? %>
+                          <% if can? :destroy, task %>
+                            <button type="button" title="Delete" data-delete-url='<%= reject_task_path(task.id) %>' class='btn-root _dark _delete' data-modal="#removeTask">Delete</button>
+                          <% end %>
+                      <% end %>
                     </div>
                   </div>
                 </div>

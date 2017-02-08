@@ -3,6 +3,11 @@ FactoryGirl.define do
     sequence(:email) { |n| "test_user#{n}@example.com"}
     password 'secretadmin0password'
     sequence(:name) { |n| "Test#{n} User"}
+    sequence(:username) { |n| "username#{n}"}
+
+    trait :confirmed_user do
+      confirmed_at DateTime.now
+    end
   end
 
   factory :project do
@@ -11,6 +16,7 @@ FactoryGirl.define do
     sequence(:country) { |n| "test_country#{n}" }
     sequence(:wiki_page_name) { |n| "wiki_page_name#{n}" }
     picture { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'photo.png'), 'image/png') }
+    association :user, factory: :user
     state "pending"
 
     after(:create) do |project|

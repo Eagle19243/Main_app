@@ -4,6 +4,9 @@ class AdminRequestsController < ApplicationController
 
   def create
     @admin_request = AdminRequest.new(create_params)
+
+    authorize! :create, @admin_request
+
     respond_to do |format|
       if @admin_request.save
         format.json { render json: @admin_request.id, status: :ok }
@@ -14,6 +17,9 @@ class AdminRequestsController < ApplicationController
   end
 
   def accept
+
+    authorize! :accept, @admin_request
+
     respond_to do |format|
       if @admin_request.update(status: AdminRequest.statuses[:accepted])
         TeamService.add_admin_to_project(@admin_request.project, @admin_request.user)
@@ -25,6 +31,9 @@ class AdminRequestsController < ApplicationController
   end
 
   def reject
+
+    authorize! :reject, @admin_request
+
     respond_to do |format|
       if @admin_request.update(status: AdminRequest.statuses[:rejected])
         format.json { render json: @admin_request.id, status: :ok }
