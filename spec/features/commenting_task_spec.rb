@@ -5,10 +5,18 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first
     @regular_user = users.last
+
+    #For project leader
     @project = FactoryGirl.create(:project, user: @user)
     @task = FactoryGirl.create(:task, project: @project)
     @project_team = @project.create_team(name: "Team#{@project.id}")
     @team_membership = TeamMembership.create(team_member_id: @user.id, team_id: @project_team.id, role:1)
+
+    #For regular user
+    @project1 = FactoryGirl.create(:project, user: @regular_user)
+    @task1 = FactoryGirl.create(:task, project: @project1)
+    @project_team1 = @project1.create_team(name: "Team#{@project1.id}")
+    @team_membership1 = TeamMembership.create(team_member_id: @regular_user.id, team_id: @project_team1.id, role:1)
   end
 
   context "As project leader" do
@@ -104,7 +112,7 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
 
     context "When you navigate the project page" do
       before do
-        visit project_path(@project)
+        visit project_path(@project1)
       end
 
       context "When you click 'Task' button" do
@@ -112,7 +120,7 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
           find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
           wait_for_ajax
 
-          @pending_section = all(".trello-column")[1]
+          @pending_section = all(".trello-column .pr-card")[0]
         end
 
         context "When you click the task" do
@@ -156,12 +164,12 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
 
             context "When you reload the page and reopen the task modal" do
               before do
-                visit project_path(@project)
+                visit project_path(@project1)
 
                 find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
                 wait_for_ajax
 
-                pending_section = all(".trello-column")[1]
+                pending_section = all(".trello-column .pr-card")[0]
 
                 pending_section.click
                 sleep 2
