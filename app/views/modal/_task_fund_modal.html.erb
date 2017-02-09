@@ -36,7 +36,10 @@
                 <div class="modal-fund__tab-content _active">
 
                   <div class="modal-fund__signed">
-                    <div class="modal-fund__signed-label">Signed in as <span class="modal-fund__user-name"><%= current_user.name %></span>
+                    <div class="modal-fund__signed-label">
+                        <span>Signed in as</span>
+                        <span class="modal-fund__user-name"><%= current_user.name %></span>
+                        <%= link_to 'Not you?', destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
                     </div>
                     <% if current_user.picture? %>
                         <%= image_tag(current_user.picture, class: "modal-fund__avatar") %>
@@ -50,7 +53,7 @@
                       </svg>
                     </div>
 
-                    <%= link_to 'Not you?', destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
+                    <a class="modal-fund__wallet" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
                   </div>
 
               </div>

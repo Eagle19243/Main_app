@@ -16,7 +16,7 @@ $("#Do-request-form").submit(function () {
   $('#Do-request-form-response').html(" Requesting ...")
 });
 $("#comment-form").submit(function () {});
-$('a[name=delete_attachment]').click(function () {
+$(".attachments").on('click.delete_attachment', "a[name='delete_attachment']", function () {
   var id = $(this).attr('id')
   $.ajax({
     url: "/task_attachments/destroy_attachment",

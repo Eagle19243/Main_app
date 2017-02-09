@@ -147,23 +147,25 @@
                   <p><%= @task.proof_of_execution %></p>
                   <hr>
                   <%= render ("projects/task_comment") %>
-                  <div class="comments-block">
-                    <% if user_signed_in? %>
-                        <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
-                            <div class="post-comment">
-                              <%= f.text_area :body %>
-                              <%= f.hidden_field :task_id, value: @task.id %>
-                              <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
+                  <% if can? :create_task_comment, @task %>
+                    <div class="comments-block">
+                      <% if user_signed_in? %>
+                          <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
+                              <div class="post-comment">
+                                <%= f.text_area :body %>
+                                <%= f.hidden_field :task_id, value: @task.id %>
+                                <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
 
-                              <%= f.hidden_field :user_id, value: current_user.id %>
-                              <button type="submit" name="commit" value="Send"> Send</button>
-                              &nbsp;&nbsp;
-                              <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                              <div id="attachment-div"></div>
-                            </div>
-                        <% end %>
-                    <% end %>
-                  </div>
+                                <%= f.hidden_field :user_id, value: current_user.id %>
+                                <button type="submit" name="commit" value="Send"> Send</button>
+                                &nbsp;&nbsp;
+                                <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                                <div id="attachment-div"></div>
+                              </div>
+                          <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
                 </div>
             <% end %>
             <div class="activity" id="task-activity">

@@ -46,7 +46,7 @@
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bell"></use>
               </svg>
 
-              <% if Notification.unread.count > 0 %>
+              <% if current_user.notifications.unread.count > 0 %>
                 <span class="btn-bell__counter"><%= Notification.unread.count %></span>
               <% end %>
           </div>
