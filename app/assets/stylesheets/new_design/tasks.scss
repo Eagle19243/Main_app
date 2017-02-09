@@ -540,7 +540,23 @@
 .content-details {
   position: relative;
   padding: 20px;
+
+  &__username {
+    font-weight: bold;
+  }
+  &__request {
+    padding: 10px 0;
+    span {
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+    }
+    &-btn {
+      display: inline-block;
+      margin-left: 20px;
+    }
+  }
 }
+
 
 .project-summary {
   p {
