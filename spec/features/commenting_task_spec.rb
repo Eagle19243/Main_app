@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first
@@ -26,12 +26,12 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
           find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
           wait_for_ajax
 
-          @pending_section = all(".trello-column")[1]
+          @funding_section = all(".trello-column .pr-card")[0]
         end
 
         context "When you click the task" do
           before do
-            @pending_section.click
+            @funding_section.click
             sleep 2
 
             @task_modal = find("#myModal")
@@ -75,9 +75,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
                 find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
                 wait_for_ajax
 
-                pending_section = all(".trello-column")[1]
+                funding_section = all(".trello-column .pr-card")[0]
 
-                pending_section.click
+                funding_section.click
                 sleep 2
 
                 @comments = find("#Task-comments")
