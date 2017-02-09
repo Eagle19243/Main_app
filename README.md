@@ -26,6 +26,12 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
      For OSX: `brew install graphicsmagick` OR  `brew install imagemagick`
 
      For Ubuntu: `apt-get install graphicsmagick` OR `apt-get install imagemagick` 
+
+* Install PhantomJS browser for acceptance tests:
+
+     For OSX: `brew install phantomjs`
+
+     For Ubuntu: `apt-get install phantomjs`
  
 * Clone the repository and perform `bundle install`
 
