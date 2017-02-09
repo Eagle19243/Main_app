@@ -19,4 +19,26 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
     end
   end
 
+  describe '#reject' do
+    before {
+      user = FactoryGirl.create(:user, :confirmed_user)
+      user.admin!
+      @project = FactoryGirl.create(:project, user: user)
+      @task = FactoryGirl.create(:task_with_associations, project: @project, user: user)
+      sign_in(user)
+    }
+
+    subject(:make_request) { get(:reject, { id: @task.id }) }
+
+    it 'deletes task' do
+      expect(Task.exists?(id: @task.id)).to eq true
+      make_request
+      expect(Task.exists?(id: @task.id)).to_not eq true
+    end
+
+    it 'redirects to card_payment_project_url' do
+      make_request
+      expect(response).to redirect_to(task_path(@task.id))
+    end
+  end
 end
