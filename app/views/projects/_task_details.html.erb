@@ -349,7 +349,7 @@
                         <div class="attachment-actions">
                           <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
                           <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
-                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">Remove</a>
+                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
                           <% end %>
                         </div>
                       </div>
