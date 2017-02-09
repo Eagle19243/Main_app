@@ -105,7 +105,7 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
 
     context "When you navigate the project page" do
       before do
-        visit project_path(@project1)
+        visit project_path(@project)
       end
 
       context "When you click 'Task' button" do
