@@ -41,7 +41,9 @@ class Project < ActiveRecord::Base
     text :title
     text :description
     text :short_description
+    text :full_description
   end
+
   validates :picture, presence: true
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
