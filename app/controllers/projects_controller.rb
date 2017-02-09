@@ -113,16 +113,12 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    term = params[:term].downcase
-    @projects = Project.order(:title).where(
-        "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
-        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |p| "#{p.title}" }
-    @result = @projects + Task.order(:title).where(
-        "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
-        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |t| "#{t.title}" }
+    search = Sunspot.search(Task, Project) { fulltext params[:term] }
+    results = search.results.map(&:title)
+
     respond_to do |format|
-      format.html { render text: @result }
-      format.json { render json: @result.to_json, status: :ok }
+      format.html { render text: results }
+      format.json { render json: results.to_json, status: :ok }
     end
   end
 
