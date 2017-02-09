@@ -6,17 +6,10 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
     @user = users.first
     @regular_user = users.last
 
-    #For project leader
     @project = FactoryGirl.create(:project, user: @user)
     @task = FactoryGirl.create(:task, project: @project)
     @project_team = @project.create_team(name: "Team#{@project.id}")
     @team_membership = TeamMembership.create(team_member_id: @user.id, team_id: @project_team.id, role:1)
-
-    #For regular user
-    @project1 = FactoryGirl.create(:project, user: @regular_user)
-    @task1 = FactoryGirl.create(:task, project: @project1)
-    @project_team1 = @project1.create_team(name: "Team#{@project1.id}")
-    @team_membership1 = TeamMembership.create(team_member_id: @regular_user.id, team_id: @project_team1.id, role:1)
   end
 
   context "As project leader" do
@@ -105,7 +98,7 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
     end
   end
 
-  context "As regular user" do
+  context "As a non team member" do
     before do
       login_as(@regular_user, :scope => :user, :run_callbacks => false)
     end
@@ -135,56 +128,12 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             expect(@task_modal).to be_visible
           end
 
-          scenario "Then the comments section exists in the modal" do
+          scenario "Then the comments history exists in the modal" do
             expect(@task_modal).to have_selector("#Task-comments")
           end
 
-          context "When you put some text into comments field and attach a file" do
-            before do
-              @comment = "new comment"
-              @attach = "photo.png"
-              @comments_section = find("#Task-comments")
-              @form = find("#comment-form")
-
-              @form.fill_in "task_comment[body]", with: @comment
-
-              @form.attach_file 'task_comment[attachment]', Rails.root + "spec/fixtures/#{@attach}"
-
-              @form.click_button "Send"
-              sleep 2
-            end
-
-            scenario "Then the text appeared in the comments section" do
-              expect(@comments_section).to have_content @comment
-            end
-
-            scenario "Then the attached file appeared in the comments section" do
-              expect(@comments_section).to have_xpath("//img[contains(@src, @attach)]")
-            end
-
-            context "When you reload the page and reopen the task modal" do
-              before do
-                visit project_path(@project1)
-
-                find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-                wait_for_ajax
-
-                pending_section = all(".trello-column .pr-card")[0]
-
-                pending_section.click
-                sleep 2
-
-                @comments = find("#Task-comments")
-              end
-
-              scenario "Then the comment exists in the comments section" do
-                expect(@comments).to have_content @comment
-              end
-
-              scenario "Then the attach exists in the comments section" do
-                expect(@comments).to have_xpath("//img[contains(@src, @attach)]")
-              end
-            end
+          scenario "Then the comments form does not exist in the modal" do
+            expect(@task_modal).not_to have_selector("#comment-form")
           end
         end
       end
