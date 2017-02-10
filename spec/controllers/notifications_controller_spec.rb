@@ -99,6 +99,16 @@ RSpec.describe NotificationsController, vcr: { cassette_name: 'bitgo' } do
 
           expect { xhr :delete, :destroy, id: 444 }.not_to change(Notification, :count)
         end
+
+        context 'notification not found' do
+          it 'redirects user to root path' do
+            create(:notification, id: 444)
+
+            xhr :delete, :destroy, id: 444
+
+            expect(response).to redirect_to(root_url)
+          end
+        end
       end
     end
   end
