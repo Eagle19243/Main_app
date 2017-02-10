@@ -283,7 +283,7 @@
 
                 <div class="button-group">
                   <div class="btn-left">
-                    <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_team_member(current_user.id) || current_user.id == @task.project.user_id)) %>
+                    <% if user_signed_in? && (can? :create_or_destory_task_attachment, @task) %>
                         <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                             <%= f.hidden_field :task_id, :value => @task.id %>
                             <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
@@ -355,8 +355,8 @@
                         <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                         <div class="attachment-actions">
                           <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
-                          <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
-                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
+                          <% if user_signed_in? && (can? :create_or_destory_task_attachment, @task) %>
+                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">Remove</a>
                           <% end %>
                         </div>
                       </div>

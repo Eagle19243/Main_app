@@ -13,6 +13,7 @@ class Ability
     initializeApplyRequestsPermissions(user)
     initializeTeamMembershipsPermissions(user)
     initializeTaskCommentsPermissions(user)
+    initializeTaskAttachmentsPermissions(user)
   end
 
   def initializeTeamMembershipsPermissions(user)
@@ -137,6 +138,10 @@ class Ability
         user.is_teammember_for?(task)
       end
 
+      can :create_or_destory_task_attachment, Task do |task|
+        user.is_project_leader?(task.project) || user.is_executor_for?(task.project) || (task.team_memberships.collect(&:team_member_id).include? user.id) || (task.suggested_task? && (user.id == task.user_id))
+      end
+
       if user.admin?
         can [:create, :update, :destroy], Task
       end
@@ -147,6 +152,14 @@ class Ability
     if user
       can :create, TaskComment do |task_comment|
         user.is_teammember_for?(task_comment.task)
+      end
+    end
+  end
+
+  def initializeTaskAttachmentsPermissions(user)
+    if user
+      can [:create, :destroy], TaskAttachment do |task_attachment|
+        user.is_project_leader?(task_attachment.task.project) || user.is_executor_for?(task_attachment.task.project) || (task_attachment.task.team_memberships.collect(&:team_member_id).include? user.id) || (task_attachment.task.suggested_task? && (user.id == task_attachment.task.user_id))
       end
     end
   end
