@@ -22,11 +22,15 @@ RSpec.describe NotificationsController, vcr: { cassette_name: 'bitgo' } do
       end
 
       it 'retreives user\'s unread notifications' do
+        create(:notification, id: 222, user: user)
+
         get :index
 
         notification_ids = assigns(:notifications).map(&:id)
 
+        expect(notification_ids.count).to eq 2
         expect(notification_ids).to include 111
+        expect(notification_ids).to include 222
       end
 
       it 'cannot retreives other people\s unread notifications' do
