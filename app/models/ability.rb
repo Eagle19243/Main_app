@@ -12,6 +12,7 @@ class Ability
     initializeAdminRequestsPermissions(user)
     initializeApplyRequestsPermissions(user)
     initializeTeamMembershipsPermissions(user)
+    initializeTaskCommentsPermissions(user)
   end
 
   def initializeTeamMembershipsPermissions(user)
@@ -132,8 +133,20 @@ class Ability
         task.accepted? && user.is_teammember_for?(task)
       end
 
+      can :create_task_comment, Task do |task|
+        user.is_teammember_for?(task)
+      end
+
       if user.admin?
         can [:create, :update, :destroy], Task
+      end
+    end
+  end
+
+  def initializeTaskCommentsPermissions(user)
+    if user
+      can :create, TaskComment do |task_comment|
+        user.is_teammember_for?(task_comment.task)
       end
     end
   end
