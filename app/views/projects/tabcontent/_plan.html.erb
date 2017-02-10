@@ -104,9 +104,16 @@
     <div class="requests col-md-7">
       <% if current_user && current_user.is_project_leader?(project) %>
         <% apply_requests.find_each do |apply| %>
-          <%= apply.user_name %> sent you <%= apply.request_type %> Request
-          <%= link_to "Accept", accept_apply_request_path(apply), method: :post %>
-          <%= link_to "Reject", reject_apply_request_path(apply), method: :post %>
+          <div class="content-details__request">
+              <span class="content-details__username"><%= apply.user_name %></span>
+              <span>sent you</span>
+              <span class="content_details__request-type"><%= apply.request_type %></span>
+              <span>Request</span>
+              <div class="content-details__request-btn">
+                <%= link_to "Accept", accept_apply_request_path(apply), class: "btn-root", method: :post %>
+                <%= link_to "Reject", reject_apply_request_path(apply), class: "btn-root", method: :post %>
+              </div>
+          </div>
         <% end %>
       <% end %>
     </div>

@@ -171,12 +171,14 @@
 
               <div class="modal-task__controls-side">
                 <div class="fund">
-                  <% unless @task.suggested_task? %>
-                      <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
-                      <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
-                  <% else %>
-                      <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
-                      <button type="button" title="FUND" class="btn-root _dark" data-modal="#suggested_task_model_for_fund">DO</button>
+                  <% if user_signed_in? %>
+                    <% unless @task.suggested_task? %>
+                        <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                        <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
+                    <% else %>
+                        <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
+                        <button type="button" title="FUND" class="btn-root _dark" data-modal="#suggested_task_model_for_fund">DO</button>
+                    <% end %>
                   <% end %>
 
                   <div class="progress">
@@ -349,7 +351,7 @@
                         <div class="attachment-actions">
                           <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
                           <% if user_signed_in? && ((@task.suggested_task? && current_user.id == @task.user_id) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
-                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">Remove</a>
+                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">X Remove</a>
                           <% end %>
                         </div>
                       </div>

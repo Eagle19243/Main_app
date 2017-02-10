@@ -16,7 +16,7 @@ class Notification < ActiveRecord::Base
       :leader_change,
       :change_leader_invitation,
       :change_leader_invitation_sent,
-      :apply_requset,
+      :apply_request,
       :accept_apply_request,
       :reject_apply_request,
       :follow_project,
