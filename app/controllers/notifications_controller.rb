@@ -5,12 +5,13 @@ class NotificationsController < ApplicationController
   PER_LOAD_COUNT = 10
 
   def index
-    @notifications = current_user.notifications.order(id: :desc).limit(PER_LOAD_COUNT)
+    @notifications = current_user.notifications.includes(:source_model).order(id: :desc).limit(PER_LOAD_COUNT)
     @notifications.update_all(read: true)
   end
 
   def load_older
-    @notifications = current_user.notifications.where("id < ?", params[:first_notification_id]).last(PER_LOAD_COUNT)
+    @notifications = current_user.notifications.includes(:source_model).where("id < ?", params[:first_notification_id]).last(PER_LOAD_COUNT)
+    
     if !@notifications.empty?
       @all_notifications_displayed = @notifications.first.id == current_user.notifications.first.id ? true : false
     else
