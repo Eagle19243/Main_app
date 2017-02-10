@@ -1,5 +1,4 @@
 require 'rails_helper'
-require './lib/services/project_descriptions_updater'
 
 RSpec.describe ProjectDescriptionsUpdater, vcr: { cassette_name: 'bitgo' } do
   let(:owner) { FactoryGirl.create(:user, confirmed_at: Time.now) }
