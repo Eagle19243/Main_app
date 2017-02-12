@@ -63,8 +63,7 @@ class User < ActiveRecord::Base
   end
 
   def assign_address
-    if File.basename($0) != 'rake'
-
+    if (File.basename($0) != 'rake' && !Rails.env.test?)
       access_token = access_wallet
       Rails.logger.info access_token unless Rails.env == "development"
       api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
