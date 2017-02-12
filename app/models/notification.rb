@@ -36,7 +36,6 @@ class Notification < ActiveRecord::Base
   end
 
   def self.operatable?
-    self.action_type == "operatable"
+    self.action_type == 'operatable'
   end
-
 end
