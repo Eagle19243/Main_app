@@ -17,7 +17,7 @@ class UserWalletTransactionsController < ApplicationController
     keys =user_keys
     current_user.user_wallet_address.backup_keys = nil
     current_user.user_wallet_address.user_keys = nil
-    current_user.user_wallet_address.save 
+    current_user.user_wallet_address.save
     send_data  keys, :filename => "#{current_user.name}WalletBackupKeys.txt",  :type => "text/plain"
   end
 
@@ -43,7 +43,7 @@ class UserWalletTransactionsController < ApplicationController
         respond_to do |format|
           @msg = 'Error, Please try again Later!'
           format.js
-          format.html { redirect_to user_wallet_transactions_new_path , alert:  @msg }
+          format.html { redirect_to my_wallet_user_path(current_user), alert:  @msg }
         end
       else
         access_token = access_wallet
@@ -52,26 +52,26 @@ class UserWalletTransactionsController < ApplicationController
         address_to = params['wallet_transaction_user_wallet'].strip
         api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
         @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount:satoshi_amount , wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
-        unless @res["message"].blank?
+        unless @res['message'].blank?
           respond_to do |format|
-            @msg = @res["message"]
+            @msg = @res['message']
             format.js
-            format.html {redirect_to user_wallet_transactions_new_path  , alert:  @msg }
+            format.html { redirect_to my_wallet_user_path(current_user), alert:  @msg }
           end
         else
-          @transfer.tx_hash = @res["tx"]
+          @transfer.tx_hash = @res['tx']
           @transfer.user_id = current_user.id
           if(@transfer.save!)
             respond_to do |format|
               @msg = " #{params["amount"]} BTC has been successfully sent to #{@transfer.user_wallet}."
               format.js
-              format.html {redirect_to user_wallet_transactions_new_path  , notice: @msg  }
+              format.html { redirect_to my_wallet_user_path(current_user), notice: @msg  }
             end
           else
             respond_to do |format|
               @msg = @transfer.errors.messages.inspect
               format.js
-              format.html { redirect_to user_wallet_transactions_new_path  , alert: @msg }
+              format.html { redirect_to my_wallet_user_path(current_user), alert: @msg }
             end
           end
         end
@@ -79,14 +79,11 @@ class UserWalletTransactionsController < ApplicationController
     rescue => e
       respond_to do |format|
         @msg = e.inspect
-        @msg.slice! "#<Bitgo::V1::ApiError: "
-        @msg = @msg.chomp ">"
+        @msg.slice! '#<Bitgo::V1::ApiError: '
+        @msg = @msg.chomp '>'
         format.js
-        format.html { redirect_to user_wallet_transactions_new_path  , alert: @msg }
+        format.html { redirect_to my_wallet_user_path(current_user), alert: @msg }
       end
     end
   end
-
-
-
 end
