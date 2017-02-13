@@ -239,9 +239,13 @@
                     </div>
                     <script type="text/javascript">
                         $(function () {
+                          currentDate = Date.now();
+                          maxDate = currentDate + 3 * 2592000000; // 90 days
+
                             $('#deadline_editor').datetimepicker({
-                                viewMode: 'years',
-                                format: 'YYYY-MM-DD hh:mm A'
+                                format: 'YYYY-MM-DD hh:mm A',
+                                minDate: currentDate,
+                                maxDate: maxDate
                             });
                         });
                     </script>
