@@ -226,13 +226,16 @@
                 <h5>Deadline</h5>
                 <div class="deadline-group">
                     <div class="form-group">
-                        <div class='input-group date' id='deadline_editor'>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar">
+                        <%= form_for @task, :remote => true, html: {id: "task-update-deadline-form"} do |f| %>
+                            <div class='input-group date' id='deadline_editor'>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
-                            </span>
-                            <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" placeholder='<%= @task.deadline.strftime("%Y-%m-%d %I:%M %p") %>' />
-                        </div>
+
+                                <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" placeholder='<%= @task.deadline.strftime("%Y-%m-%d %I:%M %p") %>' />
+                            </div>
+                            <button class="btn-root" name="button" type="submit" id="task-update-deadline">update</button>
+                        <% end %>
                     </div>
                     <script type="text/javascript">
                         $(function () {
