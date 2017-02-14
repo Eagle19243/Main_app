@@ -222,28 +222,41 @@
                         <% end %>
                     <% end %>
                   </div>
+
                   <div class="deadline-block">
-                <h5>Deadline</h5>
-                <div class="deadline-group">
-                    <div class="form-group">
-                        <div class='input-group date' id='deadline_editor'>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar">
-                                </span>
-                            </span>
-                            <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" placeholder='<%= @task.deadline.strftime("%Y-%m-%d %I:%M %p") %>' />
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $('#deadline_editor').datetimepicker({
-                                viewMode: 'years',
-                                format: 'YYYY-MM-DD hh:mm A'
-                            });
-                        });
-                    </script>
-                </div>
-              </div>
+                      <h5>Deadline</h5>
+
+                      <% if can?(:update, @task) && !@task.any_fundings? %>
+                          <div class="deadline-group">
+                              <div class="form-group">
+                                  <%= form_for @task, :remote => true, html: {id: "task-update-deadline-form"} do |f| %>
+                                      <div class='input-group date' id='deadline_editor'>
+                                          <span class="input-group-addon">
+                                              <span class="glyphicon glyphicon-calendar"></span>
+                                          </span>
+
+                                          <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" placeholder='<%= @task.deadline.strftime("%Y-%m-%d %I:%M %p") %>' />
+                                      </div>
+                                      <button class="btn-root" name="button" type="submit" id="task-update-deadline">update</button>
+                                  <% end %>
+                              </div>
+                              <script type="text/javascript">
+                                  $(function () {
+                                    currentDate = Date.now();
+                                    maxDate = currentDate + 3 * 2592000000; // 90 days
+
+                                      $('#deadline_editor').datetimepicker({
+                                          format: 'YYYY-MM-DD hh:mm A',
+                                          minDate: currentDate,
+                                          maxDate: maxDate
+                                      });
+                                  });
+                              </script>
+                          </div>
+                      <% else %>
+                        <p><%= @task.deadline %></p>
+                      <% end %>
+                  </div>
 
               <!-- <h6>Funded :
                 <span class="light-blue">$<%= @task.current_fund + curent_bts_to_usd(@task.id) rescue 0.0 %></span> /
