@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
     end
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
-    @featured_projects = Project.page params[:page]
+    @featured_projects = Project.where.not(state: "rejected").page params[:page]
 
     if @download_keys && session[:start_by_signup]
       if session[:start_by_signup] == "true"
