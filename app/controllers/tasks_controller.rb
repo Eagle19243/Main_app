@@ -231,7 +231,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to task_path(@task.id), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
     end
   end
 
@@ -268,7 +268,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to task_path(@task.id), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
     end
   end
 
