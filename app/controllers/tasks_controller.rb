@@ -156,19 +156,16 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       @task_memberships = @task.team_memberships
-      if user_signed_in?
-        if @task.update(task_params)
-          activity = current_user.create_activity(@task, 'edited')
-          format.html { redirect_to @task, notice: 'Task was successfully updated.' }
-          format.json { render :show, status: :ok, location: @task }
-          format.js
-        else
-          format.html { render :edit }
-          format.json { render json: @task.errors, status: :unprocessable_entity }
-          format.js
-        end
+
+      if @task.update(task_params)
+        activity = current_user.create_activity(@task, 'edited')
+        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
+        format.json { render :show, status: :ok, location: @task }
+        format.js
       else
-        redirect_to "/"
+        format.html { render :edit }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
