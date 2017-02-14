@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Project, :type => :model do
+RSpec.describe Project, :type => :model, vcr: { cassette_name: 'bitgo' } do
 
   describe "short_description validation" do
     before {
