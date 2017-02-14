@@ -6,7 +6,7 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
-  config.expect_with :rspec do |expectations|    
+  config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
     expectations.syntax = :expect
   end
@@ -32,6 +32,8 @@ RSpec.configure do |config|
   config.after(:each) do
     ::Sunspot.session = ::Sunspot.session.original_session
   end
+
+  config.include FactoryGirl::Syntax::Methods
 end
 
 FactoryGirl::SyntaxRunner.class_eval do

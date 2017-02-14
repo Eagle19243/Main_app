@@ -44,7 +44,9 @@ class Project < ActiveRecord::Base
     text :title
     text :description
     text :short_description
+    text :full_description
   end
+
   validates :picture, presence: true
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
@@ -149,6 +151,7 @@ class Project < ActiveRecord::Base
 
   def follow!(user)
     self.project_users.create(user_id: user.id)
+    NotificationsService.notify_about_follow_project(self, user)
   end
 
   def unfollow!(user)

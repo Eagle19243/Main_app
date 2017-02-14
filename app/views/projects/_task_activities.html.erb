@@ -6,7 +6,7 @@
       <%else%>
           <%= gravatar_for_user(activity.user) %>
       <%end%>
-      <p style = "display: inline-block" ><%= get_activity_detail(activity)%></p><p style = "display: inline-block"><%= activity.user.name %></p>
+      <p style = "display: inline-block" ><%= get_activity_detail(activity)%>&nbsp;</p><p style = "display: inline-block"><%= activity.user.name %></p>
       <br><h6><%= "#{activity.created_at.strftime(" %b %d , %Y ")} " %></h6>
       <!--<a href="#">Reply</a>-->
     </div>

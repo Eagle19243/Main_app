@@ -118,16 +118,12 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    term = params[:term].downcase
-    @projects = Project.order(:title).where(
-        "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(request_description) LIKE ?",
-        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |p| "#{p.title}" }
-    @result = @projects + Task.order(:title).where(
-        "LOWER(title) LIKE ? or LOWER(description) LIKE ? or LOWER(short_description) LIKE ? or LOWER(condition_of_execution) LIKE ?",
-        "%#{term}%", "%#{term}%", "%#{term}%", "%#{term}%").map { |t| "#{t.title}" }
+    search = Sunspot.search(Task, Project) { fulltext params[:term] }
+    results = search.results.map(&:title)
+
     respond_to do |format|
-      format.html { render text: @result }
-      format.json { render json: @result.to_json, status: :ok }
+      format.html { render text: results }
+      format.json { render json: results.to_json, status: :ok }
     end
   end
 
@@ -466,10 +462,13 @@ class ProjectsController < ApplicationController
     elsif @new_leader == nil
       flash[:notice] = "Can't find the user who have the email address you entered. Please input valid email address."
     elsif !(@project.team.team_memberships.pluck(:team_member_id).include? @new_leader)
+      @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
       flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
     elsif @email != current_user.email
       @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
       InvitationMailer.invite_leader(@invitation.id).deliver_now
+      NotificationsService.notify_about_change_leader_invitation(current_user, @new_leader, @project)
+      flash[:notice] = "You sent an invitation for leader role to " + @email
     end
 
     redirect_to :my_projects

@@ -263,7 +263,7 @@ class User < ActiveRecord::Base
   end
 
   def is_teammember_for?(task)
-    task_memberships = task.team_memberships
+    task_memberships = task.project.team.team_memberships
     task_memberships.collect(&:team_member_id).include? self.id
   end
 
