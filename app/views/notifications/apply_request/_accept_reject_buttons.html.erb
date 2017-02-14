@@ -1,0 +1,24 @@
+<div class="b-notification__actions">
+  <% if notification.source_model.is_valid? %>
+    <a href="<%= accept_apply_request_path(notification.source_model.id) %>" class="btn-notify _accept">
+      <svg focusable="false" version="1.1" class="svg-check">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
+      </svg>
+      Approve
+    </a>
+    <a href="<%= reject_apply_request_path(notification.source_model.id) %>" class="btn-notify _reject" title="Delete" notification-id="<%= notification.id %>">
+      <svg focusable="false" version="1.1" class="svg-times">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-times"></use>
+      </svg>
+      Deny
+    </a>
+  <% else %>
+      You have 
+      <% if notification.source_model.accpeted_at.nil? %>
+        "Rejected"
+      <% else %> 
+        "Accepted"
+      <% end %>
+      the apply request
+  <% end %>
+</div>

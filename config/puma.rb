@@ -15,9 +15,6 @@ worker_timeout 60
 app_dir = File.expand_path("../..",__FILE__)
 shared_dir = "#{app_dir}/shared"
 
-# Logging
-stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}/log/puma.stderr.log", true
-
 before_fork do
   # PumaWorkerKiller.config do |config|
   #   config.ram           = 1024 # mb

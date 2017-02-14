@@ -4,7 +4,7 @@
     <div class="trello-section">
       <div class="section-header">
         <a href="javascript:void(0)">
-          Pending Approval
+          Suggestions
         </a>
       </div>
 
@@ -107,10 +107,12 @@
                         </tr>
                       </table>
                     </div>
-                    <div class="fund-do-btns">
-                      <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
-                      <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
-                    </div>
+                    <% if user_signed_in? %>
+                      <div class="fund-do-btns">
+                        <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
+                        <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
+                      </div>
+                    <% end %>
                     <div class="fund-do-btns">
                       <% if user_signed_in? %>
                           <% if can? :destroy, task %>

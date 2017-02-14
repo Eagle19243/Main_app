@@ -49,7 +49,7 @@ after_success:
   - bundle exec codeclimate-test-reporter
 
 script:
-  - bundle exec rspec --format documentation
+  - bundle exec rspec --fail-fast --format documentation
 
 notifications:
   slack:
