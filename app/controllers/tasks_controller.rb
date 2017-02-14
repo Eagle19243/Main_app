@@ -118,7 +118,7 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(create_task_params)
     @task.user_id = current_user.id
 
     authorize! :create, @task
@@ -157,7 +157,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       @task_memberships = @task.team_memberships
 
-      if @task.update(task_params)
+      if @task.update(update_task_params)
         current_user.create_activity(@task, 'edited')
 
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
@@ -333,8 +333,21 @@ class TasksController < ApplicationController
     end
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def task_params
-    params.require(:task).permit(:references, :deadline, :target_number_of_participants, :project_id, :short_description, :number_of_participants, :proof_of_execution, :title, :description, :budget, :user_id, :condition_of_execution, :fileone, :filetwo, :filethree, :filefour, :filefive, :state)
+  def create_task_params
+    params.require(:task).permit(default_attributes)
+  end
+
+  def update_task_params
+    attributes = default_attributes
+    attributes.delete(:deadline) if @task.any_fundings?
+
+    params.require(:task).permit(attributes)
+  end
+
+  def default_attributes
+    %i(references deadline target_number_of_participants project_id
+       short_description number_of_participants proof_of_execution title
+       description budget user_id condition_of_execution fileone filetwo
+       filethree filefour filefive state)
   end
 end
