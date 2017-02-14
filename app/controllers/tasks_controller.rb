@@ -158,7 +158,8 @@ class TasksController < ApplicationController
       @task_memberships = @task.team_memberships
 
       if @task.update(task_params)
-        activity = current_user.create_activity(@task, 'edited')
+        current_user.create_activity(@task, 'edited')
+
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
         format.js
