@@ -57,7 +57,6 @@ class ProjectCommentsController < ApplicationController
   end
 
   def set_activity(project = @comment.project, text)
-    binding.pry
     current_user.create_activity(@comment, text)
     project.user.create_activity(@comment, text)
   end
