@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ProjectsController, type: :request do
+describe ProjectsController, type: :request, vcr: { cassette_name: 'bitgo' } do
   describe "#create" do
     context "when logged in" do
       before do
