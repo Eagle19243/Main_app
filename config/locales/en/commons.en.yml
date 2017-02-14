@@ -1,5 +1,7 @@
 en:
   commons:
     start_a_project: "Start a Project"
+    about_btn: "About"
+    development_project_link: "http://weserve.io/projects/1/taskstab?tab=Plan"
     login: "Login"
     register: "Register"
