@@ -24,7 +24,6 @@ $(".attachments").on('click.delete_attachment', "a[name='delete_attachment']", f
     data: {id: id},
     success: function (response) {
       if (response == true) {
-        alert('Successfully destroy ');
         location.reload();
       }
       else {
