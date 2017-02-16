@@ -217,10 +217,12 @@ class Project < ActiveRecord::Base
 
       begin
         result = RestClient.post("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.username}, {:cookies => Rails.configuration.mediawiki_session})
-      rescue
+      rescue => error
+        Rails.logger.debug "Failed to call Mediawiki api #{error}"
         return nil
       end
       # Return Response Code
+      Rails.logger.debug "Received response from wiki #{result}"
       JSON.parse(result.body)["response"]["code"]
     else
       nil

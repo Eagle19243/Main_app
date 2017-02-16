@@ -10,7 +10,8 @@ VCR.configure do |c|
   c.ignore_request do |req|
     uri = URI(req.uri)
     uri.host == '127.0.0.1' && uri.port == 35792 ||   # test server
-      uri.host == 'localhost' && uri.port == 8981     # solr
+      uri.host == 'localhost' && uri.port == 8981 ||     # solr
+      uri.host == 'localhost' && uri.port == 80
   end
 
   c.register_request_matcher :blindfolded_body do |a, b|

@@ -426,6 +426,7 @@ class ProjectsController < ApplicationController
         format.json { render json: {id: @project.id, status: 200, responseText: "Project has been Created Successfully "} }
         session[:project_id] = @project.id
       else
+        Rails.logger.debug "Failed to save new project #{@project}"
         format.html { render :new }
         format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end

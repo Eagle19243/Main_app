@@ -28,4 +28,5 @@ Rails.application.configure do
   )
   # Save session cookies
   config.mediawiki_session = result.cookies
+  Rails.logger.debug "Initialized Mediawiki session #{result.cookies}"
 end
