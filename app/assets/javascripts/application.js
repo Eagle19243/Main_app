@@ -61,6 +61,28 @@ $(function() {
   $('.task-box').matchHeight();
 });
 
+var DateTimePickerModule = (function () {
+
+    function bindEvents() {
+        var DAY_TO_DEADLINE = 89,
+            currentDate = new Date(),
+            deadlineDate = new Date().setDate(currentDate.getDate() + DAY_TO_DEADLINE);
+
+        $('.deadline_picker').datetimepicker({
+            viewMode: 'months',
+            format: 'YYYY-MM-DD HH:mm A',
+            minDate: currentDate,
+            maxDate: deadlineDate
+        });
+    }
+
+    return {
+        init: function ($document) {
+            bindEvents($document);
+        }
+    };
+})();
+
 
 var TabsModule = (function () {
 
@@ -258,6 +280,7 @@ var UrlModule = (function () {
 $document.ready(function() {
     $(".best_in_place").best_in_place();
 
+    DateTimePickerModule.init($document);
     UrlModule.init($document);
     ModalsModule.init($document);
     TabsModule.init($document);
