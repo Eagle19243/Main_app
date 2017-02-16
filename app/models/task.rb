@@ -170,9 +170,9 @@ class Task < ActiveRecord::Base
       we_serve_fee = (total_after_bitgo_fee * 5)/100
       total_after_we_serve_fee = total_after_bitgo_fee - we_serve_fee
       each_team_member_fee = total_after_we_serve_fee / num_of_participants
-      transfer_to_user_wallet(we_serve_wallet, we_serve_fee)
+      transfer_to_user_wallet(we_serve_wallet, convert_btc_to_satoshi(we_serve_fee))
       team_members.each do |member|
-        transfer_to_user_wallet(member.team_member.user_wallet_address.sender_address, each_team_member_fee)
+        transfer_to_user_wallet(member.team_member.user_wallet_address.sender_address, convert_btc_to_satoshi(each_team_member_fee))
       end
     end
 
