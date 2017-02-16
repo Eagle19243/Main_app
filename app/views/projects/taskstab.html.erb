@@ -263,7 +263,9 @@
         ? $blockUserModal.find('.modal-default__title a').attr('href', revision.userLink).text(revision.user)
         : $blockUserModal.find('.modal-default__title a').attr('href', '#').text('Anonymous');
 
-    $blockUserModal.find('.btn-root._agree').attr('href', "/projects/<%= @project.id %>/block_user?username=" + revision.userName);
+      $blockUserModal.find('.btn-root._agree')
+        .data('project-id', "<%= @project.id %>")
+        .data('username', revision.userName);
   });
 
   // Compare revisions button click handler
