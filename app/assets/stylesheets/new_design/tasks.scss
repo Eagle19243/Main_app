@@ -559,6 +559,17 @@
 
 
 .project-summary {
+  font-size: 16px;
+  a {
+    color: #555;
+  }
+  h2 {
+    font-size: 2em;
+  }
+  ul,
+  ol {
+    font-size: 1em;
+  }
   p {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1em;
