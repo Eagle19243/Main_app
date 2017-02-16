@@ -230,7 +230,7 @@
                           <div class="deadline-group">
                               <div class="form-group">
                                   <%= form_for @task, :remote => true, html: {id: "task-update-deadline-form"} do |f| %>
-                                      <div class='input-group date' id='deadline_editor'>
+                                      <div class='input-group date deadline_picker'>
                                           <span class="input-group-addon">
                                               <span class="glyphicon glyphicon-calendar"></span>
                                           </span>
@@ -240,24 +240,15 @@
                                       <button class="btn-root" name="button" type="submit" id="task-update-deadline">update</button>
                                   <% end %>
                               </div>
-                              <script type="text/javascript">
-                                  $(function () {
-                                    currentDate = Date.now();
-                                    maxDate = currentDate + 3 * 2592000000; // 90 days
-
-                                      $('#deadline_editor').datetimepicker({
-                                          format: 'YYYY-MM-DD hh:mm A',
-                                          minDate: currentDate,
-                                          maxDate: maxDate
-                                      });
-                                  });
-                              </script>
                           </div>
                       <% else %>
                         <p><%= @task.deadline %></p>
                       <% end %>
                   </div>
 
+                    <script type="text/javascript">
+                        DateTimePickerModule.init($(document));
+                    </script>
               <!-- <h6>Funded :
                 <span class="light-blue">$<%= @task.current_fund + curent_bts_to_usd(@task.id) rescue 0.0 %></span> /
                 Needed : <span>$<%= @task.budget %></span></h6>
