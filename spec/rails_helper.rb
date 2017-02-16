@@ -7,6 +7,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'devise'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -52,5 +53,6 @@ RSpec.configure do |config|
   RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, type: :controller
     config.include DeviseSpecHelper, type: :requests
+    config.extend ControllerMacros, :type => :controller
   end
 end

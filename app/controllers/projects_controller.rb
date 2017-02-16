@@ -11,6 +11,11 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!, only: [:contacts_callback]
 
   # skip_authorization_check []
+  before_action :set_gon
+
+  def set_gon
+    @short_descr_limit = gon.short_descr_limit = Project::SHORT_DESCRIPTION_LIMIT
+  end
 
   def index
     if user_signed_in?
@@ -406,7 +411,6 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-
         if current_user.username
           # Create new page in wiki and this user will be the owner of this wiki page and project
           @project.page_write current_user, ''

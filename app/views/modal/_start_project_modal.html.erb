@@ -22,8 +22,9 @@
 
           <div class="f-default__row">
             <%= f.label :short_description, "Idea", error: 'Username is mandatory, please specify one', class: 'f-default__label' %>
-            <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'f-default__textarea', required: true %>
+            <%= f.text_area :short_description, size: "15x5", id: 'description-field', class: 'f-default__textarea', required: true, maxlength: @short_descr_limit %>
           </div>
+            <div id="textarea_feedback" style="padding-bottom: 10px;"><label class="f-default__label">Idea</label></div>
 
           <div class="f-default__row _location">
             <%= f.label :country, "Location (Where is project located?)", class: 'f-default__label' %>
