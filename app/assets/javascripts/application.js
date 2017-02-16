@@ -95,6 +95,38 @@ var TabsModule = (function () {
     };
 })();
 
+var RevisionModule = (function() {
+    function bindEvents($document) {
+        $document
+            .on('click.blockUser', '.revision-status-btn', function(e) {
+                e.preventDefault();
+
+                var $that = $(this),
+                    projectId = $that.data('project-id'),
+                    username = $that.data('username'),
+                    url = '/projects/' + projectId + ($that.hasClass('_block-user') ? '/block_user?username=' : '/unblock_user?username=') + username;
+
+                sessionStorage.setItem('revisionBlockOpen', JSON.stringify(true));
+
+                window.location.assign(window.location.origin + url);
+            })
+    }
+    function checkVisibilityRevisionBlock() {
+        if (JSON.parse(sessionStorage.getItem('revisionBlockOpen'))) {
+            setTimeout(function () {
+                $('#editSource').click();
+            });
+            sessionStorage.removeItem('revisionBlockOpen');
+        }
+    }
+    return {
+        init: function ($document) {
+            bindEvents($document);
+            checkVisibilityRevisionBlock();
+        }
+    };
+})();
+
 var ModalsModule = (function () {
 
     var modalsArr = ["#team", "#suggested_task_popup", "#myModal2", ".modal-default", "#popup-for-free-paid", "#modalVerification", "#registerModal"]; // todo try to remove this
@@ -261,6 +293,7 @@ $document.ready(function() {
     UrlModule.init($document);
     ModalsModule.init($document);
     TabsModule.init($document);
+    RevisionModule.init($document);
 });
 
 // enhance Turbolinks when necessary

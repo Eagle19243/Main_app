@@ -56,11 +56,11 @@
           </td>
           <td>
             <% if history['is_blocked'] == 0 %>
-              <a href="javascript:void(0)" class='block-user' data-modal="#blockUserModal">
+              <a class='block-user' data-modal="#blockUserModal">
                 <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
               </a>
             <% else %>
-              <a href="/projects/<%= project.id %>/unblock_user?username=<%= history['username'] %>" class='unblock-user'>
+              <a data-username="<%= history['username'] %>" data-project-id="<%= project.id %>" class='revision-status-btn unblock-user'>
                 <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Unblock
               </a>
             <% end %>
