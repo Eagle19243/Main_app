@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20170219133521) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -247,6 +246,7 @@ ActiveRecord::Schema.define(version: 20170219133521) do
     t.string   "source_model_type"
     t.integer  "origin_user_id"
     t.boolean  "read",              default: false
+    t.integer  "action_type"
     t.string   "action_type"
   end
 

@@ -1,0 +1,61 @@
+require 'rails_helper'
+
+feature 'Notification After rejected a task', js: true, vcr: { cassette_name: 'bitgo' } do
+  before do
+    users = create_list(:user, 2, :confirmed_user)
+    @project_leader = users.first
+    @regular_user = users.last
+    @project = create(:project, user: @project_leader)
+    @suggested_task = create(:task, :suggested, project: @project, user: @regular_user)
+  end
+
+  context 'as project leader' do
+    before do
+      login_as(@project_leader, scope: :user, run_callbacks: false)
+      visit taskstab_project_path(@project, tab: 'Tasks')
+    end
+
+    context 'delete a task' do
+      before do
+        find('button', text: 'Delete').click
+        find('#removeTask').click_button('Ok')
+        wait_for_ajax
+      end
+
+      context 'other users' do
+        scenario 'no notification has been created' do
+          expect(@regular_user.notifications.count).to be_zero
+        end
+      end
+
+      context 'project leader' do
+        scenario 'a new notification has been created' do
+          expect(@project_leader.notifications.last.rejected_task?).to be_truthy
+        end
+
+        scenario 'notification creates an alert on the top menu' do
+          expect(page).to have_selector('.btn-bell__counter')
+        end
+
+        context "navigate to 'Notifications' page" do
+          before do
+            find('.notify-dropdown').click
+            wait_for_ajax
+
+            @dropdown = find('.b-dropdown', visible: true)
+
+            @dropdown.find('.b-dropdown__link').click_link 'See All Notifications'
+          end
+
+          scenario 'see the notification' do
+            expect(page).to have_content "You have rejected a task named #{@suggested_task.title}"
+          end
+
+          scenario 'number of unread notifications has been disappeared on the alert' do
+            expect(page).to have_no_selector('.btn-bell__counter')
+          end
+        end
+      end
+    end
+  end
+end

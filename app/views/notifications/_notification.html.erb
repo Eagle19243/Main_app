@@ -1,6 +1,6 @@
-<%- if notification.source_model.present? %>
+<%- if notification.source_model.present? || notification.action == 'rejected_task' %>
   <%= render partial: "notifications/#{notification.source_model_type.underscore}/#{notification.action}",
-             layout: "notification_layout",
-             locals: { notification: notification }
-  %>
+               layout: "notification_layout",
+               locals: { notification: notification }
+    %>
 <%- end %>

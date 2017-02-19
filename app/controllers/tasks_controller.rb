@@ -259,14 +259,11 @@ class TasksController < ApplicationController
 
   def reject
     if @task.reject!
-      @notice = "Task Rejected"
+      flash[:notice] = "Task #{@task.title} has been rejected"
+      NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
       @task.destroy
     else
-      @notice = "Task was not Rejected "
-    end
-    respond_to do |format|
-      format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      flash[:notice] = "Task was not rejected"
     end
   end
 

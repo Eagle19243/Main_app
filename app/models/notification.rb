@@ -20,6 +20,7 @@ class Notification < ActiveRecord::Base
       :accept_apply_request,
       :reject_apply_request,
       :follow_project,
+      :rejected_task
   ]
 
   enum action_type: [:text, :operatable]

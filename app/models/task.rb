@@ -37,19 +37,22 @@ class Task < ActiveRecord::Base
     event :accept do
       transitions :from => [:pending, :suggested_task], :to => :accepted
     end
+
     event :reject do
       transitions :from => [:pending, :suggested_task], :to => :rejected
     end
+
     event :start_doing do
       transitions :from => [:accepted, :pending], :to => :doing
     end
+
     event :begin_review do
       transitions :from => [:doing], :to => :reviewing
     end
+
     event :complete do
       transitions :from => [:reviewing], :to => :completed
     end
-
   end
 
   #validates :proof_of_execution, presence: true
@@ -211,9 +214,9 @@ class Task < ActiveRecord::Base
     users = self.project.team.team_memberships.where(role: 3 ).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
+
   def is_team_member( user_id )
     users = self.project.team.team_memberships.collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
-
 end

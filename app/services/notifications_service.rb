@@ -1,5 +1,4 @@
 class NotificationsService
-
   def self.notify_team_member_about_admin_permissions(team_membership)
     self.notify_about_admin_permissions(team_membership.team.project, team_membership.team_member)
   end
@@ -61,6 +60,10 @@ class NotificationsService
 
   def self.notify_about_suggested_task(task)
     self.create_notification(task, task.project.user, Notification.actions[:suggested_task], task.user, "operatable")
+  end
+
+  def self.notify_about_rejected_task(task)
+    self.create_notification(task, task.project.user, Notification.actions[:rejected_task], task.user, "operatable")
   end
 
   def self.notify_about_pending_do_request(do_request)

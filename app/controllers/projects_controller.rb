@@ -210,21 +210,25 @@ class ProjectsController < ApplicationController
       flash.discard(:notice)
       session[:email] = nil
     end
+
     if session[:email_failure] == "failure_email"
       flash[:notice] = "No, Project invitation Email was sent to your Friends!"
       flash.discard(:notice)
       session[:email_failure] = nil
     end
+
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
     @followed = false
     @rate = 0
+
     if user_signed_in?
       @followed = @project.project_users.pluck(:user_id).include? current_user.id
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
+
     tasks = @project.tasks.all
     @tasks_count =tasks.count
     @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
@@ -235,11 +239,13 @@ class ProjectsController < ApplicationController
     # @done_tasks = tasks.where(state: "completed").all
     @contents = ''
     @is_blocked = 0
+
     if current_user
       result = @project.page_read current_user.username
     else
       result = @project.page_read nil
     end
+
     if result
       if result["status"] == 'success'
         @contents = result["html"]

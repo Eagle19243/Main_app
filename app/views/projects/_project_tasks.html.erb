@@ -324,7 +324,7 @@
             currentTaskUrl = $(this).data('deleteUrl');
         })
         .on('click.agreeRemoveTask', '#removeTask ._agree', function () {
-            $.get(currentTaskUrl, function( data ) {
+            $.get(currentTaskUrl, function(data) {
                 window.location.reload();
             });
         })

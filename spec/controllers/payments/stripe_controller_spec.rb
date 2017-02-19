@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
   render_views
 
-  let(:task) { FactoryGirl.create(:task_with_associations) }
+  let(:task) { FactoryGirl.create(:task, :with_associations) }
   let(:user) { task.user }
   let(:project) { task.project }
 
@@ -13,7 +13,7 @@ RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
 
   describe '#new' do
     subject(:make_request) { get(:new, id: task.id, project_id: project.id) }
-    
+
     context 'when the user is not signed' do
       it 'redirects to sign in' do
         make_request

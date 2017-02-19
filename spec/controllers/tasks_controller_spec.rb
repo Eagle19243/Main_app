@@ -42,7 +42,7 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
 
   describe '#update' do
     let(:existing_task) do
-      FactoryGirl.create(:task_with_associations, project: project, user: user)
+      FactoryGirl.create(:task, :with_associations, project: project, user: user)
     end
 
     let(:update_params) do
@@ -78,7 +78,7 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
 
   describe '#reject' do
     let(:existing_task) do
-      FactoryGirl.create(:task_with_associations, project: project, user: user)
+      FactoryGirl.create(:task, :with_associations, project: project, user: user)
     end
 
     it 'deletes task' do
@@ -100,7 +100,7 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
 
   describe "#accept" do
     let(:existing_task) do
-      FactoryGirl.create(:task_with_associations, project: project, user: user)
+      FactoryGirl.create(:task, :with_associations, project: project, user: user)
     end
 
     it 'accepts the task' do
