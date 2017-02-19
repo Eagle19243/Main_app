@@ -217,6 +217,7 @@ class ProjectsController < ApplicationController
       session[:email_failure] = nil
     end
 
+    @available_credit_cards = Payments::StripeSources.new.call(user: current_user) if current_user
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
