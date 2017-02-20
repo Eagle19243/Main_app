@@ -89,6 +89,6 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 
 # Troubleshooting
 
-* To be added
+* To be added..
 
 -
