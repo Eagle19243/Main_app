@@ -1,15 +1,9 @@
 @import '../new_design/variables';
 
-div.modal-task { // todo FD: remove div : now I need this because of huge amount !important's in code
-  top: 0 !important; // todo FD: remove when modals will be refactored : I see top 100px !important without any reason
-}
-
 .modal-task {
   font-size: 0;
   background-color: rgba(74, 73, 74, 0.7);
   text-align: center;
-  overflow-y: auto !important; // todo remove important when remove all ugly styles for modal
-  overflow-x: hidden;
   padding: 80px 20px; // TODO why it is possible to see header when modal is open?
   display: none;
   position: fixed;
@@ -61,27 +55,6 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
         height: 40px;
         font-family: Roboto, sans-serif;
       }
-      button[type="submit"],
-      button[type="reset"] {
-        height: 40px;
-        line-height: 40px;
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
-        margin: 0 10px;
-        padding: 0;
-        width: 100px;
-        border: 2px solid #000;
-        border-radius: 60px;
-        text-transform: uppercase;
-      }
-      button[type="submit"] {
-        background-color: #fff;
-        color: #000;
-      }
-      button[type="reset"] {
-        background-color: #000;
-        color: #fff;
-      }
     }
   }
   &__content-side {
@@ -89,7 +62,6 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
     padding-right: 40px;
     max-width: calc(100% - 380px);
     p {
-      word-break: break-all;
       word-break: break-word;
     }
 
@@ -125,15 +97,36 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
     margin-bottom: 20px;
   }
 
+  &__task-info {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    &._hide {
+      display: none;
+    }
+  }
+
+  &__form {
+    &._hide {
+      display: none;
+    }
+  }
+
+  .js-toggleForm {
+    min-height: 21px;
+
+    &._hide {
+      display: none;
+    }
+  }
+
   .modal-default__title {
     display: inline;
     vertical-align: middle;
     margin: 0;
   }
-  ._form-open .modal-default__title,
-  ._form-open .task-proof {
-    display: none !important; // todo remove when remove all unnecessary js
-  }
+
   .btn-edit {
     display: inline-block;
     vertical-align: middle;
@@ -158,9 +151,6 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
 
   &__desc-block {
     margin-bottom: 10px;
-    .btn-edit {
-      float: right;
-    }
     h4 {
       font-family: 'Roboto', sans-serif;
       font-weight: 500;
@@ -169,19 +159,10 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
       line-height: 32px;
       margin-top: 0;
     }
-    p {
-      font-family: 'Libre Franklin', sans-serif;
-      font-size: 14px;
-      color: #555;
-      line-height: 1.5;
-    }
   }
 
 
   // todo styles below should be checked
-  .approve-link+.approve-link {
-    margin-top: 15px;
-  }
   &__controls-side {
     border-left: none;
 
@@ -195,33 +176,23 @@ div.modal-task { // todo FD: remove div : now I need this because of huge amount
         width: calc(50% - 4px);
       }
 
-      .card-report {
-        table {
+      .modal-task__card {
+        &-values,
+        &-titles {
+          display: flex;
           width: 100%;
         }
-
-        tbody {
-          tr td {
-            padding: 0 !important;
-            text-align: left;
-            line-height: 20px !important;
-            padding: 0 5px !important;
-          }
-          tr.value {
-            td {
-              font-family: 'Libre Franklin', sans-serif;
-              color: #333 !important;
-              font-size: 1em !important;
-              font-weight: bold;
-            }
-          }
-          tr.items {
-            td {
-              font-family: 'Libre Franklin', sans-serif;
-              color: $grey-clr !important;
-              font-size: 0.9em !important;
-              text-align: left;
-            }
+        &-value {
+          font-family: 'Libre Franklin', sans-serif;
+          color: $grey-clr;
+          width: 33.333%;
+          font-size: 0.9em;
+          padding: 0 20px;
+          text-align: left;
+          &._data {
+            color: #333;
+            font-size: 1em;
+            font-weight: bold;
           }
         }
       }

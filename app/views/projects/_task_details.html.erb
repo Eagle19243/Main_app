@@ -50,37 +50,35 @@
     <div class="task-details">
         <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
-          <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
-          <% if user_signed_in? %>
-            <% if can? :update, @task %>
-              <a href="#" id="edit-title" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-              <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "hide-input"} do |f| %>
-                  <%= f.text_field :title, id: "input-task-title" %>
-                  <button name="button" type="submit" id="task-update-title">save</button>
-                  <button type="reset" id="cancel-title">cancel</button>
-              <% end %>
+          <% if user_signed_in? && can?(:update, @task) %>
+            <h2 class="modal-default__title js-toggleForm" id="task-title"><%= @task.title %></h2>
+            <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "modal-task__form _hide"} do |f| %>
+              <%= f.text_field :title, id: "input-task-title" %>
+              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">save</button>
+              <button class="btn-root task-details__close-btn">cancel</button>
             <% end %>
+          <% else %>
+            <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
           <% end %>
         </div>
 
         <div class="modal-task__flex">
           <div class="modal-task__content-side">
 
-            <% if user_signed_in? && (can? :update, @task) %>
+            <% if user_signed_in? && can?(:update, @task) %>
 
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
                     <h4>Task Description</h4>
                     <%if @task.doing? || @task.reviewing? || @task.completed? %>
                         <a href="#" id="openEditTaskWarning" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <p class="task-proof" id="task-description"><%= @task.description %></p>
+                        <p class="modal-task__task-info js-toggleForm" id="task-description"><%= @task.description %></p>
                     <%else %>
-                        <a href="#" id="edit-description" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <p class="task-proof" id="task-description"><%= @task.description %></p>
-                        <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "hide-input"} do |f| %>
+                        <p class="modal-task__task-info js-toggleForm" id="task-description"><%= @task.description %></p>
+                        <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "modal-task__form _hide"} do |f| %>
                             <%= f.text_area :description, id: "input-task-description" %>
-                            <button name="button" type="submit" id="task-update-description">save</button>
-                            <button type="reset" id="cancel-description">cancel</button>
+                            <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-description">save</button>
+                            <button class="btn-root task-details__close-btn" id="cancel-description">cancel</button>
                         <% end %>
                     <% end %>
 
@@ -88,23 +86,21 @@
 
                   <div class="modal-task__desc-block">
                     <h4>Condition of Execution</h4>
-                    <a href="#" id="edit-condition" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    <p class="task-proof" id="task-condition"><%= @task.condition_of_execution %></p>
-                    <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "hide-input"} do |f| %>
+                    <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
+                    <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
-                        <button name="button" type="submit" id="task-update-condition">save</button>
-                        <button type="reset" id="cancel-condition">cancel</button>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition">save</button>
+                        <button class="btn-root task-details__close-btn" id="cancel-condition">cancel</button>
                     <% end %>
                   </div>
 
                   <div class="modal-task__desc-block">
                     <h4>Proof of Execution</h4>
-                    <a href="#" id="edit-proof" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    <p class="task-proof" id="task-proof"><%= @task.proof_of_execution %></p>
-                    <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "hide-input"} do |f| %>
+                    <p class="modal-task__task-info js-toggleForm" id="task-proof"><%= @task.proof_of_execution %></p>
+                    <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :proof_of_execution, id: "input-task-proof" %>
-                        <button name="button" type="submit" id="task-update-proof">save</button>
-                        <button type="reset" id="cancel-proof">cancel</button>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof">save</button>
+                        <button class="btn-root task-details__close-btn" id="cancel-proof">cancel</button>
                     <% end %>
                     <hr>
                   </div>
@@ -191,21 +187,23 @@
                     </div>
                   </div>
 
-                  <div class="card-report">
-                    <table>
-                      <tr class="value">
-                        <td><%= @task.funded %></td>
-                        <!--<td><%#= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>-->
-                        <td><%= @task.number_of_participants %>/<%= @task.target_number_of_participants %></td>
-                        <td><%= convert_satoshi_to_btc(@task.current_fund) %></td>
-                      </tr>
-                      <tr class="items">
-                        <td>Funded</td>
-                        <!--<td>Team</td>-->
-                        <td>Teammates</td>
-                        <td>Raised</td>
-                      </tr>
-                    </table>
+                  <div class="modal-task__card">
+                    <div class="modal-task__card-values">
+                        <div class="modal-task__card-value _data">
+                            <%= @task.funded %>
+                        </div>
+                        <div class="modal-task__card-value _data">
+                            <%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>
+                        </div>
+                        <div class="modal-task__card-value _data">
+                            <%= convert_satoshi_to_btc(@task.current_fund) %>
+                        </div>
+                    </div>
+                    <div class="modal-task__card-titles">
+                        <div class="modal-task__card-value">Funded</div>
+                        <div class="modal-task__card-value">Teammates</div>
+                        <div class="modal-task__card-value">Raised</div>
+                    </div>
                   </div>
 
                   <div class="team-block mb30">
@@ -269,12 +267,6 @@
                         Approve
                       </a>
                   <% end %>
-                  <% if user_signed_in? && (can? :destroy, @task) %>
-                      <button type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' class='approve-link' data-modal="#removeTask">
-                          <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;
-                          Delete Task
-                      </button>
-                  <% end %>
                   <% if user_signed_in? %>
                     <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) %>
                       <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
@@ -318,9 +310,10 @@
 
                     <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share</button>
                     <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
+
                     <% if user_signed_in? && (can? :destroy, @task) %>
                         <%= link_to @task, method: :delete, data: {confirm: 'Are you sure?'} do %>
-                            <button>
+                            <button class= 'delete-task' type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' data-modal="#removeTask">
                               <i class="fa fa-trash-o" aria-hidden="true"></i>
                               Delete Task
                             </button>

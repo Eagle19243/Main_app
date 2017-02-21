@@ -1,301 +1,181 @@
-$("#product-modal").html("<%= escape_javascript(render :partial => 'task_details') %>")
-ModalsModule.openModal("#myModal");
-ModalsModule.togglePreloader(false);
-setTimeout(function () {UrlModule.enableCardClick();},0)
 $(document).ready(function() {
-  jQuery(".best_in_place").best_in_place();
-});
-$('#openEditBudgetPopup').click(function(){
-  $('#editBudgetPopup').show();
+
+    // Delete events after popup was closed and opens again
+    $(document).off('click.showBudgetPopup', '#openEditBudgetPopup');
+    $(document).off('submit.sendRequest', '#Do-request-form');
+    $(document).off('click.deleteAttachment', "a[name='delete_attachment']");
+    $(document).off('click.showModal', '#teambtn');
+    $(document).off('click.hideModal', '#teamclose');
+    $(document).off('click.inputFile', '.fa-paperclip, .attachment');
+    $(document).off('click.commentAttachment', '#task-comment-attachment-icon');
+    $(document).off('change.setValue', '#task-comment-attachment');
+    $(document).off('change.uploadBtnClick', 'input[id^=file]');
+    $(document).off('click.hideUploadBtn', '#upload-button');
+    $(document).off('keypress.saveTaskData', '.modal-task__form');
+    $(document).off('click.openForm', '.js-toggleForm');
+    $(document).off('click.closeForm', '.task-details__close-btn, .task-details__save-btn');
+    $(document).off('click.hideModal', '.modal-default__close');
+    $(document).off('click.hideModal', '.modal-default');
+    $(document).off('click.closeInviteModal', '#InviteModel');
+    $(document).off('click.closeInviteModal', '#inviteclose');
+    $(document).off('click.openShareModal', '#sharebtn');
+    $(document).off('click.openEditTask', '#openEditTaskWarning');
+
+    $('#product-modal').html("<%= escape_javascript(render :partial => 'task_details') %>");
+    ModalsModule.openModal('#myModal');
+    ModalsModule.togglePreloader(false);
+    setTimeout(function () {
+        UrlModule.enableCardClick();
+    }, 0)
+    $('.best_in_place').best_in_place();
+
+    $(document).on('click.showBudgetPopup', '#openEditBudgetPopup', function(){
+      $('#editBudgetPopup').show();
+    });
+
+    $(document).on('submit.sendRequest', '#Do-request-form', function () {
+      $('#Do-request-form-response').html(" Requesting ...");
+    });
+
+    // $("#comment-form").submit(function () {}); // todo Delete if it unused
+
+    $(document).on('click.deleteAttachment', "a[name='delete_attachment']", function () {
+      var id = $(this).attr('id')
+      $.ajax({
+        url: "/task_attachments/destroy_attachment",
+        type: "post", //send it through get method
+        data: {id: id},
+        success: function (response) {
+          if (response == true) {
+            location.reload();
+          }
+          else {
+            alert('You are not authorized  to remove');
+          }
+        },
+        error: function (xhr) {
+          alert('You are not authorized  to remove');
+        }
+      });
+    });
+
+    <%#  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_memberships.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
+
+    $('input[id^=file]').hide();
+
+    $(document).on('click.inputFile', '.fa-paperclip, .attachment', function () {
+      $(this).closest('form').find('input[id^=file]').click();
+    });
+
+    $(document).on('click.commentAttachment', '#task-comment-attachment-icon', function () {
+      $('#task-comment-attachment').click();
+    });
+
+    $(document).on('change.setValue', '#task-comment-attachment', function () {
+      var x = $(this).val();
+
+      $('#attachment-div').html(x)
+    });
+
+    $('#upload-button').hide();
+
+    $(document).on('change.uploadBtnClick', 'input[id^=file]', function () {
+      $('#upload-button').click();
+    });
+
+    $(document).on('click.hideUploadBtn', '#upload-button', function () {
+      $('#upload-button').hide();
+    });
+
+    <% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id ||  current_user.id == @task.project.user_id )) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
+
+    $(document).on('keypress.saveTaskData', '.modal-task__form', function(e) {
+        if (e.which === 13) {
+            var $that = $(this);
+                $currentTitle = $that.siblings('.js-toggleForm'),
+                $saveBtn = $that.find('.task-details__save-btn');
+
+            $saveBtn.click();
+            $that.addClass('_hide');
+            $currentTitle.removeClass('_hide');
+        }
+    });
+
+    $(document).on('click.openForm', '.js-toggleForm', function () {
+        var $that = $(this),
+            $form = $that.siblings('.modal-task__form');
+
+        if (!$form.length) return;
+
+        $that.siblings('.modal-task__task-info').toggleClass('_hide');
+
+        $that.toggleClass('_hide');
+        $form.toggleClass('_hide');
+    });
+
+    $(document).on('click.closeForm', '.task-details__close-btn, .task-details__save-btn', function() {
+        var $that = $(this),
+            $form = $that.parent('form');
+
+        $form.siblings('.js-toggleForm').removeClass('_hide');
+        $form.addClass('_hide');
+    });
+
+    <% end  %>
+
+    $(document).on('click.hideModal', '.modal-default__close', function (e) {
+        $(this).parents('.modal-default').fadeOut();
+    });
+
+    $(document).on('click.hideModal', '.modal-default', function (e) {
+        if (e.target == this) {
+          $(this).fadeOut();
+        }
+    });
+
+    // When the user clicks on black area, close the modal
+    $(document).on('click.closeInviteModal', '#InviteModel', function (e) {
+        if (e.target === this) {
+            $('#InviteModel').fadeOut();
+        }
+    });
+
+    // When the user clicks on <span> (x), close the modal
+    $(document).on('click.closeInviteModal', '#inviteclose', function (e) {
+        $('#InviteModel').fadeOut();
+    });
+
+    // When the user clicks the button, open the modal
+    $(document).on('click.openShareModal', '#sharebtn', function () {
+        $('#share').fadeIn();
+    });
+
+    $(document).on('click.openEditTask', '#openEditTaskWarning', function() {
+     $('#EditTaskWarning').fadeIn();
+    });
+
+    $(document).on('click.showModal', '#teambtn', function () {
+        $('#team').show();
+    });
+
+    $(document).on('click.hideModal', '#teamclose', function () {
+        $('#team').hide();
+    });
+
+    // function that processes your ajax calls...
+    (function callAjax() {
+      $.ajax({
+        url: "/projects/get_activities",
+        type: "get",
+        data: {id: <%= @task.id %>},
+        success: function () {
+          setTimeout(callAjax, 15000);
+        }
+      });
+    })();
 });
 
-//$("#close").click(function () {
-//  $("#product-modal").html("");
-//});
-$("#Do-request-form").submit(function () {
-  $('#Do-request-form-response').html(" Requesting ...")
-});
-$("#comment-form").submit(function () {});
-$(".attachments").on('click.delete_attachment', "a[name='delete_attachment']", function () {
-  var id = $(this).attr('id')
-  $.ajax({
-    url: "/task_attachments/destroy_attachment",
-    type: "post", //send it through get method
-    data: {id: id},
-    success: function (response) {
-      if (response == true) {
-        location.reload();
-      }
-      else {
-        alert('You are not authorized  to remove');
-      }
-    },
-    error: function (xhr) {
-      alert('You are not authorized  to remove');
-    }
-  });
-});
-
-<%#  if user_signed_in? && (  ((current_user.id == @task.project.user_id || ( @task_memberships.collect(&:team_member_id).include? current_user.id)) && ( @task.pending? || @task.accepted?)) || ( current_user.id == @task.user_id && @task.suggested_task? )) %>
-$('input[id^=file]').hide();
-$('.fa-paperclip, .attachment').click(function () {
-  //console.log(this);
-  $(this).closest('form').find('input[id^=file]').click();
-})
-
-$('#task-comment-attachment-icon').click(function () {
-  $('#task-comment-attachment').click();
-})
-$('#task-comment-attachment').change(function () {
-  var x = $('#task-comment-attachment').val();
-  $('#attachment-div').html(x)
-});
-
-$("#upload-button").hide();
-$("input[id^=file]").change(function () {
-  $("#upload-button").click();
-})
-$("#upload-button").click(function () {
-  $("#upload-button").hide();
-})
-<% if user_signed_in? && ((@task.suggested_task? && (current_user.id == @task.user_id ||  current_user.id == @task.project.user_id )) || (@task.is_executer(current_user.id) || current_user.id == @task.project.user_id)) %>
 
 
-$("#task-title").dblclick(function () {
-  $(this).hide();
-  $("#task-update-title-form").show();
-  $("#input-task-title").show();
-  $("#task-update-title").show();
-  $("#task-update-title").next().show();
 
-});
-$("#task-description").dblclick(function () {
-  $(this).hide();
-  $("#task-update-description-form").show();
-  $("#input-task-description").show();
-  $("#task-update-description").show();
-  $("#task-update-description").next().show();
 
-});
-$("#task-condition").dblclick(function () {
-  $(this).hide();
-  $("#task-update-condition-form").show();
-  $("#input-task-condition").show();
-  $("#task-update-condition").show();
-  $("#task-update-condition").next().show();
-
-});
-$("#task-proof").dblclick(function () {
-  $(this).hide();
-  $("#task-update-proof-form").show();
-  $("#input-task-proof").show();
-  $("#task-update-proof").show();
-  $("#task-update-proof").next().show();
-
-});
-
-$('#input-task-title').keypress(function (e) {
-  if (e.which == 13) {
-    $("#task-update-title").click();
-    $("#task-update-title-form").hide();
-    $("#task-title").show();
-  }
-});
-$('#input-task-description').keypress(function (e) {
-  if (e.which == 13) {
-    $("#task-update-description").click();
-    $("#task-update-description-form").hide();
-    $("#task-description").show();
-  }
-});
-$('#input-task-proof').keypress(function (e) {
-  if (e.which == 13) {
-    $("#task-update-proof").click();
-    $("#task-update-proof-form").hide();
-    $("#task-proof").show();
-  }
-});
-$('#input-task-condition').keypress(function (e) {
-  if (e.which == 13) {
-    $("#task-update-condition").click();
-    $("#task-update-condition-form").hide();
-    $("#task-condition").show();
-  }
-});
-
-// todo rewrite all this file it can be 2X smaller and simpler
-$("#edit-title").on('click.openForm', function () {
-  $(this).hide();
-  $("#task-update-title").show();
-  $('#input-task-title').show();
-  $("#task-update-title-form").show();
-  $("#cancel-title").show();
-
-  $(this).parents('.modal-task__title-wrap').addClass('_form-open');
-});
-$("#edit-proof").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#task-update-proof").show();
-  $('#input-task-proof').show();
-  $("#task-update-proof-form").show();
-  $("#task-proof").show();
-  $("#cancel-proof").show();
-  $that.parents('.modal-task__desc-block').addClass('_form-open');
-});
-$("#edit-description").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#task-update-description").show();
-  $('#input-task-description').show();
-  $("#task-update-description-form").show();
-  $("#task-description").show();
-  $("#cancel-description").show();
-  $("#cancel-description").show();
-  $that.parents(".modal-task__desc-block").addClass('_form-open');
-});
-$("#edit-condition").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#task-update-condition").show();
-  $('#input-task-condition').show();
-  $("#task-update-condition-form").show();
-  $("#task-condition").show();
-  $("#cancel-condition").show();
-  $that.parents(".modal-task__desc-block").addClass('_form-open');
-});
-$("#cancel-title").on('click.closeForm', function () {
-  $(this).hide();
-  $("#task-update-title").hide();
-  $('#input-task-title').hide();
-  $("#task-update-title-form").hide();
-  $('#edit-title').show();
-
-  $(this).parents('.modal-task__title-wrap').removeClass('_form-open');
-});
-$("#cancel-proof").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#task-update-proof").hide();
-  $('#input-task-proof').hide();
-  $("#task-update-proof-form").hide();
-  $("#task-proof").show();
-  $("#edit-proof").show();
-  $that.parents(".modal-task__desc-block").removeClass('_form-open');
-});
-$("#cancel-description").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#task-update-description").hide();
-  $('#input-task-description').hide();
-  $("#task-update-description-form").hide();
-  $("#task-description").show();
-  $("#edit-description").show();
-  $that.parents(".modal-task__desc-block").removeClass('_form-open');
-});
-$("#cancel-condition").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#task-update-condition").hide();
-  $('#input-task-condition').hide();
-  $("#task-update-condition-form").hide();
-  $("#task-condition").show();
-  $("#edit-condition").show();
-  $that.parents('.modal-task__desc-block').removeClass('_form-open');
-});
-$("#task-update-title").on('click.closeForm', function () {
-  $(this).hide();
-  $("#cancel-title").hide();
-  $('#input-task-title').hide();
-  $("#task-update-title-form").hide();
-  $('#edit-title').show();
-
-  $(this).parents('.modal-task__title-wrap').removeClass('_form-open');
-});
-$("#task-update-proof").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#cancel-proof").hide();
-  $('#input-task-proof').hide();
-  $("#task-update-proof-form").hide();
-  $("#task-proof").show();
-  $("#edit-proof").show();
-  $that.parents(".modal-task__desc-block").removeClass('_form-open');
-});
-$("#task-update-description").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#cancel-description").hide();
-  $('#input-task-description').hide();
-  $("#task-update-description-form").hide();
-  $("#task-description").show();
-  $("#edit-description").show();
-  $that.parents(".modal-task__desc-block").removeClass('_form-open');
-});
-$("#task-update-condition").on('click', function () {
-  var $that = $(this);
-  $that.hide();
-  $("#cancel-condition").hide();
-  $('#input-task-condition').hide();
-  $("#task-update-condition-form").hide();
-  $("#task-condition").show();
-  $("#edit-condition").show();
-  $that.parents('.modal-task__desc-block').removeClass('_form-open');
-});
-<% end  %>
-$(document).on('click', ".modal-default__close",function (e) {
-  $(this).parents('.modal-default').fadeOut();
-});
-$(document).on('click', ".modal-default",function (e) {
-    if (e.target == this) {
-      $(this).fadeOut();
-    }
-});
-
-var $modalInvite = $('#InviteModel');
-// When the user clicks on black area, close the modal
-$modalInvite.on('click.closeInviteModal', function (e) {
-    if (e.target === this) {
-        $modalInvite.fadeOut();
-    }
-});
-// When the user clicks on <span> (x), close the modal
-$('#inviteclose').on('click.closeInviteModal', function (e) {
-    $modalInvite.fadeOut();
-});
-
-var $modalShare = $('#share');
-// When the user clicks the button, open the modal
-$('#sharebtn').on('click.openShareModal', function () {
-    $modalShare.fadeIn();
-});
-$('#openEditTaskWarning').click(function() {
- $('#EditTaskWarning').fadeIn();
-});
-var modalteam = document.getElementById('team');
-// Get the button that opens the modal
-var btnteam = document.getElementById("teambtn");
-// Get the <span> element that closes the modal
-var spanteam = document.getElementById("teamclose");
-btnteam.onclick = function () {
-  modalteam.style.display = "block";
-}
-spanteam.onclick = function () {
-  modalteam.style.display = "none";
-}
-
-$(function () {
-  callAjax();
-});
-
-// function that processes your ajax calls...
-function callAjax() {
-  $.ajax({
-    url: "/projects/get_activities",
-    type: "get",
-    data: {id: <%= @task.id %>},
-    success: function () {
-      setTimeout(callAjax, 15000);
-    }
-  });
-}

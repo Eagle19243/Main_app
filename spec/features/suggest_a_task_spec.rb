@@ -34,7 +34,7 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
         end
 
         scenario "Then the 'Suggest a task' link is the area" do
-          expect(@task_area).to have_selector("#suggest-new-task")          
+          expect(@task_area).to have_selector("#suggest-new-task")
         end
 
         context "When you click 'Suggest a task' link" do
@@ -104,7 +104,7 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
                   end
 
                   scenario "Then 'Delete task' button exists in the modal" do
-                    expect(@task_modal).to have_selector("button.approve-link")
+                    expect(@task_modal).to have_selector("button.delete-task")
                   end
 
                   scenario "Then 'Approve' button does not exist in the modal" do
@@ -153,7 +153,7 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
         end
 
         scenario "Then the 'Suggest a task' link is the area" do
-          expect(@task_area).to have_selector("#suggest-new-task")          
+          expect(@task_area).to have_selector("#suggest-new-task")
         end
 
         context "When you click 'Suggest a task' link" do
@@ -223,7 +223,7 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
                   end
 
                   scenario "Then 'Delete task' button exists in the modal" do
-                    expect(@task_modal).to have_selector("button.approve-link")
+                    expect(@task_modal).to have_selector("button.delete-task")
                   end
 
                   scenario "Then 'Approve' button exists in the modal" do
