@@ -8,7 +8,9 @@ RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
   let(:project) { task.project }
 
   before do
-    allow_any_instance_of(User).to receive(:assign_address).and_return(UserWalletAddress.create(sender_address: nil, user_id: user.id))
+    allow_any_instance_of(User).to receive(:assign_address).and_return(
+      UserWalletAddress.create(sender_address: nil, user_id: user.id)
+    )
   end
 
   describe '#new' do

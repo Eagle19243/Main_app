@@ -58,11 +58,12 @@ module ApplicationHelper
   end
 
   def get_reserve_wallet_balance
-    access_token = we_serve_wallet
+    reserve_wallet_id = ENV['reserve_wallet_id'].to_s.strip
+    return 0 if reserve_wallet_id.blank?
+
     api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-    wallet = ENV['reserve_wallet_id'].strip
-    response = api.get_wallet(wallet_id: wallet , access_token: access_token)
-    response["balance"]
+    wallet = api.get_wallet(wallet_id: reserve_wallet_id , access_token: we_serve_wallet)
+    wallet["balance"]
   end
 
   def convert_usd_to_btc_and_then_satoshi(usd)

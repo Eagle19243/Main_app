@@ -49,6 +49,7 @@ RSpec.configure do |config|
     Warden.test_reset!
   end
   config.include SpecTestHelpers
+  config.include StubEnv::Helpers
 
   RSpec.configure do |config|
     config.include Devise::Test::ControllerHelpers, type: :controller
