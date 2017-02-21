@@ -56,10 +56,13 @@
         <% end %>
       </div>
       <% if current_user %>
-          <div class="section-add-task">
-            <a id="suggest-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest
-              a Task</a>
-          </div>
+        <div class="section-add-task">
+            <a id="suggest-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
+        </div>
+      <% else %>
+        <div class="section-add-task">
+            <a class="sign_up_a" data-modal="#registerModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
+        </div>
       <% end %>
     </div>
   </div>
