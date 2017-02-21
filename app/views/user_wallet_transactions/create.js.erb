@@ -3,3 +3,9 @@ $('#response-from-wallet').html("<%= @msg %>");
 $("#wallet_transaction_user_wallet").val('');
 $("#wallet_transaction_amount").val('');
 $('#save-wallet-teansaction').disabled = false ;
+
+if (<%= @transfer.save! %>) {
+    $('#taskFundModal').hide();
+    $('html').removeClass('_open-modal');
+    $('#thankYouFundModal').show();
+}
