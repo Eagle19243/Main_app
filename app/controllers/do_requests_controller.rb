@@ -34,13 +34,14 @@ class DoRequestsController < ApplicationController
           @msg="You become Member of This Task team";
         end
         flash[:success] = @msg
-        format.html { redirect_to @do_request.task, notice: 'Request sent to Project Admin.' }
-        format.json { render json: {id: @do_request, status: 200, responseText: "Request sent to Project Admin "} }
         format.js
+        format.json { render json: {id: @do_request, status: 200, responseText: "Request sent to Project Admin "} }
+        format.html { redirect_to @do_request.task, notice: 'Request sent to Project Admin.' }
       else
         @msg="You can not Apply Twice";
-        format.html { redirect_to root_url, notice: "You can not Apply Twice" }
+        flash[:error] = @msg;
         format.js
+        format.html { redirect_to root_url, notice: "You can not Apply Twice" }
       end
     end
   end
