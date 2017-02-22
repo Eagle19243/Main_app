@@ -31,8 +31,8 @@
                 </a>
               </td>
               <td class="fund">
-                <span class="pull-left">฿ <%= project.funded_budget%></span>
-                <span class="pull-right">฿ <%= project.needed_budget %></span>
+                <span class="pull-left">฿ <%= btc_balance(project.funded_budget) %></span>
+                <span class="pull-right">฿ <%= btc_balance(project.needed_budget) %></span>
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>" >
                   </div>
@@ -108,7 +108,7 @@
                       <td><%= project.funded_percentages %></td>
                       <td><%= project.team_relations_string %></td>
                       <td><%= project.tasks_relations_string %></td>
-                      <td>฿ <%= project.funded_budget %></td>
+                      <td>฿ <%= btc_balance(project.funded_budget) %></td>
                     </tr>
                     <tr class="items">
                       <td>Funded</td>
@@ -168,7 +168,7 @@
                       <td><%= project.funded_percentages %></td>
                       <td><%= project.team_relations_string %></td>
                       <td><%= project.tasks_relations_string %></td>
-                      <td>฿ <%= project.funded_budget %></td>
+                      <td>฿ <%= btc_balance(project.funded_budget) %></td>
                     </tr>
                     <tr class="items">
                       <td>Funded</td>

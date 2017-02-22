@@ -72,13 +72,11 @@
                         <table>
                           <tr class="value">
                             <td><%= task.funded %></td>
-                            <!--<td><%#= @tasks_count %></td>-->
                             <td><%= task.number_of_participants %>/<%= task.target_number_of_participants %></td>
-                            <td><%= convert_satoshi_to_btc(task.current_fund) %></td>
+                            <td><%= satoshi_balance_in_btc(task.current_fund) %></td>
                           </tr>
                           <tr class="items">
                             <td>Funded</td>
-                            <!--<td>Tasks</td>-->
                             <td>Teammates</td>
                             <td>Raised</td>
                           </tr>

@@ -196,7 +196,7 @@
                             <%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>
                         </div>
                         <div class="modal-task__card-value _data">
-                            <%= convert_satoshi_to_btc(@task.current_fund) %>
+                            <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
                     </div>
                     <div class="modal-task__card-titles">

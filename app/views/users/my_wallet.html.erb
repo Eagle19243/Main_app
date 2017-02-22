@@ -23,10 +23,10 @@
         </div>
         <div class="s-wallet__top-bar-right">
           <div class="s-wallet__btc">
-            <span class="s-wallet__value"><%= user_wallet_balance_btc (@wallet_address.current_balance) %></span> BTC
+            <span class="s-wallet__value"><%= satoshi_balance_in_btc(@wallet_address.current_balance) %></span> BTC
           </div>
           <div class="s-wallet__usd">
-            $<span class="s-wallet__value"><%= user_wallet_balance_usd(@wallet_address.current_balance) %></span> USD
+            $<span class="s-wallet__value"><%= satoshi_balance_in_usd(@wallet_address.current_balance) %></span> USD
           </div>
         </div>
       </div>
@@ -66,11 +66,11 @@
                             <% end %>
 
                             <div class="t-transactions__td _tar">
-                              <div class="t-transactions__expense"><%= user_wallet_balance_btc(entry['value']) %></div>
-                              <div class="t-transactions__value">$ <%= user_wallet_balance_usd(entry['value']) %></div>
+                              <div class="t-transactions__expense"><%= satoshi_balance_in_btc(entry['value']) %></div>
+                              <div class="t-transactions__value">$ <%= satoshi_balance_in_usd(entry['value']) %></div>
                             </div>
                             <div class="t-transactions__td _tar">
-                              <div class="t-transactions__balance"><%= user_wallet_balance_btc(entry['value']) %></div>
+                              <div class="t-transactions__balance"><%= satoshi_balance_in_btc(entry['value']) %></div>
                             </div>
                             </div>
                     <% end %>
@@ -106,7 +106,7 @@
             <div class="f-transaction__btc">BTC</div>
           </label>
           <div class="f-transaction__info">
-            Available: <span class="js-btc-value"><%= user_wallet_balance_btc (@wallet_address.current_balance) %></span> BTC
+            Available: <span class="js-btc-value"><%= satoshi_balance_in_btc(@wallet_address.current_balance) %></span> BTC
           </div>
         </div>
         <div class="f-default__row">

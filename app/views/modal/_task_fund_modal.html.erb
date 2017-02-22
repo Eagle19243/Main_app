@@ -47,7 +47,7 @@
                         <%= gravatar_for_fund(current_user, 44) %>
                     <% end %>
                     <div class="modal-fund__field-wrap">
-                      <div class="modal-fund__balance">BTC Wallet (<%= user_wallet_balance_btc(current_user.user_wallet_address.current_balance) %>)</div>
+                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
                       </svg>

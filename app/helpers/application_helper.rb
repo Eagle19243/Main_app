@@ -102,12 +102,16 @@ module ApplicationHelper
     btc_to_usd.round(3)
   end
 
-  def  user_wallet_balance_btc( satoshi )
+  def btc_balance(btc)
+    btc.to_f.round(4)
+  end
+
+  def satoshi_balance_in_btc(satoshi)
     satoshi_to_btc = satoshi.to_f/10**8.to_f
     satoshi_to_btc.round(4)
   end
 
-  def user_wallet_balance_usd( satoshi )
+  def satoshi_balance_in_usd(satoshi)
     satoshi_to_btc = satoshi.to_f/10**8.to_f
     btc_to_usd =  satoshi_to_btc * get_current_btc_rate
     btc_to_usd.round(3)
