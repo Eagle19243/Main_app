@@ -108,6 +108,7 @@ after_success:
 script:
   #- bundle exec rspec --fail-fast --format documentation
   - bundle exec rspec spec/features/edit_project_spec.rb --fail-fast --format documentation
+  - cat log/test.log
 
 notifications:
   slack:
