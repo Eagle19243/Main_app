@@ -9,6 +9,7 @@ Rails.application.configure do
   api_base_url = settings['mediawiki']['api_base_url']
   # Fetch login token
   response = RestClient.get("#{api_base_url}api.php?action=query&meta=tokens&type=login&format=json")
+  Rails.logger.debug "Mediawiki response #{response}"
   # Save cookies
   cookies = response.cookies
   # Extract token
@@ -29,4 +30,5 @@ Rails.application.configure do
   # Save session cookies
   config.mediawiki_session = result.cookies
   Rails.logger.debug "Initialized Mediawiki session #{result.cookies}"
+  Rails.logger.debug "Mediawiki response #{result}"
 end
