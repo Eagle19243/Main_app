@@ -96,6 +96,8 @@ before_script:
     sed -i '/  domain: ".weserve.io"/c\  domain: ".localhost"' config/application.travis.yml
   - |
     sed -i '/  api_base_url: "http:\/\/wikidev.weserve.io\/"/c\  api_base_url: "http:\/\/localhost\/"' config/application.travis.yml
+  - |
+    sed -i '/  secret: "3eab6c8832c64bf66904f38c9978801c3f0b5deb144ac262ccc9312e4f35c150"/c\  secret: "FE79A0302274D30B35690EDB598AC5591E588692046D36FC002F31788D870632"' config/application.travis.yml
   - cp config/application.travis.yml config/application.yml
   # Create database and run migrations, seed
   - bundle exec rake sunspot:solr:start
