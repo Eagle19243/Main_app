@@ -89,7 +89,11 @@
         </div>
       </center>
       <div class="welcome-banner__join-btn">
-        <button type="button" class="btn-root _light" data-modal="#welcomeToTeamModal">Join the team</button>
+        <% if !user_signed_in? %>
+            <button type="button" class="btn-root _light" id="sign_up_nav" data-modal="#registerModal">Join the team</button>
+        <% elsif !current_user.is_admin_for?(@project) %>
+            <button type="button" class="btn-root _light" data-modal="#welcomeToTeamModal">Join the team</button>
+        <% end %>
       </div>
     </div>
   </div>

@@ -5,19 +5,28 @@
         <div class="welcome-to-team__title">How to join the team?</div>
         <ul class="welcome-to-team__options _center _three-column">
             <li class="welcome-to-team__item">
-                <div class="welcome-to-team__img">
-                </div>
-                <div class="welcome-to-team__subtitle">Contribute to the plan</div>
+                <%= link_to plan_project_path(id: @project.id), data: {tab: 'Plan'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
+                    <svg focusable="false" version="1.1" class="svg-document">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-document"></use>
+                    </svg>
+                    <div class="welcome-to-team__subtitle">Contribute to the plan</div>
+                <% end %>
             </li>
             <li class="welcome-to-team__item">
-                <div class="welcome-to-team__img">
-                </div>
-                <div class="welcome-to-team__subtitle">Suggest a task</div>
+                <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'Tasks'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
+                    <svg focusable="false" version="1.1" class="svg-idea">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-idea"></use>
+                    </svg>
+                    <div class="welcome-to-team__subtitle">Suggest a task</div>
+                <% end %>
             </li>
             <li class="welcome-to-team__item">
-                <div class="welcome-to-team__img">
-                </div>
-                <div class="welcome-to-team__subtitle">Do or Fund a tasks</div>
+                <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'Tasks'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
+                    <svg focusable="false" version="1.1" class="svg-tools">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-tools"></use>
+                    </svg>
+                    <div class="welcome-to-team__subtitle">Do or Fund a tasks</div>
+                <% end %>
             </li>
         </ul>
         <div class="welcome-to-team__title">Looking for a special role?</div>
@@ -25,12 +34,20 @@
             <li class="welcome-to-team__item">
                 <div class="welcome-to-team__subtitle">Become the Lead Editor!</div>
                 <div class="welcome-to-team__info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius felis quis est hendrerit, a elementum ante elementum. Vestibulum euismod faucibus vestibulum. Curabitur pulvinar dolor nec arcu aliquet iaculis.</div>
-                <button type="button" class="btn-root">Apply</button>
+                <% if !user_signed_in? %>
+                    <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply As Lead Editor</a>
+                <% elsif !current_user.is_admin_for?(@project) %>
+                    <%= link_to "Apply As Lead Editor", get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Lead Editor?"} %>
+                <% end %>
             </li>
             <li class="welcome-to-team__item">
                 <div class="welcome-to-team__subtitle">Become the Executor!</div>
                 <div class="welcome-to-team__info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius felis quis est hendrerit, a elementum ante elementum. Vestibulum euismod faucibus vestibulum. Curabitur pulvinar dolor nec arcu aliquet iaculis.</div>
-                <button type="button" class="btn-root">Apply</button>
+                <% if !user_signed_in? %>
+                    <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply As Executor</a>
+                <% elsif !current_user.is_admin_for?(@project) %>
+                    <%= link_to "Apply As Executor", get_in_projects_path(type: "2", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Executor?"} %>
+                <% end %>
             </li>
         </ul>
     </div>
