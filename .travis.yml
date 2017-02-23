@@ -48,7 +48,6 @@ before_install:
   - sudo apt-get install php5.6-xml
   - sudo apt-get install php5.6-mysql
   - sudo apt-get install php5.6-mcrypt
-  - sudo php5enmod mcrypt
   - sudo a2enmod actions
   - sudo a2enmod rewrite
   - sudo service apache2 restart
