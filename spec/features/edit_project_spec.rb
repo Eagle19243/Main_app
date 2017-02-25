@@ -21,6 +21,7 @@ feature 'Edit project text', js: true, vcr: {cassette_name: 'bitgo'} do
       @modal.attach_file 'project[picture]', Rails.root + "spec/fixtures/photo.png"
       @modal.click_button 'Create Project'
       wait_for_ajax
+      #puts page.body
       expect(page).to have_content @project.title
       expect(page).to have_selector("#editSource")
       find('#projectInviteModal .modal-default__close').trigger('click')

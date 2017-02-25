@@ -83,7 +83,7 @@
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'Tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+              <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'Tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
                   Tasks<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
@@ -141,6 +141,8 @@
 <%= render "modal/task_fund_modal" %>
 <%= render "modal/thank_you_fund_modal" %>
 <%= render "modal/task_do_modal" %>
+<%= render "modal/welcome_to_team_modal" %>
+
 <%= render "modal/project_invite_modal" %>
 <%= render "modal/edit_project_modal" %>
 

@@ -92,6 +92,7 @@ var TabsModule = (function () {
                 e.preventDefault();
                 e.stopPropagation();
                 var $that = $(this), taskId,
+                    $html = $('html'),
                     tab = $that.data('tab'),
                     paramsArr = window.location.search.slice(1).split('&');
                 UrlModule.setTab(tab);
@@ -106,6 +107,18 @@ var TabsModule = (function () {
                         taskId = item.split('=')[1];
                     }
                 });
+
+                if ($html.hasClass('_open-modal')) {
+                    $('#welcomeToTeamModal').fadeOut(300);
+                    setTimeout(function () {
+                        $html.removeClass('_open-modal');
+                        if ($that.data('tab') === 'Tasks') {
+                            $('#tab-tasks').addClass('active');
+                        } else {
+                            $('#tab-plan').addClass('active');
+                        }
+                    }, 300)
+                }
                 window.history.pushState(null, null, window.location.pathname + ('?tab=' + (taskId ? 'Tasks&taskId=' + taskId : tab)));
             });
     }

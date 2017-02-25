@@ -74,7 +74,9 @@
     }
   }
 
-
+  &__join-btn {
+    margin-top: 40px;
+  }
 
   &__content {
     position: absolute;
@@ -537,8 +539,6 @@
   }
 }
 
-
-// todo delete if 'Apply as' buttons on team page will remove
 .content-details {
   position: relative;
   padding: 20px;
