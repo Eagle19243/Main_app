@@ -5,7 +5,7 @@ FactoryGirl.define do
     sequence(:country) { |n| "test_country#{n}" }
     sequence(:wiki_page_name) { |n| "wiki_page_name#{n}" }
     picture { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'photo.png'), 'image/png') }
-    association :user, factory: :user
+    user { build(:user, :confirmed_user) }
     state "pending"
 
     after(:create) do |project|

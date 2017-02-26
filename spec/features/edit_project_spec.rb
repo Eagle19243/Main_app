@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 feature 'Edit project text', js: true, vcr: {cassette_name: 'bitgo'} do
-
   context 'As project leader edit project' do
-
     before do
       @user = FactoryGirl.create(:user, confirmed_at: Time.now)
       @project = FactoryGirl.build(:project)
@@ -33,7 +31,5 @@ feature 'Edit project text', js: true, vcr: {cassette_name: 'bitgo'} do
       find('.revisions-compare-edit-link').trigger('click')
       expect(page).to have_selector('body.mediawiki')
     end
-
   end
-
 end

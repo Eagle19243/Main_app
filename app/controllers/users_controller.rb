@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if @user.update_attributes(update_params)
-        format.html { 
+        format.html {
           current_user.create_activity(@user, 'updated')
           redirect_to(@user, :notice => 'User was successfully updated.')
         }
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   private
 
   def update_params
-    params.require(:user).permit(:picture, :name, :email, :password, :bio,
+    params.require(:user).permit(:picture, :email, :password, :bio,
     :city, :phone_number, :bio, :facebook_url, :twitter_url,
     :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
     :linkedin_url, :picture_cache)

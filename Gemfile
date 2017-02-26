@@ -75,6 +75,7 @@ gem 'rack-mini-profiler'
 
 # Help to kill N+1 queries and unused eager loading
 gem "bullet", :group => "development"
+gem 'guard-rspec', require: false
 
 # Bootstrap datetimepicker
 gem 'momentjs-rails', '>= 2.9.0'
@@ -128,6 +129,7 @@ group :test do
   gem 'simplecov', require: false
   gem "codeclimate-test-reporter", "~> 1.0.0"
   gem 'stub_env'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 # Auto deployment to AWS

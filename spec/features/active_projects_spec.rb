@@ -8,7 +8,7 @@ feature "Active projects", js: true, vcr: { cassette_name: 'bitgo' } do
       @projects = FactoryGirl.create_list(:project, 9, user: @user)
 
       login_as(@user, :scope => :user, :run_callbacks => false)
-      
+
       visit root_path
     end
 
@@ -18,7 +18,7 @@ feature "Active projects", js: true, vcr: { cassette_name: 'bitgo' } do
         @wallet_modal = find('div#walletModal', visible: true)
       end
 
-      scenario "Then 'Download Wallet Keys' popup appeared" do        
+      scenario "Then 'Download Wallet Keys' popup appeared" do
         expect(@wallet_modal).to be_visible
       end
 

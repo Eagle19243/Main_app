@@ -52,7 +52,8 @@ class User < ActiveRecord::Base
   has_many :apply_requests, dependent: :destroy
   has_many :stripe_payments
 
-  validates :name, presence: true,uniqueness: true
+  validate :validate_name_unchange
+  validates :name, presence: true, uniqueness: true
 
   def self.current_user
     Thread.current[:current_user]
@@ -292,4 +293,8 @@ class User < ActiveRecord::Base
     (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
   end
 
+  # Normal use case, name cannot be changed, need to bypass validation if neccessary 
+  def validate_name_unchange
+    errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
+  end
 end

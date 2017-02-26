@@ -60,37 +60,6 @@
       text-align: center;
       margin: 0 auto 21px;
       padding: 0 50px;
-      &._open-edit-form {
-        max-width: 460px;
-      }
-
-      &:hover {
-        .btn-edit {
-          opacity: 1;
-          pointer-events: all;
-          text-decoration: none;
-        }
-      }
-    }
-
-
-    &._open-edit-form {
-      .btn-edit {
-        display: none;
-      }
-    }
-
-    .btn-edit {
-      display: block;
-      color: #fff;
-      font-size: 0.7em;
-      cursor: pointer;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity .2s linear;
-      position: absolute;
-      left: calc(100% + 8px);
-      line-height: 45px;
     }
   }
   &__user-location {

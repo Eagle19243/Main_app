@@ -266,7 +266,6 @@ class ProjectsController < ApplicationController
   end
 
   def revisions
-
     authorize! :revisions, @project
 
     @histories = get_revision_histories @project
