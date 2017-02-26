@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170219133521) do
+ActiveRecord::Schema.define(version: 20170225133907) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -247,7 +248,6 @@ ActiveRecord::Schema.define(version: 20170219133521) do
     t.integer  "origin_user_id"
     t.boolean  "read",              default: false
     t.integer  "action_type"
-    t.string   "action_type"
   end
 
   add_index "notifications", ["source_model_type", "source_model_id"], name: "index_notifications_on_source_model_type_and_source_model_id", using: :btree
