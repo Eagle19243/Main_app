@@ -2,7 +2,7 @@
 <div class="myprojets-wrapper">
   <div class="myprojets-table">
     <h2>My Projects</h2>
-    <div class="table-responsive mb30">
+    <div class="table-responsive mb30 my-projects">
       <table class="table">
         <thead>
           <tr>
@@ -19,10 +19,10 @@
         <tbody>
           <% @user.projects.each do |project| %>
             <tr>
-              <td class="project">
-                  <%= link_to project_path(project) do %>
-                    <span class="pull-left"><%= project.title %></span>
-                  <% end %>
+              <td class="project" id="<%= "project-#{project.id}" %>">
+                <%= link_to project_path(project) do %>
+                  <span class="pull-left"><%= project.title %></span>
+                <% end %>
               </td>
               <td class="leader">
                 <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.name %></a></span>
@@ -61,69 +61,9 @@
 
     <h2>Followed Projects</h2>
     <div class="l-project-cards">
-      <ul class="l-project-cards__list">
+      <ul class="l-project-cards__list followed-projects">
         <% @user.followed_projects.each do |project| %>
-          <li class="l-project-cards__item">
-            <div class="b-project-card">
-
-              <div class="b-project-card__top">
-                <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap' ,data: { no_turbolink: false } do%>
-                  <%= image_tag(project.picture.url, data: { 'object-fit': "cover" }) %>
-                <% end %>
-                <div class="b-project-card__user-link">
-                  <% if project.user.picture? %>
-                    <%= image_tag(project.user.picture, size: "30x30") %>
-                  <% else %>
-                    <%= gravatar_for_user(project.user)%>
-                  <%end%>
-                  <%= link_to project.user.name, user_path(project.user)%>
-                </div>
-
-              </div>
-              <div class="b-project-card__middle">
-                <%= link_to project.title, taskstab_project_path(project), data: {no_turbolink: false}, class: "b-project-card__title" %>
-
-                <div class="b-project-card__location">
-                  <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
-                  </svg>
-                  <%= project.country %>
-                </div>
-
-                <p class="b-project-card__description">
-                  <%= project.short_description %>
-                </p>
-              </div>
-              <div class="b-project-card__bottom">
-                <div class="progress-banner">
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @project.funded_percentages %>">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="progress-report">
-                  <table>
-                    <tr class="value">
-                      <td><%= project.funded_percentages %></td>
-                      <td><%= project.team_relations_string %></td>
-                      <td><%= project.tasks_relations_string %></td>
-                      <td>฿ <%= btc_balance(project.funded_budget) %></td>
-                    </tr>
-                    <tr class="items">
-                      <td>Funded</td>
-                      <td>Team</td>
-                      <td>Tasks</td>
-                      <td>Raised</td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </li>
-        <% end %>
-        <% @user.followed_projects.each do |project| %>
-          <li class="l-project-cards__item">
+          <li class="l-project-cards__item " id="<%= "project-#{project.id}" %>">
             <div class="b-project-card">
 
               <div class="b-project-card__top">
