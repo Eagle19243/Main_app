@@ -39,4 +39,8 @@ class Notification < ActiveRecord::Base
   def self.operatable?
     self.action_type == 'operatable'
   end
+
+  def archived_source_model
+    source_model_type.constantize.only_deleted.find_by(id: source_model_id) if source_model_type.constantize.method_defined?(:only_deleted)
+  end
 end

@@ -6,7 +6,7 @@ feature "Notification After Creating a New Project", js: true, vcr: { cassette_n
       @users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
       @user = @users.first
       @another_user = @users.last
-      login_as(@user, :scope => :user, :run_callbacks => false)      
+      login_as(@user, :scope => :user, :run_callbacks => false)
     end
 
     context "When you visit the main page" do
@@ -45,7 +45,7 @@ feature "Notification After Creating a New Project", js: true, vcr: { cassette_n
           expect(page).to have_selector(".btn-bell__counter")
         end
 
-        scenario "Then the notification alert indicates the number of unread notifications" do          
+        scenario "Then the notification alert indicates the number of unread notifications" do
           expect(find(".btn-bell__counter").text).to eq @user.notifications.unread.count.to_s
         end
 
@@ -75,6 +75,24 @@ feature "Notification After Creating a New Project", js: true, vcr: { cassette_n
             scenario "Then you can see only your notifications" do
               expect(page).not_to have_content "#{@another_project.title}"
             end
+          end
+
+        end
+
+        context 'project was archived' do
+          before do
+            @project.destroy
+
+            find(".notify-dropdown").click
+            wait_for_ajax
+
+            dropdown = find(".b-dropdown", visible: true)
+
+            dropdown.find(".b-dropdown__link").click_link "See All Notifications"
+          end
+
+          scenario "create project notification is still available" do
+            expect(page).to have_content "You have created project #{@project.title}"
           end
         end
       end

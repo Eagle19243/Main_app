@@ -1,7 +1,7 @@
-<% if notification.source_model.pending? %>
-  <div id="invitation-<%= notification.source_model.id %>" class="b-notification__actions">
+<% if source_model.pending? %>
+  <div id="invitation-<%= source_model.id %>" class="b-notification__actions">
 
-  <%= button_to accept_admin_invitation_path(notification.source_model),
+  <%= button_to accept_admin_invitation_path(source_model),
                 form_class: "f-accept-invitation",
                 class: "btn-notify _accept" do %>
         <svg focusable="false" version="1.1" class="svg-check">
@@ -10,7 +10,7 @@
         Accept
   <% end %>
 
-  <%= button_to reject_admin_invitation_path(notification.source_model),
+  <%= button_to reject_admin_invitation_path(source_model),
                 form_class: "f-reject-invitation",
                 class: "btn-notify _reject" do %>
         <svg focusable="false" version="1.1" class="svg-times">
@@ -21,5 +21,5 @@
 
   </div>
 <% else %>
-  You have <%= notification.source_model.status %> the invitation
+  You have <%= source_model.status %> the invitation
 <% end %>
