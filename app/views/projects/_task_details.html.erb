@@ -198,11 +198,15 @@
                         <div class="modal-task__card-value _data">
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
+                        <div class="modal-task__card-value _data">
+                          <%= "#{@task.budget} BTC" %>
+                        </div>
                     </div>
                     <div class="modal-task__card-titles">
                         <div class="modal-task__card-value">Funded</div>
                         <div class="modal-task__card-value">Teammates</div>
                         <div class="modal-task__card-value">Raised</div>
+                        <div class="modal-task__card-value">Budget</div>
                     </div>
                   </div>
 
