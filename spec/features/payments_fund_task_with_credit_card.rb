@@ -6,9 +6,6 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
     @project = FactoryGirl.create(:project, user: @user)
     @task = FactoryGirl.create(:task, project: @project)
     @wallet_address = FactoryGirl.create(:wallet_address, task: @task)
-
-    # Set balance for user's wallet
-    @user.user_wallet_address.update_attribute(:current_balance, 450000)
   end
 
   context "As lgged in user" do
@@ -34,11 +31,6 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
 
         scenario "Then the fund modal appeared" do
           expect(@fund_modal).to be_visible
-        end
-
-        scenario "And this modal is showing user's wallet budget" do
-          @wallet_budget = find("#taskFundModal .modal-fund__balance", visible: true)
-          expect(@wallet_budget.text).to eq("BTC Wallet (0.0045)")
         end
 
         scenario "Then you can donate with credit card" do

@@ -10,12 +10,12 @@
         <div class="modal-fund__form-wrap" id="user-btc-view">
             <div class="f-default__row">
               <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default f-donate') do %>
+                <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required class="form-control"/>
                 <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">BTC</span> Amount to Send</label>
                 <input type="text" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
               <% end %>
             </div>
-            <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required class="form-control"/>
             <div class="f-default__row _space-between">
                 <button type="button" class="btn-root js-change-payment-type _active" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
                 <button type="button" class="btn-root js-change-payment-type" id="donate-with-credit-card" value="save">Donate with credit card</button>
