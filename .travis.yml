@@ -27,7 +27,7 @@ services:
 
 addons:
   code_climate:
-    repo_token: fb7dc5454cab6df0a3a22c8dcd35c1418bac0d13
+    repo_token: 025dd6c1d37a12854e97e5ef01c8599f8573f111aaddc5024d6306e911be37ce
 
 #bundler_args: --without development
 
