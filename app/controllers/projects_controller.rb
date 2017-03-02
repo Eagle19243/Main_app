@@ -118,9 +118,13 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    search = Sunspot.search(Task, Project) { fulltext params[:term] }
-    results = search.results.map(&:title)
+    results = []
+    if params[:term].present?
+      projects = Project.fulltext_search(params[:term]).map(&:title)
+      tasks = Task.fulltext_search(params[:term]).map(&:title)
 
+      results = [projects, tasks].flatten
+    end
     respond_to do |format|
       format.html { render text: results }
       format.json { render json: results.to_json, status: :ok }
@@ -129,13 +133,14 @@ class ProjectsController < ApplicationController
 
   def user_search
     #User search has been disabled because we don't have user's public profile or show page yet available in application we will just add Sunspot.search(Project,Task,User) later
-    @search = Sunspot.search(Task, Project) do
-      # keywords params[:title]
-      fulltext params[:title] do
-        query_phrase_slop 1
-      end
+    @results = []
+
+    if params[:title].present?
+      # TODO I think here we should have 2 objects projects and tasks, not 1 single result object
+      projects = Project.fulltext_search(params[:title])
+      tasks = Task.fulltext_search(params[:title])
+      @results = [projects, tasks].flatten
     end
-    @results = @search.results
     unless @results.blank?
       respond_to do |format|
         # format.html {render  :search_results}

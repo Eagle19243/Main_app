@@ -1,6 +1,5 @@
 require 'fivemat'
 require 'factory_girl_rails'
-require 'sunspot/rails/spec_helper'
 require 'aasm/rspec'
 
 RSpec.configure do |config|
@@ -25,14 +24,6 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  config.before(:each) do
-    ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
-  end
-
-  config.after(:each) do
-    ::Sunspot.session = ::Sunspot.session.original_session
-  end
 
   config.include FactoryGirl::Syntax::Methods
 end

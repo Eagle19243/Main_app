@@ -39,14 +39,6 @@ class Project < ActiveRecord::Base
   validates :short_description, presence: true, length: {minimum: 3, maximum: SHORT_DESCRIPTION_LIMIT, message: "Has invalid length. Min length is 3, max length is #{SHORT_DESCRIPTION_LIMIT}"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
-
-  searchable do
-    text :title
-    text :description
-    text :short_description
-    text :full_description
-  end
-
   validates :picture, presence: true
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
@@ -62,6 +54,13 @@ class Project < ActiveRecord::Base
     event :reject do
       transitions :from => :pending, :to => :rejected
     end
+  end
+
+  # TODO In future it would be a good idea to extract this into the Search object
+  def self.fulltext_search(free_text, limit=20)
+    # TODO Rails 5 has a OR method
+    projects = Project.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR full_description ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
+    projects.limit(limit)
   end
 
   def video_url

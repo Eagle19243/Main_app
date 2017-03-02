@@ -8,10 +8,6 @@ class User < ActiveRecord::Base
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
-  searchable do
-    text :name
-  end
-
   def set_default_role
     self.role ||= :user
   end
@@ -54,6 +50,8 @@ class User < ActiveRecord::Base
 
   validate :validate_name_unchange
   validates :name, presence: true, uniqueness: true
+
+  scope :name_like, -> (name) { where('name ILIKE ?', "%#{name}%")}
 
   def self.current_user
     Thread.current[:current_user]

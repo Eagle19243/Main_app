@@ -10,7 +10,6 @@
 
 Main application is a RoR website, but it depends on set of 3rd paty tools:
 
-- Solr full-text search engine - powered by `sunspot` get (included into bundle)
 - BitGoJs client - running locally and acts as gateway between app and bitgo.com service
 - Mediawiki - running as separate application, provides web-API to store some texts from main app
 
@@ -58,17 +57,12 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 * Run `npm install`
 * Run it with command `./bitgo-express --debug --port 3080 --env prod --bind localhost`
 
-### 6. Run Solr
-
-* Being in app directory run `RAILS_ENV=development bundle exec rake sunspot:solr:start`
-* Ensure that Solr is running without errors
-
-### 7. Migrate database
+### 6. Migrate database
 
 * Being in app directory run `RAILS_ENV=development bundle exec rake db:create db:schema:load db:migrate`
 * If necessary, run `RAILS_ENV=development bundle exec rake db:seed` to populate database with sample data
 
-### 8. Configure ENV varialbes
+### 7. Configure ENV varialbes
 
 * `mailer_sender` - address of emails sender
 * `RAILS_ENV` - `production` or `development`

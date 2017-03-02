@@ -65,11 +65,11 @@ class Task < ActiveRecord::Base
   #validates :target_number_of_participants, presence: true
   #validates_numericality_of :target_number_of_participants, :only_integer => true, :greater_than_or_equal_to => 1
 
-  searchable do
-    text :title
-    text :description
-    text :short_description
-    text :condition_of_execution
+  # TODO In future it would be a good idea to extract this into the Search object
+  def self.fulltext_search(free_text, limit=10)
+    # TODO Rails 5 has a OR method
+    tasks = Task.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR condition_of_execution ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
+    tasks.limit(limit)
   end
 
   def assign_address

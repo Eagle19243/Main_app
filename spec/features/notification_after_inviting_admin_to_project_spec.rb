@@ -23,8 +23,6 @@ feature "Notification After Invite an Admin to the Project", js: true, vcr: { ca
         before do
           @old_notifications_count = Notification.count
 
-          allow_any_instance_of(Sunspot::Rails::StubSessionProxy::Search).to receive(:results).and_return([@another_user])
-
           find(".tabs-menu__inner li a[data-tab='Team']").trigger("click")
           wait_for_ajax
 
