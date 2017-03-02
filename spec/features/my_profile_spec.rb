@@ -53,6 +53,7 @@ feature "My Profile", js: true, vcr: { cassette_name: 'bitgo' } do
           expect(@profile_bio).to have_selector("#bio-edit-pencil")
         end
 
+=begin
         context "When you click your location edit link" do
           before do
             find("a#edit-location-pencil").trigger("click")
@@ -76,6 +77,7 @@ feature "My Profile", js: true, vcr: { cassette_name: 'bitgo' } do
             end
           end
         end
+=end
 
         context "When you click your bio edit link" do
           before do

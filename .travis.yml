@@ -109,9 +109,8 @@ after_success:
   - bundle exec codeclimate-test-reporter
 
 script:
-  #- bundle exec rspec --fail-fast --format documentation
-  - bundle exec rspec spec/features/edit_project_spec.rb --fail-fast --format documentation
-  - cat log/test.log
+  - bundle exec rspec --fail-fast --format documentation
+  # - cat log/test.log
 
 notifications:
   slack:

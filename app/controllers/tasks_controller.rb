@@ -265,6 +265,12 @@ class TasksController < ApplicationController
     else
       flash[:notice] = "Task was not rejected"
     end
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+    end
+
   end
 
   def reviewing
