@@ -30,39 +30,12 @@ module ApplicationHelper
     'class=landing' if landing_page?
   end
 
-  def access_wallet
-    begin
-      settings = YAML.load_file("#{Rails.root}/config/application.yml")
-      response = RestClient.get  "http://localhost:3080/api/v1/ping"
-      unless response.blank?
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-        access_token = settings['bitgo_admin']['access_token']
-      end
-    rescue => e
-      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
-    end
-  end
-
-
-  def we_serve_wallet
-    begin
-      settings = YAML.load_file("#{Rails.root}/config/application.yml")
-      response = RestClient.get  "http://localhost:3080/api/v1/ping"
-      unless response.blank?
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-        access_token = settings['bitgo_admin']['weserve_admin_access_token']
-      end
-    rescue => e
-      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
-    end
-  end
-
   def get_reserve_wallet_balance
     reserve_wallet_id = ENV['reserve_wallet_id'].to_s.strip
     return 0 if reserve_wallet_id.blank?
 
-    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-    wallet = api.get_wallet(wallet_id: reserve_wallet_id , access_token: we_serve_wallet)
+    api = Bitgo::V1::Api.new
+    wallet = api.get_wallet(wallet_id: reserve_wallet_id , access_token: ENV['bitgo_admin_weserve_admin_access_token'])
     wallet["balance"]
   end
 

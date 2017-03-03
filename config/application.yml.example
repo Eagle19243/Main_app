@@ -1,13 +1,11 @@
-bitgo_admin:
-  api_address: "http://localhost:3080/api/v1"   # where bitgojs client is running
-  access_token:                                 # specify first access token retrieved from bitgo.com ( default token )
-  weserve_admin_access_token:                   # specify second access token retrieved from bitgo.com or keep empty ( reserve wallet token )
-mediawiki:
-  secret:                                       # local mediawiki installation secret
-  domain:                                       # mediawiki domain for cookies in wide format, eg ".example.com"
-  api_base_url:                                 # base url of mediawiki API, eg "http://mediawiki.local/"
-  username:                                     # mediawiki API username
-  password:                                     # mediawiki API password
+bitgo_admin_api_address: "http://localhost:3080/api/v1"   # where bitgojs client is running
+bitgo_admin_access_token:                                 # specify first access token retrieved from bitgo.com ( default token )
+bitgo_admin_weserve_admin_access_token:                   # specify second access token retrieved from bitgo.com or keep empty ( reserve wallet token )
+mediawiki_secret:                                       # local mediawiki installation secret
+mediawiki_domain:                                       # mediawiki domain for cookies in wide format, eg ".example.com"
+mediawiki_api_base_url:                                 # base url of mediawiki API, eg "http://mediawiki.local/"
+mediawiki_username:                                     # mediawiki API username
+mediawiki_password:                                     # mediawiki API password
 email_provider_username:                        # AWS access ID for email service
 email_provider_password:                        # AWS access secret key for email service
 facebook_app_id:                                # Facebook app ID

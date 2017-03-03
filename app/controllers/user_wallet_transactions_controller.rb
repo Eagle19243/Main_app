@@ -26,8 +26,8 @@ class UserWalletTransactionsController < ApplicationController
       current_user.assign_address
       redirect_to user_wallet_transactions_new_path , alert: "Wallet Created"
     else
-     redirect_to user_path(current_user) , alert: "your Wallet Already Exist"
-      end
+      redirect_to user_path(current_user) , alert: "your Wallet Already Exist"
+    end
   end
 
   def create
@@ -47,11 +47,12 @@ class UserWalletTransactionsController < ApplicationController
           format.html { redirect_to my_wallet_user_url(current_user), alert:  @msg }
         end
       else
-        access_token = access_wallet
+        # TODO This should be extracted into the concern that will be then reused by the whole system
+        access_token = ENV['bitgo_admin_access_token']
         address_from = current_user.user_wallet_address.wallet_id
         sender_wallet_pass_phrase = current_user.user_wallet_address.pass_phrase
         address_to = params['wallet_transaction_user_wallet'].strip
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+        api = Bitgo::V1::Api.new
 
         @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount , wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
 

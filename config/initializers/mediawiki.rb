@@ -4,9 +4,9 @@ require 'json'
 Rails.application.configure do
   # Extract credentials
   settings = YAML.load_file("#{Rails.root}/config/application.yml")
-  lgusername = settings['mediawiki']['username']
-  lgpassword = settings['mediawiki']['password']
-  api_base_url = settings['mediawiki']['api_base_url']
+  lgusername = settings['mediawiki_username']
+  lgpassword = settings['mediawiki_password']
+  api_base_url = settings['mediawiki_api_base_url']
   # Fetch login token
   response = RestClient.get("#{api_base_url}api.php?action=query&meta=tokens&type=login&format=json")
   Rails.logger.debug "Mediawiki response #{response}"

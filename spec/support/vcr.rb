@@ -4,7 +4,7 @@ VCR.configure do |c|
   c.configure_rspec_metadata!
 
   c.filter_sensitive_data('BITGO_ACCESS_TOKEN') do
-    CGI.escape YAML.load_file("#{Rails.root}/config/application.yml")['bitgo_admin']['access_token']
+    CGI.escape YAML.load_file("#{Rails.root}/config/application.yml")['bitgo_admin_access_token']
   end
 
   c.ignore_request do |req|

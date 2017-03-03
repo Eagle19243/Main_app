@@ -29,11 +29,11 @@ class WalletTransactionsController < ApplicationController
              format.html { redirect_to wallet_transactions_new_path +'?id='+transfering_task.id.to_s  , alert: 'Error, Please try again Later!' }
           end
         else
-          access_token = access_wallet
+          access_token = ENV['bitgo_admin_access_token']
           address_from = transfering_task.wallet_address.wallet_id
           sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
           address_to = params['wallet_transaction_user_wallet'].strip
-          api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+          api = Bitgo::V1::Api.new
           @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount:satoshi_amount , wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
           unless @res["message"].blank?
             respond_to do |format|

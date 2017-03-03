@@ -163,8 +163,9 @@ class Project < ActiveRecord::Base
 
   # Load MediaWiki API Base URL from application.yml
   def self.load_mediawiki_api_base_url
+    # TODO I'm pretty sure we dont need to have this YAML.load all over the place
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    settings['mediawiki']['api_base_url']
+    settings['mediawiki_api_base_url']
   end
 
   # MediaWiki API - Page Read

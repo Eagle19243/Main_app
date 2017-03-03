@@ -193,9 +193,9 @@ class TasksController < ApplicationController
   def refund
     if current_user.id == @task.project.user_id
       bitgo_fee = 0.10
-      access_token = access_wallet
+      access_token = ENV['bitgo_admin_access_token']
       @wallet_address = @task.wallet_address
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      api = Bitgo::V1::Api.new
       response = api.get_wallet(wallet_id: @wallet_address.wallet_id, access_token: access_token)
       @task.update_attribute('current_fund', response["balance"]) rescue nil
       if @task.current_fund > 0

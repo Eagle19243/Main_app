@@ -63,9 +63,9 @@ class User < ActiveRecord::Base
 
   def assign_address
     if File.basename($0) != 'rake'
-      access_token = access_wallet
+      access_token = ENV['bitgo_admin_access_token']
       Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      api = Bitgo::V1::Api.new
       secure_passphrase =  self.encrypted_password
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
