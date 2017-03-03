@@ -215,11 +215,11 @@
                     <% if @task.team_memberships.blank? %>
                         <h2>No Teammate Added Yet</h2>
                     <% else %>
-                        <% @task.team_memberships.each do |team_member| %>
-                            <% if team_member.team_member.picture? %>
-                                <%= image_tag(team_member.team_member.picture, title: team_member.team_member.name) %>
+                        <% @task.team_memberships.each do |membership| %>
+                            <% if membership.team_member.picture? %>
+                                <%= image_tag(membership.team_member.picture) %>
                             <% else %>
-                                <%= gravatar_for_user(team_member.team_member, title: team_member.team_member.name) %>
+                                <%= gravatar_for_user(membership.team_member) %>
                             <% end %>
                         <% end %>
                     <% end %>
