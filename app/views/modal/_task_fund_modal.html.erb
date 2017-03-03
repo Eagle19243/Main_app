@@ -29,7 +29,6 @@
           <div class="modal-fund__tabs">
             <div class="modal-fund__tab-wrap">
               <button class="modal-fund__tab _active" type="button">Use your WeServe.io wallet</button>
-              <button class="modal-fund__tab" type="button">Use bitcoin address</button>
             </div>
 
           <% if user_signed_in? %>
@@ -56,16 +55,6 @@
 
                     <a class="modal-fund__wallet" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
                   </div>
-
-              </div>
-              <div class="modal-fund__tab-content">
-                <div class="modal-fund__address">
-                  <div class="modal-fund__address-inner">
-                    <div class="modal-fund__signed-label">Send exactly <b class="modal-fund__btc-value"><span class="js-btc-value">0</span> BTC</b> to this address:</div>
-                    <input type="text" class="f-default__field js-wallet-address" id="wallet_address"/>
-                    <button type="button" class="btn-root _copy-address _small">Copy address</button>
-                  </div>
-                </div>
               </div>
             </div>
             <button type="button" class="btn-root _donate _dark js-submit-btc">Donate - BTC<span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
@@ -159,12 +148,6 @@
   $(document)
       .on('click.copyWallet', '._copy-address', function () {
         CopyToClipboard('wallet_address');
-      })
-      .on('click.tabBehaviour', '.modal-fund__tab', function () {
-        var $that = $(this);
-        $that.addClass('_active').siblings().removeClass('_active');
-        $('.modal-fund__tab-content').removeClass('_active').eq($that.index()).addClass('_active');
-        $that.parents('.modal-fund__tabs').find('.js-submit-btc').toggleClass('_hidden');
       })
       .on('click.changePaymentType', '.js-change-payment-type', function () {
         var $that = $(this),
