@@ -39,7 +39,7 @@ class Task < ActiveRecord::Base
     end
 
     event :reject do
-      transitions :from => [:pending, :suggested_task], :to => :rejected
+      transitions :from => [:pending, :accepted, :suggested_task], :to => :rejected
     end
 
     event :start_doing do
