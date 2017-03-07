@@ -1,5 +1,5 @@
 set :scm,             :git
-set :repo_url,        'git@github.com:YouServe/YouServe.git'
+set :repo_url,        'git@github.com:YouServe/Main-App.git'
 set :application,     'YouServe'
 set :user,            'weserve'
 set :puma_threads,    [4, 16]
