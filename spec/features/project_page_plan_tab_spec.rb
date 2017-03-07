@@ -32,10 +32,6 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
         expect(@plan_area).to have_selector(".project-idea")
       end
 
-      scenario "Then you can see the project tasks in the 'Tasks' block" do
-        expect(@plan_area.find("#tasks_cards")).to have_xpath "//a[contains(@href,'/projects/show_task?id=#{@task.id}')]"
-      end
-
       scenario "Then you can see 'Revisions' button" do
         expect(@plan_area).to have_link "Revisions"
       end

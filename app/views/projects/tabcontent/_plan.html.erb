@@ -1,7 +1,7 @@
 <div class="content-details">
   <div class="row">
 
-    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <% if user_signed_in? %>
         <div class="row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
@@ -45,58 +45,6 @@
         <% end %>
       </div>
 
-    </div>
-
-    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
-      <div class="tasks-summary">
-        <div class="summary-header">
-          <strong>Tasks</strong>
-          <a href="javascript:void(0)" class="pull-right">View All</a>
-        </div>
-
-        <div id="tasks_cards">
-          <% sourcing_tasks.first(5).each do |task| %>
-
-              <%= link_to projects_show_task_path(id: task.id), class: 'summary-cards pr-card', data: { task_id: task.id }, remote: true do %>
-                <div class="card-wrapper">
-                  <div class="card-title">
-                    <p><%= task.description %></p>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-9 col-md-9 col-sm-9 pt15">
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>;">
-                        </div>
-                      </div>
-                      <div class="report-banner-table tab-task-report mt10">
-                        <table>
-                          <tr class="value">
-                            <td><%= task.funded %></td>
-                            <td><%= task.number_of_participants %>/<%= task.target_number_of_participants %></td>
-                            <td><%= satoshi_balance_in_btc(task.current_fund) %></td>
-                          </tr>
-                          <tr class="items">
-                            <td>Funded</td>
-                            <td>Teammates</td>
-                            <td>Raised</td>
-                          </tr>
-                        </table>
-                      </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3">
-                      <div class="fund-do-btns">
-                        <button class="btn-root _dark" type="button" title="DO" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
-                        <button class="btn-root" type="button" title="FUND" onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              <%end %>
-          <% end %>
-        </div>
-
-      </div>
     </div>
 
     <div class="requests col-md-7">

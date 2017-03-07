@@ -236,13 +236,7 @@ class ProjectsController < ApplicationController
     end
 
     tasks = @project.tasks.all
-    @tasks_count =tasks.count
-    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
-    @done_tasks = tasks.where(state: "completed").count
-    # @doing_tasks = tasks.where(state: "doing").all
-    # @suggested_tasks = tasks.where(state: "suggested_task").all
-    # @reviewing_tasks = tasks.where(state: "reviewing").all
-    # @done_tasks = tasks.where(state: "completed").all
+    @tasks_count = tasks.size
     @contents = ''
     @is_blocked = 0
 
