@@ -16,10 +16,10 @@
         </div>
 
         <div class="s-notifications__content">
-            <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
             <ul class="l-notifications">
                 <%= render @notifications %>
             </ul>
+            <%= render partial: 'load_older_link', locals: { notifications: @notifications } %>
         </div>
     </div>
 </section>
