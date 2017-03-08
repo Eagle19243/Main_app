@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :task do
     sequence(:title) { |n| "task #{n}" }
-    budget 0
+    budget 0.02
     target_number_of_participants 0
     sequence(:condition_of_execution) { |n| "condition_of_execution #{n}" }
     sequence(:proof_of_execution) { |n| "proof_of_execution #{n}" }

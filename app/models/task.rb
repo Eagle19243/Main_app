@@ -22,6 +22,9 @@ class Task < ActiveRecord::Base
   has_many :task_members
   has_many :stripe_payments
 
+  MINIMUM_FUND_BUDGET = 1_200_000   # satoshis
+  MINIMUM_DONATION_SIZE = 1_200_000 # satoshis
+
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
   #commented this as we dont need this for suggested task.Ateq
  # after_create :assign_address
