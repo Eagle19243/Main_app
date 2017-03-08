@@ -47,7 +47,7 @@
               </svg>
 
               <% if current_user.notifications.unread.count > 0 %>
-                <span class="btn-bell__counter"><%= Notification.unread.count %></span>
+                <span class="btn-bell__counter"><%= current_user.notifications.unread.count %></span>
               <% end %>
           </div>
       </a>
@@ -55,16 +55,16 @@
       <div class="b-dropdown">
         <div class="b-dropdown__count">
           Notifications&nbsp;
-          <span class="count"><%= Notification.unread.count %></span>
+          <span class="count"><%= current_user.notifications.unread.count %></span>
         </div>
 
         <ul class="l-dropdown">
-          <% if Notification.unread.count == 0 %>
+          <% if current_user.notifications.unread.count == 0 %>
             <li class="l-dropdown__item">
               <span class="l-dropdown__action">No new notification</span>
             </li>
           <% else %>
-            <% Notification.unread.each do |n| %>
+            <% current_user.notifications.unread.each do |n| %>
               <% source_model = n.source_model %>
               <% source_model ||= n.archived_source_model %>
 
@@ -99,7 +99,7 @@
                             <%= "#{n.created_at.strftime(" %b %d")} "%>
                           </span>
                         </div>
-                        <p class="l-dropdown__text"><span><%= "#{n.origin_user.name}"%></span><%= " followed "%>
+                        <p class="l-dropdown__text"><span>You are now following project
                           <span><%= "#{source_model.title}"%></span>
                         </p>
                       <% elsif n.rejected_task? %>
@@ -148,7 +148,7 @@
                             <%= "#{n.created_at.strftime(" %b %d")} "%>
                           </span>
                         </div>
-                        <p class="l-dropdown__text">You are now following project
+                        <p class="l-dropdown__text"><span><%= "#{n.origin_user.name}"%></span><%= " followed "%>
                           <span><%= "#{source_model.title}"%></span>
                         </p>
                       <% end %>
