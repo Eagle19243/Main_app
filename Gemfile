@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
 
 gem 'rails', '4.2.5.1'
 gem 'sass-rails', '~> 5.0'
@@ -29,8 +28,6 @@ gem 'chosen-rails'
 gem 'validates_timeliness', '~> 4.0'
 gem 'interactor-rails', '~> 2.0'
 gem 'puma'
-gem 'sunspot_rails'
-gem 'sunspot_solr'
 gem 'rails4-autocomplete'
 gem 'nokogiri', '1.6.0'
 gem 'progress_bar'
@@ -75,6 +72,7 @@ gem 'rack-mini-profiler'
 
 # Help to kill N+1 queries and unused eager loading
 gem "bullet", :group => "development"
+gem 'guard-rspec', require: false
 
 # Bootstrap datetimepicker
 gem 'momentjs-rails', '>= 2.9.0'
@@ -111,6 +109,7 @@ gem 'rubocop', require: false
 
 # A Ruby code quality reporter
 gem "rubycritic", :require => false
+gem 'gon'
 
 # TDD/BDD Testing
 group :development, :test do
@@ -126,6 +125,8 @@ group :test do
   gem 'stripe-ruby-mock', '~> 2.4.0', require: 'stripe_mock'
   gem 'simplecov', require: false
   gem "codeclimate-test-reporter", "~> 1.0.0"
+  gem 'stub_env'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 # Auto deployment to AWS

@@ -5,7 +5,13 @@
 
   $(function () {
     var $form = $('#payment-form');
+
     $form.submit(function (event) {
+      if ($form.attr('id') == 'payment-form-stripe-no-submit') {
+        //if no-stripe connection is needed(saved carded used) proceed without calling stripe
+        return true;
+      }
+
       // Disable the submit button to prevent repeated clicks:
       $form.find('.js-submit-cc').prop('disabled', true);
 
@@ -24,6 +30,7 @@
     if (response.error) { // Problem!
       // Show the errors on the form:
       $form.find('.modal-fund__payment-errors').text(response.error.message);
+      $form.find('.modal-fund__payment-errors').show();
       $form.find('.js-submit-cc').prop('disabled', false); // Re-enable submission
 
     } else { // Token was created!
@@ -37,8 +44,39 @@
       // Submit the form:
       $form.get(0).submit();
     }
-  }
-  ;
+  };
+
+  $(document).ready(function() {
+    $('.available-cards-radio-button').click(function () {
+      $('.new-card-subform').hide();
+      $('.select-new-card-row').show();
+      $('.select-new-card-row').removeClass('hide');
+      $('#payment-form').attr('id','payment-form-stripe-no-submit');
+
+      // disable validation as they will not be used for a saved card
+      $('#payment-form-stripe-no-submit').validate({
+            ignore: "#payment-form-stripe-no-submit *"
+        });
+
+      // hide any possible errros from failed attempt to add a new credit card
+      $('.modal-fund__payment-errors').hide();
+
+    });
+
+    $('.select-new-card-row').click(function () {
+      event.preventDefault();
+
+      $("input:radio").attr("checked", false);
+      $('.new-card-subform').show();
+      $('.select-new-card-row').hide();
+      $('#payment-form-stripe-no-submit').attr('id','payment-form');
+      // bring back validations
+      $("#payment-form").validate();
+
+    });
+  });
+
+
 </script>
 
  <!--If You want a new page for card payment then use  <%#= card_payment_project_task_path %> in action instead of / on popup
@@ -53,7 +91,30 @@
   <%#= hidden_field_tag :wallet_transaction_user_wallet,  @task.wallet_address.sender_address %>
 
     <div class="modal-fund__stripe-bottom">
-      <div class="modal-fund__stripe-bottom-inner">
+      <br class="modal-fund__stripe-bottom-inner">
+
+      <% if @available_credit_cards.present? %>
+        <label class="f-default__label">Saved Cards:</label>
+        <br>
+      <div class="f-default__row">
+        <div class="f-default__label-wrap">
+          <div class="f-default__radio-label available-cards-radio">
+          <% @available_credit_cards.each do |card| %>
+              <input type="radio" class="available-cards-radio-button" name="card_id" value="<%= card[:id] %>">
+                <span class="modal-fund__last4">Last 4 digits: <%= card[:last4] %></span>
+              <br>
+          <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+
+      <div class="f-default__row select-new-card-row hide">
+        <%= link_to('New Card', '#', class: 'new-card-link') %>
+      </div>
+
+
+      <div class="new-card-subform">
         <div class="f-default__row">
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_number">Card Number</label>
@@ -61,12 +122,12 @@
             <input type="tel" autocomplete="off" id="card_number" data-stripe="number" class="f-default__field" placeholder="•••• •••• •••• ••••" required/>
 
             <span class="f-default__card-wrap">
-              <%= image_tag('payments/dc-pay@2x.png', class:"_dc") %>
-              <%= image_tag('payments/jcb-pay@2x.png', class:"_jcb") %>
-              <%= image_tag('payments/discover-pay@2x.png', class:"_discover") %>
-              <%= image_tag('payments/ae-pay@2x.png', class:"_ae") %>
-              <%= image_tag('payments/mc-pay@2x.png', class:"_mc") %>
-              <%= image_tag('payments/visa-pay@2x.png', class:"_visa") %>
+              <%= image_tag('payments/dc-pay@2x.png', class: "_dc") %>
+              <%= image_tag('payments/jcb-pay@2x.png', class: "_jcb") %>
+              <%= image_tag('payments/discover-pay@2x.png', class: "_discover") %>
+              <%= image_tag('payments/ae-pay@2x.png', class: "_ae") %>
+              <%= image_tag('payments/mc-pay@2x.png', class: "_mc") %>
+              <%= image_tag('payments/visa-pay@2x.png', class: "_visa") %>
               <!--<svg focusable="false" version="1.1" class="svg-visa">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-visa"></use>
               </svg>-->
@@ -81,15 +142,29 @@
           <div class="f-default__label-wrap">
             <label class="f-default__label" for="card_code">Card code</label>
             <input type="tel" autocomplete="off" id="card_code" class="f-default__field _cvc" placeholder="CVV" maxlength="4" data-stripe="cvc" required/>
-            <a href="https://www.strategicprofitsinc.com/cvv_info/cvv_info.html" target="_blank" class="modal-fund__cvc-info btn-reset">What is CVV?</button>
+            <a href="https://www.strategicprofitsinc.com/cvv_info/cvv_info.html" target="_blank" class="modal-fund__cvc-info btn-reset">What is CVV?</a>
           </div>
         </div>
+        <div class="f-default__row _flex">
+          <label class="f-default__checkbox-label">
+            <input class="f-default__checkbox-field" name="save_card" type="checkbox" value="1"/>
+            <span class="f-default__checkbox-pseudo"></span>
+            <span class="f-default__checkbox-text">Save this card</span>
+          </label>
+        </div>
+      </div>
+
         <!--Commented this may be we use this in future -->
         <!--<br/>-->
         <label class="f-default__checkbox-label">
-          <input class="f-default__checkbox-field" name="method" type="checkbox" />
-          <span class="f-default__checkbox-pseudo"></span>
-          <span class="f-default__checkbox-text">I've read and accept the <a href='/pages/terms_of_use'><b>terms & conditions</b></a></span>
+            <input class="f-default__checkbox-field" name="method" type="checkbox" />
+            <span class="f-default__checkbox-pseudo"></span>
+            <span class="f-default__checkbox-text">
+                I've read and accept the
+                <a href="/pages/terms_of_use">
+                    <b>terms & conditions</b>
+                </a>
+            </span>
         </label>
 
         <div class="f-default__info-message">

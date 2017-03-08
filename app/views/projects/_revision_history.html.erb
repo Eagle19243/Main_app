@@ -17,7 +17,7 @@
         <tr class="<%= "unapproved" if history['status'] == 'approved' %>"
           data-revision="<%= history['revision_id'] %>"
           data-revision-date="<%= history["datetime"] %>"
-          data-revision-user-picture="<%= history['user'] ? (history['user'].picture? ? history['user'].picture? : gravatar_image_url(history['user'].email) ) : ''  %>"
+          data-revision-user-picture="<%= history['user'] ? history['user'].picture ? history['user'].picture : gravatar_image_url(history['user'].email) : '' %>"
           data-revision-user="<%= (history['user']) ? history['user'].name : 'Anonymous' %>"
           data-revision-user-id="<%= (history['user']) ? history['user'].id : '' %>"
           data-revision-user-link="<%= history['user'] ? user_path(history['user']) : '' %>"
@@ -56,11 +56,11 @@
           </td>
           <td>
             <% if history['is_blocked'] == 0 %>
-              <a href="javascript:void(0)" class='block-user' data-modal="#blockUserModal">
+              <a class='block-user' data-modal="#blockUserModal">
                 <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Block
               </a>
             <% else %>
-              <a href="/projects/<%= project.id %>/unblock_user?username=<%= history['username'] %>" class='unblock-user'>
+              <a data-username="<%= history['username'] %>" data-project-id="<%= project.id %>" class='revision-status-btn unblock-user'>
                 <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Unblock
               </a>
             <% end %>

@@ -1,9 +1,7 @@
 <div id="taskDoModal" class="modal-default modal-do-task" role="dialog" tabindex="-1">
     <div class="modal-default__content">
         <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Do a Task Today!</h4>
-        <p id="Do-request-form-response" class="text-default" style="color: red; text-align: center;"></p>
-        <h4 class="modal-default__text">Add Cover Letter</h4>
+        <h4 class="modal-default__title">Explain why you want to do this task.</h4>
         <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
             <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
             <%= form.text_area :application, class:'f-default__textarea' %>
@@ -15,5 +13,12 @@
               <a href="/users/sign_in" class="btn-root">Login</a>
             <% end %>
         <% end %>
+    </div>
+</div>
+
+<div id="taskDoModalResponse" class="modal-default modal-do-task-response" role="dialog" tabindex="-1">
+    <div class="modal-default__content">
+        <button type="button" class="modal-default__close"></button>
+        <h4 class="modal-default__title">Explain why you want to do this task.</h4>
     </div>
 </div>

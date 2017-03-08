@@ -4,13 +4,14 @@ VCR.configure do |c|
   c.configure_rspec_metadata!
 
   c.filter_sensitive_data('BITGO_ACCESS_TOKEN') do
-    CGI.escape YAML.load_file("#{Rails.root}/config/application.yml")['bitgo_admin']['access_token']
+    CGI.escape YAML.load_file("#{Rails.root}/config/application.yml")['bitgo_admin_access_token']
   end
 
   c.ignore_request do |req|
     uri = URI(req.uri)
     uri.host == '127.0.0.1' && uri.port == 35792 ||   # test server
-      uri.host == 'localhost' && uri.port == 8981     # solr
+      uri.host == 'localhost' && uri.port == 8981 ||     # solr
+      uri.host == 'localhost' && uri.port == 80
   end
 
   c.register_request_matcher :blindfolded_body do |a, b|

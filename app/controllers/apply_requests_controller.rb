@@ -3,7 +3,6 @@ class ApplyRequestsController < ApplicationController
   before_action :set_apply_request, only: [:accept, :reject]
 
   def accept
-
     authorize! :create, @apply_request
 
     @apply_request.accept!

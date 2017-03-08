@@ -33,7 +33,7 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     height: 38px;
     padding: 0 14px;
     line-height: 1;
-    margin-bottom: 12px;
+    margin-bottom: 5px;
     font-size: 14px;
   }
   &__current-fund {
@@ -44,6 +44,16 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     margin-bottom: 20px;
     display: block;
   }
+  &__error {
+    opacity: 0;
+    pointer-events: none;
+    color: red;
+    font-size: 13px;
+    &._visible {
+      pointer-events: auto;
+      opacity: 1;
+    }
+  }
   &__top {
     padding: 42px 80px 78px;
   }
@@ -53,8 +63,6 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     font-size: 13px;
     font-weight: 500;
     text-transform: uppercase;
-    min-height: 18px;
-    margin-bottom: 38px;
     display: block;
   }
   .btn-root {
@@ -169,6 +177,16 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     margin-left: 6px;
     font-family: Roboto, sans-serif;
   }
+
+  &__last4 {
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    margin-left: 6px;
+    font-family: Roboto, sans-serif;
+  }
+
   &__avatar {
     border-radius: 50%;
     max-width: 44px;
@@ -209,14 +227,40 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
       max-width: 320px;
     }
   }
-  ._donate,
-  ._sign-in {
-    margin: 33px auto 25px auto;
-    display: table;
+  .btn-root {
+    &._donate,
+    &._sign-in {
+      margin: 33px auto 25px auto;
+      display: table;
+    }
+    &._donate {
+      transition: opacity .25s ease-in-out;
+    }
+    &._donate._disable {
+      opacity: .4;
+      pointer-events: none;
+    }
   }
   .btn-root._copy-address {
     padding: 5px 15px 4px;
   }
+  .select-new-card-row {
+    padding-bottom: 20px;
+  }
+
+  .new-card-link {
+    color: #000;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 17px;
+    display: inline-block;
+    vertical-align: middle;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
   .svg-wallet {
     fill: #4a4a4a;
     width: 17px;

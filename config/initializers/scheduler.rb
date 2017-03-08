@@ -5,8 +5,8 @@ scheduler = Rufus::Scheduler::singleton
 scheduler.every '10m' do
   begin
     puts 'Fetching task Balance' unless Rails.env == "development"
-    access_token= access_wallet
-    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+    access_token= ENV['bitgo_admin_access_token']
+    api = Bitgo::V1::Api.new
     all_tasks = Task.where(state: 'accepted')
     unless all_tasks.blank?
       all_tasks.each do|task|
@@ -29,8 +29,8 @@ scheduler.every '1d' do
     available_wallet_addresses = GenerateAddress.where(is_available:true)
     if available_wallet_addresses.blank? or available_wallet_addresses.count < 50
       #  puts 'Generating new wallet_Addresses' unless Rails.env == "development"
-      access_token = access_wallet
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      access_token = ENV['bitgo_admin_access_token']
+      api = Bitgo::V1::Api.new
       for i in 1..5 do
         secure_passphrase = SecureRandom.hex(5)
         secure_label = SecureRandom.hex(5)
@@ -74,11 +74,11 @@ scheduler.every '10m' do
         begin
           satoshi_amount = convert_usd_to_btc_and_then_satoshi(stripe_payment.amount)
           unless satoshi_amount.eql?('error') or satoshi_amount.blank?
-            access_token = we_serve_wallet
+            access_token = ENV['bitgo_admin_weserve_admin_access_token']
             address_from = ENV['reserve_wallet_id'].strip
             sender_wallet_pass_phrase = ENV['reserve_wallet_pass_pharse'].strip
             address_to = task_wallet.strip
-            api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+            api = Bitgo::V1::Api.new
             @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
             if @res["message"].blank?
               stripe_payment.tx_hash = @res["tx"]

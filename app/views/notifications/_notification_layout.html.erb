@@ -13,8 +13,8 @@
           <%= yield %>
 
           <% if notification.user_id == current_user.id && notification.operatable? %>
-            <% unless ["project","task"].include? notification.source_model_type.underscore %>
-                <%= render partial: "notifications/#{notification.source_model_type.underscore}/accept_reject_buttons", locals: { notification: notification }%>
+            <% if ["project", "task"].exclude? notification.source_model_type.underscore %>
+                <%= render partial: "notifications/#{notification.source_model_type.underscore}/accept_reject_buttons", locals: { notification: notification, source_model: source_model }%>
             <% end %>
           <% end %>
         </div>

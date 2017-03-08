@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if @user.update_attributes(update_params)
-        format.html { 
+        format.html {
           current_user.create_activity(@user, 'updated')
           redirect_to(@user, :notice => 'User was successfully updated.')
         }
@@ -43,9 +43,9 @@ class UsersController < ApplicationController
   end
 
   def my_wallet
-    access_token = access_wallet
+    access_token = ENV['bitgo_admin_access_token']
     @wallet_address = current_user.user_wallet_address
-    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+    api = Bitgo::V1::Api.new
     response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)
     @wallet_address.update_attribute('current_balance',response["balance"]) rescue nil
     @transactions = api.list_wallet_transctions(@wallet_address.sender_address, access_token) rescue nil
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   private
 
   def update_params
-    params.require(:user).permit(:picture, :name, :email, :password, :bio,
+    params.require(:user).permit(:picture, :email, :password, :bio,
     :city, :phone_number, :bio, :facebook_url, :twitter_url,
     :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
     :linkedin_url, :picture_cache)

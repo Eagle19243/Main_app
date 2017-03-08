@@ -11,22 +11,23 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!, only: [:contacts_callback]
 
   # skip_authorization_check []
+  before_action :set_gon
+
+  def set_gon
+    @short_descr_limit = gon.short_descr_limit = Project::SHORT_DESCRIPTION_LIMIT
+  end
 
   def index
     if user_signed_in?
       if current_user.user_wallet_address.blank?
         current_user.assign_address
-      else
-        unless current_user.user_wallet_address.user_keys.blank?
-          @download_keys = true
-        end
       end
     end
     #Every Time someone visits home page it ittrate N times Thats not a good approch .
     # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.where.not(state: "rejected").page params[:page]
 
-    if @download_keys && session[:start_by_signup]
+    if session[:start_by_signup]
       if session[:start_by_signup] == "true"
         @start_project = true
       elsif session[:start_by_signup] == "false"
@@ -113,9 +114,13 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    search = Sunspot.search(Task, Project) { fulltext params[:term] }
-    results = search.results.map(&:title)
+    results = []
+    if params[:term].present?
+      projects = Project.fulltext_search(params[:term]).map(&:title)
+      tasks = Task.fulltext_search(params[:term]).map(&:title)
 
+      results = [projects, tasks].flatten
+    end
     respond_to do |format|
       format.html { render text: results }
       format.json { render json: results.to_json, status: :ok }
@@ -124,13 +129,14 @@ class ProjectsController < ApplicationController
 
   def user_search
     #User search has been disabled because we don't have user's public profile or show page yet available in application we will just add Sunspot.search(Project,Task,User) later
-    @search = Sunspot.search(Task, Project) do
-      # keywords params[:title]
-      fulltext params[:title] do
-        query_phrase_slop 1
-      end
+    @results = []
+
+    if params[:title].present?
+      # TODO I think here we should have 2 objects projects and tasks, not 1 single result object
+      projects = Project.fulltext_search(params[:title])
+      tasks = Task.fulltext_search(params[:title])
+      @results = [projects, tasks].flatten
     end
-    @results = @search.results
     unless @results.blank?
       respond_to do |format|
         # format.html {render  :search_results}
@@ -205,36 +211,37 @@ class ProjectsController < ApplicationController
       flash.discard(:notice)
       session[:email] = nil
     end
+
     if session[:email_failure] == "failure_email"
       flash[:notice] = "No, Project invitation Email was sent to your Friends!"
       flash.discard(:notice)
       session[:email_failure] = nil
     end
+
+    @available_credit_cards = Payments::StripeSources.new.call(user: current_user) if current_user
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
     @followed = false
     @rate = 0
+
     if user_signed_in?
       @followed = @project.project_users.pluck(:user_id).include? current_user.id
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
+
     tasks = @project.tasks.all
-    @tasks_count =tasks.count
-    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
-    @done_tasks = tasks.where(state: "completed").count
-    # @doing_tasks = tasks.where(state: "doing").all
-    # @suggested_tasks = tasks.where(state: "suggested_task").all
-    # @reviewing_tasks = tasks.where(state: "reviewing").all
-    # @done_tasks = tasks.where(state: "completed").all
+    @tasks_count = tasks.size
     @contents = ''
     @is_blocked = 0
+
     if current_user
       result = @project.page_read current_user.username
     else
       result = @project.page_read nil
     end
+
     if result
       if result["status"] == 'success'
         @contents = result["html"]
@@ -254,7 +261,6 @@ class ProjectsController < ApplicationController
   end
 
   def revisions
-
     authorize! :revisions, @project
 
     @histories = get_revision_histories @project
@@ -406,7 +412,6 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-
         if current_user.username
           # Create new page in wiki and this user will be the owner of this wiki page and project
           @project.page_write current_user, ''
@@ -422,6 +427,7 @@ class ProjectsController < ApplicationController
         format.json { render json: {id: @project.id, status: 200, responseText: "Project has been Created Successfully "} }
         session[:project_id] = @project.id
       else
+        Rails.logger.debug "Failed to save new project #{@project}"
         format.html { render :new }
         format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end

@@ -1,4 +1,4 @@
 <%= link_to notification.origin_user.name, user_path(notification.origin_user) %>&nbsp accepted &nbsp
-<%= link_to notification.source_model.sender.name, user_path(notification.source_model.sender.name) %>
+<%= link_to source_model.sender.name, user_path(source_model.sender.name) %>
 &nbsp invitation to become an admin on project &nbsp
-<%= link_to notification.source_model.project.title, project_path(notification.source_model.project) %>
+<%= link_to source_model.project.title, project_path(source_model.project) %>

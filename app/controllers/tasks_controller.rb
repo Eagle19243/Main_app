@@ -118,22 +118,21 @@ class TasksController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @task = Task.new(create_task_params)
-    @task.user_id = current_user.id
+    project = Project.find(params[:task][:project_id])
 
-    authorize! :create, @task
+    authorize! :create, project.tasks.new(state: params[:task][:state])
+
+    service = TaskCreateService.new(create_task_params, current_user, project)
 
     respond_to do |format|
-      if @task.save
-        unless @task.suggested_task?
-          @task.assign_address
-        end
-        current_user.create_activity(@task, 'created')
-        format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created, location: @task }
+      redirect_path = taskstab_project_path(project, tab: 'Tasks')
+
+      if service.create_task
+        format.html { redirect_to redirect_path, notice: 'Task was successfully created.' }
+        format.json { render :show, status: :created, location: service.task }
       else
-        format.html { render :new }
-        format.json { render json: @task.errors, status: :unprocessable_entity }
+        format.html { redirect_to redirect_path, alert: "Task was not created" }
+        format.json { render json: service.task.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -193,9 +192,9 @@ class TasksController < ApplicationController
   def refund
     if current_user.id == @task.project.user_id
       bitgo_fee = 0.10
-      access_token = access_wallet
+      access_token = ENV['bitgo_admin_access_token']
       @wallet_address = @task.wallet_address
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      api = Bitgo::V1::Api.new
       response = api.get_wallet(wallet_id: @wallet_address.wallet_id, access_token: access_token)
       @task.update_attribute('current_fund', response["balance"]) rescue nil
       if @task.current_fund > 0
@@ -259,15 +258,18 @@ class TasksController < ApplicationController
 
   def reject
     if @task.reject!
-      @notice = "Task Rejected"
+      flash[:notice] = "Task #{@task.title} has been rejected"
+      NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
       @task.destroy
     else
-      @notice = "Task was not Rejected "
+      flash[:notice] = "Task was not rejected"
     end
+
     respond_to do |format|
       format.js
       format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
     end
+
   end
 
   def reviewing
@@ -345,7 +347,7 @@ class TasksController < ApplicationController
   end
 
   def default_attributes
-    %i(references deadline target_number_of_participants project_id
+    %i(references deadline target_number_of_participants
        short_description number_of_participants proof_of_execution title
        description budget user_id condition_of_execution fileone filetwo
        filethree filefour filefive state)

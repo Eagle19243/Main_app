@@ -38,12 +38,7 @@
     <div class="profile-hero__content">
       <div class="profile-hero__user-name-wrap">
         <div class="profile-hero__user-name">
-          <% if (current_user && current_user.id == @user.id) %>
-            <%= best_in_place @user, :name, :as => :input, activator: '#edit-profile-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
-            <a id="edit-profile-pencil" href="#" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
-          <% else %>
-            <%= @user.name %>
-          <% end %>
+          <%= @user.name %>
         </div>
       </div>
 
@@ -109,26 +104,6 @@
     </div>
   </div>
 
-
-  <script type="text/javascript">
-    $(function () {
-
-      var $profileHero = $('.profile-hero');
-      $profileHero
-        .on('click.addEditClass', '.btn-edit', function () {
-          $(this).parent().toggleClass('_open-edit-form').parents('.profile-hero').addClass('_form-opened');
-          var $buttons = $profileHero.find('[type="submit"],[type="button"]');
-          var $input_country = $profileHero.find('input[name=city]');
-          $input_country.geocomplete();
-          $buttons.on('click.removeEditClass', function () {
-            $('._open-edit-form').removeClass('_open-edit-form').parents('.profile-hero').removeClass('_form-opened');
-            $buttons.off('click.removeEditClass');
-          });
-        })
-
-    });
-  </script>
-
   <div class="bio-wrapper">
     <h3 class="bio-header">
       BIO
@@ -193,7 +168,7 @@
                       <td><%= project.funded_percentages %></td>
                       <td><%= project.team_relations_string %></td>
                       <td><%= project.tasks_relations_string %></td>
-                      <td>฿ <%= project.funded_budget %></td>
+                      <td>฿ <%= btc_balance(project.funded_budget) %></td>
                     </tr>
                     <tr class="items">
                       <td>Funded</td>

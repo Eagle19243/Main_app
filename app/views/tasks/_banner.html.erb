@@ -73,37 +73,27 @@
           <table>
             <tr class="value">
               <td><%= @project.funded_percentages rescue 0 %></td>
-              <!--<td><%#= @done_tasks.to_s + "/" + @tasks_count.to_s %></td>-->
               <td>
                 <%= @project.team_relations_string %>
               </td>
-              <td>฿ <%= @project.funded_budget %></td>
+              <td>฿ <%= btc_balance(@project.funded_budget) %></td>
             </tr>
             <tr class="items">
               <td>Funded</td>
-              <!--<td>Completed Tasks</td>-->
               <td>Teammates</td>
               <td>Raised</td>
             </tr>
           </table>
         </div>
       </center>
+      <div class="welcome-banner__join-btn">
+        <% if !user_signed_in? %>
+            <button type="button" class="btn-root _light sign_up_a" data-modal="#registerModal">Join the team</button>
+        <% elsif !current_user.is_admin_for?(@project) %>
+            <button type="button" class="btn-root _light" data-modal="#welcomeToTeamModal">Join the team</button>
+        <% end %>
+      </div>
     </div>
-
-    <div class="row">
-      <% if !user_signed_in? %>
-          <center>
-            <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply As Lead Editor</a>
-            <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply As Executor</a>
-          </center>
-      <% elsif !current_user.is_admin_for?(@project) %>
-          <center>
-            <%= link_to "Apply As Lead Editor", get_in_projects_path(type: "1", id: @project.id), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Lead Editor?"} %>
-            <%= link_to "Apply As Executor", get_in_projects_path(type: "2", id: @project.id), :class => "button round get-invo-btn", data: {confirm: "Do you want to apply as Executor?"} %>
-          </center>
-      <% end %>
-    </div>
-
   </div>
 </div>
 </div>

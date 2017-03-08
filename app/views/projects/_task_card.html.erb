@@ -1,0 +1,29 @@
+<div class="card-title">
+  <h5><%= task.title %></h5>
+  <p><%= task.description %></p>
+</div>
+
+<div class="comment-wrapper">
+  <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
+  <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
+</div>
+
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+  </div>
+</div>
+
+<div class="card-report">
+  <table>
+    <tr class="value">
+      <td><%= task.funded %></td>
+      <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
+      <td><%= satoshi_balance_in_btc(task.current_fund) %></td>
+    </tr>
+    <tr class="items">
+      <td>Funded</td>
+      <td>Teammates </td>
+      <td>Raised</td>
+    </tr>
+  </table>
+</div>

@@ -7,8 +7,8 @@ class SessionsController < Devise::SessionsController
 
   def after_login
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    secret = settings['mediawiki']['secret']
-    domain = settings['mediawiki']['domain']
+    secret = settings['mediawiki_secret']
+    domain = settings['mediawiki_domain']
 
     cookies.permanent[:_ws_user_id] = {
         value: current_user.id,
@@ -28,7 +28,7 @@ class SessionsController < Devise::SessionsController
 
   def after_logout
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    domain = settings['mediawiki']['domain']
+    domain = settings['mediawiki_domain']
 
     cookies.delete(:_ws_user_id, domain: domain)
     cookies.delete(:_ws_user_name, domain: domain)

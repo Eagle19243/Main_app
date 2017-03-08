@@ -47,7 +47,7 @@
                 <td><%= project.funded_percentages %></td>
                 <td><%= project.team_relations_string %></td>
                 <td><%= project.tasks_relations_string %></td>
-                <td>฿ <%= project.funded_budget %></td>
+                <td>฿ <%= btc_balance(project.funded_budget) %></td>
               </tr>
               <tr class="items">
                 <td>Funded</td>

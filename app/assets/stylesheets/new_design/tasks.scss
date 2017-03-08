@@ -74,7 +74,9 @@
     }
   }
 
-
+  &__join-btn {
+    margin-top: 40px;
+  }
 
   &__content {
     position: absolute;
@@ -559,6 +561,17 @@
 
 
 .project-summary {
+  font-size: 16px;
+  a {
+    color: #555;
+  }
+  h2 {
+    font-size: 2em;
+  }
+  ul,
+  ol {
+    font-size: 1em;
+  }
   p {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1em;
@@ -886,14 +899,33 @@
   outline: 0;
   background-color: rgba(0, 0, 0, 0.7);
 
+  .svg-loading {
+    fill: none;
+    stroke: #4a4a4a;
+    stroke-width: 2.725;
+    animation: rounded 2s linear infinite;
+  }
+
+  @keyframes rounded {
+    0% {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 200;
+    }
+    50% {
+      stroke-dasharray: 151;
+      stroke-dashoffset: 200;
+    }
+    100% {
+      stroke-dasharray: 151;
+      stroke-dashoffset: 50;
+    }
+  }
+
   .modal-content2 {
-    width: 300px;
     border: none;
     text-align: center;
     font-family: 'Roboto', sans-serif;
     background: transparent;
-    margin: 0 auto;
-    text-align: center;
     position: absolute;
     width: 100%;
     margin: auto;
@@ -904,10 +936,6 @@
     h3 {
       color: #fff !important;
       font-weight: bold;
-    }
-
-    img {
-      width: 80px;
     }
   }
 }

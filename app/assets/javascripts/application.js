@@ -61,6 +61,28 @@ $(function() {
   $('.task-box').matchHeight();
 });
 
+var DateTimePickerModule = (function () {
+
+    function bindEvents() {
+        var DAY_TO_DEADLINE = 89,
+            currentDate = new Date(),
+            deadlineDate = new Date().setDate(currentDate.getDate() + DAY_TO_DEADLINE);
+
+        $('.deadline_picker').datetimepicker({
+            viewMode: 'months',
+            format: 'YYYY-MM-DD HH:mm A',
+            minDate: currentDate,
+            maxDate: deadlineDate
+        });
+    }
+
+    return {
+        init: function ($document) {
+            bindEvents($document);
+        }
+    };
+})();
+
 
 var TabsModule = (function () {
 
@@ -70,6 +92,7 @@ var TabsModule = (function () {
                 e.preventDefault();
                 e.stopPropagation();
                 var $that = $(this), taskId,
+                    $html = $('html'),
                     tab = $that.data('tab'),
                     paramsArr = window.location.search.slice(1).split('&');
                 UrlModule.setTab(tab);
@@ -84,6 +107,18 @@ var TabsModule = (function () {
                         taskId = item.split('=')[1];
                     }
                 });
+
+                if ($html.hasClass('_open-modal')) {
+                    $('#welcomeToTeamModal').fadeOut(300);
+                    setTimeout(function () {
+                        $html.removeClass('_open-modal');
+                        if ($that.data('tab') === 'Tasks') {
+                            $('#tab-tasks').addClass('active');
+                        } else {
+                            $('#tab-plan').addClass('active');
+                        }
+                    }, 300)
+                }
                 window.history.pushState(null, null, window.location.pathname + ('?tab=' + (taskId ? 'Tasks&taskId=' + taskId : tab)));
             });
     }
@@ -91,6 +126,38 @@ var TabsModule = (function () {
     return {
         init: function ($document) {
             bindEvents($document);
+        }
+    };
+})();
+
+var RevisionModule = (function() {
+    function bindEvents($document) {
+        $document
+            .on('click.blockUser', '.revision-status-btn', function(e) {
+                e.preventDefault();
+
+                var $that = $(this),
+                    projectId = $that.data('project-id'),
+                    username = $that.data('username'),
+                    url = '/projects/' + projectId + ($that.hasClass('_block-user') ? '/block_user?username=' : '/unblock_user?username=') + username;
+
+                sessionStorage.setItem('revisionBlockOpen', JSON.stringify(true));
+
+                window.location.assign(window.location.origin + url);
+            })
+    }
+    function checkVisibilityRevisionBlock() {
+        if (JSON.parse(sessionStorage.getItem('revisionBlockOpen'))) {
+            setTimeout(function () {
+                $('#editSource').click();
+            });
+            sessionStorage.removeItem('revisionBlockOpen');
+        }
+    }
+    return {
+        init: function ($document) {
+            bindEvents($document);
+            checkVisibilityRevisionBlock();
         }
     };
 })();
@@ -258,9 +325,11 @@ var UrlModule = (function () {
 $document.ready(function() {
     $(".best_in_place").best_in_place();
 
+    DateTimePickerModule.init($document);
     UrlModule.init($document);
     ModalsModule.init($document);
     TabsModule.init($document);
+    RevisionModule.init($document);
 });
 
 // enhance Turbolinks when necessary

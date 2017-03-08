@@ -30,39 +30,13 @@ module ApplicationHelper
     'class=landing' if landing_page?
   end
 
-  def access_wallet
-    begin
-      settings = YAML.load_file("#{Rails.root}/config/application.yml")
-      response = RestClient.get  "http://localhost:3080/api/v1/ping"
-      unless response.blank?
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-        access_token = settings['bitgo_admin']['access_token']
-      end
-    rescue => e
-      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
-    end
-  end
-
-
-  def we_serve_wallet
-    begin
-      settings = YAML.load_file("#{Rails.root}/config/application.yml")
-      response = RestClient.get  "http://localhost:3080/api/v1/ping"
-      unless response.blank?
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-        access_token = settings['bitgo_admin']['weserve_admin_access_token']
-      end
-    rescue => e
-      Rails.logger.info "BITCOIN ERROR: #{e.message}" unless Rails.env == "development"
-    end
-  end
-
   def get_reserve_wallet_balance
-    access_token = we_serve_wallet
-    api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
-    wallet = ENV['reserve_wallet_id'].strip
-    response = api.get_wallet(wallet_id: wallet , access_token: access_token)
-    response["balance"]
+    reserve_wallet_id = ENV['reserve_wallet_id'].to_s.strip
+    return 0 if reserve_wallet_id.blank?
+
+    api = Bitgo::V1::Api.new
+    wallet = api.get_wallet(wallet_id: reserve_wallet_id , access_token: ENV['bitgo_admin_weserve_admin_access_token'])
+    wallet["balance"]
   end
 
   def convert_usd_to_btc_and_then_satoshi(usd)
@@ -101,12 +75,16 @@ module ApplicationHelper
     btc_to_usd.round(3)
   end
 
-  def  user_wallet_balance_btc( satoshi )
+  def btc_balance(btc)
+    btc.to_f.round(4)
+  end
+
+  def satoshi_balance_in_btc(satoshi)
     satoshi_to_btc = satoshi.to_f/10**8.to_f
     satoshi_to_btc.round(4)
   end
 
-  def user_wallet_balance_usd( satoshi )
+  def satoshi_balance_in_usd(satoshi)
     satoshi_to_btc = satoshi.to_f/10**8.to_f
     btc_to_usd =  satoshi_to_btc * get_current_btc_rate
     btc_to_usd.round(3)

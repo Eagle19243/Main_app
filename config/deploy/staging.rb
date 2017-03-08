@@ -1,1 +1,1 @@
-server '54.194.246.183', port: 22, roles: [:web, :app, :db], primary: true
+server '10.200.2.10', port: 22, roles: [:web, :app, :db], primary: true

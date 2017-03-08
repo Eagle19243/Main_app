@@ -8,10 +8,6 @@ class User < ActiveRecord::Base
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
-  searchable do
-    text :name
-  end
-
   def set_default_role
     self.role ||= :user
   end
@@ -52,7 +48,10 @@ class User < ActiveRecord::Base
   has_many :apply_requests, dependent: :destroy
   has_many :stripe_payments
 
-  validates :name, presence: true,uniqueness: true
+  validate :validate_name_unchange
+  validates :name, presence: true, uniqueness: true
+
+  scope :name_like, -> (name) { where('name ILIKE ?', "%#{name}%")}
 
   def self.current_user
     Thread.current[:current_user]
@@ -64,10 +63,9 @@ class User < ActiveRecord::Base
 
   def assign_address
     if File.basename($0) != 'rake'
-
-      access_token = access_wallet
+      access_token = ENV['bitgo_admin_access_token']
       Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      api = Bitgo::V1::Api.new
       secure_passphrase =  self.encrypted_password
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
@@ -293,4 +291,8 @@ class User < ActiveRecord::Base
     (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
   end
 
+  # Normal use case, name cannot be changed, need to bypass validation if neccessary 
+  def validate_name_unchange
+    errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
+  end
 end

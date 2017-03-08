@@ -22,6 +22,9 @@ class Task < ActiveRecord::Base
   has_many :task_members
   has_many :stripe_payments
 
+  MINIMUM_FUND_BUDGET = 1_200_000   # satoshis
+  MINIMUM_DONATION_SIZE = 1_200_000 # satoshis
+
   # after create, assign a Bitcoin address to the task, toggle the comment below to enable
   #commented this as we dont need this for suggested task.Ateq
  # after_create :assign_address
@@ -37,19 +40,22 @@ class Task < ActiveRecord::Base
     event :accept do
       transitions :from => [:pending, :suggested_task], :to => :accepted
     end
+
     event :reject do
-      transitions :from => [:pending, :suggested_task], :to => :rejected
+      transitions :from => [:pending, :accepted, :suggested_task], :to => :rejected
     end
+
     event :start_doing do
       transitions :from => [:accepted, :pending], :to => :doing
     end
+
     event :begin_review do
       transitions :from => [:doing], :to => :reviewing
     end
+
     event :complete do
       transitions :from => [:reviewing], :to => :completed
     end
-
   end
 
   #validates :proof_of_execution, presence: true
@@ -62,11 +68,11 @@ class Task < ActiveRecord::Base
   #validates :target_number_of_participants, presence: true
   #validates_numericality_of :target_number_of_participants, :only_integer => true, :greater_than_or_equal_to => 1
 
-  searchable do
-    text :title
-    text :description
-    text :short_description
-    text :condition_of_execution
+  # TODO In future it would be a good idea to extract this into the Search object
+  def self.fulltext_search(free_text, limit=10)
+    # TODO Rails 5 has a OR method
+    tasks = Task.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR condition_of_execution ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
+    tasks.limit(limit)
   end
 
   def assign_address
@@ -81,9 +87,10 @@ class Task < ActiveRecord::Base
         puts e.message unless Rails.env == "development"
       end
     else
-      access_token = access_wallet
+      # TODO This should be extracted to a concern
+      access_token = ENV['bitgo_admin_access_token']
       #Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+      api = Bitgo::V1::Api.new
       secure_passphrase = SecureRandom.hex(5)
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
@@ -113,11 +120,11 @@ class Task < ActiveRecord::Base
       if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
         @transfer.save
       else
-        access_token = access_wallet
+        access_token = ENV['bitgo_admin_access_token']
         address_from = transfering_task.wallet_address.wallet_id
         sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
         address_to = wallet_address_to_send_btc.strip
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+        api = Bitgo::V1::Api.new
         @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
         unless @res["message"].blank?
           @transfer.save
@@ -156,7 +163,7 @@ class Task < ActiveRecord::Base
 
   def transfer_task_funds
     bitgo_fee = 0.10
-    we_serve_wallet = ENV['we_serve_wallet']
+    we_serve_wallet = ENV['bitgo_admin_weserve_admin_access_token']
     wallet_address = self.wallet_address
     total_budget = self.budget
     team_members = self.team_memberships
@@ -170,9 +177,9 @@ class Task < ActiveRecord::Base
       we_serve_fee = (total_after_bitgo_fee * 5)/100
       total_after_we_serve_fee = total_after_bitgo_fee - we_serve_fee
       each_team_member_fee = total_after_we_serve_fee / num_of_participants
-      transfer_to_user_wallet(we_serve_wallet, we_serve_fee)
+      transfer_to_user_wallet(we_serve_wallet, convert_btc_to_satoshi(we_serve_fee))
       team_members.each do |member|
-        transfer_to_user_wallet(member.team_member.user_wallet_address.sender_address, each_team_member_fee)
+        transfer_to_user_wallet(member.team_member.user_wallet_address.sender_address, convert_btc_to_satoshi(each_team_member_fee))
       end
     end
 
@@ -211,9 +218,9 @@ class Task < ActiveRecord::Base
     users = self.project.team.team_memberships.where(role: 3 ).collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
+
   def is_team_member( user_id )
     users = self.project.team.team_memberships.collect(&:team_member_id)
     (users.include? user_id) ? true : false
   end
-
 end

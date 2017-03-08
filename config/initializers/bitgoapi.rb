@@ -11,8 +11,8 @@ module Bitgo
       LIVE = 'https://bitgo.com/api/v1'
       EXPRESS = 'http://localhost:3080/api/v1'
 
-      def initialize(end_point)
-        @end_point = end_point
+      def initialize
+        @end_point = ENV['bitgo_admin_api_address']
       end
 
       ###############
@@ -266,8 +266,25 @@ module Bitgo
         }
       end
 
-      def send_coins_to_multiple_addresses()
+      # Sends coins to multiple addresses in one single BitGo API call.
+      #
+      # Arguments:
+      #
+      #   * wallet_id         - id of a wallet to send coins from
+      #   * wallet_passphrase - corresponding wallet's pass phrase
+      #   * recipients        - array of recipient objects and the amount to send to each
+      #   * access_token      - bitgo account access token
+      #
+      # The format of recipients array:
+      #
+      #   [{address: '38BKDNZbPcLogvVbcx2ekJ9E6Vv94DqDqw’, amount: 1500}, ..]
+      def send_coins_to_multiple_addresses(wallet_id: nil, recipients: [], wallet_passphrase: nil, access_token: nil)
+        @session_token = access_token
 
+        call :post, '/wallet/'+"#{wallet_id}"+ '/sendmany', {
+          recipients: recipients,
+          walletPassphrase: wallet_passphrase,
+        }
       end
 
       ###############

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Edit a Task", js: true, vcr: { cassette_name: 'bitgo' } do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first
@@ -39,25 +39,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             expect(@task_modal).to be_visible
           end
 
-          scenario "Then the 'Title' has 'edit' icon" do
-            expect(@task_modal).to have_selector("#edit-title")
-          end
-
-          scenario "Then the 'Description' has 'edit' icon" do
-            expect(@task_modal).to have_selector("#edit-description")
-          end
-
-          scenario "Then the 'Condition of Execution' has 'edit' icon" do
-            expect(@task_modal).to have_selector("#edit-condition")
-          end
-
-          scenario "Then the 'Proof of Execution' has 'edit' icon" do
-            expect(@task_modal).to have_selector("#edit-proof")
-          end
-
-          context "When you click the title edit icon" do
+          context "When you click the title" do
             before do
-              find("#edit-title").trigger("click")
+              find("#task-title").trigger("click")
 
               @form = find("#task-update-title-form")
             end
@@ -101,9 +85,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             end
           end
 
-          context "When you click the description edit icon" do
+          context "When you click the description" do
             before do
-              find("#edit-description").trigger("click")
+              find("#task-description").trigger("click")
 
               @form = find("#task-update-description-form")
             end
@@ -147,9 +131,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             end
           end
 
-          context "When you click the condition edit icon" do
+          context "When you click the condition" do
             before do
-              find("#edit-condition").trigger("click")
+              find("#task-condition").trigger("click")
 
               @form = find("#task-update-condition-form")
             end
@@ -193,9 +177,9 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             end
           end
 
-          context "When you click the proof edit icon" do
+          context "When you click the proof" do
             before do
-              find("#edit-proof").trigger("click")
+              find("#task-proof").trigger("click")
 
               @form = find("#task-update-proof-form")
             end
@@ -273,20 +257,8 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             expect(@task_modal).to be_visible
           end
 
-          scenario "Then the 'Title' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-title")
-          end
-
-          scenario "Then the 'Description' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-description")
-          end
-
-          scenario "Then the 'Condition of Execution' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-condition")
-          end
-
-          scenario "Then the 'Proof of Execution' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-proof")
+          scenario "Then the task detail is not editable" do
+            expect(@task_modal).not_to have_selector(".js-toggleForm")
           end
         end
       end
@@ -319,20 +291,8 @@ feature "Suggest a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             expect(@task_modal).to be_visible
           end
 
-          scenario "Then the 'Title' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-title")
-          end
-
-          scenario "Then the 'Description' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-description")
-          end
-
-          scenario "Then the 'Condition of Execution' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-condition")
-          end
-
-          scenario "Then the 'Proof of Execution' does not have 'edit' icon" do
-            expect(@task_modal).not_to have_selector("#edit-proof")
+          scenario "Then the task detail is not editable" do
+            expect(@task_modal).not_to have_selector(".js-toggleForm")
           end
         end
       end

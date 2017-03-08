@@ -5,6 +5,7 @@ class Payments::StripeController < ApplicationController
 
   def new
     @task = Task.find(params[:id])
+    @available_cards = Payments::StripeSources.new.call(user: current_user)
   end
 
 
@@ -18,8 +19,8 @@ class Payments::StripeController < ApplicationController
       flash[:alert] = 'Not Enough BTC in Reserve wallet Please Try Again .'
       redirect_to taskstab_project_url(id: params[:project_id])
     else
-      payment_service = Payments::Stripe.new(params[:stripeToken])
       payment_description = "Payment of #{params[:amount]} for task: #{params[:id]} for project: #{params[:project_id]}"
+
       if payment_service.charge!(amount: params[:amount], description: payment_description)
         task = Task.find(params[:id])
         stripe_response = JSON(payment_service.instance_variable_get(:@stripe_response).to_s)
@@ -46,6 +47,25 @@ class Payments::StripeController < ApplicationController
 
   private
 
+  def payment_service
+    @payment_service ||= Payments::Stripe.new(payment_service_options)
+  end
+
+  def payment_service_options
+    if params[:card_id]
+      {
+        card_id: params[:card_id],
+        user: current_user
+      }
+    elsif params[:stripeToken]
+      {
+        stripe_token: params[:stripeToken],
+        persist_card: params[:save_card].present?,
+        user: current_user
+      }
+    end
+  end
+
   def transfer_coin_from_weserver_wallet_to_task_wallet (task, satoshi_amount, amount, stripe_token, stripe_response_id, balance_transaction, paid, refund_url, status, seller_message)
     task_wallet = task.wallet_address.sender_address
     begin
@@ -53,11 +73,11 @@ class Payments::StripeController < ApplicationController
       if satoshi_amount.eql?('error') or satoshi_amount.blank?
         return
       else
-        access_token = we_serve_wallet
+        access_token = ENV['bitgo_admin_weserve_admin_access_token']
         address_from = ENV['reserve_wallet_id'].strip
         sender_wallet_pass_phrase = ENV['reserve_wallet_pass_pharse'].strip
         address_to = task_wallet.strip
-        api = Bitgo::V1::Api.new(Bitgo::V1::Api::EXPRESS)
+        api = Bitgo::V1::Api.new
         @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
         if @res["message"].blank?
           @transfer.tx_hash = @res["tx"]
@@ -71,7 +91,6 @@ class Payments::StripeController < ApplicationController
 
 
   def check_form_validity
-    # suspicious form without stripe_token or/and amount, send him back to the form to get these
-    redirect_to(card_payment_project_task_url) unless params.key?(:stripeToken) && params.key?(:amount)
+    redirect_to(card_payment_project_task_url) unless (params.key?(:stripeToken) || params.key?(:card_id)) && params.key?(:amount)
   end
 end

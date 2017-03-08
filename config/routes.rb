@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index, :destroy] do
     collection do
+      put :mark_all_as_read
       get :load_older
     end
   end
@@ -67,7 +68,6 @@ Rails.application.routes.draw do
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
   get 'user_wallet_transactions/new'
-  get 'user_wallet_transactions/download_keys'
   post 'user_wallet_transactions/create'
   get 'payment_notifications/create'
   get 'proj_admins/new'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170124082128) do
+ActiveRecord::Schema.define(version: 20170225133907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,6 +247,7 @@ ActiveRecord::Schema.define(version: 20170124082128) do
     t.string   "source_model_type"
     t.integer  "origin_user_id"
     t.boolean  "read",              default: false
+    t.integer  "action_type"
   end
 
   add_index "notifications", ["source_model_type", "source_model_id"], name: "index_notifications_on_source_model_type_and_source_model_id", using: :btree
@@ -324,6 +325,7 @@ ActiveRecord::Schema.define(version: 20170124082128) do
     t.text     "description"
     t.string   "country"
     t.string   "picture"
+    t.datetime "deleted_at"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "user_id"
@@ -333,9 +335,9 @@ ActiveRecord::Schema.define(version: 20170124082128) do
     t.text     "request_description"
     t.string   "short_description"
     t.string   "video_id"
-    t.datetime "deleted_at"
     t.string   "wiki_page_name"
     t.boolean  "is_approval_enabled", default: false
+    t.text     "full_description"
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
@@ -368,8 +370,10 @@ ActiveRecord::Schema.define(version: 20170124082128) do
     t.string   "refund_url"
     t.string   "status"
     t.string   "seller_message"
+    t.datetime "deleted_at"
   end
 
+  add_index "stripe_payments", ["deleted_at"], name: "index_stripe_payments_on_deleted_at", using: :btree
   add_index "stripe_payments", ["task_id"], name: "index_stripe_payments_on_task_id", using: :btree
   add_index "stripe_payments", ["user_id"], name: "index_stripe_payments_on_user_id", using: :btree
 
@@ -470,7 +474,10 @@ ActiveRecord::Schema.define(version: 20170124082128) do
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.datetime "deleted_at"
   end
+
+  add_index "user_wallet_transactions", ["deleted_at"], name: "index_user_wallet_transactions_on_deleted_at", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "",    null: false
@@ -512,6 +519,7 @@ ActiveRecord::Schema.define(version: 20170124082128) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "username"
+    t.string   "stripe_customer_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

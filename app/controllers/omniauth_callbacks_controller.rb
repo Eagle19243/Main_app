@@ -40,8 +40,8 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def set_mediawiki_cookie user
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    secret = settings['mediawiki']['secret']
-    domain = settings['mediawiki']['domain']
+    secret = settings['mediawiki_secret']
+    domain = settings['mediawiki_domain']
 
     cookies.permanent[:_ws_user_id] = {
       value: user.id,

@@ -31,18 +31,13 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
+  SHORT_DESCRIPTION_LIMIT = 250
+
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
             uniqueness: true
   validates :wiki_page_name, presence: true, uniqueness: true
-  validates :short_description, presence: true, length: {minimum: 3, maximum: 60, message: "Has invalid length. Max length is 60"}
+  validates :short_description, presence: true, length: {minimum: 3, maximum: SHORT_DESCRIPTION_LIMIT, message: "Has invalid length. Min length is 3, max length is #{SHORT_DESCRIPTION_LIMIT}"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
-
-  searchable do
-    text :title
-    text :description
-    text :short_description
-    text :full_description
-  end
 
   validates :picture, presence: true
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
@@ -59,6 +54,13 @@ class Project < ActiveRecord::Base
     event :reject do
       transitions :from => :pending, :to => :rejected
     end
+  end
+
+  # TODO In future it would be a good idea to extract this into the Search object
+  def self.fulltext_search(free_text, limit=20)
+    # TODO Rails 5 has a OR method
+    projects = Project.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR full_description ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
+    projects.limit(limit)
   end
 
   def video_url
@@ -161,8 +163,9 @@ class Project < ActiveRecord::Base
 
   # Load MediaWiki API Base URL from application.yml
   def self.load_mediawiki_api_base_url
+    # TODO I'm pretty sure we dont need to have this YAML.load all over the place
     settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    settings['mediawiki']['api_base_url']
+    settings['mediawiki_api_base_url']
   end
 
   # MediaWiki API - Page Read
@@ -214,10 +217,12 @@ class Project < ActiveRecord::Base
 
       begin
         result = RestClient.post("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.username}, {:cookies => Rails.configuration.mediawiki_session})
-      rescue
+      rescue => error
+        Rails.logger.debug "Failed to call Mediawiki api #{error}"
         return nil
       end
       # Return Response Code
+      Rails.logger.debug "Received response from wiki #{result}"
       JSON.parse(result.body)["response"]["code"]
     else
       nil

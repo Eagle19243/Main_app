@@ -10,6 +10,12 @@
     font-weight: bold !important;
   }
 
+  .datepicker-days table tr td.day.disabled {
+    background: none;
+    color: #777777 !important;
+    cursor: not-allowed;
+  }
+
   table th {
     font-family: 'Roboto';
     font-size: 16px;

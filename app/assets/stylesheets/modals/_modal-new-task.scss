@@ -19,12 +19,35 @@
     width: 100%;
     text-align: left;
   }
+  &__team-member-estimation {
+    font-size: 14px;
+    line-height: 35px;
+  }
 }
 
-@media(max-width: 600px) {
+@media only screen and (max-width: 780px) {
+  .modal-new-task {
+    .modal-default__content {
+      padding: 40px 25px;
+    }
+  }
+}
+
+@media only screen and (max-width: 710px) {
   .modal-new-task {
     .f-default__col {
       width: 50%;
+      &._estimation {
+        width: 100%;
+        margin-top: 10px;
+        .f-default__label {
+          display: inline-block;
+        }
+      }
+    }
+    .modal-new-task__team-member-estimation {
+      line-height: 100%;
+      display: inline-block;
     }
   }
 }

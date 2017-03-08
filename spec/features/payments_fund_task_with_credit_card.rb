@@ -8,7 +8,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
     @wallet_address = FactoryGirl.create(:wallet_address, task: @task)
   end
 
-  context "As lgged in user" do
+  context "As logged in user" do
     before do
       login_as(@user, :scope => :user, :run_callbacks => false)
     end
@@ -16,16 +16,17 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @plan_area = find("#Plan")
+        click_link("Tasks")
+        @task_area = find("#Tasks")
       end
 
-      scenario "Then you can see 'Fund' button in the task block" do
-        expect(@plan_area.find(".pr-card .fund-do-btns")).to have_content "FUND"
+      scenario "Then you can see 'Fund' button on the task tab" do
+       expect(@task_area.find(".pr-card .fund-do-btns", match: :first)).to have_content "FUND"
       end
 
       context "When you click 'Fund' button" do
         before do
-          @plan_area.find(".pr-card .fund-do-btns").click_button "FUND"
+          @task_area.find(".pr-card .fund-do-btns", match: :first).click_button "FUND"
           @fund_modal = find("#taskFundModal", visible: true)
         end
 

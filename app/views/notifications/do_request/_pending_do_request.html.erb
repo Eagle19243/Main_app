@@ -1,6 +1,3 @@
 <div class="b-notification__text">
-    <%= notification.origin_user.name %> Requested to do this Task.
-    Their Cover Letter is:
-    "<%= notification.source_model.application %>"
+  <%= "#{notification.user.name} requested to do this task. Their cover letter is: #{source_model.application}" %>
 </div>
-
