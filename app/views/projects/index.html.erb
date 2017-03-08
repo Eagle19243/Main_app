@@ -50,25 +50,3 @@
 
     });
 </script>
-
-<% if @download_keys  %>
-    <%= render "modal/created_wallet_modal" %>
-    <script type="text/javascript">
-      $('#walletModal').fadeIn();
-
-      $('html').addClass('_open-modal');
-
-      $(document).on('click', '#wallet_button', function() {
-                $('#walletModal').fadeOut();
-                $('#startProjectModal').fadeIn();
-                localStorage.removeItem('start_project');
-            });
-    </script>
-    <script>
-      // window.setTimeout(function(){download_keys() },5000);
-      // function  download_keys(){
-      //   window.location = "";
-      //   $("#backupkeys_popup").hide();
-      // }
-    </script>
-<% end %>

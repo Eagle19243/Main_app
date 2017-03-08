@@ -15,11 +15,6 @@ feature "Active projects", js: true, vcr: { cassette_name: 'bitgo' } do
     context "When you click 'Active Projects' button" do
       before do
         visit projects_path
-        @wallet_modal = find('div#walletModal', visible: true)
-      end
-
-      scenario "Then 'Download Wallet Keys' popup appeared" do
-        expect(@wallet_modal).to be_visible
       end
 
       scenario "Then you are redirected to the active projects page" do
@@ -34,8 +29,6 @@ feature "Active projects", js: true, vcr: { cassette_name: 'bitgo' } do
 
       context "When you click a project card" do
         before do
-          @wallet_modal.find("button.modal-default__close").click
-
           @project = @projects.first
 
           click_pseudo_link @project.title
