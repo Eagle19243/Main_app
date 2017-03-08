@@ -1,15 +1,12 @@
-// ToDo: notifications-container isn't used in project anymore
-
-$('.load-older-notifications-link').remove();
 JsonFormsHelper.InitializeNotificationsControls();
+$('.load-older-notifications-link').remove();
 
-<% if !@notifications.empty? %>
-  $(".notifications-container").scrollTo("notification-<%= @notifications.last.id %>");
+<% unless @last_page %>
+$('.s-notifications__content').prepend("<%= escape_javascript(render partial: "load_older_link", locals: { notifications: @notifications } ) %>");
 <% end %>
 
-<% if !@all_notifications_displayed %>
-  $('.notifications-container').prepend('<%= escape_javascript( render partial: 'load_older_link',
-                                                                        locals: { notifications: @notifications } ) %>');
+<% if @notifications.any? %>
+  var scrollHeight = $(".s-notifications__content .l-notifications").height();
+  $(".s-notifications__content .l-notifications").append("<%= escape_javascript(render partial: "notification", collection: @notifications) %>");
+  $("html, body").animate({ scrollTop: scrollHeight }, "slow");
 <% end %>
-
-

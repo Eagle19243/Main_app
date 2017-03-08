@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   resources :notifications, only: [:index, :destroy] do
     collection do
+      put :mark_all_as_read
       get :load_older
     end
   end

@@ -17,28 +17,31 @@ class AdminInvitationsController < ApplicationController
   end
 
   def accept
-
     authorize! :accept, @admin_invitation
 
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
         TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.user)
-        format.json { render json: @admin_invitation.id, status: :ok }
+
+        flash[:notice] = 'Invitation has been accepted.'
+        format.js { render json: {}, status: :ok }
       else
-        format.json { render json: {}, status: :unprocessable_entity }
+        flash[:error] = 'There were some problems preventing invitation from being accepted.'
+        format.js { render json: { success: false } }
       end
     end
   end
 
   def reject
-
     authorize! :reject, @admin_invitation
 
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:rejected])
-        format.json { render json: @admin_invitation.id, status: :ok }
+        flash[:notice] = 'Invitation has been rejected.'
+        format.js { render json: {}, status: :ok }
       else
-        format.json { render json: {}, status: :unprocessable_entity }
+        flash[:error] = 'There were some problems preventing invitation from being rejected.'
+        format.js { render json: { success: false } }
       end
     end
   end

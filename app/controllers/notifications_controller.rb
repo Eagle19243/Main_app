@@ -10,16 +10,15 @@ class NotificationsController < ApplicationController
   end
 
   def load_older
-    @notifications = current_user.notifications.includes(:source_model).where("id < ?", params[:first_notification_id]).last(PER_LOAD_COUNT)
-    
-    if !@notifications.empty?
-      @all_notifications_displayed = @notifications.first.id == current_user.notifications.first.id ? true : false
-    else
-      @all_notifications_displayed = true
-    end
-    @all_notifications_displayed = false
-    respond_to do |format|
-      format.js
+    @last_page = false
+    @notifications = current_user.notifications.order(id: :desc).includes(:source_model).where("id < ?", params[:first_notification_id]).limit(PER_LOAD_COUNT)
+    @notifications.update_all(read: true)
+    @last_page = true if @notifications.empty? || @notifications.first == current_user.notifications.first
+  end
+
+  def mark_all_as_read
+    if current_user.notifications.update_all(read: true)
+      flash[:notice] = "All notifications have been marked as read."
     end
   end
 
