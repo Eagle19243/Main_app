@@ -25,60 +25,57 @@ class ApplicationController < ActionController::Base
     User.current_user = nil
   end
 
-    def admin_only_mode
-      unless current_user.try(:admin?)
-        unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "sessions"
-          redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
-          flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
-        end
+  def admin_only_mode
+    unless current_user.try(:admin?)
+      unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "sessions"
+        redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
+        flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
+      end
 
-        if params[:controller] == "visitors" && params[:action] == "index"
-          redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
-          flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
-        end
+      if params[:controller] == "visitors" && params[:action] == "index"
+        redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
+        flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
       end
     end
+  end
 
-    def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password,
-        :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
-      devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password,
-        :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
-      devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:name, :email, :password,
-        :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password,
+      :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
+    devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:name, :email, :password,
+      :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
+    devise_parameter_sanitizer.permit(:sign_in) { |u| u.permit(:name, :email, :password,
+      :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :picture_cache, :phone_number) }
+  end
+
+  def default_api_value
+    t("#{service_name}.#{service_action}", :default => {})
+  end
+
+  def service_name
+    params[:controller].gsub(/^.*\//, "")
+  end
+
+  def service_action
+    params[:action]
+  end
+
+  helper_method :service_action, :service_name
+
+  def flash_to_headers
+    return unless request.xhr?
+
+    messages ||= {}
+
+    flash.each do |type, msg|
+      css_type = 'alert'
+      css_type = 'success' if type.to_s == 'notice'
+
+      messages[css_type] = msg
     end
 
-    def default_api_value
-      t("#{service_name}.#{service_action}", :default => {})
-    end
+    response.headers['X-Messages'] = messages.to_json
 
-    def service_name
-      params[:controller].gsub(/^.*\//, "")
-    end
-
-    def service_action
-      params[:action]
-    end
-
-    helper_method :service_action, :service_name
-
-    def flash_to_headers
-      return unless request.xhr?
-      response.headers['X-Message'] = flash_message
-      response.headers["X-Message-Type"] = flash_type.to_s == 'notice' ? 'success' : 'alert'
-
-      flash.discard # don't want the flash to appear when you reload page
-    end
-
-    def flash_message
-      [:error, :warning, :notice].each do |type|
-        return flash[type] unless flash[type].blank?
-      end
-    end
-
-    def flash_type
-      [:error, :warning, :notice].each do |type|
-        return type unless flash[type].blank?
-      end
-    end
+    flash.discard # don't want the flash to appear when you reload page
+  end
 end
