@@ -90,6 +90,10 @@ module ApplicationHelper
     btc_to_usd.round(3)
   end
 
+  def min_fund_budget_in_btc
+    satoshi_balance_in_btc(Task::MINIMUM_FUND_BUDGET)
+  end
+
   def projects_taskstab?
     controller_name == 'projects' && action_name == 'taskstab'
   end

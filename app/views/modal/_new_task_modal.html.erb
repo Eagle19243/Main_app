@@ -22,8 +22,8 @@
         <div class="f-default__row">
           <div class="f-default__col-wrap">
             <div class="f-default__col">
-              <label class="f-default__label" for="task_description">Enter BTC Amout</label>
-              <input class="f-default__field modal-new-task__btc-amount numeric decimal required" required="required" min="0" maxlength="10" aria-required="true" type="number" step="any" name="task[budget]" id="task_budget">
+              <label class="f-default__label" for="task_description">Enter Amount, min <%= min_fund_budget_in_btc %> BTC</label>
+              <input class="f-default__field modal-new-task__btc-amount numeric decimal required" required="required" min="<%= min_fund_budget_in_btc %>" maxlength="10" aria-required="true" type="number" step="0.001" name="task[budget]" id="task_budget">
               <span id="new_task_btc" class="f-default__convert"></span>
             </div>
             <div class="f-default__col">
