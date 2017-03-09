@@ -6,6 +6,9 @@ mediawiki_domain:                                       # mediawiki domain for c
 mediawiki_api_base_url:                                 # base url of mediawiki API, eg "http://mediawiki.local/"
 mediawiki_username:                                     # mediawiki API username
 mediawiki_password:                                     # mediawiki API password
+bitgo_service_fee: "0.001"                      # BitGo commission rate
+weserve_service_fee: "0.05"                     # Weserve commission rate
+weserve_wallet_address:                         # Weserve commission wallet to accept fees
 email_provider_username:                        # AWS access ID for email service
 email_provider_password:                        # AWS access secret key for email service
 facebook_app_id:                                # Facebook app ID

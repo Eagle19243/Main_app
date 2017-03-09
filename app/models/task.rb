@@ -88,9 +88,8 @@ class Task < ActiveRecord::Base
       end
     else
       # TODO This should be extracted to a concern
-      access_token = ENV['bitgo_admin_access_token']
+      access_token = Payments::BTC::Base.bitgo_access_token
       #Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new
       secure_passphrase = SecureRandom.hex(5)
       secure_label = SecureRandom.hex(5)
       new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
@@ -113,29 +112,23 @@ class Task < ActiveRecord::Base
 
   def transfer_to_user_wallet(wallet_address_to_send_btc, amount)
     transfering_task = self
-    begin
-      @transfer = WalletTransaction.new(amount: amount, user_wallet: wallet_address_to_send_btc, task_id: self.id)
-     # satoshi_amount = nil
-      satoshi_amount = amount if @transfer.valid?
-      if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
+    @transfer = WalletTransaction.new(amount: amount, user_wallet: wallet_address_to_send_btc, task_id: self.id)
+    satoshi_amount = amount if @transfer.valid?
+    if (satoshi_amount.eql?('error') or satoshi_amount.blank?)
+      @transfer.save
+    else
+      access_token = Payments::BTC::Base.bitgo_access_token
+      address_from = transfering_task.wallet_address.wallet_id
+      sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
+      address_to = wallet_address_to_send_btc.strip
+      @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
+      unless @res["message"].blank?
         @transfer.save
       else
-        access_token = ENV['bitgo_admin_access_token']
-        address_from = transfering_task.wallet_address.wallet_id
-        sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
-        address_to = wallet_address_to_send_btc.strip
-        api = Bitgo::V1::Api.new
-        @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
-        unless @res["message"].blank?
-          @transfer.save
-        else
-          @transfer.tx_hash = @res["tx"]
-          @transfer.task_id = transfering_task.id
-          @transfer.save
-        end
+        @transfer.tx_hash = @res["tx"]
+        @transfer.task_id = transfering_task.id
+        @transfer.save
       end
-    rescue => e
-      @transfer.save
     end
   end
 
@@ -162,31 +155,28 @@ class Task < ActiveRecord::Base
   end
 
   def transfer_task_funds
-    bitgo_fee = 0.10
-    we_serve_wallet = ENV['bitgo_admin_weserve_admin_access_token']
-    wallet_address = self.wallet_address
-    total_budget = self.budget
-    team_members = self.team_memberships
-    #team_members = TeamMembership.where(task_id: self.id)
-    if (team_members.blank?)
-      transfer_to_user_wallet(we_serve_wallet, total_budget)
-    else
-      num_of_participants = team_members.count
-      total_bitgo_fee = ((total_budget * bitgo_fee) / 100) * (num_of_participants + 1)
-      total_after_bitgo_fee = total_budget - total_bitgo_fee
-      we_serve_fee = (total_after_bitgo_fee * 5)/100
-      total_after_we_serve_fee = total_after_bitgo_fee - we_serve_fee
-      each_team_member_fee = total_after_we_serve_fee / num_of_participants
-      transfer_to_user_wallet(we_serve_wallet, convert_btc_to_satoshi(we_serve_fee))
-      team_members.each do |member|
-        transfer_to_user_wallet(member.team_member.user_wallet_address.sender_address, convert_btc_to_satoshi(each_team_member_fee))
-      end
-    end
+    update_current_fund!
 
+    raise ArgumentError, "Task's budget is too low and cannot be transfered"   if satoshi_budget < MINIMUM_FUND_BUDGET
+    raise ArgumentError, "Task fund level is too low and cannot be transfered" if current_fund < satoshi_budget
+
+    transaction_fee = transfer_task_funds_transaction_fee
+    amount_to_send = amount_after_bitgo_fee(current_fund - transaction_fee)
+    we_serve_part = amount_to_send * Payments::BTC::Base.weserve_fee
+    members_part = (amount_to_send - we_serve_part) / team_memberships.size
+
+    recipients = build_recipients(team_memberships, members_part.to_i, we_serve_part.to_i)
+    transfer_to_multiple_wallets(recipients, transaction_fee)
+  end
+
+  def transfer_task_funds_transaction_fee
+    inputs = (current_fund / MINIMUM_DONATION_SIZE).to_i
+    outputs = team_memberships.size + 2
+    Payments::BTC::FeeCalculator.estimate(inputs, outputs)
   end
 
   def budget
-    budget = convert_satoshi_to_btc(self.satoshi_budget)
+    convert_satoshi_to_btc(self.satoshi_budget)
   end
 
   def budget=(satoshi_budget)
@@ -222,5 +212,63 @@ class Task < ActiveRecord::Base
   def is_team_member( user_id )
     users = self.project.team.team_memberships.collect(&:team_member_id)
     (users.include? user_id) ? true : false
+  end
+
+  private
+  def api
+    Bitgo::V1::Api.new
+  end
+
+  def update_current_fund!
+    response = api.get_wallet(
+      wallet_id: wallet_address.wallet_id,
+      access_token: Payments::BTC::Base.bitgo_access_token
+    )
+    update_attribute(:current_fund, response["balance"])
+  end
+
+  def transfer_to_multiple_wallets(recipients, fee)
+    response = api.send_coins_to_multiple_addresses(
+      wallet_id: wallet_address.wallet_id,
+      wallet_passphrase: wallet_address.pass_phrase,
+      recipients: recipients,
+      fee: fee,
+      access_token: Payments::BTC::Base.bitgo_access_token
+    )
+
+    if response["message"].blank?
+      recipients.map do |recipient|
+        WalletTransaction.create(
+          tx_hash: response["tx"],
+          amount: recipient[:amount],
+          user_wallet: recipient[:address],
+          task_id: id
+        )
+      end
+    else
+      raise response.inspect
+    end
+  end
+
+  def amount_after_bitgo_fee(amount)
+    (amount - (amount * Payments::BTC::Base.bitgo_fee))
+  end
+
+  def build_recipients(memberships, per_member_amount, we_serve_amount)
+    recipients = memberships.map do |membership|
+      {
+        address: membership.team_member.user_wallet_address.sender_address,
+        amount: per_member_amount
+      }
+    end
+
+    if we_serve_amount > 0
+      recipients << {
+        address: Payments::BTC::Base.weserve_wallet_address,
+        amount: we_serve_amount
+      }
+    end
+
+    recipients
   end
 end

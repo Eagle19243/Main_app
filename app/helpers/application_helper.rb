@@ -35,7 +35,7 @@ module ApplicationHelper
     return 0 if reserve_wallet_id.blank?
 
     api = Bitgo::V1::Api.new
-    wallet = api.get_wallet(wallet_id: reserve_wallet_id , access_token: ENV['bitgo_admin_weserve_admin_access_token'])
+    wallet = api.get_wallet(wallet_id: reserve_wallet_id, access_token: Payments::BTC::Base.bitgo_reserve_access_token)
     wallet["balance"]
   end
 

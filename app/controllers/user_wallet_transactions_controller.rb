@@ -40,7 +40,7 @@ class UserWalletTransactionsController < ApplicationController
         end
       else
         # TODO This should be extracted into the concern that will be then reused by the whole system
-        access_token = ENV['bitgo_admin_access_token']
+        access_token = Payments::BTC::Base.bitgo_access_token
         address_from = current_user.user_wallet_address.wallet_id
         sender_wallet_pass_phrase = current_user.user_wallet_address.pass_phrase
         address_to = params['wallet_transaction_user_wallet'].strip

@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
 
   def my_wallet
-    access_token = ENV['bitgo_admin_access_token']
+    access_token = Payments::BTC::Base.bitgo_access_token
     @wallet_address = current_user.user_wallet_address
     api = Bitgo::V1::Api.new
     response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)

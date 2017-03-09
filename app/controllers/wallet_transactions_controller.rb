@@ -29,7 +29,7 @@ class WalletTransactionsController < ApplicationController
              format.html { redirect_to wallet_transactions_new_path +'?id='+transfering_task.id.to_s  , alert: 'Error, Please try again Later!' }
           end
         else
-          access_token = ENV['bitgo_admin_access_token']
+          access_token = Payments::BTC::Base.bitgo_access_token
           address_from = transfering_task.wallet_address.wallet_id
           sender_wallet_pass_phrase = transfering_task.wallet_address.pass_phrase
           address_to = params['wallet_transaction_user_wallet'].strip

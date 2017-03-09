@@ -192,7 +192,7 @@ class TasksController < ApplicationController
   def refund
     if current_user.id == @task.project.user_id
       bitgo_fee = 0.10
-      access_token = ENV['bitgo_admin_access_token']
+      access_token = Payments::BTC::Base.bitgo_access_token
       @wallet_address = @task.wallet_address
       api = Bitgo::V1::Api.new
       response = api.get_wallet(wallet_id: @wallet_address.wallet_id, access_token: access_token)

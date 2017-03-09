@@ -73,7 +73,7 @@ class Payments::StripeController < ApplicationController
       if satoshi_amount.eql?('error') or satoshi_amount.blank?
         return
       else
-        access_token = ENV['bitgo_admin_weserve_admin_access_token']
+        access_token = Payments::BTC::Base.bitgo_reserve_access_token
         address_from = ENV['reserve_wallet_id'].strip
         sender_wallet_pass_phrase = ENV['reserve_wallet_pass_pharse'].strip
         address_to = task_wallet.strip
