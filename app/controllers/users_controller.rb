@@ -1,6 +1,3 @@
-include UsersHelper
-include ApplicationHelper
-
 class UsersController < ApplicationController
   load_and_authorize_resource :except => [:index]
   layout "dashboard", only: [:my_projects]
@@ -43,12 +40,13 @@ class UsersController < ApplicationController
   end
 
   def my_wallet
-    access_token = Payments::BTC::Base.bitgo_access_token
     @wallet_address = current_user.user_wallet_address
-    api = Bitgo::V1::Api.new
-    response = api.get_wallet(wallet_id:@wallet_address.wallet_id, access_token: access_token)
-    @wallet_address.update_attribute('current_balance',response["balance"]) rescue nil
-    @transactions = api.list_wallet_transctions(@wallet_address.sender_address, access_token) rescue nil
+
+    wallet_balance = wallet_handler.get_wallet_balance(@wallet_address.wallet_id)
+    
+    # TODO We should rethink about how and when we update users wallet balance
+    @wallet_address.update_attribute('current_balance',wallet_balance)
+    @transactions = wallet_handler.get_wallet_transactions(@wallet_address.sender_address)
   end
 
   private
