@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include ApplicationHelper
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
 
@@ -61,26 +60,17 @@ class User < ActiveRecord::Base
     Thread.current[:current_user] = usr
   end
 
+  # TODO Extract this into the servive and call it as a background job
   def assign_address
-    if File.basename($0) != 'rake'
-      access_token = Payments::BTC::Base.bitgo_access_token
-      Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new
-      secure_passphrase =  self.encrypted_password
-      secure_label = SecureRandom.hex(5)
-      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-      userKeychain = new_address["userKeychain"]
-      backupKeychain = new_address["backupKeychain"]
-      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-      new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
-      new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-      unless new_address.blank?
-        UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
-      else
-        UserWalletAddress.create(sender_address: nil, user_id: self.id)
-      end
+    secure_passphrase =  self.encrypted_password
+    secure_label = SecureRandom.hex(5)
 
-    end
+    wallet_handler = Payments::BTC::WalletHandler.new
+    new_wallet_id, userKeychain, backupKeychain  = wallet_handler.create_wallet(secure_passphrase, secure_label)
+
+    new_wallet_address_sender =  wallet_handler.create_address(new_wallet_id, "1")
+    new_wallet_address_receiver = wallet_handler.create_address(new_wallet_id, "0")
+    UserWalletAddress.create(sender_address: new_wallet_address_sender, receiver_address: new_wallet_address_receiver, pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_wallet_id, user_keys: userKeychain, backup_keys: backupKeychain)
   end
 
 
