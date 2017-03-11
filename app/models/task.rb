@@ -87,26 +87,7 @@ class Task < ActiveRecord::Base
         puts e.message unless Rails.env == "development"
       end
     else
-      # TODO This should be extracted to a concern
-      access_token = Payments::BTC::Base.bitgo_access_token
-      #Rails.logger.info access_token unless Rails.env == "development"
-      secure_passphrase = SecureRandom.hex(5)
-      secure_label = SecureRandom.hex(5)
-      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-      #Rails.logger.info "Wallet Passphrase #{secure_passphrase}" unless Rails.env == "development"
-      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-     # puts "New Wallet Id #{new_address_id}" unless Rails.env == "development"
-      new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
-      new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-    #  Rails.logger.info new_wallet_address_sender.inspect unless Rails.env == "development"
-     # Rails.logger.info new_wallet_address_receiver.inspect unless Rails.env == "development"
-      #Rails.logger.info "#Address #{new_wallet_address_sender["address"]}" rescue 'Address not Created'
-      #Rails.logger.info "#Address #{new_wallet_address_receiver["address"]}" rescue 'Address not Created'
-      unless new_address.blank?
-        WalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, task_id: self.id, wallet_id: new_address_id)
-      else
-        WalletAddress.create(sender_address: nil, task_id: self.id)
-      end
+      Payments::BTC::CreateTaskWalletService.new(self.id)
     end
   end
 

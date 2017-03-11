@@ -60,6 +60,10 @@ class ApplicationController < ActionController::Base
     params[:action]
   end
 
+  def wallet_handler
+    Payments::BTC::WalletHandler.new
+  end
+
   helper_method :service_action, :service_name
 
   def flash_to_headers
