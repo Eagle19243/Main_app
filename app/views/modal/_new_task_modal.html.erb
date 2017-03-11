@@ -33,6 +33,7 @@
             <div class="f-default__col _estimation">
               <label class="f-default__label" for="task_description">Estimated per member amount<span>&nbsp;</label>
               <div class="modal-new-task__team-member-estimation"></div>
+              <span id="new_task_btc_per_member" class="f-default__convert"></span>
             </div>
           </div>
         </div>
@@ -66,14 +67,15 @@
 </div>
 
 <script>
-    var $estimationData = $('.modal-new-task__team-member-estimation'),
+var $estimationData = $('.modal-new-task__team-member-estimation'),
+    $estimationDataInUSD = $('#new_task_btc_per_member')
         $btcAmount = $('.modal-new-task__btc-amount'),
         $teamAmount = $('.modal-new-task__member_amount'),
         MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
         CURRENT_BTC_RATE = parseFloat('<%= get_current_btc_rate  %>').toFixed(2),
         WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3),
         SATHOSHI_FEE_PER_BYTE = parseInt('<%= Payments::BTC::FeeCalculator::RATE_PER_BYTE %>'),
-        BTC_FEE_PER_BYTE = SATHOSHI_FEE_PER_BYTE / (10e8);
+        BTC_FEE_PER_BYTE = SATHOSHI_FEE_PER_BYTE / (10e7);
 
     function updateConversion(e) {
         e.preventDefault();
@@ -106,17 +108,27 @@
         })
         .on('input.estimationPerMember', '.modal-new-task__btc-amount, .modal-new-task__member_amount', function() {
             var budget = parseFloat($btcAmount.val()).toFixed(3),
-                teamAmount = parseFloat($teamAmount.val()).toFixed(2),
-                numberOfDonations = (budget / MIN_DONATION_BTC).toFixed(0);
+                teamAmount = parseInt($teamAmount.val()),
+                numberOfDonations = parseInt((budget / MIN_DONATION_BTC).toFixed(0));
 
-            if (!(isNaN(teamAmount) || teamAmount === 0) && !(isNaN(budget) || budget === 0)) {
+            if ((isNaN(teamAmount) || teamAmount === 0) || (isNaN(budget) || budget === "0.000")) {
+              $estimationData.html('');
+              $estimationDataInUSD.html('');
+            } else {
               var transactionSizeInBytes = numberOfDonations * (180 + 113) + (teamAmount + 2) * 34 + 10 + numberOfDonations;
               var transactionFeeInBTC = transactionSizeInBytes * BTC_FEE_PER_BYTE;
               var budgetAfterFeesInBTC = (budget - (budget * WESERVE_FEE)) - transactionFeeInBTC;
               var perMemberAmountInBTC = budgetAfterFeesInBTC / teamAmount;
-              var perMemberAmountInUSD = perMemberAmountInBTC * CURRENT_BTC_RATE;
 
-              $estimationData.html(perMemberAmountInUSD.toFixed(2));
-            }
+              $estimationData.html(perMemberAmountInBTC.toFixed(3));
+
+              if (perMemberAmountInBTC > 0) {
+                var perMemberAmountInUSD = perMemberAmountInBTC * CURRENT_BTC_RATE;
+
+                $estimationDataInUSD.html(perMemberAmountInBTC.toFixed(3) + " BTC = " + perMemberAmountInUSD.toFixed(2) + " USD");
+              } else {
+                $estimationDataInUSD.html('');
+              }
+            };
         });
 </script>
