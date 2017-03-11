@@ -18,7 +18,7 @@ class NotificationsService
   def self.notify_about_project_update(project)
     self.create_notification(project, project.user, Notification.actions[:updated_project])
     project.project_users.each do |member|
-      self.create_notification(project, member, Notification.actions[:updated_project])
+      self.create_notification(project, member.follower, Notification.actions[:updated_project])
     end
   end
 

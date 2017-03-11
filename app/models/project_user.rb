@@ -5,5 +5,5 @@ class ProjectUser  < ActiveRecord::Base
   belongs_to :lead_editor, class_name: 'User', foreign_key: :user_id
 
   validates :project_id, :user_id, presence: true
-  validates :user_id, uniqueness: {scope: [:project_id], message: 'already followed project'}
+  validates :user_id, uniqueness: { scope: [:project_id], message: 'already followed project' }
 end
