@@ -198,8 +198,8 @@
                         <div class="modal-task__card-value _data">
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
-                        <div class="modal-task__card-value _data">
-                          <%= "#{@task.budget} BTC" %>
+                        <div id="task-budget" class="modal-task__card-value _data">
+                            <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :activator => '#task-budget' %>
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
@@ -331,12 +331,6 @@
                             </button>
                         <% end %>
                     <% end %>
-                    <% if user_signed_in?  &&  current_user.id == @task.project.user_id  && @task.accepted? %>
-                            <button id="openEditBudgetPopup">
-                              <i class="fa fa-bitcoin" aria-hidden="true"></i>
-                              Change Budget
-                            </button>
-                  <% end %>
                   </div>
                 </div>
 
