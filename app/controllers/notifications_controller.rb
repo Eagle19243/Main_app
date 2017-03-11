@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
   PER_LOAD_COUNT = 10
 
   def index
-    @notifications = current_user.notifications.includes(:source_model).order(id: :desc).limit(PER_LOAD_COUNT)
+    @notifications = current_user.notifications.includes(:source_model).order(created_at: :desc).limit(PER_LOAD_COUNT)
     @notifications.update_all(read: true)
   end
 
