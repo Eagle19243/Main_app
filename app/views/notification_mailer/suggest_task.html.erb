@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+</head>
+<body>
+    <h1>Dear <%= @user.name %></h1>
+    <p>
+    <%= @task.user.name %> &nbsp
+    suggested new task for project
+    <%= link_to @task.project.title, project_url(@task.project.id) %>
+    </p>
+</body>
+</html>

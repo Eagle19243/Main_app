@@ -275,4 +275,5 @@ class User < ActiveRecord::Base
   def validate_name_unchange
     errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
   end
+
 end

@@ -6,4 +6,9 @@ class NotificationMailer < ApplicationMailer
     mail(to: email, subject: 'invitation For Project')
   end
   
+  def suggest_task(user, task)
+    @user = user
+    @task = task
+    mail(to: user.email, subject: ENV['suggest_subject'])
+  end
 end

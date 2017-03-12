@@ -60,6 +60,9 @@ class NotificationsService
 
   def self.notify_about_suggested_task(task)
     self.create_notification(task, task.project.user, Notification.actions[:suggested_task], task.user, "operatable")
+    task.project.followers.each do |user|
+      self.create_notification(task, user, Notification.actions[:suggested_task], task.user) unless user.is_admin_for? task.project
+    end
   end
 
   def self.notify_about_rejected_task(task)
