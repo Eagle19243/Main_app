@@ -112,9 +112,9 @@
       <% end %>
     </h3>
     <p class="profile-bio">
-      <%= best_in_place_if (current_user && current_user.id == @user.id), @user, :bio, :as => :textarea,
-                           activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button",
-                           ok_button: "Save", ok_button_class: "button ok-button"%>
+      <% if (current_user && current_user.id == @user.id) %>
+        <%= best_in_place @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button", ok_button: "Save", ok_button_class: "button ok-button" %>
+      <% end %>
     </p>
   </div>
 
