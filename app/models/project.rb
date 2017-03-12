@@ -107,6 +107,14 @@ class Project < ActiveRecord::Base
     #tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
   end
 
+  def team_memberships_count
+    if self.team.present?
+      self.team.team_memberships.count
+    else
+      0
+    end
+  end
+
   def rate_avg
     project_rates.average(:rate).to_i
   end

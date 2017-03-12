@@ -91,7 +91,7 @@
             </li>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), data: {tab: 'Team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
-                  Team<span class="count"><%= @project.team.team_memberships.count %></span>
+                  Team<span class="count"><%= @team_memberships_count %></span>
               <% end %>
             </li>
           </ul>
