@@ -67,7 +67,7 @@ end
 
 scheduler.every '10m' do
   unless ENV['skip_wallet_transaction'] == "true"
-    stripe_payments = StripePayment.where(tx_hash: nil)
+    stripe_payments = StripePayment.where(tx_hex: nil)
     stripe_payments.each do |stripe_payment|
       task_wallet = stripe_payment.task.wallet_address.sender_address rescue nil
       unless task_wallet.blank?
@@ -81,7 +81,8 @@ scheduler.every '10m' do
             api = Bitgo::V1::Api.new
             @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
             if @res["message"].blank?
-              stripe_payment.tx_hash = @res["tx"]
+              stripe_payment.tx_hex = @res["tx"]
+              stripe_payment.tx_id = @res["hash"]
               stripe_payment.transferd = true
               stripe_payment.amount_in_satoshi = satoshi_amount
               stripe_payment.save!

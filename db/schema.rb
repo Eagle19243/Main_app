@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225133907) do
+ActiveRecord::Schema.define(version: 20170313125802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -344,7 +344,7 @@ ActiveRecord::Schema.define(version: 20170225133907) do
 
   create_table "stripe_payments", force: :cascade do |t|
     t.decimal  "amount"
-    t.string   "tx_hash"
+    t.string   "tx_hex"
     t.integer  "task_id"
     t.boolean  "transferd"
     t.datetime "created_at",          null: false
@@ -359,6 +359,7 @@ ActiveRecord::Schema.define(version: 20170225133907) do
     t.string   "status"
     t.string   "seller_message"
     t.datetime "deleted_at"
+    t.string   "tx_id"
   end
 
   add_index "stripe_payments", ["deleted_at"], name: "index_stripe_payments_on_deleted_at", using: :btree
@@ -458,11 +459,12 @@ ActiveRecord::Schema.define(version: 20170225133907) do
   create_table "user_wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
-    t.string   "tx_hash"
+    t.string   "tx_hex"
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.datetime "deleted_at"
+    t.string   "tx_id"
   end
 
   add_index "user_wallet_transactions", ["deleted_at"], name: "index_user_wallet_transactions_on_deleted_at", using: :btree
@@ -530,10 +532,11 @@ ActiveRecord::Schema.define(version: 20170225133907) do
   create_table "wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
-    t.string   "tx_hash"
+    t.string   "tx_hex"
     t.integer  "task_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "tx_id"
   end
 
   add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id", using: :btree

@@ -40,7 +40,8 @@ class WalletTransactionsController < ApplicationController
               format.html {redirect_to wallet_transactions_new_path+'?id='+transfering_task.id.to_s  , alert: @res["message"] }
             end
           else
-            @transfer.tx_hash = @res["tx"]
+            @transfer.tx_hex = @res["tx"]
+            @transfer.tx_id = @res["hash"]
             @transfer.task_id = transfering_task.id
 
             if(@transfer.save!)

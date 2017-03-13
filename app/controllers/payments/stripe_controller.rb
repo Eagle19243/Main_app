@@ -80,7 +80,8 @@ class Payments::StripeController < ApplicationController
         api = Bitgo::V1::Api.new
         @res = api.send_coins_to_address(wallet_id: address_from, address: address_to, amount: satoshi_amount, wallet_passphrase: sender_wallet_pass_phrase, access_token: access_token)
         if @res["message"].blank?
-          @transfer.tx_hash = @res["tx"]
+          @transfer.tx_hex = @res["tx"]
+          @transfer.tx_id = @res["hash"]
           @transfer.transferd = true
           @transfer.amount_in_satoshi = satoshi_amount
           @transfer.save!

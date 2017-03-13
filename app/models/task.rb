@@ -106,7 +106,8 @@ class Task < ActiveRecord::Base
       unless @res["message"].blank?
         @transfer.save
       else
-        @transfer.tx_hash = @res["tx"]
+        @transfer.tx_hex = @res["tx"]
+        @transfer.tx_id = @res["hash"]
         @transfer.task_id = transfering_task.id
         @transfer.save
       end
@@ -220,7 +221,8 @@ class Task < ActiveRecord::Base
     if response["message"].blank?
       recipients.map do |recipient|
         WalletTransaction.create(
-          tx_hash: response["tx"],
+          tx_hex: response["tx"],
+          tx_id: response["hash"],
           amount: recipient[:amount],
           user_wallet: recipient[:address],
           task_id: id

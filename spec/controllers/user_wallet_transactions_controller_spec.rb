@@ -7,9 +7,11 @@ RSpec.describe UserWalletTransactionsController, vcr: { cassette_name: 'bitgo' }
   before { sign_in(user) }
 
   describe '#create' do
-    context 'bitgo api error' do
+    context 'tranfer error' do
       it do
-        allow_any_instance_of(Bitgo::V1::Api).to receive(:send_coins_to_address) { raise 'Some Error' }
+        allow_any_instance_of(
+          Payments::BTC::TransferFromUserWallet
+        ).to receive(:submit!) { raise Payments::BTC::Errors::TransferError, 'Some Error' }
 
         post :create, amount: 20, wallet_transaction_user_wallet: 'user_wallet'
         msg = assigns(:msg)
@@ -25,6 +27,30 @@ RSpec.describe UserWalletTransactionsController, vcr: { cassette_name: 'bitgo' }
           post :create, wallet_transaction_user_wallet: 'user_wallet'
 
           expect(response).to redirect_to(redirect_url)
+          msg = assigns(:msg)
+          expect(msg).to include("Amount can't be blank")
+        end
+      end
+
+      context 'less than a minimum' do
+        it do
+          post :create, wallet_transaction_user_wallet: 'user_wallet', amount: "0.0001"
+
+          expect(response).to redirect_to(redirect_url)
+          msg = assigns(:msg)
+          expect(msg).to include("Amount can't be less than 0.001 BTC")
+        end
+      end
+    end
+
+    context 'address_to' do
+      context 'blank' do
+        it do
+          post :create, wallet_transaction_user_wallet: nil, amount: 20
+
+          expect(response).to redirect_to(redirect_url)
+          msg = assigns(:msg)
+          expect(msg).to include("Recieve address can't be blank")
         end
       end
     end
