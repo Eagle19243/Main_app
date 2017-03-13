@@ -45,12 +45,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :admin_invitations, only: [:create] do
-    member do
-      post :accept, :reject
-    end
-  end
-
   resources :admin_requests, only: [:create] do
     member do
       post :accept, :reject

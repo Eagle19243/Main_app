@@ -3,10 +3,11 @@ class TeamsController < ApplicationController
     @project = Project.find(params[:project_id])
     users = User.name_like(params[:search])
 
-    @results = users.select do |user|
-      # TODO God does not understand which users should be returned here !
-      !user.is_team_admin?(@project.team) && !user.has_pending_admin_requests?(@project) && user.id != @project.user.id
-    end
+    #TODO - commented out as part of Admin Invite removal, remove lines if not used elsewhere
+    #@results = users.select do |user|
+      #!user.is_team_admin?(@project.team) && !user.has_pending_admin_requests?(@project) && user.id != @project.user.id
+    #end
+
     respond_to do |format|
       format.js
     end

@@ -28,18 +28,6 @@ ActiveRecord::Schema.define(version: 20170225133907) do
   add_index "activities", ["targetable_type", "targetable_id"], name: "index_activities_on_targetable_type_and_targetable_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
 
-  create_table "admin_invitations", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "project_id"
-    t.integer  "status",     default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "sender_id"
-  end
-
-  add_index "admin_invitations", ["project_id"], name: "index_admin_invitations_on_project_id", using: :btree
-  add_index "admin_invitations", ["user_id"], name: "index_admin_invitations_on_user_id", using: :btree
-
   create_table "admin_requests", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "project_id"
@@ -573,9 +561,6 @@ ActiveRecord::Schema.define(version: 20170225133907) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "admin_invitations", "projects"
-  add_foreign_key "admin_invitations", "users"
-  add_foreign_key "admin_invitations", "users", column: "sender_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "admin_requests", "projects"
   add_foreign_key "admin_requests", "users"
   add_foreign_key "chat_rooms", "projects"
