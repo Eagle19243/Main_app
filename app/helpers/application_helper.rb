@@ -47,6 +47,10 @@ module ApplicationHelper
     satoshi_balance_in_btc(Task::MINIMUM_FUND_BUDGET)
   end
 
+  def min_transfer_amount_in_btc
+    satoshi_balance_in_btc(Payments::BTC::TransferFromUserWallet::MIN_AMOUNT)
+  end
+
   def projects_taskstab?
     controller_name == 'projects' && action_name == 'taskstab'
   end
