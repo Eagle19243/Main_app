@@ -233,6 +233,7 @@ class ProjectsController < ApplicationController
 
     tasks = @project.tasks.all
     @tasks_count = tasks.size
+    @team_memberships_count = @project.team_memberships_count
     @contents = ''
     @is_blocked = 0
 
