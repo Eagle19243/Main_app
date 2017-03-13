@@ -20,10 +20,6 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     User.current_user = current_user
-    if current_user
-      @unread_ntf = current_user.notifications.unread
-      @unread_ntf_count = @unread_ntf.count
-    end
     yield
   ensure
     User.current_user = nil

@@ -7,8 +7,6 @@ class NotificationsController < ApplicationController
   def index
     @notifications = current_user.notifications.includes(:source_model).order(created_at: :desc).limit(PER_LOAD_COUNT)
     @notifications.update_all(read: true)
-    @unread_ntf = current_user.notifications.unread
-    @unread_ntf_count = @unread_ntf.count
   end
 
   def load_older
