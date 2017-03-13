@@ -87,6 +87,10 @@ class NotificationsService
     self.create_notification(project, followed_user, Notification.actions[:follow_project])
   end
 
+  def self.notify_about_accept_task(task, user)
+    self.create_notification(task, user, Notification.actions[:accept_task])
+  end
+
   private
 
   def self.create_notification(model, user, action, origin_user = nil, type="text")
