@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
   has_many :proj_admins, dependent: :delete_all
 
   has_many :chatrooms, dependent: :destroy
+  has_many :chatrooms_where_recipient, :foreign_key => "recipient_id", class_name: "Chatroom"
   has_many :groupmembers, dependent: :destroy
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
@@ -92,6 +93,14 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
+  end
+
+  def get_users_projects_and_team_projects
+    (self.projects + self.teams.collect{ |t| t.project }).uniq
+  end
+
+  def all_one_on_one_chat_users
+    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.collect{ |c| c.user }).uniq
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
@@ -235,6 +244,10 @@ class User < ActiveRecord::Base
     else
       return false
     end
+  end
+
+  def is_team_member_for?(project)
+    project.user_id == self.id || proj_admins.where(project_id: project.id).exists? || project.team.team_memberships.where(:team_member_id => self.id).present?
   end
 
   def is_project_leader?(project)

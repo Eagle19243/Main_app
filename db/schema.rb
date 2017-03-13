@@ -95,9 +95,9 @@ ActiveRecord::Schema.define(version: 20170225133907) do
     t.string   "name"
     t.integer  "project_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "friend_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "recipient_id"
   end
 
   add_index "chatrooms", ["project_id"], name: "index_chatrooms_on_project_id", using: :btree

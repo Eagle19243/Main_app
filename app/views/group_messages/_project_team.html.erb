@@ -5,14 +5,13 @@
         </li>
     <% end %>
 <% end %>
-
 <script>
   $(".project-user-chat").click(function () {
     $("div#message-load-image").show();
     user_id = $(this).attr('id');
     project_id = $(this).attr('name');
     $.ajax({
-      url: "/group_messages/users_chat",
+      url: "/group_messages/get_chatroom",
       type: "post",
       data: {project_id: project_id, user_id: user_id},
       success: function () {

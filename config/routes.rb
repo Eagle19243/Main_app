@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
   resources :group_messages, only: [:index, :create]
-  post 'group_messages/get_messages_by_room'
-  post 'group_messages/load_group_messages'
-  post 'group_messages/users_chat'
-  post 'group_messages/one_to_one_chat'
-  get 'group_messages/user_messaging'
+  post 'group_messages/get_chatroom'
+  post 'group_messages/refresh_chatroom_messages'
   get 'group_messages/download_files'
   get 'user_wallet_transactions/create_wallet'
   get 'pages/terms_of_use'

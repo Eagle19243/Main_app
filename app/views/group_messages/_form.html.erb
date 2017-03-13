@@ -13,7 +13,7 @@
         <div id="load-image-gif" style="text-align: center; display: none">
           <%= image_tag 'loading.gif' %>
         </div>
-        <%= f.hidden_field :chatroom_id, value: @chatroom rescue 0 %>
+        <%= f.hidden_field :chatroom_id, value: @chatroom.id %>
         <%= f.text_area :message, :placeholder => 'Write message' %>
         <%= f.file_field :attachment, :style => 'display:none', id: 'file-attachment-button' %>
         <%= f.submit 'Send', id: 'submit-message' %>
