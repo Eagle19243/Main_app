@@ -60,7 +60,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
 
           context "When you fill in the valid card information" do
             before do
-              allow_any_instance_of(Payments::StripeController).to receive(:get_reserve_wallet_balance).and_return(1000)
+              allow_any_instance_of(Payments::BTC::WalletHandler).to receive(:get_wallet_balance).and_return(1000)
 
               @card_modal.fill_in('card_number', with: @valid_card_number)
               @card_modal.find("._donate").click

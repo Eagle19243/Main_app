@@ -1,6 +1,5 @@
 class WalletTransactionsController < ApplicationController
     before_action :authenticate_user!
-    include ApplicationHelper
 
     def new
       @task=Task.find( params['id']) rescue nil
@@ -22,7 +21,9 @@ class WalletTransactionsController < ApplicationController
       begin
         @transfer = WalletTransaction.new(amount:params['amount'] ,user_wallet:params['wallet_transaction_user_wallet'] ,task_id: params['task_id'])
         satoshi_amount = nil
-        satoshi_amount = convert_usd_to_btc_and_then_satoshi(params['amount']) if @transfer.valid?
+        if @transfer.valid?
+          satoshi_amount = Payments::BTC::Converter.convert_usd_to_satoshi(params['amount'])
+        end
         if satoshi_amount.eql?('error') or satoshi_amount.blank?
          # satoshi_amount=150761.0
            respond_to do |format|

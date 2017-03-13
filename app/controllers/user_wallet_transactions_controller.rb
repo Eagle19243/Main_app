@@ -1,5 +1,4 @@
 class UserWalletTransactionsController < ApplicationController
-  include ApplicationHelper
   before_action :authenticate_user!
 
   def new
@@ -24,10 +23,10 @@ class UserWalletTransactionsController < ApplicationController
 
   def create
     current_user.assign_address if current_user.user_wallet_address.blank?
-
+    
     transfer = Payments::BTC::TransferFromUserWallet.new(
       wallet: current_user.user_wallet_address,
-      amount: convert_btc_to_satoshi(params[:amount]),
+      amount: Payments::BTC::Converter.convert_btc_to_satoshi(params[:amount]),
       address_to: params['wallet_transaction_user_wallet'],
       user: current_user
     )

@@ -1,5 +1,4 @@
 require 'rufus-scheduler'
-include ApplicationHelper
 scheduler = Rufus::Scheduler::singleton
 #My Jobs
 scheduler.every '10m' do
@@ -72,7 +71,7 @@ scheduler.every '10m' do
       task_wallet = stripe_payment.task.wallet_address.sender_address rescue nil
       unless task_wallet.blank?
         begin
-          satoshi_amount = convert_usd_to_btc_and_then_satoshi(stripe_payment.amount)
+          satoshi_amount = Payments::BTC::Converter.convert_usd_to_satoshi(stripe_payment.amount)
           unless satoshi_amount.eql?('error') or satoshi_amount.blank?
             access_token = Payments::BTC::Base.bitgo_reserve_access_token
             address_from = ENV['reserve_wallet_id'].strip

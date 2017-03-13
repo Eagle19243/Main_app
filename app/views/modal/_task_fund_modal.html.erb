@@ -140,7 +140,7 @@
   var $cardExpiry = $('#card_expiry');
   var $jsCardNumber = $('.js-card-number');
   var $jsAmount = $('.js-amount'),
-      currentBtc = parseFloat('<%=  get_current_btc_rate  %>').toFixed(2);
+      currentBtc = parseFloat('<%=  Payments::BTC::Converter.get_current_btc_rate  %>').toFixed(2);
 
   $(document)
       .on('click.copyWallet', '._copy-address', function () {
@@ -176,7 +176,7 @@
   function updateConversion(eve) {
     document.getElementById("wallet_btc").innerHTML = '';
     var value = +document.getElementById("wallet_transaction_amount").value;
-    var current_btc = '<%=  get_current_btc_rate  %>';
+    var current_btc = '<%= Payments::BTC::Converter.get_current_btc_rate  %>';
     var btc = donationObj.isUSD ? value / current_btc : value;
     var usd = (donationObj.isUSD ? value : value * current_btc).toFixed(2);
     if (donationObj.isUSD) {

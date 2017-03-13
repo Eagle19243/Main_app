@@ -1,7 +1,6 @@
 class Task < ActiveRecord::Base
   acts_as_paranoid
 
-  include ApplicationHelper
   include AASM
   default_scope -> { order('created_at DESC') }
   mount_uploader :fileone, PictureUploader
@@ -158,15 +157,15 @@ class Task < ActiveRecord::Base
   end
 
   def budget
-    convert_satoshi_to_btc(self.satoshi_budget)
+    Payments::BTC::Converter.convert_satoshi_to_btc(self.satoshi_budget)
   end
 
   def budget=(satoshi_budget)
-    self.satoshi_budget =  convert_btc_to_satoshi(satoshi_budget)
+    self.satoshi_budget =  Payments::BTC::Converter.convert_btc_to_satoshi(satoshi_budget)
   end
 
   def funded
-    budget == 0 ? "100%" : ((( convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + "%"
+    budget == 0 ? "100%" : ((( Payments::BTC::Converter.convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + "%"
   end
 
   def any_fundings?
@@ -174,7 +173,7 @@ class Task < ActiveRecord::Base
   end
 
   def current_fund_of_task
-    (convert_satoshi_to_btc(current_fund) rescue 0).round.to_s
+    (Payments::BTC::Converter.convert_satoshi_to_btc(current_fund) rescue 0).round.to_s
   end
 
   def team_relations_string

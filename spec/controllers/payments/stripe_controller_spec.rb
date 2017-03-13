@@ -66,7 +66,7 @@ RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
 
       context 'when there are not enough funds in reserve wallet' do
         before do
-          allow(controller).to receive(:get_reserve_wallet_balance).and_return(50)
+          allow_any_instance_of(Payments::BTC::WalletHandler).to receive(:get_wallet_balance).and_return(50)
         end
 
         it 'redirects to the tasktab of the projects' do
@@ -82,7 +82,7 @@ RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
 
       context 'when there are enough funds in reserve wallet' do
         before do
-          allow(controller).to receive(:get_reserve_wallet_balance).and_return(100_000_000)
+          allow_any_instance_of(Payments::BTC::WalletHandler).to receive(:get_wallet_balance).and_return(100_000_000)
           allow(controller).to receive(:transfer_coin_from_weserver_wallet_to_task_wallet).and_return(true)
         end
 

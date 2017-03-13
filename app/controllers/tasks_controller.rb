@@ -5,7 +5,6 @@ class TasksController < ApplicationController
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
   before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
-  include ApplicationHelper
 
 
   def validate_team_member
@@ -143,8 +142,7 @@ class TasksController < ApplicationController
      @task.assign_address
    end
     respond_to do |format|
-    #  format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address,balance: curent_bts_to_usd(@task.id), status: 200} }
-       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance:convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
+       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
     end
   end
 

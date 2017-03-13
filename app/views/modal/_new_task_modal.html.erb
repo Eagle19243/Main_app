@@ -72,7 +72,7 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
         $btcAmount = $('.modal-new-task__btc-amount'),
         $teamAmount = $('.modal-new-task__member_amount'),
         MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
-        CURRENT_BTC_RATE = parseFloat('<%= get_current_btc_rate  %>').toFixed(2),
+        CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.get_current_btc_rate  %>').toFixed(2),
         WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3),
         SATHOSHI_FEE_PER_BYTE = parseInt('<%= Payments::BTC::FeeCalculator::RATE_PER_BYTE %>'),
         BTC_FEE_PER_BYTE = SATHOSHI_FEE_PER_BYTE / (10e7);

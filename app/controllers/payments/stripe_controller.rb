@@ -1,6 +1,5 @@
 class Payments::StripeController < ApplicationController
   before_filter :check_form_validity, only: :create
-  include ApplicationHelper
   before_action :authenticate_user!
 
   def new
@@ -10,11 +9,12 @@ class Payments::StripeController < ApplicationController
 
 
   def create
-    reserve_wallet_balance = get_reserve_wallet_balance
+    reserve_wallet_balance =  Payments::BTC::WalletHandler.new.get_wallet_balance(ENV['reserve_wallet_id'].to_s.strip)
     #deduct 5% amount as described in fund_popup
-   fee_amount = (params[:amount].to_f * 5)/100
+    fee_amount = (params[:amount].to_f * 5)/100
     remaining_amount = params[:amount].to_f - fee_amount
-    satoshi_amount = convert_usd_to_btc_and_then_satoshi(remaining_amount)
+    satoshi_amount = Payments::BTC::Converter.convert_usd_to_satoshi(remaining_amount)
+    
     if reserve_wallet_balance < satoshi_amount && ENV['skip_wallet_transaction'] != "true"
       flash[:alert] = 'Not Enough BTC in Reserve wallet Please Try Again .'
       redirect_to taskstab_project_url(id: params[:project_id])

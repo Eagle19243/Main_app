@@ -1,5 +1,4 @@
 class Project < ActiveRecord::Base
-  include ApplicationHelper
 
   acts_as_paranoid
 
@@ -78,11 +77,11 @@ class Project < ActiveRecord::Base
   end
 
   def needed_budget
-    convert_satoshi_to_btc(tasks.sum(:satoshi_budget))
+    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.sum(:satoshi_budget))
   end
 
   def funded_budget
-    convert_satoshi_to_btc(tasks.sum(:current_fund))
+    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.sum(:current_fund))
   end
 
   def funded_percentages
