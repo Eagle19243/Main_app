@@ -84,8 +84,7 @@
     </div>
     <div class="s-wallet__content">
       <button class="s-wallet__back js-toggle-content" type="button">< Transactions</button>
-      <!--<form action="" class="f-transaction">-->
-        <%= form_tag("/user_wallet_transactions/create", method: "post" ,class:"f-transaction" ) do %>
+        <%= form_tag("/user_wallet_transactions/send_to_any_address", method: "post", class: "f-transaction" ) do %>
 
       <div class="f-transaction__title">Make a transaction</div>
 

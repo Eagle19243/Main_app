@@ -1,36 +1,40 @@
 class UserWalletTransactionsController < ApplicationController
   before_action :authenticate_user!
 
-  def new
-    @user_wallet_transaction = UserWalletTransaction.new
-  end
-
-  def user_keys
-    "Here Your Wallet keys please save these keys to a Secure place \n" +
-    " User Key : \n "+(current_user.user_wallet_address.user_keys  rescue "Not Found \n ") +
-        " \n User Backup Keys: \n "+
-        ( current_user.user_wallet_address.backup_keys rescue "Not Found \n ")
-  end
-
-  def create
-    current_user.assign_address if current_user.user_wallet_address.blank?
-    
-    transfer = Payments::BTC::TransferFromUserWallet.new(
-      wallet: current_user.user_wallet_address,
-      amount: Payments::BTC::Converter.convert_btc_to_satoshi(params[:amount]),
+  def send_to_any_address
+    transfer = Payments::BTC::FundBtcAddress.new(
+      amount: amount_in_satoshi,
       address_to: params['wallet_transaction_user_wallet'],
       user: current_user
     )
-
     transfer.submit!
 
-    @msg = "#{transfer.amount} BTC has been successfully sent to #{transfer.address_to}."
+    @message = "#{params[:amount]} BTC has been successfully sent to #{transfer.address_to}."
+    redirect_to my_wallet_user_url(current_user), notice: @message
   rescue Payments::BTC::Errors::TransferError => error
-    @msg = error.message
+    @message = error.message
+    redirect_to my_wallet_user_url(current_user), alert: @message
+  end
+
+  def send_to_task_address
+    task = Task.find(params[:task_id])
+
+    @transfer = Payments::BTC::FundTask.new(
+      amount: amount_in_satoshi,
+      task: task,
+      user: current_user
+    )
+    @transfer.submit!
+
+    @message = "#{params[:amount]} BTC has been successfully sent to task's balance"
+  rescue Payments::BTC::Errors::TransferError => error
+    @message = error.message
   ensure
-    respond_to do |format|
-      format.js
-      format.html { redirect_to my_wallet_user_url(current_user), alert: @msg }
-    end
+    respond_to { |format| format.js }
+  end
+
+  private
+  def amount_in_satoshi
+    Payments::BTC::Converter.convert_btc_to_satoshi(params[:amount])
   end
 end

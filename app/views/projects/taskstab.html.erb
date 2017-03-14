@@ -48,17 +48,12 @@
         $('.modal-fund__user-name').text(response.user_name);
         $('#wallet_address').val(response.wallet_address);
 
-        $('#wallet_transaction_user_wallet').val(response.wallet_address);
+        $('#wallet_transaction_task_id').val(response.task_id);
         $('#task-balance').html(response.balance + " $");
         url = "/projects/" +  response.project_id + "/tasks/" + response.task_id + '/card_payment';
         $("#card-payment-url").attr("href",url  );
-        //$('#coin-base-widget').html("<h4><a href='https://buy.coinbase.com?code=9023urn3f8934hg34&amount=5&address=" + response.wallet_address + "&crypto_currency=BTC'  target='_blank'> Fund by Coinbase</a></h4>")
         $('#payment-form').attr('action', url);
-        //$('#payment-form').setAttribute('action', url );
-        //this works
         $('.modal-fund__inner').show();
-
-
       },
       error: function (xhr) {
       }

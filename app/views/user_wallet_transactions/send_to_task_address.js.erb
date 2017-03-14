@@ -1,11 +1,12 @@
 $('#response-from-wallet').html('');
 $('#response-from-wallet').html("<%= @msg %>");
-$("#wallet_transaction_user_wallet").val('');
+$("#wallet_transaction_task_id").val('');
 $("#wallet_transaction_amount").val('');
 $('#save-wallet-teansaction').disabled = false ;
 
-if (<%= @transfer.save! %>) {
+if (<%= @transfer && @transfer.successful? %>) {
     $('#taskFundModal').hide();
     $('html').removeClass('_open-modal');
     $('#thankYouFundModal').show();
+    $('#task-popup-close').click();
 }

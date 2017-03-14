@@ -57,8 +57,8 @@ Rails.application.routes.draw do
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
-  get 'user_wallet_transactions/new'
-  post 'user_wallet_transactions/create'
+  post 'user_wallet_transactions/send_to_any_address'
+  post 'user_wallet_transactions/send_to_task_address'
   get 'payment_notifications/create'
   get 'proj_admins/new'
   get 'proj_admins/create'

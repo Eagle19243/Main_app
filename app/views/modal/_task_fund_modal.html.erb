@@ -9,8 +9,8 @@
 
         <div class="modal-fund__form-wrap" id="user-btc-view">
             <div class="f-default__row">
-              <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true , class: 'f-default f-donate') do %>
-                <input type="hidden" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required class="form-control"/>
+              <%= form_tag("/user_wallet_transactions/send_to_task_address", method: "post", remote: true , class: 'f-default f-donate') do %>
+                <input type="hidden" id="wallet_transaction_task_id" name="task_id"  required class="form-control"/>
                 <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">BTC</span> Amount to Send</label>
                 <input type="number" step="0.001" min="<%= min_fund_budget_in_btc %>" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field _min-donation" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
@@ -222,7 +222,7 @@
     });
 
   $('#save-wallet-teansaction').click(function () {
-    if ($("#wallet_transaction_user_wallet").val() != '' && $("#wallet_transaction_amount").val() != '') {
+    if ($("#wallet_transaction_task_id").val() != '' && $("#wallet_transaction_task_id").val() != '') {
       $('#save-wallet-teansaction').disabled = true;
       $('#response-from-wallet').html("");
       $('#response-from-wallet').html("Requesting ... please Wait ");

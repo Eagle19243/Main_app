@@ -48,7 +48,7 @@ module ApplicationHelper
   end
 
   def min_transfer_amount_in_btc
-    satoshi_balance_in_btc(Payments::BTC::TransferFromUserWallet::MIN_AMOUNT)
+    satoshi_balance_in_btc(Payments::BTC::FundBtcAddress::MIN_AMOUNT)
   end
 
   def projects_taskstab?
