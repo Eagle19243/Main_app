@@ -135,6 +135,22 @@ class Task < ActiveRecord::Base
     current_fund < budget ||  number_of_participants < target_number_of_participants
   end
 
+  # Returns an estimation in Satoshi how many each participant is going to recieve
+  #
+  # Method calculates estimation using planned +satoshi_budget+ and planned
+  # +target_number_of_participants+
+  #
+  # Returned value can't be used to calculate real transfer amounts because
+  # real +current_fund+ and `team_memberships.size` need to be used to precise
+  # calculations
+  def planned_amount_per_member
+    transaction_fee = transfer_task_funds_transaction_fee
+    amount_to_send = amount_after_bitgo_fee(satoshi_budget - transaction_fee)
+    we_serve_part = amount_to_send * Payments::BTC::Base.weserve_fee
+
+    (amount_to_send - we_serve_part) / target_number_of_participants
+  end
+
   def transfer_task_funds
     update_current_fund!
 
