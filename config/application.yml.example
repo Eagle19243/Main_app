@@ -9,6 +9,7 @@ mediawiki_password:                                     # mediawiki API password
 bitgo_service_fee: "0.001"                      # BitGo commission rate
 weserve_service_fee: "0.05"                     # Weserve commission rate
 weserve_wallet_address:                         # Weserve commission wallet to accept fees
+weserve_from_email:                             # Default email that will be used in a 'from' field when sending emails
 email_provider_username:                        # AWS access ID for email service
 email_provider_password:                        # AWS access secret key for email service
 facebook_app_id:                                # Facebook app ID
@@ -17,7 +18,6 @@ twitter_app_id:                                 # Twitter app ID
 twitter_secret_key:                             # Twitter app secret
 gapp_id:                                        # Google app ID
 gapp_secret_key:                                # Google app secret
-mailer_sender:                                  # From address for mails, eg: "support@domain.com"
 app_secret_key:                                 # Application secret key, generate by `rake secret`
 domain_name:                                    # Application domain name, eg "example.com"
 default_url:                                    # Default url for application, eg: "localhost:3000" (?)
