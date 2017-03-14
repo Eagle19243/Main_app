@@ -23,6 +23,7 @@ class AdminRequestsController < ApplicationController
     respond_to do |format|
       if @admin_request.update(status: AdminRequest.statuses[:accepted])
         TeamService.add_admin_to_project(@admin_request.project, @admin_request.user)
+        Chatroom.add_user_to_project_chatroom(@admin_request.project, @admin_request.user)
         format.json { render json: @admin_request.id, status: :ok }
       else
         format.json { render json: {}, status: :unprocessable_entity }

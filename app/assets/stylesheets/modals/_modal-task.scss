@@ -182,17 +182,26 @@
           display: flex;
           width: 100%;
         }
-        &-value {
+        &-value, &-estimation {
           font-family: 'Libre Franklin', sans-serif;
           color: $grey-clr;
-          width: 33.333%;
           font-size: 0.9em;
+        }
+        &-value {
+          width: 33.333%;
           padding: 0 20px;
           text-align: center;
           &._data {
             color: #333;
             font-size: 1em;
             font-weight: bold;
+            text-align: center;
+          }
+        }
+        &-estimation {
+          margin-top: 20px;
+
+          &-amount {
             text-align: center;
           }
         }

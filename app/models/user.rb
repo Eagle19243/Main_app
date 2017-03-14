@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include ApplicationHelper
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
 
@@ -32,6 +31,7 @@ class User < ActiveRecord::Base
   has_many :proj_admins, dependent: :delete_all
 
   has_many :chatrooms, dependent: :destroy
+  has_many :chatrooms_where_recipient, :foreign_key => "recipient_id", class_name: "Chatroom"
   has_many :groupmembers, dependent: :destroy
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
@@ -62,27 +62,8 @@ class User < ActiveRecord::Base
   end
 
   def assign_address
-    if File.basename($0) != 'rake'
-      access_token = ENV['bitgo_admin_access_token']
-      Rails.logger.info access_token unless Rails.env == "development"
-      api = Bitgo::V1::Api.new
-      secure_passphrase =  self.encrypted_password
-      secure_label = SecureRandom.hex(5)
-      new_address = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
-      userKeychain = new_address["userKeychain"]
-      backupKeychain = new_address["backupKeychain"]
-      new_address_id = new_address["wallet"]["id"] rescue "assigning new address ID"
-      new_wallet_address_sender = api.create_address(wallet_id: new_address_id, chain: "0", access_token: access_token) rescue "create address"
-      new_wallet_address_receiver = api.create_address(wallet_id: new_address_id, chain: "1", access_token: access_token) rescue "address receiver"
-      unless new_address.blank?
-        UserWalletAddress.create(sender_address: new_wallet_address_sender["address"], receiver_address: new_wallet_address_receiver["address"], pass_phrase: secure_passphrase, user_id: self.id, wallet_id: new_address_id, user_keys: userKeychain, backup_keys: backupKeychain)
-      else
-        UserWalletAddress.create(sender_address: nil, user_id: self.id)
-      end
-
-    end
+    Payments::BTC::CreateUserWalletService.call(self.id)
   end
-
 
   def create_activity(item, action)
     activity = activities.new
@@ -112,6 +93,14 @@ class User < ActiveRecord::Base
 
   def funded_projects_count
     donations.joins(:task).pluck('tasks.project_id').uniq.count
+  end
+
+  def get_users_projects_and_team_projects
+    (self.projects + self.teams.collect{ |t| t.project }).uniq
+  end
+
+  def all_one_on_one_chat_users
+    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.collect{ |c| c.user }).uniq
   end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
@@ -257,6 +246,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def is_team_member_for?(project)
+    project.user_id == self.id || proj_admins.where(project_id: project.id).exists? || project.team.team_memberships.where(:team_member_id => self.id).present?
+  end
+
   def is_project_leader?(project)
     project.user.id == self.id
   end
@@ -295,4 +288,5 @@ class User < ActiveRecord::Base
   def validate_name_unchange
     errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
   end
+
 end

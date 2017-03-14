@@ -18,20 +18,8 @@ class NotificationsService
   def self.notify_about_project_update(project)
     self.create_notification(project, project.user, Notification.actions[:updated_project])
     project.project_users.each do |member|
-      self.create_notification(project, member, Notification.actions[:updated_project])
+      self.create_notification(project, member.follower, Notification.actions[:updated_project])
     end
-  end
-
-  def self.notify_about_admin_invitation(admin_invitation, origin_user)
-    self.create_notification(admin_invitation, admin_invitation.user, Notification.actions[:become_project_admin_invitation], origin_user, "operatable")
-  end
-
-  def self.notify_about_reject_admin_invitation(admin_invitation, leader, origin_user)
-    self.create_notification(admin_invitation, leader, Notification.actions[:reject_admin_invitation], origin_user)
-  end
-
-  def self.notify_about_accept_admin_invitation(admin_invitation, leader, origin_user)
-    self.create_notification(admin_invitation, leader, Notification.actions[:accept_admin_invitation], origin_user)
   end
 
   def self.notify_about_admin_request(admin_request)
@@ -60,6 +48,9 @@ class NotificationsService
 
   def self.notify_about_suggested_task(task)
     self.create_notification(task, task.project.user, Notification.actions[:suggested_task], task.user, "operatable")
+    task.project.followers.each do |user|
+      self.create_notification(task, user, Notification.actions[:suggested_task], task.user) unless user.is_admin_for? task.project
+    end
   end
 
   def self.notify_about_rejected_task(task)
@@ -82,6 +73,10 @@ class NotificationsService
   def self.notify_about_follow_project(project, followed_user)
     self.create_notification(project, project.user, Notification.actions[:follow_project], followed_user)
     self.create_notification(project, followed_user, Notification.actions[:follow_project])
+  end
+
+  def self.notify_about_accept_task(task, user)
+    self.create_notification(task, user, Notification.actions[:accept_task])
   end
 
   private

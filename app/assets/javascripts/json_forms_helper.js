@@ -4,15 +4,11 @@ var JsonFormsHelper = {
         initializeRequestsControls();
         initializeDeleteNotificationsControls();
     },
-    
+
     InitializeAdminRequestsControls: function() {
         initializeAdminRequestControls();
     },
 
-    InitializeAdminInvitationsControls: function() {
-        initialAdminInvitationsControls();
-    },
-    
     InitializeTeamMembersControls: function () {
         initializeTeamMembersControls();
     },
@@ -42,23 +38,6 @@ function initializeDeleteNotificationsControls() {
             url: "/notifications/" + $(this).attr('notification-id'),
         }).done(function(data) {
             $("#notification-" + data).html("Removed");
-        }).fail(function(data) {
-            console.log(data);
-        });
-    });
-}
-
-function initialAdminInvitationsControls() {
-    $('form.new_admin_invitation').submit(function(e) {
-        e.preventDefault();
-        var $that = $(this);
-
-        $.ajax({
-            type: $(this).attr('method'),
-            url: $(this).attr('action'),
-            data: $(this).serialize()
-        }).done(function(data) {
-            $that.find('.btn-root').addClass('_clicked').text('INVITED');
         }).fail(function(data) {
             console.log(data);
         });

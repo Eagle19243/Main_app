@@ -5,7 +5,6 @@ class TasksController < ApplicationController
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
   before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
-  include ApplicationHelper
 
 
   def validate_team_member
@@ -143,8 +142,7 @@ class TasksController < ApplicationController
      @task.assign_address
    end
     respond_to do |format|
-    #  format.json { render json: {user_name: current_user.name, wallet_address: @task.wallet_address.sender_address,balance: curent_bts_to_usd(@task.id), status: 200} }
-       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance:convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
+       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
     end
   end
 
@@ -192,7 +190,7 @@ class TasksController < ApplicationController
   def refund
     if current_user.id == @task.project.user_id
       bitgo_fee = 0.10
-      access_token = ENV['bitgo_admin_access_token']
+      access_token = Payments::BTC::Base.bitgo_access_token
       @wallet_address = @task.wallet_address
       api = Bitgo::V1::Api.new
       response = api.get_wallet(wallet_id: @wallet_address.wallet_id, access_token: access_token)
@@ -220,6 +218,8 @@ class TasksController < ApplicationController
     previous = @task.suggested_task?
     if @task.accept!
       @notice = "Task accepted "
+      NotificationMailer.accept_task(@task.user, @task).deliver_now
+      NotificationsService.notify_about_accept_task(@task, @task.user)
       if previous
         @task.assign_address
       end

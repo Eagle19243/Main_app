@@ -278,12 +278,13 @@ module Bitgo
       # The format of recipients array:
       #
       #   [{address: '38BKDNZbPcLogvVbcx2ekJ9E6Vv94DqDqw’, amount: 1500}, ..]
-      def send_coins_to_multiple_addresses(wallet_id: nil, recipients: [], wallet_passphrase: nil, access_token: nil)
+      def send_coins_to_multiple_addresses(wallet_id: nil, recipients: [], fee: nil, wallet_passphrase: nil, access_token: nil)
         @session_token = access_token
 
         call :post, '/wallet/'+"#{wallet_id}"+ '/sendmany', {
           recipients: recipients,
           walletPassphrase: wallet_passphrase,
+          fee: fee
         }
       end
 

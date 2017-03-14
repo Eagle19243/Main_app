@@ -1,7 +1,7 @@
 <div id="welcomeToTeamModal" class="modal-default welcome-to-team" role="dialog" tabindex="-1">
     <div class="modal-default__content">
         <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Welcome to team!</h4>
+        <h4 class="modal-default__title">Welcome to the team!</h4>
         <div class="welcome-to-team__title">How to join the team?</div>
         <ul class="welcome-to-team__options _center _three-column">
             <li class="welcome-to-team__item">
@@ -33,7 +33,7 @@
         <ul class="welcome-to-team__options _two-column">
             <li class="welcome-to-team__item">
                 <div class="welcome-to-team__subtitle">Become the Lead Editor!</div>
-                <div class="welcome-to-team__info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius felis quis est hendrerit, a elementum ante elementum. Vestibulum euismod faucibus vestibulum. Curabitur pulvinar dolor nec arcu aliquet iaculis.</div>
+                <div class="welcome-to-team__info">Lead editor channels collaboration on "Plan" tab, by accepting or rejecting edits from users. Lead editor verifies content quality and checks that information comes from a reliable sources.</div>
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply As Lead Editor</a>
                 <% elsif !current_user.is_admin_for?(@project) %>
@@ -42,7 +42,13 @@
             </li>
             <li class="welcome-to-team__item">
                 <div class="welcome-to-team__subtitle">Become the Executor!</div>
-                <div class="welcome-to-team__info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius felis quis est hendrerit, a elementum ante elementum. Vestibulum euismod faucibus vestibulum. Curabitur pulvinar dolor nec arcu aliquet iaculis.</div>
+                <div class="welcome-to-team__info">
+                Executor controls collaboration on "Task" tab.
+                <p>- edit + approve suggested tasks.</p>
+                <p>- accept user applications to complete tasks.</p>
+                <p>- coordinate and interact with users who complete tasks.</p>
+                <p>- verify task completion.</p>
+                </div>
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply As Executor</a>
                 <% elsif !current_user.is_admin_for?(@project) %>

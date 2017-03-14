@@ -1,6 +1,0 @@
-<%= simple_form_for(AdminInvitation.new) do |f| %>
-    <%= f.input :user_id, as: :hidden, input_html: { value: user.id } %>
-    <%= f.input :project_id, as: :hidden, input_html: { value: project.id } %>
-    <%= f.input :sender_id, as: :hidden, input_html: { value: current_user.id } %>
-    <button class="btn-root">Invite</button>
-<% end %>

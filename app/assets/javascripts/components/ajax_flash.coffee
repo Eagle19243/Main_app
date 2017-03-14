@@ -13,6 +13,7 @@ show_ajax_message = (msg, type) ->
   return
 
 $(document).ajaxComplete (event, request) ->
-  msg = request.getResponseHeader("X-Message")
-  type = request.getResponseHeader("X-Message-Type")
-  show_ajax_message(msg, type)
+  messages = jQuery.parseJSON(request.getResponseHeader("X-Messages"))
+  
+  $.each messages, (type, msg) ->
+    show_ajax_message(msg, type)

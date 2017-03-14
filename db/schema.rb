@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225133907) do
+ActiveRecord::Schema.define(version: 20170313125802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,18 +27,6 @@ ActiveRecord::Schema.define(version: 20170225133907) do
 
   add_index "activities", ["targetable_type", "targetable_id"], name: "index_activities_on_targetable_type_and_targetable_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
-
-  create_table "admin_invitations", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "project_id"
-    t.integer  "status",     default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "sender_id"
-  end
-
-  add_index "admin_invitations", ["project_id"], name: "index_admin_invitations_on_project_id", using: :btree
-  add_index "admin_invitations", ["user_id"], name: "index_admin_invitations_on_user_id", using: :btree
 
   create_table "admin_requests", force: :cascade do |t|
     t.integer  "user_id"
@@ -107,9 +95,9 @@ ActiveRecord::Schema.define(version: 20170225133907) do
     t.string   "name"
     t.integer  "project_id"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "friend_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "recipient_id"
   end
 
   add_index "chatrooms", ["project_id"], name: "index_chatrooms_on_project_id", using: :btree
@@ -356,7 +344,7 @@ ActiveRecord::Schema.define(version: 20170225133907) do
 
   create_table "stripe_payments", force: :cascade do |t|
     t.decimal  "amount"
-    t.string   "tx_hash"
+    t.string   "tx_hex"
     t.integer  "task_id"
     t.boolean  "transferd"
     t.datetime "created_at",          null: false
@@ -371,6 +359,7 @@ ActiveRecord::Schema.define(version: 20170225133907) do
     t.string   "status"
     t.string   "seller_message"
     t.datetime "deleted_at"
+    t.string   "tx_id"
   end
 
   add_index "stripe_payments", ["deleted_at"], name: "index_stripe_payments_on_deleted_at", using: :btree
@@ -470,11 +459,12 @@ ActiveRecord::Schema.define(version: 20170225133907) do
   create_table "user_wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
-    t.string   "tx_hash"
+    t.string   "tx_hex"
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.datetime "deleted_at"
+    t.string   "tx_id"
   end
 
   add_index "user_wallet_transactions", ["deleted_at"], name: "index_user_wallet_transactions_on_deleted_at", using: :btree
@@ -542,10 +532,11 @@ ActiveRecord::Schema.define(version: 20170225133907) do
   create_table "wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
-    t.string   "tx_hash"
+    t.string   "tx_hex"
     t.integer  "task_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "tx_id"
   end
 
   add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id", using: :btree
@@ -573,9 +564,6 @@ ActiveRecord::Schema.define(version: 20170225133907) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "admin_invitations", "projects"
-  add_foreign_key "admin_invitations", "users"
-  add_foreign_key "admin_invitations", "users", column: "sender_id", on_update: :cascade, on_delete: :cascade
   add_foreign_key "admin_requests", "projects"
   add_foreign_key "admin_requests", "users"
   add_foreign_key "chat_rooms", "projects"

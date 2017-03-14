@@ -84,8 +84,7 @@
     </div>
     <div class="s-wallet__content">
       <button class="s-wallet__back js-toggle-content" type="button">< Transactions</button>
-      <!--<form action="" class="f-transaction">-->
-        <%= form_tag("/user_wallet_transactions/create", method: "post" ,class:"f-transaction" ) do %>
+        <%= form_tag("/user_wallet_transactions/send_to_any_address", method: "post", class: "f-transaction" ) do %>
 
       <div class="f-transaction__title">Make a transaction</div>
 
@@ -101,7 +100,7 @@
           <label class="f-default__label _btc">
             <span class="f-default__label-text">Enter amount</span>
             <!--<input type="number" class="f-default__field numeric integer" required>-->
-            <input type="number" id="wallet_transaction_amount" name="amount" class="f-default__field numeric integer _min-donation"  required="true" placeholder=''/>
+            <input type="number" id="wallet_transaction_amount" name="amount" class="f-default__field numeric integer _min-donation" step="0.001" min="<%= min_transfer_amount_in_btc %>" required="true" placeholder=''/>
 
             <div class="f-transaction__btc">BTC</div>
           </label>
@@ -123,12 +122,6 @@
 </section>
 <script type="text/javascript">
   $(document).ready(function () {
-
-    var MIN_DONATION = parseFloat('<%= t('commons.min_donation_usd') %>').toFixed(2),
-        currentBtc = parseFloat('<%=  get_current_btc_rate  %>').toFixed(2);
-
-    $('.f-default__field._min-donation').attr('min', (MIN_DONATION / currentBtc).toFixed(4));
-
     $('.js-toggle-content').on('click', function () {
       $(this).parents('.s-wallet__content').removeClass('_active').siblings('.s-wallet__content').addClass('_active');
     });

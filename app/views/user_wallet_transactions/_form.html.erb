@@ -33,8 +33,8 @@
     if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
-      var current_btc = '<%=  get_current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      var currentBtc = '<%=  Payments::BTC::Converter.get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/currentBtc)+" BTC";
       eve.preventDefault();
     }
 
@@ -44,8 +44,8 @@
       }
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
-      var current_btc = '<%=  get_current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      var currentBtc = '<%=  Payments::BTC::Converter.get_current_btc_rate  %>'
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/currentBtc)+" BTC";
 
     });
   });

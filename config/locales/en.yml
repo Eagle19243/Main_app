@@ -21,3 +21,5 @@
 
 en:
   hello: "Hello world"
+  suggest_subject: "Suggested Task"
+  accept_subject: "Task Accept"

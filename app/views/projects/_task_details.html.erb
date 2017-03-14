@@ -198,8 +198,8 @@
                         <div class="modal-task__card-value _data">
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
-                        <div class="modal-task__card-value _data">
-                          <%= "#{@task.budget} BTC" %>
+                        <div id="task-budget" class="modal-task__card-value _data">
+                            <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :activator => '#task-budget' %>
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
@@ -207,6 +207,9 @@
                         <div class="modal-task__card-value">Teammates</div>
                         <div class="modal-task__card-value">Raised</div>
                         <div class="modal-task__card-value">Budget</div>
+                    </div>
+                    <div class="modal-task__card-estimation">
+                      <div class="modal-task__card-estimation-amount">Per member amount: <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %> BTC</div>
                     </div>
                   </div>
 
@@ -251,17 +254,8 @@
                     <script type="text/javascript">
                         DateTimePickerModule.init($(document));
                     </script>
-              <!-- <h6>Funded :
-                <span class="light-blue">$<%= @task.current_fund + curent_bts_to_usd(@task.id) rescue 0.0 %></span> /
-                Needed : <span>$<%= @task.budget %></span></h6>
-              <h6>Teammates:<span class="light-blue"><%= @task.number_of_participants rescue 0 %></span> / Needed : -->
             </div>
 
-            <!--<hr>-->
-            <!--<div class="wallet-block mb20">-->
-              <!--<h5>Task Specific Bit Coin Address:</h5>-->
-              <!--<p id='fe_text'><%#= @task.wallet_address.sender_address rescue 'Available soon' %></p>-->
-            <!--</div>-->
             <hr>
 
                 <div class="approve-block mb20">
@@ -331,12 +325,6 @@
                             </button>
                         <% end %>
                     <% end %>
-                    <% if user_signed_in?  &&  current_user.id == @task.project.user_id  && @task.accepted? %>
-                            <button id="openEditBudgetPopup">
-                              <i class="fa fa-bitcoin" aria-hidden="true"></i>
-                              Change Budget
-                            </button>
-                  <% end %>
                   </div>
                 </div>
 

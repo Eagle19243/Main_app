@@ -1,30 +1,21 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
-  describe "#get_reserve_wallet_balance" do
-    context "when ENV variable is nil" do
-      before { stub_env('reserve_wallet_id', nil) }
 
-      it "returns 0" do
-        expect(get_reserve_wallet_balance).to eq(0)
-      end
-    end
-
-    context "when ENV variable is blank" do
-      before { stub_env('reserve_wallet_id', '') }
-
-      it "returns 0" do
-        expect(get_reserve_wallet_balance).to eq(0)
-      end
-    end
-
-    context "when ENV variable is present", vcr: { cassette_name: 'bitgo' } do
-      let(:reserve_wallet_id) { '38WXWnXa12w81VbABxJA2RS4WcRDRsf6nV'}
-      before { stub_env('reserve_wallet_id', reserve_wallet_id) }
-
-      it "returns wallet balance" do
-        expect(get_reserve_wallet_balance).to eq(470975)
-      end
-    end
+  before do
+    allow(Payments::BTC::Converter).to receive(:get_current_btc_rate).and_return(1228.96)
   end
+
+  it 'shows btc in 4 decimals' do
+    expect(btc_balance(3.452678)).to eq 3.4527
+  end
+
+  it 'shows satoshi balance in btc with 4 decimals' do
+    expect(satoshi_balance_in_btc(2334643)).to eq 0.0233
+  end
+
+  it 'shows satoshi balance in usd with 3 decimals' do
+    expect(satoshi_balance_in_usd(2334643)).to eq 28.692
+  end
+
 end

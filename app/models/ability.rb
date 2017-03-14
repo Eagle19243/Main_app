@@ -8,7 +8,6 @@ class Ability
     initializeProfileCommentsPermissions(user)
     initializeProjAdminPermissions(user)
     initializeTasksPermissions(user)
-    initializeAdminInvitationsPermissions(user)
     initializeAdminRequestsPermissions(user)
     initializeApplyRequestsPermissions(user)
     initializeTeamMembershipsPermissions(user)
@@ -27,15 +26,6 @@ class Ability
         (user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user) || (user.is_executor_for?(team_membership.team.project) && team_membership.role == 'teammate')
       end
 
-    end
-  end
-
-  def initializeAdminInvitationsPermissions(user)
-    if user
-      can [:create], AdminInvitation do |admin_invitation|
-        admin_invitation.sender.id == user.id
-      end
-      can [:accept, :reject], AdminInvitation, :user_id => user.id
     end
   end
 
@@ -58,7 +48,7 @@ class Ability
   end
 
   def initializeProjectsPermissions(user)
-    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :invite_admin, :get_in], Project
+    can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :get_in], Project
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
       can [:update, :change_leader, :accept, :reject ], Project do |project|

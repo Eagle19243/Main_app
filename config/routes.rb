@@ -1,12 +1,8 @@
 Rails.application.routes.draw do
   resources :group_messages, only: [:index, :create]
-  post 'group_messages/get_messages_by_room'
-  post 'group_messages/load_group_messages'
-  post 'group_messages/users_chat'
-  post 'group_messages/one_to_one_chat'
-  get 'group_messages/user_messaging'
+  post 'group_messages/get_chatroom'
+  post 'group_messages/refresh_chatroom_messages'
   get 'group_messages/download_files'
-  get 'user_wallet_transactions/create_wallet'
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
   get 'tasks/task_fund_info'
@@ -45,12 +41,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :admin_invitations, only: [:create] do
-    member do
-      post :accept, :reject
-    end
-  end
-
   resources :admin_requests, only: [:create] do
     member do
       post :accept, :reject
@@ -67,8 +57,8 @@ Rails.application.routes.draw do
   resources :work_records
   get 'wallet_transactions/new'
   post 'wallet_transactions/create'
-  get 'user_wallet_transactions/new'
-  post 'user_wallet_transactions/create'
+  post 'user_wallet_transactions/send_to_any_address'
+  post 'user_wallet_transactions/send_to_task_address'
   get 'payment_notifications/create'
   get 'proj_admins/new'
   get 'proj_admins/create'

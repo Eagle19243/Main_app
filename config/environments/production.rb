@@ -7,7 +7,7 @@ Rails.application.configure do
   config.assets.js_compressor = :uglifier
   config.assets.compile = true
   config.assets.digest = true
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.log_level = :debug
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
@@ -21,6 +21,7 @@ Rails.application.configure do
     enable_starttls_auto: true,
     user_name: ENV["email_provider_username"],
     password: ENV["email_provider_password"],
+    from: ENV["weserve_from_email"]
   }
   
   config.action_mailer.default_url_options = { :host => ENV["default_url"] }

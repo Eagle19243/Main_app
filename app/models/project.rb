@@ -1,5 +1,4 @@
 class Project < ActiveRecord::Base
-  include ApplicationHelper
 
   acts_as_paranoid
 
@@ -18,7 +17,7 @@ class Project < ActiveRecord::Base
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins, dependent: :destroy
   has_one :chat_room
-  has_one :chatroom, dependent: :destroy
+  has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
   has_many :section_details, dependent: :destroy
@@ -78,11 +77,11 @@ class Project < ActiveRecord::Base
   end
 
   def needed_budget
-    convert_satoshi_to_btc(tasks.sum(:satoshi_budget))
+    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.sum(:satoshi_budget))
   end
 
   def funded_budget
-    convert_satoshi_to_btc(tasks.sum(:current_fund))
+    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.sum(:current_fund))
   end
 
   def funded_percentages
@@ -105,6 +104,14 @@ class Project < ActiveRecord::Base
     end
     # self.team.team_memberships.count.to_s
     #tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+  end
+
+  def team_memberships_count
+    if self.team.present?
+      self.team.team_memberships.count
+    else
+      0
+    end
   end
 
   def rate_avg
@@ -163,9 +170,7 @@ class Project < ActiveRecord::Base
 
   # Load MediaWiki API Base URL from application.yml
   def self.load_mediawiki_api_base_url
-    # TODO I'm pretty sure we dont need to have this YAML.load all over the place
-    settings = YAML.load_file("#{Rails.root}/config/application.yml")
-    settings['mediawiki_api_base_url']
+    ENV['mediawiki_api_base_url']
   end
 
   # MediaWiki API - Page Read
