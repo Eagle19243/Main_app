@@ -12,15 +12,6 @@ class UserWalletTransactionsController < ApplicationController
         ( current_user.user_wallet_address.backup_keys rescue "Not Found \n ")
   end
 
-  def  create_wallet
-    if current_user.user_wallet_address.blank?
-      current_user.assign_address
-      redirect_to user_wallet_transactions_new_path , alert: "Wallet Created"
-    else
-      redirect_to user_path(current_user) , alert: "your Wallet Already Exist"
-    end
-  end
-
   def create
     current_user.assign_address if current_user.user_wallet_address.blank?
     

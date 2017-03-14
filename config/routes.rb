@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   post 'group_messages/get_chatroom'
   post 'group_messages/refresh_chatroom_messages'
   get 'group_messages/download_files'
-  get 'user_wallet_transactions/create_wallet'
   get 'pages/terms_of_use'
   get 'pages/privacy_policy'
   get 'tasks/task_fund_info'
