@@ -88,11 +88,7 @@
 
     <div class="profile-hero__user-trans-btns">
       <% if current_user && current_user.id == @user.id %>
-        <a href="javascript:void(0)" class="profile-hero__btn" data-reveal-id="fund-transfer-wallet">
-          <svg focusable="false" version="1.1" class="svg-bitcoin">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bitcoin"></use>
-          </svg>Transfer coins
-        </a>
+          <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
       <% end %>
       <% if current_user && current_user.id != @user.id %>
         <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="profile-hero__btn">
