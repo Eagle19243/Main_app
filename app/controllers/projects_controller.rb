@@ -463,7 +463,7 @@ class ProjectsController < ApplicationController
     if @project.change_leader_invitations.pending.any?
       flash[:notice] = "You have already invited a new leader for this project."
     elsif @new_leader == nil
-      flash[:notice] = "Can't find the user who have the email address you entered. Please input valid email address."
+      flash[:error] = "Can't find the user who have the email address you entered. Please input valid email address."
     elsif !(@project.team.team_memberships.pluck(:team_member_id).include? @new_leader)
       @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
       flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
