@@ -6,4 +6,9 @@ namespace :weserve do
     BtcExchangeRate.create(rate: btc.to_f)
   end
 
+  desc "Update balances for tasks"
+  task update_tasks_balances: :environment do
+    updater = Payments::BTC::BulkTaskBalanceUpdater.new
+    updater.update_all_accepted_tasks!
+  end
 end

@@ -22,5 +22,9 @@ FactoryGirl.define do
       budget { 100 }
       deadline { 30.days.from_now }
     end
+
+    trait :with_wallet do
+      association :wallet_address
+    end
   end
 end
