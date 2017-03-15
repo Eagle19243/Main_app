@@ -1,6 +1,6 @@
 class AttachmentUploader < CarrierWave::Uploader::Base
 
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.staging?
     storage :fog
   else
     storage :file
