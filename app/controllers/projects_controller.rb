@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
     session[:success_contacts] = nil
     @array = params[:emails].split(',')
     @array.each do |key|
-      InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_now
+      InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_later
     end
     session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] = session[:idd]
@@ -469,7 +469,7 @@ class ProjectsController < ApplicationController
       flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
     elsif @email != current_user.email
       @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
-      InvitationMailer.invite_leader(@invitation.id).deliver_now
+      InvitationMailer.invite_leader(@invitation.id).deliver_later
       NotificationsService.notify_about_change_leader_invitation(current_user, @new_leader, @project)
       flash[:notice] = "You sent an invitation for leader role to " + @email
     end

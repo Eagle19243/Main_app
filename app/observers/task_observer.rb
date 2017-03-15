@@ -3,9 +3,9 @@ class TaskObserver < ActiveRecord::Observer
     if (task.suggested_task?)
       NotificationsService.notify_about_suggested_task(task)
       
-      NotificationMailer.suggest_task(task.project.user, task).deliver_now
+      NotificationMailer.suggest_task(task.project.user, task).deliver_later
       task.project.followers.each do |user|
-        NotificationMailer.suggest_task(user, task).deliver_now
+        NotificationMailer.suggest_task(user, task).deliver_later
       end
     end
   end

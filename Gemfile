@@ -55,6 +55,9 @@ gem 'simple_form'
 gem 'newrelic_rpm'
 gem 'figaro'
 gem 'stripe'
+gem 'delayed_job_active_record'
+gem "delayed_job_web"
+gem 'daemons'
 
 # Ajax File Uploading
 gem 'remotipart'

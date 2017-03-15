@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  match "/status/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
+  if Rails.env.production?
+    DelayedJobWeb.use Rack::Auth::Basic do |username, password|
+      username == ENV['delayed_job_username'] && password == ENV['delayed_job_passwords']
+    end
+  end
+  
   resources :group_messages, only: [:index, :create]
   post 'group_messages/get_chatroom'
   post 'group_messages/refresh_chatroom_messages'

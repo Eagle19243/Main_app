@@ -218,7 +218,7 @@ class TasksController < ApplicationController
     previous = @task.suggested_task?
     if @task.accept!
       @notice = "Task accepted "
-      NotificationMailer.accept_task(@task.user, @task).deliver_now
+      NotificationMailer.accept_task(@task.user, @task).deliver_later
       NotificationsService.notify_about_accept_task(@task, @task.user)
       if previous
         @task.assign_address
