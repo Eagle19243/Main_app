@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   if Rails.env.production?
     DelayedJobWeb.use Rack::Auth::Basic do |username, password|
-      username == ENV['delayed_job_username'] && password == ENV['delayed_job_passwords']
+      username == ENV['delayed_job_username'] && password == ENV['delayed_job_password']
     end
   end
   
