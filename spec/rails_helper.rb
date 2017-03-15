@@ -24,6 +24,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    FactoryGirl.create(:btc_exchange_rate)
   end
 
   config.before(:each, type: :feature) do

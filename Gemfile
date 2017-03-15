@@ -35,7 +35,7 @@ gem 'dalli'
 gem 'therubyracer'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
-gem 'rufus-scheduler'
+gem 'whenever', :require => false
 gem "font-awesome-rails"
 gem 'omniauth'
 gem 'omniauth-facebook'

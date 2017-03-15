@@ -2,10 +2,6 @@ require 'rails_helper'
 
 describe ApplicationHelper do
 
-  before do
-    allow(Payments::BTC::Converter).to receive(:get_current_btc_rate).and_return(1228.96)
-  end
-
   it 'shows btc in 4 decimals' do
     expect(btc_balance(3.452678)).to eq 3.4527
   end

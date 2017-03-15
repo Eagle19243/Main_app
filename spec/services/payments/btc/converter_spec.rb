@@ -2,10 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Payments::BTC::Converter do
 
-  before do
-    allow(Payments::BTC::Converter).to receive(:get_current_btc_rate).and_return(1228.96)
-  end
-
   describe 'converts usd to btc' do
     
     it 'returns 0 btc for 0 usd or blank amount' do
