@@ -174,7 +174,7 @@ Rails.application.routes.draw do
   get '/pages/privacy_policy'
   get '/pages/terms_of_use'
 
-  devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"}
+  devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks", confirmations: 'confirmations'}
 
   resources :users do
     member do
