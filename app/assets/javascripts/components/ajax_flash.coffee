@@ -12,8 +12,18 @@ show_ajax_message = (msg, type) ->
     return
   return
 
+$(document).ready ->
+  if (JSON.parse(sessionStorage.getItem('showMessageAfterRegister')))
+    show_ajax_message('A message with a confirmation link has been sent' +
+                      'to your email address. Please follow the link to' +
+                      'activate your account.', 'success')
+    sessionStorage.removeItem('showMessageAfterRegister')
+
 $(document).ajaxComplete (event, request) ->
   messages = jQuery.parseJSON(request.getResponseHeader("X-Messages"))
   
   $.each messages, (type, msg) ->
-    show_ajax_message(msg, type)
+    setTimeout( ->
+      show_ajax_message(msg, type)
+      return
+    )

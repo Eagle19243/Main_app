@@ -24,6 +24,7 @@
       }
       dataType: 'JSON'
       success: (response) =>
+        sessionStorage.setItem('showMessageAfterRegister', JSON.stringify(true))
         window.location.replace '/home'
       error: (response) =>
         @performNotSuccessResult response
