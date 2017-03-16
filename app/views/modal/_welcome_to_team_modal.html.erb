@@ -37,7 +37,7 @@
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply</a>
                 <% elsif !current_user.is_admin_for?(@project) %>
-                    <%= link_to "Apply As Lead Editor", get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Lead Editor?"} %>
+                    <%= link_to "Apply", get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Lead Editor?"} %>
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
@@ -52,7 +52,7 @@
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply</a>
                 <% elsif !current_user.is_admin_for?(@project) %>
-                    <%= link_to "Apply As Executor", get_in_projects_path(type: "2", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Executor?"} %>
+                    <%= link_to "Apply", get_in_projects_path(type: "2", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Executor?"} %>
                 <% end %>
             </li>
         </ul>
