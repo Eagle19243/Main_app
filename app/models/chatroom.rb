@@ -61,7 +61,7 @@ class Chatroom < ActiveRecord::Base
       "#{self.project.title} - #{self.user.name} to #{self.recipient.name}"
     elsif !self.project.present? && self.user.present? && self.recipient.present?
       #Direct Message with no Project
-      "#{self.user.name} to #{self.recipient.name}"
+      "Messages from #{self.recipient.name}"
     end
   end
 

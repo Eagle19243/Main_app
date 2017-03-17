@@ -1,6 +1,6 @@
-<div class="message-form-wrapper">
+<div class="f-new-message">
 
-  <div class="message-sender">
+  <div class="f-new-message__sender">
     <% if current_user.picture? %>
         <%= image_tag(current_user.picture, size: "30x30") %>
     <% else %>
@@ -8,7 +8,7 @@
     <% end %>
   </div>
 
-  <%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'new-message-form'}) do |f| %>
+  <%= simple_form_for(@group_message = GroupMessage.new, :remote => true, :html => {:class => 'f-new-message__form'}) do |f| %>
       <div class="form-group">
         <div id="load-image-gif" style="text-align: center; display: none">
           <%= image_tag 'loading.gif' %>
@@ -16,9 +16,9 @@
         <%= f.hidden_field :chatroom_id, value: @chatroom.id %>
         <%= f.text_area :message, :placeholder => 'Write message' %>
         <%= f.file_field :attachment, :style => 'display:none', id: 'file-attachment-button' %>
-        <%= f.submit 'Send', id: 'submit-message' %>
+        <%= f.submit 'Send', class: 'f-new-message__submit' %>
       </div>
-      <div class="attach-group">
+      <div class="f-new-message__attach">
         <span class="postfix text-default">
           <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true" id="file-attachment-icon"></i>
           Add Attachment
@@ -35,23 +35,20 @@
         return false
       }
       else {
-        $("#submit-message").trigger('click');
+        $(".f-new-message__submit").trigger('click');
       }
     }
   });
-  $("#file-attachment-icon").click(function (e) {
-
+  $(".f-new-message__attach").click(function (e) {
     $("#file-attachment-button").click();
-
   });
   $("#file-attachment-button").change(function () {
-    $("#submit-message").click();
+    $(".f-new-message__submit").click();
     $("#load-image-gif").show();
   });
-  $("#submit-message").click(function (event) {
+  $(".f-new-message__submit").click(function (event) {
     if (($('#file-attachment-button').val() == "" && $('#group_message_message').val() == "")) {
       event.preventDefault();
     }
-
   });
 </script>

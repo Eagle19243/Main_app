@@ -1,0 +1,94 @@
+.s-group-messages {
+  position: relative;
+  min-height: 100vh;
+
+  &__nav {
+    background-color: #F5F5F5;
+    text-align: left;
+    width: 240px;
+    padding: 20px 30px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    &-title {
+      margin-bottom: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+  }
+
+  &__submenu {
+    &-title {
+      margin-bottom: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #888;
+    }
+    &-list {
+      margin: 0;
+      list-style-type: none;
+    }
+    &-item {
+      padding: 0 0 20px 0;
+      a {
+        font-family: 'Roboto', sans-serif;
+        color: #555;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      &._message {
+        a {
+          color: #888;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  &__search-form {
+    display: none;
+  }
+
+  &__user-search {
+    padding: 10px 0;
+    span {
+      font-family: 'Roboto', sans-serif;
+      color: #555;
+      font-size: 1em;
+      i {
+        color: #333;
+      }
+    }
+  }
+
+  &__messages {
+    margin-bottom: 20px;
+  }
+  &__content {
+    position: relative;
+    margin: 0 0 0 240px;
+    padding: 20px 0 0 30px;
+    h4 {
+      font-family: 'Roboto', sans-serif;
+      color: #000;
+      font-weight: 600;
+    }
+    .row {
+      margin: 0;
+    }
+  }
+
+  &__chat {
+    &-title {
+      margin-bottom: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+  }
+}

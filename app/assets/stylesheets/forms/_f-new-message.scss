@@ -1,0 +1,61 @@
+
+.f-new-message {
+  &__sender {
+    display: inline-block;
+    float: left;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  }
+  &__form {
+    display: inline-block;
+    width: calc(100% - 40px);
+    padding-left: 20px;
+    position: relative;
+
+    .f-new-message__submit {
+      margin-top: 10px;
+      padding: 0 30px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1em;
+      color: #000;
+      text-transform: uppercase;
+      height: 35px;
+      line-height: 35px;
+      border: 2px solid #000;
+      border-radius: 50px;
+      background-color: #fff;
+    }
+    textarea {
+      background-color: #eee;
+      border: none;
+      padding: 10px;
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 1em;
+      min-height: 100px;
+    }
+  }
+
+  &__attach {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+
+    span {
+      font-family: 'Libre Franklin', sans-serif;
+      font-size: 1em;
+      color: #555;
+      display: inline-block;
+      background: transparent;
+      border: none;
+    }
+    i {
+      margin-right: 5px;
+      font-size: 1.2em;
+    }
+  }
+
+}
