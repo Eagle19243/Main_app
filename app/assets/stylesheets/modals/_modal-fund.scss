@@ -119,11 +119,7 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
     }
   }
   &__tab-content {
-    display: none;
     padding: 41px 80px 35px;
-    &._active {
-      display: block;
-    }
   }
   &__wrong-user {
     float: right;

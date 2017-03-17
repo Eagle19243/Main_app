@@ -18,22 +18,22 @@
               <% end %>
             </div>
             <div class="f-default__row _space-between">
-                <button type="button" class="btn-root js-change-payment-type _active" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
-                <button type="button" class="btn-root js-change-payment-type" id="donate-with-credit-card" value="save">Donate with credit card</button>
+                <button type="button" class="btn-root js-change-payment-type" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
+                <button type="button" class="btn-root js-change-payment-type _active" id="donate-with-credit-card" value="save">Donate with credit card</button>
             </div>
         </div>
       </div>
 
       <div class="modal-fund__bottom">
-        <div class="modal-fund__bottom-content _active">
+        <div class="modal-fund__bottom-content">
           <div class="modal-fund__tabs">
             <div class="modal-fund__tab-wrap">
-              <button class="modal-fund__tab _active" type="button">Use your WeServe.io wallet</button>
+              <button class="modal-fund__tab" type="button">Use your WeServe.io wallet</button>
             </div>
 
           <% if user_signed_in? %>
               <div class="modal-fund__content-wrap">
-                <div class="modal-fund__tab-content _active">
+                <div class="modal-fund__tab-content">
 
                   <div class="modal-fund__signed">
                     <div class="modal-fund__signed-label">
@@ -64,7 +64,7 @@
 
           </div>
         </div>
-        <div class="modal-fund__bottom-content">
+        <div class="modal-fund__bottom-content _active">
           <div class="modal-fund__stripe">
             <div class="modal-fund__stripe-top">
               <div class="modal-fund__stripe-title">Pay with your credit card via stripe</div>
@@ -149,10 +149,12 @@
       .on('click.changePaymentType', '.js-change-payment-type', function () {
         var $that = $(this),
             index = $that.index();
+
         $that.addClass('_active').siblings().removeClass('_active');
         donationObj.isUSD = index === 1;
         $currentCurrency.text(getCurrency());
         $walletTransactionAmount.trigger('keyup');
+
         $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
         $walletTransactionAmount.val("");
       })
