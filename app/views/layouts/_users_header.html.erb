@@ -125,10 +125,21 @@
                           <span><%= "#{source_model.title}"%></span>
                           <%= " for "%>
                             <span><%= "#{source_model.project.title}"%></span><%= " suggested by "%><span><%= "#{n.origin_user.name}."%></span>
-                          <%=" It`s waiting for approval."%>
+                          <%=" It's waiting for approval."%>
+                        </p>
+
+                      <% elsif n.accept_task? %>
+                        <div class="notification-item">
+                          <span class="l-dropdown__action">Task Accepted</span>
+                          <span class="l-dropdown__date">
+                            <%= "#{n.created_at.strftime(" %b %d")} "%>
+                          </span>
+                        </div>
+                        <p class="l-dropdown__text"><%= "Your task "%>
+                          <span><%= "#{source_model.title}"%></span>
+                          <%= " has been approved."%>
                         </p>
                       <% end %>
-
                     </div>
                   </li>
                 <% elsif n.origin_user_id == current_user.id%>
