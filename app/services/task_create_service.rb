@@ -17,9 +17,7 @@ class TaskCreateService
 
     ActiveRecord::Base.transaction do
       if task.save
-        task.assign_address if !task.suggested_task?
         user.create_activity(task, 'created')
-
         true
       else
         false

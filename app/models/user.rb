@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def assign_address
-    Payments::BTC::CreateUserWalletService.call(self.id)
+    WalletCreationJob.perform_later('User', self.id) unless user_wallet_address.present?
   end
 
   def create_activity(item, action)

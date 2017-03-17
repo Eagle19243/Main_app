@@ -15,6 +15,15 @@ RSpec.describe User, type: :model, vcr: { cassette_name: 'bitgo' } do
     end
   end
 
+  describe 'user wallet creation' do
+
+    it 'assigns user wallet on creation' do
+      user = create(:user, name: 'user_name')
+      user.reload
+      expect(user.user_wallet_address).to be_present  
+    end
+  end
+
   describe 'instance methods' do
     subject { create(:user) }
 

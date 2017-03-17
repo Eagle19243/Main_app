@@ -24,9 +24,6 @@ class Task < ActiveRecord::Base
   MINIMUM_FUND_BUDGET = 1_200_000   # satoshis
   MINIMUM_DONATION_SIZE = 1_200_000 # satoshis
 
-  # after create, assign a Bitcoin address to the task, toggle the comment below to enable
-  #commented this as we dont need this for suggested task.Ateq
- # after_create :assign_address
   aasm :column => 'state', :whiny_transitions => false do
     state :pending
     state :suggested_task
@@ -72,22 +69,6 @@ class Task < ActiveRecord::Base
     # TODO Rails 5 has a OR method
     tasks = Task.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR condition_of_execution ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
     tasks.limit(limit)
-  end
-
-  def assign_address
-    if_address_available = GenerateAddress.where(is_available: true)
-    unless if_address_available.blank?
-      begin
-       wallet = if_address_available.first
-       WalletAddress.create(sender_address: wallet.sender_address, receiver_address: wallet.receiver_address, pass_phrase: wallet.pass_phrase, task_id: self.id, wallet_id: wallet.wallet_id)
-        update_address_availability = wallet
-        update_address_availability.update_attribute('is_available', 'false')
-      rescue => e
-        puts e.message unless Rails.env == "development"
-      end
-    else
-      Payments::BTC::CreateTaskWalletService.new(self.id)
-    end
   end
 
   def transfer_to_user_wallet(wallet_address_to_send_btc, amount)

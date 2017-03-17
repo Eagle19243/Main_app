@@ -41,7 +41,8 @@ module YouServe
         :task_observer, :do_request_observer, :admin_request_observer, :apply_request_observer,
     ]
 
-    config.active_job.queue_adapter = :delayed_job
-
+    if Rails.env.production? || Rails.env.staging?
+      config.active_job.queue_adapter = :delayed_job
+    end
   end
 end

@@ -138,9 +138,6 @@ class TasksController < ApplicationController
 
 
   def task_fund_info
-   if @task.wallet_address.blank?
-     @task.assign_address
-   end
     respond_to do |format|
        format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
     end
@@ -215,14 +212,10 @@ class TasksController < ApplicationController
   end
 
   def accept
-    previous = @task.suggested_task?
-    if @task.accept!
+    if !@task.accepted? && @task.accept!
       @notice = "Task accepted "
       NotificationMailer.accept_task(@task.user, @task).deliver_later
       NotificationsService.notify_about_accept_task(@task, @task.user)
-      if previous
-        @task.assign_address
-      end
     else
       @notice = "Task was not accepted"
     end

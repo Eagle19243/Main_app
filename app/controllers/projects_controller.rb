@@ -18,13 +18,6 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    if user_signed_in?
-      if current_user.user_wallet_address.blank?
-        current_user.assign_address
-      end
-    end
-    #Every Time someone visits home page it ittrate N times Thats not a good approch .
-    # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.where.not(state: "rejected").page params[:page]
 
     if session[:start_by_signup]

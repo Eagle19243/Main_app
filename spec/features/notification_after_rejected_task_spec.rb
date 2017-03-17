@@ -3,8 +3,8 @@ require 'rails_helper'
 feature 'Notification After rejected a task', js: true, vcr: { cassette_name: 'bitgo' } do
   before do
     users = create_list(:user, 2, :confirmed_user)
-    @project_leader = users.first
-    @regular_user = users.last
+    @project_leader = users.first.reload
+    @regular_user = users.last.reload
     @project = create(:project, user: @project_leader)
     @suggested_task = create(:task, :suggested, project: @project, user: @regular_user)
   end

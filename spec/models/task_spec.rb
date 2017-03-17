@@ -14,13 +14,34 @@ RSpec.shared_examples "calculating fee amounts" do
   end
 end
 
-RSpec.describe Task, :type => :model do
+RSpec.describe Task, :type => :model, vcr: { cassette_name: 'bitgo' } do
   describe 'state transitions' do
     describe '#reject' do
       it { is_expected.to transition_from(:pending).to(:rejected).on_event(:reject) }
       it { is_expected.to transition_from(:suggested_task).to(:rejected).on_event(:reject) }
       it { is_expected.to transition_from(:accepted).to(:rejected).on_event(:reject) }
     end
+  end
+
+  describe 'task wallet creation' do
+    it 'does not create wallet for a pending task' do
+      task = create(:task, :pending)
+      task.reload
+      expect(task.wallet_address).not_to be_present
+    end
+
+    it 'does not create wallet for a suggested_task task' do
+      task = create(:task, :suggested, user: create(:user, :confirmed_user))
+      task.reload
+      expect(task.wallet_address).not_to be_present
+    end
+
+    it 'does not create a wallet for a accepted task' do
+      task = create(:task)
+      task.reload
+      expect(task.wallet_address).not_to be_present
+    end
+
   end
 
   describe "transfer funds", vcr: { cassette_name: 'bitgo' } do
@@ -352,7 +373,7 @@ RSpec.describe Task, :type => :model do
           end
         end
       end
-      
+
       context "when there is random funding over needed budget" do
         let(:extra_funding) { rand(min_donation_size) }
 
