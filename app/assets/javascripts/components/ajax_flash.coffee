@@ -15,8 +15,8 @@ show_ajax_message = (msg, type) ->
 $(document).ready ->
   if (JSON.parse(sessionStorage.getItem('showMessageAfterRegister')))
     show_ajax_message('A message with a confirmation link has been sent' +
-                      'to your email address. Please follow the link to' +
-                      'activate your account.', 'success')
+                      ' to your email address. Please follow the link to' +
+                      ' activate your account.', 'success')
     sessionStorage.removeItem('showMessageAfterRegister')
 
 $(document).ajaxComplete (event, request) ->
