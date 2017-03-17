@@ -154,6 +154,7 @@
         $currentCurrency.text(getCurrency());
         $walletTransactionAmount.trigger('keyup');
         $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
+        $walletTransactionAmount.val("");
       })
       .on('keyup.updateDonation', '#wallet_transaction_amount', function () {
         var val = $(this).val();
