@@ -231,11 +231,8 @@ class User < ActiveRecord::Base
   end
 
   def is_lead_editor_for? proj
-    if proj.team.team_memberships.where(:team_member_id => self.id).present?
-      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "lead_editor")
-    else
-      return false
-    end
+    team_membership = proj.team_memberships.find_by(team_member_id: self.id)
+    team_membership.present? && team_membership.lead_editor?
   end
 
   def is_teammate_for? proj
@@ -284,7 +281,7 @@ class User < ActiveRecord::Base
     (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
   end
 
-  # Normal use case, name cannot be changed, need to bypass validation if neccessary 
+  # Normal use case, name cannot be changed, need to bypass validation if neccessary
   def validate_name_unchange
     errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
   end
