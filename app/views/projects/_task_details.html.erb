@@ -198,8 +198,9 @@
                         <div class="modal-task__card-value _data">
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
-                        <div id="task-budget" class="modal-task__card-value _data">
+                        <div id="task-budget" class="modal-task__card-value _data _budget-id">
                             <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :activator => '#task-budget' %>
+                            <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
@@ -495,3 +496,21 @@
 <% if user_signed_in?  &&  current_user.id == @task.project.user_id  && @task.accepted? %>
     <%= render 'modal/edit_budget' %>
 <% end %>
+
+<script>
+    $(document).ready(function() {
+        $(document).off('click.toggleBudget', '#task-budget');
+        $(document).off('click.hideEditIcon', '.page-wrapper');
+
+        $(document)
+            .on('click.hideEditIcon', '.page-wrapper', function(e) {
+                if (!$(e.target).parent().hasClass('_budget-id')) {
+                    $(this).find('.btn-edit').show();
+                }
+            })
+            .on('click.toggleBudget', '#task-budget', function() {
+                $(this).find('.btn-edit').toggle();
+            })
+
+    })
+</script>

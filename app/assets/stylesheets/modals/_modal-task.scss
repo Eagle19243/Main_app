@@ -177,6 +177,15 @@
       }
 
       .modal-task__card {
+        .btn-edit {
+          display: inline-block;
+          vertical-align: middle;
+          text-align: center;
+          font-size: .9em;
+          width: auto;
+          height: auto;
+          top: 0;
+        }
         &-values,
         &-titles {
           display: flex;
