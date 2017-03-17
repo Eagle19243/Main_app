@@ -3,11 +3,14 @@ require 'rails_helper'
 RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
   render_views
 
-  let(:task) { FactoryGirl.create(:task, :with_associations) }
+  let(:task) { FactoryGirl.create(:task, :with_associations, :with_wallet) }
   let(:user) { task.user }
   let(:project) { task.project }
 
   before do
+    stub_env('reserve_wallet_id', 'test-wallet-id')
+    stub_env('reserve_wallet_pass_pharse', 'test-wallet-passphrase')
+
     allow_any_instance_of(User).to receive(:assign_address).and_return(
       UserWalletAddress.create(sender_address: nil, user_id: user.id)
     )
@@ -76,14 +79,14 @@ RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
 
         it 'flashes the correct message' do
           make_request
-          expect(flash[:alert]).to eq('Not Enough BTC in Reserve wallet Please Try Again .')
+          expect(flash[:alert]).to eq('Not Enough BTC in Reserve wallet Please Try Again.')
         end
       end
 
       context 'when there are enough funds in reserve wallet' do
         before do
           allow_any_instance_of(Payments::BTC::WalletHandler).to receive(:get_wallet_balance).and_return(100_000_000)
-          allow(controller).to receive(:transfer_coin_from_weserver_wallet_to_task_wallet).and_return(true)
+          allow_any_instance_of(Payments::BTC::Transfer).to receive(:submit!).and_return(true)
         end
 
         shared_examples :declined_card do
