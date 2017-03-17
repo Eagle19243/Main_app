@@ -7,9 +7,7 @@
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
               <% if can? :revisions, project %>
-                <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-root", id: "editSource" do %>
-                  Revisions
-                <% end %>
+                <a class="btn-root" id="editSource">Revisions</a>
               <% else %>
                 <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-root">
                   <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
@@ -53,5 +51,16 @@
 <script>
   $(document).ready(function() {
     $('.best_in_place').best_in_place();
+  })
+
+  $(document).on('click.showRevisions', '#editSource', function() {
+      $.ajax({
+          url: "/projects/<%= project.id %>/revisions",
+          dataType: "script"
+      }).success(function() {
+          if (!$('.approval-switch input').is(':checked')) {
+              $('.revision-history__mark').addClass('_hide');
+          }
+      });
   })
 </script>

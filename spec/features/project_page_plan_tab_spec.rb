@@ -18,6 +18,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
       before do
         visit project_path(@project)
         @plan_area = find("#Plan")
+        @revision_button = find("#editSource")
       end
 
 # TODO: right now Plan tab has no active class by default
@@ -33,7 +34,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
       end
 
       scenario "Then you can see 'Revisions' button" do
-        expect(@plan_area).to have_link "Revisions"
+        expect(@plan_area).to have_selector("#editSource")
       end
     end
   end
