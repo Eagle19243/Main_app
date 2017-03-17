@@ -272,6 +272,22 @@
 
 .project-tab-wrapper {
 
+  #Team {
+    padding: 20px;
+    background-color: #fff;
+    max-width: 1200px;
+  }
+
+  ._team-member:hover .member-name a {
+    text-decoration: underline;
+  }
+
+  .team-tab__title {
+    margin-bottom: 80px;
+    color: #000;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+
   .svg-share {
     width: 17px;
     height: 17px;

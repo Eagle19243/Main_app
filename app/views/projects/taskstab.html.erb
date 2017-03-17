@@ -124,8 +124,16 @@
 
 
         <div id="Team" class="tabcontent">
-          <div class="center">
-            <%= image_tag("loading.gif", :alt => "rss feed") %>
+          <div clas="row">
+              <div class="team-tab__title">
+                  Below are the existing teammates for this project. You may choose to join this team below.
+                  <a href="<%= t('commons.faq_landing_link') %>">FAQs</a>
+              </div>
+          </div>
+          <div class="team-content">
+              <div class="center">
+                <%= image_tag("loading.gif", :alt => "rss feed") %>
+              </div>
           </div>
         </div>
       </div>
