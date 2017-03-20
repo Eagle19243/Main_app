@@ -46,8 +46,6 @@
         $("#fund-loading").hide();
 
         $('.modal-fund__user-name').text(response.user_name);
-        $('#wallet_address').val(response.wallet_address);
-
         $('#wallet_transaction_task_id').val(response.task_id);
         $('#task-balance').html(response.balance + " $");
         url = "/projects/" +  response.project_id + "/tasks/" + response.task_id + '/card_payment';
