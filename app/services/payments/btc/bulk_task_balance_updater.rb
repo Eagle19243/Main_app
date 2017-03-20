@@ -16,8 +16,6 @@ module Payments::BTC
       if task.wallet_address
         balance = wallet_handler.get_wallet_balance(task.wallet_address.wallet_id)
         task.update_attribute(:current_fund, balance)
-      else
-        raise "No Wallet for a task"
       end
     end
 
