@@ -1,19 +1,5 @@
 require 'rails_helper'
 
-RSpec.shared_examples "calculating fee amounts" do
-  it "sends coins to team members and to weserve" do
-    expect(Payments::BTC::FeeCalculator).to receive(:estimate).and_return(100_000)
-    expect(task).to receive(:transfer_to_multiple_wallets).and_return(true)
-    expect(task).to receive(:build_recipients).with(
-      task.team_memberships,
-      expected_per_member_amount,
-      expected_weserve_amount
-    )
-
-    task.transfer_task_funds
-  end
-end
-
 RSpec.describe Task, :type => :model, vcr: { cassette_name: 'bitgo' } do
   describe 'state transitions' do
     describe '#reject' do
@@ -50,8 +36,6 @@ RSpec.describe Task, :type => :model, vcr: { cassette_name: 'bitgo' } do
     let(:current_fund_in_satoshi)    { parameters[:current_fund] }
     let(:budget_in_btc)              { parameters[:budget] * 0.00000001 }
     let(:num_of_participants)        { parameters[:members] }
-    let(:expected_weserve_amount)    { parameters[:weserve] }
-    let(:expected_per_member_amount) { parameters[:per_member] }
 
     let(:task_attributes) do
       { budget: budget_in_btc, current_fund: current_fund_in_satoshi }
@@ -73,161 +57,6 @@ RSpec.describe Task, :type => :model, vcr: { cassette_name: 'bitgo' } do
           role: 0
         )
         TaskMember.create(task_id: task.id, team_membership_id: membership.id)
-
-        allow(task).to receive(:update_current_fund!).and_return(true)
-      end
-    end
-
-    context "when there is only one task member" do
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: 100_000_000,
-            current_fund: 100_000_000,
-            members: 1,
-            weserve: 4_990_005,
-            per_member: 94_810_095
-          }
-        end
-      end
-    end
-
-    context "when there are two task members" do
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: 100_000_000,
-            current_fund: 100_000_000,
-            members: 2,
-            weserve: 4_990_005,
-            per_member: 47_405_047
-          }
-        end
-      end
-    end
-
-    context "when there are three task members" do
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: 100_000_000,
-            current_fund: 100_000_000,
-            members: 3,
-            weserve: 4_990_005,
-            per_member: 31_603_365
-          }
-        end
-      end
-    end
-
-    context "when weserve_fee is zero" do
-      before do
-        expect(Payments::BTC::Base).to receive(:weserve_fee).and_return(0)
-      end
-
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: 100_000_000,
-            current_fund: 100_000_000,
-            members: 1,
-            weserve: 0,
-            per_member: 99_800_100
-          }
-        end
-      end
-    end
-
-    context "when bitgo_fee is zero" do
-      before do
-        expect(Payments::BTC::Base).to receive(:bitgo_fee).and_return(0)
-      end
-
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: 100_000_000,
-            current_fund: 100_000_000,
-            members: 1,
-            weserve: 4_995_000,
-            per_member: 94_905_000
-          }
-        end
-      end
-    end
-
-    context "when weserve_fee and bitgo_fee are zeros" do
-      before do
-        expect(Payments::BTC::Base).to receive(:weserve_fee).and_return(0)
-        expect(Payments::BTC::Base).to receive(:bitgo_fee).and_return(0)
-      end
-
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: 100_000_000,
-            current_fund: 100_000_000,
-            members: 1,
-            weserve: 0,
-            per_member: 99_900_000
-          }
-        end
-      end
-    end
-
-    context "minimum task budget case" do
-      it_behaves_like "calculating fee amounts" do
-        let(:parameters) do
-          {
-            budget: Task::MINIMUM_FUND_BUDGET,
-            current_fund: Task::MINIMUM_FUND_BUDGET,
-            members: 1,
-            weserve: 54_945,
-            per_member: 1_043_955
-          }
-        end
-      end
-    end
-
-    context "when task budget is too low" do
-      let(:parameters) do
-        {
-          budget: Task::MINIMUM_FUND_BUDGET - 1,
-          current_fund: Task::MINIMUM_FUND_BUDGET,
-          members: 1,
-          weserve: 99_900,
-          per_member: 1_898_100
-        }
-      end
-
-      it "raises an error saying transfer is not possible" do
-        expect {
-          task.transfer_task_funds
-        }.to raise_error(
-          ArgumentError,
-          "Task's budget is too low and cannot be transfered"
-        )
-      end
-    end
-
-    context "when task budget is ok, but current_fund is less than a budget " do
-      let(:parameters) do
-        {
-          budget: Task::MINIMUM_FUND_BUDGET,
-          current_fund: Task::MINIMUM_FUND_BUDGET - 1,
-          members: 1,
-          weserve: 99_900,
-          per_member: 1_898_100
-        }
-      end
-
-      it "raises an error saying transfer is not possible" do
-        expect {
-          task.transfer_task_funds
-        }.to raise_error(
-          ArgumentError,
-          "Task fund level is too low and cannot be transfered"
-        )
       end
     end
 

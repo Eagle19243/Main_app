@@ -132,21 +132,6 @@ class Task < ActiveRecord::Base
     (amount_to_send - we_serve_part) / target_number_of_participants
   end
 
-  def transfer_task_funds
-    update_current_fund!
-
-    raise ArgumentError, "Task's budget is too low and cannot be transfered"   if satoshi_budget < MINIMUM_FUND_BUDGET
-    raise ArgumentError, "Task fund level is too low and cannot be transfered" if current_fund < satoshi_budget
-
-    transaction_fee = transfer_task_funds_transaction_fee
-    amount_to_send = amount_after_bitgo_fee(current_fund - transaction_fee)
-    we_serve_part = amount_to_send * Payments::BTC::Base.weserve_fee
-    members_part = (amount_to_send - we_serve_part) / team_memberships.size
-
-    recipients = build_recipients(team_memberships, members_part.to_i, we_serve_part.to_i)
-    transfer_to_multiple_wallets(recipients, transaction_fee)
-  end
-
   def transfer_task_funds_transaction_fee
     inputs = (current_fund / MINIMUM_DONATION_SIZE).to_i
     outputs = team_memberships.size + 2
@@ -197,57 +182,7 @@ class Task < ActiveRecord::Base
     Bitgo::V1::Api.new
   end
 
-  def update_current_fund!
-    response = api.get_wallet(
-      wallet_id: wallet_address.wallet_id,
-      access_token: Payments::BTC::Base.bitgo_access_token
-    )
-    update_attribute(:current_fund, response["balance"])
-  end
-
-  def transfer_to_multiple_wallets(recipients, fee)
-    response = api.send_coins_to_multiple_addresses(
-      wallet_id: wallet_address.wallet_id,
-      wallet_passphrase: wallet_address.pass_phrase,
-      recipients: recipients,
-      fee: fee,
-      access_token: Payments::BTC::Base.bitgo_access_token
-    )
-
-    if response["message"].blank?
-      recipients.map do |recipient|
-        WalletTransaction.create(
-          tx_hex: response["tx"],
-          tx_id: response["hash"],
-          amount: recipient[:amount],
-          user_wallet: recipient[:address],
-          task_id: id
-        )
-      end
-    else
-      raise response.inspect
-    end
-  end
-
   def amount_after_bitgo_fee(amount)
     (amount - (amount * Payments::BTC::Base.bitgo_fee))
-  end
-
-  def build_recipients(memberships, per_member_amount, we_serve_amount)
-    recipients = memberships.map do |membership|
-      {
-        address: membership.team_member.user_wallet_address.sender_address,
-        amount: per_member_amount
-      }
-    end
-
-    if we_serve_amount > 0
-      recipients << {
-        address: Payments::BTC::Base.weserve_wallet_address,
-        amount: we_serve_amount
-      }
-    end
-
-    recipients
   end
 end

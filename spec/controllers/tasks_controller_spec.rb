@@ -76,6 +76,41 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
     end
   end
 
+  describe '#completed' do
+    before do
+      allow_any_instance_of(TaskCompleteService).to receive(:update_current_fund!).and_return(true)
+    end
+
+    let(:task_params) do
+      {
+        state: :reviewing,
+        project: project,
+        user: user,
+        current_fund: 10_000_000,
+        satoshi_budget: 10_000_000
+      }
+    end
+    let(:existing_task) do
+      FactoryGirl.create(:task, :with_associations, :with_wallet, task_params)
+    end
+
+    it "performs successful task completion" do
+      allow_any_instance_of(TaskCompleteService).to receive(:complete!).and_return(true)
+      get :completed, id: existing_task.id
+
+      expect(assigns(:notice)).to eq("Task was successfully completed")
+    end
+
+    it "performs not successful task completion" do
+      allow_any_instance_of(TaskCompleteService).to receive(:complete!).and_raise(
+        Payments::BTC::Errors::TransferError, "Some Error"
+      )
+      get :completed, id: existing_task.id
+
+      expect(assigns(:notice)).to eq("Some Error")
+    end
+  end
+
 # TODO: this speci should be updated accordingly to our logic, it seems that task is not deleted after :reject
 # see: https://travis-ci.com/YouServe/Main-App/builds/40999235
 =begin

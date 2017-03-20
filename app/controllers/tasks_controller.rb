@@ -136,7 +136,6 @@ class TasksController < ApplicationController
     end
   end
 
-
   def task_fund_info
     respond_to do |format|
        format.json { render json: { balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
@@ -282,19 +281,23 @@ class TasksController < ApplicationController
   end
 
   def completed
-
     authorize! :completed, @task
 
-    if current_user.can_complete_task?(@task) && @task.complete!
-      @notice = "Task Completed"
-      @task.transfer_task_funds
-    else
-      @notice = 'Task was not Completed '
-    end
+    service = TaskCompleteService.new(@task)
+    service.complete!
+
+    @notice = "Task was successfully completed"
 
     respond_to do |format|
       format.js
       format.html { redirect_to task_path(@task.id), notice: @notice }
+    end
+  rescue ArgumentError, Payments::BTC::Errors::TransferError => error
+    @notice = error.message
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to task_path(@task.id), alert: @notice }
     end
   end
 
