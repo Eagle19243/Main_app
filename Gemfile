@@ -97,6 +97,7 @@ group :test do
   gem 'colored'
   gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'fivemat', require: false
   gem 'database_cleaner'
