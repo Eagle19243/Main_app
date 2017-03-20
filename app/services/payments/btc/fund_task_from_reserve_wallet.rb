@@ -25,6 +25,7 @@ module Payments::BTC
 
     def submit!
       raise_not_enough_funds_error! unless enough_balance?(satoshi_amount)
+      create_task_wallet! unless task.wallet_address
 
       if stripe_service.charge!(amount: usd_amount, description: payment_description)
         stripe_response = JSON(stripe_service.stripe_response.to_s)
@@ -48,7 +49,6 @@ module Payments::BTC
       raise Payments::BTC::Errors::TransferError, "Reserve Wallet Passphrase is not configured for this environment" unless reserve_wallet_pass_pharse.present?
       raise Payments::BTC::Errors::TransferError, "Amount can't be blank" unless satoshi_amount > 0
       raise Payments::BTC::Errors::TransferError, "Amount can't be less than minimum donation" unless satoshi_amount >= MIN_AMOUNT
-      raise Payments::BTC::Errors::TransferError, "Task's wallet doesn't exist" unless task.wallet_address
     end
 
     def stripe_service
@@ -116,6 +116,11 @@ module Payments::BTC
         tx_id:     btc_transaction.try(:tx_hash),
         tx_hex:    btc_transaction.try(:tx_hex)
       )
+    end
+
+    def create_task_wallet!
+      Payments::BTC::CreateTaskWalletService.call(task.id)
+      task.reload
     end
 
     def raise_not_enough_funds_error!

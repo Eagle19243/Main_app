@@ -144,24 +144,6 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet, vcr: { cassette_name: '
           "Amount can't be less than minimum donation"
         )
       end
-
-      it "raise an error when task has no wallet to accept funds" do
-        task_without_wallet = FactoryGirl.create(:task)
-
-        expect {
-          described_class.new(
-            task: task_without_wallet,
-            user: user,
-            usd_amount: 50.0,
-            stripe_token: stripe_token,
-            card_id: card_id,
-            save_card: save_card
-          )
-        }.to raise_error(
-          Payments::BTC::Errors::TransferError,
-          "Task's wallet doesn't exist"
-        )
-      end
     end
 
     describe '#submit' do
@@ -236,6 +218,21 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet, vcr: { cassette_name: '
                   expect(db_record.tx_id).to eq("returned-transaction-id")
                   expect(db_record.tx_hex).to eq("returned-transaction-hex")
                 end
+              end
+            end
+
+            context "when task has no wallet yet" do
+              let(:task) { FactoryGirl.create(:task) }
+
+              it "creates a wallet for a task" do
+                VCR.use_cassette("bitgo_transaction_success") do
+                  expect {
+                    fund_task_service.submit!
+                  }.not_to raise_error
+                end
+
+                task.reload
+                expect(task.wallet_address).not_to be_nil
               end
             end
           end
