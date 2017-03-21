@@ -109,7 +109,12 @@ class Ability
       end
 
       can [:update, :destroy], Task do |task|
-        (user.is_project_leader?(task.project) || user.is_executor_for?(task.project) || (task.suggested_task? && (user.id == task.user_id))) && (task.any_fundings? == false)
+        (
+          user.admin?
+          user.is_project_leader?(task.project) ||
+          user.is_executor_for?(task.project) ||
+          (task.suggested_task? && (user.id == task.user_id))
+        ) && (task.any_fundings? == false)
       end
 
       can :reviewing, Task do |task|
@@ -133,7 +138,7 @@ class Ability
       end
 
       if user.admin?
-        can [:create, :update, :destroy], Task
+        can [:create], Task
       end
     end
   end

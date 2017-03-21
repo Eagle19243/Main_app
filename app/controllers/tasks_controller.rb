@@ -169,17 +169,18 @@ class TasksController < ApplicationController
   def destroy
     authorize! :destroy, @task
 
-    project = @task.project
-    if user_signed_in?
-      @task.destroy
-      respond_to do |format|
-        activity = current_user.create_activity(@task, 'deleted')
-        activity.user_id = current_user.id
-        format.html { redirect_to project_path(project), notice: 'Task was successfully destroyed.' }
+    service = TaskDestroyService.new(@task, current_user)
+
+    respond_to do |format|
+      redirect_path = taskstab_project_path(@task.project, tab: 'Tasks')
+
+      if service.destroy_task
+        format.html { redirect_to redirect_path, notice: 'Task was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to redirect_path, alert: 'Error happened while task delete process' }
         format.json { head :no_content }
       end
-    else
-      format.html { redirect_to project_path(project), notice: 'You can\'t delete this task' }
     end
   end
 

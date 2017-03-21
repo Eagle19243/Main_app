@@ -76,6 +76,48 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
     end
   end
 
+  describe '#destroy' do
+    let(:task) { FactoryGirl.create(:task, :with_associations) }
+    let(:user) { task.user }
+    let(:project) { task.project }
+
+    context "given user is authorized" do
+      before do
+        allow_any_instance_of(described_class).to receive(:authorize!).and_return(true)
+      end
+
+      context "when task delete service returns true" do
+        before do
+          allow_any_instance_of(TaskDestroyService).to receive(:destroy_task).and_return(true)
+        end
+
+        it 'returns user to tasks page with successful message' do
+          delete(:destroy, id: task.id)
+
+          expect(flash[:notice]).to eq('Task was successfully destroyed.')
+          expect(response).to redirect_to(
+            taskstab_project_path(project, tab: 'Tasks')
+          )
+        end
+      end
+
+      context "when task delete service returns false" do
+        before do
+          allow_any_instance_of(TaskDestroyService).to receive(:destroy_task).and_return(false)
+        end
+
+        it 'returns user to tasks page with unsuccessful message' do
+          delete(:destroy, id: task.id)
+
+          expect(flash[:alert]).to eq('Error happened while task delete process')
+          expect(response).to redirect_to(
+            taskstab_project_path(project, tab: 'Tasks')
+          )
+        end
+      end
+    end
+  end
+
   describe '#completed' do
     before do
       allow_any_instance_of(TaskCompleteService).to receive(:update_current_fund!).and_return(true)
