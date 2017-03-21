@@ -20,7 +20,7 @@
                 <% end %>
               </div>
               <p class="b-project-info__user-name">
-                <span>by <%= @project.user.name %></span>
+                <span>by <%= link_to @project.user.name, user_path(@project.user) %></span>
               </p>
 
             </div>
