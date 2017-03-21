@@ -293,6 +293,7 @@ class TasksController < ApplicationController
       format.html { redirect_to task_path(@task.id), notice: @notice }
     end
   rescue ArgumentError, Payments::BTC::Errors::TransferError => error
+    ErrorHandlerService.call(error)
     @notice = error.message
 
     respond_to do |format|

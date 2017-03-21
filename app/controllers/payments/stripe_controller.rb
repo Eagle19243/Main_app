@@ -21,6 +21,7 @@ class Payments::StripeController < ApplicationController
 
     flash[:notice] = 'Thanks for your payment'
   rescue Payments::BTC::Errors::TransferError => error
+    ErrorHandlerService.call(error)
     flash[:alert] = error.message
   ensure
     redirect_to taskstab_project_url(id: params[:project_id])
