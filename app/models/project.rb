@@ -16,7 +16,7 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins, dependent: :destroy
-  has_one :chat_room
+  has_one  :chatroom
   has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
