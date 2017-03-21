@@ -57,7 +57,7 @@ feature 'Facebook login', js: true, vcr: { cassette_name: 'bitgo' } do
     })
 
     set_omniauth(credential)
-    
+
     @modal.find(".modal-sign__col._sign-in .m-social__item.facebook a[href='/users/auth/facebook']").click
   end
 end
