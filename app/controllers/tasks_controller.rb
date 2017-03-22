@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
+  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
-  before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
+  before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed]
 
 
   def validate_team_member
@@ -103,17 +103,6 @@ class TasksController < ApplicationController
   #  redirect_to taskstab_project_path(@task.project.id)
   end
 
-  # GET /tasks/new
-  def new
-    @project = Project.find(params[:project_id])
-    @task = @project.tasks.build
-  end
-
-  # GET /tasks/1/edit
-  def edit
-    @project = Task.find(params[:id]).project
-  end
-
   # POST /tasks
   # POST /tasks.json
   def create
@@ -157,7 +146,7 @@ class TasksController < ApplicationController
         format.json { render :show, status: :ok, location: @task }
         format.js
       else
-        format.html { render :edit }
+        format.html { render nothing: true }
         format.json { render json: @task.errors, status: :unprocessable_entity }
         format.js
       end
