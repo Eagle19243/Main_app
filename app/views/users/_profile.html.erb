@@ -82,6 +82,7 @@
       <%end%>
 
       <% if user_signed_in? && current_user.id == @user.id %>
+        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
         <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
       <% end %>
     </div>
@@ -186,6 +187,7 @@
 </div>
 
 <%= render "profile_edit_dialog" %>
+<%= render "profile_edit_bcg_dialog" %>
 
 <script>
 

@@ -352,6 +352,11 @@
 .btn-edit-image {
   &._profile {
     color: #000;
+    bottom: -10px;
+  }
+  &._background {
+    color: #000;
+    bottom: 20px;
   }
 }
 
