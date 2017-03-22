@@ -317,8 +317,10 @@
                               Delete Task
                             </button>
                         <% end %>
-                    <% end %>
-                    <% if user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
+                      <% end %>
+
+                    <!-- Disable refund feature for now -->
+                    <% if false && user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
                         <%= link_to refund_task_path(@task) do %>
                             <button>
                               <i class="fa fa-bitcoin" aria-hidden="true"></i>
