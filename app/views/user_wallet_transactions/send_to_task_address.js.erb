@@ -3,6 +3,7 @@ $('#response-from-wallet').html("<%= @msg %>");
 $("#wallet_transaction_task_id").val('');
 $("#wallet_transaction_amount").val('');
 $('#save-wallet-teansaction').disabled = false ;
+$('.js-btc-amount').html('0.00');
 
 if (<%= @transfer && @transfer.successful? %>) {
     $('#taskFundModal').hide();
