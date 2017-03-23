@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
 
   scope :name_like, -> (name) { where('name ILIKE ?', "%#{name}%")}
 
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
   def self.current_user
     Thread.current[:current_user]
   end

@@ -2,7 +2,7 @@ Devise.setup do |config|
 
   require 'devise/orm/active_record'
 
-  config.mailer_sender = ENV["mailer_sender"]
+  config.mailer_sender = ENV["weserve_from_email"]
   config.secret_key = ENV["app_secret_key"]
   config.case_insensitive_keys = [:email]
   config.strip_whitespace_keys = [:email]
