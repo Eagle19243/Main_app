@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe Task, :type => :model, vcr: { cassette_name: 'bitgo' } do
+  describe "validations" do
+    it "is not possible to create a task without a deadline" do
+      expect {
+        create(:task, deadline: nil)
+      }.to raise_error(
+        ActiveRecord::RecordInvalid,
+        "Validation failed: Deadline can't be blank"
+      )
+    end
+
+    it "is not possible to set a nil deadline for a valid task" do
+      task = create(:task, deadline: "2017-03-24 11:17:46 UTC")
+      task.deadline = nil
+      expect(task.save).to be false
+    end
+
+    it "is possible to create a task with a deadline" do
+      task = create(:task, deadline: "2017-03-24 11:17:46 UTC")
+      expect(task).to be_persisted
+    end
+  end
+
   describe 'state transitions' do
     describe '#reject' do
       it { is_expected.to transition_from(:pending).to(:rejected).on_event(:reject) }
