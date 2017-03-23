@@ -3,16 +3,6 @@ class TaskAttachmentsController < ApplicationController
   protect_from_forgery except: :create
 
   before_action :authenticate_user!
-  # before_action :validate_attachment, only: [:create]
-
-  # def validate_attachment
-  #   @task=Task.find(params['task_attachment']['task_id'])
-  #   @task_memberships = @task.team_memberships
-  #     if !(user_signed_in? && (((current_user.id == @task.project.user_id || (@task.team_memberships.collect(&:team_member_id).include? current_user.id)) && (!@task.suggested_task?)) || ( current_user.id == @task.user_id && @task.suggested_task? )))
-  #     flash[:error] = " you are not allowed to do this opration "
-  #     redirect_to task_path(@task.id)
-  #   end
-  # end
 
   def create
     @task_attachment = TaskAttachment.new(resume_params)
@@ -38,8 +28,6 @@ class TaskAttachmentsController < ApplicationController
 
     authorize! :destroy, @task_attachment
 
-    # if user_signed_in? && ((@task_attachment.task.suggested_task? && (current_user.id == @task_attachment.task.user_id ||  current_user.id == @task_attachment.task.project.user_id )) || (@task_attachment.task.is_executer(current_user.id) || current_user.id == @task_attachment.task.project.user_id))
-        #if @task_attachment.task.project.user_id == current_user.id
     if @task_attachment.destroy
       respond_to do |format|
         format.json { render :json => true }

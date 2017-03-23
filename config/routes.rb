@@ -28,7 +28,6 @@ Rails.application.routes.draw do
   get 'projects/show_all_teams'
   get 'projects/show_all_revision'
   get 'projects/show_task'
-  # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'
   get 'assignments/update_collaborator_invitation_status'
