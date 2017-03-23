@@ -119,7 +119,7 @@ Rails.application.routes.draw do
         get :card_payment, to: 'payments/stripe#new'
         post :card_payment, to: 'payments/stripe#create'
       end
-      resources :task_comments
+      resources :task_comments, only: [:create]
       resources :assignments
     end
 

@@ -152,7 +152,6 @@
                                 <%= f.hidden_field :task_id, value: @task.id %>
                                 <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
 
-                                <%= f.hidden_field :user_id, value: current_user.id %>
                                 <button type="submit" name="commit" value="Send"> Send</button>
                                 &nbsp;&nbsp;
                                 <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
