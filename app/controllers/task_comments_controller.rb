@@ -16,7 +16,7 @@ class TaskCommentsController < ApplicationController
         format.js
       else
         format.html  { redirect_to :back, success: 'Error While Saving this comment please comment again' }
-        format.js = "Error while saving "
+        format.js
       end
     end
   end
