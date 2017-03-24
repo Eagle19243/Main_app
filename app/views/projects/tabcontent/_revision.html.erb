@@ -72,6 +72,10 @@
                 type: "POST",
                 data: {is_approval_enabled: $switch.is(':checked')},
                 dataType: "script"
+            }).success(function() {
+                if (!$('.approval-switch input').is(':checked')) {
+                    $('.revision-history__mark').addClass('_hide');
+                }
             });
             $modalVerification.fadeOut();
             $('html').removeClass('_open-modal');

@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Payments::BTC::Base do
-  describe '#configure' do
+  let(:configuration_class) { described_class::Configuration }
+
+  describe 'init configuration' do
     let(:supported_options) do
       %i(
         weserve_fee
@@ -23,16 +25,20 @@ RSpec.describe Payments::BTC::Base do
     end
 
     it "sets all possible configuration options" do
-      expect { described_class.configure(valid_options) }.not_to raise_error
+      expect { described_class.configuration }.not_to raise_error
 
-      expect(described_class.weserve_fee).to eq(0.05)
+      expect(described_class.weserve_fee.to_s).to eq(ENV['weserve_service_fee'])
       expect(described_class.weserve_fee).to be_kind_of(BigDecimal)
-      expect(described_class.bitgo_fee).to eq(0.001)
+      expect(described_class.bitgo_fee.to_s).to eq(ENV['bitgo_service_fee'])
       expect(described_class.bitgo_fee).to be_kind_of(BigDecimal)
-      expect(described_class.weserve_wallet_address).to eq("we-serve-address")
-      expect(described_class.bitgo_access_token).to eq("access-token")
+      expect(described_class.weserve_wallet_address).to eq(
+        ENV['weserve_wallet_address']
+      )
+      expect(described_class.bitgo_access_token).to eq(
+        ENV['bitgo_admin_access_token']
+      )
       expect(described_class.bitgo_reserve_access_token).to eq(
-        "reserve-access-token"
+        ENV['bitgo_admin_weserve_admin_access_token']
       )
     end
 
@@ -42,7 +48,7 @@ RSpec.describe Payments::BTC::Base do
         invalid_options.delete(option)
 
         expect {
-          described_class.configure(invalid_options)
+          configuration_class.new(invalid_options)
         }.to raise_error(ArgumentError, "missing keyword: #{option}")
       end
     end
@@ -53,7 +59,7 @@ RSpec.describe Payments::BTC::Base do
         invalid_options[option] = nil
 
         expect {
-          described_class.configure(invalid_options)
+          configuration_class.new(invalid_options)
         }.to raise_error(ArgumentError, "#{option} cannot be empty")
       end
     end
@@ -64,7 +70,7 @@ RSpec.describe Payments::BTC::Base do
         invalid_options[option] = ""
 
         expect {
-          described_class.configure(invalid_options)
+          configuration_class.new(invalid_options)
         }.to raise_error(ArgumentError, "#{option} cannot be empty")
       end
     end

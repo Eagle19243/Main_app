@@ -76,7 +76,7 @@ class DoRequestsController < ApplicationController
         membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
         #task.team_memberships.add(membership)
         TaskMember.create(task_id: task.id, team_membership_id: membership.id)
-        flash[:success] = "Task has been assigned"
+        flash[:notice] = "Task has been assigned"
       else
         flash[:error] = "Task was not assigned to user"
       end

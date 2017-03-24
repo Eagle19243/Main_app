@@ -27,7 +27,6 @@ gem 'pp-adaptive'
 gem 'chosen-rails'
 gem 'validates_timeliness', '~> 4.0'
 gem 'interactor-rails', '~> 2.0'
-gem 'puma'
 gem 'rails4-autocomplete'
 gem 'nokogiri', '1.7.0.1'
 gem 'progress_bar'
@@ -35,7 +34,7 @@ gem 'dalli'
 gem 'therubyracer'
 gem 'react-rails'
 gem 'zeroclipboard-rails'
-gem 'rufus-scheduler'
+gem 'whenever', :require => false
 gem "font-awesome-rails"
 gem 'omniauth'
 gem 'omniauth-facebook'
@@ -53,8 +52,12 @@ gem 'foundation-rails', '~> 5.5'
 gem 'high_voltage'
 gem 'simple_form'
 gem 'newrelic_rpm'
-gem 'figaro'
 gem 'stripe'
+gem 'figaro'
+gem 'unicorn'
+gem 'delayed_job_active_record'
+gem "delayed_job_web"
+gem 'daemons'
 
 # Ajax File Uploading
 gem 'remotipart'
@@ -94,6 +97,7 @@ group :test do
   gem 'colored'
   gem 'deadweight', :require => 'deadweight/hijack/rails'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'fivemat', require: false
   gem 'database_cleaner'

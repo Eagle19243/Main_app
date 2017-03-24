@@ -12,6 +12,7 @@ class UserWalletTransactionsController < ApplicationController
     @message = "#{params[:amount]} BTC has been successfully sent to #{transfer.address_to}."
     redirect_to my_wallet_user_url(current_user), notice: @message
   rescue Payments::BTC::Errors::TransferError => error
+    ErrorHandlerService.call(error)
     @message = error.message
     redirect_to my_wallet_user_url(current_user), alert: @message
   end
@@ -28,6 +29,7 @@ class UserWalletTransactionsController < ApplicationController
 
     @message = "#{params[:amount]} BTC has been successfully sent to task's balance"
   rescue Payments::BTC::Errors::TransferError => error
+    ErrorHandlerService.call(error)
     @message = error.message
   ensure
     respond_to { |format| format.js }

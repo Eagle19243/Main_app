@@ -1,4 +1,7 @@
-$("#Task-comments>h5:eq(0)").after("<%= escape_javascript(render('task_comments/new_comment')) %>");
+<% if @comment.persisted? %>
+  $("#Task-comments>h5:eq(0)").after("<%= escape_javascript(render('task_comments/new_comment')) %>");
+<% end %>
+
 $('#task_comment_body').val('');
 $('#task-comment-attachment').val('');
 $('#attachment-div').html(' ');

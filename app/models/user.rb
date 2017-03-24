@@ -53,6 +53,10 @@ class User < ActiveRecord::Base
 
   scope :name_like, -> (name) { where('name ILIKE ?', "%#{name}%")}
 
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
   def self.current_user
     Thread.current[:current_user]
   end
@@ -62,7 +66,7 @@ class User < ActiveRecord::Base
   end
 
   def assign_address
-    Payments::BTC::CreateUserWalletService.call(self.id)
+    WalletCreationJob.perform_later('User', self.id) unless user_wallet_address.present?
   end
 
   def create_activity(item, action)
@@ -103,118 +107,112 @@ class User < ActiveRecord::Base
     (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.collect{ |c| c.user }).uniq
   end
 
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    if user
-      user.update(
+  def self.find_for_facebook_oauth(auth)
+    user = User.find_by(provider: auth.provider, uid: auth.uid)
+    return user if user.present?
+
+    registered_user = User.find_by(email: auth.info.email)
+
+    if registered_user
+      registered_user.assign_attributes(
+        provider: auth.provider,
+        uid: auth.uid,
+        name: auth.info.name,
+        facebook_url: auth.extra.link,
+        username: "#{auth.info.name}#{auth.uid}"
+      )
+
+      registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
+
+      registered_user.save
+      registered_user
+    else
+      User.create(
+        provider: auth.provider,
+        uid: auth.uid,
+        name: auth.info.name,
+        email: auth.info.email,
+        confirmed_at: DateTime.now,
+        password: Devise.friendly_token[0, 20],
+        facebook_url: auth.extra.link,
+        username: auth.info.name + auth.uid,
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
-      user
-    else
-      registered_user = User.where(:email => auth.info.email).first
-      if registered_user
-        registered_user.update(
-          provider: auth.provider,
-          uid: auth.uid,
-          name: auth.info.name,
-          facebook_url: auth.extra.link,
-          username: auth.info.name + auth.uid,
-          remote_picture_url: auth.info.image.gsub('http://', 'https://')
-        )
-        registered_user
-      else
-        user = User.create(
-          provider: auth.provider,
-          uid: auth.uid,
-          name: auth.info.name,
-          email: auth.info.email,
-          confirmed_at: DateTime.now,
-          password: Devise.friendly_token[0, 20],
-          facebook_url: auth.extra.link,
-          username: auth.info.name + auth.uid,
-          remote_picture_url: auth.info.image.gsub('http://', 'https://')
-        )
-      end
     end
   end
 
-  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    if user
-      user.update(
+  def self.find_for_twitter_oauth(auth)
+    user = User.find_by(provider: auth.provider, uid: auth.uid)
+    return user if user.present?
+
+    registered_user = User.find_by(email: "#{auth.uid}@twitter.com")
+
+    if registered_user
+      registered_user.assign_attributes(
+        provider: auth.provider,
+        uid: auth.uid,
+        name: auth.info.name,
+        twitter_url: auth.info.urls.Twitter,
+        username: "#{auth.info.name}#{auth.uid}"
+      )
+
+      registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
+      registered_user.description = auth.info.description unless registered_user.description?
+      registered_user.country = auth.info.location unless registered_user.country?
+
+      registered_user.save
+      registered_user
+    else
+      User.create(
+        provider: auth.provider,
+        uid: auth.uid,
+        name: auth.info.name,
+        email: "#{auth.uid}@twitter.com",
+        password: Devise.friendly_token[0, 20],
+        confirmed_at: DateTime.now,
         description: auth.info.description,
         country: auth.info.location,
+        twitter_url: auth.info.urls.Twitter,
+        username: "#{auth.info.name}#{auth.uid}",
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
-      user
-    else
-      registered_user = User.where(:email => auth.uid + "@twitter.com").first
-      if registered_user
-        registered_user.update(
-          provider: auth.provider,
-          uid: auth.uid,
-          name: auth.info.name,
-          twitter_url: auth.info.urls.Twitter,
-          username: auth.info.name + auth.uid,
-          description: auth.info.description,
-          country: auth.info.location,
-          remote_picture_url: auth.info.image.gsub('http://', 'https://')
-        )
-        registered_user
-      else
-
-        user = User.create(
-          provider: auth.provider,
-          uid: auth.uid,
-          name: auth.info.name,
-          email: auth.uid+"@twitter.com",
-          password: Devise.friendly_token[0, 20],
-          confirmed_at: DateTime.now,
-          description: auth.info.description,
-          country: auth.info.location,
-          twitter_url: auth.info.urls.Twitter,
-          username: auth.info.name + auth.uid,
-          remote_picture_url: auth.info.image.gsub('http://', 'https://')
-        )
-      end
-
     end
   end
 
-  def self.find_for_google_oauth2(access_token, signed_in_resource=nil)
+  def self.find_for_google_oauth2(access_token)
+    user = User.find_by(provider: access_token.provider, uid: access_token.uid)
+    return user if user.present?
+
     data = access_token.info
-    user = User.where(:provider => access_token.provider, :uid => access_token.uid).first
-    if user
-      user.update(
+    registered_user = User.find_by(email: data['email'])
+
+    if registered_user
+      registered_user.assign_attributes(
+        provider: access_token.provider,
+        uid: access_token.uid,
+        name: access_token.info.name,
+        username: "#{access_token.info.name}#{access_token.uid}",
         company: access_token.extra.raw_info.hd,
         remote_picture_url: access_token.info.image.gsub('http://', 'https://')
       )
-      user
+
+      registered_user.company = access_token.extra.raw_info.hd unless registered_user.company?
+      registered_user.remote_picture_url = access_token.info.image.gsub('http://', 'https://') unless registered_user.picture?
+
+      registered_user.save
+      registered_user
     else
-      registered_user = User.where(:email => data["email"]).first
-      if registered_user
-        registered_user.update(
-          provider: access_token.provider,
-          uid: access_token.uid,
-          name: access_token.info.name,
-          username: access_token.info.name + access_token.uid,
-          company: access_token.extra.raw_info.hd,
-          remote_picture_url: access_token.info.image.gsub('http://', 'https://')
-        )
-        registered_user
-      else
-        user = User.create(
-            provider: access_token.provider,
-            email: data["email"],
-            uid: access_token.uid,
-            name: access_token.info.name,
-            confirmed_at: DateTime.now,
-            password: Devise.friendly_token[0, 20],
-            company: access_token.extra.raw_info.hd,
-            username: access_token.info.name + access_token.uid,
-            remote_picture_url: access_token.info.image.gsub('http://', 'https://')
-        )
-      end
+      User.create(
+        provider: access_token.provider,
+        email: data['email'],
+        uid: access_token.uid,
+        name: access_token.info.name,
+        confirmed_at: DateTime.now,
+        password: Devise.friendly_token[0, 20],
+        company: access_token.extra.raw_info.hd,
+        username: "#{access_token.info.name}#{access_token.uid}",
+        remote_picture_url: access_token.info.image.gsub('http://', 'https://')
+      )
     end
   end
 
@@ -231,11 +229,8 @@ class User < ActiveRecord::Base
   end
 
   def is_lead_editor_for? proj
-    if proj.team.team_memberships.where(:team_member_id => self.id).present?
-      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "lead_editor")
-    else
-      return false
-    end
+    team_membership = proj.team_memberships.find_by(team_member_id: self.id)
+    team_membership.present? && team_membership.lead_editor?
   end
 
   def is_teammate_for? proj
@@ -284,9 +279,8 @@ class User < ActiveRecord::Base
     (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
   end
 
-  # Normal use case, name cannot be changed, need to bypass validation if neccessary 
+  # Normal use case, name cannot be changed, need to bypass validation if neccessary
   def validate_name_unchange
     errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
   end
-
 end

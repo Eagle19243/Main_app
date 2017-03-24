@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  match "/status/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
+  if Rails.env.production?
+    DelayedJobWeb.use Rack::Auth::Basic do |username, password|
+      username == ENV['delayed_job_username'] && password == ENV['delayed_job_password']
+    end
+  end
+  
   resources :group_messages, only: [:index, :create]
   post 'group_messages/get_chatroom'
   post 'group_messages/refresh_chatroom_messages'
@@ -20,7 +28,6 @@ Rails.application.routes.draw do
   get 'projects/show_all_teams'
   get 'projects/show_all_revision'
   get 'projects/show_task'
-  # resources :task_attachments, only: [:index, :new, :create, :destroy]
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'
   get 'assignments/update_collaborator_invitation_status'
@@ -90,7 +97,7 @@ Rails.application.routes.draw do
 
   resources :activities, only: [:index]
   resources :wikis
-  resources :tasks do
+  resources :tasks, except: [:index, :new, :edit] do
     member do
       get :accept, :reject, :doing, :reviewing, :completed, :refund
       delete '/members/:team_membership_id', to: 'tasks#removeMember', as: :remove_task_member
@@ -111,7 +118,7 @@ Rails.application.routes.draw do
         get :card_payment, to: 'payments/stripe#new'
         post :card_payment, to: 'payments/stripe#create'
       end
-      resources :task_comments
+      resources :task_comments, only: [:create]
       resources :assignments
     end
 
@@ -166,7 +173,7 @@ Rails.application.routes.draw do
   get '/pages/privacy_policy'
   get '/pages/terms_of_use'
 
-  devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks"}
+  devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations', omniauth_callbacks: "omniauth_callbacks", confirmations: 'confirmations'}
 
   resources :users do
     member do

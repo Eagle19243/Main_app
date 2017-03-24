@@ -1,18 +1,19 @@
 <% unless @group_messages.blank? %>
+    <ul class="l-messages__list">
     <% @group_messages.each do |message| %>
-        <div class="row message">
-          <div class="message-sender">
+        <li class="row l-messages__item">
+          <div class="l-messages__sender">
             <a href="#">
               <% if message.user.picture? %>
-                  <%= image_tag(message.user.picture, class: "profile-image") %>
+                  <%= image_tag(message.user.picture) %>
               <% else %>
                   <%= gravatar_for(message.user, 35) %>
               <% end %>
             </a>
           </div>
-          <div class="message-content">
+          <div class="l-messages__content">
 
-            <div class="message-text">
+            <div class="l-messages__content-text">
               <%= message.message %>
               <% if message.attachment? %>
                   <br>
@@ -29,17 +30,16 @@
                   <br>
               <% end %>
             </div>
-            <span class="name"><%= message.user.try(:name) %></span>
-            <span class="message-date"><%= time_ago_in_words(message.created_at) %></span>
+            <span class="l-messages__name"><%= message.user.try(:name) %></span>
+            <span class="l-messages__date"><%= time_ago_in_words(message.created_at) %></span>
             <br>
 
           </div>
-        </div>
+        </li>
     <% end %>
+    </ul>
 <% else %>
-    <div class="row message">
-      <div class="message-content">
+    <div class="l-messages__no-message">
         No Messages
-      </div>
     </div>
 <% end %>

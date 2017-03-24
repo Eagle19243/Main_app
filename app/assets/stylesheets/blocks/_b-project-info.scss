@@ -30,6 +30,10 @@
       }
     }
     &-name {
+      text-align: center;
+    }
+    &-name a,
+    &-name span {
       font-family: 'Libre Franklin', sans-serif;
       font-size: 14px;
       font-weight: 400;
@@ -37,6 +41,9 @@
       color: #fff;
       text-align: center;
       margin-bottom: 30px;
+    }
+    &-name a:visited {
+      color: #fff;
     }
   }
   &__title {

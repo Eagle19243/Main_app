@@ -65,7 +65,7 @@
               </a>
             <% end %>
           </td>
-          <td>
+          <td class="revision-history__mark">
             <% if history['status'] == 'approved' %>
               <a href="/projects/<%= project.id %>/revision_action?type=unapprove&rev=<%= history['revision_id'] %>" class="mr10 revision-unapprove">
                 <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove

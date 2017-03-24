@@ -16,7 +16,7 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins, dependent: :destroy
-  has_one :chat_room
+  has_one  :chatroom
   has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
@@ -24,7 +24,9 @@ class Project < ActiveRecord::Base
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
   has_many :executors, through: :project_users, class_name: 'User', source: :executor, dependent: :destroy
   has_many :lead_editors, through: :project_users, class_name: 'User', source: :lead_editor, dependent: :destroy
-  has_one :team, dependent: :destroy
+  has_one  :team, dependent: :destroy
+  has_many :team_memberships, through: :team
+  has_many :team_members, through: :team
   has_many :change_leader_invitations
   has_many :apply_requests, dependent: :destroy
 
@@ -38,7 +40,6 @@ class Project < ActiveRecord::Base
   validates :short_description, presence: true, length: {minimum: 3, maximum: SHORT_DESCRIPTION_LIMIT, message: "Has invalid length. Min length is 3, max length is #{SHORT_DESCRIPTION_LIMIT}"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
 
-  validates :picture, presence: true
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
   aasm column: 'state', whiny_transitions: false do

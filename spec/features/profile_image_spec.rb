@@ -24,7 +24,7 @@ feature "Profile Image", js: true, vcr: { cassette_name: 'bitgo' } do
 
       context "When you hover mouse on the profile image" do
         before do
-          @image_div = find(".profile-hero__user-portrait")
+          @image_div = find(".profile-hero__user-portrait._signed-in")
           @image_div.hover          
         end
 

@@ -18,13 +18,6 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    if user_signed_in?
-      if current_user.user_wallet_address.blank?
-        current_user.assign_address
-      end
-    end
-    #Every Time someone visits home page it ittrate N times Thats not a good approch .
-    # Project.all.each { |project| project.create_team(name: "Team #{project.id}") unless !project.team.nil? }
     @featured_projects = Project.where.not(state: "rejected").page params[:page]
 
     if session[:start_by_signup]
@@ -50,7 +43,7 @@ class ProjectsController < ApplicationController
     session[:success_contacts] = nil
     @array = params[:emails].split(',')
     @array.each do |key|
-      InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_now
+      InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_later
     end
     session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] = session[:idd]
@@ -463,13 +456,13 @@ class ProjectsController < ApplicationController
     if @project.change_leader_invitations.pending.any?
       flash[:notice] = "You have already invited a new leader for this project."
     elsif @new_leader == nil
-      flash[:notice] = "Can't find the user who have the email address you entered. Please input valid email address."
+      flash[:error] = "Can't find the user who have the email address you entered. Please input valid email address."
     elsif !(@project.team.team_memberships.pluck(:team_member_id).include? @new_leader)
       @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
       flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
     elsif @email != current_user.email
       @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
-      InvitationMailer.invite_leader(@invitation.id).deliver_now
+      InvitationMailer.invite_leader(@invitation.id).deliver_later
       NotificationsService.notify_about_change_leader_invitation(current_user, @new_leader, @project)
       flash[:notice] = "You sent an invitation for leader role to " + @email
     end

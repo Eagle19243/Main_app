@@ -1,4 +1,4 @@
 <div class="b-notification__text">
-  <%= source_model.user.name %> suggested task
+  <%= source_model.user.name %> suggested a task
   <%= link_to source_model.title, taskstab_project_path(source_model.project_id, tab: 'Tasks', taskId: source_model.id) %>
 </div>

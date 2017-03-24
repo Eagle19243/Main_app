@@ -7,9 +7,7 @@
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
               <% if can? :revisions, project %>
-                <%= link_to revisions_project_path(id: project.id), remote: true, class: "btn-root", id: "editSource" do %>
-                  Revisions
-                <% end %>
+                <a class="btn-root" id="editSource">Revisions</a>
               <% else %>
                 <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-root">
                   <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
@@ -47,27 +45,22 @@
 
     </div>
 
-    <div class="requests col-md-7">
-      <% if current_user && current_user.is_project_leader?(project) %>
-        <% apply_requests.find_each do |apply| %>
-          <div class="content-details__request">
-              <span class="content-details__username"><%= apply.user_name %></span>
-              <span>sent you</span>
-              <span class="content_details__request-type"><%= apply.request_type %></span>
-              <span>Request</span>
-              <div class="content-details__request-btn">
-                <%= link_to "Accept", accept_apply_request_path(apply), class: "btn-root", method: :post %>
-                <%= link_to "Reject", reject_apply_request_path(apply), class: "btn-root", method: :post %>
-              </div>
-          </div>
-        <% end %>
-      <% end %>
-    </div>
   </div>
 </div>
 
 <script>
   $(document).ready(function() {
     $('.best_in_place').best_in_place();
+  })
+
+  $(document).on('click.showRevisions', '#editSource', function() {
+      $.ajax({
+          url: "/projects/<%= project.id %>/revisions",
+          dataType: "script"
+      }).success(function() {
+          if (!$('.approval-switch input').is(':checked')) {
+              $('.revision-history__mark').addClass('_hide');
+          }
+      });
   })
 </script>

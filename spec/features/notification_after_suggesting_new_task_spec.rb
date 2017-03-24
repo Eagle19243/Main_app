@@ -67,7 +67,7 @@ feature "Notification After Suggesting a New Task", js: true, vcr: { cassette_na
               end
 
               scenario "Then you can not see the notification" do
-                expect(page).not_to have_content "#{@regular_user.name} suggested task #{@task.title}"
+                expect(page).not_to have_content "#{@regular_user.name} suggested a task #{@task.title}"
               end
 
               scenario "Then the number of unread notifications has been disappeared on the alert" do
@@ -143,7 +143,7 @@ feature "Notification After Suggesting a New Task", js: true, vcr: { cassette_na
               end
 
               scenario "Then you can see the notification" do
-                expect(page).to have_content "#{@user.name} suggested task #{@task.title}"
+                expect(page).to have_content "#{@user.name} suggested a task #{@task.title}"
               end
 
               scenario "Then the number of unread notifications has been disappeared on the alert" do

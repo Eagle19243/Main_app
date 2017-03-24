@@ -25,6 +25,12 @@ class Payments::BTC::WalletHandler
     response["address"]
   end
 
+  def wallet_balance_confirmed?(wallet_id)
+    response = api.get_wallet(wallet_id: wallet_id, access_token: access_token)
+
+    response["balance"] == response["spendableConfirmedBalance"]
+  end
+
   private 
 
   def access_token

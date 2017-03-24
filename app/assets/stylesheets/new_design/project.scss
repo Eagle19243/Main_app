@@ -162,13 +162,6 @@ div.progress {
   }
 }
 
-#Team {
-  padding: 20px;
-  padding-top: 50px;
-  background-color: #fff;
-  max-width: 1200px;
-}
-
 .main-wrapper {
   background-color: #fff;
 }
@@ -473,6 +466,12 @@ div.progress {
   }
 
   .table {
+    .revision-history__mark {
+      &._hide a {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
     thead {
       th {
         font-family: 'Roboto';

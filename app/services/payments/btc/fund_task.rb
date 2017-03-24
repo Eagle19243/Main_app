@@ -10,8 +10,13 @@ module Payments::BTC
 
     def initialize(amount:, task:, user:)
       raise Payments::BTC::Errors::TransferError, "Task argument is invalid" unless task.is_a?(Task)
-      raise Payments::BTC::Errors::TransferError, "Task's wallet doesn't exist" unless task.wallet_address
+      raise Payments::BTC::Errors::TransferError, "User argument is invalid" unless user.is_a?(User)
       raise Payments::BTC::Errors::TransferError, "Amount can't be less than minimum allowed size" unless amount >= MIN_AMOUNT
+
+      unless task.wallet_address.present?
+        Payments::BTC::CreateTaskWalletService.call(task.id)
+        task.reload
+      end
 
       @fund_btc_address = Payments::BTC::FundBtcAddress.new(
         amount: amount,

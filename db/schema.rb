@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313125802) do
+ActiveRecord::Schema.define(version: 20170322205123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,12 @@ ActiveRecord::Schema.define(version: 20170313125802) do
 
   add_index "assignments", ["task_id", "user_id"], name: "index_assignments_on_task_id_and_user_id", using: :btree
 
+  create_table "btc_exchange_rates", force: :cascade do |t|
+    t.decimal  "rate",       precision: 15, scale: 10
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
   create_table "cards", force: :cascade do |t|
     t.string   "title"
     t.string   "status"
@@ -109,6 +115,22 @@ ActiveRecord::Schema.define(version: 20170313125802) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "discussions", force: :cascade do |t|
     t.integer  "discussable_id"
@@ -428,7 +450,7 @@ ActiveRecord::Schema.define(version: 20170313125802) do
     t.integer  "role",           default: 0
   end
 
-  add_index "team_memberships", ["team_id", "team_member_id"], name: "index_team_memberships_on_team_id_and_team_member_id", unique: true, using: :btree
+  add_index "team_memberships", ["team_id", "team_member_id", "role"], name: "team_membership_team_member_role_index", unique: true, using: :btree
   add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id", using: :btree
   add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id", using: :btree
 

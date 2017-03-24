@@ -152,7 +152,6 @@
                                 <%= f.hidden_field :task_id, value: @task.id %>
                                 <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
 
-                                <%= f.hidden_field :user_id, value: current_user.id %>
                                 <button type="submit" name="commit" value="Send"> Send</button>
                                 &nbsp;&nbsp;
                                 <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
@@ -173,12 +172,12 @@
               <div class="modal-task__controls-side">
                 <div class="fund">
                   <% if user_signed_in? %>
-                    <% unless @task.suggested_task? %>
-                        <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
-                        <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
-                    <% else %>
+                    <% if @task.suggested_task? %>
                         <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
                         <button type="button" title="FUND" class="btn-root _dark" data-modal="#suggested_task_model_for_fund">DO</button>
+                    <% elsif @task.accepted? %>
+                        <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                        <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
                     <% end %>
                   <% end %>
 
@@ -198,8 +197,9 @@
                         <div class="modal-task__card-value _data">
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
-                        <div id="task-budget" class="modal-task__card-value _data">
+                        <div id="task-budget" class="modal-task__card-value _data _budget-id">
                             <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :activator => '#task-budget' %>
+                            <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
@@ -316,8 +316,10 @@
                               Delete Task
                             </button>
                         <% end %>
-                    <% end %>
-                    <% if user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
+                      <% end %>
+
+                    <!-- Disable refund feature for now -->
+                    <% if false && user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
                         <%= link_to refund_task_path(@task) do %>
                             <button>
                               <i class="fa fa-bitcoin" aria-hidden="true"></i>
@@ -495,3 +497,21 @@
 <% if user_signed_in?  &&  current_user.id == @task.project.user_id  && @task.accepted? %>
     <%= render 'modal/edit_budget' %>
 <% end %>
+
+<script>
+    $(document).ready(function() {
+        $(document).off('click.toggleBudget', '#task-budget');
+        $(document).off('click.hideEditIcon', '.page-wrapper');
+
+        $(document)
+            .on('click.hideEditIcon', '.page-wrapper', function(e) {
+                if (!$(e.target).parent().hasClass('_budget-id')) {
+                    $(this).find('.btn-edit').show();
+                }
+            })
+            .on('click.toggleBudget', '#task-budget', function() {
+                $(this).find('.btn-edit').toggle();
+            })
+
+    })
+</script>

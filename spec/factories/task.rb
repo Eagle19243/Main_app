@@ -10,6 +10,10 @@ FactoryGirl.define do
 
     trait :suggested do
       state { 'suggested_task' }
+      association :user, :confirmed_user, factory: :user
+      association :project, factory: :base_project
+      budget { 100 }
+      deadline { 30.days.from_now }
     end
 
     trait :pending do
@@ -21,6 +25,10 @@ FactoryGirl.define do
       association :project, factory: :base_project
       budget { 100 }
       deadline { 30.days.from_now }
+    end
+
+    trait :with_wallet do
+      association :wallet_address
     end
   end
 end

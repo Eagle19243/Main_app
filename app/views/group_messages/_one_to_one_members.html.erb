@@ -1,6 +1,6 @@
 <% unless @one_to_one_chat_users.blank? %>
     <% @one_to_one_chat_users.each do |user| %>
-        <li>
+        <li class="s-group-messages__submenu-item _message">
           <a href="#" class="one-user-chat" id="<%= user.id %>" name=""> <%= user.name %> </a>
         </li>
     <% end %>

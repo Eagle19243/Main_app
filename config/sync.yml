@@ -26,6 +26,13 @@ test:
   auth_token: "secret"
   async: false
 
+staging:
+  server: "http://example.com/faye"
+  adapter_javascript_url: "http://localhost:9292/faye/faye.js"
+  adapter: "Faye"
+  auth_token: "77610932b528557ad80bfb50b44781cbf586259a0f0f7ff031679e2f8f8f688c"
+  async: true
+
 production:
   server: "http://example.com/faye"
   adapter_javascript_url: "http://localhost:9292/faye/faye.js"

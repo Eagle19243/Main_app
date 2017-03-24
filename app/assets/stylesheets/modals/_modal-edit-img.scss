@@ -1,6 +1,7 @@
 // ToDo remove these styles after refactoring views/_edit_project_modal.html.erb, looks like there's a form and these styles should be moved there
 
-.modal-edit-img {
+.modal-edit-img,
+.modal-edit-bcg {
   .btn-upload {
     margin-top: 30px;
     margin-bottom: 30px;

@@ -46,8 +46,6 @@
         $("#fund-loading").hide();
 
         $('.modal-fund__user-name').text(response.user_name);
-        $('#wallet_address').val(response.wallet_address);
-
         $('#wallet_transaction_task_id').val(response.task_id);
         $('#task-balance').html(response.balance + " $");
         url = "/projects/" +  response.project_id + "/tasks/" + response.task_id + '/card_payment';
@@ -124,8 +122,16 @@
 
 
         <div id="Team" class="tabcontent">
-          <div class="center">
-            <%= image_tag("loading.gif", :alt => "rss feed") %>
+          <div clas="row">
+              <div class="team-tab__title">
+                  Below are the existing teammates for this project. You may choose to join this team below.
+                  <a href="<%= t('commons.faq_landing_link') %>">FAQs</a>
+              </div>
+          </div>
+          <div class="team-content">
+              <div class="center">
+                <%= image_tag("loading.gif", :alt => "rss feed") %>
+              </div>
           </div>
         </div>
       </div>

@@ -76,6 +76,83 @@ RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
     end
   end
 
+  describe '#destroy' do
+    let(:task) { FactoryGirl.create(:task, :with_associations) }
+    let(:user) { task.user }
+    let(:project) { task.project }
+
+    context "given user is authorized" do
+      before do
+        allow_any_instance_of(described_class).to receive(:authorize!).and_return(true)
+      end
+
+      context "when task delete service returns true" do
+        before do
+          allow_any_instance_of(TaskDestroyService).to receive(:destroy_task).and_return(true)
+        end
+
+        it 'returns user to tasks page with successful message' do
+          delete(:destroy, id: task.id)
+
+          expect(flash[:notice]).to eq('Task was successfully destroyed.')
+          expect(response).to redirect_to(
+            taskstab_project_path(project, tab: 'Tasks')
+          )
+        end
+      end
+
+      context "when task delete service returns false" do
+        before do
+          allow_any_instance_of(TaskDestroyService).to receive(:destroy_task).and_return(false)
+        end
+
+        it 'returns user to tasks page with unsuccessful message' do
+          delete(:destroy, id: task.id)
+
+          expect(flash[:alert]).to eq('Error happened while task delete process')
+          expect(response).to redirect_to(
+            taskstab_project_path(project, tab: 'Tasks')
+          )
+        end
+      end
+    end
+  end
+
+  describe '#completed' do
+    before do
+      allow_any_instance_of(TaskCompleteService).to receive(:update_current_fund!).and_return(true)
+    end
+
+    let(:task_params) do
+      {
+        state: :reviewing,
+        project: project,
+        user: user,
+        current_fund: 10_000_000,
+        satoshi_budget: 10_000_000
+      }
+    end
+    let(:existing_task) do
+      FactoryGirl.create(:task, :with_associations, :with_wallet, task_params)
+    end
+
+    it "performs successful task completion" do
+      allow_any_instance_of(TaskCompleteService).to receive(:complete!).and_return(true)
+      get :completed, id: existing_task.id
+
+      expect(assigns(:notice)).to eq("Task was successfully completed")
+    end
+
+    it "performs not successful task completion" do
+      allow_any_instance_of(TaskCompleteService).to receive(:complete!).and_raise(
+        Payments::BTC::Errors::TransferError, "Some Error"
+      )
+      get :completed, id: existing_task.id
+
+      expect(assigns(:notice)).to eq("Some Error")
+    end
+  end
+
 # TODO: this speci should be updated accordingly to our logic, it seems that task is not deleted after :reject
 # see: https://travis-ci.com/YouServe/Main-App/builds/40999235
 =begin

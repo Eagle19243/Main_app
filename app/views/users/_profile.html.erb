@@ -82,17 +82,14 @@
       <%end%>
 
       <% if user_signed_in? && current_user.id == @user.id %>
+        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
         <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
       <% end %>
     </div>
 
     <div class="profile-hero__user-trans-btns">
       <% if current_user && current_user.id == @user.id %>
-        <a href="javascript:void(0)" class="profile-hero__btn" data-reveal-id="fund-transfer-wallet">
-          <svg focusable="false" version="1.1" class="svg-bitcoin">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bitcoin"></use>
-          </svg>Transfer coins
-        </a>
+          <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
       <% end %>
       <% if current_user && current_user.id != @user.id %>
         <a href="/group_messages/user_messaging?user_id=<%= @user.id %>" class="profile-hero__btn">
@@ -190,6 +187,7 @@
 </div>
 
 <%= render "profile_edit_dialog" %>
+<%= render "profile_edit_bcg_dialog" %>
 
 <script>
 
@@ -204,7 +202,7 @@
     if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
-      var current_btc = '<%=  Payments::BTC::Converter.get_current_btc_rate  %>'
+      var current_btc = '<%=  Payments::BTC::Converter.current_btc_rate  %>'
       document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
       eve.preventDefault();
     }
@@ -215,7 +213,7 @@
       }
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
-      var current_btc = '<%=  Payments::BTC::Converter.get_current_btc_rate  %>'
+      var current_btc = '<%=  Payments::BTC::Converter.current_btc_rate  %>'
       document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
 
     });

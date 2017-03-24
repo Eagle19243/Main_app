@@ -17,6 +17,7 @@ feature "Project Page Revisions Tab", js: true, vcr: { cassette_name: 'bitgo' } 
       before do
         visit project_path(@project)
         @plan_area = find("#Plan")
+        @revision_button = find("#editSource")
 
         @revisions = [
           {
@@ -32,12 +33,12 @@ feature "Project Page Revisions Tab", js: true, vcr: { cassette_name: 'bitgo' } 
       end
 
       scenario "Then you can see 'Revisions' button" do
-        expect(@plan_area).to have_link "Revisions"
+        expect(@plan_area).to have_selector("#editSource")
       end
 
       context "When you click 'Revisions' button" do
         before do
-          @plan_area.click_link "Revisions"
+          @revision_button.click
           wait_for_ajax
 
           @revision_wrapper = find(".revision-wrapper")

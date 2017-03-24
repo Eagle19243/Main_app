@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
+  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
   before_action :validate_user, only: [:accept, :reject, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
-  before_action :authenticate_user!, only: [:send_email, :create, :new, :edit, :destroy, :accept, :reject, :doing, :reviewing, :completed]
+  before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed]
 
 
   def validate_team_member
@@ -103,17 +103,6 @@ class TasksController < ApplicationController
   #  redirect_to taskstab_project_path(@task.project.id)
   end
 
-  # GET /tasks/new
-  def new
-    @project = Project.find(params[:project_id])
-    @task = @project.tasks.build
-  end
-
-  # GET /tasks/1/edit
-  def edit
-    @project = Task.find(params[:id]).project
-  end
-
   # POST /tasks
   # POST /tasks.json
   def create
@@ -136,13 +125,9 @@ class TasksController < ApplicationController
     end
   end
 
-
   def task_fund_info
-   if @task.wallet_address.blank?
-     @task.assign_address
-   end
     respond_to do |format|
-       format.json { render json: { wallet_address: @task.wallet_address.sender_address, balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
+       format.json { render json: { balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
     end
   end
 
@@ -161,7 +146,7 @@ class TasksController < ApplicationController
         format.json { render :show, status: :ok, location: @task }
         format.js
       else
-        format.html { render :edit }
+        format.html { render nothing: true }
         format.json { render json: @task.errors, status: :unprocessable_entity }
         format.js
       end
@@ -173,17 +158,18 @@ class TasksController < ApplicationController
   def destroy
     authorize! :destroy, @task
 
-    project = @task.project
-    if user_signed_in?
-      @task.destroy
-      respond_to do |format|
-        activity = current_user.create_activity(@task, 'deleted')
-        activity.user_id = current_user.id
-        format.html { redirect_to project_path(project), notice: 'Task was successfully destroyed.' }
+    service = TaskDestroyService.new(@task, current_user)
+
+    respond_to do |format|
+      redirect_path = taskstab_project_path(@task.project, tab: 'Tasks')
+
+      if service.destroy_task
+        format.html { redirect_to redirect_path, notice: 'Task was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to redirect_path, alert: 'Error happened while task delete process' }
         format.json { head :no_content }
       end
-    else
-      format.html { redirect_to project_path(project), notice: 'You can\'t delete this task' }
     end
   end
 
@@ -215,14 +201,10 @@ class TasksController < ApplicationController
   end
 
   def accept
-    previous = @task.suggested_task?
-    if @task.accept!
+    if !@task.accepted? && @task.accept!
       @notice = "Task accepted "
-      NotificationMailer.accept_task(@task.user, @task).deliver_now
+      NotificationMailer.accept_task(@task.user, @task).deliver_later
       NotificationsService.notify_about_accept_task(@task, @task.user)
-      if previous
-        @task.assign_address
-      end
     else
       @notice = "Task was not accepted"
     end
@@ -252,7 +234,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to task_path(@task.id), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
     end
   end
 
@@ -284,24 +266,29 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to task_path(@task.id), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
     end
   end
 
   def completed
-
     authorize! :completed, @task
 
-    if current_user.can_complete_task?(@task) && @task.complete!
-      @notice = "Task Completed"
-      @task.transfer_task_funds
-    else
-      @notice = 'Task was not Completed '
-    end
+    service = TaskCompleteService.new(@task)
+    service.complete!
+
+    @notice = "Task was successfully completed"
 
     respond_to do |format|
       format.js
-      format.html { redirect_to task_path(@task.id), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+    end
+  rescue ArgumentError, Payments::BTC::Errors::TransferError => error
+    ErrorHandlerService.call(error)
+    @notice = error.message
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
     end
   end
 
