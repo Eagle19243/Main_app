@@ -119,7 +119,8 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         name: auth.info.name,
         facebook_url: auth.extra.link,
-        username: "#{auth.info.name}#{auth.uid}"
+        username: "#{auth.info.name}#{auth.uid}",
+        remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
 
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
@@ -145,7 +146,7 @@ class User < ActiveRecord::Base
     user = User.find_by(provider: auth.provider, uid: auth.uid)
     return user if user.present?
 
-    registered_user = User.find_by(email: "#{auth.uid}@twitter.com")
+    registered_user = auth.info.email ? User.find_by(email: auth.info.email) : nil
 
     if registered_user
       registered_user.assign_attributes(
@@ -153,7 +154,8 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         name: auth.info.name,
         twitter_url: auth.info.urls.Twitter,
-        username: "#{auth.info.name}#{auth.uid}"
+        username: "#{auth.info.name}#{auth.uid}",
+        remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
 
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
