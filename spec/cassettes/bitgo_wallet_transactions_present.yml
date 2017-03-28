@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3080/api/v1/wallet/34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5/tx
+    body:
+      encoding: UTF-8
+      string: "{}"
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer BITGO_ACCESS_TOKEN
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Powered-By:
+      - Express
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '7453'
+      Etag:
+      - W/"1d1d-35iQUndlCRKfz+c7a0VWVw"
+      Date:
+      - Mon, 27 Mar 2017 04:12:16 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"transactions":[{"id":"bc43a68d2721f16e1e52548fc74410c6c9e86fa4820cccaadb508adc55fa3320","normalizedHash":"3bcbf70752633d69bf76fa0bfe4d17585a82a463dd9aa8c467879a5d88d339c3","date":"2017-03-19T17:00:22.905Z","pos":388,"fee":279885,"inputs":[{"previousHash":"0227241b0406f78adfb7c24a78a6584b89821408f79fca7ae5193356975ce8bb","previousOutputIndex":0},{"previousHash":"12b374725355184fd108eeb027c67aabe3a47f1f28e259495c62044ba1183d51","previousOutputIndex":1},{"previousHash":"19465d2c89ccdac6abdd937b6677710a1890f8349d77bda2505dc9d76fc4aea0","previousOutputIndex":0},{"previousHash":"819fedaad7f2147e02f7d519ccd901c9bc502ba99e880c1a3e58e7ea42b6ddbd","previousOutputIndex":1},{"previousHash":"b3bc018ce044e338e56bcd2dfdc5f81fe9935ce5891cf7da955d61c6fff8799e","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":220115}],"entries":[{"account":"3LiCPcC42iw6K86bp9h8iL8C95tTyCDdej","value":-500000},{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":220115}],"confirmations":1127,"pending":false,"instant":false,"blockhash":"00000000000000000115ebc10cda9a19e5746a99df1e3aa651d2520676a22f86","height":458001},{"id":"0baab57e14d997d5dcac849284cf78d772a4d636a5f4371cd6ce050ef29b9840","normalizedHash":"4e0fa89d4b0c0324f09e2619babb9dab0b5074498fab0390993b34e0b9f7c5b2","date":"2017-03-15T09:46:09.198Z","pos":1117,"fee":155785,"inputs":[{"previousHash":"9edb8487b1b4749489450729c9c2efcdc1128d2209c44ed4477e168dc445ed26","previousOutputIndex":0},{"previousHash":"b3bc018ce044e338e56bcd2dfdc5f81fe9935ce5891cf7da955d61c6fff8799e","previousOutputIndex":1},{"previousHash":"bae60a159fa916bf0e4863eb088b8817755b57d742b81bb7eef1fdd3e3cb75ce","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"3QHwuZ9kectDaoYiYatWksDHeQrAdLkxvW","value":2000000},{"vout":1,"account":"3Gi5AiZBwaX7TCRNbwoxpo4Tmj256NXZGw","value":18992}],"entries":[{"account":"3QHwuZ9kectDaoYiYatWksDHeQrAdLkxvW","value":2000000},{"account":"3Gi5AiZBwaX7TCRNbwoxpo4Tmj256NXZGw","value":18992},{"account":"36PeZ8JvpZi46wf6sRz25AbDzohMENrLTN","value":-289636},{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":-1885141}],"confirmations":1798,"pending":false,"instant":false,"blockhash":"00000000000000000176a073f6681331d9ac480198e48a37789581d55ae2f24a","height":457330},{"id":"bae60a159fa916bf0e4863eb088b8817755b57d742b81bb7eef1fdd3e3cb75ce","normalizedHash":"4e916348a65dda94264e3a898a0b948c35b9eb6b59ed37fdb5a318b42e97609b","date":"2017-03-15T09:33:17.756Z","pos":982,"fee":71023,"inputs":[{"previousHash":"427b44f3ef72c5d9849405a87b0ebeb84547c07e4d50b01de3b4e382e9094d09","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":902483}],"entries":[{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":902483},{"account":"39Zw8ybAnzv7eQ5wLX8QRgrF2uDS5qCntS","value":-973506}],"confirmations":1801,"pending":false,"instant":false,"blockhash":"00000000000000000111f3a9e7a5b79acdb8beb8c42966cd4c6ac62a172aebd7","height":457327},{"id":"9edb8487b1b4749489450729c9c2efcdc1128d2209c44ed4477e168dc445ed26","normalizedHash":"f0018fe6cc92fad5f86840bf47d3b5df3720fee12423b770ca868ff2b7894016","date":"2017-03-15T09:27:48.253Z","pos":739,"fee":86845,"inputs":[{"previousHash":"c9283a3dae3b7e6640f1c2139a9c6bedc8de7af4b731d5e90868f6871bb8aad8","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":982658}],"entries":[{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":982658},{"account":"372HTejXVJN6whDyXh1mVvwobrQ8E9wvhw","value":-1069503}],"confirmations":1801,"pending":false,"instant":false,"blockhash":"00000000000000000111f3a9e7a5b79acdb8beb8c42966cd4c6ac62a172aebd7","height":457327},{"id":"26596783cd0b1dc16fa87ebf2e297e9c80520a76d10207ce3d4401aef030a01d","normalizedHash":"01cbedabed64d83b9e19d7ff80907d11074da3737bbbfe87a2ad6c6425b9ce5e","date":"2017-03-10T07:00:40.523Z","pos":958,"fee":59389,"inputs":[{"previousHash":"cc122e8d92228f7c1d8a84f2c7844d0c013ea5f3ec8d47accd6cb869e55b2825","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"3MfBSdWnyujXDU5Jq2wj9xaLd3hj6igEqL","value":1200000},{"vout":1,"account":"3L2Ba3Pgu2T9rCMdDwozqwwuCJ2UUGzyJf","value":1399679}],"entries":[{"account":"3L2Ba3Pgu2T9rCMdDwozqwwuCJ2UUGzyJf","value":1399679},{"account":"3MfBSdWnyujXDU5Jq2wj9xaLd3hj6igEqL","value":1200000},{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":-2659068}],"confirmations":2565,"pending":false,"instant":false,"blockhash":"0000000000000000000971068d2dce4d099c71daae5eae555d26bdd91611869b","height":456563},{"id":"cc122e8d92228f7c1d8a84f2c7844d0c013ea5f3ec8d47accd6cb869e55b2825","normalizedHash":"b14ee1d68e049061877a47d67f0f8236e04ea294bd9db09a7657988883bc83d2","date":"2017-03-10T06:53:40.930Z","pos":287,"fee":333686,"inputs":[{"previousHash":"15823a42bc3705eee665b22bbc0b11551b3b5c178d3b849238c335fe76d50a17","previousOutputIndex":0},{"previousHash":"3da76cf3439d530894676c3ad4c4d0f71cec5ed9854df82ba1f172bbc1168362","previousOutputIndex":0},{"previousHash":"4732744e5d4d2bd09c1d752e6660cb85b079c5e82e2bef0661558a9f7d3cc205","previousOutputIndex":0},{"previousHash":"7e628be4d42dd5d472026c982f8102bf0be1aff19de632d1ee559055ad963557","previousOutputIndex":0},{"previousHash":"d13b44d9bdb406356deec9d8e01ec9040481b0c2a5b3150c63b8626f13736b99","previousOutputIndex":0},{"previousHash":"fb98e57a54cd02e18aac2d06a6115840c40114c32fd6dd1946f64abd873d3818","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":2659068}],"entries":[{"account":"353YTtTssrqPi7hvxqup9GNMf22xZo3mz5","value":-1003601},{"account":"34SNZRjPJ3M9JKwuc6tdYqqVDJ5uXAaG2K","value":-1989153},{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":2659068}],"confirmations":2566,"pending":false,"instant":false,"blockhash":"0000000000000000011e5c346c942b45ba6c9f70e528a108dad9c74583a98273","height":456562},{"id":"fb98e57a54cd02e18aac2d06a6115840c40114c32fd6dd1946f64abd873d3818","normalizedHash":"84ba0f21264585aec81b5c59e08ce659b30ad390e6e83cb9424e1d83766faed4","date":"2017-03-02T17:10:16.966Z","pos":1273,"fee":59809,"inputs":[{"previousHash":"4f999526936ee9b1c5ad46ff32e94e13d8174ec0fbd431a6628de853c0dcecba","previousOutputIndex":0}],"outputs":[{"vout":0,"account":"34SNZRjPJ3M9JKwuc6tdYqqVDJ5uXAaG2K","value":411166}],"entries":[{"account":"34SNZRjPJ3M9JKwuc6tdYqqVDJ5uXAaG2K","value":411166},{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":-470975}],"confirmations":3667,"pending":false,"instant":false,"blockhash":"0000000000000000007ac619ede7852ac5171f1223ad2a089c38f0c56da482e2","height":455461},{"id":"4f999526936ee9b1c5ad46ff32e94e13d8174ec0fbd431a6628de853c0dcecba","normalizedHash":"05cdf959536fbf305af0c39b3c9decd2eedcf48271ca75d966b9ffc0c27f3638","date":"2017-02-20T16:41:36.134Z","pos":1324,"fee":14690,"inputs":[{"previousHash":"ad9f097afa9d9748169ab1fcd6ea45efbe90baa6786b46627457cfd7834ad11a","previousOutputIndex":1}],"outputs":[{"vout":0,"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":470975},{"vout":1,"account":"1HQEjA2BsHTVVhU5ijZPgNJxe7Ha9oPvHt","value":4399645}],"entries":[{"account":"1HQEjA2BsHTVVhU5ijZPgNJxe7Ha9oPvHt","value":4399645},{"account":"1HUqUq7CgFhQhBoM8U5F1acaoFYTUq5dw8","value":-4885310},{"account":"34gwmCJrA7n1L66Ufhcn7XqRNxup5ivgM5","value":470975}],"confirmations":4549,"pending":false,"instant":false,"blockhash":"0000000000000000001748b747ce7eadf3723b8305b525227f37040c4030ab4c","height":454579}],"start":0,"count":8,"total":8}'
+    http_version:
+  recorded_at: Mon, 27 Mar 2017 04:12:16 GMT
+recorded_with: VCR 3.0.3

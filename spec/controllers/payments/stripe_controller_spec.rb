@@ -12,7 +12,7 @@ RSpec.describe Payments::StripeController, vcr: { cassette_name: 'bitgo' } do
     stub_env('reserve_wallet_pass_pharse', 'test-wallet-passphrase')
 
     allow_any_instance_of(User).to receive(:assign_address).and_return(
-      UserWalletAddress.create(sender_address: nil, user_id: user.id)
+      UserWalletAddress.create(receiver_address: nil, user_id: user.id)
     )
   end
 

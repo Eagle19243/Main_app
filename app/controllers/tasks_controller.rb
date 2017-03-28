@@ -174,30 +174,7 @@ class TasksController < ApplicationController
   end
 
   def refund
-    if current_user.id == @task.project.user_id
-      bitgo_fee = 0.10
-      access_token = Payments::BTC::Base.bitgo_access_token
-      @wallet_address = @task.wallet_address
-      api = Bitgo::V1::Api.new
-      response = api.get_wallet(wallet_id: @wallet_address.wallet_id, access_token: access_token)
-      @task.update_attribute('current_fund', response["balance"]) rescue nil
-      if @task.current_fund > 0
-        funded_by_stripe = @task.stripe_payments
-        funded_from_user_wallets = UserWalletTransaction.where(user_wallet: @task.wallet_address.sender_address)
-        @task.stripe_refund(funded_by_stripe, bitgo_fee)
-        @task.user_wallet_refund(funded_from_user_wallets, bitgo_fee)
-        funded_by_stripe.destroy_all
-        funded_from_user_wallets.destroy_all
-        flash[:notice] = "Successfull refund the task "
-        response = api.get_wallet(wallet_id: @wallet_address.wallet_id, access_token: access_token)
-        @task.update_attribute('current_fund', response["balance"]) rescue nil
-      else
-        flash[:notice] = "Can't Refund Task it has 0 BTC"
-      end
-    else
-      flash[:notice] = "Not authorized to refund this task"
-    end
-    redirect_to task_path(@task)
+    raise NotImplementedError, "Refunds are disabled now"
   end
 
   def accept

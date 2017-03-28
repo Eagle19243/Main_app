@@ -47,7 +47,7 @@
                         <%= gravatar_for_fund(current_user, 44) %>
                     <% end %>
                     <div class="modal-fund__field-wrap">
-                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>)</div>
+                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
                       </svg>
@@ -171,7 +171,7 @@
            if ($('.btn-root._wallet').hasClass('_active')) {
                var btcAmount = $walletTransactionAmount.val();
 
-               if (btcAmount > <%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>) {
+               if (btcAmount > <%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>) {
                   $errorWalletField.addClass('_visible');
                   $donateBtn.addClass('_disable');
                } else {
@@ -183,7 +183,7 @@
         .on('click.sendForm', '.js-submit-btc', function () {
           var val = $walletTransactionAmount.val();
 
-          if (val > 0 && val < <%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>) {
+          if (val > 0 && val < <%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>) {
               if (document.querySelector('.f-donate').checkValidity()) {
                   $('.f-donate').trigger('submit');
                   $('.modal-fund__error._min-donate').removeClass('_visible');

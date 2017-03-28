@@ -69,6 +69,11 @@ class User < ActiveRecord::Base
     WalletCreationJob.perform_later('User', self.id) unless user_wallet_address.present?
   end
 
+  def current_wallet_balance
+    return 0.0 unless user_wallet_address
+    user_wallet_address.current_balance
+  end
+
   def create_activity(item, action)
     activity = activities.new
     activity.targetable = item

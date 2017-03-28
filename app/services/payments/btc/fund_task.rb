@@ -20,7 +20,7 @@ module Payments::BTC
 
       @fund_btc_address = Payments::BTC::FundBtcAddress.new(
         amount: amount,
-        address_to: task.wallet_address.sender_address,
+        address_to: task.wallet_address.receiver_address,
         user: user
       )
     end

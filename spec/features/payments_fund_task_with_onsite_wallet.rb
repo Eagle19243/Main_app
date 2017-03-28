@@ -43,7 +43,7 @@ feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
 
         scenario "And this modal have hidden field with task wallet" do
           @task_wallet = @fund_modal.find("#wallet_transaction_user_wallet")
-          expect(@task_wallet.value).to eq(@wallet_address.sender_address)
+          expect(@task_wallet.value).to eq(@wallet_address.receiver_address)
         end
 
         scenario "And this modal suggests to enter BTC amount" do

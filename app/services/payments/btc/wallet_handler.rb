@@ -9,8 +9,8 @@ class Payments::BTC::WalletHandler
     response["balance"]
   end
 
-  def get_wallet_transactions(sender_address)
-    api.list_wallet_transctions(sender_address, access_token)
+  def get_wallet_transactions(address)
+    api.list_wallet_transctions(address, access_token)
   end
 
   def create_wallet(secure_passphrase, secure_label)

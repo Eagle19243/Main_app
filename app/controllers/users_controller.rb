@@ -41,12 +41,12 @@ class UsersController < ApplicationController
 
   def my_wallet
     @wallet_address = current_user.user_wallet_address
-
-    wallet_balance = wallet_handler.get_wallet_balance(@wallet_address.wallet_id)
-    
-    # TODO We should rethink about how and when we update users wallet balance
-    @wallet_address.update_attribute('current_balance',wallet_balance)
-    @transactions = wallet_handler.get_wallet_transactions(@wallet_address.sender_address)
+    if @wallet_address
+      wallet_balance = wallet_handler.get_wallet_balance(@wallet_address.wallet_id)
+      # TODO We should rethink about how and when we update users wallet balance
+      @wallet_address.update_attribute('current_balance',wallet_balance)
+      @transactions = wallet_handler.get_wallet_transactions(@wallet_address.receiver_address)
+    end
   end
 
   private

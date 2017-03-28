@@ -67,7 +67,7 @@ class TaskCompleteService
   def build_recipients
     recipients = task.team_memberships.map do |membership|
       {
-        address: membership.team_member.user_wallet_address.sender_address,
+        address: membership.team_member.user_wallet_address.receiver_address,
         amount: members_part
       }
     end

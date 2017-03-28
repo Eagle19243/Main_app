@@ -63,7 +63,7 @@ RSpec.describe Payments::BTC::FundTask, vcr: { cassette_name: 'bitgo' } do
           aggregate_failures("fund btc address object is correct") do
             expect(service.fund_btc_address).to be_kind_of(Payments::BTC::FundBtcAddress)
             expect(service.fund_btc_address.amount).to eq(amount)
-            expect(service.fund_btc_address.address_to).to eq(task.wallet_address.sender_address)
+            expect(service.fund_btc_address.address_to).to eq(task.wallet_address.receiver_address)
             expect(service.fund_btc_address.user).to eq(user)
           end
         end

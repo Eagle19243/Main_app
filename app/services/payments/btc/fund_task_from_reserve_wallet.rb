@@ -86,7 +86,7 @@ module Payments::BTC
       Payments::BTC::Transfer.new(
         reserve_wallet_id,
         reserve_wallet_pass_pharse,
-        task.wallet_address.sender_address,
+        task.wallet_address.receiver_address,
         satoshi_amount
       )
     end
