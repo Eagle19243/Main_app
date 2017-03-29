@@ -6,16 +6,18 @@
     <% end %>
 <% end %>
 <script>
-  $(".one-user-chat").click(function () {
-    $("div#message-load-image").show();
-    user_id = $(this).attr('id');
-    project_id = $(this).attr('name');
-    $.ajax({
-      url: "/group_messages/get_chatroom",
-      type: "post",
-      data: {user_id: user_id},
-      success: function () {
-      }
-    });
-  });
+    $(document).ready(function() {
+
+        $(".one-user-chat").click(function () {
+            $("div#message-load-image").show();
+            user_id = $(this).attr('id');
+            project_id = $(this).attr('name');
+            $.ajax({
+                url: "/group_messages/get_chatroom",
+                type: "post",
+                data: {user_id: user_id},
+                success: function () {}
+            });
+        });
+    })
 </script>

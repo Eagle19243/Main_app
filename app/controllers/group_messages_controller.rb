@@ -101,6 +101,8 @@ class GroupMessagesController < ApplicationController
       end
     end
 
+    @one_to_one_chat_users = current_user.all_one_on_one_chat_users
+
     if @chatroom.present?
       respond_to :js
     else

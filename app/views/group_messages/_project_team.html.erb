@@ -1,7 +1,7 @@
 <% unless @team_members.blank? %>
     <% @team_members.each do |user| %>
         <li>
-          <a href="#" class="project-user-chat" id="<%= user.user_id %>" name="<%= user.chatroom.project_id %>"> <%= user.user.name %> </a>
+          <a href="#" class="s-group-messages__submenu-item" id="<%= user.user_id %>" name="<%= user.chatroom.project_id %>"> <%= user.user.name %> </a>
         </li>
     <% end %>
 <% end %>
