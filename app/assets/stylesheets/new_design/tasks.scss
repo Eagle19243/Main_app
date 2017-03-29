@@ -596,6 +596,36 @@
     letter-spacing: 1px;
     line-height: 1.5em;
   }
+
+  .center {
+    text-align: center;
+
+    * {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+  }
+
+  .floatleft {
+    float: left;
+    margin: 10px 15px 15px 0;
+  }
+  .floatright {
+    float: right;
+    margin: 10px 0 15px 15px;
+  }
+
+  .thumb {
+    &.tright {
+      float: right;
+      margin: 10px 0 15px 15px;
+    }
+    &.tleft {
+      float: left;
+      margin: 10px 15px 15px 0;
+    }
+  }
 }
 
 .project-idea {
