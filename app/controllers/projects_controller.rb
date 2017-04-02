@@ -449,22 +449,21 @@ class ProjectsController < ApplicationController
   end
 
   def change_leader
-    @project = Project.find params[:project_id]
-    @email = params[:leader]["address"]
-    @new_leader = User.where(email: @email).present? ? User.where(email: @email).first : nil
+    project = Project.find params[:project_id]
+    email = params[:leader][:address]
+    new_leader = User.find_by(email: email)
 
-    if @project.change_leader_invitations.pending.any?
-      flash[:notice] = "You have already invited a new leader for this project."
-    elsif @new_leader == nil
-      flash[:error] = "Can't find the user who have the email address you entered. Please input valid email address."
-    elsif !(@project.team.team_memberships.pluck(:team_member_id).include? @new_leader)
-      @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
-      flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
-    elsif @email != current_user.email
-      @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
-      InvitationMailer.invite_leader(@invitation.id).deliver_later
-      NotificationsService.notify_about_change_leader_invitation(current_user, @new_leader, @project)
-      flash[:notice] = "You sent an invitation for leader role to " + @email
+    if new_leader.blank?
+      flash[:error] = "Can't find the user with email address you entered. Please input valid email address."
+    elsif project.change_leader_invitations.pending.any?
+      flash[:notice] = 'You have already invited a new leader for this project.'
+    elsif !project.team.team_members.include?(new_leader)
+      flash[:notice] = 'The user is not a team member of the project. You can only invite team members as a new leader.'
+    elsif email != current_user.email
+      invitation = project.change_leader_invitations.create!(new_leader: email, sent_at: Time.current)
+      InvitationMailer.invite_leader(invitation.id).deliver_later
+      NotificationsService.notify_about_change_leader_invitation(current_user, new_leader, project)
+      flash[:notice] = "You sent an invitation for leader role to " + email
     end
 
     redirect_to :my_projects

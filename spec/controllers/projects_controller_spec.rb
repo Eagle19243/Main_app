@@ -91,4 +91,90 @@ describe ProjectsController, type: :request, vcr: { cassette_name: 'bitgo' } do
       end
     end
   end
+
+  describe 'POST /projects/change_leader' do
+    subject(:make_request) { post('/projects/change_leader', params) }
+    let(:params) { { project_id: project.id, leader: { address: new_leader_email } } }
+
+    let(:project) { FactoryGirl.create(:base_project) }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:new_leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:new_leader_email) { new_leader.email }
+
+    before do
+      login_as(user, scope: :user, run_callbacks: false)
+
+      # make the current user as the leader
+      project_team = project.create_team(name: "Team#{project.id}")
+      TeamMembership.create(team_member_id: user.id, team_id: project_team.id, role: 1)
+    end
+
+    context 'when the email does not exist' do
+      let(:new_leader_email) { 'does_not_exist@mail.com' }
+
+      it 'redirects to my project with the correct error message', aggregate_failures: true do
+        make_request
+
+        expect(flash[:error]).to eq("Can't find the user with email address you entered. Please input valid email address.")
+        expect(response).to redirect_to(:my_projects)
+      end
+    end
+
+    context 'when the project has already pending invitations for new leader' do
+      before do
+        project.change_leader_invitations.create!(new_leader: new_leader_email, sent_at: Time.current)
+      end
+
+      it 'redirects to my project with the correct notice message', aggregate_failures: true do
+        make_request
+
+        expect(flash[:notice]).to eq('You have already invited a new leader for this project.')
+        expect(response).to redirect_to(:my_projects)
+      end
+    end
+
+    context 'when the candidate new leader does not belong on the team members of the project' do
+      it 'redirects to my project with the correct notice message', aggregate_failures: true do
+        make_request
+
+        expect(flash[:notice]).to eq('The user is not a team member of the project. You can only invite team members as a new leader.')
+        expect(response).to redirect_to(:my_projects)
+      end
+    end
+
+    context 'when the candidate new leader is not the current user and belongs to the team' do
+      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+
+      before do
+        # make the candidate new leader a team member of the project
+        project_team = project.create_team(name: "Team#{project.id}")
+        TeamMembership.create(team_member_id: new_leader.id, team_id: project_team.id, role: 0)
+        allow(InvitationMailer).to receive(:invite_leader)
+
+        allow(InvitationMailer).to receive(:invite_leader).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_later)
+        allow(NotificationsService).to receive(:notify_about_change_leader_invitation)
+      end
+
+      it 'redirects to my project with the correct notice message', aggregate_failures: true do
+        make_request
+
+        expect(flash[:notice]).to eq("You sent an invitation for leader role to " + new_leader_email)
+        expect(response).to redirect_to(:my_projects)
+      end
+
+      it 'sends an email to be delivered later', aggregate_failures: true do
+        expect(InvitationMailer).to receive(:invite_leader)
+        expect(message_delivery).to receive(:deliver_later)
+
+        make_request
+      end
+
+      it 'sends a notification' do
+        expect(NotificationsService).to receive(:notify_about_change_leader_invitation).with(user, new_leader, project).and_call_original
+
+        make_request
+      end
+    end
+  end
 end
