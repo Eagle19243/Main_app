@@ -789,13 +789,12 @@
 }
 
 .section-add-task {
-  padding: 10px;
-  cursor: pointer;
-
   a {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #777;
+    display: block;
+    padding: 10px;
 
     &:hover,
     &:focus {
