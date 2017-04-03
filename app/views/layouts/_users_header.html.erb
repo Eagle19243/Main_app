@@ -364,6 +364,11 @@ $(document).ready(function() {
                 hideDropdowns();
             }
         })
+        .on('keydown', function(event) {
+           if (event.which === 13) {
+              event.preventDefault();
+           }
+        })
 
     $(window).on('resize', function() {
         hideDropdowns();
