@@ -47,10 +47,10 @@ RSpec.describe User, type: :model, vcr: { cassette_name: 'bitgo' } do
         end
       end
 
-      context 'is an executor of the given project' do
+      context 'is an coordinator of the given project' do
         before do
           team = create(:team, project: project)
-          create(:team_membership, :executor, team: team, team_member: subject)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
         end
 
         it do

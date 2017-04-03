@@ -227,9 +227,9 @@ class User < ActiveRecord::Base
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
 
-  def is_executor_for? proj
+  def is_coordinator_for? proj
     if proj.team.team_memberships.where(:team_member_id => self.id).present?
-      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "executor")
+      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "coordinator")
     else
       return false
     end
@@ -283,7 +283,7 @@ class User < ActiveRecord::Base
   end
 
   def can_complete_task?(task)
-    (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
+    (self.is_project_leader?(task.project) || self.is_coordinator_for?(task.project)) && task.reviewing?
   end
 
   # Normal use case, name cannot be changed, need to bypass validation if neccessary

@@ -12,8 +12,8 @@ FactoryGirl.define do
       role    { 'lead_editor' }
     end
 
-    trait :executor do
-      role    { 'executor' }
+    trait :coordinator do
+      role    { 'coordinator' }
     end
   end
 end

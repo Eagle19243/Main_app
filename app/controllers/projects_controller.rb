@@ -547,11 +547,11 @@ class ProjectsController < ApplicationController
 
   def get_in
     type = params[:type]
-    request_type = type=="1" ? "Lead_Editor" : "Executor"
+    request_type = type=="1" ? "Lead_Editor" : "Coordinator"
     project = Project.find(params[:id])
     if type==1 && current_user.is_lead_editor_for?(project)
       flash[:notice] = "You are already Lead Editor of this project."
-    elsif type==2 && current_user.is_executor_for?(project)
+    elsif type==2 && current_user.is_coordinator_for?(project)
       flash[:notice] = "You are already excutor of this project."
     elsif current_user.has_pending_apply_requests?(project, request_type)
       flash[:notice] = "You have submitted this request already."

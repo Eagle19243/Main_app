@@ -14,7 +14,7 @@ class ApplyRequestsController < ApplicationController
       project.grant_permissions user.username
     end
 
-    role = @apply_request.request_type == "Lead_Editor"? TeamMembership.roles[:lead_editor] : TeamMembership.roles[:executor]
+    role = @apply_request.request_type == "Lead_Editor"? TeamMembership.roles[:lead_editor] : TeamMembership.roles[:coordinator]
 
     TeamService.add_team_member(@apply_request.project.team, @apply_request.user, role)
 

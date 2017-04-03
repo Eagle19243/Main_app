@@ -266,7 +266,7 @@
                       </a>
                   <% end %>
                   <% if user_signed_in? %>
-                    <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) %>
+                    <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)) %>
                       <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                           Start

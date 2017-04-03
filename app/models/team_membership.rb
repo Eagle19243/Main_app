@@ -1,5 +1,5 @@
 class TeamMembership < ActiveRecord::Base
-  enum role: [ :teammate, :leader,  :lead_editor, :executor]
+  enum role: [ :teammate, :leader,  :lead_editor, :coordinator]
   belongs_to :team
   belongs_to :team_member, foreign_key: "team_member_id", class_name: "User"
   has_many :tasks, through: :task_members, dependent: :destroy

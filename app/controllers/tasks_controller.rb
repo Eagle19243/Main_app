@@ -293,7 +293,7 @@ class TasksController < ApplicationController
   end
 
   def validate_user
-    unless current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)
+    unless current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)
       flash[:error] = "You are Not authorized  to do this operation "
       redirect_to taskstab_project_path(@task.project_id)
     end
