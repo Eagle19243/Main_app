@@ -16,6 +16,12 @@
     text-decoration: none;
   }
 
+  .search-box-wrapper {
+    margin-right: 20px;
+    padding-top: 0;
+    display: inline-block;
+  }
+
   .header-wrap {
     padding: 10px 3%;
   }
@@ -38,7 +44,7 @@
   }
 
   .register-group {
-    margin-top: 14px;
+    margin-top: 8px;
     font-family: 'Roboto';
 
     span {
