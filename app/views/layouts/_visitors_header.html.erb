@@ -16,7 +16,24 @@
     </div>
 
     <a class="header-link border-link ml30 hidden-mobile" data-modal="#projectSignupModal" id="start_project_link">Start a Project</a>
-    <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>
+    <div class="header-dropdown">
+        <div class="header-dropdown__title js-dropdown">Explore</div>
+        <ul class="header-dropdown__list js-dropdown-list">
+            <li class="header-dropdown__item">
+                <a class="projects-link" href="<%= projects_path %>">Active Projects</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= ENV['about_project_url'] %>">About</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= t('commons.knowledge_base_landing_link') %>">Improve the Platform</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
+            </li>
+        </ul>
+    </div>
+    <!--<%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>-->
 
     <div class="pull-right register-group">
       <a data-modal="#registerModal" class="show-desktop sign_in_a">Login</a>
@@ -48,3 +65,31 @@
     </li>
   </ul>
 </div>
+
+<script>
+
+$(document).ready(function() {
+    var $dropdown = $('.js-dropdown');
+
+    $(document)
+        .on('click.dropdownToggle', '.js-dropdown', function() {
+            $(this).toggleClass('_active');
+            $(this).siblings('.js-dropdown-list').toggleClass('_active');
+        })
+        .on('click.hideDropdown', function(e) {
+            if (!$(e.target).closest('.js-dropdown-list').length && !$(e.target).closest('.js-dropdown').length) {
+                hideDropdowns();
+            }
+        })
+
+    $(window).on('resize', function() {
+        hideDropdowns();
+    })
+
+    function hideDropdowns() {
+        $dropdown.removeClass('_active');
+        $('.js-dropdown-list').removeClass('_active');
+    }
+})
+
+</script>

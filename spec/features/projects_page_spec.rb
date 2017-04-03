@@ -16,6 +16,7 @@ feature 'Projects page is working for anonymous user', type: :feature, js: true 
   scenario 'should redirect to active projects page' do
     visit '/'
 
+    find('.header-dropdown__title.js-dropdown').click
     click_pseudo_link 'Active Projects'
     expect(page).to have_current_path(projects_path)
   end
