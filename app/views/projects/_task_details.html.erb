@@ -505,6 +505,7 @@
     $(document).ready(function() {
         $(document).off('click.toggleBudget', '#task-budget');
         $(document).off('click.hideEditIcon', '.page-wrapper');
+        $(document).off('click.preventSavingForm', '.task-details__close-btn');
 
         $(document)
             .on('click.hideEditIcon', '.page-wrapper', function(e) {
@@ -514,6 +515,9 @@
             })
             .on('click.toggleBudget', '#task-budget', function() {
                 $(this).find('.btn-edit').toggle();
+            })
+            .on('click.preventSavingForm', '.task-details__close-btn', function(event) {
+                event.preventDefault();
             })
 
     })
