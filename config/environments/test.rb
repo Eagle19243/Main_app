@@ -36,6 +36,17 @@ Rails.application.configure do
     host: 'youserve.test'
   }
 
+  config.action_mailer.smtp_settings = {
+    address: 'test@mail.com',
+    port: 587,
+    domain: 'test@example.com',
+    authentication: 'plain',
+    enable_starttls_auto: true,
+    user_name: 'test',
+    password: 'test',
+    from: 'example@localhost.com'
+  }
+
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
 

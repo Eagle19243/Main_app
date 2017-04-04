@@ -545,19 +545,22 @@ class ProjectsController < ApplicationController
     redirect_to current_user
   end
 
+  # this is the action for getting involved in a project
   def get_in
     type = params[:type]
-    request_type = type=="1" ? "Lead_Editor" : "Coordinator"
+    request_type = type == "0" ? "Lead_Editor" : "Coordinator"
     project = Project.find(params[:id])
-    if type==1 && current_user.is_lead_editor_for?(project)
+
+    if type == '0' && current_user.is_lead_editor_for?(project)
       flash[:notice] = "You are already Lead Editor of this project."
-    elsif type==2 && current_user.is_coordinator_for?(project)
+    elsif type == '1' && current_user.is_coordinator_for?(project)
       flash[:notice] = "You are already excutor of this project."
-    elsif current_user.has_pending_apply_requests?(project, request_type)
-      flash[:notice] = "You have submitted this request already."
+    elsif current_user.has_pending_apply_requests?(project, type)
+      flash[:notice] = 'You have submitted a request request already for this project.'
     else
-      ApplyRequest.create( user_id: current_user.id,project_id: project.id, request_type: request_type)
-      flash[:notice] = "Your request has been submitted"
+      RequestMailer.apply_to_get_involved_in_project(applicant: current_user, project: project, request_type: request_type.tr('_', ' ')).deliver_later
+      ApplyRequest.create!( user_id: current_user.id,project_id: project.id, request_type: request_type)
+      flash[:notice] = 'Your request has been submitted'
     end
 
     redirect_to project

@@ -32,6 +32,9 @@ class Project < ActiveRecord::Base
 
   belongs_to :user
 
+  # Define better that the association user is referring to the leader of the project
+  alias_method :leader, :user
+
   SHORT_DESCRIPTION_LIMIT = 250
 
   validates :title, presence: true, length: {minimum: 3, maximum: 60},

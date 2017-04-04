@@ -1,6 +1,117 @@
 require 'rails_helper'
 
 describe ProjectsController, type: :request do
+  describe 'GET /projects/get_in' do
+    subject(:make_request) { get('/projects/get_in', params) }
+    let(:params) { { id: project.id, type: request_type } }
+
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+
+    before { login_as(user, scope: :user, run_callbacks: false) }
+
+    context 'when you are applying for a Lead Editor' do
+      let(:request_type) { '0' }
+      context 'when you are already the Lead Editor of this project' do
+        before do
+          # make the current user the Lead Editor of the project
+          project_team = project.create_team(name: "Team#{project.id}")
+          TeamMembership.create(team_member_id: user.id, team_id: project_team.id, role: 2)
+        end
+
+        it 'redirects to the project with the correct notice message', aggregate_failures: true do
+          make_request
+
+          expect(flash[:notice]).to eq('You are already Lead Editor of this project.')
+          expect(response).to redirect_to(project)
+        end
+      end
+
+
+      context 'when a request is successfully submitted' do
+        before do
+          allow(RequestMailer).to receive(:apply_to_get_involved_in_project).and_return(message_delivery)
+          allow(message_delivery).to receive(:deliver_later)
+        end
+
+
+        it 'redirects to the project with the correct notice message', aggregate_failures: true do
+          make_request
+
+          expect(flash[:notice]).to eq('Your request has been submitted')
+          expect(response).to redirect_to(project)
+        end
+
+        it 'triggers an email to be delivered later', aggregate_failures: true do
+          expect(message_delivery).to receive(:deliver_later)
+          expect(RequestMailer)
+            .to receive(:apply_to_get_involved_in_project).with(applicant: user, project: project, request_type: 'Lead Editor')
+
+          make_request
+        end
+      end
+
+    end
+
+    context 'when you are applying for an coordinator' do
+      let(:request_type) { '1' }
+      context 'when you are already the coordinator of this project' do
+        before do
+          # make the current user the coordinator of the project
+          project_team = project.create_team(name: "Team#{project.id}")
+          TeamMembership.create(team_member_id: user.id, team_id: project_team.id, role: 3)
+        end
+
+        it 'redirects to the project with the correct notice message', aggregate_failures: true do
+          make_request
+
+          expect(flash[:notice]).to eq('You are already excutor of this project.')
+          expect(response).to redirect_to(project)
+        end
+      end
+
+
+      context 'when a request is successfully submitted' do
+        before do
+          allow(RequestMailer).to receive(:apply_to_get_involved_in_project).and_return(message_delivery)
+          allow(message_delivery).to receive(:deliver_later)
+        end
+
+
+        it 'redirects to the project with the correct notice message', aggregate_failures: true do
+          make_request
+
+          expect(flash[:notice]).to eq('Your request has been submitted')
+          expect(response).to redirect_to(project)
+        end
+
+        it 'triggers an email to be delivered later', aggregate_failures: true do
+          expect(message_delivery).to receive(:deliver_later)
+          expect(RequestMailer)
+            .to receive(:apply_to_get_involved_in_project).with(applicant: user, project: project, request_type: 'Coordinator')
+
+          make_request
+        end
+      end
+    end
+
+    context 'when user has already a pending request of this type for the project' do
+      let(:request_type) { '1' }
+      before do
+        user.apply_requests.create!(project: project, request_type: 'Coordinator')
+      end
+
+      it 'redirects to the project with the correct notice message', aggregate_failures: true do
+        make_request
+
+        expect(flash[:notice]).to eq('You have submitted a request request already for this project.')
+        expect(response).to redirect_to(project)
+      end
+    end
+  end
+  
   describe "#create" do
     context "when logged in" do
       before do

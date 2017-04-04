@@ -1,0 +1,9 @@
+en:
+  mailers:
+    request:
+      apply_to_get_involved_in_project:
+        subject: '%{request_type} application received'
+      positive_response_in_project_involvement:
+        subject: 'Your %{request_type} application was successful'
+      negative_response_in_project_involvement:
+        subject: '%{request_type} application response'

@@ -220,12 +220,9 @@ class User < ActiveRecord::Base
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
 
-  def is_coordinator_for? proj
-    if proj.team.team_memberships.where(:team_member_id => self.id).present?
-      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "coordinator")
-    else
-      return false
-    end
+  def is_coordinator_for?(project)
+    team_membership = project.team_memberships.find_by(team_member_id: self.id)
+    team_membership.present? && team_membership.coordinator?
   end
 
   def is_lead_editor_for? proj

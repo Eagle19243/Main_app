@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+</head>
+<body>
+    <h6>Congratulations!%></h6>
+
+    <p>
+      Your application to become a <%= @request_type %> for project <%= link_to @project.title, project_url(@project.id) %> was accepted by <%= @project.leader.try(:name) %>.
+    </p>
+</body>
+</html>

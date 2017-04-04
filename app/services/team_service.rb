@@ -9,7 +9,7 @@ class TeamService
   def self.add_team_member(team, member, role)
     tt = TeamMembership.where("team_id = ? AND team_member_id = ?", team.id, member.id).first
     if tt.nil?
-      TeamMembership.create(
+      TeamMembership.create!(
         team_member: member,
         team: team,
         role: role
