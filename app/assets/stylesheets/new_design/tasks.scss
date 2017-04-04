@@ -278,6 +278,13 @@
     max-width: 1200px;
   }
 
+  .team-content {
+    margin-top: -100px;
+  }
+
+  ._team-member {
+    margin-top: 100px;
+  }
   ._team-member:hover .member-name a {
     text-decoration: underline;
   }
