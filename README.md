@@ -9,7 +9,6 @@
 
 Main application is a RoR website, but it depends on set of 3rd paty tools:
 
-- BitGoJs client - running locally and acts as gateway between app and bitgo.com service
 - Mediawiki - running as separate application, provides web-API to store some texts from main app
 
 # Steps to run the app
@@ -35,8 +34,8 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
 
 ### 2. Get necessary tokens
 
-* Create an account at http://bitgo.com
-* Generate 2 development tokens with full set of permissions
+* Create an account at https://www.coinbase.com
+* Generate a development token with full set of permissions
 * Not necessary, but recommended: create app tokens at your Facebook, Twitter and Google accounts
 
 ### 3. Configure Mediawiki
@@ -50,25 +49,19 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 * Fill values following comments in this file
 * Copy `config/database.yml.example` to `config/database.yml` and specify yur PostgreSQL credentials
 
-### 5. Run BigGoJS
-
-* Clone [BitGoJS repository](https://github.com/BitGo/BitGoJS) in a separate directory
-* Run `npm install`
-* Run it with command `./bitgo-express --debug --port 3080 --env prod --bind localhost`
-
-### 6. Migrate database
+### 5. Migrate database
 
 * Being in app directory run `RAILS_ENV=development bundle exec rake db:create db:schema:load db:migrate`
 * If necessary, run `RAILS_ENV=development bundle exec rake db:seed` to populate database with sample data
 
-### 7. Configure ENV varialbes
+### 6. Configure ENV varialbes
 
 * `mailer_sender` - address of emails sender
 * `RAILS_ENV` - `production` or `development`
 * `reserve_wallet_id` - **only for production**: address of reserve BTC wallet
 * `reserve_wallet_pass_pharse` - **only for production**: passphrase of reserve BTC wallet
 
-### 8. Run the application
+### 7. Run the application
 
 * In app directory run `RAILS_ENV=development rails server`
 

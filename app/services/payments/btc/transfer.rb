@@ -1,97 +1,64 @@
 module Payments::BTC
+  # +Transfer+ class is responsible for calling one of the next classes:
+  #
+  # * InternalTransfer (to send coins from one account to another)
+  # * ExternalTransfer (to send coins from account to external BTC address)
+  #
+  # So that +address_to+ argument for initializer may be either:
+  #
+  # * Any BTC Address
+  # * Wallet (Account) ID
+  #
+  # Use +Transfer+ class only if:
+  #
+  # * The caller needs to send coins to a BTC Address and
+  # * It's actually unknown whether this BTC Address is owned by one of our
+  #   wallets or not.
+  #
+  # In that case, +Transfer+ class helps to save coins on fees by overwritting
+  # BTC Address with corresponding Wallet (Account) ID because:
+  #
+  # * Internal wallet-to-wallet (account-to-account) transactions are free
+  #   (but it's mandatory to provide Wallet (Account) IDs for an API call)
+  #
+  # and
+  #
+  # * External transactions to a BTC Address are require some fee
+  #   (even if BTC Address is owned by another existing wallet (account))
   class Transfer
-    class Transacton
-      attr_reader :status, :tx_hex, :tx_hash, :fee, :fee_rate
+    attr_reader :wallet_id, :address_to, :amount
 
-      def initialize(status, tx_hex, tx_hash, fee, fee_rate)
-        @status = status
-        @tx_hex = tx_hex
-        @tx_hash = tx_hash
-        @fee = fee
-        @fee_rate = fee_rate
-      end
+    def initialize(wallet_id, address_to, amount)
+      @wallet_id              = wallet_id
+      @address_to             = address_to
+      @amount                 = amount
     end
 
-    attr_reader :wallet_id, :wallet_passphrase, :address_to, :amount
-
-    def initialize(wallet_id, wallet_passphrase, address_to, amount)
-      @wallet_id         = wallet_id
-      @wallet_passphrase = wallet_passphrase
-      @address_to        = address_to
-      @amount            = amount
-    end
-
-    # Send coins from wallet to any bitcoin address
-    #
-    # Example:
-    #
-    #   transfer = Payments::BTC::Transfer.new(
-    #     wallet_id,
-    #     wallet_pass,
-    #     address_to,
-    #     amount
-    #   )
-    #   transfer.submit!
     def submit!
-      log_current_parameters
-
-      response = call_bitgo_api!
-
-      if response["message"].present?
-        log_failed_response(response)
-        raise Payments::BTC::Errors::TransferError, response["message"]
-      else
-        log_successfull_response(response)
-        Payments::BTC::Transfer::Transacton.new(
-          response["status"],
-          response["tx"],
-          response["hash"],
-          response["fee"],
-          response["feeRate"]
-        )
-      end
-    rescue Bitgo::V1::ApiError => error
-      log_bitgo_error(error)
-      raise Payments::BTC::Errors::TransferError, error.message
+      tranfer_implementation.submit!
     end
 
     private
-    def api
-      Bitgo::V1::Api.new
+    def tranfer_implementation
+      known_wallet = find_wallet_by_address(address_to)
+
+      if known_wallet
+        InternalTransfer.new(
+          wallet_id,
+          known_wallet.wallet_id,
+          amount
+        )
+      else
+        ExternalTransfer.new(
+          wallet_id,
+          address_to,
+          amount
+        )
+      end
     end
 
-    def access_token
-      Payments::BTC::Base.bitgo_access_token
-    end
-
-    def call_bitgo_api!
-      api.send_coins_to_address(
-        wallet_id: wallet_id,
-        address: address_to,
-        amount: amount ,
-        wallet_passphrase: wallet_passphrase,
-        access_token: access_token
-      )
-    end
-
-    def logger
-      @@logger ||= Logger.new("#{Rails.root}/log/#{Rails.env}_transfers.log")
-    end
-
-    def log_current_parameters
-      logger.warn("#{object_id}. wallet_id #{wallet_id}, address_to: #{address_to}, amount: #{amount}")
-    end
-
-    def log_successfull_response(response)
-      logger.warn("#{object_id}. successful response: #{response}")
-    end
-
-    def log_failed_response(response)
-      logger.error("#{object_id}. error: #{response}")
-    end
-
-    def log_bitgo_error(error)
-      logger.error("#{object_id}. error: #{error.message}")
+    def find_wallet_by_address(address)
+      Wallet.find_by(receiver_address: address)
     end
   end
 end

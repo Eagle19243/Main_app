@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Wallet page working correctly', type: :feature, js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Wallet page working correctly', type: :feature, js: true do
 
   before do
     @user = FactoryGirl.create(:user)

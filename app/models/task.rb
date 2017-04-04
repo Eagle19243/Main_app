@@ -11,7 +11,6 @@ class Task < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :user
-  has_one :wallet_address
   has_many :task_comments, dependent: :delete_all
   has_many :assignments, dependent: :delete_all
   has_many :do_requests, dependent: :delete_all
@@ -20,6 +19,7 @@ class Task < ActiveRecord::Base
   has_many :team_memberships, through: :task_members, dependent: :destroy
   has_many :task_members
   has_many :stripe_payments
+  has_one :wallet, as: :wallet_owner
 
   MINIMUM_FUND_BUDGET = 1_200_000   # satoshis
   MINIMUM_DONATION_SIZE = 1_200_000 # satoshis
@@ -63,14 +63,6 @@ class Task < ActiveRecord::Base
     tasks.limit(limit)
   end
 
-  def stripe_refund(funded_by_stripe, bitgo_fee)
-    raise NotImplementedError, "Refunds are disabled now"
-  end
-
-  def user_wallet_refund(funds_from_user_wallets, bitgo_fee)
-    raise NotImplementedError, "Refunds are disabled now"
-  end
-
   def not_fully_funded_or_less_teammembers?
     current_fund < budget ||  number_of_participants < target_number_of_participants
   end
@@ -84,17 +76,14 @@ class Task < ActiveRecord::Base
   # real +current_fund+ and `team_memberships.size` need to be used to precise
   # calculations
   def planned_amount_per_member
-    transaction_fee = transfer_task_funds_transaction_fee
-    amount_to_send = amount_after_bitgo_fee(satoshi_budget - transaction_fee)
-    we_serve_part = amount_to_send * Payments::BTC::Base.weserve_fee
+    we_serve_part = satoshi_budget * Payments::BTC::Base.weserve_fee
 
-    (amount_to_send - we_serve_part) / target_number_of_participants
+    (satoshi_budget - we_serve_part) / target_number_of_participants
   end
 
-  def transfer_task_funds_transaction_fee
-    inputs = (current_fund / MINIMUM_DONATION_SIZE).to_i
-    outputs = team_memberships.size + 2
-    Payments::BTC::FeeCalculator.estimate(inputs, outputs)
+  def update_current_fund!
+    self.current_fund = wallet.balance if wallet
+    save!
   end
 
   def budget
@@ -134,10 +123,5 @@ class Task < ActiveRecord::Base
   def is_team_member( user_id )
     users = self.project.team.team_memberships.collect(&:team_member_id)
     (users.include? user_id) ? true : false
-  end
-
-  private
-  def amount_after_bitgo_fee(amount)
-    (amount - (amount * Payments::BTC::Base.bitgo_fee))
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProjectDescriptionsUpdater, vcr: { cassette_name: 'bitgo' } do
+RSpec.describe ProjectDescriptionsUpdater do
   let(:owner) { FactoryGirl.create(:user, confirmed_at: Time.now) }
 
   describe '#sync_project' do

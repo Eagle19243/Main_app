@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model, vcr: { cassette_name: 'bitgo' } do
+RSpec.describe User, type: :model do
   describe 'validation' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:name) }
@@ -16,11 +16,16 @@ RSpec.describe User, type: :model, vcr: { cassette_name: 'bitgo' } do
   end
 
   describe 'user wallet creation' do
-
-    it 'assigns user wallet on creation' do
+    it 'does not assign user wallet on creation' do
       user = create(:user, name: 'user_name')
       user.reload
-      expect(user.user_wallet_address).to be_present  
+      expect(user.wallet).to be_nil
+    end
+
+    it 'assigns user wallet on creation' do
+      user = create(:user, :with_wallet, name: 'user_name')
+      user.reload
+      expect(user.wallet).to be_present
     end
   end
 
@@ -55,6 +60,26 @@ RSpec.describe User, type: :model, vcr: { cassette_name: 'bitgo' } do
 
         it do
           expect(subject.is_lead_editor_for?(project)).to be_falsy
+        end
+      end
+    end
+
+    describe '#current_wallet_balance' do
+      context "when user hasn't assigned wallet" do
+        it "returns 0 as balance" do
+          expect(subject.current_wallet_balance).to eq(0.0)
+        end
+      end
+
+      context "when user has assigned wallet" do
+        let(:subject) { create(:user, :with_wallet) }
+
+        before do
+          allow(subject.wallet).to receive(:balance).and_return(50.0)
+        end
+
+        it "returns wallet balance" do
+          expect(subject.current_wallet_balance).to eq(50.0)
         end
       end
     end

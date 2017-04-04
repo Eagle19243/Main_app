@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Forgot Password", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Forgot Password", js: true do
   before do
     visit root_path
   end

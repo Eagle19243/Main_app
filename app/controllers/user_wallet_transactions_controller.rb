@@ -27,12 +27,10 @@ class UserWalletTransactionsController < ApplicationController
     )
     @transfer.submit!
 
-    @message = "#{params[:amount]} BTC has been successfully sent to task's balance"
+    render json: { success: "#{params[:amount]} BTC has been successfully sent to task's balance" }, status: 200
   rescue Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
-    @message = error.message
-  ensure
-    respond_to { |format| format.js }
+    render json: { error: error.message }, status: 500
   end
 
   private

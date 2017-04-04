@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Notification After rejected a task', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Notification After rejected a task', js: true do
   before do
     users = create_list(:user, 2, :confirmed_user)
     @project_leader = users.first.reload

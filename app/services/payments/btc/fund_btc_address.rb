@@ -8,17 +8,17 @@ module Payments::BTC
     MIN_AMOUNT = 100_000 # Satoshi
 
     def initialize(amount:, address_to:, user:)
+      raise Payments::BTC::Errors::TransferError, "User argument is invalid" unless user.is_a?(User)
+      raise Payments::BTC::Errors::TransferError, "User's wallet doesn't exist" unless user.wallet
       raise Payments::BTC::Errors::TransferError, "Amount can't be blank" unless amount > 0
       raise Payments::BTC::Errors::TransferError, "Amount can't be less than 0.001 BTC" unless amount >= MIN_AMOUNT
       raise Payments::BTC::Errors::TransferError, "Recieve address can't be blank" unless address_to.present?
-      raise Payments::BTC::Errors::TransferError, "User's wallet doesn't exist" unless user.user_wallet_address
 
       @amount = amount
       @address_to = address_to.to_s.strip
       @user = user
       @transfer = Payments::BTC::Transfer.new(
-        user.user_wallet_address.wallet_id,
-        user.user_wallet_address.pass_phrase,
+        user.wallet.wallet_id,
         address_to,
         amount
       )
@@ -27,25 +27,15 @@ module Payments::BTC
     def submit!
       transaction = transfer.submit!
       create_user_wallet_transaction(transaction)
-      mark_transfer_as_successful!
-    end
-
-    def successful?
-      @success == true
     end
 
     private
-    def mark_transfer_as_successful!
-      @success = true
-    end
-
     def create_user_wallet_transaction(transaction)
       UserWalletTransaction.create!(
         amount: amount,
         user_wallet: address_to,
         user_id: user.id,
-        tx_hex: transaction.tx_hex,
-        tx_id:  transaction.tx_hash
+        tx_internal_id: transaction.internal_id
       )
     end
   end

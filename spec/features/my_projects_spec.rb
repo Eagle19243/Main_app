@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'My Projects', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'My Projects', js: true do
   let(:user)      { create(:user, :confirmed_user) }
 
   before { login_as(user, scope: :user, run_callbacks: false) }

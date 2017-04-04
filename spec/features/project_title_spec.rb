@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Project Title", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Project Title", js: true do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @current_user = users.first

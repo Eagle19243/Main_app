@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Facebook login', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Facebook login', js: true do
   before do
     visit '/'
     click_pseudo_link 'Login'

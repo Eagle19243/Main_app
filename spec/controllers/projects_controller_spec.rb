@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ProjectsController, type: :request, vcr: { cassette_name: 'bitgo' } do
+describe ProjectsController, type: :request do
   describe "#create" do
     context "when logged in" do
       before do
@@ -25,10 +25,6 @@ describe ProjectsController, type: :request, vcr: { cassette_name: 'bitgo' } do
       end
 
       context 'fail' do
-        before do
-          allow_any_instance_of(User).to receive(:assign_address).and_return(true)
-        end
-
         context 'validates min length - 2 chars' do
           before do
             post '/projects', { project: { title: 'Test Proj 2', short_description: 'ab', country: 'Toronto, ON, Canada', picture: @picture } }

@@ -6,16 +6,18 @@
   <section class="s-wallet">
     <div class="container-own">
       <h1 class="s-wallet__title">My Wallet</h1>
-      <% if @wallet_address %>
+
+      <% if @wallet %>
         <%= render 'user_receive_address_section' %>
         <%= render 'user_transactions' %>
       <% else %>
         <h2>We are creating wallet for you. Please come back in a few minutes</h2>
       <% end %>
+
+      <% if @wallet %>
+        <%= render 'user_make_transaction' %>
+      <% end %>
     </div>
-    <% if @wallet_address %>
-      <%= render 'user_make_transaction' %>
-    <% end %>
   </section>
 </div>
 

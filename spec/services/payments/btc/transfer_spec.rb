@@ -1,62 +1,47 @@
 require 'rails_helper'
 
-RSpec.describe Payments::BTC::Transfer, vcr: { cassette_name: 'bitgo' } do
+RSpec.describe Payments::BTC::Transfer do
   describe '#submit!' do
-    let(:wallet_id) { "test-wallet-id" }
-    let(:wallet_passphrase) { "test-wallet-passphrase" }
-    let(:address_to) { "test-address-to" }
+    let(:wallet_id) { "30a21ed2-4f04-57ae-9d21-becb751138f4" }
     let(:amount) { 100_000 }
     let(:transfer) do
-      described_class.new(wallet_id, wallet_passphrase, address_to, amount) 
+      described_class.new(wallet_id, address_to, amount) 
     end
 
-    context "when response is successful", vcr: { cassette_name: 'bitgo_transaction_success' } do
-      it "returns transaction object" do
-        transaction = transfer.submit!
+    context "when address_to is not attached to any existing wallets" do
+      let(:address_to) { "uknown-btc-address" }
 
-        expect(transaction.status).to eq("accepted")
-        expect(transaction.fee).to eq(59388)
-        expect(transaction.fee_rate).to eq(163602)
-        expect(transaction.tx_hex).to eq("returned-transaction-hex")
-        expect(transaction.tx_hash).to eq("returned-transaction-id")
+      it "calls ExternalTransfer" do
+        # Verify that ExternalTransfer is initialized with correct arguments:
+        expect(Payments::BTC::ExternalTransfer).to receive(:new).with(
+          wallet_id,
+          address_to,
+          amount
+        ).and_call_original
+
+        # Verify that ExternalTransfer calls submit!
+        expect_any_instance_of(Payments::BTC::ExternalTransfer).to receive(:submit!).and_return(true)
+
+        transfer.submit!
       end
     end
 
-    context "when there is insufficient funds", vcr: { cassette_name: 'bitgo_insufficient_funds' } do
-      it "returns an error" do
-        expect {
-          transfer.submit!
-        }.to raise_error(Payments::BTC::Errors::TransferError, "Insufficient funds")
-      end
-    end
+    context "when address_to is attached to existing wallet" do
+      let!(:address_to) { "known-btc-address" }
+      let!(:wallet) { create(:wallet, receiver_address: address_to) }
 
-    context "when address_to is invalid", vcr: { cassette_name: 'bitgo_invalid_address' } do
-      let(:address_to) { "ddd" }
+      it "calls InternalTransfer" do
+        # Verify that InternalTransfer is initialized with correct arguments:
+        expect(Payments::BTC::InternalTransfer).to receive(:new).with(
+          wallet_id,
+          wallet.wallet_id,
+          amount
+        ).and_call_original
 
-      it "returns an error" do
-        expect {
-          transfer.submit!
-        }.to raise_error(Payments::BTC::Errors::TransferError, "invalid bitcoin address: ddd")
-      end
-    end
+        # Verify that InternalTransfer calls submit!
+        expect_any_instance_of(Payments::BTC::InternalTransfer).to receive(:submit!).and_return(true)
 
-    context "when wallet id is invalid", vcr: { cassette_name: 'bitgo_invalid_wallet_id' } do
-      let(:wallet_id) { "invalid-wallet-id" }
-
-      it "returns an error" do
-        expect {
-          transfer.submit!
-        }.to raise_error(Payments::BTC::Errors::TransferError, "invalid wallet id")
-      end
-    end
-
-    context "when wallet passphrase is invalid", vcr: { cassette_name: 'bitgo_invalid_wallet_passphrase' } do
-      let(:wallet_passphrase) { "invalid-wallet-passphrase" }
-
-      it "returns an error" do
-        expect {
-          transfer.submit!
-        }.to raise_error(Payments::BTC::Errors::TransferError, "Unable to decrypt user keychain")
+        transfer.submit!
       end
     end
   end

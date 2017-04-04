@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Twitter login', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Twitter login', js: true do
   before do
     visit '/'
     click_pseudo_link 'Login'

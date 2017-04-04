@@ -73,9 +73,7 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
         $teamAmount = $('.modal-new-task__member_amount'),
         MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
         CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2),
-        WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3),
-        SATHOSHI_FEE_PER_BYTE = parseInt('<%= Payments::BTC::FeeCalculator::RATE_PER_BYTE %>'),
-        BTC_FEE_PER_BYTE = SATHOSHI_FEE_PER_BYTE / (10e7);
+        WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3);
 
     function updateConversion(e) {
         e.preventDefault();
@@ -116,8 +114,7 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
               $estimationDataInUSD.html('');
             } else {
               var transactionSizeInBytes = numberOfDonations * (180 + 113) + (teamAmount + 2) * 34 + 10 + numberOfDonations;
-              var transactionFeeInBTC = transactionSizeInBytes * BTC_FEE_PER_BYTE;
-              var budgetAfterFeesInBTC = (budget - (budget * WESERVE_FEE)) - transactionFeeInBTC;
+              var budgetAfterFeesInBTC = (budget - (budget * WESERVE_FEE));
               var perMemberAmountInBTC = budgetAfterFeesInBTC / teamAmount;
 
               $estimationData.html(perMemberAmountInBTC.toFixed(3));

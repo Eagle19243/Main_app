@@ -58,6 +58,7 @@ gem 'unicorn'
 gem 'delayed_job_active_record'
 gem "delayed_job_web"
 gem 'daemons'
+gem 'coinbase'
 
 # Ajax File Uploading
 gem 'remotipart'
@@ -103,6 +104,7 @@ group :test do
   gem 'database_cleaner'
   gem 'vcr'
   gem 'webmock'
+  gem 'rspec-json_expectations'
 end
 
 # Code metric tool for rails projects

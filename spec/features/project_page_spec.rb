@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Project Page", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Project Page", js: true do
 
   context "When you visit your project page as logged in user" do
     before do

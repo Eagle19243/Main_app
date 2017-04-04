@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TasksController, vcr: { cassette_name: 'bitgo' } do
+RSpec.describe TasksController do
   let(:user) do
     user = FactoryGirl.create(:user, :confirmed_user)
     user.admin!

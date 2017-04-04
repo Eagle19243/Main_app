@@ -8,5 +8,9 @@ FactoryGirl.define do
     trait :confirmed_user do
       confirmed_at DateTime.now
     end
+
+    trait :with_wallet do
+      association :wallet
+    end
   end
 end

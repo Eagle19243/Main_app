@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Project Follow/Unfollow", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Project Follow/Unfollow", js: true do
 
   context "As logged in user" do
     before do

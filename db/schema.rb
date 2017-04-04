@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170322205123) do
+ActiveRecord::Schema.define(version: 20170330103642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(version: 20170322205123) do
     t.string   "seller_message"
     t.datetime "deleted_at"
     t.string   "tx_id"
+    t.string   "tx_internal_id"
   end
 
   add_index "stripe_payments", ["deleted_at"], name: "index_stripe_payments_on_deleted_at", using: :btree
@@ -463,30 +464,16 @@ ActiveRecord::Schema.define(version: 20170322205123) do
 
   add_index "teams", ["project_id"], name: "index_teams_on_project_id", using: :btree
 
-  create_table "user_wallet_addresses", force: :cascade do |t|
-    t.string   "sender_address"
-    t.string   "wallet_id"
-    t.string   "receiver_address"
-    t.float    "current_balance"
-    t.string   "pass_phrase"
-    t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.string   "user_keys"
-    t.string   "backup_keys"
-  end
-
-  add_index "user_wallet_addresses", ["user_id"], name: "index_user_wallet_addresses_on_user_id", using: :btree
-
   create_table "user_wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
     t.string   "tx_hex"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.datetime "deleted_at"
     t.string   "tx_id"
+    t.string   "tx_internal_id"
   end
 
   add_index "user_wallet_transactions", ["deleted_at"], name: "index_user_wallet_transactions_on_deleted_at", using: :btree
@@ -537,20 +524,6 @@ ActiveRecord::Schema.define(version: 20170322205123) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "wallet_addresses", force: :cascade do |t|
-    t.string   "sender_address"
-    t.integer  "task_id"
-    t.string   "wallet_addresses"
-    t.string   "wallet_id"
-    t.string   "receiver_address"
-    t.float    "current_balance",  default: 0.0
-    t.string   "pass_phrase"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-  end
-
-  add_index "wallet_addresses", ["task_id"], name: "index_wallet_addresses_on_task_id", using: :btree
-
   create_table "wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
@@ -562,6 +535,17 @@ ActiveRecord::Schema.define(version: 20170322205123) do
   end
 
   add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id", using: :btree
+
+  create_table "wallets", force: :cascade do |t|
+    t.string  "wallet_id",         null: false
+    t.string  "receiver_address"
+    t.decimal "balance"
+    t.integer "wallet_owner_id"
+    t.string  "wallet_owner_type"
+  end
+
+  add_index "wallets", ["wallet_id"], name: "index_wallets_on_wallet_id", unique: true, using: :btree
+  add_index "wallets", ["wallet_owner_type", "wallet_owner_id"], name: "index_wallets_on_wallet_owner_type_and_wallet_owner_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
     t.string   "title"
@@ -602,7 +586,5 @@ ActiveRecord::Schema.define(version: 20170322205123) do
   add_foreign_key "stripe_payments", "users"
   add_foreign_key "task_members", "tasks"
   add_foreign_key "task_members", "team_memberships"
-  add_foreign_key "user_wallet_addresses", "users"
-  add_foreign_key "wallet_addresses", "tasks"
   add_foreign_key "wallet_transactions", "tasks"
 end

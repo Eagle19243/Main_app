@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Normal login', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Normal login', js: true do
   before do
     @user = FactoryGirl.create(:user)
     @user.confirmed_at = Time.now

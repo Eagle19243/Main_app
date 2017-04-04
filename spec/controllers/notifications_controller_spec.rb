@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe NotificationsController, vcr: { cassette_name: 'bitgo' } do
+RSpec.describe NotificationsController do
   context 'did not sign in' do
     it 'redirects to sign in page' do
       get :index

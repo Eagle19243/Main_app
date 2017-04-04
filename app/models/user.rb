@@ -18,8 +18,6 @@ class User < ActiveRecord::Base
 
   #after_create :populate_guid_and_token
 
-  after_create :assign_address
-
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
@@ -42,11 +40,11 @@ class User < ActiveRecord::Base
   has_many :project_users
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
-  has_one :user_wallet_address
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
   has_many :apply_requests, dependent: :destroy
   has_many :stripe_payments
+  has_one :wallet, as: :wallet_owner
 
   validate :validate_name_unchange
   validates :name, presence: true, uniqueness: true
@@ -65,13 +63,8 @@ class User < ActiveRecord::Base
     Thread.current[:current_user] = usr
   end
 
-  def assign_address
-    WalletCreationJob.perform_later('User', self.id) unless user_wallet_address.present?
-  end
-
   def current_wallet_balance
-    return 0.0 unless user_wallet_address
-    user_wallet_address.current_balance
+    wallet ? wallet.balance : 0.0
   end
 
   def create_activity(item, action)

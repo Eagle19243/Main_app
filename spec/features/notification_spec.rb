@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Notifications', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Notifications', js: true do
   let(:user)          { create(:user, :confirmed_user) }
   let(:another_user)  { create(:user, :confirmed_user) }
   let(:project)       { create(:project, user: user) }

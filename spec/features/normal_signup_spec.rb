@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Normal Sign up', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Normal Sign up', js: true do
   before do
     visit root_path
     click_pseudo_link 'Register'
@@ -13,7 +13,7 @@ feature 'Normal Sign up', js: true, vcr: { cassette_name: 'bitgo' } do
       expect(@modal).to be_visible
     end
 
-    context "When fill the fields and click 'Sign Up' button" do
+    context "When fill the fields and click 'Sign Up' button", vcr: { cassette_name: 'coinbase/wallet_creation' } do
       before do
         @user = FactoryGirl.build(:user)
 

@@ -3,8 +3,12 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.configure_rspec_metadata!
 
-  c.filter_sensitive_data('BITGO_ACCESS_TOKEN') do
-    CGI.escape YAML.load_file("#{Rails.root}/config/application.yml")['bitgo_admin_access_token']
+  c.filter_sensitive_data('COINBASE_API_KEY') do
+    CGI.escape ENV['coinbase_api_key']
+  end
+
+  c.filter_sensitive_data('COINBASE_API_SECRET') do
+    CGI.escape ENV['coinbase_api_secret']
   end
 
   c.ignore_request do |req|

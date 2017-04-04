@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Notification After Creating a New Project", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Notification After Creating a New Project", js: true do
   context "As a logged in user" do
     before do
       @users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
