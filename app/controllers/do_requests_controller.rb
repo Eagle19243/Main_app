@@ -31,7 +31,7 @@ class DoRequestsController < ApplicationController
       if @do_request.save
         @msg="Request sent to Project Admin";
         if current_user.id == task.project.user_id
-          @msg="You become Member of This Task team";
+          @msg="Your application to perform this task was submitted successfully. The project leader will notify you once it has been received and a decision is made.";
         end
         flash[:success] = @msg
         format.js

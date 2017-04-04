@@ -59,6 +59,10 @@
                         <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                         <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
                       </div>
+                    <% else %>
+                      <div class="fund-do-btns">
+                        <button class="btn-root _dark sign_in_a" data-modal="#registerModal">DO</button>
+                      </div>
                     <% end %>
                   </div>
                 </div>
