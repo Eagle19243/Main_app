@@ -85,7 +85,7 @@
                   </div>
 
                   <div class="modal-task__desc-block">
-                    <h4>Condition of Execution</h4>
+                    <h4>Specifications</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
@@ -137,7 +137,7 @@
                 <div class="task-desc">
                   <h4>Task Description</h4>
                   <p><%= @task.description %></p>
-                  <h4>Condition of Execution</h4>
+                  <h4>Specifications</h4>
                   <p><%= @task.condition_of_execution %></p>
                   <h4>Proof of Execution</h4>
                   <p><%= @task.proof_of_execution %></p>
