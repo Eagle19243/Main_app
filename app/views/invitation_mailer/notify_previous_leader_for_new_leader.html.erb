@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Dear <%= @previous_leader.name %></h1>
+    <p>
+       <%= @new_leader.name %> accepted your invite to become leader of project <%= link_to @project.title, project_url(@project.id) %>.
+    </p>
+  </body>
+</html>

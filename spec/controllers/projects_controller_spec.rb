@@ -256,7 +256,6 @@ describe ProjectsController, type: :request do
         # make the candidate new leader a team member of the project
         project_team = project.create_team(name: "Team#{project.id}")
         TeamMembership.create(team_member_id: new_leader.id, team_id: project_team.id, role: 0)
-        allow(InvitationMailer).to receive(:invite_leader)
 
         allow(InvitationMailer).to receive(:invite_leader).and_return(message_delivery)
         allow(message_delivery).to receive(:deliver_later)
