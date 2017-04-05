@@ -102,9 +102,9 @@ class User < ActiveRecord::Base
   end
 
   def all_one_on_one_chat_users
-    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.collect{ |c| c.user }).uniq
+    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.where(project: nil).collect{ |c| c.user }).uniq
   end
-
+  
   def self.find_for_facebook_oauth(auth)
     user = User.find_by(provider: auth.provider, uid: auth.uid)
     return user if user.present?

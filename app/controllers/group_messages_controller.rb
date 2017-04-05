@@ -122,7 +122,6 @@ class GroupMessagesController < ApplicationController
     @user = current_user
     if params[:search]
       @user = User.name_like("%#{params[:search]}%").order('name')
-    else
     end
   end
 

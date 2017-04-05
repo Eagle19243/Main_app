@@ -15,14 +15,14 @@ class Chatroom < ActiveRecord::Base
 #-------------------------------------------------------------------------------
 
   def self.add_user_to_project_chatroom(project,user)
-    if project.chatroom.present?
-      Groupmember.create(user: user, chatroom: project.chatroom)
-    end
+    project_chatroom = project.get_project_chatroom
+    project_chatroom.groupmembers.create(user_id: user.id) if project_chatroom.present?
   end
 
   def self.remove_user_from_project_chatroom(project,user)
-    if project.chatroom.present?
-      users_groupmember = project.chatroom.groupmembers.where(user: user).first
+    project_chatroom = project.get_project_chatroom
+    if project_chatroom.present?
+      users_groupmember = project_chatroom.groupmembers.where(user: user).first
       users_groupmember.destroy if users_groupmember.present?
     end
   end

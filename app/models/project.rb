@@ -16,7 +16,6 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins, dependent: :destroy
-  has_one  :chatroom
   has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
@@ -118,6 +117,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def get_project_chatroom
+    self.chatrooms.where(user_id: nil, recipient_id: nil).first
+  end
+  
   def rate_avg
     project_rates.average(:rate).to_i
   end

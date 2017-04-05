@@ -71,7 +71,7 @@ class DoRequestsController < ApplicationController
         team = Team.find_or_create_by(project_id: @do_request.project_id)
         users_ids = team.team_memberships.collect(&:team_member_id)
         if (!users_ids.include?(@do_request.user_id))
-          Groupmember.create(user_id: @do_request.user_id, chatroom_id: team.project.chatroom.id)
+          Chatroom.add_user_to_project_chatroom(@do_request.task.project,@do_request.user)
         end
         membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
         #task.team_memberships.add(membership)

@@ -18,6 +18,7 @@ class ApplyRequestsController < ApplicationController
 
     TeamService.add_team_member(@apply_request.project.team, @apply_request.user, role)
     RequestMailer.positive_response_in_project_involvement(apply_request: @apply_request).deliver_later
+    Chatroom.add_user_to_project_chatroom(@apply_request.project,@apply_request.user)
 
     redirect_to :my_projects
 
