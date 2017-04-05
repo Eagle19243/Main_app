@@ -44,7 +44,8 @@
     <div class="modal-fund__stripe-bottom">
       <br class="modal-fund__stripe-bottom-inner">
 
-      <% if @available_credit_cards.present? %>
+      <!-- Available cards are disabled for now due to errors in JS -->
+      <% if false && @available_credit_cards.present? %>
         <label class="f-default__label">Saved Cards:</label>
         <br>
       <div class="f-default__row">
