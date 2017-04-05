@@ -19,6 +19,15 @@
     margin-bottom: 20px;
   }
 
+  &__info {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    color: #fff;
+    max-width: 920px;
+    margin: 40px auto 100px;
+    font-size: 22px;
+  }
+
   &__item-wrap {
     padding: 6% 20px;
     font-size: 0;

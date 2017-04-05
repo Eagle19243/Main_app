@@ -8,7 +8,7 @@
             <h1><%= t('landing.hero-title') %></h1>
             <p><%= t('landing.hero-subtitle') %></p>
             <div class="hero-start">
-                <a class="btn-root" href="<%= t('commons.development_project_link') %>"><%= t('commons.about_btn') %></a>
+                <a class="btn-root" href="<%= t('commons.development_project_link') %>"><%= t('commons.start_a_project') %></a>
             </div>
           </div>
         </div>
@@ -68,6 +68,11 @@
             <p class="s-how-work__text"><%= t('landing.hero-collaboration-item-review') %></p>
           </div>
         </div>
+      </div>
+      <div class="s-how-work__info">
+        As the Project Leader, you maintain control over the collaboration at all times, so
+        your project development reflects your own vision. You build momentum with the crowd through
+        the achievement af small tasks.
       </div>
     </div>
   </section>
@@ -267,9 +272,6 @@
     <div class="s-landing__wrapper">
         <div class="s-landing__start-title _quote">
             Be the change
-        </div>
-        <div class="s-landing__start-title _author">
-            &mdash; Mahatma Gandhi
         </div>
         <div class="s-landing__start-button">
           <% if user_signed_in? %>
