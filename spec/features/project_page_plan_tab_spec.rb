@@ -21,20 +21,16 @@ feature "Project Page Plan Tab", js: true do
         @revision_button = find("#editSource")
       end
 
-# TODO: right now Plan tab has no active class by default
-# update if necessary
-=begin
-      scenario "Then 'Plan' tab is active" do
-        expect(page).to have_selector("#tab-plan.active")
-      end
-=end
-
       scenario "Then you can see 'Project idea' block" do
         expect(@plan_area).to have_selector(".project-idea")
       end
 
       scenario "Then you can see 'Revisions' button" do
         expect(@plan_area).to have_selector("#editSource")
+      end
+
+      scenario "Then you can see 'Edit' button" do
+        expect(@plan_area).to have_link "Edit"
       end
     end
   end
@@ -50,6 +46,10 @@ feature "Project Page Plan Tab", js: true do
         @plan_area = find("#Plan")
       end
 
+      scenario "Then you cannot see 'Revisions' button" do
+        expect(@plan_area).not_to have_selector("#editSource")
+      end
+
       scenario "Then you can see 'Edit' button" do
         expect(@plan_area).to have_link "Edit"
       end
@@ -61,6 +61,10 @@ feature "Project Page Plan Tab", js: true do
       before do
         visit project_path(@project)
         @plan_area = find("#Plan")
+      end
+
+      scenario "Then you cannot see 'Revisions' button" do
+        expect(@plan_area).not_to have_selector("#editSource")
       end
 
       scenario "Then you can see 'Edit' button" do
