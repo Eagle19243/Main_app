@@ -28,7 +28,7 @@ RSpec.describe Payments::BTC::Mappers::WalletTransaction do
   end
 
   describe "#build_wallet_transaction" do
-    describe "incoming transaction" do
+    describe "incoming transaction from account" do
       let(:incoming_tx_hash) do
         hash.merge(
           "from" => {
@@ -53,6 +53,61 @@ RSpec.describe Payments::BTC::Mappers::WalletTransaction do
           expect(transaction.address_to).to be_nil
           expect(transaction.amount).to eq(141545)
           expect(transaction.description).to eq("Yes")
+          expect(transaction.status).to eq("completed")
+          expect(transaction.created_at).to eq("2017-03-28T04:03:56Z")
+          expect(transaction.created_at).to eq("2017-03-28T04:03:56Z")
+        end
+      end
+    end
+
+    describe "incoming transaction from btc network" do
+      let(:hash) do
+        {
+          "id" => "9bc90ef1-b587-59d9-bfe0-404d84de1113",
+          "type" => "send",
+          "status" => "completed",
+          "amount" => {
+            "amount" => "0.00158811",
+            "currency" => "BTC"
+          },
+          "native_amount" => {
+            "amount" => "1.84",
+             "currency" => "USD"
+          },
+           "description" => nil,
+           "created_at" => "2017-03-28T04:03:56Z",
+           "updated_at" => "2017-03-28T04:03:56Z",
+           "resource" => "transaction",
+           "resource_path" => "/v2/accounts/4060e15e-7fad-5a22-8816-80c192e10a7a/transactions/9bc90ef1-b587-59d9-bfe0-404d84de1113",
+           "instant_exchange" => false,
+           "network" => {
+             "status" => "confirmed",
+             "hash" => "11ad3fdcaf57f2a91fd24c75033097abe193062bc32ad88c39f0484839b216b0"
+           },
+           "from" => {
+             "resource" => "bitcoin_network"
+           },
+           "details" => {
+             "title" => "Received bitcoin",
+             "subtitle" => "from Bitcoin address"
+           }
+        }
+      end
+
+      it "builds an instance of wallet transaction object" do
+        mapper = described_class.new(hash)
+        transaction = mapper.build_wallet_transaction
+
+        aggregate_failures("transaction object is correct") do
+          expect(transaction).to be_kind_of(
+            Payments::BTC::Entities::WalletTransaction
+          )
+          expect(transaction).to be_incoming
+          expect(transaction).not_to be_outgoing
+          expect(transaction.address_from).to eq("Bitcoin network")
+          expect(transaction.address_to).to be_nil
+          expect(transaction.amount).to eq(158811)
+          expect(transaction.description).to be_nil
           expect(transaction.status).to eq("completed")
           expect(transaction.created_at).to eq("2017-03-28T04:03:56Z")
           expect(transaction.created_at).to eq("2017-03-28T04:03:56Z")

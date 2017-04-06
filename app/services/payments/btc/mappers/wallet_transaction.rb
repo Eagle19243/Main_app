@@ -38,6 +38,8 @@ module Payments::BTC
 
         if address_hash["resource"] == "account"
           address_hash["id"]
+        elsif address_hash["resource"] == "bitcoin_network"
+          "Bitcoin network"
         else
           address_hash["address"]
         end
