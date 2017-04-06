@@ -34,17 +34,17 @@
     }
     &-item {
       padding: 0 0 20px 0;
+      &._active {
+        a {
+          color: #555;
+          font-weight: 600;
+        }
+      }
       a {
         font-family: 'Roboto', sans-serif;
-        color: #555;
         font-size: 14px;
-        font-weight: 600;
-      }
-      &._message {
-        a {
-          color: #888;
-          font-weight: 500;
-        }
+        color: #888;
+        font-weight: 500;
       }
     }
   }

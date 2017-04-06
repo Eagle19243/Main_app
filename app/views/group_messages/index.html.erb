@@ -62,29 +62,37 @@
       });
     }
   }
-  $(document).ready(function () {
-    $.ajaxSetup({cache: false});
-    window.setInterval(function () {
-      load_messages();
-    }, 5000);
-    $(".s-group-messages__user-search").click(function () {
-      $(".s-group-messages__search-form").toggle();
-    });
-    $(".projects-chat").click(function () {
-      project_id = $(this).attr('id')
-      $("div#message-load-image").show();
-      callAjax(project_id);
-    });
-    function callAjax(project_id) {
-      $.ajax({
-        url: "/group_messages/get_chatroom",
-        type: "post",
-        data: {project_id: project_id},
-        success: function () {
+    $(document).ready(function () {
+        $messageRooms = $('.s-group-messages__submenu-item');
+
+        $messageRooms.first().addClass('_active')
+
+        $(document).on('click.openProjectChat', '.projects-chat', function() {
+            $('.s-group-messages__submenu-item').removeClass('_active');
+            $(this).parent().addClass('_active');
+        })
+
+        $.ajaxSetup({cache: false});
+        window.setInterval(function () {
+            load_messages();
+        }, 5000);
+        $(".s-group-messages__user-search").click(function () {
+            $(".s-group-messages__search-form").toggle();
+        });
+        $(".projects-chat").click(function () {
+            project_id = $(this).attr('id')
+            $("div#message-load-image").show();
+            callAjax(project_id);
+        });
+        function callAjax(project_id) {
+            $.ajax({
+                url: "/group_messages/get_chatroom",
+                type: "post",
+                data: {project_id: project_id},
+                success: function () {}
+            });
         }
-      });
-    }
-  });
+    });
   $('#search').bind('railsAutocomplete.select', function (event, data) {
     if (data.item.id != '')
       $("div#message-load-image").show();

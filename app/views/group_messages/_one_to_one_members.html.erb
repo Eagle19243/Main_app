@@ -8,6 +8,7 @@
 <script>
     $(document).ready(function() {
         $(".one-user-chat").click(function () {
+            $that = $(this);
             $("div#message-load-image").show();
             user_id = $(this).attr('id');
             project_id = $(this).attr('name');
@@ -15,7 +16,10 @@
                 url: "/group_messages/get_chatroom",
                 type: "post",
                 data: {user_id: user_id},
-                success: function () {}
+                success: function () {
+                    $('.s-group-messages__submenu-item').removeClass('_active');
+                    $('.one-user-chat[id=' + user_id + ']').parent().addClass('_active');
+                }
             });
         });
     })
