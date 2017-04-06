@@ -50,9 +50,13 @@
             <% end %>
           </td>
           <td>
-            <a href = <%= history['user'] ? "/group_messages/user_messaging?user_id=#{history['user'].id}" : "" %> >
-              <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
-            </a>
+            <% if history['user'].present? %>
+              <%= link_to group_messages_path(user_id: history['user'].id) do %>
+                <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
+              <% end %>
+            <% else %>
+              <a href=""><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;No Messaging</a>
+            <% end %>
           </td>
           <td>
             <% if history['is_blocked'] == 0 %>

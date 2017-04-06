@@ -311,7 +311,7 @@
     $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
     $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
 
-    $(selector).find('.modal-revision-user .modal-revision-user-message').attr('href', "/group_messages/user_messaging?user_id=" + rUserId);
+    $(selector).find('.modal-revision-user .modal-revision-user-message').attr('href', "/group_messages?user_id=" + rUserId);
   }
 
   function showSourceEditor(revision_id) {

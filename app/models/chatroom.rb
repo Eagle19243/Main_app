@@ -48,6 +48,42 @@ class Chatroom < ActiveRecord::Base
     end
   end
 
+  def self.get_project_chatroom_team_members_group_messages(project,current_user)
+    chatroom = project.chatrooms.where(user: nil, recipient: nil).first
+    if chatroom.present? && chatroom.validate_access_for(current_user)
+      team_members = chatroom.groupmembers.where.not(user: current_user)
+      group_messages = chatroom.group_messages
+    end
+    
+    return chatroom, team_members, group_messages
+  end
+  
+  def self.get_or_create_project_dm_chatroom_group_messages(project,current_user,recipient_user)
+    chatroom = (current_user.chatrooms.where(project: project, recipient: recipient_user) + current_user.chatrooms_where_recipient.where(project: project, user: recipient_user)).first
+    if chatroom.present?
+      group_messages = chatroom.group_messages
+    else
+      if current_user.is_team_member_for?(project)
+        chatroom = Chatroom.create_team_member_direct_chatroom(project,current_user,recipient_user)
+        group_messages = []
+      end
+    end
+    
+    return chatroom, group_messages
+  end
+  
+  def self.get_or_create_dm_chatroom_group_messages(current_user,recipient_user)
+    chatroom = (current_user.chatrooms.where(project: nil, recipient: recipient_user) + current_user.chatrooms_where_recipient.where(project: nil, user: recipient_user)).first
+    if chatroom.present?
+      group_messages = chatroom.group_messages
+    else
+      chatroom = Chatroom.create_direct_chatroom(current_user,recipient_user)
+      group_messages = []
+    end
+    
+    return chatroom, group_messages
+  end
+  
 #-------------------------------------------------------------------------------
 # Instance Methods
 #-------------------------------------------------------------------------------
