@@ -20,6 +20,14 @@ class RequestMailer < ApplicationMailer
     mail(to: @applicant.email, subject: I18n.t('mailers.request.negative_response_in_project_involvement.subject', request_type: @request_type))
   end
 
+  def to_do_task(requester:, task:)
+    @requester = requester
+    @task = task
+    leader = @task.project.user
+
+    mail(to: leader.email, subject: I18n.t('mailers.request.to_do_task.subject'))
+  end
+
   private
 
   def set_instance_variables_for_project_involvement(apply_request)

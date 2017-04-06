@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+</head>
+<body>
+    <p>
+      <%= @requester.name %> applied for the task <%= @task.title %> and need to be reviewed.
+    </p>
+    <p>
+      please click the <%= link_to 'link', notifications_url %> to review your notifications.
+    </p>
+</body>
+</html>

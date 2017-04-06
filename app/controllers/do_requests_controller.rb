@@ -33,6 +33,8 @@ class DoRequestsController < ApplicationController
         if current_user.id == task.project.user_id
           @msg="Your application to perform this task was submitted successfully. The project leader will notify you once it has been received and a decision is made.";
         end
+
+        RequestMailer.to_do_task(requester: current_user, task: task).deliver_later
         flash[:success] = @msg
         format.js
         format.json { render json: {id: @do_request, status: 200, responseText: "Request sent to Project Admin "} }

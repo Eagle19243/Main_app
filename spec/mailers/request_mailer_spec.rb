@@ -95,4 +95,29 @@ RSpec.describe RequestMailer, type: :mailer do
       expect(email.body).to include("Sorry, but your application to become a #{request_type} for project #{link_to project.title, project_url(project.id)} was declined by #{project.leader.name}")
     end
   end
+
+  describe '#to_do_task' do
+    subject(:email) { described_class.to_do_task(requester: user_in_request, task: task).deliver_now }
+    let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+
+    let(:task) { FactoryGirl.create(:task, project: project) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(leader.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('mailers.request.to_do_task.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(email.body).to include("#{user_in_request.name} applied for the task #{task.title} and need to be reviewed.")
+    end
+  end
 end

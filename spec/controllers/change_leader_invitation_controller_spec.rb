@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ChangeLeaderInvitationController, type: :request, vcr: { cassette_name: 'bitgo' } do
+describe ChangeLeaderInvitationController, type: :request do
   describe 'GET /change_leader_invitation/:id/accept' do
     subject(:make_request) { get("/change_leader_invitation/#{change_leader_invitation.id}/accept") }
     let(:project) { FactoryGirl.create(:project, user: current_leader) }
