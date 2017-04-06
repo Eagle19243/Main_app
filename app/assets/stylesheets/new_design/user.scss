@@ -264,7 +264,10 @@
     word-break: break-word;
     overflow: auto;
     max-height: 230px;
-
+    text-align: center;
+    button {
+      display: inline-block;
+    }
   }
   .bio-wrapper {
     display: block;

@@ -329,6 +329,10 @@ class ProjectsController < ApplicationController
 
     if params[:type] == 'approve'
       @project.approve_revision params[:rev]
+
+      @project.interested_users.each do |user|
+        NotificationMailer.revision_approved(approver: current_user, project: @project, receiver: user).deliver_later
+      end
     elsif params[:type] == 'unapprove'
       @project.unapprove_revision params[:rev]
     end
@@ -449,22 +453,21 @@ class ProjectsController < ApplicationController
   end
 
   def change_leader
-    @project = Project.find params[:project_id]
-    @email = params[:leader]["address"]
-    @new_leader = User.where(email: @email).present? ? User.where(email: @email).first : nil
+    project = Project.find params[:project_id]
+    email = params[:leader][:address]
+    new_leader = User.find_by(email: email)
 
-    if @project.change_leader_invitations.pending.any?
-      flash[:notice] = "You have already invited a new leader for this project."
-    elsif @new_leader == nil
-      flash[:error] = "Can't find the user who have the email address you entered. Please input valid email address."
-    elsif !(@project.team.team_memberships.pluck(:team_member_id).include? @new_leader)
-      @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
-      flash[:notice] = "The user is not team memeber of the project. You can only invite team member as a new leader."
-    elsif @email != current_user.email
-      @invitation = @project.change_leader_invitations.create(new_leader: @email, sent_at: Time.current)
-      InvitationMailer.invite_leader(@invitation.id).deliver_later
-      NotificationsService.notify_about_change_leader_invitation(current_user, @new_leader, @project)
-      flash[:notice] = "You sent an invitation for leader role to " + @email
+    if new_leader.blank?
+      flash[:error] = "Can't find the user with email address you entered. Please input valid email address."
+    elsif project.change_leader_invitations.pending.any?
+      flash[:notice] = 'You have already invited a new leader for this project.'
+    elsif !project.team.team_members.include?(new_leader)
+      flash[:notice] = 'The user is not a team member of the project. You can only invite team members as a new leader.'
+    elsif email != current_user.email
+      invitation = project.change_leader_invitations.create!(new_leader: email, sent_at: Time.current)
+      InvitationMailer.invite_leader(invitation.id).deliver_later
+      NotificationsService.notify_about_change_leader_invitation(current_user, new_leader, project)
+      flash[:notice] = "You sent an invitation for leader role to " + email
     end
 
     redirect_to :my_projects
@@ -546,19 +549,22 @@ class ProjectsController < ApplicationController
     redirect_to current_user
   end
 
+  # this is the action for getting involved in a project
   def get_in
     type = params[:type]
-    request_type = type=="1" ? "Lead_Editor" : "Executor"
+    request_type = type == "0" ? "Lead_Editor" : "Coordinator"
     project = Project.find(params[:id])
-    if type==1 && current_user.is_lead_editor_for?(project)
+
+    if type == '0' && current_user.is_lead_editor_for?(project)
       flash[:notice] = "You are already Lead Editor of this project."
-    elsif type==2 && current_user.is_executor_for?(project)
+    elsif type == '1' && current_user.is_coordinator_for?(project)
       flash[:notice] = "You are already excutor of this project."
-    elsif current_user.has_pending_apply_requests?(project, request_type)
-      flash[:notice] = "You have submitted this request already."
+    elsif current_user.has_pending_apply_requests?(project, type)
+      flash[:notice] = 'You have submitted a request request already for this project.'
     else
-      ApplyRequest.create( user_id: current_user.id,project_id: project.id, request_type: request_type)
-      flash[:notice] = "Your request has been submitted"
+      RequestMailer.apply_to_get_involved_in_project(applicant: current_user, project: project, request_type: request_type.tr('_', ' ')).deliver_later
+      ApplyRequest.create!( user_id: current_user.id,project_id: project.id, request_type: request_type)
+      flash[:notice] = 'Your request has been submitted'
     end
 
     redirect_to project

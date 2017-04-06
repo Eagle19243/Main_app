@@ -7,5 +7,9 @@ every 1.minute do
 end
 
 every 10.minutes do
-  rake "weserve:update_tasks_balances"
+  rake "weserve:update_wallets_balance"
+end
+
+every 1.week do
+  rake "weserve:update_wallets_receiver_address"
 end

@@ -19,17 +19,17 @@ class Payments::StripeController < ApplicationController
     )
     transfer.submit!
 
-    flash[:notice] = 'Thanks for your payment'
+    render json: { success: 'Thanks for your payment' }, status: 200
   rescue Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
-    flash[:alert] = error.message
-  ensure
-    redirect_to taskstab_project_url(id: params[:project_id])
+    render json: { error: error.message }, status: 500
   end
 
   private
 
   def check_form_validity
-    redirect_to(card_payment_project_task_url) unless (params.key?(:stripeToken) || params.key?(:card_id)) && params.key?(:amount)
+    unless (params.key?(:stripeToken) || params.key?(:card_id)) && params.key?(:amount)
+      render json: { error: "Submitted form parameters are invalid" }, status: 500
+    end
   end
 end

@@ -8,11 +8,10 @@
             <% if is_blocked == 0 %>
               <% if can? :revisions, project %>
                 <a class="btn-root" id="editSource">Revisions</a>
-              <% else %>
-                <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-root">
-                  <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
-                </a>
               <% end %>
+              <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-root">
+                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+              </a>
             <% else %>
               <!-- TODO: for blocked users -->
             <% end %>

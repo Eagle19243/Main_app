@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Logo working correctly', type: :feature, js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Logo working correctly', type: :feature, js: true do
 
   before do
     @user = FactoryGirl.create(:user)
@@ -18,10 +18,11 @@ feature 'Logo working correctly', type: :feature, js: true, vcr: { cassette_name
 
   scenario 'Going to random page on site' do
     visit root_path
+    find('.header-dropdown__title.js-dropdown').click
     click_pseudo_link 'Active Projects'
 
     expect(page).to have_current_path(projects_path)
-  end  
+  end
 
   scenario 'Must be redirected to landing page when clicking logo on site' do
     visit projects_path

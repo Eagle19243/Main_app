@@ -5,7 +5,7 @@ class GroupMessagesController < ApplicationController
   before_action :set_group_message, only: [:show, :edit, :update, :destroy]
   before_action :validate_create_messages_access_for_chatroom, only: [:create]
 
-  layout 'dashboard', only: [:index, :user_messaging]
+  layout 'dashboard', only: [:index, :get_chatroom]
 
 #-------------------------------------------------------------------------------
 # Standard Controller Actions
@@ -13,13 +13,17 @@ class GroupMessagesController < ApplicationController
 
   def index
     @user_projects = current_user.get_users_projects_and_team_projects
-    if @user_projects.any?
-      @chatroom = @user_projects.first.chatrooms.where(user: nil, recipient: nil).first
-      @team_members = @chatroom.groupmembers.where.not(user: current_user)
-      @group_messages = @chatroom.group_messages
+    
+    if params[:user_id].present?
+      @chatroom, @group_messages = Chatroom.get_or_create_dm_chatroom_group_messages(current_user,User.find(params[:user_id]))
     else
-      @group_messages = []
+      if @user_projects.any?
+        @chatroom, @team_members, @group_messages = Chatroom.get_project_chatroom_team_members_group_messages(@user_projects.first,current_user)
+      else
+        @group_messages = []
+      end      
     end
+
     @one_to_one_chat_users = current_user.all_one_on_one_chat_users
   end
 
@@ -73,33 +77,19 @@ class GroupMessagesController < ApplicationController
     recipient_user = User.find(params[:user_id]) if params[:user_id].present?
 
     if project.present? && !recipient_user.present?
-      #Project Group Chatroom
-      @chatroom = project.chatrooms.where(user: nil, recipient: nil).first
-      if @chatroom.present? && @chatroom.validate_access_for(current_user)
-        @team_members = @chatroom.groupmembers.where.not(user: current_user)
-        @group_messages = @chatroom.group_messages
-      end
+      #Project Chatroom visible to all team members
+      @chatroom, @team_members, @group_messages = Chatroom.get_project_chatroom_team_members_group_messages(project,current_user)
+      
     elsif project.present? && recipient_user.present?
-      #Direct Message to a Project Team Member
-      @chatroom = (current_user.chatrooms.where(project: project, recipient: recipient_user) + current_user.chatrooms_where_recipient.where(project: project, user: recipient_user)).first
-      if @chatroom.present?
-        @group_messages = @chatroom.group_messages
-      else
-        if current_user.is_team_member_for?(project)
-          @chatroom = Chatroom.create_team_member_direct_chatroom(project,current_user,recipient_user)
-          @group_messages = []
-        end
-      end
+      #Project Direct Message between Project Team Members
+      @chatroom, @group_messages = Chatroom.get_or_create_project_dm_chatroom_group_messages(project,current_user,recipient_user)
+      
     elsif !project.present? && recipient_user.present?
-      #Direct Message with no Project
-      @chatroom = (current_user.chatrooms.where(project: nil, recipient: recipient_user) + current_user.chatrooms_where_recipient.where(project: nil, user: recipient_user)).first
-      if @chatroom.present?
-        @group_messages = @chatroom.group_messages
-      else
-        @chatroom = Chatroom.create_direct_chatroom(current_user,recipient_user)
-        @group_messages = []
-      end
+      #Direct Message between any users, not attached to a project
+      @chatroom, @group_messages = Chatroom.get_or_create_dm_chatroom_group_messages(current_user,recipient_user)
     end
+
+    @one_to_one_chat_users = current_user.all_one_on_one_chat_users
 
     if @chatroom.present?
       respond_to :js
@@ -120,7 +110,6 @@ class GroupMessagesController < ApplicationController
     @user = current_user
     if params[:search]
       @user = User.name_like("%#{params[:search]}%").order('name')
-    else
     end
   end
 

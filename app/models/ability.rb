@@ -23,7 +23,7 @@ class Ability
       end
 
       can [:destroy], TeamMembership do |team_membership|
-        (user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user) || (user.is_executor_for?(team_membership.team.project) && team_membership.role == 'teammate')
+        (user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user) || (user.is_coordinator_for?(team_membership.team.project) && team_membership.role == 'teammate')
       end
 
     end
@@ -105,14 +105,14 @@ class Ability
       end
 
       can :create, Task do |task|
-        task.accepted? && (user.is_project_leader?(task.project) || user.is_executor_for?(task.project))
+        task.accepted? && (user.is_project_leader?(task.project) || user.is_coordinator_for?(task.project))
       end
 
       can [:update, :destroy], Task do |task|
         (
           user.admin?
           user.is_project_leader?(task.project) ||
-          user.is_executor_for?(task.project) ||
+          user.is_coordinator_for?(task.project) ||
           (task.suggested_task? && (user.id == task.user_id))
         ) && (task.any_fundings? == false)
       end
@@ -134,7 +134,7 @@ class Ability
       end
 
       can :create_or_destory_task_attachment, Task do |task|
-        user.is_project_leader?(task.project) || user.is_executor_for?(task.project) || (task.team_memberships.collect(&:team_member_id).include? user.id) || (task.suggested_task? && (user.id == task.user_id))
+        user.is_project_leader?(task.project) || user.is_coordinator_for?(task.project) || (task.team_memberships.collect(&:team_member_id).include? user.id) || (task.suggested_task? && (user.id == task.user_id))
       end
 
       if user.admin?
@@ -154,7 +154,7 @@ class Ability
   def initializeTaskAttachmentsPermissions(user)
     if user
       can [:create, :destroy], TaskAttachment do |task_attachment|
-        user.is_project_leader?(task_attachment.task.project) || user.is_executor_for?(task_attachment.task.project) || (task_attachment.task.team_memberships.collect(&:team_member_id).include? user.id) || (task_attachment.task.suggested_task? && (user.id == task_attachment.task.user_id))
+        user.is_project_leader?(task_attachment.task.project) || user.is_coordinator_for?(task_attachment.task.project) || (task_attachment.task.team_memberships.collect(&:team_member_id).include? user.id) || (task_attachment.task.suggested_task? && (user.id == task_attachment.task.user_id))
       end
     end
   end

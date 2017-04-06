@@ -18,8 +18,6 @@ class User < ActiveRecord::Base
 
   #after_create :populate_guid_and_token
 
-  after_create :assign_address
-
   has_many :projects, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :project_comments, dependent: :delete_all
@@ -42,11 +40,11 @@ class User < ActiveRecord::Base
   has_many :project_users
   has_many :followed_projects, through: :project_users, class_name: 'Project', source: :project
   has_many :discussions, dependent: :destroy
-  has_one :user_wallet_address
   has_many :notifications, dependent: :destroy
   has_many :admin_requests, dependent: :destroy
   has_many :apply_requests, dependent: :destroy
   has_many :stripe_payments
+  has_one :wallet, as: :wallet_owner
 
   validate :validate_name_unchange
   validates :name, presence: true, uniqueness: true
@@ -65,8 +63,8 @@ class User < ActiveRecord::Base
     Thread.current[:current_user] = usr
   end
 
-  def assign_address
-    WalletCreationJob.perform_later('User', self.id) unless user_wallet_address.present?
+  def current_wallet_balance
+    wallet ? wallet.balance : 0.0
   end
 
   def create_activity(item, action)
@@ -104,9 +102,9 @@ class User < ActiveRecord::Base
   end
 
   def all_one_on_one_chat_users
-    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.collect{ |c| c.user }).uniq
+    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.where(project: nil).collect{ |c| c.user }).uniq
   end
-
+  
   def self.find_for_facebook_oauth(auth)
     user = User.find_by(provider: auth.provider, uid: auth.uid)
     return user if user.present?
@@ -119,7 +117,8 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         name: auth.info.name,
         facebook_url: auth.extra.link,
-        username: "#{auth.info.name}#{auth.uid}"
+        username: "#{auth.info.name}#{auth.uid}",
+        remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
 
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
@@ -145,7 +144,7 @@ class User < ActiveRecord::Base
     user = User.find_by(provider: auth.provider, uid: auth.uid)
     return user if user.present?
 
-    registered_user = User.find_by(email: "#{auth.uid}@twitter.com")
+    registered_user = auth.info.email ? User.find_by(email: auth.info.email) : nil
 
     if registered_user
       registered_user.assign_attributes(
@@ -153,7 +152,8 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         name: auth.info.name,
         twitter_url: auth.info.urls.Twitter,
-        username: "#{auth.info.name}#{auth.uid}"
+        username: "#{auth.info.name}#{auth.uid}",
+        remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
 
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
@@ -220,12 +220,9 @@ class User < ActiveRecord::Base
     proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
   end
 
-  def is_executor_for? proj
-    if proj.team.team_memberships.where(:team_member_id => self.id).present?
-      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "executor")
-    else
-      return false
-    end
+  def is_coordinator_for?(project)
+    team_membership = project.team_memberships.find_by(team_member_id: self.id)
+    team_membership.present? && team_membership.coordinator?
   end
 
   def is_lead_editor_for? proj
@@ -276,7 +273,7 @@ class User < ActiveRecord::Base
   end
 
   def can_complete_task?(task)
-    (self.is_project_leader?(task.project) || self.is_executor_for?(task.project)) && task.reviewing?
+    (self.is_project_leader?(task.project) || self.is_coordinator_for?(task.project)) && task.reviewing?
   end
 
   # Normal use case, name cannot be changed, need to bypass validation if neccessary

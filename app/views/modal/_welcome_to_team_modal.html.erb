@@ -37,13 +37,13 @@
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply</a>
                 <% elsif !current_user.is_admin_for?(@project) %>
-                    <%= link_to "Apply", get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Lead Editor?"} %>
+                    <%= link_to "Apply", get_in_projects_path(type: "0", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Lead Editor?"} %>
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
-                <div class="welcome-to-team__subtitle">Become the Executor!</div>
+                <div class="welcome-to-team__subtitle">Become the Coordinator!</div>
                 <div class="welcome-to-team__info">
-                Executor controls collaboration on "Task" tab.
+                coordinator controls collaboration on "Task" tab.
                 <p>- edit + approve suggested tasks.</p>
                 <p>- accept user applications to complete tasks.</p>
                 <p>- coordinate and interact with users who complete tasks.</p>
@@ -52,7 +52,7 @@
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply</a>
                 <% elsif !current_user.is_admin_for?(@project) %>
-                    <%= link_to "Apply", get_in_projects_path(type: "2", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Executor?"} %>
+                    <%= link_to "Apply", get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Coordinator?"} %>
                 <% end %>
             </li>
         </ul>

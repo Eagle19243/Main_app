@@ -11,14 +11,13 @@
             <div class="f-default__row">
               <%= form_tag("/user_wallet_transactions/send_to_task_address", method: "post", remote: true , class: 'f-default f-donate') do %>
                 <input type="hidden" id="wallet_transaction_task_id" name="task_id"  required class="form-control"/>
-                <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">BTC</span> Amount to Send <span <span class="modal-fund__error _wallet">(BTC amount is bigger than wallet balance)</span></label>
-                <input type="number" step="0.001" min="<%= min_fund_budget_in_btc %>" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field _min-donation" required/>
+                <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">USD</span> Amount to Send <span <span class="modal-fund__error _wallet">(BTC amount is bigger than wallet balance)</span></label>
+                <input type="number" step="0.001" min="<%= min_fund_budget_in_btc %>" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field modal-fund__input" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
-                <span class="modal-fund__error _min-donate">Minimal donate is <%= min_fund_budget_in_btc %><span></span></span>
               <% end %>
             </div>
             <div class="f-default__row _space-between">
-                <button type="button" class="btn-root js-change-payment-type _wallet" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
+                <button type="button" class="btn-root js-change-payment-type _wallet _bitcoin" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
                 <button type="button" class="btn-root js-change-payment-type _active _credit" id="donate-with-credit-card" value="save">Donate with credit card</button>
             </div>
         </div>
@@ -47,7 +46,7 @@
                         <%= gravatar_for_fund(current_user, 44) %>
                     <% end %>
                     <div class="modal-fund__field-wrap">
-                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>)</div>
+                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
                       </svg>
@@ -57,7 +56,7 @@
                   </div>
               </div>
             </div>
-            <button type="button" class="btn-root _donate _dark js-submit-btc">Donate - BTC <span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
+            <button type="button" class="btn-root _donate _dark _disable">Donate - BTC <span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
           <% else %>
             <button type="button" class="btn-root _sign-in _dark">Sign in</button>
           <% end %>
@@ -96,198 +95,277 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script>
 
-  var donationObj = {
-    amount: {
-      usd: 0,
-      btc: 0
-    },
-    isUSD: false
-  };
+  $(document).ready(function() {
 
-  function getCurrency() {
-    return donationObj.isUSD ? 'USD' : 'BTC';
-  }
+    Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
-  function getConvertedCurrency() {
-    return !donationObj.isUSD ? 'USD' : 'BTC';
-  }
+    var donationObj = {
+      amount: {
+        usd: 0,
+        btc: 0
+      },
+      isUSD: false
+    };
 
+    function stripeResponseHandler(status, response) {
+      // Grab the form:
+      var $form = $('#payment-form');
 
-  function CopyToClipboard(containerid) {
-    if (document.selection) {
-        var range = document.body.createTextRange();
-        range.moveToElementText(document.getElementById(containerid));
-        range.select().createTextRange();
-        document.execCommand("Copy");
-    } else if (window.getSelection) {
-        var selection = window.getSelection();
-        var range = document.createRange();
-        range.selectNode(document.getElementById(containerid));
-        selection.removeAllRanges();
-        window.getSelection().addRange(range);
-        document.execCommand("Copy");
+      if (response.error) { // Problem!
+        // Show the errors on the form:
+        $form.find('.modal-fund__payment-errors').text(response.error.message);
+        $form.find('.modal-fund__payment-errors').show();
+        $form.find('.js-submit-cc').prop('disabled', false); // Re-enable submission
+      } else { // Token was created!
+        // Get the token ID:
+        sendCreditCardDonate(response.id);
+      }
+    };
+
+    function getCurrency() {
+      return donationObj.isUSD ? 'USD' : 'BTC';
     }
-  }
+
+    function getConvertedCurrency() {
+      return !donationObj.isUSD ? 'USD' : 'BTC';
+    }
 
 
-  var $walletTransactionAmount = $('#wallet_transaction_amount');
-  var $btcValue = $('.js-btc-value');
-  var $usdValue = $('.js-usd-value');
-  var $currentCurrency = $('.js-current-currency');
-  var $cardNumber = $('#card_number');
-  var $cardExpiry = $('#card_expiry');
-  var $jsCardNumber = $('.js-card-number');
-  var $donateBtn = $('.btn-root._donate');
-  var $errorWalletField = $('.modal-fund__error._wallet');
-  var $jsAmount = $('.js-amount'),
-      currentBtc = parseFloat('<%=  Payments::BTC::Converter.current_btc_rate  %>').toFixed(2);
+    function CopyToClipboard(containerid) {
+      if (document.selection) {
+          var range = document.body.createTextRange();
+          range.moveToElementText(document.getElementById(containerid));
+          range.select().createTextRange();
+          document.execCommand("Copy");
+      } else if (window.getSelection) {
+          var selection = window.getSelection();
+          var range = document.createRange();
+          range.selectNode(document.getElementById(containerid));
+          selection.removeAllRanges();
+          window.getSelection().addRange(range);
+          document.execCommand("Copy");
+      }
+    }
 
-  $(document)
-      .on('click.copyWallet', '._copy-address', function () {
-        CopyToClipboard('wallet_address');
-      })
-      .on('click.changePaymentType', '.js-change-payment-type', function () {
-        var $that = $(this),
-            index = $that.index();
 
-        $that.addClass('_active').siblings().removeClass('_active');
-        donationObj.isUSD = index === 1;
-        $currentCurrency.text(getCurrency());
-        $walletTransactionAmount.trigger('keyup');
+    var $walletTransactionAmount = $('#wallet_transaction_amount'),
+        $btcValue = $('.js-btc-value'),
+        $usdValue = $('.js-usd-value'),
+        $currentCurrency = $('.js-current-currency'),
+        $cardNumber = $('#card_number'),
+        $cardExpiry = $('#card_expiry'),
+        $jsCardNumber = $('.js-card-number'),
+        $donateBtn = $('.btn-root._donate'),
+        $jsAmount = $('.js-amount'),
+        $creditCardTab = $('.js-change-payment-type._credit'),
+        $bitcoinTab = $('.js-change-payment-type._bitcoin'),
+        $errorFundModal = $('#errorFundModal');
 
-        $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
-        $walletTransactionAmount.val("");
-      })
-      .on('keyup.updateDonation', '#wallet_transaction_amount', function () {
-        var val = $(this).val();
-        !val && (val = '0.00');
-        $('.js-usd-value').text(val);
-        $('.js-btc-amount').text(val);
-      })
-      <% if user_signed_in? %>
-        .on('input.enterBtcAmount', $walletTransactionAmount, function() {
-           if ($('.btn-root._wallet').hasClass('_active')) {
-               var btcAmount = $walletTransactionAmount.val();
-
-               if (btcAmount > <%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>) {
-                  $errorWalletField.addClass('_visible');
-                  $donateBtn.addClass('_disable');
-               } else {
-                  $errorWalletField.removeClass('_visible');
-                  $donateBtn.removeClass('_disable');
-               }
-           }
+    $(document)
+        .on('click.copyWallet', '._copy-address', function () {
+          CopyToClipboard('wallet_address');
         })
-        .on('click.sendForm', '.js-submit-btc', function () {
-          var val = $walletTransactionAmount.val();
+        .on('click.changePaymentType', '.js-change-payment-type', function () {
+          var $that = $(this),
+              index = $that.index();
 
-          if (val > 0 && val < <%= satoshi_balance_in_btc(current_user.user_wallet_address.current_balance) %>) {
-              if (document.querySelector('.f-donate').checkValidity()) {
-                  $('.f-donate').trigger('submit');
-                  $('.modal-fund__error._min-donate').removeClass('_visible');
-              } else {
-                  $('.modal-fund__error._min-donate').addClass('_visible');
-              }
+          $that.addClass('_active').siblings().removeClass('_active');
+          donationObj.isUSD = index === 1;
+          $currentCurrency.text(getCurrency());
+          $walletTransactionAmount.trigger('keyup');
+
+          $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
+          $walletTransactionAmount.val("");
+        })
+        .on('input.inputAmount', '.modal-fund__input', function() {
+            var currentValue = $(this).val(),
+                $donateBtn = $('.btn-root._donate');
+
+            if (currentValue) {
+                $donateBtn.removeClass('_disable');
+            } else {
+                $donateBtn.addClass('_disable');
+            }
+        })
+        .on('keyup.updateDonation', '#wallet_transaction_amount', function () {
+          var val = $(this).val();
+          !val && (val = '0.00');
+          $('.js-usd-value').text(val);
+          $('.js-btc-amount').text(val);
+        })
+        <% if user_signed_in? %>
+          .on('click.sendForm', '.btn-root._donate', function () {
+            var val = $walletTransactionAmount.val();
+            if (val) {
+                if ($creditCardTab.hasClass('_active')) {
+                    setTimeout(function() {
+                        createStripeToken();
+                    }, 0);
+                } else {
+                    sendBitcoinDonate();
+                }
+            }
+          })
+        <% end %>
+
+        function createStripeToken() {
+            Stripe.card.createToken($("#payment-form"), stripeResponseHandler);
+        }
+
+        function sendCreditCardDonate(token) {
+            $.ajax({
+                url: $('#payment-form').attr('action'),
+                method: 'POST',
+                data: {
+                    stripeToken: token,
+                    amount: $('.payment-form__amount').val(),
+                    card_id: $('.available-cards-radio-button').val(),
+                    save_card: $('.payment-form__save-card').val(),
+                    method: $('.payment-form__method').val()
+                }
+            })
+            .success(function(res) {
+                handleSuccess(res);
+            })
+            .error(function(error) {
+                handleError(error);
+            })
+        }
+
+        function sendBitcoinDonate() {
+            $.ajax({
+                url: '/user_wallet_transactions/send_to_task_address',
+                method: 'POST',
+                data: {
+                    task_id: $('#wallet_transaction_task_id').val(),
+                    amount: $('#wallet_transaction_amount').val()
+                }
+            })
+            .success(function(res) {
+                handleSuccess(res);
+            })
+            .error(function(error) {
+                handleError(error);
+            })
+        }
+
+        function handleSuccess(response) {
+            console.log('success', response);
+            $errorFundModal.find('.error-fund-modal__message').text(response.success);
+            $errorFundModal.find('.error-fund-modal__title').text('Success!');
+            showFundModal();
+        }
+
+        function handleError(response) {
+            console.log('error', response);
+            $errorFundModal.find('.error-fund-modal__message').text(response.responseJSON.error);
+            $errorFundModal.find('.error-fund-modal__title').text('Error');
+            showFundModal();
+        }
+
+        function showFundModal() {
+            $errorFundModal.fadeIn();
+            $('html').addClass('_open-modal');
+        }
+
+        function updateConversion(eve) {
+          document.getElementById("wallet_btc").innerHTML = '';
+          var value = +document.getElementById("wallet_transaction_amount").value;
+          var current_btc = '<%= Payments::BTC::Converter.current_btc_rate  %>';
+          var btc = donationObj.isUSD ? value / current_btc : value;
+          var usd = (donationObj.isUSD ? value : value * current_btc).toFixed(2);
+          if (donationObj.isUSD) {
+            document.getElementById("wallet_btc").innerHTML= usd + " USD = " + btc + " BTC";
+          } else {
+            document.getElementById("wallet_btc").innerHTML= btc + " BTC = " + usd + " USD";
           }
-        })
-      <% end %>
+          $btcValue.text(btc.toFixed(5));
+          $usdValue.text(usd);
+          eve.preventDefault();
+        }
 
-  function updateConversion(eve) {
-    document.getElementById("wallet_btc").innerHTML = '';
-    var value = +document.getElementById("wallet_transaction_amount").value;
-    var current_btc = '<%= Payments::BTC::Converter.current_btc_rate  %>';
-    var btc = donationObj.isUSD ? value / current_btc : value;
-    var usd = (donationObj.isUSD ? value : value * current_btc).toFixed(2);
-    if (donationObj.isUSD) {
-      document.getElementById("wallet_btc").innerHTML= usd + " USD = " + btc + " BTC";
-    } else {
-      document.getElementById("wallet_btc").innerHTML= btc + " BTC = " + usd + " USD";
-    }
-    $btcValue.text(btc.toFixed(5));
-    $usdValue.text(usd);
-    eve.preventDefault();
-  }
+        // todo FD: check all this js, do we need this after fund modal will be implemented?
+        $walletTransactionAmount
+          .on('keypress', function(eve) {
+            if(eve.which == 8 || eve.which == 0){
+              return true;
+            }
+            if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
+              updateConversion(eve);
+            }
+          })
+          // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
+          .on('keyup', function(eve) {
+            var currentVal = $(this).val();
+            if(currentVal.indexOf('.') == 0) {
+              $(this).val(currentVal.substring(1));
+            }
+            $jsAmount.val(currentVal);
+            updateConversion(eve);
+          });
+        $cardNumber
+          .on('keyup', function() {
+            var currentVal = $(this).val().replace(/\s/g, '');
+            $jsCardNumber.val(currentVal);
+            detectCard(currentVal);
+          });
+        $cardExpiry
+          .on('keyup', function() {
+            var valArr = $(this).val().split('');
+            $('[data-stripe="exp_month"]').val(valArr[0] + valArr[1]);
+            $('[data-stripe="exp_year"]').val(valArr[5] + valArr[6]+valArr[7] + valArr[8]);
+          });
 
-  // todo FD: check all this js, do we need this after fund modal will be implemented?
-  $walletTransactionAmount
-    .on('keypress', function(eve) {
-      if(eve.which == 8 || eve.which == 0){
-        return true;
-      }
-      if ((eve.which != 46 || $(this).val().indexOf('.') != -1) && (eve.which < 48 || eve.which > 57)) {
-        updateConversion(eve);
-      }
-    })
-    // this part is when left part of number is deleted and leaves a . in the leftmost position. For example, 33.25, then 33 is deleted
-    .on('keyup', function(eve) {
-      var currentVal = $(this).val();
-      if(currentVal.indexOf('.') == 0) {
-        $(this).val(currentVal.substring(1));
-      }
-      $jsAmount.val(currentVal);
-      updateConversion(eve);
-    });
-  $cardNumber
-    .on('keyup', function() {
-      var currentVal = $(this).val().replace(/\s/g, '');
-      $jsCardNumber.val(currentVal);
-      detectCard(currentVal);
-    });
-  $cardExpiry
-    .on('keyup', function() {
-      var valArr = $(this).val().split('');
-      $('[data-stripe="exp_month"]').val(valArr[0] + valArr[1]);
-      $('[data-stripe="exp_year"]').val(valArr[5] + valArr[6]+valArr[7] + valArr[8]);
-    });
+        $('#save-wallet-teansaction').click(function () {
+          if ($("#wallet_transaction_task_id").val() != '' && $("#wallet_transaction_task_id").val() != '') {
+            $('#save-wallet-teansaction').disabled = true;
+            $('#response-from-wallet').html("");
+            $('#response-from-wallet').html("Requesting ... please Wait ");
+          }
+        });
 
-  $('#save-wallet-teansaction').click(function () {
-    if ($("#wallet_transaction_task_id").val() != '' && $("#wallet_transaction_task_id").val() != '') {
-      $('#save-wallet-teansaction').disabled = true;
-      $('#response-from-wallet').html("");
-      $('#response-from-wallet').html("Requesting ... please Wait ");
-    }
-  });
-
-  $(".close-reveal-modal").click(function () {
-    $('#response-from-wallet').html("");
-  });
-  $("#donate-with-credit-card").click(function () {
-    $('#stripe-view').show();
-  });
+        $(".close-reveal-modal").click(function () {
+          $('#response-from-wallet').html("");
+        });
+        $("#donate-with-credit-card").click(function () {
+          $('#stripe-view').show();
+        });
 
 
-  var $cardWrap = $('.f-default__card-wrap');
+        var $cardWrap = $('.f-default__card-wrap');
 
-  function detectCard(str) {
-    var firstLetter = +str[0];
-    var twoFirstLetters = +(firstLetter + '' + str[1]);
-    var threeFirstLetters = +(twoFirstLetters + '' + str[2]);
-    var fourFirstLetters = +(threeFirstLetters + '' + str[3]);
-    var sixFirstLetters = +(fourFirstLetters + '' + str[4] + str[5]);
-    console.log(twoFirstLetters, threeFirstLetters, fourFirstLetters, sixFirstLetters);
+        function detectCard(str) {
+          var firstLetter = +str[0];
+          var twoFirstLetters = +(firstLetter + '' + str[1]);
+          var threeFirstLetters = +(twoFirstLetters + '' + str[2]);
+          var fourFirstLetters = +(threeFirstLetters + '' + str[3]);
+          var sixFirstLetters = +(fourFirstLetters + '' + str[4] + str[5]);
+          console.log(twoFirstLetters, threeFirstLetters, fourFirstLetters, sixFirstLetters);
 
-    if (twoFirstLetters == 34 || twoFirstLetters == 37) {
-        $cardWrap.find('img').removeClass('_active').filter('._ae').addClass('_active');
-    } else if (twoFirstLetters >= 50 && twoFirstLetters <= 55) {
-        $cardWrap.find('img').removeClass('_active').filter('._mc').addClass('_active');
-    } else if (firstLetter == 4) {
-        $cardWrap.find('img').removeClass('_active').filter('._visa').addClass('_active');
-    } else if (fourFirstLetters >= 3528 && fourFirstLetters <= 3589) {
-        $cardWrap.find('img').removeClass('_active').filter('._jcb').addClass('_active');
-    } else if (twoFirstLetters == 65 ||
-               fourFirstLetters == 6011 ||
-               threeFirstLetters >= 644 && threeFirstLetters <= 649 ||
-               sixFirstLetters >= 62216 && sixFirstLetters <= 622925) {
-        $cardWrap.find('img').removeClass('_active').filter('._discover').addClass('_active');
-    } else if (twoFirstLetters == 36 || twoFirstLetters == 38 || twoFirstLetters == 39 ||
-               fourFirstLetters == 6011 ||
-               threeFirstLetters >= 300 && threeFirstLetters <= 305 || threeFirstLetters == 309) {
-        $cardWrap.find('img').removeClass('_active').filter('._dc').addClass('_active');
-    } else {
-        $cardWrap.find('img').removeClass('_active');
-    }
-  }
-
+          if (twoFirstLetters == 34 || twoFirstLetters == 37) {
+              $cardWrap.find('img').removeClass('_active').filter('._ae').addClass('_active');
+          } else if (twoFirstLetters >= 50 && twoFirstLetters <= 55) {
+              $cardWrap.find('img').removeClass('_active').filter('._mc').addClass('_active');
+          } else if (firstLetter == 4) {
+              $cardWrap.find('img').removeClass('_active').filter('._visa').addClass('_active');
+          } else if (fourFirstLetters >= 3528 && fourFirstLetters <= 3589) {
+              $cardWrap.find('img').removeClass('_active').filter('._jcb').addClass('_active');
+          } else if (twoFirstLetters == 65 ||
+                     fourFirstLetters == 6011 ||
+                     threeFirstLetters >= 644 && threeFirstLetters <= 649 ||
+                     sixFirstLetters >= 62216 && sixFirstLetters <= 622925) {
+              $cardWrap.find('img').removeClass('_active').filter('._discover').addClass('_active');
+          } else if (twoFirstLetters == 36 || twoFirstLetters == 38 || twoFirstLetters == 39 ||
+                     fourFirstLetters == 6011 ||
+                     threeFirstLetters >= 300 && threeFirstLetters <= 305 || threeFirstLetters == 309) {
+              $cardWrap.find('img').removeClass('_active').filter('._dc').addClass('_active');
+          } else {
+              $cardWrap.find('img').removeClass('_active');
+          }
+        }
+  })
 </script>

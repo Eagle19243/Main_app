@@ -31,7 +31,7 @@ class DoRequestsController < ApplicationController
       if @do_request.save
         @msg="Request sent to Project Admin";
         if current_user.id == task.project.user_id
-          @msg="You become Member of This Task team";
+          @msg="Your application to perform this task was submitted successfully. The project leader will notify you once it has been received and a decision is made.";
         end
         flash[:success] = @msg
         format.js
@@ -71,7 +71,7 @@ class DoRequestsController < ApplicationController
         team = Team.find_or_create_by(project_id: @do_request.project_id)
         users_ids = team.team_memberships.collect(&:team_member_id)
         if (!users_ids.include?(@do_request.user_id))
-          Groupmember.create(user_id: @do_request.user_id, chatroom_id: team.project.chatroom.id)
+          Chatroom.add_user_to_project_chatroom(@do_request.task.project,@do_request.user)
         end
         membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
         #task.team_memberships.add(membership)

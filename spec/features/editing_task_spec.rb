@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Edit a Task", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Edit a Task", js: true do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first

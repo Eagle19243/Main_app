@@ -164,7 +164,7 @@ var RevisionModule = (function() {
 
 var ModalsModule = (function () {
 
-    var modalsArr = ["#team", "#suggested_task_popup", "#myModal2", ".modal-default", "#popup-for-free-paid", "#modalVerification", "#registerModal"]; // todo try to remove this
+    var modalsArr = ["#team", "#suggested_task_popup", "#share", "#myModal2", ".modal-default", "#popup-for-free-paid", "#modalVerification", "#registerModal"]; // todo try to remove this
 
     function openModal(modalSelector) {
         $(modalSelector).fadeIn();
@@ -192,8 +192,20 @@ var ModalsModule = (function () {
                 $html.removeClass('_open-modal');
             })
             .on('click.closeModalByCloseBtn', '.modal-default__close, [data-modal-close]', function (e) {
-                $(this).closest('.modal-default').fadeOut();
-                $html.removeClass('_open-modal');
+                var hideModal = true;
+
+                $(this).closest('.modal-default').fadeOut(400, function() {
+                    $('.modal-default').each(function(index, element) {
+                        if ($(element).is(':visible')) {
+                            hideModal = false;
+                        }
+                    });
+
+                    if (hideModal) {
+                        $html.removeClass('_open-modal');
+                    }
+                });
+
             })
             .on('click.closeTaskModalByBtn', '#task-popup-close', function (e) {
                 UrlModule.closeTaskModal();

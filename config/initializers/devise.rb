@@ -14,7 +14,7 @@ Devise.setup do |config|
   config.password_length = 8..72
   config.timeout_in = 3.years
   config.reset_password_within = 6.hours
-  config.navigational_formats = ['*/*', :html, :json]
+  config.navigational_formats = ['*/*', :html]
   config.sign_out_via = :delete
 
   config.omniauth :facebook, ENV["facebook_app_id"], ENV["facebook_secret_key"]

@@ -2,7 +2,7 @@
   <div class="modal-default__content">
       <button type="button" class="modal-default__close" data-dismiss="modal"></button>
 
-      <h2 class="modal-default__title">Create New Task</h2>
+      <h2 class="modal-default__title">Suggest New Task</h2>
 
       <%= simple_form_for(Task.new) do |f| %>
         <%= f.error_notification %>
@@ -19,15 +19,29 @@
           <textarea class="f-default__textarea" required="required" maxlength="1500" aria-required="true" name="task[description]" id="task_description"></textarea>
         </div> -->
 
-        <div class="f-default__row">
+        <div class="f-default__row b-tooltip">
           <div class="f-default__col-wrap">
             <div class="f-default__col">
-              <label class="f-default__label" for="task_description">Budget, min <%= min_fund_budget_in_btc %> BTC</label>
+              <label class="f-default__label" for="task_description">
+                Budget
+                <span class="b-tooltip__element">(?)
+                    <div class="b-tooltip__content">
+                        Total budget of task in Bitcoins.
+                    </div>
+                </span>
+                , min <%= min_fund_budget_in_btc %> BTC</label>
               <input class="f-default__field modal-new-task__btc-amount numeric decimal required" required="required" min="<%= min_fund_budget_in_btc %>" value="<% min_fund_budget_in_btc %>" maxlength="10" aria-required="true" type="number" step="0.001" name="task[budget]" id="task_budget">
               <span id="new_task_btc" class="f-default__convert"></span>
             </div>
             <div class="f-default__col">
-              <label class="f-default__label" for="task_description">People Needed</label>
+              <label class="f-default__label" for="task_description">
+                  People Needed
+                  <span class="b-tooltip__element">(?)
+                      <div class="b-tooltip__content">
+                          Total number of participants needed to work on this task.
+                      </div>
+                  </span>
+              </label>
               <input class="f-default__field modal-new-task__member_amount numeric integer required" required="required" maxlength="5" aria-required="true" type="number" step="1" min="1" value="1" name="task[target_number_of_participants]" id="task_target_number_of_participants">
             </div>
             <div class="f-default__col _estimation">
@@ -38,13 +52,27 @@
           </div>
         </div>
 
-        <div class="f-default__row">
-          <label class="f-default__label" for="task_condition_of_execution">Condition of Execution</label>
+        <div class="f-default__row b-tooltip">
+          <label class="f-default__label" for="task_condition_of_execution">
+            Specifications
+            <span class="b-tooltip__element">(?)
+                <div class="b-tooltip__content">
+                    Provide general description of this task.
+                </div>
+            </span>
+          </label>
           <textarea class="f-default__textarea" required="required" maxlength="1500" aria-required="true" name="task[condition_of_execution]" id="task_condition_of_execution"></textarea>
         </div>
 
-        <div class="f-default__row">
-          <label class="f-default__label" for="task_proof_of_execution">Proof of Execution</label>
+        <div class="f-default__row b-tooltip">
+          <label class="f-default__label" for="task_proof_of_execution">
+            Proof of Execution
+            <span class="b-tooltip__element">(?)
+                <div class="b-tooltip__content">
+                    Specify conditions to consider this task as completed.
+                </div>
+            </span>
+          </label>
           <textarea class="f-default__textarea" required="required" maxlength="1500" aria-required="true" name="task[proof_of_execution]" id="task_proof_of_execution"></textarea>
         </div>
 
@@ -73,9 +101,7 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
         $teamAmount = $('.modal-new-task__member_amount'),
         MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
         CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2),
-        WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3),
-        SATHOSHI_FEE_PER_BYTE = parseInt('<%= Payments::BTC::FeeCalculator::RATE_PER_BYTE %>'),
-        BTC_FEE_PER_BYTE = SATHOSHI_FEE_PER_BYTE / (10e7);
+        WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3);
 
     function updateConversion(e) {
         e.preventDefault();
@@ -116,8 +142,7 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
               $estimationDataInUSD.html('');
             } else {
               var transactionSizeInBytes = numberOfDonations * (180 + 113) + (teamAmount + 2) * 34 + 10 + numberOfDonations;
-              var transactionFeeInBTC = transactionSizeInBytes * BTC_FEE_PER_BYTE;
-              var budgetAfterFeesInBTC = (budget - (budget * WESERVE_FEE)) - transactionFeeInBTC;
+              var budgetAfterFeesInBTC = (budget - (budget * WESERVE_FEE));
               var perMemberAmountInBTC = budgetAfterFeesInBTC / teamAmount;
 
               $estimationData.html(perMemberAmountInBTC.toFixed(3));

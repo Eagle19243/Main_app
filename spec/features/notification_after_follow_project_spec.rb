@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Notification After Follow the Project', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Notification After Follow the Project', js: true do
   let(:user)          { create(:user, :confirmed_user) }
   let(:project)       { create(:project) }
 

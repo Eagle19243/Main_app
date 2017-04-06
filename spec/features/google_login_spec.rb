@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Google login', js: true, vcr: { cassette_name: 'bitgo' } do
+feature 'Google login', js: true do
   before do
     visit '/'
     click_pseudo_link 'Login'

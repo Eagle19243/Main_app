@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Active projects", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Active projects", js: true do
 
   context "As logged in user" do
     before do

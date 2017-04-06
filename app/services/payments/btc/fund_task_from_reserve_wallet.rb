@@ -2,8 +2,7 @@ module Payments::BTC
   class FundTaskFromReserveWallet
     attr_reader :task, :user, :usd_amount, :satoshi_amount,
                 :stripe_token, :card_id, :save_card,
-                :reserve_wallet_id, :reserve_wallet_pass_pharse,
-                :skip_wallet_transaction
+                :reserve_wallet_id, :skip_wallet_transaction
 
     MIN_AMOUNT = Task::MINIMUM_DONATION_SIZE
 
@@ -18,25 +17,28 @@ module Payments::BTC
 
       @skip_wallet_transaction    = ENV['skip_wallet_transaction'].to_s.strip
       @reserve_wallet_id          = ENV['reserve_wallet_id'].to_s.strip
-      @reserve_wallet_pass_pharse = ENV['reserve_wallet_pass_pharse'].to_s.strip
 
       validate_params!
     end
 
     def submit!
-      raise_not_enough_funds_error! unless enough_balance?(satoshi_amount)
-      create_task_wallet! unless task.wallet_address
+      if enabled_wallet_transactions?
+        raise_not_enough_funds_error! unless enough_balance?(satoshi_amount)
+      end
+
+      create_task_wallet! unless task.wallet
 
       if stripe_service.charge!(amount: usd_amount, description: payment_description)
         stripe_response = JSON(stripe_service.stripe_response.to_s)
 
         if enabled_wallet_transactions?
           transaction = btc_transfer.submit!
-
-          save_stripe_payment_in_db!(stripe_response, btc_transaction: transaction)
         else
-          save_stripe_payment_in_db!(stripe_response, btc_transaction: nil)
+          transaction = nil
         end
+
+        save_stripe_payment_in_db!(stripe_response, btc_transaction: transaction)
+        update_task_balance!
       else
         raise_stripe_error!(stripe_service.error)
       end
@@ -44,9 +46,8 @@ module Payments::BTC
 
     private
     def validate_params!
-      raise Payments::BTC::Errors::TransferError, "Wallet transactions are not configured for this environment" unless enabled_wallet_transactions?
-      raise Payments::BTC::Errors::TransferError, "Reserve Wallet ID is not configured for this environment" unless reserve_wallet_id.present?
-      raise Payments::BTC::Errors::TransferError, "Reserve Wallet Passphrase is not configured for this environment" unless reserve_wallet_pass_pharse.present?
+      raise Payments::BTC::Errors::TransferError, "Environment configuration is incorrect. Please check ENV variables" if disabled_wallet_transactions? && reserve_wallet_id.present?
+      raise Payments::BTC::Errors::TransferError, "Environment configuration is incorrect. Please check ENV variables" if enabled_wallet_transactions? && reserve_wallet_id.blank?
       raise Payments::BTC::Errors::TransferError, "Amount can't be blank" unless satoshi_amount > 0
       raise Payments::BTC::Errors::TransferError, "Amount can't be less than minimum donation" unless satoshi_amount >= MIN_AMOUNT
     end
@@ -74,6 +75,10 @@ module Payments::BTC
       skip_wallet_transaction != "true"
     end
 
+    def disabled_wallet_transactions?
+      !enabled_wallet_transactions?
+    end
+
     def enough_balance?(amount)
       reserve_wallet_balance >= amount
     end
@@ -83,10 +88,9 @@ module Payments::BTC
     end
 
     def btc_transfer
-      Payments::BTC::Transfer.new(
+      Payments::BTC::InternalTransfer.new(
         reserve_wallet_id,
-        reserve_wallet_pass_pharse,
-        task.wallet_address.sender_address,
+        task.wallet.wallet_id,
         satoshi_amount
       )
     end
@@ -96,7 +100,7 @@ module Payments::BTC
     end
 
     def reserve_wallet_balance
-      Payments::BTC::WalletHandler.new.get_wallet_balance(reserve_wallet_id)
+      wallet_handler.get_wallet_balance(reserve_wallet_id)
     end
 
     def save_stripe_payment_in_db!(stripe_response, btc_transaction:)
@@ -112,20 +116,34 @@ module Payments::BTC
         refund_url: stripe_response.fetch('refunds', {})['url'],
         status: stripe_response['status'],
         seller_message: stripe_response.fetch('outcome', {})['seller_message'],
-        transferd: btc_transaction ? true : nil,
-        tx_id:     btc_transaction.try(:tx_hash),
-        tx_hex:    btc_transaction.try(:tx_hex)
+        transferd: btc_transaction ? true : false,
+        tx_id: nil,
+        tx_hex: nil,
+        tx_internal_id: btc_transaction&.internal_id
       )
     end
 
     def create_task_wallet!
-      Payments::BTC::CreateTaskWalletService.call(task.id)
+      Payments::BTC::CreateWalletService.call("Task", task.id)
       task.reload
+    end
+
+    def wallet_handler
+      Payments::BTC::WalletHandler.new
+    end
+
+    def update_task_balance!
+      balance = wallet_handler.get_wallet_balance(task.wallet.wallet_id)
+
+      if balance > 0
+        task.wallet.update_attribute(:balance, balance)
+        task.update_attribute(:current_fund, balance)
+      end
     end
 
     def raise_not_enough_funds_error!
       raise Payments::BTC::Errors::TransferError,
-        'Not Enough BTC in Reserve wallet Please Try Again.'
+        'Not Enough BTC in Reserve wallet. Please Try Again'
     end
 
     def raise_stripe_error!(message)

@@ -16,9 +16,36 @@
     </div>
 
     <a class="header-link border-link ml30 hidden-mobile" data-modal="#projectSignupModal" id="start_project_link">Start a Project</a>
-    <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>
+    <div class="header-dropdown">
+        <div class="header-dropdown__title js-dropdown">Explore</div>
+        <ul class="header-dropdown__list js-dropdown-list">
+            <li class="header-dropdown__item">
+                <a class="projects-link" href="<%= projects_path %>">Active Projects</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= ENV['about_project_url'] %>">About</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= t('commons.knowledge_base_landing_link') %>">Improve the Platform</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
+            </li>
+        </ul>
+    </div>
+    <!--<%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>-->
 
     <div class="pull-right register-group">
+        <div class="search-box-wrapper show-desktop">
+            <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
+                <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %>
+                <button name="" class="btn-search btn-reset">
+                    <svg focusable="false" version="1.1" class="svg-search">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-search"></use>
+                    </svg>
+                </button>
+            <% end %>
+        </div>
       <a data-modal="#registerModal" class="show-desktop sign_in_a">Login</a>
       <span class="show-desktop">or</span>
       <a data-modal="#registerModal" class="border-link show-desktop sign_up_a">Register</a>
@@ -48,3 +75,31 @@
     </li>
   </ul>
 </div>
+
+<script>
+
+$(document).ready(function() {
+    var $dropdown = $('.js-dropdown');
+
+    $(document)
+        .on('click.dropdownToggle', '.js-dropdown', function() {
+            $(this).toggleClass('_active');
+            $(this).siblings('.js-dropdown-list').toggleClass('_active');
+        })
+        .on('click.hideDropdown', function(e) {
+            if (!$(e.target).closest('.js-dropdown-list').length && !$(e.target).closest('.js-dropdown').length) {
+                hideDropdowns();
+            }
+        })
+
+    $(window).on('resize', function() {
+        hideDropdowns();
+    })
+
+    function hideDropdowns() {
+        $dropdown.removeClass('_active');
+        $('.js-dropdown-list').removeClass('_active');
+    }
+})
+
+</script>

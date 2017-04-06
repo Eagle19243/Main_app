@@ -1,0 +1,15 @@
+.error-fund-modal {
+  font-size: 14px;
+  z-index: 1051;
+  .modal-default-content {
+    max-width: 720px;
+  }
+  .modal-default-title {
+    letter-spacing: 3px;
+  }
+
+  &__message {
+    color: #525252;
+    text-align: center;
+  }
+}

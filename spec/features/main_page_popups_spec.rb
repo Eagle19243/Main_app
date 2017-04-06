@@ -24,9 +24,9 @@ feature 'Main page popups' do
   scenario 'Projects page is working for anonymous user', js: true do
     visit '/'
 
+    find('.header-dropdown__title.js-dropdown').click
     click_pseudo_link 'Active Projects'
 
     expect(page).to have_current_path(projects_path)
-    
   end
 end

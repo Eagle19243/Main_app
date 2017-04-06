@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Sing_in working on  "/users/sign_in" ' , js: true , vcr: { cassette_name: 'bitgo' } do
+feature 'Sing_in working on  "/users/sign_in" ' , js: true do
   scenario 'lets user log in "/users/sign_in" 'do
     visit '/users/sign_in'
     @user = FactoryGirl.create(:user)

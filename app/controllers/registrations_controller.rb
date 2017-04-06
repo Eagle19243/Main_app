@@ -6,6 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
     super
     @user.username = @user.name + @user.id.to_s
     @user.save
+    WalletCreationJob.perform_later('User', @user.id) unless @user.wallet
   end
 
   private

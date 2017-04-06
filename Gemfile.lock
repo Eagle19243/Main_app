@@ -137,6 +137,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    coinbase (4.1.0)
     colored (1.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
@@ -588,6 +589,7 @@ GEM
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
+    rspec-json_expectations (2.1.0)
     rspec-mocks (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
@@ -753,6 +755,7 @@ DEPENDENCIES
   cocoon
   codeclimate-test-reporter (~> 1.0.0)
   coffee-rails (~> 4.1.0)
+  coinbase
   colored
   country_select
   daemons
@@ -812,6 +815,7 @@ DEPENDENCIES
   react-rails
   remotipart
   rollbar
+  rspec-json_expectations
   rspec-rails
   rubocop
   rubycritic

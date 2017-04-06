@@ -1,7 +1,7 @@
 <div class="row s-group-messages margin-none">
   <div class="s-group-messages__nav">
 
-    <div class="s-group-messages__nav-title">Team messages</div>
+    <div class="s-group-messages__nav-title">Teams channels</div>
     <div class="s-group-messages__menu">
       <div class="s-group-messages__submenu">
         <div class="s-group-messages__submenu-title">My project</div>
@@ -11,11 +11,6 @@
                 <li class="s-group-messages__submenu-item"><a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a></li>
               <% end %>
           <% end %>
-        </ul>
-      </div>
-      <div class="s-group-messages__submenu">
-        <div class="s-group-messages__submenu-title">My another project</div>
-        <ul class="s-group-messages__submenu-list _project-team-members">
           <%= render 'group_messages/project_team' %>
         </ul>
       </div>
@@ -67,29 +62,37 @@
       });
     }
   }
-  $(document).ready(function () {
-    $.ajaxSetup({cache: false});
-    window.setInterval(function () {
-      load_messages();
-    }, 5000);
-    $(".s-group-messages__user-search").click(function () {
-      $(".s-group-messages__search-form").toggle();
-    });
-    $(".projects-chat").click(function () {
-      project_id = $(this).attr('id')
-      $("div#message-load-image").show();
-      callAjax(project_id);
-    });
-    function callAjax(project_id) {
-      $.ajax({
-        url: "/group_messages/get_chatroom",
-        type: "post",
-        data: {project_id: project_id},
-        success: function () {
+    $(document).ready(function () {
+        $messageRooms = $('.s-group-messages__submenu-item');
+
+        $messageRooms.first().addClass('_active')
+
+        $(document).on('click.openProjectChat', '.projects-chat', function() {
+            $('.s-group-messages__submenu-item').removeClass('_active');
+            $(this).parent().addClass('_active');
+        })
+
+        $.ajaxSetup({cache: false});
+        window.setInterval(function () {
+            load_messages();
+        }, 5000);
+        $(".s-group-messages__user-search").click(function () {
+            $(".s-group-messages__search-form").toggle();
+        });
+        $(".projects-chat").click(function () {
+            project_id = $(this).attr('id')
+            $("div#message-load-image").show();
+            callAjax(project_id);
+        });
+        function callAjax(project_id) {
+            $.ajax({
+                url: "/group_messages/get_chatroom",
+                type: "post",
+                data: {project_id: project_id},
+                success: function () {}
+            });
         }
-      });
-    }
-  });
+    });
   $('#search').bind('railsAutocomplete.select', function (event, data) {
     if (data.item.id != '')
       $("div#message-load-image").show();

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "My Profile", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "My Profile", js: true do
 
   context "As logged in user" do
     before do

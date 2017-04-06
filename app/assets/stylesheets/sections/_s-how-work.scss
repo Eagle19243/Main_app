@@ -2,7 +2,7 @@
   position: relative;
   background-color: #333;
   z-index: 4;
-  padding-top: 6%;
+  padding-top: 60px;
   margin: 0;
   width: 100%;
   max-width: 100%;
@@ -17,6 +17,15 @@
     font-family: 'Roboto', sans-serif;
     color: #fff;
     margin-bottom: 20px;
+  }
+
+  &__info {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    color: #fff;
+    max-width: 920px;
+    margin: 40px auto 100px;
+    font-size: 22px;
   }
 
   &__item-wrap {

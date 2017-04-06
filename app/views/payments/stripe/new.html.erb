@@ -1,51 +1,4 @@
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-
 <script type="text/javascript">
-  Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
-
-  $(function () {
-    var $form = $('#payment-form');
-
-    $form.submit(function (event) {
-      if ($form.attr('id') == 'payment-form-stripe-no-submit') {
-        //if no-stripe connection is needed(saved carded used) proceed without calling stripe
-        return true;
-      }
-
-      // Disable the submit button to prevent repeated clicks:
-      $form.find('.js-submit-cc').prop('disabled', true);
-
-      // Request a token from Stripe:
-      Stripe.card.createToken($form, stripeResponseHandler);
-
-      // Prevent the form from being submitted:
-      return false;
-    });
-  });
-
-  function stripeResponseHandler(status, response) {
-    // Grab the form:
-    var $form = $('#payment-form');
-
-    if (response.error) { // Problem!
-      // Show the errors on the form:
-      $form.find('.modal-fund__payment-errors').text(response.error.message);
-      $form.find('.modal-fund__payment-errors').show();
-      $form.find('.js-submit-cc').prop('disabled', false); // Re-enable submission
-
-    } else { // Token was created!
-
-      // Get the token ID:
-      var token = response.id;
-
-      // Insert the token ID into the form so it gets submitted to the server:
-      $form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-      // Submit the form:
-      $form.get(0).submit();
-    }
-  };
-
   $(document).ready(function() {
     $('.available-cards-radio-button').click(function () {
       $('.new-card-subform').hide();
@@ -72,7 +25,6 @@
       $('#payment-form-stripe-no-submit').attr('id','payment-form');
       // bring back validations
       $("#payment-form").validate();
-
     });
   });
 
@@ -83,17 +35,17 @@
  i call JQuery function to fill the action path  -->
 <%#= card_payment_project_task_path %>
 
-<form action="/" method="POST" id="payment-form">
+<form id="payment-form">
 
-  <input type="hidden" class="js-amount" name="amount"/>
+  <input type="hidden" class="payment-form__amount js-amount" name="amount"/>
 
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <%#= hidden_field_tag :wallet_transaction_user_wallet,  @task.wallet_address.sender_address %>
 
     <div class="modal-fund__stripe-bottom">
       <br class="modal-fund__stripe-bottom-inner">
 
-      <% if @available_credit_cards.present? %>
+      <!-- Available cards are disabled for now due to errors in JS -->
+      <% if false && @available_credit_cards.present? %>
         <label class="f-default__label">Saved Cards:</label>
         <br>
       <div class="f-default__row">
@@ -147,7 +99,7 @@
         </div>
         <div class="f-default__row _flex">
           <label class="f-default__checkbox-label">
-            <input class="f-default__checkbox-field" name="save_card" type="checkbox" value="1"/>
+            <input class="f-default__checkbox-field payment-form__save-card" name="save_card" type="checkbox" value="1"/>
             <span class="f-default__checkbox-pseudo"></span>
             <span class="f-default__checkbox-text">Save this card</span>
           </label>
@@ -157,7 +109,7 @@
         <!--Commented this may be we use this in future -->
         <!--<br/>-->
         <label class="f-default__checkbox-label">
-            <input class="f-default__checkbox-field" name="method" type="checkbox" />
+            <input class="f-default__checkbox-field payment-form__method" name="method" type="checkbox" />
             <span class="f-default__checkbox-pseudo"></span>
             <span class="f-default__checkbox-text">
                 I've read and accept the
@@ -193,6 +145,14 @@
       </div>
     </div>
 
-  <button class="btn-root _donate _dark js-submit-cc">Donate - $<span class="modal-fund__donate-value js-usd-value">0.00</span></button>
+  <button class="btn-root _donate _dark js-submit-cc _disable">Donate - $<span class="modal-fund__donate-value js-usd-value">0.00</span></button>
 </form>
 
+
+<script>
+    $(document).ready(function() {
+        $("#payment-form").on('submit.ignoreSubmit', function(event) {
+            event.preventDefault();
+        })
+    })
+</script>

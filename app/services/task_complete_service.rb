@@ -10,23 +10,27 @@ class TaskCompleteService
     update_current_fund!
     raise ArgumentError, "Task's budget is too low and cannot been transfered"   if task.satoshi_budget < Task::MINIMUM_FUND_BUDGET
     raise ArgumentError, "Task fund level is too low and cannot been transfered" if task.current_fund < task.satoshi_budget
-    raise ArgumentError, "Task's wallet doesn't exist" unless task.wallet_address
+    raise ArgumentError, "Task's wallet doesn't exist" unless task.wallet.wallet_id
   end
 
   def complete!
     ActiveRecord::Base.transaction do
       mark_task_as_completed!
-      transaction = send_funds_to_recipients!(recipients, transaction_fee)
-      create_wallet_transactions_in_db!(recipients, transaction)
+      transactions = send_funds_to_recipients!(recipients)
+      create_wallet_transactions_in_db!(recipients, transactions)
     end
   end
 
+  def amount
+    task.current_fund
+  end
+
   def we_serve_part
-    @we_serve_part ||= (amount_to_send * Payments::BTC::Base.weserve_fee).to_i
+    @we_serve_part ||= (amount * Payments::BTC::Base.weserve_fee).to_i
   end
 
   def members_part
-    @members_part ||= ((amount_to_send - we_serve_part) / task.team_memberships.size).to_i
+    @members_part ||= ((amount - we_serve_part) / task.team_memberships.size).to_i
   end
 
   def recipients
@@ -43,8 +47,8 @@ class TaskCompleteService
   end
 
   def update_current_fund!
-    if wallet_handler.wallet_balance_confirmed?(task.wallet_address.wallet_id)
-      balance = wallet_handler.get_wallet_balance(task.wallet_address.wallet_id)
+    balance = wallet_handler.get_wallet_balance(task.wallet.wallet_id)
+    if balance > 0
       task.update_attribute(:current_fund, balance)
     else
       raise Payments::BTC::Errors::TransferError,
@@ -52,22 +56,10 @@ class TaskCompleteService
     end
   end
 
-  def amount_to_send
-    @amount_to_send ||= amount_after_bitgo_fee(task.current_fund - transaction_fee)
-  end
-
-  def amount_after_bitgo_fee(amount)
-    (amount - (amount * Payments::BTC::Base.bitgo_fee))
-  end
-
-  def transaction_fee
-    @transaction_fee ||= task.transfer_task_funds_transaction_fee
-  end
-
   def build_recipients
     recipients = task.team_memberships.map do |membership|
       {
-        address: membership.team_member.user_wallet_address.sender_address,
+        address: membership.team_member.wallet.wallet_id,
         amount: members_part
       }
     end
@@ -82,24 +74,21 @@ class TaskCompleteService
     recipients
   end
 
-  def send_funds_to_recipients!(recipients, fee)
-    transfer = Payments::BTC::MultiRecipientsTransfer.new(
-      task.wallet_address.wallet_id,
-      task.wallet_address.pass_phrase,
-      recipients,
-      fee
+  def send_funds_to_recipients!(recipients)
+    transfer_service = Payments::BTC::MultiRecipientsTransfer.new(
+      task.wallet.wallet_id,
+      recipients
     )
-    transfer.submit!
+    transfer_service.submit!
   end
 
-  def create_wallet_transactions_in_db!(recipients, transaction)
-    recipients.map do |recipient|
+  def create_wallet_transactions_in_db!(recipients, transactions)
+    recipients.each_with_index do |recipient, index|
       WalletTransaction.create!(
-        tx_hex: transaction.tx_hex,
-        tx_id: transaction.tx_hash,
-        amount: recipient[:amount],
-        user_wallet: recipient[:address],
-        task_id: task.id
+        task_id: task.id,
+        user_wallet: transactions[index].internal_id,
+        amount: recipient[:amount]
+
       )
     end
   end

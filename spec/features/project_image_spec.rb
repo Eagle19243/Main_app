@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Project image", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Project image", js: true do
   let(:old_photo) { "photo.png" }
   let(:new_photo) { "photo2.jpg" }
 

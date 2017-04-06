@@ -21,14 +21,23 @@ FactoryGirl.define do
     end
 
     trait :with_associations do
-      association :user, :confirmed_user, factory: :user
+      association :user, :confirmed_user, :with_wallet, factory: :user
       association :project, factory: :base_project
       budget { 100 }
       deadline { 30.days.from_now }
+      association :wallet
+    end
+
+    trait :with_user do
+      association :user, :confirmed_user, :with_wallet, factory: :user
+    end
+
+    trait :with_project do
+      association :project, factory: :base_project
     end
 
     trait :with_wallet do
-      association :wallet_address
+      association :wallet
     end
   end
 end

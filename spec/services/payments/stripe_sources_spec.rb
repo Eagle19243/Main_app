@@ -7,9 +7,6 @@ RSpec.describe Payments::StripeSources do
 
   before do
     StripeMock.start
-
-    # This is needed because on the creation of a user we call bitgo. This might have to be refactored and removed from the user model
-    allow_any_instance_of(User).to receive(:assign_address).and_return(UserWalletAddress.create(sender_address: nil))
   end
 
   after { StripeMock.stop }

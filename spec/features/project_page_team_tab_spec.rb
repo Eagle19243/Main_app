@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Project Page Team Tab", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Project Page Team Tab", js: true do
 
   context "When you visit a project page as logged in user" do
     before do

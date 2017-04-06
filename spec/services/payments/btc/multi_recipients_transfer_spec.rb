@@ -2,26 +2,23 @@ require 'rails_helper'
 
 RSpec.describe Payments::BTC::MultiRecipientsTransfer do
   describe '#submit!' do
-    let(:wallet_id) { "test-wallet-id" }
-    let(:wallet_passphrase) { "test-wallet-passphrase" }
     let(:recipients) do
       [
         { address: 'test-address-to-1', amount: 100_000 },
         { address: 'test-address-to-2', amount: 500_000 },
       ]
     end
-    let(:fee) { 200_000 }
     let(:transfer) do
-      described_class.new(wallet_id, wallet_passphrase, recipients, fee)
+      described_class.new(create(:wallet), recipients)
     end
 
-    context "when response is successful", vcr: { cassette_name: 'bitgo_sendmany_success' } do
+    context "when response is successful" do
       it "returns transaction object" do
-        transaction = transfer.submit!
+        mock_response = Payments::BTC::BaseTransfer::Transaction.new("123abs")
+        allow_any_instance_of(Payments::BTC::InternalTransfer).to receive(:submit!).and_return(mock_response)
 
-        expect(transaction.fee).to eq(59388)
-        expect(transaction.tx_hex).to eq("returned-transaction-hex")
-        expect(transaction.tx_hash).to eq("returned-transaction-id")
+        transactions = transfer.submit!
+        expect(transactions.map(&:internal_id)).to eq ["123abs", "123abs"]
       end
     end
   end

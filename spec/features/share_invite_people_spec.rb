@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Share/Invite People to the Participate", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Share/Invite People to the Participate", js: true do
   context "As logged in user" do
     before do
       @user = FactoryGirl.create(:user, confirmed_at: Time.now)

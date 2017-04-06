@@ -1,12 +1,10 @@
-bitgo_admin_api_address: "http://localhost:3080/api/v1"   # where bitgojs client is running
-bitgo_admin_access_token:                                 # specify first access token retrieved from bitgo.com ( default token )
-bitgo_admin_weserve_admin_access_token:                   # specify second access token retrieved from bitgo.com or keep empty ( reserve wallet token )
-mediawiki_secret:                                       # local mediawiki installation secret
-mediawiki_domain:                                       # mediawiki domain for cookies in wide format, eg ".example.com"
-mediawiki_api_base_url:                                 # base url of mediawiki API, eg "http://mediawiki.local/"
-mediawiki_username:                                     # mediawiki API username
-mediawiki_password:                                     # mediawiki API password
-bitgo_service_fee: "0.001"                      # BitGo commission rate
+coinbase_api_key:                               # specify coinbase api key
+coinbase_api_secret:                            # specify coinbase api secret
+mediawiki_secret:                               # local mediawiki installation secret
+mediawiki_domain:                               # mediawiki domain for cookies in wide format, eg ".example.com"
+mediawiki_api_base_url:                         # base url of mediawiki API, eg "http://mediawiki.local/"
+mediawiki_username:                             # mediawiki API username
+mediawiki_password:                             # mediawiki API password
 weserve_service_fee: "0.05"                     # Weserve commission rate
 weserve_wallet_address:                         # Weserve commission wallet to accept fees
 weserve_from_email:                             # Default email that will be used in a 'from' field when sending emails

@@ -239,6 +239,15 @@
 
     .team-block {
       padding-top: 5px;
+      &__item {
+        &:hover,
+        &:focus {
+          text-decoration: none;
+        }
+        &-name {
+          margin-top: 3px;
+        }
+      }
       h5 {
         font-family: 'Roboto', sans-serif;
         color: #000;

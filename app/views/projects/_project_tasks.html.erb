@@ -59,14 +59,11 @@
                         <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                         <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
                       </div>
+                    <% else %>
+                      <div class="fund-do-btns">
+                        <button class="btn-root _dark sign_in_a" data-modal="#registerModal">DO</button>
+                      </div>
                     <% end %>
-                    <div class="fund-do-btns">
-                      <% if user_signed_in? %>
-                          <% if can? :destroy, task %>
-                            <button type="button" title="Delete" data-delete-url='<%= reject_task_path(task.id) %>' class='btn-root _dark _delete' data-modal="#removeTask">Delete</button>
-                          <% end %>
-                      <% end %>
-                    </div>
                   </div>
                 </div>
             <% end %>
@@ -74,7 +71,7 @@
       </div>
 
       <% if user_signed_in? %>
-        <% if current_user.is_project_leader?(@project) || current_user.is_executor_for?(@project) %>
+        <% if current_user.is_project_leader?(@project) || current_user.is_coordinator_for?(@project) %>
             <div class="section-add-task">
               <a id="add-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
             </div>

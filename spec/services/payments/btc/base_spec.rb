@@ -7,20 +7,18 @@ RSpec.describe Payments::BTC::Base do
     let(:supported_options) do
       %i(
         weserve_fee
-        bitgo_fee
         weserve_wallet_address
-        bitgo_access_token
-        bitgo_reserve_access_token
+        coinbase_api_key
+        coinbase_api_secret
       )
     end
 
     let(:valid_options) do
       {
         weserve_fee: "0.05",
-        bitgo_fee:   "0.001",
         weserve_wallet_address: "we-serve-address",
-        bitgo_access_token: "access-token",
-        bitgo_reserve_access_token: "reserve-access-token"
+        coinbase_api_key: "api-key",
+        coinbase_api_secret: "api-secret"
       }
     end
 
@@ -29,16 +27,14 @@ RSpec.describe Payments::BTC::Base do
 
       expect(described_class.weserve_fee.to_s).to eq(ENV['weserve_service_fee'])
       expect(described_class.weserve_fee).to be_kind_of(BigDecimal)
-      expect(described_class.bitgo_fee.to_s).to eq(ENV['bitgo_service_fee'])
-      expect(described_class.bitgo_fee).to be_kind_of(BigDecimal)
       expect(described_class.weserve_wallet_address).to eq(
         ENV['weserve_wallet_address']
       )
-      expect(described_class.bitgo_access_token).to eq(
-        ENV['bitgo_admin_access_token']
+      expect(described_class.coinbase_api_key).to eq(
+        ENV['coinbase_api_key']
       )
-      expect(described_class.bitgo_reserve_access_token).to eq(
-        ENV['bitgo_admin_weserve_admin_access_token']
+      expect(described_class.coinbase_api_secret).to eq(
+        ENV['coinbase_api_secret']
       )
     end
 

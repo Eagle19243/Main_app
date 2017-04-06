@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Project Page Plan Tab", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Project Page Plan Tab", js: true do
   before do
     @user = FactoryGirl.create(:user, confirmed_at: Time.now)
     @project = FactoryGirl.create(:project, user: @user)

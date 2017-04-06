@@ -1,7 +1,7 @@
 class ProjectUser  < ActiveRecord::Base
   belongs_to :project
   belongs_to :follower, class_name: 'User', foreign_key: :user_id
-  belongs_to :executor, class_name: 'User', foreign_key: :user_id
+  belongs_to :coordinator, class_name: 'User', foreign_key: :user_id
   belongs_to :lead_editor, class_name: 'User', foreign_key: :user_id
 
   validates :project_id, :user_id, presence: true

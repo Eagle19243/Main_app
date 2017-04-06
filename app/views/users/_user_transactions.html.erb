@@ -1,0 +1,51 @@
+<div class="s-wallet__content _active">
+  <div class="s-wallet__content-header">
+    <h3 class="s-wallet__subtitle">Transactions</h3>
+    <button class="btn-root js-toggle-content" type="button">Make a transaction</button>
+  </div>
+
+  <div class="s-wallet__content-main">
+    <div class="t-transactions">
+      <div class="t-transactions__row _head">
+        <div class="t-transactions__th">Date</div>
+        <div class="t-transactions__th">Description</div>
+        <div class="t-transactions__th">Amount</div>
+      </div>
+
+      <% if @transactions.any? %>
+        <% @transactions.each do |transaction| %>
+            <div class="t-transactions__row">
+              <% if transaction.incoming? %>
+                <div class="t-transactions__td">
+                  <svg focusable="false" version="1.1" class="svg-arrow _in">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                  </svg>
+                  <%= DateTime.parse(transaction.created_at).strftime('%b %d %Y, %I:%M %p') %>
+                </div>
+                <div class="t-transactions__td">
+                  Recieved From: <%= transaction.address_from %>
+                </div>
+              <% else %>
+                <div class="t-transactions__td">
+                  <svg focusable="false" version="1.1" class="svg-arrow _out">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow"></use>
+                  </svg>
+                  <%= DateTime.parse(transaction.created_at).strftime('%b %d %Y, %I:%M %p') %>
+                </div>
+                <div class="t-transactions__td">
+                  Sent to: <%= transaction.address_to %>
+                </div>
+              <% end %>
+
+              <div class="t-transactions__td _tar">
+                <div class="t-transactions__expense"><%= satoshi_balance_in_btc(transaction.amount) %></div>
+                <div class="t-transactions__value">$ <%= satoshi_balance_in_usd(transaction.amount) %></div>
+              </div>
+            </div>
+        <% end %>
+      <% else %>
+        No Transaction
+      <% end %>
+    </div>
+  </div>
+</div>

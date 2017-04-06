@@ -1,12 +1,12 @@
 class ApplyRequest < ActiveRecord::Base
-  enum request_type: [:Lead_Editor, :Executor]  
+  enum request_type: [:Lead_Editor, :Coordinator]  
   belongs_to :user
   belongs_to :project
   validates :user, presence: true
   validates :project, presence: true
 
   scope :pending, -> { where("accepted_at IS NULL and rejected_at IS NULL") }
-  def user_name 
+  def user_name
     User.find(self.user_id).name
   end
 

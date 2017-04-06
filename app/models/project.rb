@@ -16,13 +16,12 @@ class Project < ActiveRecord::Base
   has_many :project_comments, dependent: :destroy
   has_many :project_edits, dependent: :destroy
   has_many :proj_admins, dependent: :destroy
-  has_one  :chatroom
   has_many :chatrooms, dependent: :destroy
   has_many :project_rates
   has_many :project_users
   has_many :section_details, dependent: :destroy
   has_many :followers, through: :project_users, class_name: 'User', source: :follower, dependent: :destroy
-  has_many :executors, through: :project_users, class_name: 'User', source: :executor, dependent: :destroy
+  has_many :coordinators, through: :project_users, class_name: 'User', source: :coordinator, dependent: :destroy
   has_many :lead_editors, through: :project_users, class_name: 'User', source: :lead_editor, dependent: :destroy
   has_one  :team, dependent: :destroy
   has_many :team_memberships, through: :team
@@ -31,6 +30,9 @@ class Project < ActiveRecord::Base
   has_many :apply_requests, dependent: :destroy
 
   belongs_to :user
+
+  # Define better that the association user is referring to the leader of the project
+  alias_method :leader, :user
 
   SHORT_DESCRIPTION_LIMIT = 250
 
@@ -61,6 +63,10 @@ class Project < ActiveRecord::Base
     # TODO Rails 5 has a OR method
     projects = Project.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR full_description ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
     projects.limit(limit)
+  end
+
+  def interested_users
+    (team_members + followers + [leader]).uniq
   end
 
   def video_url
@@ -115,6 +121,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def get_project_chatroom
+    self.chatrooms.where(user_id: nil, recipient_id: nil).first
+  end
+  
   def rate_avg
     project_rates.average(:rate).to_i
   end

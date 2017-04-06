@@ -1,43 +1,41 @@
-class Payments::BTC::WalletHandler
+require 'coinbase/wallet'
 
-  def initialize
-  end
+module Payments::BTC
+  class WalletHandler
+    attr_reader :client
 
-  def get_wallet_balance(wallet_id)
-    response = api.get_wallet(wallet_id: wallet_id, access_token: access_token)
-    
-    response["balance"]
-  end
+    def initialize
+      @client = Coinbase::Wallet::Client.new(
+        api_key:    Payments::BTC::Base.coinbase_api_key,
+        api_secret: Payments::BTC::Base.coinbase_api_secret
+      )
+    end
 
-  def get_wallet_transactions(sender_address)
-    api.list_wallet_transctions(sender_address, access_token)
-  end
+    def create_wallet(wallet_name)
+      client.create_account(name: wallet_name)
+    end
 
-  def create_wallet(secure_passphrase, secure_label)
-    response = api.simple_create_wallet(passphrase: secure_passphrase, label: secure_label, access_token: access_token)
+    def get_wallet(wallet_id)
+      client.account(wallet_id)
+    end
 
-    [response["wallet"]["id"], response["userKeychain"], response["backupKeychain"]]
-  end
+    def create_addess_for_wallet(wallet_id)
+      get_wallet(wallet_id).create_address["address"]
+    end
 
-  def create_address(address_id, chain)
-    response = api.create_address(wallet_id: address_id, chain: chain, access_token: access_token)
-   
-    response["address"]
-  end
+    def get_wallet_balance(wallet_id)
+      btc_amount = get_wallet(wallet_id).balance.amount
+      Converter.convert_btc_to_satoshi(btc_amount)
+    end
 
-  def wallet_balance_confirmed?(wallet_id)
-    response = api.get_wallet(wallet_id: wallet_id, access_token: access_token)
+    def get_wallet_transactions(wallet_id)
+      transactions = get_wallet(wallet_id).transactions(limit: 100, order: :desc)
 
-    response["balance"] == response["spendableConfirmedBalance"]
-  end
+      transactions.map do |transaction_hash|
+        mapper = Mappers::WalletTransaction.new(transaction_hash)
+        mapper.build_wallet_transaction
+      end
+    end
 
-  private 
-
-  def access_token
-    Payments::BTC::Base.bitgo_access_token
-  end
-
-  def api
-    Bitgo::V1::Api.new
   end
 end

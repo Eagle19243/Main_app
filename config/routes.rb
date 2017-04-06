@@ -62,8 +62,6 @@ Rails.application.routes.draw do
 
   resources :team_memberships, only: [:update, :destroy]
   resources :work_records
-  get 'wallet_transactions/new'
-  post 'wallet_transactions/create'
   post 'user_wallet_transactions/send_to_any_address'
   post 'user_wallet_transactions/send_to_task_address'
   get 'payment_notifications/create'

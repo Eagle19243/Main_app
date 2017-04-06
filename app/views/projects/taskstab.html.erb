@@ -94,7 +94,7 @@
                 <svg focusable="false" version="1.1" class="svg-share">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-share"></use>
                 </svg>
-                Share
+                Share/Invite
             </button>
             <% if user_signed_in? %>
                 <% if @project.user_id != current_user.id %>
@@ -145,6 +145,8 @@
 <%= render "modal/thank_you_fund_modal" %>
 <%= render "modal/task_do_modal" %>
 <%= render "modal/welcome_to_team_modal" %>
+<%= render "modal/error_fund_modal" %>
+
 
 <%= render "modal/project_invite_modal" %>
 <%= render "modal/edit_project_modal" %>
@@ -309,7 +311,7 @@
     $(selector).find('.modal-revision-user .modal-revision-user-link').attr('href', rUserLink);
     $(selector).find('.modal-revision-user .modal-revision-user-link').html(rUser);
 
-    $(selector).find('.modal-revision-user .modal-revision-user-message').attr('href', "/group_messages/user_messaging?user_id=" + rUserId);
+    $(selector).find('.modal-revision-user .modal-revision-user-message').attr('href', "/group_messages?user_id=" + rUserId);
   }
 
   function showSourceEditor(revision_id) {

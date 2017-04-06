@@ -278,6 +278,13 @@
     max-width: 1200px;
   }
 
+  .team-content {
+    margin-top: -100px;
+  }
+
+  ._team-member {
+    margin-top: 100px;
+  }
   ._team-member:hover .member-name a {
     text-decoration: underline;
   }
@@ -596,6 +603,36 @@
     letter-spacing: 1px;
     line-height: 1.5em;
   }
+
+  .center {
+    text-align: center;
+
+    * {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+  }
+
+  .floatleft {
+    float: left;
+    margin: 10px 15px 15px 0;
+  }
+  .floatright {
+    float: right;
+    margin: 10px 0 15px 15px;
+  }
+
+  .thumb {
+    &.tright {
+      float: right;
+      margin: 10px 0 15px 15px;
+    }
+    &.tleft {
+      float: left;
+      margin: 10px 15px 15px 0;
+    }
+  }
 }
 
 .project-idea {
@@ -759,13 +796,12 @@
 }
 
 .section-add-task {
-  padding: 10px;
-  cursor: pointer;
-
   a {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #777;
+    display: block;
+    padding: 10px;
 
     &:hover,
     &:focus {
@@ -799,7 +835,7 @@
 }
 
 .trello-cards {
-  padding: 15px 10px 5px;
+  padding: 15px 10px 10px;
   clear: both;
   background-color: #fff;
   margin-top: 10px;
@@ -977,6 +1013,7 @@
   font-family: 'Libre Franklin', sans-serif;
 
   h4 {
+    word-wrap: break-word;
     font-family: 'Roboto', sans-serif;
   }
 

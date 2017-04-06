@@ -44,7 +44,7 @@
 
   render: ->
    React.DOM.div
-      className: "abc"
+      className: "sign-up-form"
       React.DOM.form
         role: "form"
         className: "new_user"
@@ -67,8 +67,14 @@
             value: @state.new_email
             onChange: @inputChanged
         React.DOM.div
-          className: 'form-group'
+          className: 'form-group b-tooltip'
           React.DOM.label null, 'Password'
+          React.DOM.span
+            className: 'b-tooltip__element'
+            '?'
+            React.DOM.div
+              className: 'b-tooltip__content'
+              "Minimum length is 8 characters"
           React.DOM.input
             type: 'password'
             name: 'new_password'
@@ -87,4 +93,3 @@
           type: 'submit'
           name: 'commit'
           'Sign up'
-

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Start project", js: true, vcr: { cassette_name: 'bitgo' } do
+feature "Start project", js: true do
   context "As logged in user" do
     before do
       @user = FactoryGirl.create(:user, confirmed_at: Time.now)

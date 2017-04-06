@@ -21,6 +21,14 @@ class InvitationMailer < ApplicationMailer
     mail(to: @invitation.new_leader, subject: "Invitation for Project")
   end
 
+  def notify_previous_leader_for_new_leader(project:, previous_leader:)
+    @project = project
+    @new_leader = project.user
+    @previous_leader = previous_leader
+
+    mail(to: @previous_leader.email, subject: 'New leader accepted invitation')
+  end
+
   def welcome_user(email_address)
     @user_name = User.find_by(email: email_address).name
     mail(to: email_address, subject: "Welcome to Weserve")

@@ -8,7 +8,7 @@
             <h1><%= t('landing.hero-title') %></h1>
             <p><%= t('landing.hero-subtitle') %></p>
             <div class="hero-start">
-                <a class="btn-root" href="<%= t('commons.development_project_link') %>"><%= t('commons.about_btn') %></a>
+                <a class="btn-root" href="<%= t('commons.development_project_link') %>"><%= t('commons.start_a_project') %></a>
             </div>
           </div>
         </div>
@@ -69,134 +69,217 @@
           </div>
         </div>
       </div>
+      <div class="s-how-work__info">
+        As the Project Leader, you maintain control over the collaboration at all times, so
+        your project development reflects your own vision. You build momentum with the crowd through
+        the achievement af small tasks.
+      </div>
     </div>
   </section>
 
-  <div class="landing-carousel">
-
-      <div class="carousel-item">
-        <%= image_tag("carousel/carousel_2.jpg") %>
-        <div class="carousel-text">
-          <div class="text-wrapper">
-            <h1><%= t('landing.hero-generate-title') %></h1>
-            <p><%= t('landing.hero-generate-text_html') %></p>
-            <div class="carousel-start">
-              <% if user_signed_in? %>
-                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-              <% else %>
-                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <%= image_tag("carousel/carousel_3.jpg") %>
-        <div class="carousel-text">
-          <div class="text-wrapper">
-            <h1><%= t('landing.hero-lab-title') %></h1>
-            <p><%= t('landing.hero-lab-text_html') %></p>
-            <div class="carousel-start">
-              <% if user_signed_in? %>
-                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-              <% else %>
-                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="carousel-item">
-        <%= image_tag("carousel/carousel_1.jpg") %>
-        <div class="carousel-text">
-          <div class="text-wrapper">
-            <h1><%= t('landing.hero-prototype-title') %></h1>
-            <p><%= t('landing.hero-prototype-text_html') %></p>
-            <div class="carousel-start">
-              <% if user_signed_in? %>
-                  <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
-              <% else %>
-                  <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-
-  </div>
-
-  <div class="s-service">
-    <div class="s-service__heading">
-      <h2 class="s-service__title">
-        <%= t('landing.hero-footer-title') %>
-      </h2>
-    </div>
-
-    <div class="s-service__flow">
-      <div class="s-service__item">
-        <div class="s-service__item-content">
-          <%= image_tag("icons/wwd_pie-chart.png") %>
-          <h4><%= t('landing.hero-footer-market-title') %></h4>
-          <ul>
-            <li>
-              &ndash;&nbsp;<%= t('landing.hero-footer-market-item-build') %>
-            </li>
-            <li>
-              &ndash;&nbsp;<%= t('landing.hero-footer-market-item-get') %>
-            </li>
-            <li>
-              &ndash;&nbsp;<%= t('landing.hero-footer-market-item-analyse') %>
-            </li>
+  <div class="b-landing-plan">
+      <div class="s-landing__wrapper">
+          <ul class="b-landing-plan__list">
+              <li class="b-landing-plan__item">
+                  <div class="b-landing-plan__title">INNOVATORS</div>
+                  <div class="b-landing-plan__content _center">
+                      <div class="b-landing-plan__subtitle">
+                          <span>Create</span> your Prototype
+                      </div>
+                      <p class="b-landing-plan__info">
+                         Build a team.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          Finance tasks.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          Collect feedback.
+                      </p>
+                  </div>
+              </li>
+              <li class="b-landing-plan__item">
+                  <div class="b-landing-plan__title">Bloggers</div>
+                  <div class="b-landing-plan__content">
+                      <div class="b-landing-plan__subtitle">
+                          <span>Report</span> on the future
+                      </div>
+                      <p class="b-landing-plan__info">
+                         Publish an idea and your audience will implement it in the world.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          Generate verified content on what is about to happen.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          See your writing drive action. Translate your written ideas into tangible results.
+                      </p>
+                  </div>
+              </li>
+              <li class="b-landing-plan__item">
+                  <div class="b-landing-plan__title">STUDENTS</div>
+                  <div class="b-landing-plan__content">
+                      <div class="b-landing-plan__subtitle">
+                          <span>Build</span> your own lab
+                      </div>
+                      <p class="b-landing-plan__info">
+                         Bridge the gap between theory and action.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          Publicize and expand your academic projects.
+                      </p>
+                  </div>
+              </li>
+              <li class="b-landing-plan__item">
+                  <div class="b-landing-plan__title">Activists</div>
+                  <div class="b-landing-plan__content">
+                      <div class="b-landing-plan__subtitle">
+                          <span>Serve</span> as a leader
+                      </div>
+                      <p class="b-landing-plan__info">
+                          Turn your supporters into an organized task force.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          Multiply your effectiveness with collaborative action, rather than mere protest.
+                      </p>
+                      <p class="b-landing-plan__info">
+                          Emerge as a leader through concrete action rather than just talking and lip service.
+                      </p>
+                  </div>
+              </li>
           </ul>
-        </div>
+
+          <% if user_signed_in? %>
+              <button class="btn-root _transparent" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></button>
+          <% else %>
+              <button class="btn-root _transparent" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></button>
+          <% end %>
       </div>
-      <div class="s-service__item">
-        <div class="s-service__item-content">
-          <%= image_tag("icons/wwd_group") %>
-          <h4><%= t('landing.hero-footer-stimulate-title') %></h4>
-          <div class="s-service__intro">
-            <p>
-              <%= t('landing.hero-footer-stimulate-text') %>
-            </p>
-          </div>
+  </div>
+
+    <div class="s-landing__tabs">
+        <div class="s-landing__wrapper">
+            <div class="s-landing__tabs-item">
+                <div class="s-landing__tabs-left">
+                    <%= image_tag("carousel/carousel_2.jpg") %>
+                </div>
+                <div class="s-landing__tabs-right">
+                    <div class="s-landing__tabs-logo">
+                        <svg focusable="false" version="1.1" class="svg-group" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-group"></use>
+                        </svg>
+                    </div>
+                    <div class="s-landing__tabs-title">ENGAGE YOUR AUDIENCE</div>
+                    <div class="s-landing__tabs-info">
+                        Turn your followers into contributors, and increase trust and support to your project.
+                    </div>
+                    <div class="s-landing__tabs-button">
+                      <% if user_signed_in? %>
+                          <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                      <% else %>
+                          <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                      <% end %>
+                    </div>
+                </div>
+            </div>
+            <div class="s-landing__tabs-item _reverse">
+                <div class="s-landing__tabs-left">
+                    <%= image_tag("carousel/carousel_3.jpg") %>
+                </div>
+                <div class="s-landing__tabs-right">
+                    <div class="s-landing__tabs-logo">
+                      <%= image_tag("icons/icon-coa.png") %>
+                    </div>
+                    <div class="s-landing__tabs-title">BE INCLUSIVE</div>
+                    <div class="s-landing__tabs-info">
+                        Bring diverse people together in unique efforts to achieve common goals.
+                    </div>
+                    <div class="s-landing__tabs-button">
+                      <% if user_signed_in? %>
+                          <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                      <% else %>
+                          <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                      <% end %>
+                    </div>
+                </div>
+            </div>
+            <div class="s-landing__tabs-item">
+                <div class="s-landing__tabs-left">
+                    <%= image_tag("carousel/carousel_1.jpg") %>
+                </div>
+                <div class="s-landing__tabs-right">
+                    <div class="s-landing__tabs-logo">
+                        <svg focusable="false" version="1.1" class="svg-market" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-market"></use>
+                        </svg>
+                    </div>
+                    <div class="s-landing__tabs-title">TEST YOUR MARKET</div>
+                    <div class="s-landing__tabs-info">
+                        Build an active community around a concrete story. Get community feedback and improvement.
+                    </div>
+                    <div class="s-landing__tabs-button">
+                      <% if user_signed_in? %>
+                          <a class="btn-root" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+                      <% else %>
+                          <a class="btn-root" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+                      <% end %>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <br>
-      <div class="s-service__item">
-        <div class="s-service__item-content">
-          <%= image_tag("icons/wwd_recycle") %>
-          <h4><%= t('landing.hero-footer-inclusive-title') %></h4>
-          <div class="s-service__intro">
-            <p><%= t('landing.hero-footer-inclusive-text_html') %></p>
-          </div>
+    </div>
+
+  <div class="s-landing__features">
+    <div class="s-landing__wrapper">
+        <div class="s-landing__title">Gain Independence</div>
+        <ul class="s-landing__features-list">
+             <li class="s-landing__features-item">
+                 <div class="s-landing__features-logo">
+                     <svg focusable="false" version="1.1" class="svg-corruption" aria-hidden="true">
+                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-corruption"></use>
+                     </svg>
+                 </div>
+                 <div class="s-landing__features-title">ANTI-CORRUPTION</div>
+                 <div class="s-landing__features-info">
+                     Build powerful action for your community without having to belong to the ruling clubs and emerge as an independent leader.
+                 </div>
+             </li>
+             <li class="s-landing__features-item">
+                 <div class="s-landing__features-logo">
+                     <svg focusable="false" version="1.1" class="svg-list-search" aria-hidden="true">
+                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-list-search"></use>
+                     </svg>
+                 </div>
+                 <div class="s-landing__features-title">TRANSPARENCY</div>
+                 <div class="s-landing__features-info">
+                     Projects are open for public review, so you may channel the wisdom of the crowd. This makes you accountable but it also protects you and your project as independent and legitimate.
+                 </div>
+             </li>
+             <li class="s-landing__features-item">
+                 <div class="s-landing__features-logo">
+                     <svg focusable="false" version="1.1" class="svg-bitcoin-logo" aria-hidden="true">
+                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bitcoin-logo"></use>
+                     </svg>
+                 </div>
+                 <div class="s-landing__features-title">BITCOIN PAYMENT</div>
+                 <div class="s-landing__features-info">
+                     Fund a project anywhere in the world with a multi-national team.
+                 </div>
+             </li>
+        </ul>
+    </div>
+  </div>
+
+ <div class="s-landing__start _navigation-item" id="s-landing-start">
+    <div class="s-landing__wrapper">
+        <div class="s-landing__start-title _quote">
+            Be the change
         </div>
-      </div>
-      <div class="s-service__item">
-        <div class="s-service__item-content">
-          <%= image_tag("icons/wwd_envelope") %>
-          <h4><%= t('landing.hero-footer-corruption-title') %></h4>
-          <div class="s-service__intro">
-            <p>
-              <%= t('landing.hero-footer-corruption-text_html') %>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="s-service__item">
-        <div class="s-service__item-content">
-          <%= image_tag("icons/wwd_search.png") %>
-          <h4><%= t('landing.hero-footer-transparency-title') %>></h4>
-          <div class="s-service__intro">
-            <p>
-              <%= t('landing.hero-footer-transparency-text_html') %>
-            </p>
-          </div>
+        <div class="s-landing__start-button">
+          <% if user_signed_in? %>
+              <a class="btn-root _light" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+          <% else %>
+              <a class="btn-root _light" data-modal="#projectSignupModal"><%= t('commons.start_a_project') %></a>
+          <% end %>
         </div>
       </div>
     </div>
-    <a class="btn-root _light" href="<%= t('commons.development_project_link') %>"><%= t('commons.about_btn') %></a>
-  </div>
-
 </div>

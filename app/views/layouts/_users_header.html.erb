@@ -15,8 +15,28 @@
       <% end %>
     </div>
 
-    <a type="button" class="btn-root _small hidden-mobile" data-modal="#startProjectModal">Start a Project</a>
-    <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>
+    <a type="button" class="btn-root _small hidden-mobile header-align" data-modal="#startProjectModal">Start a Project</a>
+    <div class="header-dropdown">
+        <div class="header-dropdown__title js-dropdown">Explore</div>
+        <ul class="header-dropdown__list js-dropdown-list">
+            <li class="header-dropdown__item">
+                <a class="projects-link" href="<%= projects_path %>">Active Projects</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= projects_path %>">About the platform</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= projects_path %>">Improve the platform</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= projects_path %>">Knowledge base</a>
+            </li>
+            <li class="header-dropdown__item">
+                <a href="<%= projects_path %>">FAQs</a>
+            </li>
+        </ul>
+    </div>
+    <!--<%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>-->
 
   </div>
 
@@ -327,3 +347,37 @@
     </li>
   </ul>
 </div>
+
+
+<script>
+
+$(document).ready(function() {
+    var $dropdown = $('.js-dropdown');
+
+    $(document)
+        .on('click.dropdownToggle', '.js-dropdown', function() {
+            $(this).toggleClass('_active');
+            $(this).siblings('.js-dropdown-list').toggleClass('_active');
+        })
+        .on('click.hideDropdown', function(e) {
+            if (!$(e.target).closest('.js-dropdown-list').length && !$(e.target).closest('.js-dropdown').length) {
+                hideDropdowns();
+            }
+        })
+        .on('keydown', function(event) {
+           if (event.which === 13) {
+              event.preventDefault();
+           }
+        })
+
+    $(window).on('resize', function() {
+        hideDropdowns();
+    })
+
+    function hideDropdowns() {
+        $dropdown.removeClass('_active');
+        $('.js-dropdown-list').removeClass('_active');
+    }
+})
+
+</script>

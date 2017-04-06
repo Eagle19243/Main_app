@@ -85,7 +85,7 @@
                   </div>
 
                   <div class="modal-task__desc-block">
-                    <h4>Condition of Execution</h4>
+                    <h4>Specifications</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
@@ -137,7 +137,7 @@
                 <div class="task-desc">
                   <h4>Task Description</h4>
                   <p><%= @task.description %></p>
-                  <h4>Condition of Execution</h4>
+                  <h4>Specifications</h4>
                   <p><%= @task.condition_of_execution %></p>
                   <h4>Proof of Execution</h4>
                   <p><%= @task.proof_of_execution %></p>
@@ -219,11 +219,14 @@
                         <h2>No Teammate Added Yet</h2>
                     <% else %>
                         <% @task.team_memberships.each do |membership| %>
-                            <% if membership.team_member.picture? %>
-                                <%= image_tag(membership.team_member.picture) %>
-                            <% else %>
-                                <%= gravatar_for_user(membership.team_member) %>
-                            <% end %>
+                            <a class="team-block__item" href="/users/<%= membership.team_member.id %>">
+                                <% if membership.team_member.picture? %>
+                                    <%= image_tag(membership.team_member.picture) %>
+                                <% else %>
+                                    <%= gravatar_for_user(membership.team_member) %>
+                                <% end %>
+                                <div class="team-block__item-name"><%= membership.team_member.name %></div>
+                            </a>
                         <% end %>
                     <% end %>
                   </div>
@@ -266,7 +269,7 @@
                       </a>
                   <% end %>
                   <% if user_signed_in? %>
-                    <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_executor_for?(@task.project)) %>
+                    <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)) %>
                       <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                           Start
@@ -306,7 +309,7 @@
                         <% end %>
                     <% end %>
 
-                    <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share</button>
+                    <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share/Invite</button>
                     <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
 
                     <% if user_signed_in? && (can? :destroy, @task) %>
@@ -502,6 +505,7 @@
     $(document).ready(function() {
         $(document).off('click.toggleBudget', '#task-budget');
         $(document).off('click.hideEditIcon', '.page-wrapper');
+        $(document).off('click.preventSavingForm', '.task-details__close-btn');
 
         $(document)
             .on('click.hideEditIcon', '.page-wrapper', function(e) {
@@ -511,6 +515,9 @@
             })
             .on('click.toggleBudget', '#task-budget', function() {
                 $(this).find('.btn-edit').toggle();
+            })
+            .on('click.preventSavingForm', '.task-details__close-btn', function(event) {
+                event.preventDefault();
             })
 
     })

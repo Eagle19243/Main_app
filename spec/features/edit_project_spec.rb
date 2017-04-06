@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Edit project text', js: true, vcr: {cassette_name: 'bitgo'} do
+feature 'Edit project text', js: true do
   context 'As project leader edit project' do
     before do
       @user = FactoryGirl.create(:user, confirmed_at: Time.now)
@@ -9,7 +9,7 @@ feature 'Edit project text', js: true, vcr: {cassette_name: 'bitgo'} do
       visit root_path
     end
 
-    scenario 'Redirected to Visual Editor when click Edit on Revisions tab' do
+    scenario 'Redirected to Visual Editor when click Edit on Revisions tab', vcr: { cassette_name: 'mediawiki/history', :match_requests_on => [:host]} do
       click_pseudo_link 'Start a Project'
       @modal = find('div#startProjectModal', visible: true)
       expect(@modal).to be_visible

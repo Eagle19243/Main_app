@@ -1,6 +1,30 @@
 require 'rails_helper'
 
-feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
+shared_examples "existing comment after page reload" do
+  before do
+    visit project_path(@project)
+
+    find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+    wait_for_ajax
+
+    funding_section = all(".trello-column .pr-card")[0]
+
+    funding_section.click
+    sleep 2
+
+    @comments = find("#Task-comments")
+  end
+
+  scenario "Then the comment exists in the comments section" do
+    expect(@comments).to have_content @comment
+  end
+
+  scenario "Then the attach exists in the comments section" do
+    expect(@comments).to have_xpath("//img[contains(@src, @attach)]")
+  end
+end
+
+feature "Create a Task", js: true do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first
@@ -46,50 +70,67 @@ feature "Create a Task", js: true, vcr: { cassette_name: 'bitgo' } do
             expect(@task_modal).to have_selector("#Task-comments")
           end
 
-          context "When you put some text into comments field and attach a file" do
+          context "When you put some text into comments" do
             before do
               @comment = "new comment"
-              @attach = "photo.png"
               @comments_section = find("#Task-comments")
               @form = find("#comment-form")
 
               @form.fill_in "task_comment[body]", with: @comment
-
-              @form.attach_file 'task_comment[attachment]', Rails.root + "spec/fixtures/#{@attach}"
-
-              @form.click_button "Send"
-              sleep 2
             end
 
-            scenario "Then the text appeared in the comments section" do
-              expect(@comments_section).to have_content @comment
-            end
-
-            scenario "Then the attached file appeared in the comments section" do
-              expect(@comments_section).to have_xpath("//img[contains(@src, @attach)]")
-            end
-
-            context "When you reload the page and reopen the task modal" do
+            context "and send form without attaching a file" do
               before do
-                visit project_path(@project)
-
-                find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-                wait_for_ajax
-
-                funding_section = all(".trello-column .pr-card")[0]
-
-                funding_section.click
+                @form.click_button "Send"
                 sleep 2
-
-                @comments = find("#Task-comments")
               end
 
-              scenario "Then the comment exists in the comments section" do
-                expect(@comments).to have_content @comment
+              scenario "Then the text appeared in the comments section" do
+                expect(@comments_section).to have_content @comment
               end
 
-              scenario "Then the attach exists in the comments section" do
-                expect(@comments).to have_xpath("//img[contains(@src, @attach)]")
+              context "When you reload the page and reopen the task modal" do
+                it_behaves_like "existing comment after page reload"
+              end
+            end
+
+            context "and send form attaching a valid file" do
+              before do
+                @attach = "photo.png"
+                @form.attach_file 'task_comment[attachment]', Rails.root + "spec/fixtures/#{@attach}"
+
+                @form.click_button "Send"
+                sleep 2
+              end
+
+              scenario "Then the text appeared in the comments section" do
+                expect(@comments_section).to have_content @comment
+              end
+
+              scenario "Then the attached file appeared in the comments section" do
+                expect(@comments_section).to have_xpath("//img[contains(@src, @attach)]")
+              end
+
+              context "When you reload the page and reopen the task modal" do
+                it_behaves_like "existing comment after page reload"
+              end
+            end
+
+            context "and send form attaching an invalid file" do
+              before do
+                @attach = "invalid_file.bin"
+                @form.attach_file 'task_comment[attachment]', Rails.root + "spec/fixtures/#{@attach}"
+
+                @form.click_button "Send"
+                sleep 2
+              end
+
+              scenario "Then the text is not appeared in the comments section" do
+                expect(@comments_section).not_to have_content @comment
+              end
+
+              scenario "Then the attached file is not appeared in the comments section" do
+                expect(@comments_section).to have_xpath("//img[contains(@src, @attach)]")
               end
             end
           end
