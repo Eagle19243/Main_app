@@ -13,7 +13,7 @@ class UserWalletTransactionsController < ApplicationController
     redirect_to my_wallet_user_url(current_user), notice: @message
   rescue Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
-    @message = error.message
+    @message = UserErrorPresenter.new(error).message
     redirect_to my_wallet_user_url(current_user), alert: @message
   end
 
@@ -30,7 +30,7 @@ class UserWalletTransactionsController < ApplicationController
     render json: { success: "#{params[:amount]} BTC has been successfully sent to task's balance" }, status: 200
   rescue Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
-    render json: { error: error.message }, status: 500
+    render json: { error: UserErrorPresenter.new(error).message }, status: 500
   end
 
   private

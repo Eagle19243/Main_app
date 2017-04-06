@@ -261,7 +261,7 @@ class TasksController < ApplicationController
     end
   rescue ArgumentError, Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
-    @notice = error.message
+    @notice = UserErrorPresenter.new(error).message
 
     respond_to do |format|
       format.js
