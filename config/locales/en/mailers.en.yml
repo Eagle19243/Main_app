@@ -7,3 +7,6 @@ en:
         subject: 'Your %{request_type} application was successful'
       negative_response_in_project_involvement:
         subject: '%{request_type} application response'
+    notification:
+      revision_approved:
+        subject: 'Approved version of project changed'

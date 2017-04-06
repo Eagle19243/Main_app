@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>
+      <%= @approver.name %> changed the approved version of the project <%= link_to @project.title, project_url(@project.id) %>.
+    </p>
+  </body>
+</html>

@@ -43,4 +43,24 @@ RSpec.describe Project, type: :model do
       end
     end
   end
+
+  describe '#interested_users' do
+    let(:project) { FactoryGirl.create(:project, user: leader) }
+    let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+    let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+    let(:leader) { FactoryGirl.create(:user, :confirmed_user) }
+
+    before do
+      project_team = project.create_team(name: "Team#{project.id}")
+      TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+
+      project.followers << only_follower
+      project.followers << follower_and_member
+      project.save!
+    end
+
+    it 'returns the the interested users only once' do
+      expect(project.reload.interested_users).to contain_exactly(only_follower, follower_and_member, leader)
+    end
+  end
 end

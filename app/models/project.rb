@@ -65,6 +65,10 @@ class Project < ActiveRecord::Base
     projects.limit(limit)
   end
 
+  def interested_users
+    (team_members + followers + [leader]).uniq
+  end
+
   def video_url
     video_id ||= "H30roqZiHRQ"
     "https://www.youtube.com/embed/#{video_id}"

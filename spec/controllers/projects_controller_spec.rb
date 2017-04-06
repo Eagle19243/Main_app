@@ -283,4 +283,40 @@ describe ProjectsController, type: :request do
       end
     end
   end
+
+  describe 'POST /projects/:id/revision_action' do
+    subject(:make_request) { get("/projects/#{project.id}/revision_action", params) }
+    let(:params) { { type: 'approve', rev: 1 } }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
+    let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+    let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+    let(:leader) { FactoryGirl.create(:user, :confirmed_user) }
+
+
+    before do
+      project_team = project.create_team(name: "Team#{project.id}")
+      TeamMembership.create!(team_member: leader, team_id: project_team.id, role: 1)
+      TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+
+      project.followers << only_follower
+      project.followers << follower_and_member
+      project.save!
+
+      login_as(leader, scope: :user, run_callbacks: false)
+      allow(NotificationMailer).to receive(:revision_approved).and_return(message_delivery)
+      allow(message_delivery).to receive(:deliver_later)
+
+      # This connects with mediawiki and had to be stubbed
+      allow(project).to receive(:approve_revision).and_return(true)
+    end
+
+
+    it 'sends an email to the involved users', :aggregate_failures do
+      expect(NotificationMailer).to receive(:revision_approved).exactly(3).times
+      expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+      make_request
+    end
+  end
 end

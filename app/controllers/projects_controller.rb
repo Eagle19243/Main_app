@@ -329,6 +329,10 @@ class ProjectsController < ApplicationController
 
     if params[:type] == 'approve'
       @project.approve_revision params[:rev]
+
+      @project.interested_users.each do |user|
+        NotificationMailer.revision_approved(approver: current_user, project: @project, receiver: user).deliver_later
+      end
     elsif params[:type] == 'unapprove'
       @project.unapprove_revision params[:rev]
     end
