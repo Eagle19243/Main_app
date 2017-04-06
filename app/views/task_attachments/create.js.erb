@@ -1,5 +1,9 @@
 $("#task-related-messages").html("");
 $("#task-related-messages").html("<%= escape_javascript(@notice) %>");
-$("#task-attachments-div").append("<%= escape_javascript(render :partial => 'upload_task_attachement') %>");
+
+<% if @task_attachment.persisted? %>
+    $("#task-attachments-div").append("<%= escape_javascript(render :partial => 'upload_task_attachement') %>");
+<% end %>
+
 $("#task-related-messages").addClass("task-messages");
 $("input[id^=file]").val(' ');
