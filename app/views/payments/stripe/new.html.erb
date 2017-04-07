@@ -45,6 +45,8 @@
       <br class="modal-fund__stripe-bottom-inner">
 
       <!-- Available cards are disabled for now due to errors in JS -->
+      <!-- If you want to uncomment it, then do not forget about -->
+      <!-- lines below with 'Save' checkbox -->
       <% if false && @available_credit_cards.present? %>
         <label class="f-default__label">Saved Cards:</label>
         <br>
@@ -97,13 +99,16 @@
             <a href="https://www.strategicprofitsinc.com/cvv_info/cvv_info.html" target="_blank" class="modal-fund__cvc-info btn-reset">What is CVV?</a>
           </div>
         </div>
-        <div class="f-default__row _flex">
-          <label class="f-default__checkbox-label">
-            <input class="f-default__checkbox-field payment-form__save-card" name="save_card" type="checkbox" value="1"/>
-            <span class="f-default__checkbox-pseudo"></span>
-            <span class="f-default__checkbox-text">Save this card</span>
-          </label>
-        </div>
+        <!-- Available cards are disabled for now due to errors in JS -->
+        <!-- If you want to uncomment it, then do not forget about -->
+        <!-- lines above with saved cards rendering -->
+        <!-- <div class="f&#45;default__row _flex"> -->
+        <!--   <label class="f&#45;default__checkbox&#45;label"> -->
+        <!--     <input class="f&#45;default__checkbox&#45;field payment&#45;form__save&#45;card" name="save_card" type="checkbox" value="1"/> -->
+        <!--     <span class="f&#45;default__checkbox&#45;pseudo"></span> -->
+        <!--     <span class="f&#45;default__checkbox&#45;text">Save this card</span> -->
+        <!--   </label> -->
+        <!-- </div> -->
       </div>
 
         <!--Commented this may be we use this in future -->
