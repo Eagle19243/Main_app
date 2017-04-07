@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "WeServe.io" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "WeServe.io" %>">
+    <%= render "layouts/google_tag_manager_head" %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'vendor/modernizr' %>
     <%= Gon::Base.render_data %>
@@ -14,6 +15,7 @@
   </head>
 
   <body>
+    <%= render "layouts/google_tag_manager_body" %>
     <script>
       window.fbAsyncInit = function() {
         FB.init({
