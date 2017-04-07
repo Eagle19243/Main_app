@@ -472,10 +472,10 @@
             <p>Are you sure want to approve this task?</p>
             <p>This is a irreversible action.</p>
             <div class="approve-btns mt10">
-              <a href=<%= accept_task_path(@task.id) %> title="approve">
+              <a class="approve-btn" href=<%= accept_task_path(@task.id) %> title="approve">
                 <i class="fa fa-check"></i>Yes, approve
               </a>
-              <a href="<%= reject_task_path(@task.id) %>" title="cancel" onclick="$(&quot;#approveTaskPopover&quot;).popover(&quot;hide&quot;)">
+              <a class="approve-btn _close-modal" title="cancel">
                 No
               </a>
             </div>
@@ -512,6 +512,9 @@
                 if (!$(e.target).parent().hasClass('_budget-id')) {
                     $(this).find('.btn-edit').show();
                 }
+            })
+            .on('click.closeModal', '.approve-btn._close-modal', function(e) {
+                e.preventDefault();
             })
             .on('click.toggleBudget', '#task-budget', function() {
                 $(this).find('.btn-edit').toggle();
