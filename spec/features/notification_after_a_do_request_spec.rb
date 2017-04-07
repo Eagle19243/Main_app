@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Notification After submitting a do request", js: true do
+xfeature "Notification After submitting a do request", js: true do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first

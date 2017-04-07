@@ -1,11 +1,11 @@
 class ProjectsController < ApplicationController
 
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan, :switch_approval_status]
+  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :requests, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan, :switch_approval_status]
 
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user, :plan, :switch_approval_status]
+  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :requests, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user, :plan, :switch_approval_status]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   before_filter :authenticate_user!, only: [:contacts_callback]
@@ -227,6 +227,7 @@ class ProjectsController < ApplicationController
     tasks = @project.tasks.all
     @tasks_count = tasks.size
     @team_memberships_count = @project.team_memberships_count
+    @requests_count = ProjectRequestsService.new(@project).requests_count
     @contents = ''
     @is_blocked = 0
 
@@ -379,6 +380,17 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def requests
+    authorize! :manage_requests, @project
+
+    requests_service = ProjectRequestsService.new(@project)
+
+    @do_requests = requests_service.pending_do_requests
+    @apply_requests = requests_service.pending_apply_requests
+
+    respond_to { |format| format.js }
   end
 
   def show_all_revision

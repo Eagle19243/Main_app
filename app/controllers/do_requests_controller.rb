@@ -63,6 +63,8 @@ class DoRequestsController < ApplicationController
 
   def accept
     @do_request = DoRequest.find(params[:id])
+    authorize! :accept, @do_request
+
     task = @do_request.task
     if current_user.id == @do_request.task.project.user_id
       if @do_request.accept!
@@ -85,11 +87,13 @@ class DoRequestsController < ApplicationController
     else
       flash[:error] = "You Are Not Authorized User"
     end
-    redirect_to task
+    redirect_to taskstab_project_path(@do_request.project, tab: 'Requests')
   end
 
   def reject
     @do_request = DoRequest.find(params[:id])
+    authorize! :reject, @do_request
+
     if current_user.id == @do_request.task.project.user_id
       if @do_request.reject!
         flash[:succes] = "Request rejected"
@@ -99,7 +103,7 @@ class DoRequestsController < ApplicationController
     else
       flash[:error] = "You Are Not Authorized User"
     end
-    redirect_to @do_request.task
+    redirect_to taskstab_project_path(@do_request.project, tab: 'Requests')
   end
 
   private

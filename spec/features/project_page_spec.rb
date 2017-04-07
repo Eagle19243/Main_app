@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 feature "Project Page", js: true do
+  before do
+    @project_leader = FactoryGirl.create(:user, confirmed_at: Time.now)
+    @usual_user = FactoryGirl.create(:user, confirmed_at: Time.now)
+    @project = FactoryGirl.create(:project, user: @project_leader)
+  end
 
-  context "When you visit your project page as logged in user" do
+  context "When you visit your project page as project leader" do
     before do
-      @user = FactoryGirl.create(:user, confirmed_at: Time.now)
-
-      @project = FactoryGirl.create(:project, user: @user)
-
-      login_as(@user, :scope => :user, :run_callbacks => false)
-      
+      login_as(@project_leader, :scope => :user, :run_callbacks => false)
       visit project_path(@project)
     end
 
@@ -43,6 +43,21 @@ feature "Project Page", js: true do
 
     scenario "Then you can see the project team tab" do
       expect(page.find(".tabs-menu")).to have_content("Team")
+    end
+
+    scenario "Then you can see the project team tab" do
+      expect(page.find(".tabs-menu")).to have_content("Requests")
+    end
+  end
+
+  context "When you visit project page as usual logged in user" do
+    before do
+      login_as(@usual_user, :scope => :user, :run_callbacks => false)
+      visit project_path(@project)
+    end
+
+    scenario "Then you cannot see the project team tab" do
+      expect(page.find(".tabs-menu")).not_to have_content("Requests")
     end
   end
 end

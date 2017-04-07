@@ -59,193 +59,11 @@
 
     <% end %>
 
-    <div class="dropdown notify-dropdown show-desktop">
-      <a class="dropdown-toggle btn-reset btn-bell" type="button" data-toggle="dropdown">
-          <div class="btn-bell__wrapper">
-              <svg focusable="false" version="1.1" class="svg-bell">
-                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bell"></use>
-              </svg>
-
-              <% if current_user.notifications.unread.count > 0 %>
-                <span class="btn-bell__counter"><%= current_user.notifications.unread.count %></span>
-              <% end %>
-          </div>
-      </a>
-
-      <div class="b-dropdown">
-        <div class="b-dropdown__count">
-          Notifications&nbsp;
-          <span class="count"><%= current_user.notifications.unread.count %></span>
-        </div>
-
-        <ul class="l-dropdown">
-          <% if current_user.notifications.unread.count == 0 %>
-            <li class="l-dropdown__item">
-              <span class="l-dropdown__action">No new notification</span>
-            </li>
-          <% else %>
-            <% current_user.notifications.unread.each do |n| %>
-              <% source_model = n.source_model %>
-              <% source_model ||= n.archived_source_model %>
-
-              <% if source_model.present? %>
-                <% if n.user_id == current_user.id && n.origin_user_id != current_user.id %>
-                  <li class="l-dropdown__item">
-                    <div class="l-dropdown__item-wrapper">
-                      <% if n.created_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Created Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")}"%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "You have created a project named "%>
-                          <span><%= "#{source_model.title}"%></span>
-                        </p>
-                      <% elsif n.updated_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Updated Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "You have updated a project named "%>
-                          <span><%= "#{source_model.title}"%></span>
-                        </p>
-                      <% elsif n.follow_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Follow Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><span>You are now following project
-                          <span><%= "#{source_model.title}"%></span>
-                        </p>
-                      <% elsif n.rejected_task? %>
-                        <li class="l-dropdown__item">
-                          <div class="l-dropdown__item-wrapper">
-                              <div class="notification-item">
-                                <span class="l-dropdown__action">Task Rejection</span>
-                                <span class="l-dropdown__date">
-                                  <%= "#{n.created_at.strftime(" %b %d")}"%>
-                                </span>
-                              </div>
-                              <p class="l-dropdown__text">You have rejected a task named<span><%= " #{source_model.title}"%></span></p>
-                          </div>
-                        </li>
-                      <% elsif n.suggested_task? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Task Suggestion</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "You have a suggested task "%><span><%= "#{source_model.title}"%></span><%= " for "%><span><%= "#{source_model.project.title}."%></span><%=" It's waiting for approval."%></p>
-
-                      <% elsif n.accept_task? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Task Accepted</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "Your task "%>
-                          <span><%= "#{source_model.title}"%></span>
-                          <%= " has been approved."%>
-                        </p>
-                      <% elsif n.apply_request? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Team Request</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text">
-                          <span><%= "#{n.origin_user.name} applied as #{source_model.request_type.titleize} for project #{source_model.project.title}"%></span>
-                        </p>
-                      <% elsif n.pending_do_request? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Task Request</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")}"%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text">
-                          <span><%= "#{n.origin_user.name} requested to do this task #{source_model.task.title}. Their cover letter is: #{source_model.application}" %></span>
-                        </p>
-                      <% end %>
-                    </div>
-                  </li>
-                <% elsif n.origin_user_id == current_user.id%>
-                  <li class="l-dropdown__item">
-                    <div class="l-dropdown__item-wrapper">
-                      <% if n.suggested_task? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Suggested Task</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")}"%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "Your task "%>
-                          <span><%= "#{source_model.title}"%></span>
-                          <%= " for "%>
-                            <span><%= "#{source_model.project.title}"%></span><%= " has been suggested to "%><span><%= "#{n.origin_user.name}."%></span>
-                          <%=" It's waiting for approval."%>
-                        </p>
-                      <% elsif n.follow_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Follow Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><span><%= "#{n.origin_user.name}"%></span><%= " followed "%>
-                          <span><%= "#{source_model.title}"%></span>
-                        </p>
-                      <% end %>
-                    </div>
-                  </li>
-                <% else %>
-                  <li class="l-dropdown__item">
-                    <div class="l-dropdown__item-wrapper">
-                      <% if n.created_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Created Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")}"%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "#{n.user.name} have created project named "%><span><%= "#{source_model.title}"%></span></p>
-                      <% elsif n.follow_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Follow Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")} "%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "#{n.user.name} follows project "%><span><%= "#{source_model.title}"%></span></p>
-                      <% elsif n.updated_project? %>
-                        <div class="notification-item">
-                          <span class="l-dropdown__action">Updated Project</span>
-                          <span class="l-dropdown__date">
-                            <%= "#{n.created_at.strftime(" %b %d")}"%>
-                          </span>
-                        </div>
-                        <p class="l-dropdown__text"><%= "#{n.user.name} have updated project named "%><span><%= "#{source_model.title}"%></span></p>
-                      <% end %>
-                    </div>
-                  </li>
-                <% end %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </ul>
-        <div class="b-dropdown__link">
-          <%= link_to 'See All Notifications', notifications_path %>
-        </div>
+    <% if false %>
+      <div class="dropdown notify-dropdown show-desktop">
+        <%= render partial: "layouts/notifications" %>
       </div>
-    </div>
+    <% end %>
 
     <div class="dropdown user-dropdown show-desktop">
       <a class="dropdown-toggle pr-user" type="button" data-toggle="dropdown">
@@ -304,15 +122,17 @@
       <% end %>
     </li>
 
-    <li class="border-bottom">
-      <a href="/notifications">
-        <div class="badge-wrap">
-          <i class="fa fa-bell-o" aria-hidden="true"></i>
-          <span class="count"><%= current_user.notifications.unread.count %></span>
-          <span>My Notifications</span>
-        </div>
-      </a>
-    </li>
+    <% if false %>
+      <li class="border-bottom">
+        <a href="/notifications">
+          <div class="badge-wrap">
+            <i class="fa fa-bell-o" aria-hidden="true"></i>
+            <span class="count"><%= current_user.notifications.unread.count %></span>
+            <span>My Notifications</span>
+          </div>
+        </a>
+      </li>
+    <% end %>
 
     <li class="border-bottom">
       <a href="/group_messages">

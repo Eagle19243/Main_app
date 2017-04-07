@@ -147,6 +147,7 @@ Rails.application.routes.draw do
 
     member do
       get :taskstab, as: :taskstab
+      get :requests, as: :requests
       get :show_project_team, as: :show_project_team
     end
   end

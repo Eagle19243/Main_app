@@ -10,6 +10,7 @@ class Ability
     initializeTasksPermissions(user)
     initializeAdminRequestsPermissions(user)
     initializeApplyRequestsPermissions(user)
+    initializeDoRequestsPermissions(user)
     initializeTeamMembershipsPermissions(user)
     initializeTaskCommentsPermissions(user)
     initializeTaskAttachmentsPermissions(user)
@@ -40,9 +41,16 @@ class Ability
 
   def initializeApplyRequestsPermissions(user)
     if user
-      can [:create], ApplyRequest
       can [:accept, :reject], ApplyRequest do |apply_request|
-        apply_request.project.user.id == user.id
+        can :manage_requests, apply_request.project
+      end
+    end
+  end
+
+  def initializeDoRequestsPermissions(user)
+    if user
+      can [:accept, :reject], DoRequest do |do_request|
+        can :manage_requests, do_request.project
       end
     end
   end
@@ -56,6 +64,9 @@ class Ability
       end
       can [:revisions, :revision_action, :block_user, :unblock_user, :switch_approval_status], Project do |project|
         user.is_project_leader?(project) || user.is_lead_editor_for?(project)
+      end
+      can :manage_requests, Project do |project|
+        user.is_project_leader?(project) || user.is_coordinator_for?(project)
       end
       can :archived, Project if user.admin?
       can :destroy, Project, :user_id => user.id

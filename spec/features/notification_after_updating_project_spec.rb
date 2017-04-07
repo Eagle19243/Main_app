@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Notification After Updating the Project", js: true do
+xfeature "Notification After Updating the Project", js: true do
   context "As a logged in user who has been created the project" do
     before do
       @user = FactoryGirl.create(:user, confirmed_at: Time.now)

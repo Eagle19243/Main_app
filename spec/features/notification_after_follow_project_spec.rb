@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Notification After Follow the Project', js: true do
+xfeature 'Notification After Follow the Project', js: true do
   let(:user)          { create(:user, :confirmed_user) }
   let(:project)       { create(:project) }
 

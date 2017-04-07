@@ -87,6 +87,13 @@
                   Team<span class="count"><%= @team_memberships_count %></span>
               <% end %>
             </li>
+            <% if can? :manage_requests, @project %>
+              <li>
+                <%= link_to requests_project_path(@project), data: {tab: 'Requests'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+                    Requests<span class="count"><%= @requests_count %></span>
+                <% end %>
+              </li>
+            <% end %>
           </ul>
 
           <div class="project-btn-group">
@@ -134,6 +141,8 @@
               </div>
           </div>
         </div>
+
+        <div id="Requests" class="tabcontent"></div>
       </div>
     </div>
   </div>

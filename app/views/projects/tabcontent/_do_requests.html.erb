@@ -1,0 +1,49 @@
+<% if do_requests.size > 0 %>
+  <h4 class="mb20">Pending do requests</h4>
+
+  These users requested to do tasks in project <%= project.title %>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Task</th>
+          <th>User</th>
+          <th>Application</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% do_requests.each do |do_request| %>
+          <tr>
+            <td><%= do_request.id %></td>
+            <td>
+              <%= link_to projects_show_task_path(id: do_request.task_id), class:'pr-card', data: { task_id: do_request.task_id }, remote: true do %>
+                <%= do_request.task.title %>
+              <% end %>
+            </td>
+            <td><%= do_request.user.username %> (<%= do_request.user.email %>)</td>
+            <td><%= do_request.application %></td>
+            <td><%= do_request.created_at %></td>
+            <td>
+              <a href="<%= accept_do_request_path(do_request.id) %>" class="btn-notify _accept">
+                <svg focusable="false" version="1.1" class="svg-check">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
+                </svg>
+                Approve
+              </a>
+              <a href="<%= reject_do_request_path(do_request.id) %>" class="btn-notify _reject" title="Delete">
+                <svg focusable="false" version="1.1" class="svg-times">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-times"></use>
+                </svg>
+                Deny
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
