@@ -115,12 +115,11 @@ class GroupMessagesController < ApplicationController
 
   def download_files
     group_message = GroupMessage.find(params[:id])
-    if load_messages_by_chatroom (group_message.chatroom_id)
+    if Chatroom.validate_access_from_params(group_message.chatroom_id,current_user)
       if group_message.attachment.blank?
         redirect_to group_messages_path
       else
-        data = open(group_message.attachment.file.url)
-        send_data data.read, filename:group_message.attachment.file.filename, stream: 'true'
+        send_file group_message.attachment.path, :x_sendfile => true        
       end
     else
       redirect_to group_messages_path
