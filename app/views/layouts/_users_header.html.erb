@@ -57,6 +57,9 @@
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
       </svg>
 
+      <% if current_user.number_of_unread_messages > 0 %>
+        <span class="btn-bell__counter"><%= current_user.number_of_unread_messages %></span>
+      <% end %>
     <% end %>
 
     <% if false %>

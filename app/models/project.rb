@@ -121,10 +121,14 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def get_project_chatroom
-    self.chatrooms.where(user_id: nil, recipient_id: nil).first
+  def all_team_memberships_except(user)
+    self.team_memberships.joins(:team_member).where.not(team_member: user).order('users.name ASC')
   end
-  
+
+  def get_project_chatroom
+    self.chatrooms.where(chatroom_type: 1).first
+  end
+
   def rate_avg
     project_rates.average(:rate).to_i
   end
@@ -156,10 +160,6 @@ class Project < ActiveRecord::Base
     can_update? ?
         self.send(:read_attribute, 'description') :
         discussions.of_field('description').of_user(User.current_user).last.try(:description) || self.send(:read_attribute, 'description')
-  end
-
-  def self.get_project_default_chat_room(project_id, user_id)
-    Chatroom.select(:id).where("project_id = ? AND user_id = ?", project_id, user_id).first.id rescue nil
   end
 
   def pending_change_leader?(user)

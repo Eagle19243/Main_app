@@ -1,7 +1,7 @@
-<% unless @team_members.blank? %>
-    <% @team_members.each do |user| %>
+<% unless @team_memberships.blank? %>
+    <% @team_memberships.each do |team_membership| %>
         <li>
-          <a href="#" class="s-group-messages__submenu-item" id="<%= user.user_id %>" name="<%= user.chatroom.project_id %>"> <%= user.user.name %> </a>
+          <a href="#" class="s-group-messages__submenu-item" id="<%= team_membership.team_member.id %>" name="<%= team_membership.team.project_id %>"> <%= team_membership.team_member.name %> </a>
         </li>
     <% end %>
 <% end %>

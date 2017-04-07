@@ -36,7 +36,7 @@ class TeamMembershipsController < ApplicationController
       if current_user.id == @team_membership.team.project.user_id || (@team_membership.team.project.user_id != current_user.id && @team_membership.role == 1)
         if @team_membership.destroy
           
-          Chatroom.remove_user_from_project_chatroom(@team_membership.team.project,@team_membership.team_member)
+          Chatroom.remove_user_from_project_chatroom(@team_membership.team.project, @team_membership.team_member)
           
           format.json { render json: @team_membership.id, status: :ok }
         else

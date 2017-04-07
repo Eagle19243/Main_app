@@ -28,9 +28,9 @@ class User < ActiveRecord::Base
   has_many :donations
   has_many :proj_admins, dependent: :delete_all
 
-  has_many :chatrooms, dependent: :destroy
-  has_many :chatrooms_where_recipient, :foreign_key => "recipient_id", class_name: "Chatroom"
   has_many :groupmembers, dependent: :destroy
+  has_many :chatrooms, through: :groupmembers, dependent: :destroy
+  has_many :user_message_read_flags, dependent: :destroy
   # users can send each other profile comments
   has_many :profile_comments, foreign_key: "receiver_id", dependent: :destroy
   has_many :project_rates
@@ -101,10 +101,15 @@ class User < ActiveRecord::Base
     (self.projects + self.teams.collect{ |t| t.project }).uniq
   end
 
-  def all_one_on_one_chat_users
-    (self.chatrooms.where(project: nil).collect{ |c| c.recipient } + self.chatrooms_where_recipient.where(project: nil).collect{ |c| c.user }).uniq
+  def all_dm_chatroom_users
+    chatroom_ids = self.chatrooms.where(chatroom_type: 3).pluck(:id)
+    Groupmember.where(chatroom_id: chatroom_ids).where.not(user_id: self.id).collect(&:user).uniq.sort_by(&:name)
   end
-  
+
+  def number_of_unread_messages
+    self.user_message_read_flags.unread.count
+  end
+
   def self.find_for_facebook_oauth(auth)
     user = User.find_by(provider: auth.provider, uid: auth.uid)
     return user if user.present?

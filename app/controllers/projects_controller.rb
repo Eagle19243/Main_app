@@ -428,11 +428,10 @@ class ProjectsController < ApplicationController
         end
 
         @project_team = @project.create_team(name: "Team#{@project.id}")
-        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id,role:1 )
+        TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id, role: 1 )
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
-        chatroom =Chatroom.create(name: @project.title, project_id: @project.id)
-        Groupmember.create(user_id: current_user.id, chatroom_id: chatroom.id)
+        Chatroom.create_chatroom_with_groupmembers([current_user], 1, @project)
         format.html { redirect_to @project, notice: 'Project request was sent.' }
         format.json { render json: {id: @project.id, status: 200, responseText: "Project has been Created Successfully "} }
         session[:project_id] = @project.id

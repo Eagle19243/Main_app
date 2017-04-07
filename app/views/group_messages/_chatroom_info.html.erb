@@ -1,5 +1,5 @@
 <div class="row margin-none">
-    <%= @chatroom.get_display_title if @chatroom.present? %>
+    <%= @chatroom.get_display_title(current_user) if @chatroom.present? %>
     <div id="message-load-image" style="text-align: center; display: none">
       <%= image_tag 'loading.gif' %>
     </div>

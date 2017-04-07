@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330103642) do
+ActiveRecord::Schema.define(version: 20170406095353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,16 +98,13 @@ ActiveRecord::Schema.define(version: 20170330103642) do
   add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id", using: :btree
 
   create_table "chatrooms", force: :cascade do |t|
-    t.string   "name"
     t.integer  "project_id"
-    t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.integer  "recipient_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "chatroom_type"
   end
 
   add_index "chatrooms", ["project_id"], name: "index_chatrooms_on_project_id", using: :btree
-  add_index "chatrooms", ["user_id"], name: "index_chatrooms_on_user_id", using: :btree
 
   create_table "conversations", force: :cascade do |t|
     t.integer  "sender_id"
@@ -464,6 +461,18 @@ ActiveRecord::Schema.define(version: 20170330103642) do
 
   add_index "teams", ["project_id"], name: "index_teams_on_project_id", using: :btree
 
+  create_table "user_message_read_flags", force: :cascade do |t|
+    t.boolean  "read_status",      default: false
+    t.integer  "user_id"
+    t.integer  "group_message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_message_read_flags", ["group_message_id"], name: "index_user_message_read_flags_on_group_message_id", using: :btree
+  add_index "user_message_read_flags", ["user_id", "group_message_id"], name: "index_user_message_read_flags_on_user_id_and_group_message_id", unique: true, using: :btree
+  add_index "user_message_read_flags", ["user_id"], name: "index_user_message_read_flags_on_user_id", using: :btree
+
   create_table "user_wallet_transactions", force: :cascade do |t|
     t.decimal  "amount"
     t.string   "user_wallet"
@@ -586,5 +595,7 @@ ActiveRecord::Schema.define(version: 20170330103642) do
   add_foreign_key "stripe_payments", "users"
   add_foreign_key "task_members", "tasks"
   add_foreign_key "task_members", "team_memberships"
+  add_foreign_key "user_message_read_flags", "group_messages"
+  add_foreign_key "user_message_read_flags", "users"
   add_foreign_key "wallet_transactions", "tasks"
 end
