@@ -199,8 +199,11 @@
         })
         <% if user_signed_in? %>
           .on('click.sendForm', '.btn-root._donate', function () {
-            var val = $walletTransactionAmount.val();
+            var val = $walletTransactionAmount.val(),
+                $donateBtn = $('.btn-root._donate');
+
             if (val) {
+                $donateBtn.addClass('_disable');
                 if ($creditCardTab.hasClass('_active')) {
                     setTimeout(function() {
                         createStripeToken();
@@ -254,14 +257,15 @@
         }
 
         function handleSuccess(response) {
-            console.log('success', response);
+            $walletTransactionAmount.val('');
+            $('.btn-root._donate').addClass('_disable');
             $errorFundModal.find('.error-fund-modal__message').text(response.success);
             $errorFundModal.find('.error-fund-modal__title').text('Success!');
             showFundModal();
         }
 
         function handleError(response) {
-            console.log('error', response);
+            $('.btn-root._donate').removeClass('_disable');
             $errorFundModal.find('.error-fund-modal__message').text(response.responseJSON.error);
             $errorFundModal.find('.error-fund-modal__title').text('Error');
             showFundModal();
