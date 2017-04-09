@@ -28,7 +28,24 @@ class RequestMailer < ApplicationMailer
     mail(to: leader.email, subject: I18n.t('mailers.request.to_do_task.subject'))
   end
 
+  def accept_to_do_task(do_request:)
+    set_instance_variables_for_to_do_review(do_request)
+
+    mail(to: @requester.email, subject: I18n.t('mailers.request.accept_to_do_task.subject'))
+  end
+
+  def reject_to_do_task(do_request:)
+    set_instance_variables_for_to_do_review(do_request)
+
+    mail(to: @requester.email, subject: I18n.t('mailers.request.reject_to_do_task.subject'))
+  end
+
   private
+
+  def set_instance_variables_for_to_do_review(do_request)
+    @task = do_request.task
+    @requester = do_request.user
+  end
 
   def set_instance_variables_for_project_involvement(apply_request)
     @applicant = apply_request.user

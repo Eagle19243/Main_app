@@ -8,7 +8,11 @@ en:
       negative_response_in_project_involvement:
         subject: '%{request_type} application response'
       to_do_task:
-        subject: 'Application to do task received'
+        subject: 'Application to DO task received'
+      accept_to_do_task:
+        subject: 'Your application for the task was approved'
+      reject_to_do_task:
+        subject: 'Task application response'
     notification:
       revision_approved:
         subject: 'Approved version of project changed'

@@ -80,6 +80,7 @@ class DoRequestsController < ApplicationController
         membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
         #task.team_memberships.add(membership)
         TaskMember.create(task_id: task.id, team_membership_id: membership.id)
+        RequestMailer.accept_to_do_task(do_request: @do_request).deliver_later
         flash[:notice] = "Task has been assigned"
       else
         flash[:error] = "Task was not assigned to user"
@@ -96,7 +97,8 @@ class DoRequestsController < ApplicationController
 
     if current_user.id == @do_request.task.project.user_id
       if @do_request.reject!
-        flash[:succes] = "Request rejected"
+        RequestMailer.reject_to_do_task(do_request: @do_request).deliver_later
+        flash[:notice] = 'Request rejected'
       else
         flash[:error] = "Was not able to reject request"
       end

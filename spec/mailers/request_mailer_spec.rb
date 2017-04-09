@@ -120,4 +120,54 @@ RSpec.describe RequestMailer, type: :mailer do
       expect(email.body).to include("#{user_in_request.name} applied for the task #{task.title} and need to be reviewed.")
     end
   end
+
+  describe '#accept_to_do_task' do
+    subject(:email) { described_class.accept_to_do_task(do_request: do_request).deliver_now }
+    let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:do_request) { FactoryGirl.create(:do_request, user: user_in_request, project: project, task: task) }
+    let(:task) { FactoryGirl.create(:task, project: project) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(user_in_request.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('mailers.request.accept_to_do_task.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(email.body).to include("Your application for task #{task.title} in project #{link_to task.project.title, project_url(task.project.id)} was approved.")
+    end
+  end
+
+  describe '#reject_to_do_task' do
+    subject(:email) { described_class.reject_to_do_task(do_request: do_request).deliver_now }
+    let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:do_request) { FactoryGirl.create(:do_request, user: user_in_request, project: project, task: task) }
+    let(:task) { FactoryGirl.create(:task, project: project) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(user_in_request.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('mailers.request.reject_to_do_task.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(email.body).to include("Your application for task #{task.title} in project #{link_to task.project.title, project_url(task.project.id)} was rejected.")
+    end
+  end
 end
