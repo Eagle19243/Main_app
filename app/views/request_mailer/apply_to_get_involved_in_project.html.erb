@@ -9,5 +9,8 @@
     <%= @applicant.name %> &nbsp
       has submit an application as <%= @request_type %> for the project <%= link_to @project.title, project_url(@project.id) %>.
     </p>
+    <p>
+      please click the <%= link_to 'link', taskstab_project_url(@project, tab: 'Requests') %> to review incoming requests.
+    </p>
 </body>
 </html>
