@@ -12,3 +12,5 @@ en:
     notification:
       revision_approved:
         subject: 'Approved version of project changed'
+      task_started:
+        subject: 'Task was started'

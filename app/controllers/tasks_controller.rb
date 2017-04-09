@@ -203,7 +203,10 @@ class TasksController < ApplicationController
       else
         # if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
         if @task.start_doing!
-          @notice = "Task Status changed to Doing "
+          @task.project.interested_users.each do |user|
+            NotificationMailer.task_started(acting_user: current_user, task: @task, receiver: user).deliver_later
+          end
+          @notice = "Task Status changed to Doing"
         else
           @notice = "Error in Moving Task"
         end

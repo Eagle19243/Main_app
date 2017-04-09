@@ -17,6 +17,14 @@ class NotificationMailer < ApplicationMailer
     @task = task
     mail(to: user.email, subject: ENV['accept_subject'])
   end
+
+  def task_started(acting_user:, task:, receiver:)
+    @acting_user = acting_user
+    @task = task
+    @receiver = receiver
+
+    mail(to: receiver.email, subject: I18n.t('mailers.notification.task_started.subject'))
+  end
   
   def suggest_task(user, task)
     @user = user

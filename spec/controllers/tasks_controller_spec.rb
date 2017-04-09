@@ -76,6 +76,67 @@ RSpec.describe TasksController do
     end
   end
 
+  describe '#doing' do
+    subject(:make_request) { get(:doing, { id: existing_task.id }) }
+
+    context 'when the task is eligible to move to doing' do
+      let(:existing_task) do
+        FactoryGirl.create(
+          :task,
+          project: project,
+          user: task_user,
+          state: 'accepted',
+          current_fund: 200.0,
+          budget: 200.0,
+          number_of_participants: 2,
+          target_number_of_participants: 2
+        )
+      end
+      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+      let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
+
+
+      before do
+        project_team = project.create_team(name: "Team#{project.id}")
+        TeamMembership.create!(team_member: user, team_id: project_team.id, role: 1)
+        TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+
+        project.followers << only_follower
+        project.followers << follower_and_member
+        project.save!
+
+        allow(NotificationMailer).to receive(:task_started).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_later)
+      end
+
+      it 'task goes in state of doing' do
+        expect { make_request }.to change { existing_task.reload.state }.from('accepted').to('doing')
+      end
+
+      it 'redirects to project taskstab path' do
+        make_request
+
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+      end
+
+      it 'flashes the correct message' do
+        make_request
+
+        expect(flash[:notice]).to eq('Task Status changed to Doing')
+      end
+
+      it 'sends an email to the involved users', :aggregate_failures do
+        expect(NotificationMailer).to receive(:task_started).exactly(3).times
+        expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+        make_request
+      end
+    end
+  end
+
+
   describe '#destroy' do
     let(:task) { FactoryGirl.create(:task, :with_associations) }
     let(:user) { task.user }

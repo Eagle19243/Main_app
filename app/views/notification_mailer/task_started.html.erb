@@ -1,0 +1,14 @@
+$ started task $ of project $
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+</head>
+<body>
+    <p>Dear <%= @receiver.name %>,</p>
+    <p>
+      <%= @acting_user.name %> started task <%= @task.title %> of project <%=link_to(@task.project.title, project_url(@task.project.id))%>.
+    </p>
+</body>
+</html>
