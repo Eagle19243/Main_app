@@ -69,22 +69,6 @@
 
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
-                    <h4>Task Description</h4>
-                    <%if @task.doing? || @task.reviewing? || @task.completed? %>
-                        <a href="#" id="openEditTaskWarning" class="btn-edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <p class="modal-task__task-info js-toggleForm" id="task-description"><%= @task.description %></p>
-                    <%else %>
-                        <p class="modal-task__task-info js-toggleForm" id="task-description"><%= @task.description %></p>
-                        <%= form_for @task, :remote => true, html: {id: "task-update-description-form", class: "modal-task__form _hide"} do |f| %>
-                            <%= f.text_area :description, id: "input-task-description" %>
-                            <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-description">save</button>
-                            <button class="btn-root task-details__close-btn" id="cancel-description">cancel</button>
-                        <% end %>
-                    <% end %>
-
-                  </div>
-
-                  <div class="modal-task__desc-block">
                     <h4>Specifications</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
@@ -135,8 +119,7 @@
                 </div>
             <% else %>
                 <div class="task-desc">
-                  <h4>Task Description</h4>
-                  <p><%= @task.description %></p>
+
                   <h4>Specifications</h4>
                   <p><%= @task.condition_of_execution %></p>
                   <h4>Proof of Execution</h4>

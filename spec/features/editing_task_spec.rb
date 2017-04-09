@@ -85,52 +85,6 @@ feature "Edit a Task", js: true do
             end
           end
 
-          context "When you click the description" do
-            before do
-              find("#task-description").trigger("click")
-
-              @form = find("#task-update-description-form")
-            end
-
-            scenario "Then the description is avialble to be edited" do
-              expect(@form).to be_visible
-            end
-
-            context "When you fill the description and click 'Save' button" do
-              before do
-                @description = "new description"
-                @form.fill_in "task[description]", with: @description
-
-                @form.click_button "save"
-                wait_for_ajax
-              end
-
-              scenario "Then the title has been changed" do
-                expect(@task_modal).to have_content @description
-              end
-
-              context "When you reload the page and reopen the task modal" do
-                before do
-                  visit project_path(@project)
-
-                  find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-                  wait_for_ajax
-
-                  pending_section = all(".trello-column")[1]
-
-                  pending_section.click
-                  sleep 2
-
-                  @task_modal = find("#myModal")
-                end
-
-                scenario "Then the changed title exists in the modal" do
-                  expect(@task_modal).to have_content @description
-                end
-              end
-            end
-          end
-
           context "When you click the condition" do
             before do
               find("#task-condition").trigger("click")
