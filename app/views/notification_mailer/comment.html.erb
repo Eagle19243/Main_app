@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+</head>
+<body>
+    <p>Dear <%= @receiver.name %>,</p>
+    <p>
+      <%= @task_comment.user.name %> added a comment to task <%=link_to(@task_comment.task.title, taskstab_project_url(@task_comment.task.project.id, tab: 'Tasks', taskId: @task_comment.task.id))%>.
+    </p>
+    <p>comment:</p>>
+    <p>
+      <%= truncate(@task_comment.body, length: 160)%>
+    </p>
+</body>
+</html>

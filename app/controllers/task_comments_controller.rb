@@ -12,6 +12,9 @@ class TaskCommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         set_activity(task, 'created')
+        task.project.interested_users.each do |user|
+          NotificationMailer.comment(task_comment: @comment, receiver: user).deliver_later
+        end
         format.html  { redirect_to :back, success: 'Comment submitted'}
         format.js
       else

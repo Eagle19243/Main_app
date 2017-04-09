@@ -38,4 +38,11 @@ class NotificationMailer < ApplicationMailer
 
     mail(to: receiver.email, subject: I18n.t('mailers.notification.revision_approved.subject'))
   end
+
+  def comment(task_comment:, receiver:)
+    @task_comment = task_comment
+    @receiver = receiver
+
+    mail(to: @receiver.email, subject: I18n.t('mailers.notification.comment.subject'))
+  end
 end

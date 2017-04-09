@@ -1,5 +1,10 @@
 en:
   mailers:
+    payment:
+      fund_task:
+        subject: 'Task funded'
+      task_started:
+        subject: 'Task was started'
     request:
       apply_to_get_involved_in_project:
         subject: '%{request_type} application received'
@@ -14,10 +19,7 @@ en:
       reject_to_do_task:
         subject: 'Task application response'
     notification:
+      comment:
+        subject: 'Comment for task received'
       revision_approved:
         subject: 'Approved version of project changed'
-    payment:
-      fund_task:
-        subject: 'Task funded'
-      task_started:
-        subject: 'Task was started'

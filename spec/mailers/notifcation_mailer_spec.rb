@@ -3,6 +3,33 @@ require 'rails_helper'
 RSpec.describe NotificationMailer, type: :mailer do
   include ActionView::Helpers::UrlHelper
 
+  describe '#comment' do
+    subject(:email) { described_class.comment(task_comment: task_comment, receiver: leader).deliver_now }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:task) { FactoryGirl.create(:task, project: project) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:task_comment) { FactoryGirl.create(:task_comment, task: task, user: user) }
+
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(leader.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('mailers.notification.comment.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(email.body).to include("#{task_comment.user.name} added a comment to task #{link_to(task.title, taskstab_project_url(project.id, tab: 'Tasks', taskId: task.id))}.")
+    end
+  end
+
+
   describe '#revision_approved' do
     subject(:email) { described_class.revision_approved(approver: project.leader, project: project, receiver: user).deliver_now }
     let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
