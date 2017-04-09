@@ -32,5 +32,4 @@ class SessionsController < Devise::SessionsController
     cookies.delete(:_ws_user_name, domain: domain)
     cookies.delete(:_ws_user_token, domain: domain)
   end
-
 end

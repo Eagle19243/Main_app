@@ -7,24 +7,32 @@
 
   handleSubmit: (e) ->
     e.preventDefault()
-    $.ajax
-      method: 'POST'
-      url: '/users/sign_in'
-      data: {
-              utf8: "✓",
-              authenticity_token: @state.authenticity_token,
-              user: {
-                      email: @state.email,
-                      password: @state.password,
-                      remember_me: @state.remember_me
-              },
-              commit: "Sign in"
-            }
-      dataType: 'JSON'
-      success: () =>
-        window.location.replace window.location.origin + '/home'
-      error: (response) =>
-        @performNotSuccessResult response
+
+    if @state.email == '' || @state.password == ''
+      error = 'Invalid Email or Password'
+      $('#signInBox').text(error)
+      $('#signInBox').parent().show()
+
+      false
+    else
+      $.ajax
+        method: 'POST'
+        url: '/users/sign_in'
+        data: {
+                utf8: "✓",
+                authenticity_token: @state.authenticity_token,
+                user: {
+                        email: @state.email,
+                        password: @state.password,
+                        remember_me: @state.remember_me
+                },
+                commit: "Sign in"
+              }
+        dataType: 'JSON'
+        success: () =>
+          window.location.replace window.location.origin + '/home'
+        error: (response) =>
+          @performNotSuccessResult response
 
   inputChanged: (e) ->
     name = e.target.name
@@ -83,4 +91,3 @@
           type: 'submit'
           name: 'commit'
           'Sign in'
-
