@@ -179,15 +179,18 @@ class TasksController < ApplicationController
 
   def accept
     if !@task.accepted? && @task.accept!
-      @notice = "Task accepted "
-      NotificationMailer.accept_task(@task.user, @task).deliver_later
+      @notice = "Task accepted"
+      # the user that suggested the task might not be a follower neither a team_member
+      (@task.project.interested_users + [@task.user]).uniq.each do |user|
+        NotificationMailer.accept_new_task(task: @task, receiver: user).deliver_later
+      end
       NotificationsService.notify_about_accept_task(@task, @task.user)
     else
       @notice = "Task was not accepted"
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks'), notice: @notice }
     end
   end
 
@@ -221,15 +224,21 @@ class TasksController < ApplicationController
   def reject
     if @task.reject!
       flash[:notice] = "Task #{@task.title} has been rejected"
-      NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
       @task.destroy
+      NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
+
+      (@task.project.interested_users - [@task.user]).each do |user|
+        NotificationMailer.notify_others_for_rejecting_new_task(task: @task, receiver: user).deliver_later
+      end
+
+      NotificationMailer.notify_user_for_rejecting_new_task(task: @task, receiver: @task.user).deliver_later
     else
       flash[:notice] = "Task was not rejected"
     end
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks'), notice: @notice }
     end
 
   end

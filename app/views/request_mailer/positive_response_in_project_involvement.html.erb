@@ -4,7 +4,7 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <h6>Congratulations!%></h6>
+    <p>Congratulations!</p>
 
     <p>
       Your application to become a <%= @request_type %> for project <%= link_to @project.title, project_url(@project.id) %> was accepted by <%= @project.leader.try(:name) %>.

@@ -1,6 +1,6 @@
 class NotificationMailer < ApplicationMailer
 
-  def invite_admin(email,user_name, project)
+  def invite_admin(email, user_name, project)
     @project = project
     @user_name = user_name
     mail(to: email, subject: 'invitation For Project')
@@ -12,10 +12,10 @@ class NotificationMailer < ApplicationMailer
     mail(to: user.email, subject: ENV['suggest_subject'])
   end
 
-  def accept_task(user, task)
-    @user = user
+  def accept_new_task(task:, receiver:)
+    @receiver = receiver
     @task = task
-    mail(to: user.email, subject: ENV['accept_subject'])
+    mail(to: @receiver.email, subject: I18n.t('mailers.notification.accept_new_task.subject'))
   end
 
   def task_started(acting_user:, task:, receiver:)
@@ -25,7 +25,7 @@ class NotificationMailer < ApplicationMailer
 
     mail(to: receiver.email, subject: I18n.t('mailers.notification.task_started.subject'))
   end
-  
+
   def suggest_task(user, task)
     @user = user
     @task = task
@@ -39,6 +39,18 @@ class NotificationMailer < ApplicationMailer
     mail(to: receiver.email, subject: I18n.t('mailers.notification.revision_approved.subject'))
   end
 
+  def notify_user_for_rejecting_new_task(task:, receiver:)
+    @receiver = receiver
+    @task = task
+    mail(to: @receiver.email, subject: I18n.t('mailers.notification.notify_user_for_rejecting_new_task.subject'))
+  end
+
+  def notify_others_for_rejecting_new_task(task:, receiver:)
+    @receiver = receiver
+    @task = task
+    mail(to: @receiver.email, subject: I18n.t('mailers.notification.notify_others_for_rejecting_new_task.subject'))
+  end
+  
   def comment(task_comment:, receiver:)
     @task_comment = task_comment
     @receiver = receiver

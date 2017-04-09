@@ -214,56 +214,124 @@ RSpec.describe TasksController do
     end
   end
 
-# TODO: this speci should be updated accordingly to our logic, it seems that task is not deleted after :reject
-# see: https://travis-ci.com/YouServe/Main-App/builds/40999235
-=begin
   describe '#reject' do
-    let(:existing_task) do
-      FactoryGirl.create(:task, :with_associations, project: project, user: user)
-    end
+    subject(:make_request) { get(:reject, { id: existing_task.id }) }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+    context 'when the task is deleted successful' do
+      let(:existing_task) do
+        FactoryGirl.create(:task, :with_associations, project: project, user: task_user, state: 'pending')
+      end
+      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+      let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
 
-    it 'deletes task' do
-      expect(Task.exists?(id: existing_task.id)).to eq true
 
-      get(:reject, { id: existing_task.id })
+      before do
+        project_team = project.create_team(name: "Team#{project.id}")
+        TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+        project.followers << only_follower
+        project.followers << follower_and_member
+        project.save!
 
-      expect(Task.exists?(id: existing_task.id)).to_not eq true
-    end
+        allow(NotificationMailer).to receive(:notify_others_for_rejecting_new_task).and_return(message_delivery)
+        allow(NotificationMailer).to receive(:notify_user_for_rejecting_new_task).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_later)
+      end
 
-    it 'redirects to project taskstab path' do
-      get(:reject, { id: existing_task.id })
+      it 'deletes task' do
+        expect(Task.exists?(id: existing_task.id)).to eq true
 
-      expect(response).to redirect_to(
-        taskstab_project_path(existing_task.project, tab: 'Tasks')
-      )
+        make_request
+
+        expect(Task.exists?(id: existing_task.id)).to_not eq true
+      end
+
+      it 'redirects to project taskstab path' do
+        make_request
+
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+      end
+
+      it 'sends an email to the involved users', :aggregate_failures do
+        expect(NotificationMailer).to receive(:notify_others_for_rejecting_new_task).exactly(3).times
+        # aggregation of the delivery messages
+        expect(message_delivery).to receive(:deliver_later).exactly(4).times
+
+        make_request
+      end
+
+      it 'sends an email to the user that owns the task', :aggregate_failures do
+        expect(NotificationMailer).to receive(:notify_user_for_rejecting_new_task).exactly(1).times
+        # aggregation of the delivery messages
+        expect(message_delivery).to receive(:deliver_later).exactly(4).times
+
+        make_request
+      end
+
+      it 'flashes the correct message' do
+        make_request
+
+        expect(flash[:notice]).to eq("Task #{existing_task.title} has been rejected")
+      end
     end
   end
 
 
-  describe "#accept" do
-    let(:existing_task) do
-      FactoryGirl.create(:task, :with_associations, project: project, user: user)
-    end
+  describe '#accept' do
+    subject(:make_request) { get(:accept, { id: existing_task.id }) }
 
-    it 'accepts the task' do
-      expect(existing_task.pending?).to be true
-      expect(existing_task.accepted?).to be false
+    context 'when the task is accepted successful' do
+      let(:existing_task) do
+        FactoryGirl.create(:task, :with_associations, project: project, user: task_user, state: 'pending')
+      end
+      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+      let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
 
-      get(:accept, { id: existing_task.id })
 
-      updated_task = Task.find(existing_task.id)
-      expect(updated_task.pending?).to be false
-      expect(updated_task.accepted?).to be true
-    end
+      before do
+        project_team = project.create_team(name: "Team#{project.id}")
+        TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
 
-    it 'redirects to project taskstab path' do
-      get(:accept, { id: existing_task.id })
+        project.followers << only_follower
+        project.followers << follower_and_member
+        project.save!
 
-      expect(response).to redirect_to(
-        taskstab_project_path(existing_task.project, tab: 'Tasks')
-      )
+        allow(NotificationMailer).to receive(:accept_new_task).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_later)
+      end
+
+      it 'accepts the task' do
+        expect(existing_task.pending?).to be true
+        expect(existing_task.accepted?).to be false
+
+        make_request
+
+        updated_task = Task.find(existing_task.id)
+        expect(updated_task.pending?).to be false
+        expect(updated_task.accepted?).to be true
+      end
+
+      it 'redirects to project taskstab path' do
+        make_request
+
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+      end
+
+      it 'flashes the correct message' do
+        make_request
+
+        expect(flash[:notice]).to eq('Task accepted')
+      end
+
+      it 'sends an email to the involved users', :aggregate_failures do
+        expect(NotificationMailer).to receive(:accept_new_task).exactly(4).times
+        expect(message_delivery).to receive(:deliver_later).exactly(4).times
+
+        make_request
+      end
     end
   end
-=end
-
 end

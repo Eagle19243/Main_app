@@ -26,8 +26,7 @@ RSpec.describe RequestMailer, type: :mailer do
       end
 
       it 'has the correct body' do
-        expect(email.body).to include("#{applicant.name} &nbsp
-      has submit an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}")
+        expect(email.body).to include("#{applicant.name} has submitted an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}.")
       end
 
     end
@@ -40,8 +39,7 @@ RSpec.describe RequestMailer, type: :mailer do
       end
 
       it 'has the correct body' do
-        expect(email.body).to include("#{applicant.name} &nbsp
-      has submit an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}")
+        expect(email.body).to include("#{applicant.name} has submitted an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}")
       end
     end
   end

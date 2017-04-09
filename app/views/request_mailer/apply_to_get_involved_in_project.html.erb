@@ -4,10 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <h6>Dear <%= @leader.name %></h6>
+    <p>Dear <%= @leader.name %>,</p>
     <p>
-    <%= @applicant.name %> &nbsp
-      has submit an application as <%= @request_type %> for the project <%= link_to @project.title, project_url(@project.id) %>.
+    <%= @applicant.name %> has submitted an application as <%= @request_type %> for the project <%= link_to @project.title, project_url(@project.id) %>.
     </p>
     <p>
       please click the <%= link_to 'link', taskstab_project_url(@project, tab: 'Requests') %> to review incoming requests.
