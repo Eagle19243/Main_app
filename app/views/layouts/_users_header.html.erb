@@ -17,7 +17,12 @@
 
     <a type="button" class="btn-root _small hidden-mobile header-align" data-modal="#startProjectModal">Start a Project</a>
     <div class="header-dropdown">
-        <div class="header-dropdown__title js-dropdown">Explore</div>
+        <div class="header-dropdown__title js-dropdown">
+            Explore
+            <svg focusable="false" version="1.1" class="svg-arrow-down">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
+            </svg>
+        </div>
         <ul class="header-dropdown__list js-dropdown-list">
             <li class="header-dropdown__item">
                 <a class="projects-link" href="<%= projects_path %>">Active Projects</a>
