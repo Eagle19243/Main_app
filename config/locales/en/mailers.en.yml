@@ -16,5 +16,8 @@ en:
     notification:
       revision_approved:
         subject: 'Approved version of project changed'
+    payment:
+      fund_task:
+        subject: 'Task funded'
       task_started:
         subject: 'Task was started'

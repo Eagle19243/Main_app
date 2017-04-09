@@ -187,6 +187,22 @@ RSpec.describe Payments::StripeController do
             end
 
             context 'when stripe payment succeeds' do
+              let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+              let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+              let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+
+              before do
+                allow(PaymentMailer).to receive(:fund_task).and_return(message_delivery)
+                allow(message_delivery).to receive(:deliver_later)
+
+                project_team = task.project.create_team(name: "Team#{task.id}")
+                TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+
+                task.project.followers << only_follower
+                task.project.followers << follower_and_member
+                task.project.save!
+              end
+
               it 'returns a json with success message' do
                 make_request
 
@@ -196,6 +212,13 @@ RSpec.describe Payments::StripeController do
                     success: 'Thanks for your payment'
                   )
                 end
+              end
+
+              it 'sends an email to the involved users', :aggregate_failures do
+                expect(PaymentMailer).to receive(:fund_task).exactly(3).times
+                expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+                make_request
               end
 
               it 'initializes the stripe payment service with the correct arguments' do

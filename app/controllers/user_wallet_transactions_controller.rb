@@ -26,7 +26,14 @@ class UserWalletTransactionsController < ApplicationController
       user: current_user
     )
     @transfer.submit!
-
+    task.project.interested_users.each do |user|
+      PaymentMailer.fund_task(
+        payer: current_user,
+        task: task,
+        receiver: user,
+        amount: { bitcoin: params[:amount], usd: amount_in_usd.round(2) }
+      ).deliver_later
+    end
     render json: { success: "#{params[:amount]} BTC has been successfully sent to task's balance" }, status: 200
   rescue Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
@@ -36,5 +43,9 @@ class UserWalletTransactionsController < ApplicationController
   private
   def amount_in_satoshi
     Payments::BTC::Converter.convert_btc_to_satoshi(params[:amount])
+  end
+
+  def amount_in_usd
+    Payments::BTC::Converter.convert_btc_to_usd(params[:amount])
   end
 end

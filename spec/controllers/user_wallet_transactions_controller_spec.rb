@@ -32,7 +32,8 @@ RSpec.describe UserWalletTransactionsController do
     before { user.reload; sign_in(user) }
 
     describe '#send_to_task_address' do
-      let(:task) { FactoryGirl.create(:task, :with_wallet) }
+      let(:project) { FactoryGirl.create(:project) }
+      let(:task) { FactoryGirl.create(:task, :with_wallet, project: project) }
 
       context 'tranfer error' do
         it do
@@ -78,9 +79,24 @@ RSpec.describe UserWalletTransactionsController do
       end
 
       context 'send success' do
-        it do
+        let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+        let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+        let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+
+        before do
+          allow(PaymentMailer).to receive(:fund_task).and_return(message_delivery)
+          allow(message_delivery).to receive(:deliver_later)
           allow_any_instance_of(Payments::BTC::FundTask).to receive(:submit!) { true }
 
+          project_team = task.project.create_team(name: "Team#{task.id}")
+          TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+
+          task.project.followers << only_follower
+          task.project.followers << follower_and_member
+          task.project.save!
+        end
+
+        it 'returns success' do
           post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
 
           aggregate_failures("json is correct") do
@@ -89,6 +105,13 @@ RSpec.describe UserWalletTransactionsController do
               success: "20 BTC has been successfully sent to task's balance"
             )
           end
+        end
+
+        it 'sends an email to the involved users', :aggregate_failures do
+          expect(PaymentMailer).to receive(:fund_task).exactly(3).times
+          expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+          post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
         end
       end
     end

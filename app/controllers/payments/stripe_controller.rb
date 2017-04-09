@@ -19,6 +19,15 @@ class Payments::StripeController < ApplicationController
     )
     transfer.submit!
 
+    task.project.interested_users.each do |user|
+      PaymentMailer.fund_task(
+        payer: current_user,
+        task: task,
+        receiver: user,
+        amount: { bitcoin: amount_in_bitcoin, usd: params[:amount] }
+      ).deliver_later
+    end
+
     render json: { success: 'Thanks for your payment' }, status: 200
   rescue Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
@@ -31,5 +40,9 @@ class Payments::StripeController < ApplicationController
     unless (params.key?(:stripeToken) || params.key?(:card_id)) && params.key?(:amount)
       render json: { error: "Submitted form parameters are invalid" }, status: 500
     end
+  end
+
+  def amount_in_bitcoin
+    Payments::BTC::Converter.convert_usd_to_btc(params[:amount])
   end
 end
