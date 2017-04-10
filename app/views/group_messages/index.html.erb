@@ -1,23 +1,23 @@
 <div class="row s-group-messages margin-none">
   <div class="s-group-messages__nav">
 
-    <div class="s-group-messages__nav-title">Teams channels</div>
+    <div class="s-group-messages__nav-title">Teams channels:</div>
     <div class="s-group-messages__menu">
       <div class="s-group-messages__submenu">
-        <div class="s-group-messages__submenu-title">My project</div>
+        <div class="s-group-messages__submenu-title">My project:</div>
         <ul class="s-group-messages__submenu-list">
           <% unless @user_projects.blank? %>
               <% @user_projects.each.with_index do |project, index| %>
                 <li class="s-group-messages__submenu-item"><a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a></li>
               <% end %>
           <% end %>
-          <%= render 'group_messages/project_team' %>
+          <!-- <%= render 'group_messages/project_team' %> -->
         </ul>
       </div>
     </div>
-    <div class="s-group-messages__nav-title">Direct messages</div>
     <div class="s-group-messages__menu">
         <div class="s-group-messages__submenu">
+            <div class="s-group-messages__submenu-title">Direct messages:</div>
             <ul class="s-group-messages__submenu-list _project-team-members">
               <%= render 'group_messages/one_to_one_members' %>
             </ul>

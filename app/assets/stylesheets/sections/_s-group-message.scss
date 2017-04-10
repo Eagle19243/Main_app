@@ -12,9 +12,9 @@
     bottom: 0;
 
     &-title {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-family: 'Roboto', sans-serif;
-      font-size: 14px;
+      font-size: 18px;
       letter-spacing: 1px;
       color: #000;
     }
@@ -22,9 +22,10 @@
 
   &__submenu {
     &-title {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       font-family: 'Roboto', sans-serif;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 600;
       letter-spacing: 1px;
       color: #888;
     }
@@ -37,7 +38,7 @@
       &._active {
         a {
           color: #555;
-          font-weight: 600;
+          text-decoration: underline;
         }
       }
       a {
