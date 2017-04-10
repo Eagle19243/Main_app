@@ -182,6 +182,10 @@
 $(document).ready(function() {
     var $dropdown = $('.js-dropdown');
 
+    if (/group_messages/.test(window.location.href)) {
+        $('.btn-bell__counter').hide();
+    }
+
     $(document)
         .on('click.dropdownToggle', '.js-dropdown', function() {
             $(this).toggleClass('_active');
