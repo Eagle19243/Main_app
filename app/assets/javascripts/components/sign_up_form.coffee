@@ -33,8 +33,9 @@
     errors = response.responseJSON.errors
     message = ""
     for error, value of errors
-      message_node = error.charAt(0).toUpperCase() + error.slice(1) + " " + value + "<br />"
-      message += message_node.replace "_", " "
+      if value.length > 0
+        message_node = error.charAt(0).toUpperCase() + error.slice(1) + " " + value + "<br />"
+        message += message_node.replace "_", " "
     $('#signUpBox').html(message)
     $('#signUpBox').parent().show()
 

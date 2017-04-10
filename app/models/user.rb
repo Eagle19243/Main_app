@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
+         :recoverable, :rememberable, :trackable, :omniauthable, :confirmable
 
   #after_create :populate_guid_and_token
 
@@ -48,6 +48,19 @@ class User < ActiveRecord::Base
 
   validate :validate_name_unchange
   validates :name, presence: true, uniqueness: true
+
+  # Ref: https://github.com/plataformatec/devise/blob/88724e10adaf9ffd1d8dbfbaadda2b9d40de756a/lib/devise/models/validatable.rb
+  # Validate everything as using `devise :validatable`
+  # Except for validates_length_of password which is done only if no errors on password_confirmation were found
+  validates_presence_of   :email, if: :email_required?
+  validates_uniqueness_of :email, allow_blank: true, if: :email_changed?
+  validates_format_of     :email, with: Devise.email_regexp, allow_blank: true, if: :email_changed?
+
+  validates_presence_of     :password, if: :password_required?
+  validates_confirmation_of :password, if: :password_required?
+
+  # Override
+  validates_length_of       :password, within: Devise.password_length, allow_blank: true, if: ->(user) { user.errors[:password_confirmation].blank? }
 
   scope :name_like, -> (name) { where('name ILIKE ?', "%#{name}%")}
 
@@ -284,5 +297,18 @@ class User < ActiveRecord::Base
   # Normal use case, name cannot be changed, need to bypass validation if neccessary
   def validate_name_unchange
     errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
+  end
+
+  protected
+
+  # Checks whether a password is needed or not. For validations only.
+  # Passwords are always required if it's a new record, or if the password
+  # or confirmation are being set somewhere.
+  def password_required?
+    !persisted? || !password.nil? || !password_confirmation.nil?
+  end
+
+  def email_required?
+    true
   end
 end
