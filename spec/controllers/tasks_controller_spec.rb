@@ -217,28 +217,8 @@ RSpec.describe TasksController do
   describe '#reject' do
     subject(:make_request) { get(:reject, { id: existing_task.id }) }
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
-    context 'when the task is deleted successful' do
-      let(:existing_task) do
-        FactoryGirl.create(:task, :with_associations, project: project, user: task_user, state: 'pending')
-      end
-      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
-      let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
-      let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
-      let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
 
-
-      before do
-        project_team = project.create_team(name: "Team#{project.id}")
-        TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
-        project.followers << only_follower
-        project.followers << follower_and_member
-        project.save!
-
-        allow(NotificationMailer).to receive(:notify_others_for_rejecting_new_task).and_return(message_delivery)
-        allow(NotificationMailer).to receive(:notify_user_for_rejecting_new_task).and_return(message_delivery)
-        allow(message_delivery).to receive(:deliver_later)
-      end
-
+    shared_examples :deleted_task do
       it 'deletes task' do
         expect(Task.exists?(id: existing_task.id)).to eq true
 
@@ -253,26 +233,87 @@ RSpec.describe TasksController do
         expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
       end
 
-      it 'sends an email to the involved users', :aggregate_failures do
-        expect(NotificationMailer).to receive(:notify_others_for_rejecting_new_task).exactly(3).times
-        # aggregation of the delivery messages
-        expect(message_delivery).to receive(:deliver_later).exactly(4).times
-
-        make_request
-      end
-
-      it 'sends an email to the user that owns the task', :aggregate_failures do
-        expect(NotificationMailer).to receive(:notify_user_for_rejecting_new_task).exactly(1).times
-        # aggregation of the delivery messages
-        expect(message_delivery).to receive(:deliver_later).exactly(4).times
-
-        make_request
-      end
-
       it 'flashes the correct message' do
         make_request
 
         expect(flash[:notice]).to eq("Task #{existing_task.title} has been rejected")
+      end
+    end
+
+    context 'when the task is in the state of suggested_task' do
+      context 'when the task is deleted successful' do
+        let(:existing_task) do
+          FactoryGirl.create(:task, :with_associations, project: project, user: task_user, state: 'suggested_task')
+        end
+
+        let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+        let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+        let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+        let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
+
+
+        before do
+          project_team = project.create_team(name: "Team#{project.id}")
+          TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+          project.followers << only_follower
+          project.followers << follower_and_member
+          project.save!
+
+          allow(NotificationMailer).to receive(:notify_others_for_rejecting_new_task).and_return(message_delivery)
+          allow(NotificationMailer).to receive(:notify_user_for_rejecting_new_task).and_return(message_delivery)
+          allow(message_delivery).to receive(:deliver_later)
+        end
+
+        include_examples :deleted_task
+
+        it 'sends an email to the involved users', :aggregate_failures do
+          expect(NotificationMailer).to receive(:notify_others_for_rejecting_new_task).exactly(3).times
+          # aggregation of the delivery messages
+          expect(message_delivery).to receive(:deliver_later).exactly(4).times
+
+          make_request
+        end
+
+        it 'sends an email to the user that owns the task', :aggregate_failures do
+          expect(NotificationMailer).to receive(:notify_user_for_rejecting_new_task).exactly(1).times
+          # aggregation of the delivery messages
+          expect(message_delivery).to receive(:deliver_later).exactly(4).times
+
+          make_request
+        end
+      end
+    end
+
+    context 'when the task is NOT in the state of suggested_task' do
+      context 'when the task is deleted successful' do
+        let(:existing_task) do
+          FactoryGirl.create(:task, :with_associations, project: project, user: task_user, state: 'accepted')
+        end
+        let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+        let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+        let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+        let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
+
+
+        before do
+          project_team = project.create_team(name: "Team#{project.id}")
+          TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+          project.followers << only_follower
+          project.followers << follower_and_member
+          project.save!
+
+          allow(NotificationMailer).to receive(:task_deleted).and_return(message_delivery)
+          allow(message_delivery).to receive(:deliver_later)
+        end
+
+        include_examples :deleted_task
+
+        it 'sends an email to the involved users', :aggregate_failures do
+          expect(NotificationMailer).to receive(:task_deleted).exactly(3).times
+          expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+          make_request
+        end
       end
     end
   end

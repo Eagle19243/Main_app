@@ -6,7 +6,7 @@
   <body>
     <p>Dear <%= @receiver.name %>,</p>
     <p>
-      Task <%=@task.title%> for project <%= link_to @task.project.title, project_url(@task.project.id)%> has not been accepted by the project leader.
+      Task <%=@task_title%> for project <%= link_to @project.title, project_url(@project.id)%> has not been accepted by the project leader.
     </p>
   </body>
 </html>

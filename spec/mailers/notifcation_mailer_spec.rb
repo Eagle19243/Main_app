@@ -29,7 +29,6 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   end
 
-
   describe '#revision_approved' do
     subject(:email) { described_class.revision_approved(approver: project.leader, project: project, receiver: user).deliver_now }
     let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
@@ -74,7 +73,6 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   end
 
-
   describe '#accept_new_task' do
     subject(:email) { described_class.accept_new_task(task: task, receiver: user).deliver_now }
     let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
@@ -99,32 +97,9 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
   end
 
-  describe '#notify_user_for_rejecting_new_task' do
-    subject(:email) { described_class.notify_user_for_rejecting_new_task(task: task, receiver: user).deliver_now }
-    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
-    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:task) { FactoryGirl.create(:task, user: user, project: project, state: 'pending') }
-
-    it 'sends an email' do
-      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
-    end
-
-    it 'has the correct To sender e-mail' do
-      expect(email.to.first).to eq(user.email)
-    end
-
-    it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.notify_user_for_rejecting_new_task.subject'))
-    end
-
-    it 'has the correct body' do
-      expect(email.body).to include("Your task #{task.title} for project #{link_to task.project.title, project_url(task.project.id)} has not been accepted by the project leader.")
-    end
-  end
 
   describe '#notify_user_for_rejecting_new_task' do
-    subject(:email) { described_class.notify_user_for_rejecting_new_task(task: task, receiver: user).deliver_now }
+    subject(:email) { described_class.notify_user_for_rejecting_new_task(task_title: task.title, project: project, receiver: user).deliver_now }
     let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:project) { FactoryGirl.create(:base_project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
@@ -148,7 +123,7 @@ RSpec.describe NotificationMailer, type: :mailer do
   end
 
   describe '#notify_others_for_rejecting_new_task' do
-    subject(:email) { described_class.notify_others_for_rejecting_new_task(task: task, receiver: user).deliver_now }
+    subject(:email) { described_class.notify_others_for_rejecting_new_task(task_title: task.title, project: project, receiver: user).deliver_now }
     let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:project) { FactoryGirl.create(:base_project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
@@ -168,6 +143,31 @@ RSpec.describe NotificationMailer, type: :mailer do
 
     it 'has the correct body' do
       expect(email.body).to include("Task #{task.title} for project #{link_to task.project.title, project_url(task.project.id)} has not been accepted by the project leader.")
+    end
+  end
+
+  describe '#task_deleted' do
+    subject(:email) { described_class.task_deleted(task_title: task.title, project: project, receiver: leader, admin: admin).deliver_now }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:task) { FactoryGirl.create(:task, user: user, project: project, state: 'pending') }
+    let(:admin) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(leader.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('mailers.notification.task_deleted.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(email.body).to include("Task #{task.title} for project #{link_to task.project.title, project_url(task.project.id)} was deleted by #{admin.name}")
     end
   end
 end

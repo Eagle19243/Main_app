@@ -222,16 +222,23 @@ class TasksController < ApplicationController
   end
 
   def reject
+    current_state_of_task = @task.state
     if @task.reject!
       flash[:notice] = "Task #{@task.title} has been rejected"
       @task.destroy
       NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
 
-      (@task.project.interested_users - [@task.user]).each do |user|
-        NotificationMailer.notify_others_for_rejecting_new_task(task: @task, receiver: user).deliver_later
-      end
+      if current_state_of_task == 'suggested_task'
+        (@task.project.interested_users - [@task.user]).each do |user|
+          NotificationMailer.notify_others_for_rejecting_new_task(task_title: @task.title, project: @task.project, receiver: user).deliver_later
+        end
 
-      NotificationMailer.notify_user_for_rejecting_new_task(task: @task, receiver: @task.user).deliver_later
+        NotificationMailer.notify_user_for_rejecting_new_task(task_title: @task.title, project: @task.project, receiver: @task.user).deliver_later
+      else
+        @task.project.interested_users.each do |user|
+          NotificationMailer.task_deleted(task_title: @task.title, project: @task.project, receiver: user, admin: current_user).deliver_later
+        end
+      end
     else
       flash[:notice] = "Task was not rejected"
     end

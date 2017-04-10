@@ -19,6 +19,8 @@ en:
       reject_to_do_task:
         subject: 'Task application response'
     notification:
+      task_deleted:
+        subject: 'Task was deleted'
       comment:
         subject: 'Comment for task received'
       revision_approved:

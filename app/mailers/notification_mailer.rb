@@ -39,15 +39,13 @@ class NotificationMailer < ApplicationMailer
     mail(to: receiver.email, subject: I18n.t('mailers.notification.revision_approved.subject'))
   end
 
-  def notify_user_for_rejecting_new_task(task:, receiver:)
-    @receiver = receiver
-    @task = task
+  def notify_user_for_rejecting_new_task(task_title:, project:, receiver:)
+    set_instance_variables_for_rejected_tasks(task_title: task_title, project: project, receiver: receiver)
     mail(to: @receiver.email, subject: I18n.t('mailers.notification.notify_user_for_rejecting_new_task.subject'))
   end
 
-  def notify_others_for_rejecting_new_task(task:, receiver:)
-    @receiver = receiver
-    @task = task
+  def notify_others_for_rejecting_new_task(task_title:, project:, receiver:)
+    set_instance_variables_for_rejected_tasks(task_title: task_title, project: project, receiver: receiver)
     mail(to: @receiver.email, subject: I18n.t('mailers.notification.notify_others_for_rejecting_new_task.subject'))
   end
   
@@ -56,5 +54,20 @@ class NotificationMailer < ApplicationMailer
     @receiver = receiver
 
     mail(to: @receiver.email, subject: I18n.t('mailers.notification.comment.subject'))
+  end
+
+  def task_deleted(task_title:, project:, receiver:, admin:)
+    set_instance_variables_for_rejected_tasks(task_title: task_title, project: project, receiver: receiver)
+    @admin = admin
+
+    mail(to: @receiver.email, subject: I18n.t('mailers.notification.task_deleted.subject'))
+  end
+
+  private
+
+  def set_instance_variables_for_rejected_tasks(task_title:, project:, receiver:)
+    @task_title = task_title
+    @project = project
+    @receiver = receiver
   end
 end
