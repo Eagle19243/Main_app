@@ -26,6 +26,14 @@ class NotificationMailer < ApplicationMailer
     mail(to: receiver.email, subject: I18n.t('mailers.notification.task_started.subject'))
   end
 
+  def under_review_task(reviewee:, task:, receiver:)
+    @task = task
+    @reviewee = reviewee
+    @receiver = receiver
+
+    mail(to: receiver.email, subject: I18n.t('mailers.notification.under_review_task.subject'))
+  end
+
   def suggest_task(user, task)
     @user = user
     @task = task

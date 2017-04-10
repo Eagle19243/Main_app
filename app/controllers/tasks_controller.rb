@@ -256,6 +256,9 @@ class TasksController < ApplicationController
 
     if current_user.can_submit_task?(@task) && @task.begin_review!
       @notice = "Task Submitted for Review"
+      @task.project.interested_users.each do |user|
+        NotificationMailer.under_review_task(reviewee: current_user, task: @task, receiver: user).deliver_later
+      end
     else
       @notice = "Task Was Not  Submitted for Review"
     end

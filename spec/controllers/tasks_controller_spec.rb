@@ -76,6 +76,73 @@ RSpec.describe TasksController do
     end
   end
 
+  describe '#reviewing' do
+    subject(:make_request) { get(:reviewing, { id: existing_task.id }) }
+
+    context 'when the task is eligible to move to under review' do
+      let(:existing_task) do
+        FactoryGirl.create(
+          :task,
+          project: project,
+          user: user,
+          state: 'doing',
+          current_fund: 200.0,
+          budget: 200.0,
+          number_of_participants: 2,
+          target_number_of_participants: 2
+        )
+      end
+      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+      let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
+      let(:task_user) { FactoryGirl.create(:user, :confirmed_user) }
+
+
+      before do
+        project_team = project.create_team(name: "Team#{project.id}")
+        team_membership = TeamMembership.create!(team_member: user, team_id: project_team.id, role: 1)
+        TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+        team_membership.tasks << existing_task
+        team_membership.save!
+
+        project.followers << only_follower
+        project.followers << follower_and_member
+        project.save!
+
+        TaskMember.create(task_id: existing_task.id, team_membership_id: team_membership.id)
+        # existing_task.task_members << user
+        existing_task.save!
+
+        allow(NotificationMailer).to receive(:under_review_task).and_return(message_delivery)
+        allow(message_delivery).to receive(:deliver_later)
+        allow_any_instance_of(User).to receive(:can_submit_task?).with(existing_task).and_return(true)
+      end
+
+      it 'task goes in state of doing' do
+        expect { make_request }.to change { existing_task.reload.state }.from('doing').to('reviewing')
+      end
+
+      it 'redirects to project taskstab path' do
+        make_request
+
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+      end
+
+      it 'flashes the correct message' do
+        make_request
+
+        expect(flash[:notice]).to eq('Task Submitted for Review')
+      end
+
+      it 'sends an email to the involved users', :aggregate_failures do
+        expect(NotificationMailer).to receive(:under_review_task).exactly(3).times
+        expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+        make_request
+      end
+    end
+  end
+
   describe '#doing' do
     subject(:make_request) { get(:doing, { id: existing_task.id }) }
 

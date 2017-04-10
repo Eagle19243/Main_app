@@ -3,6 +3,30 @@ require 'rails_helper'
 RSpec.describe NotificationMailer, type: :mailer do
   include ActionView::Helpers::UrlHelper
 
+  describe '#under_review_task' do
+    subject(:email) { described_class.under_review_task(reviewee: user, task: task, receiver: leader).deliver_now }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:task) { FactoryGirl.create(:task, project: project) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(leader.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('mailers.notification.under_review_task.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(email.body).to include("#{user.name} marked task #{task.title} for project #{link_to project.title, project_url(project.id)} as finished.")
+    end
+  end
+
   describe '#comment' do
     subject(:email) { described_class.comment(task_comment: task_comment, receiver: leader).deliver_now }
     let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }

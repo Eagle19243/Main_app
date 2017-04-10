@@ -29,6 +29,8 @@ en:
         subject: 'Task has started'
       accept_new_task:
         subject: 'Task was approved'
+      under_review_task:
+        subject: 'Task finished and is under review'
       notify_user_for_rejecting_new_task:
         subject: 'Task was not approved'
       notify_others_for_rejecting_new_task:
