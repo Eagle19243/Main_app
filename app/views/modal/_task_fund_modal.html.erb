@@ -108,7 +108,7 @@
         usd: 0,
         btc: 0
       },
-      isUSD: false
+      isUSD: true
     };
 
     function stripeResponseHandler(status, response) {
@@ -179,7 +179,10 @@
           $walletTransactionAmount.trigger('keyup');
 
           $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
-          $walletTransactionAmount.val("");
+          $walletTransactionAmount.val('');
+          $('.js-btc-amount').html('');
+          updateConversion();
+          $donateBtn.addClass('_disable');
         })
         .on('input.inputAmount', '.modal-fund__input', function() {
             var currentValue = $(this).val(),
@@ -276,7 +279,7 @@
             $('html').addClass('_open-modal');
         }
 
-        function updateConversion(eve) {
+        function updateConversion(event) {
           document.getElementById("wallet_btc").innerHTML = '';
           var value = +document.getElementById("wallet_transaction_amount").value;
           var current_btc = '<%= Payments::BTC::Converter.current_btc_rate  %>';
@@ -289,7 +292,7 @@
           }
           $btcValue.text(btc.toFixed(5));
           $usdValue.text(usd);
-          eve.preventDefault();
+          event && event.preventDefault();
         }
 
         // todo FD: check all this js, do we need this after fund modal will be implemented?
