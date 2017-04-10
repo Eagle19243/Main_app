@@ -7,7 +7,7 @@ class DoRequestsController < ApplicationController
   def new
     @task = Task.find(params[:task_id])
     if @task.suggested_task?
-      flash[:error] = "You can not Apply For Suggested Task "
+      flash[:error] = "You can not apply for suggested task "
       redirect_to task_path(@task.id)
     end
     @free = params[:free]
@@ -15,35 +15,28 @@ class DoRequestsController < ApplicationController
   end
 
   def create
-    @do_request = current_user.do_requests.build(request_params) rescue nil
-    task=Task.find (request_params['task_id'])
-    if task.suggested_task?
-      flash[:error] = "You can not Apply For Suggested Task "
-      redirect_to task_path(task.id)
-    end
+    task = Task.find(request_params[:task_id])
+    flash[:error] = 'You can not apply for suggested task' if task.suggested_task?
+
+    @do_request = current_user.do_requests.build(request_params)
     @do_request.project_id = task.project_id
-    if current_user.id == task.project.user_id
-      @do_request.state='accepted'
-    else
-      @do_request.state='pending'
-    end
+    @do_request.state = 'pending'
+    @do_request.state = 'accepted' if current_user.id == task.project.user_id
+
     respond_to do |format|
       if @do_request.save
-        @msg="Request sent to Project Admin";
-        if current_user.id == task.project.user_id
-          @msg="Your application to perform this task was submitted successfully. The project leader will notify you once it has been received and a decision is made.";
-        end
-
         RequestMailer.to_do_task(requester: current_user, task: task).deliver_later
-        flash[:success] = @msg
+
+        flash[:notice] = 'Request sent to Project Admin'
+        flash[:notice] = 'Your application to perform this task was submitted successfully. The project leader will notify you once it has been received and a decision is made.' if current_user.id == task.project.user_id
+
         format.js
-        format.json { render json: {id: @do_request, status: 200, responseText: "Request sent to Project Admin "} }
-        format.html { redirect_to @do_request.task, notice: 'Request sent to Project Admin.' }
+        format.html { redirect_to @do_request.task }
       else
-        @msg="You can not Apply Twice";
-        flash[:error] = @msg;
+        flash[:error] = 'You can not apply twice'
+
         format.js
-        format.html { redirect_to root_url, notice: "You can not Apply Twice" }
+        format.html { redirect_to root_url }
       end
     end
   end

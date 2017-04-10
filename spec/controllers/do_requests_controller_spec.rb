@@ -29,7 +29,7 @@ describe DoRequestsController, type: :request do
       it 'redirects to the project with the correct notice message', aggregate_failures: true do
           make_request
 
-          expect(flash[:notice]).to eq('Request sent to Project Admin.')
+          expect(flash[:notice]).to eq('Request sent to Project Admin')
           expect(response).to redirect_to(task)
         end
     end
