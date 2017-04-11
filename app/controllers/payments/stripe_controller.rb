@@ -26,6 +26,13 @@ class Payments::StripeController < ApplicationController
         receiver: user,
         amount: { bitcoin: amount_in_bitcoin, usd: params[:amount] }
       ).deliver_later
+
+      # reload to make sure you get the latest fund
+      task.reload
+      PaymentMailer.fully_funded_task(
+        task: task,
+        receiver: user
+      ).deliver_later if task.fully_funded?
     end
 
     render json: { success: 'Thanks for your payment' }, status: 200

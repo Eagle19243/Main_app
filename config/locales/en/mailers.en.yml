@@ -3,8 +3,8 @@ en:
     payment:
       fund_task:
         subject: 'Task funded'
-      task_started:
-        subject: 'Task was started'
+      fully_funded_task:
+        subject: 'Task was fully funded'
     request:
       apply_to_get_involved_in_project:
         subject: '%{request_type} application received'

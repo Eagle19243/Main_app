@@ -33,6 +33,13 @@ class UserWalletTransactionsController < ApplicationController
         receiver: user,
         amount: { bitcoin: params[:amount], usd: amount_in_usd.round(2) }
       ).deliver_later
+
+      # reload to make sure you get the latest fund
+      task.reload
+      PaymentMailer.fully_funded_task(
+        task: task,
+        receiver: user
+      ).deliver_later if task.fully_funded?
     end
     render json: { success: "#{params[:amount]} BTC has been successfully sent to task's balance" }, status: 200
   rescue Payments::BTC::Errors::TransferError => error

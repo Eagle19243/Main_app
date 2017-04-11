@@ -107,11 +107,34 @@ RSpec.describe UserWalletTransactionsController do
           end
         end
 
-        it 'sends an email to the involved users', :aggregate_failures do
-          expect(PaymentMailer).to receive(:fund_task).exactly(3).times
-          expect(message_delivery).to receive(:deliver_later).exactly(3).times
+        context 'when the task is not fully funded' do
+          it 'sends an email to the involved users', :aggregate_failures do
+            expect(PaymentMailer).to receive(:fund_task).exactly(3).times
+            expect(message_delivery).to receive(:deliver_later).exactly(3).times
 
-          post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
+            post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
+          end
+        end
+
+        context 'when the task is fully funded' do
+          let(:task) { FactoryGirl.create(:task, :with_wallet, project: project, budget: 200.0, current_fund: 200.0) }
+          before { allow(PaymentMailer).to receive(:fully_funded_task).and_return(message_delivery) }
+
+          it 'sends an email to the involved users', :aggregate_failures do
+            expect(PaymentMailer).to receive(:fund_task).exactly(3).times
+            # aggregate the deliver later
+            expect(message_delivery).to receive(:deliver_later).exactly(6).times
+
+            post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
+          end
+
+          it 'sends an email to the involved users that the task was fully funded', :aggregate_failures do
+            expect(PaymentMailer).to receive(:fully_funded_task).exactly(3).times
+            # aggregate the deliver later
+            expect(message_delivery).to receive(:deliver_later).exactly(6).times
+
+            post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
+          end
         end
       end
     end

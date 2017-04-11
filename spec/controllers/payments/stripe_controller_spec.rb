@@ -214,13 +214,6 @@ RSpec.describe Payments::StripeController do
                 end
               end
 
-              it 'sends an email to the involved users', :aggregate_failures do
-                expect(PaymentMailer).to receive(:fund_task).exactly(3).times
-                expect(message_delivery).to receive(:deliver_later).exactly(3).times
-
-                make_request
-              end
-
               it 'initializes the stripe payment service with the correct arguments' do
                 expect(Payments::Stripe).to receive(:new).with(
                   card_id: @card_id,
@@ -228,6 +221,38 @@ RSpec.describe Payments::StripeController do
                 ).and_call_original
 
                 make_request
+              end
+
+              context 'when the task is not fully funded' do
+                it 'sends an email to the involved users', :aggregate_failures do
+                  expect(PaymentMailer).to receive(:fund_task).exactly(3).times
+                  expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+                  make_request
+                end
+              end
+
+              context 'when the task is fully funded' do
+                before do
+                  allow(PaymentMailer).to receive(:fully_funded_task).and_return(message_delivery)
+                  task.update_attributes(budget: 200.0, current_fund: 200.0)
+                end
+
+                it 'sends an email to the involved users', :aggregate_failures do
+                  expect(PaymentMailer).to receive(:fund_task).exactly(3).times
+                  # aggregate the deliver later
+                  expect(message_delivery).to receive(:deliver_later).exactly(6).times
+
+                  make_request
+                end
+
+                it 'sends an email to the involved users that the task was fully funded', :aggregate_failures do
+                  expect(PaymentMailer).to receive(:fully_funded_task).exactly(3).times
+                  # aggregate the deliver later
+                  expect(message_delivery).to receive(:deliver_later).exactly(6).times
+
+                  make_request
+                end
               end
             end
 

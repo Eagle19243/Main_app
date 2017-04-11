@@ -67,6 +67,10 @@ class Task < ActiveRecord::Base
     current_fund < budget ||  number_of_participants < target_number_of_participants
   end
 
+  def fully_funded?
+    current_fund >= budget
+  end
+
   # Returns an estimation in Satoshi how many each participant is going to recieve
   #
   # Method calculates estimation using planned +satoshi_budget+ and planned
