@@ -9,7 +9,7 @@
     e.preventDefault()
 
     if @state.email == '' || @state.password == ''
-      error = 'Invalid Email or Password'
+      error = 'Enter email and password, please'
       $('#signInBox').text(error)
       $('#signInBox').parent().show()
 
