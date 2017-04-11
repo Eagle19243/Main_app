@@ -103,13 +103,25 @@
 
     Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
-    var donationObj = {
-      amount: {
-        usd: 0,
-        btc: 0
-      },
-      isUSD: true
-    };
+    var $walletTransactionAmount = $('#wallet_transaction_amount'),
+        $btcValue = $('.js-btc-value'),
+        $usdValue = $('.js-usd-value'),
+        $currentCurrency = $('.js-current-currency'),
+        $cardNumber = $('#card_number'),
+        $cardExpiry = $('#card_expiry'),
+        $jsCardNumber = $('.js-card-number'),
+        $donateBtn = $('.btn-root._donate'),
+        $jsAmount = $('.js-amount'),
+        $creditCardTab = $('.js-change-payment-type._credit'),
+        $bitcoinTab = $('.js-change-payment-type._bitcoin'),
+        $errorFundModal = $('#errorFundModal'),
+        donationObj = {
+          amount: {
+            usd: 0,
+            btc: 0
+          },
+          isUSD: false
+        };
 
     function stripeResponseHandler(status, response) {
       // Grab the form:
@@ -120,6 +132,7 @@
         $form.find('.modal-fund__payment-errors').text(response.error.message);
         $form.find('.modal-fund__payment-errors').show();
         $form.find('.js-submit-cc').prop('disabled', false); // Re-enable submission
+        $('.btn-root._donate').removeClass('_disable');
       } else { // Token was created!
         // Get the token ID:
         sendCreditCardDonate(response.id);
@@ -150,20 +163,6 @@
           document.execCommand("Copy");
       }
     }
-
-
-    var $walletTransactionAmount = $('#wallet_transaction_amount'),
-        $btcValue = $('.js-btc-value'),
-        $usdValue = $('.js-usd-value'),
-        $currentCurrency = $('.js-current-currency'),
-        $cardNumber = $('#card_number'),
-        $cardExpiry = $('#card_expiry'),
-        $jsCardNumber = $('.js-card-number'),
-        $donateBtn = $('.btn-root._donate'),
-        $jsAmount = $('.js-amount'),
-        $creditCardTab = $('.js-change-payment-type._credit'),
-        $bitcoinTab = $('.js-change-payment-type._bitcoin'),
-        $errorFundModal = $('#errorFundModal');
 
     $(document)
         .on('click.copyWallet', '._copy-address', function () {
