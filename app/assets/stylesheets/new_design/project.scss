@@ -471,6 +471,13 @@ div.progress {
         opacity: 0;
         pointer-events: none;
       }
+      i {
+        color: #cccccc;
+        margin-right: 3px;
+        &._active {
+          color: #464646;
+        }
+      }
     }
     thead {
       th {
@@ -581,9 +588,15 @@ div.progress {
   }
 
   .revisions-compare-button {
-    margin: 0 0 10px 0;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
+    display: block;
+    max-width: 100px;
+    font-size: 12px;
     color: #000;
+    margin: 3px 0 0 10px;
+    padding: 5px 10px;
+    height: auto;
+    line-height: 15px;
   }
 
 }

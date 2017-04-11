@@ -2,22 +2,23 @@
   <h4 class="mb20">Revisions for "<%= project.title %>"</h4>
 
   <div class="row">
-    <div class="col-md-6">
-      <a class="btn-default-weserve revisions-compare-button">Compare selected revisions</a>
-
-      <%= link_to plan_project_path(id: project.id), remote: true, class: "btn-default-weserve" do %>
-        Back
-      <% end %>
-    </div>
-
-    <div class="col-md-6">
+    <div class="col-md-12">
+      <span class="approval-help">
+        ?
+        <div class="approval-help__tooltip">
+            <p>When manual verification is off, users can edit your project without your approval.
+            You still can cancel or edit contributions and block users.</p>
+            <p>If you turn manual verification on, you will have to review every user's contribution
+            in order for them to be implemented.</p>
+        </div>
+      </span>
       <div class="approval-switch">
         <label class="switch">
           <input type="checkbox" <%= project.is_approval_enabled? ? "checked='checked'" : "" %>>
           <div class="slider round"></div>
         </label>
       </div>
-      <h4 style="float: right; margin-right: 10px;">Verification</h4>
+      <h4 class="approval-title">Manual Verification</h4>
     </div>
   </div>
 

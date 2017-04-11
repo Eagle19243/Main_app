@@ -21,11 +21,11 @@ feature "Project Page Revisions Tab", js: true do
 
         @revisions = [
           {
-            "id" => 1, 
-            "timestamp" => Time.now.to_s, 
-            "author" => @user.username, 
-            "status" => "approved", 
-            "comment" => "comment", 
+            "id" => 1,
+            "timestamp" => Time.now.to_s,
+            "author" => @user.username,
+            "status" => "approved",
+            "comment" => "comment",
             "is_blocked" => true
           }
         ]
@@ -52,10 +52,6 @@ feature "Project Page Revisions Tab", js: true do
           expect(@revision_wrapper).to have_selector("a.revisions-compare-button")
         end
 
-        scenario "Then you can see 'Back' button" do
-          expect(@revision_wrapper).to have_link "Back"
-        end
-
         scenario "Then you can see 'Verification' switch" do
           expect(@revision_wrapper).to have_selector "label.switch"
         end
@@ -63,11 +59,11 @@ feature "Project Page Revisions Tab", js: true do
         context "When you click on 'Verification' switch" do
           before do
             @revision_wrapper.find(".approval-switch input").trigger("click")
-            
+
             @warning_modal = find("#modalVerification", visible: true)
           end
 
-          scenario "Then the warning modal appeared" do            
+          scenario "Then the warning modal appeared" do
             expect(@warning_modal).to be_visible
           end
 

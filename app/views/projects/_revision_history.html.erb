@@ -3,13 +3,15 @@
     <thead>
       <tr>
         <th>Edit revision</th>
-        <th>Compare</th>
+        <th>
+            Select Revisions
+            <a class="btn-default-weserve revisions-compare-button">Compare</a>
+        </th>
         <th>Time</th>
-        <th>Contributer</th>
+        <th>Contributors</th>
         <th></th>
         <th></th>
-        <th>Approve changes</th>
-        <th>Current</th>
+        <th>Approved version</th>
       </tr>
     </thead>
     <tbody>
@@ -72,28 +74,16 @@
           <td class="revision-history__mark">
             <% if history['status'] == 'approved' %>
               <a href="/projects/<%= project.id %>/revision_action?type=unapprove&rev=<%= history['revision_id'] %>" class="mr10 revision-unapprove">
-                <i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Unapprove
+                <i class="fa fa-star" aria-hidden="true"></i>Unapprove
               </a>
             <% else %>
               <a href="/projects/<%= project.id %>/revision_action?type=approve&rev=<%= history['revision_id'] %>" class='revision-approve'>
-                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;Mark as approved
-              </a>
-            <% end %>
-          </td>
-          <td class="current">
-            <% if history['status'] == 'approved' %>
-              <a href="javascript:void(0)">
-                <i class="fa fa-star"></i>
+                <i class="fa fa-star _active" aria-hidden="true"></i>Mark as approved
               </a>
             <% end %>
           </td>
         </tr>
       <% end %>
-      <!-- <tr class="current-version">
-        <td colspan="7">
-          Current Version
-        </td>
-      </tr> -->
     </tbody>
   </table>
 </div>

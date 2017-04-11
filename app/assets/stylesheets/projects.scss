@@ -263,6 +263,52 @@ ins {
   }
 }
 
+.approval-help {
+  float: right;
+  margin-left: 10px;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  position: relative;
+  &:hover {
+    .approval-help__tooltip {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  &__tooltip {
+    position: absolute;
+    min-width: 520px;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 14px;
+    left: -494px;
+    bottom: 50px;
+    background-color: #dcdcdc;
+    border: 1px solid #b2b2b2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease-in-out;
+    &:after {
+      display: block;
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      right: 5px;
+      border: 15px solid transparent;
+      border-top: 15px solid #dcdcdc;
+    }
+  }
+}
+.approval-title {
+  float: right;
+  margin-right: 10px;
+  span {
+    font-size: 14px;
+    margin-left: 5px;
+  }
+}
+
 .approval-switch {
 
   width: 60px;
