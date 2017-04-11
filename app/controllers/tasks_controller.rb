@@ -277,6 +277,10 @@ class TasksController < ApplicationController
 
     @notice = "Task was successfully completed"
 
+    @task.project.interested_users.each do |user|
+      NotificationMailer.task_completed(receiver: user, task: @task, reviewer: current_user).deliver_later
+    end
+
     respond_to do |format|
       format.js
       format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }

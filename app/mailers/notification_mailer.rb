@@ -71,6 +71,14 @@ class NotificationMailer < ApplicationMailer
     mail(to: @receiver.email, subject: I18n.t('mailers.notification.task_deleted.subject'))
   end
 
+  def task_completed(task:, receiver:, reviewer:)
+    @task = task
+    @reviewer = reviewer
+    @receiver = receiver
+
+    mail(to: @receiver.email, subject: I18n.t('mailers.notification.task_completed.subject'))
+  end
+
   private
 
   def set_instance_variables_for_rejected_tasks(task_title:, project:, receiver:)

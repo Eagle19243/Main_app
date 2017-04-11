@@ -35,3 +35,5 @@ en:
         subject: 'Task was not approved'
       notify_others_for_rejecting_new_task:
         subject: 'Task was not approved'
+      task_completed:
+        subject: 'Task has been completed'

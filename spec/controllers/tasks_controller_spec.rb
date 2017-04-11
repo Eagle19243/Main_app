@@ -249,7 +249,21 @@ RSpec.describe TasksController do
   describe '#completed' do
     before do
       allow_any_instance_of(TaskCompleteService).to receive(:update_current_fund!).and_return(true)
+      project_team = project.create_team(name: "Team#{project.id}")
+      TeamMembership.create!(team_member: user, team_id: project_team.id, role: 1)
+      TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
+
+      project.followers << only_follower
+      project.followers << follower_and_member
+      project.save!
+
+      allow(NotificationMailer).to receive(:task_completed).and_return(message_delivery)
+      allow(message_delivery).to receive(:deliver_later)
     end
+
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+    let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
+    let(:follower_and_member) { FactoryGirl.create(:user, :confirmed_user) }
 
     let(:task_params) do
       {
@@ -278,6 +292,14 @@ RSpec.describe TasksController do
       get :completed, id: existing_task.id
 
       expect(assigns(:notice)).to eq("Some Error")
+    end
+
+    it 'sends an email to the involved users', :aggregate_failures do
+      allow_any_instance_of(TaskCompleteService).to receive(:complete!).and_return(true)
+      expect(NotificationMailer).to receive(:task_completed).exactly(3).times
+      expect(message_delivery).to receive(:deliver_later).exactly(3).times
+
+      get :completed, id: existing_task.id
     end
   end
 
