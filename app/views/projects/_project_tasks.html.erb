@@ -14,14 +14,6 @@
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>
-
-                    <div class="fund-do-btns">
-                      <% if user_signed_in? %>
-                          <% if can? :destroy, task %>
-                            <button type="button" title="Delete" data-delete-url='<%= reject_task_path(task.id) %>' class='btn-root _dark _delete' data-modal="#removeTask">Delete</button>
-                          <% end %>
-                      <% end %>
-                    </div>
                   </div>
                 </div>
             <% end %>
