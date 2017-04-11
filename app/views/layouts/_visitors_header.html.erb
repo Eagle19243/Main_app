@@ -15,7 +15,7 @@
       <% end %>
     </div>
 
-    <a class="header-link border-link ml30 hidden-mobile" data-modal="#projectSignupModal" id="start_project_link">Start a Project</a>
+    <a class="header-link border-link ml30 hidden-mobile sign_up_a" data-modal="#registerModal" id="start_project_link">Start a Project</a>
     <div class="header-dropdown">
         <div class="header-dropdown__title js-dropdown">Explore</div>
         <ul class="header-dropdown__list js-dropdown-list">
@@ -62,7 +62,7 @@
 <div class="mobile-menu display-none">
   <ul class="mobile-menu-list">
     <li class="border-bottom show-mobile">
-      <a data-modal="#projectSignupModal" id="start_project_link">Start a Project</a>
+      <a class="sign_up_a" data-modal="#registerModal" id="start_project_link">Start a Project</a>
     </li>
     <li class="border-bottom show-mobile">
       <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true} %>
