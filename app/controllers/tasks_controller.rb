@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
-  before_action :validate_user, only: [:accept, :reject, :doing]
+  before_action :validate_user, only: [:accept, :doing]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
@@ -222,10 +222,11 @@ class TasksController < ApplicationController
   end
 
   def reject
+    authorize! :destroy, @task
     current_state_of_task = @task.state
-    if @task.reject!
+
+    if @task.reject! && @task.destroy
       flash[:notice] = "Task #{@task.title} has been rejected"
-      @task.destroy
       NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
 
       if current_state_of_task == 'suggested_task'
@@ -240,14 +241,13 @@ class TasksController < ApplicationController
         end
       end
     else
-      flash[:notice] = "Task was not rejected"
+      flash[:error] = 'Task was not rejected'
     end
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks') }
     end
-
   end
 
   def reviewing
@@ -320,7 +320,7 @@ class TasksController < ApplicationController
 
   def validate_user
     unless current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)
-      flash[:error] = "You are Not authorized  to do this operation "
+      flash[:error] = 'You are not authorized to do this operation'
       redirect_to taskstab_project_path(@task.project_id)
     end
   end

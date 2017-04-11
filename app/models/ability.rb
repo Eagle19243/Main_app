@@ -125,7 +125,7 @@ class Ability
           user.is_project_leader?(task.project) ||
           user.is_coordinator_for?(task.project) ||
           (task.suggested_task? && (user.id == task.user_id))
-        ) && (task.any_fundings? == false)
+        ) && !task.any_fundings?
       end
 
       can :reviewing, Task do |task|
