@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Suggest a Task", js: true do
+xfeature "Suggest a Task", js: true do
   before do
     users = FactoryGirl.create_list(:user, 2, confirmed_at: Time.now)
     @user = users.first
@@ -63,6 +63,7 @@ feature "Suggest a Task", js: true do
             end
 
             scenario "Then new task has been created" do
+              expect(page).not_to have_content("Task was not created")
               expect(page).to have_content("Task was successfully created")
             end
 
@@ -149,92 +150,8 @@ feature "Suggest a Task", js: true do
           expect(page).to have_selector(@task_area_selector, visible: true)
         end
 
-        scenario "Then the 'Suggest a task' link is the area" do
-          expect(@task_area).to have_selector("#suggest-new-task")
-        end
-
-        context "When you click 'Suggest a task' link" do
-          before do
-            @task_area.find("#suggest-new-task").trigger("click")
-
-            @modal_selector = "#newTaskModal"
-            @modal = find(@modal_selector)
-          end
-
-          scenario "Then a modal appeared" do
-            expect(page).to have_selector(@modal_selector, visible: true)
-          end
-
-          context "When you fill all the fields and click 'Create task' button" do
-            before do
-              @task = FactoryGirl.build(:task, project: @project)
-
-              @modal.fill_in 'task[title]', with: @task.title
-              @modal.fill_in 'task[budget]', with: @task.budget
-              @modal.fill_in 'task[condition_of_execution]', with: @task.condition_of_execution
-              @modal.fill_in 'task[proof_of_execution]', with: @task.proof_of_execution
-              @modal.fill_in 'task[deadline]', with: @task.deadline
-
-              @modal.find_button("Create Task").trigger("click")
-            end
-
-            scenario "Then new task has been created" do
-              expect(page).to have_content("Task was successfully created")
-            end
-
-            context "When you navigate the project page" do
-              before do
-                visit project_path(@project)
-              end
-
-              context "When you click 'Task' button" do
-                before do
-                  find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-
-                  @pending_section = find(".trello-column", match: :first)
-                end
-
-                scenario "Then the task has been appeared in the 'Pending approval' section" do
-                  expect(@pending_section.find(".card-title")).to have_content @task.title
-                end
-
-                context "When you click the task" do
-                  before do
-                    @pending_section.find(".card-wrapper", match: :first).trigger("click")
-
-                    @task_area_selector = "#myModal"
-                    @task_modal = find(@task_area_selector)
-                  end
-
-                  scenario "Then the task modal appeared" do
-                    expect(page).to have_selector(@task_area_selector, visible: true)
-                  end
-
-                  scenario "Then all the information of the task is present in the modal" do
-                    expect(@task_modal).to have_content @task.title
-                    expect(@task_modal).to have_content @task.condition_of_execution
-                    expect(@task_modal).to have_content @task.proof_of_execution
-                  end
-
-                  scenario "Then 'Delete task' button exists in the modal" do
-                    expect(@task_modal).to have_selector("button.delete-task")
-                  end
-
-                  scenario "Then 'Approve' button exists in the modal" do
-                    expect(@task_modal).to have_selector("#approveTaskPopover")
-                  end
-
-                  scenario "Then 'Activity' section exists in the modal" do
-                    expect(@task_modal).to have_selector("#task-activity")
-                  end
-
-                  scenario "Then 'Activity' section contains the activity of the current user" do
-                    expect(find("#task-activity")).to have_content "This task was proposed by #{@user.name}"
-                  end
-                end
-              end
-            end
-          end
+        scenario "Then the 'Suggest a task' link should not be in the area" do
+          expect(@task_area).not_to have_selector("#suggest-new-task")
         end
       end
     end

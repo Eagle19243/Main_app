@@ -331,7 +331,8 @@ class TasksController < ApplicationController
 
   def update_task_params
     attributes = default_attributes
-    attributes.delete(:deadline) if @task.any_fundings?
+    attributes.delete(:deadline) if cannot? :update_deadline, @task
+    attributes.delete(:budget)   if cannot? :update_budget, @task
 
     params.require(:task).permit(attributes)
   end

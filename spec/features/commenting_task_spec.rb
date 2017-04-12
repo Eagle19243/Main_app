@@ -173,8 +173,8 @@ feature "Create a Task", js: true do
             expect(@task_modal).to have_selector("#Task-comments")
           end
 
-          scenario "Then the comments form does not exist in the modal" do
-            expect(@task_modal).not_to have_selector("#comment-form")
+          scenario "Then the comments form exist in the modal" do
+            expect(@task_modal).to have_selector("#comment-form")
           end
         end
       end

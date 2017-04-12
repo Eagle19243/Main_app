@@ -12,7 +12,6 @@ class Ability
     initializeApplyRequestsPermissions(user)
     initializeDoRequestsPermissions(user)
     initializeTeamMembershipsPermissions(user)
-    initializeTaskCommentsPermissions(user)
     initializeTaskAttachmentsPermissions(user)
   end
 
@@ -112,20 +111,17 @@ class Ability
     if user
 
       can :create, Task do |task|
-        task.suggested_task?
+        (task.suggested_task? && !user.is_project_leader_or_coordinator?(task.project)) ||
+        (task.accepted? && user.is_project_leader_or_coordinator?(task.project))
       end
 
-      can :create, Task do |task|
-        task.accepted? && (user.is_project_leader?(task.project) || user.is_coordinator_for?(task.project))
+      can :update, Task do |task|
+        ((task.suggested_task? || task.accepted?) && user.is_project_leader_or_coordinator?(task.project)) ||
+        (task.suggested_task? && (user.id == task.user_id))
       end
 
-      can [:update, :destroy], Task do |task|
-        (
-          user.admin?
-          user.is_project_leader?(task.project) ||
-          user.is_coordinator_for?(task.project) ||
-          (task.suggested_task? && (user.id == task.user_id))
-        ) && !task.any_fundings?
+      can [:update_budget, :update_deadline, :destroy], Task do |task|
+        !task.any_fundings? && can?(:update, task)
       end
 
       can :reviewing, Task do |task|
@@ -133,15 +129,15 @@ class Ability
       end
 
       can :completed, Task do |task|
-        user.can_complete_task?(task)
+        task.reviewing? && (user.is_project_leader_or_coordinator?(task.project))
       end
 
       can :doing, Task do |task|
         task.accepted? && user.is_teammember_for?(task)
       end
 
-      can :create_task_comment, Task do |task|
-        user.is_teammember_for?(task)
+      can :create_task_comment, Task do
+        true
       end
 
       can :create_or_destory_task_attachment, Task do |task|
@@ -150,14 +146,6 @@ class Ability
 
       if user.admin?
         can [:create], Task
-      end
-    end
-  end
-
-  def initializeTaskCommentsPermissions(user)
-    if user
-      can :create, TaskComment do |task_comment|
-        user.is_teammember_for?(task_comment.task)
       end
     end
   end

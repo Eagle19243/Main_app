@@ -4,10 +4,10 @@ class TaskCommentsController < ApplicationController
   def create
     task = Task.find(params[:task_id])
 
+    authorize! :create_task_comment, task
+
     @comment = task.task_comments.build(comment_params)
     @comment.user_id = current_user.id
-
-    authorize! :create, @comment
 
     respond_to do |format|
       if @comment.save

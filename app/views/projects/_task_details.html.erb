@@ -50,7 +50,7 @@
     <div class="task-details">
         <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
-          <% if user_signed_in? && can?(:update, @task) %>
+          <% if can?(:update, @task) %>
             <h2 class="modal-default__title js-toggleForm" id="task-title"><%= @task.title %></h2>
             <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "modal-task__form _hide"} do |f| %>
               <%= f.text_field :title, id: "input-task-title" %>
@@ -65,7 +65,7 @@
         <div class="modal-task__flex">
           <div class="modal-task__content-side">
 
-            <% if user_signed_in? && can?(:update, @task) %>
+            <% if can?(:update, @task) %>
 
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
@@ -93,27 +93,25 @@
 
                   <% if can? :create_task_comment, @task %>
                     <div class="comments-block">
-                      <% if user_signed_in? %>
-                          <div class="post-person">
-                            <% if current_user.picture? %>
-                                <%= image_tag(current_user.picture, size: "30x30") %>
-                            <% else %>
-                                <%= gravatar_for_user(current_user) %>
-                            <% end %>
-                          </div>
-                          <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
-                              <div class="post-comment">
-                                <%= f.text_area :body %>
-                                <%= f.hidden_field :task_id, value: @task.id %>
-                                <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
-                                <%= f.hidden_field :user_id, value: current_user.id %>
-                                <button type="submit" name="commit" value="Send"> Send</button>
-                                &nbsp;&nbsp;
-                                <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                                <div id="attachment-div"></div>
-                              </div>
+                        <div class="post-person">
+                          <% if current_user.picture? %>
+                              <%= image_tag(current_user.picture, size: "30x30") %>
+                          <% else %>
+                              <%= gravatar_for_user(current_user) %>
                           <% end %>
-                      <% end %>
+                        </div>
+                        <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
+                            <div class="post-comment">
+                              <%= f.text_area :body %>
+                              <%= f.hidden_field :task_id, value: @task.id %>
+                              <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
+                              <%= f.hidden_field :user_id, value: current_user.id %>
+                              <button type="submit" name="commit" value="Send"> Send</button>
+                              &nbsp;&nbsp;
+                              <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                              <div id="attachment-div"></div>
+                            </div>
+                        <% end %>
                     </div>
                   <% end %>
                 </div>
@@ -126,22 +124,21 @@
                   <p><%= @task.proof_of_execution %></p>
                   <hr>
                   <%= render ("projects/task_comment") %>
+
                   <% if can? :create_task_comment, @task %>
                     <div class="comments-block">
-                      <% if user_signed_in? %>
-                          <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
-                              <div class="post-comment">
-                                <%= f.text_area :body %>
-                                <%= f.hidden_field :task_id, value: @task.id %>
-                                <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
+                        <%= form_for [@task.project, @task, @task.task_comments.build], remote: true, html: {id: 'comment-form'} do |f| %>
+                            <div class="post-comment">
+                              <%= f.text_area :body %>
+                              <%= f.hidden_field :task_id, value: @task.id %>
+                              <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
 
-                                <button type="submit" name="commit" value="Send"> Send</button>
-                                &nbsp;&nbsp;
-                                <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
-                                <div id="attachment-div"></div>
-                              </div>
-                          <% end %>
-                      <% end %>
+                              <button type="submit" name="commit" value="Send"> Send</button>
+                              &nbsp;&nbsp;
+                              <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
+                              <div id="attachment-div"></div>
+                            </div>
+                        <% end %>
                     </div>
                   <% end %>
                 </div>
@@ -181,8 +178,11 @@
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
                         <div id="task-budget" class="modal-task__card-value _data _budget-id">
-                            <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :activator => '#task-budget' %>
-                            <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
+                            <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
+
+                            <% if can? :update_budget, @task %>
+                              <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
+                            <% end %>
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
@@ -217,7 +217,7 @@
                   <div class="deadline-block">
                       <h5>Deadline</h5>
 
-                      <% if can?(:update, @task) && !@task.any_fundings? %>
+                      <% if can?(:update_deadline, @task) %>
                           <div class="deadline-group">
                               <div class="form-group">
                                   <%= form_for @task, :remote => true, html: {id: "task-update-deadline-form"} do |f| %>
@@ -283,7 +283,7 @@
                                 </button>
                             <% end %>
                         <% end %>
-                        <% if current_user.can_complete_task?(@task) %>
+                        <% if can? :completed, @task %>
                             <%= link_to completed_task_path(@task.id), data: {confirm: 'do you confirm that you have reviewed the task and that it is completed?'} do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed

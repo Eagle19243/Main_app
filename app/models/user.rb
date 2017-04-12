@@ -264,6 +264,10 @@ class User < ActiveRecord::Base
     project.user.id == self.id
   end
 
+  def is_project_leader_or_coordinator?(project)
+    is_project_leader?(project) || is_coordinator_for?(project)
+  end
+
   def is_teammember_for?(task)
     task_memberships = task.project.team.team_memberships
     task_memberships.collect(&:team_member_id).include? self.id
@@ -288,10 +292,6 @@ class User < ActiveRecord::Base
   def can_submit_task?(task)
     task_memberships = task.team_memberships
     task.doing? && (task_memberships.collect(&:team_member_id).include? self.id) && self.is_teammate_for?(task.project)
-  end
-
-  def can_complete_task?(task)
-    (self.is_project_leader?(task.project) || self.is_coordinator_for?(task.project)) && task.reviewing?
   end
 
   # Normal use case, name cannot be changed, need to bypass validation if neccessary
