@@ -5,7 +5,7 @@ RSpec.describe RequestMailer, type: :mailer do
 
   describe '#apply_to_get_involved_in_project' do
     subject(:email) { described_class.apply_to_get_involved_in_project(applicant: applicant, project: project, request_type: request_type).deliver_now }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:applicant) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:request_type) { nil }
@@ -26,7 +26,7 @@ RSpec.describe RequestMailer, type: :mailer do
       end
 
       it 'has the correct body' do
-        expect(email.body).to include("#{applicant.name} has submitted an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}.")
+        expect(CGI.unescapeHTML(email.body.to_s)).to include("#{applicant.name} has submitted an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}.")
       end
 
     end
@@ -39,7 +39,7 @@ RSpec.describe RequestMailer, type: :mailer do
       end
 
       it 'has the correct body' do
-        expect(email.body).to include("#{applicant.name} has submitted an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}")
+        expect(CGI.unescapeHTML(email.body.to_s)).to include("#{applicant.name} has submitted an application as #{request_type} for the project #{link_to project.title, project_url(project.id)}")
       end
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe RequestMailer, type: :mailer do
     subject(:email) { described_class.positive_response_in_project_involvement(apply_request: apply_request).deliver_now }
     let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:apply_request) { FactoryGirl.create(:lead_editor_request, user: user_in_request, project: project) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:request_type) { apply_request.request_type.try(:tr, '_', ' ') }
 
@@ -65,7 +65,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include("Your application to become a #{request_type} for project #{link_to project.title, project_url(project.id)} was accepted by #{project.leader.name}")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("Your application to become a #{request_type} for project #{link_to project.title, project_url(project.id)} was accepted by #{project.leader.name}")
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe RequestMailer, type: :mailer do
     subject(:email) { described_class.negative_response_in_project_involvement(apply_request: apply_request).deliver_now }
     let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:apply_request) { FactoryGirl.create(:lead_editor_request, user: user_in_request, project: project) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:request_type) { apply_request.request_type.try(:tr, '_', ' ') }
 
@@ -90,14 +90,14 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include("Sorry, but your application to become a #{request_type} for project #{link_to project.title, project_url(project.id)} was declined by #{project.leader.name}")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("Sorry, but your application to become a #{request_type} for project #{link_to project.title, project_url(project.id)} was declined by #{project.leader.name}")
     end
   end
 
   describe '#to_do_task' do
     subject(:email) { described_class.to_do_task(requester: user_in_request, task: task).deliver_now }
     let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
 
     let(:task) { FactoryGirl.create(:task, project: project) }
@@ -115,14 +115,14 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include("#{user_in_request.name} applied for the task #{task.title} and need to be reviewed.")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("#{user_in_request.name} applied for the task #{task.title} and need to be reviewed.")
     end
   end
 
   describe '#accept_to_do_task' do
     subject(:email) { described_class.accept_to_do_task(do_request: do_request).deliver_now }
     let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:do_request) { FactoryGirl.create(:do_request, user: user_in_request, project: project, task: task) }
     let(:task) { FactoryGirl.create(:task, project: project) }
@@ -140,14 +140,14 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include("Your application for task #{task.title} in project #{link_to task.project.title, project_url(task.project.id)} was approved.")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("Your application for task #{task.title} in project #{link_to task.project.title, project_url(task.project.id)} was approved.")
     end
   end
 
   describe '#reject_to_do_task' do
     subject(:email) { described_class.reject_to_do_task(do_request: do_request).deliver_now }
     let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:do_request) { FactoryGirl.create(:do_request, user: user_in_request, project: project, task: task) }
     let(:task) { FactoryGirl.create(:task, project: project) }
@@ -165,7 +165,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include("Your application for task #{task.title} in project #{link_to task.project.title, project_url(task.project.id)} was rejected.")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("Your application for task #{task.title} in project #{link_to task.project.title, project_url(task.project.id)} was rejected.")
     end
   end
 end

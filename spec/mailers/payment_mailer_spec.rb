@@ -5,7 +5,7 @@ RSpec.describe PaymentMailer, type: :mailer do
 
   describe '#fully_funded_task' do
     subject(:email) { described_class.fully_funded_task(task: task, receiver: leader).deliver_now }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:task) { FactoryGirl.create(:task, project: project) }
 
@@ -22,14 +22,14 @@ RSpec.describe PaymentMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include(" Task #{task.title} of project #{link_to task.project.title, project_url(task.project.id)} was fully funded")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include(" Task #{task.title} of project #{link_to task.project.title, project_url(task.project.id)} was fully funded")
     end
   end
 
   describe '#fund_task' do
     subject(:email) { described_class.fund_task(payer: payer, task: task, receiver: leader, amount: amount).deliver_now }
     let(:payer) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:project) { FactoryGirl.create(:base_project, user: leader) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
     let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
     let(:amount) { { bitcoin: 1.12, usd: 1146.24 } }
     let(:task) { FactoryGirl.create(:task, project: project) }
@@ -47,7 +47,7 @@ RSpec.describe PaymentMailer, type: :mailer do
     end
 
     it 'has the correct body' do
-      expect(email.body).to include("#{payer.name} has donated #{amount[:bitcoin]} BTC/ $ #{amount[:usd]} to task #{task.title}")
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("#{payer.name} has donated #{amount[:bitcoin]} BTC/ $ #{amount[:usd]} to task #{task.title}")
     end
   end
 end
