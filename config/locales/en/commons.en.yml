@@ -3,6 +3,8 @@ en:
     start_a_project: "Start a Project"
     about_btn: "About"
     development_project_link: "http://weserve.io/projects/1/taskstab?tab=Plan"
+    improve_the_platform: "/projects/1/taskstab?tab=Tasks"
+    about_links: "/projects/1/taskstab?tab=Plan"
     faq_landing_link: "https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ"
     knowledge_base_landing_link: "https://weservehelp.zendesk.com/hc/en-us/categories/115000785867-Knowledge-Base"
     login: "Login"

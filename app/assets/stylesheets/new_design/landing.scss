@@ -86,22 +86,6 @@
       font-family: 'Roboto', sans-serif;
       color: #6295c6;
       cursor: pointer;
-      &._active {
-        &:after {
-          transform: rotate(180deg);
-        }
-      }
-      &:after {
-        display: inline-block;
-        content: '';
-        position: absolute;
-        right: -20px;
-        top: 6px;
-        border: 7px solid #fff;
-        transform-origin: center 3.5px;
-        border-top: 7px solid #cccccc;
-        transition: transform .25s ease-in-out;
-      }
     }
     &__item {
       font-size: 18px;
