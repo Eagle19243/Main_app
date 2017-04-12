@@ -28,7 +28,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def google_oauth2
     @user = User.find_for_google_oauth2(request.env["omniauth.auth"])
-    
+
     if @user.persisted?
       set_mediawiki_cookie @user
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"
@@ -45,21 +45,24 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     secret = ENV['mediawiki_secret']
     domain = ENV['mediawiki_domain']
+    cookie_prefix = Rails.env.staging? ? 'staging' : ''
 
-    cookies.permanent[:_ws_user_id] = {
+    cookies.permanent["#{cookie_prefix}_ws_user_id"] = {
       value: user.id,
       domain: domain
     }
 
-    cookies.permanent[:_ws_user_name] = {
+    cookies.permanent["#{cookie_prefix}_ws_user_name"] = {
       value: user.username,
       domain: domain
     }
 
-    cookies.permanent[:_ws_user_token] = {
+    cookies.permanent["#{cookie_prefix}_ws_user_token"] = {
       value: Digest::MD5.hexdigest("#{secret}#{user.id}#{user.username}"),
       domain: domain
     }
   end
+
+
 
 end

@@ -8,18 +8,19 @@ class SessionsController < Devise::SessionsController
   def after_login
     secret = ENV['mediawiki_secret']
     domain = ENV['mediawiki_domain']
+    cookie_prefix = Rails.env.staging? ? 'staging' : ''
 
-    cookies.permanent[:_ws_user_id] = {
+    cookies.permanent["#{cookie_prefix}_ws_user_id"] = {
         value: current_user.id,
         domain: domain
     }
 
-    cookies.permanent[:_ws_user_name] = {
+    cookies.permanent["#{cookie_prefix}_ws_user_name"] = {
         value: current_user.username,
         domain: domain
     }
 
-    cookies.permanent[:_ws_user_token] = {
+    cookies.permanent["#{cookie_prefix}_ws_user_token"] = {
         value: Digest::MD5.hexdigest("#{secret}#{current_user.id}#{current_user.username}"),
         domain: domain
     }
@@ -32,4 +33,5 @@ class SessionsController < Devise::SessionsController
     cookies.delete(:_ws_user_name, domain: domain)
     cookies.delete(:_ws_user_token, domain: domain)
   end
+
 end
