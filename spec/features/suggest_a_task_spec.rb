@@ -16,7 +16,8 @@ feature "Suggest a Task", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @task_area = find("#Tasks")
+        @task_area_selector = "#Tasks"
+        @task_area = find(@task_area_selector)
       end
 
       scenario "Then you can see 'Task' button" do
@@ -26,11 +27,10 @@ feature "Suggest a Task", js: true do
       context "When you click 'Task' button" do
         before do
           find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-          wait_for_ajax
         end
 
         scenario "Then the 'Tasks' screen appeared" do
-          expect(@task_area).to be_visible
+          expect(page).to have_selector(@task_area_selector, visible: true)
         end
 
         scenario "Then the 'Suggest a task' link is the area" do
@@ -40,14 +40,13 @@ feature "Suggest a Task", js: true do
         context "When you click 'Suggest a task' link" do
           before do
             @task_area.find("#suggest-new-task").trigger("click")
-            wait_for_ajax
-            sleep 2
 
-            @modal = find("#newTaskModal")
+            @modal_selector = "#newTaskModal"
+            @modal = find(@modal_selector)
           end
 
           scenario "Then a modal appeared" do
-            expect(@modal).to be_visible
+            expect(page).to have_selector(@modal_selector, visible: true)
           end
 
           context "When you fill all the fields and click 'Create task' button" do
@@ -60,12 +59,11 @@ feature "Suggest a Task", js: true do
               @modal.fill_in 'task[proof_of_execution]', with: @task.proof_of_execution
               @modal.fill_in 'task[deadline]', with: @task.deadline
 
-              @modal.click_button "Create Task"
-              sleep 2
+              @modal.find_button("Create Task").trigger("click")
             end
 
             scenario "Then new task has been created" do
-              expect(@project.tasks.count).not_to be_zero
+              expect(page).to have_content("Task was successfully created")
             end
 
             context "When you navigate the project page" do
@@ -76,9 +74,8 @@ feature "Suggest a Task", js: true do
               context "When you click 'Task' button" do
                 before do
                   find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-                  wait_for_ajax
 
-                  @pending_section = first(".trello-column")
+                  @pending_section = find(".trello-column", match: :first)
                 end
 
                 scenario "Then the task has been appeared in the 'Pending approval' section" do
@@ -87,14 +84,14 @@ feature "Suggest a Task", js: true do
 
                 context "When you click the task" do
                   before do
-                    @pending_section.click
-                    sleep 2
+                    @pending_section.find(".card-wrapper", match: :first).trigger("click")
 
-                    @task_modal = find("#myModal")
+                    @task_modal_selector = "#myModal"
+                    @task_modal = find(@task_modal_selector)
                   end
 
                   scenario "Then the task modal appeared" do
-                    expect(@task_modal).to be_visible
+                    expect(page).to have_selector(@task_modal_selector, visible: true)
                   end
 
                   scenario "Then all the information of the task is present in the modal" do
@@ -135,7 +132,8 @@ feature "Suggest a Task", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @task_area = find("#Tasks")
+        @task_area_selector = "#Tasks"
+        @task_area = find(@task_area_selector)
       end
 
       scenario "Then you can see 'Task' button" do
@@ -145,11 +143,10 @@ feature "Suggest a Task", js: true do
       context "When you click 'Task' button" do
         before do
           find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-          wait_for_ajax
         end
 
         scenario "Then the 'Tasks' screen appeared" do
-          expect(@task_area).to be_visible
+          expect(page).to have_selector(@task_area_selector, visible: true)
         end
 
         scenario "Then the 'Suggest a task' link is the area" do
@@ -159,14 +156,13 @@ feature "Suggest a Task", js: true do
         context "When you click 'Suggest a task' link" do
           before do
             @task_area.find("#suggest-new-task").trigger("click")
-            wait_for_ajax
-            sleep 2
 
-            @modal = find("#newTaskModal")
+            @modal_selector = "#newTaskModal"
+            @modal = find(@modal_selector)
           end
 
           scenario "Then a modal appeared" do
-            expect(@modal).to be_visible
+            expect(page).to have_selector(@modal_selector, visible: true)
           end
 
           context "When you fill all the fields and click 'Create task' button" do
@@ -179,12 +175,11 @@ feature "Suggest a Task", js: true do
               @modal.fill_in 'task[proof_of_execution]', with: @task.proof_of_execution
               @modal.fill_in 'task[deadline]', with: @task.deadline
 
-              @modal.click_button "Create Task"
-              sleep 2
+              @modal.find_button("Create Task").trigger("click")
             end
 
             scenario "Then new task has been created" do
-              expect(@project.tasks.count).not_to be_zero
+              expect(page).to have_content("Task was successfully created")
             end
 
             context "When you navigate the project page" do
@@ -195,9 +190,8 @@ feature "Suggest a Task", js: true do
               context "When you click 'Task' button" do
                 before do
                   find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
-                  wait_for_ajax
 
-                  @pending_section = first(".trello-column")
+                  @pending_section = find(".trello-column", match: :first)
                 end
 
                 scenario "Then the task has been appeared in the 'Pending approval' section" do
@@ -206,14 +200,14 @@ feature "Suggest a Task", js: true do
 
                 context "When you click the task" do
                   before do
-                    @pending_section.click
-                    sleep 2
+                    @pending_section.find(".card-wrapper", match: :first).trigger("click")
 
-                    @task_modal = find("#myModal")
+                    @task_area_selector = "#myModal"
+                    @task_modal = find(@task_area_selector)
                   end
 
                   scenario "Then the task modal appeared" do
-                    expect(@task_modal).to be_visible
+                    expect(page).to have_selector(@task_area_selector, visible: true)
                   end
 
                   scenario "Then all the information of the task is present in the modal" do
