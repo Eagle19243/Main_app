@@ -34,6 +34,7 @@ RSpec.describe UserWalletTransactionsController do
     describe '#send_to_task_address' do
       let(:project) { FactoryGirl.create(:project) }
       let(:task) { FactoryGirl.create(:task, :with_wallet, project: project) }
+      let(:min_amount_in_btc) { Payments::BTC::Converter.convert_satoshi_to_btc(Payments::BTC::FundTask::MIN_AMOUNT) }
 
       context 'tranfer error' do
         it do
@@ -58,7 +59,7 @@ RSpec.describe UserWalletTransactionsController do
             aggregate_failures("json is correct") do
               expect(response.status).to eq(500)
               expect(response.body).to include_json(
-                error: "Amount can't be less than minimum allowed size"
+                error: "Amount can't be less than minimum allowed size (#{min_amount_in_btc} BTC)"
               )
             end
           end
@@ -71,7 +72,7 @@ RSpec.describe UserWalletTransactionsController do
             aggregate_failures("json is correct") do
               expect(response.status).to eq(500)
               expect(response.body).to include_json(
-                error: "Amount can't be less than minimum allowed size"
+                error: "Amount can't be less than minimum allowed size (#{min_amount_in_btc} BTC)"
               )
             end
           end
