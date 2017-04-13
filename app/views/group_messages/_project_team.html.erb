@@ -1,21 +1,7 @@
 <% unless @team_memberships.blank? %>
     <% @team_memberships.each do |team_membership| %>
-        <li>
-          <a href="#" class="s-group-messages__submenu-item" id="<%= team_membership.team_member.id %>" name="<%= team_membership.team.project_id %>"> <%= team_membership.team_member.name %> </a>
+        <li class="s-group-messages__submenu-item">
+          <a href="#" class="projects-chat" name="<%= team_membership.team_member.id %>" id="<%= team_membership.team.project_id %>"> <%= team_membership.team_member.name %> </a>
         </li>
     <% end %>
 <% end %>
-<script>
-  $(".s-group-messages__submenu-item").click(function () {
-    $("div#message-load-image").show();
-    user_id = $(this).attr('id');
-    project_id = $(this).attr('name');
-    $.ajax({
-      url: "/group_messages/get_chatroom",
-      type: "post",
-      data: {project_id: project_id, user_id: user_id},
-      success: function () {
-      }
-    });
-  });
-</script>
