@@ -48,7 +48,6 @@
   <div class="modal-content modal-task__content">
     <button id="task-popup-close" type="button" class="modal-default__close"></button>
     <div class="task-details">
-        <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
           <% if can?(:update, @task) %>
             <h2 class="modal-default__title js-toggleForm" id="task-title"><%= @task.title %></h2>
@@ -264,6 +263,7 @@
                 <div class="button-group">
                   <div class="btn-left">
                     <% if user_signed_in? && (can? :create_or_destory_task_attachment, @task) %>
+                        <div id="task-related-messages" class="modal-task__attachment-error"></div>
                         <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                             <%= f.hidden_field :task_id, :value => @task.id %>
                             <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->

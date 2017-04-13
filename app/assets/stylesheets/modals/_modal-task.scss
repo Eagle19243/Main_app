@@ -107,6 +107,17 @@
     }
   }
 
+  &__attachment-error {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    &._error {
+      color: red
+    }
+    &._success {
+      color: green
+    }
+  }
+
   &__form {
     &._hide {
       display: none;
