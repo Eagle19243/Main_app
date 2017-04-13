@@ -1,13 +1,13 @@
 .s-group-messages {
   position: relative;
   min-height: 100vh;
+  display: flex;
 
   &__nav {
     background-color: #F5F5F5;
     text-align: left;
     width: 240px;
     padding: 20px 30px;
-    position: absolute;
     top: 0;
     bottom: 0;
 
@@ -71,7 +71,7 @@
   }
   &__content {
     position: relative;
-    margin: 0 0 0 240px;
+    width: calc(100% - 240px);
     padding: 20px 0 0 30px;
     h4 {
       font-family: 'Roboto', sans-serif;
