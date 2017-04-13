@@ -64,7 +64,7 @@ describe DoRequestsController, type: :request do
         make_request
 
         expect(flash[:notice]).to eq('Task has been assigned')
-        expect(response).to redirect_to(taskstab_project_path(do_request.project, tab: 'Requests'))
+        expect(response).to redirect_to(taskstab_project_path(do_request.project, tab: 'requests'))
       end
     end
   end
@@ -98,7 +98,7 @@ describe DoRequestsController, type: :request do
         make_request
 
         expect(flash[:notice]).to eq('Request rejected')
-        expect(response).to redirect_to(taskstab_project_path(do_request.project, tab: 'Requests'))
+        expect(response).to redirect_to(taskstab_project_path(do_request.project, tab: 'requests'))
       end
     end
   end

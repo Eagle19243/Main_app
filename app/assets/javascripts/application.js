@@ -98,10 +98,10 @@ var TabsModule = (function () {
                 UrlModule.setTab(tab);
                 $document.find('.tabcontent').hide();
                 $document.find('.m-tabs__link').removeClass('active');
-                document.getElementById(tab).style.display = "block";
+                $('.tabs-wrapper__' + tab).show();
                 $that.addClass('active');
                 $('#sourceEditor').hide();
-                tab === "Team" ? $('.get-invo-btn').show() : $('.get-invo-btn').hide();
+                tab === "team" ? $('.get-invo-btn').show() : $('.get-invo-btn').hide();
                 paramsArr.map(function (item) {
                     if (item.indexOf('taskId=') === 0) {
                         taskId = item.split('=')[1];
@@ -112,7 +112,7 @@ var TabsModule = (function () {
                     $('#welcomeToTeamModal').fadeOut(300);
                     setTimeout(function () {
                         $html.removeClass('_open-modal');
-                        if ($that.data('tab') === 'Tasks') {
+                        if ($that.data('tab') === 'tasks') {
                             $('#tab-tasks').addClass('active');
                         } else {
                             $('#tab-plan').addClass('active');
@@ -296,7 +296,7 @@ var UrlModule = (function () {
                 break;
             }
         }
-        if (!tab) $('[data-tab="Plan"]').trigger('click');
+        if (!tab) $('[data-tab="plan"]').trigger('click');
         isAlreadyCheckedTab = true;
     }
 

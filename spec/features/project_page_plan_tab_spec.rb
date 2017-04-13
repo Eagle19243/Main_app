@@ -17,7 +17,7 @@ feature "Project Page Plan Tab", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @plan_area = find("#Plan")
+        @plan_area = find(".tabs-wrapper__plan")
         @revision_button = find("#editSource")
       end
 
@@ -43,7 +43,7 @@ feature "Project Page Plan Tab", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @plan_area = find("#Plan")
+        @plan_area = find(".tabs-wrapper__plan")
       end
 
       scenario "Then you cannot see 'Revisions' button" do
@@ -60,7 +60,7 @@ feature "Project Page Plan Tab", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @plan_area = find("#Plan")
+        @plan_area = find(".tabs-wrapper__plan")
       end
 
       scenario "Then you cannot see 'Revisions' button" do

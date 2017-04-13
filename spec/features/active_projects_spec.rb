@@ -35,7 +35,7 @@ feature "Active projects", js: true do
         end
 
         scenario "Then you are directed to the project page" do
-          expect(page).to have_current_path taskstab_project_path(@project, tab: "Plan")
+          expect(page).to have_current_path taskstab_project_path(@project, tab: 'plan')
         end
       end
     end

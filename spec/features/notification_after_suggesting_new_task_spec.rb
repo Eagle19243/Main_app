@@ -16,12 +16,12 @@ xfeature "Notification After Suggesting a New Task", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @task_area = find("#Tasks")
+        @task_area = find(".tabs-wrapper__tasks")
       end
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
         end
 
@@ -88,12 +88,12 @@ xfeature "Notification After Suggesting a New Task", js: true do
     context "When you visit the project page" do
       before do
         visit project_path(@project)
-        @task_area = find("#Tasks")
+        @task_area = find(".tabs-wrapper__tasks")
       end
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
         end
 

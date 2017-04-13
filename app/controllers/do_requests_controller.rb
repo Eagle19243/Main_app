@@ -81,7 +81,7 @@ class DoRequestsController < ApplicationController
     else
       flash[:error] = "You Are Not Authorized User"
     end
-    redirect_to taskstab_project_path(@do_request.project, tab: 'Requests')
+    redirect_to taskstab_project_path(@do_request.project, tab: 'requests')
   end
 
   def reject
@@ -98,7 +98,7 @@ class DoRequestsController < ApplicationController
     else
       flash[:error] = "You Are Not Authorized User"
     end
-    redirect_to taskstab_project_path(@do_request.project, tab: 'Requests')
+    redirect_to taskstab_project_path(@do_request.project, tab: 'requests')
   end
 
   private
