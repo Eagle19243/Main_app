@@ -49,7 +49,7 @@ class Ability
   def initializeDoRequestsPermissions(user)
     if user
       can [:accept, :reject], DoRequest do |do_request|
-        can :manage_requests, do_request.project
+        can? :manage_requests, do_request.project
       end
     end
   end

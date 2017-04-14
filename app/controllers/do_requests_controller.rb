@@ -56,30 +56,28 @@ class DoRequestsController < ApplicationController
 
   def accept
     @do_request = DoRequest.find(params[:id])
+
     authorize! :accept, @do_request
 
     task = @do_request.task
-    if current_user.id == @do_request.task.project.user_id
-      if @do_request.accept!
-        @do_request.user.assign(task, @do_request.free)
-        @current_number_of_participants = task.try(:number_of_participants) || 0
-        task.update_attribute(:deadline, task.created_at + 60.days)
-        task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
-        team = Team.find_or_create_by(project_id: @do_request.project_id)
-        users_ids = team.team_memberships.collect(&:team_member_id)
-        if (!users_ids.include?(@do_request.user_id))
-          Chatroom.add_user_to_project_chatroom(@do_request.task.project, @do_request.user)
-        end
-        membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
-        #task.team_memberships.add(membership)
-        TaskMember.create(task_id: task.id, team_membership_id: membership.id)
-        RequestMailer.accept_to_do_task(do_request: @do_request).deliver_later
-        flash[:notice] = "Task has been assigned"
-      else
-        flash[:error] = "Task was not assigned to user"
+
+    if @do_request.accept!
+      @do_request.user.assign(task, @do_request.free)
+      @current_number_of_participants = task.try(:number_of_participants) || 0
+      task.update_attribute(:deadline, task.created_at + 60.days)
+      task.update_attribute(:number_of_participants, @current_number_of_participants + 1)
+      team = Team.find_or_create_by(project_id: @do_request.project_id)
+      users_ids = team.team_memberships.collect(&:team_member_id)
+      if (!users_ids.include?(@do_request.user_id))
+        Chatroom.add_user_to_project_chatroom(@do_request.task.project, @do_request.user)
       end
+      membership = TeamMembership.find_or_create_by(team_member_id: @do_request.user_id, team_id: team.id,role: 0)
+      #task.team_memberships.add(membership)
+      TaskMember.create(task_id: task.id, team_membership_id: membership.id)
+      RequestMailer.accept_to_do_task(do_request: @do_request).deliver_later
+      flash[:notice] = "Task has been assigned"
     else
-      flash[:error] = "You Are Not Authorized User"
+      flash[:error] = "Task was not assigned to user"
     end
     redirect_to taskstab_project_path(@do_request.project, tab: 'requests')
   end
@@ -88,15 +86,11 @@ class DoRequestsController < ApplicationController
     @do_request = DoRequest.find(params[:id])
     authorize! :reject, @do_request
 
-    if current_user.id == @do_request.task.project.user_id
-      if @do_request.reject!
-        RequestMailer.reject_to_do_task(do_request: @do_request).deliver_later
-        flash[:notice] = 'Request rejected'
-      else
-        flash[:error] = "Was not able to reject request"
-      end
+    if @do_request.reject!
+      RequestMailer.reject_to_do_task(do_request: @do_request).deliver_later
+      flash[:notice] = 'Request rejected'
     else
-      flash[:error] = "You Are Not Authorized User"
+      flash[:error] = "Was not able to reject request"
     end
     redirect_to taskstab_project_path(@do_request.project, tab: 'requests')
   end
