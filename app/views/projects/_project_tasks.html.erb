@@ -52,7 +52,7 @@
 
                     <% if user_signed_in? %>
                       <div class="fund-do-btns">
-                        <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
+                        <button type="button" title="FUND" class='btn-root fund-button' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
                         <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
                       </div>
                     <% else %>
@@ -185,5 +185,15 @@
         })
         .on('click.declineRemoveTask', '#removeTask ._decline', function () {
             $modalRemoveTask.trigger('click');
+        })
+        .on('click.saveDiffInBudget', '.fund-do-btns .fund-button', function() {
+            var $this = $(this),
+                $card = $this.closest('.card-wrapper'),
+                budget = parseFloat($card.find('._budget').text(), 10),
+                raised = parseFloat($card.find('._raised').text(), 10),
+                currentBTC = parseFloat(parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(3));
+
+            $('.modal-fund__needed._btc').text('[BTC needed ' + (budget - raised).toFixed(3).toString() + ']');
+            $('.modal-fund__needed._usd').text('[$ needed ' + ((budget - raised) * currentBTC).toFixed(3).toString() + ']');
         })
 </script>

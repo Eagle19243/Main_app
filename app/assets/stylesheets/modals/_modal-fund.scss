@@ -29,6 +29,12 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
   &__content {
     text-align: left;
   }
+  &__needed {
+    display: none;
+    &._active {
+      display: inline;
+    }
+  }
   .f-default__field {
     height: 38px;
     padding: 0 14px;

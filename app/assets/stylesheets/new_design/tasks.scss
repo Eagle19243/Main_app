@@ -916,6 +916,11 @@
         text-align: left;
         line-height: 1em !important;
       }
+      td {
+        &._hide {
+          display: none;
+        }
+      }
       tr.value {
         td {
           font-family: 'Libre Franklin', sans-serif;

@@ -11,7 +11,13 @@
             <div class="f-default__row">
               <%= form_tag("/user_wallet_transactions/send_to_task_address", method: "post", remote: true , class: 'f-default f-donate') do %>
                 <input type="hidden" id="wallet_transaction_task_id" name="task_id"  required class="form-control"/>
-                <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">USD</span> Amount to Send <span <span class="modal-fund__error _wallet">(BTC amount is bigger than wallet balance)</span></label>
+                <label class="f-default__label" for="wallet_transaction_amount">
+                    Enter
+                    <span class="js-current-currency">USD</span>
+                    Amount to Send
+                    <span class="modal-fund__needed _btc"></span>
+                    <span class="modal-fund__needed _usd _active"></span>
+                    </label>
                 <input type="number" step="0.001" min="<%= min_fund_budget_in_btc %>" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field modal-fund__input" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
               <% end %>
@@ -174,6 +180,15 @@
 
           $that.addClass('_active').siblings().removeClass('_active');
           donationObj.isUSD = index === 1;
+
+          if (donationObj.isUSD) {
+            $('.modal-fund__needed._usd').addClass('_active');
+            $('.modal-fund__needed._btc').removeClass('_active');
+          } else {
+            $('.modal-fund__needed._usd').removeClass('_active');
+            $('.modal-fund__needed._btc').addClass('_active');
+          }
+
           $currentCurrency.text(getCurrency());
           $walletTransactionAmount.trigger('keyup');
 
