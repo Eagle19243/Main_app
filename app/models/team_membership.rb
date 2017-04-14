@@ -1,13 +1,9 @@
 class TeamMembership < ActiveRecord::Base
   enum role: [ :teammate, :leader,  :lead_editor, :coordinator]
-
   belongs_to :team
   belongs_to :team_member, foreign_key: "team_member_id", class_name: "User"
   has_many :tasks, through: :task_members, dependent: :destroy
   has_many :task_members
-
-  COORDINATOR_ID = TeamMembership.roles["coordinator"]
-  LEAD_EDITOR_ID = TeamMembership.roles["lead_editor"]
 
   def self.get_roles
     humanize_roles = []

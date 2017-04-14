@@ -239,17 +239,13 @@ class User < ActiveRecord::Base
   end
 
   def is_coordinator_for?(project)
-    project.team_memberships.exists?(
-      team_member_id: id,
-      role: TeamMembership::COORDINATOR_ID
-    )
+    team_membership = project.team_memberships.find_by(team_member_id: self.id)
+    team_membership.present? && team_membership.coordinator?
   end
 
-  def is_lead_editor_for?(project)
-    project.team_memberships.exists?(
-      team_member_id: id,
-      role: TeamMembership::LEAD_EDITOR_ID
-    )
+  def is_lead_editor_for? proj
+    team_membership = proj.team_memberships.find_by(team_member_id: self.id)
+    team_membership.present? && team_membership.lead_editor?
   end
 
   def is_teammate_for? proj
