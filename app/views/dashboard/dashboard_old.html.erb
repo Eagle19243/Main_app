@@ -3,11 +3,11 @@
   <div class="row">
     <div class="column small-6">
 <br>
-  <% if current_user.picture? %>
-  <%= image_tag(current_user.picture, size: "100x100") %>
-      <% else %>
-        <%= gravatar_for current_user %>
-        <%end%>
+    <% if current_user.picture? %>
+        <%= image_tag(current_user.picture, size: "100x100") %>
+    <% else %>
+        <%= gravatar_for_user(current_user)%>
+    <%end%>
         <br>
   <%= current_user.name %><br><br>
 
@@ -86,7 +86,7 @@
 
          <% if project.picture? %><%= link_to (image_tag project.picture.url, :size => "30x30"), project  %>
   <%else%>
-  <%= gravatar_for_pro(project) %>
+  <%= gravatar_for_project(project) %>
     <%end%>
          Your request to create Project <%= link_to project.title, project %> is pending for Admin aproval.<br><em><h6 class="subheader">Requested at <%= project.created_at.to_date %></h6></em>
 
