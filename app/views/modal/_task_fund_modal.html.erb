@@ -262,14 +262,14 @@
             $walletTransactionAmount.val('');
             $('.btn-root._donate').addClass('_disable');
             $errorFundModal.find('.error-fund-modal__message').text(response.success);
-            $errorFundModal.find('.error-fund-modal__title').text('Success!');
+            $errorFundModal.find('.error-fund-modal__title').removeClass('_error').addClass('_success').text('Success!');
             showFundModal();
         }
 
         function handleError(response) {
             $('.btn-root._donate').removeClass('_disable');
             $errorFundModal.find('.error-fund-modal__message').text(response.responseJSON.error);
-            $errorFundModal.find('.error-fund-modal__title').text('Error');
+            $errorFundModal.find('.error-fund-modal__title').removeClass('_success').addClass('_error').text('Error');
             showFundModal();
         }
 
