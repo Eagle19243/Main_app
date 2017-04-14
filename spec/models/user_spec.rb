@@ -32,6 +32,86 @@ RSpec.describe User, type: :model do
   describe 'instance methods' do
     subject { create(:user) }
 
+    describe '#is_coordinator_for?' do
+      let(:project) { create(:project) }
+
+      context 'is a coordinator of given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is a team member of given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :teammate, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_falsy
+        end
+      end
+
+      context 'is a lead_editor of the given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_falsy
+        end
+      end
+
+      context 'is user who was a lead_editor and then also become coordinator of the given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is user who was a coordinator and then also become a lead_editor of the given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is user who has three roles' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+          create(:team_membership, :teammate, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is just a regular user without roles in a given project' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be_falsy
+        end
+      end
+    end
+
     describe '#is_lead_editor_for?' do
       let(:project) { create(:project) }
 
@@ -46,7 +126,12 @@ RSpec.describe User, type: :model do
         end
       end
 
-      context 'is not a team of given project' do
+      context 'is a team member of given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :teammate, team: team, team_member: subject)
+        end
+
         it do
           expect(subject.is_lead_editor_for?(project)).to be_falsy
         end
@@ -58,6 +143,49 @@ RSpec.describe User, type: :model do
           create(:team_membership, :coordinator, team: team, team_member: subject)
         end
 
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be_falsy
+        end
+      end
+
+      context 'is user who was a lead_editor and then also become coordinator of the given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is user who was a coordinator and then also become a lead_editor of the given project' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is user who has three roles' do
+        before do
+          team = create(:team, project: project)
+          create(:team_membership, :coordinator, team: team, team_member: subject)
+          create(:team_membership, :lead_editor, team: team, team_member: subject)
+          create(:team_membership, :teammate, team: team, team_member: subject)
+        end
+
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be_truthy
+        end
+      end
+
+      context 'is just a regular user without roles in a given project' do
         it do
           expect(subject.is_lead_editor_for?(project)).to be_falsy
         end
