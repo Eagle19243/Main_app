@@ -796,12 +796,13 @@
 }
 
 .section-add-task {
-  a {
+  button {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #777;
     display: block;
     padding: 10px;
+    background: none;
 
     &:hover,
     &:focus {
@@ -815,7 +816,8 @@
 
   &:hover {
     background-color: #ddd;
-    a {
+    button {
+      background: none;
       color: #555;
     }
   }

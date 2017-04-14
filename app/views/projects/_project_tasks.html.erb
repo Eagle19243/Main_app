@@ -22,7 +22,9 @@
       <% if current_user %>
         <% unless current_user.is_project_leader_or_coordinator?(@project) %>
           <div class="section-add-task">
-              <a id="suggest-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
+            <button id="suggest-new-task" type="button" title="FUND" data-modal="#newTaskModal">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task
+            </button>
           </div>
         <% end %>
       <% else %>
@@ -68,7 +70,9 @@
       <% if user_signed_in? %>
         <% if current_user.is_project_leader?(@project) || current_user.is_coordinator_for?(@project) %>
             <div class="section-add-task">
-              <a id="add-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <button id="add-new-task" type="button" title="FUND" data-modal="#newTaskModal">
+                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task
+                </button>
             </div>
         <% end %>
       <% end %>
@@ -148,12 +152,10 @@
 
 <script type="text/javascript">
   $("#suggest-new-task").click(function() {
-    $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('suggested_task');
   });
 
   $("#add-new-task").click(function() {
-    $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('accepted');
   });
 </script>
