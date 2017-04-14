@@ -54,7 +54,12 @@ class Task < ActiveRecord::Base
     end
   end
 
+  validates :title, presence: true
+  validates :condition_of_execution, presence: true
+  validates :proof_of_execution, presence: true
+  validates :satoshi_budget, presence: true
   validates :deadline, presence: true
+  validates :target_number_of_participants, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
   # TODO In future it would be a good idea to extract this into the Search object
   def self.fulltext_search(free_text, limit=10)
