@@ -26,7 +26,7 @@ xfeature "Suggest a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
         end
 
         scenario "Then the 'Tasks' screen appeared" do
@@ -74,7 +74,7 @@ xfeature "Suggest a Task", js: true do
 
               context "When you click 'Task' button" do
                 before do
-                  find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+                  find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
 
                   @pending_section = find(".trello-column", match: :first)
                 end
@@ -143,7 +143,7 @@ xfeature "Suggest a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
         end
 
         scenario "Then the 'Tasks' screen appeared" do

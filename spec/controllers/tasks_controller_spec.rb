@@ -34,7 +34,7 @@ RSpec.describe TasksController do
         post(:create, create_params)
 
         expect(response).to redirect_to(
-          taskstab_project_path(project, tab: 'Tasks')
+          taskstab_project_path(project, tab: 'tasks')
         )
       end
     end
@@ -125,7 +125,7 @@ RSpec.describe TasksController do
       it 'redirects to project taskstab path' do
         make_request
 
-        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'tasks'))
       end
 
       it 'flashes the correct message' do
@@ -185,7 +185,7 @@ RSpec.describe TasksController do
       it 'redirects to project taskstab path' do
         make_request
 
-        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'tasks'))
       end
 
       it 'flashes the correct message' do
@@ -224,7 +224,7 @@ RSpec.describe TasksController do
 
           expect(flash[:notice]).to eq('Task was successfully destroyed.')
           expect(response).to redirect_to(
-            taskstab_project_path(project, tab: 'Tasks')
+            taskstab_project_path(project, tab: 'tasks')
           )
         end
       end
@@ -239,7 +239,7 @@ RSpec.describe TasksController do
 
           expect(flash[:alert]).to eq('Error happened while task delete process')
           expect(response).to redirect_to(
-            taskstab_project_path(project, tab: 'Tasks')
+            taskstab_project_path(project, tab: 'tasks')
           )
         end
       end
@@ -319,7 +319,7 @@ RSpec.describe TasksController do
       it 'redirects to project taskstab path' do
         make_request
 
-        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'tasks'))
       end
 
       it 'flashes the correct message' do
@@ -447,7 +447,7 @@ RSpec.describe TasksController do
       it 'redirects to project taskstab path' do
         make_request
 
-        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'Tasks'))
+        expect(response).to redirect_to(taskstab_project_url(existing_task.project, tab: 'tasks'))
       end
 
       it 'flashes the correct message' do

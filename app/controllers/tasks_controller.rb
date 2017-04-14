@@ -113,7 +113,7 @@ class TasksController < ApplicationController
     service = TaskCreateService.new(create_task_params, current_user, project)
 
     respond_to do |format|
-      redirect_path = taskstab_project_path(project, tab: 'Tasks')
+      redirect_path = taskstab_project_path(project, tab: 'tasks')
 
       if service.create_task
         format.html { redirect_to redirect_path, notice: 'Task was successfully created.' }
@@ -161,7 +161,7 @@ class TasksController < ApplicationController
     service = TaskDestroyService.new(@task, current_user)
 
     respond_to do |format|
-      redirect_path = taskstab_project_path(@task.project, tab: 'Tasks')
+      redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
 
       if service.destroy_task
         format.html { redirect_to redirect_path, notice: 'Task was successfully destroyed.' }
@@ -190,7 +190,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
@@ -217,7 +217,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
@@ -246,7 +246,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks') }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'tasks') }
     end
   end
 
@@ -265,7 +265,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
@@ -283,7 +283,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   rescue ArgumentError, Payments::BTC::Errors::TransferError => error
     ErrorHandlerService.call(error)
@@ -291,7 +291,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
