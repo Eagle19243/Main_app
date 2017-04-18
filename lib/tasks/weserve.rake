@@ -17,6 +17,12 @@ namespace :weserve do
     updater.update_all_wallets_balance!
   end
 
+  desc "Update tx_hash for transactions"
+  task update_tx_hash_for_transactions: :environment do
+    updater = Payments::BTC::BulkUpdater.new
+    updater.update_tx_hash_for_transactions!
+  end
+
   desc "Update receiving addresses for wallets"
   task update_wallets_receiver_address: :environment do
     updater = Payments::BTC::BulkUpdater.new
