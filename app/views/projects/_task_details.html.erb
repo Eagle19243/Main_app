@@ -244,7 +244,7 @@
             <hr>
 
                 <div class="approve-block mb20">
-                  <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
+                  <% if can? :accept, @task %>
                       <a href="javascript:void(0)" class="approve-link mb10" id="approveTaskPopover" tabindex="0" data-trigger="focus" data-placement="top">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                         Approve
@@ -444,7 +444,7 @@
   </div>
 </div>
 
-    <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
+    <% if can? :accept, @task %>
 
         <div id="approveTaskPopoverTitle" class="hidden">
           <b>Are you sure?</b>

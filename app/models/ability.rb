@@ -124,6 +124,10 @@ class Ability
         !task.any_fundings? && can?(:update, task)
       end
 
+      can :accept, Task do |task|
+        (task.pending? || task.suggested_task?) && user.is_project_leader_or_coordinator?(task.project)
+      end
+
       can :reviewing, Task do |task|
         user.can_submit_task?(task)
       end

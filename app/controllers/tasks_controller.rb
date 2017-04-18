@@ -178,7 +178,9 @@ class TasksController < ApplicationController
   end
 
   def accept
-    if !@task.accepted? && @task.accept!
+    authorize! :accept, @task
+
+    if @task.accept!
       @notice = "Task accepted"
       # the user that suggested the task might not be a follower neither a team_member
       (@task.project.interested_users + [@task.user]).uniq.each do |user|
@@ -195,7 +197,6 @@ class TasksController < ApplicationController
   end
 
   def doing
-
     authorize! :doing, @task
 
     if @task.suggested_task?
