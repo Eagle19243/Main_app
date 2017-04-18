@@ -19,7 +19,8 @@ class UserErrorPresenter
   # }
   SUBSTITUTIONS = {
     "Payments::BTC::Errors::TransferError" => {
-      "Not found" => "Not enough funds on the balance to perform this operation"
+      "Not found" => "Not enough funds on the balance to perform this operation",
+      "Please enter a valid email or Bitcoin address" => "Please enter a valid Bitcoin address"
     }
   }
 
