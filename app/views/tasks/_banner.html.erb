@@ -25,7 +25,7 @@
 
             </div>
             <div class="b-project-info__title">
-              <%= best_in_place_if user_signed_in? && current_user.is_admin_for?(@project), @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#title-pencil' %>
+              <%= best_in_place_if user_signed_in? && current_user.is_admin_for?(@project), @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :class => "project-title", :activator => '#title-pencil' %>
               <% if user_signed_in? && current_user.is_admin_for?(@project) %>
               <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
               <% end %>
