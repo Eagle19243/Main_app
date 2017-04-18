@@ -298,8 +298,8 @@ class TasksController < ApplicationController
 
   def send_email
     InvitationMailer.invite_user(params['email'], current_user.name, Task.find(params['task_id'])).deliver_later
-    flash[:success] = "Task link has been send to #{params[:email]}"
-    redirect_to task_path(params['task_id'])
+    @notice = "Task link has been sent to #{params[:email]}"
+    respond_to :js
   end
 
   def removeMember

@@ -418,9 +418,8 @@
 
     <span class="modal-invite__or">OR</span>
     <div class="modal-default__text" id="response"></div>
-
     <%= form_tag(tasks_send_email_path, remote: true, id: 'send-task-email', :class => 'invite-email-wrapper mb30') do %>
-        <input type="hidden" name="project_id" value="<%= @task.id rescue nil %>">
+        <input type="hidden" name="task_id" value="<%= @task.id rescue nil %>">
         <div class="f-default__joined">
             <div class="f-default__joined-col _wide">
               <% session[:idd] = @task.id %>
