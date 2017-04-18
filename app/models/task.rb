@@ -107,6 +107,13 @@ class Task < ActiveRecord::Base
     budget == 0 ? "100%" : ((( Payments::BTC::Converter.convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + "%"
   end
 
+  def funds_needed_to_fulfill_budget
+    return 0 if completed?
+
+    delta = current_fund - satoshi_budget
+    delta > 0 ? 0 : delta.abs
+  end
+
   def any_fundings?
     self.current_fund != 0
   end

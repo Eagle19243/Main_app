@@ -20,6 +20,10 @@ FactoryGirl.define do
       state { 'pending' }
     end
 
+    trait :completed do
+      state { 'completed' }
+    end
+
     trait :with_associations do
       association :user, :confirmed_user, :with_wallet, factory: :user
       association :project, factory: :base_project

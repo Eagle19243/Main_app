@@ -18,13 +18,17 @@
     <tr class="value">
       <td><%= task.funded %></td>
       <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
-      <td class="card-report__data _raised"><%= satoshi_balance_in_btc(task.current_fund) %></td>
+      <td class="card-report__data _raised _hide"><%= satoshi_balance_in_btc(task.current_fund) %></td>
+      <td class="card-report__data _amount-left-btc"><%= satoshi_balance_in_btc(task.funds_needed_to_fulfill_budget) %></td>
+      <td class="card-report__data _amount-left-usd _hide"><%= satoshi_balance_in_usd(task.funds_needed_to_fulfill_budget) %></td>
       <td class="card-report__data _budget _hide"><%= task.budget %></td>
     </tr>
     <tr class="items">
       <td>Funded</td>
       <td>Teammates </td>
-      <td>Raised</td>
+      <td class="_hide">Raised</td>
+      <td>Left, BTC</td>
+      <td class="_hide">Left, USD</td>
       <td class="_hide">Budget</td>
     </tr>
   </table>

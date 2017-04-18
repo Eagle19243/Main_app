@@ -189,12 +189,11 @@
         .on('click.saveDiffInBudget', '.fund-do-btns .fund-button', function() {
             var $this = $(this),
                 $card = $this.closest('.card-wrapper'),
-                budget = parseFloat($card.find('._budget').text(), 10),
-                raised = parseFloat($card.find('._raised').text(), 10),
-                currentBTC = parseFloat(parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(3));
+                amountLeftBTC = parseFloat($card.find('._amount-left-btc').text(), 10),
+                amountLeftUSD = parseFloat($card.find('._amount-left-usd').text(), 10);
 
-            $('.modal-fund__needed._btc').text('[BTC needed ' + (budget - raised).toFixed(3).toString() + ']');
-            $('.modal-fund__needed._usd').text('[$ needed ' + ((budget - raised) * currentBTC).toFixed(3).toString() + ']');
+            $('.modal-fund__needed._btc').text('[BTC needed ' + amountLeftBTC.toFixed(3).toString() + ']');
+            $('.modal-fund__needed._usd').text('[$ needed ' + amountLeftUSD.toFixed(3).toString() + ']');
         })
         .on('click.saveDataForDoModal', '.do-button', function() {
             var $this = $(this),
