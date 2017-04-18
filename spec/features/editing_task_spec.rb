@@ -55,7 +55,7 @@ feature "Edit a Task", js: true do
                 @title = "new title"
                 @form.fill_in "task[title]", with: @title
 
-                @form.click_button "save"
+                @form.click_button "Save"
                 wait_for_ajax
               end
 
@@ -101,7 +101,7 @@ feature "Edit a Task", js: true do
                 @condition = "new condition"
                 @form.fill_in "task[condition_of_execution]", with: @condition
 
-                @form.click_button "save"
+                @form.click_button "Save"
                 wait_for_ajax
               end
 
@@ -147,7 +147,7 @@ feature "Edit a Task", js: true do
                 @proof = "new proof"
                 @form.fill_in "task[proof_of_execution]", with: @proof
 
-                @form.click_button "save"
+                @form.click_button "Save"
                 wait_for_ajax
               end
 

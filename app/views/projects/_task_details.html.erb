@@ -52,9 +52,9 @@
           <% if can?(:update, @task) %>
             <h2 class="modal-default__title js-toggleForm" id="task-title"><%= @task.title %></h2>
             <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "modal-task__form _hide"} do |f| %>
-              <%= f.text_field :title, id: "input-task-title" %>
-              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">save</button>
-              <button class="btn-root task-details__close-btn">cancel</button>
+              <%= f.text_field :title, id: "input-task-title", class: "_no-empty" %>
+              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">Save</button>
+              <button class="btn-root task-details__close-btn">Cancel</button>
             <% end %>
           <% else %>
             <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
@@ -71,9 +71,9 @@
                     <h4>Specifications</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
-                        <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
-                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition">save</button>
-                        <button class="btn-root task-details__close-btn" id="cancel-condition">cancel</button>
+                        <%= f.text_area :condition_of_execution, id: "input-task-condition", class: "_no-empty" %>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition">Save</button>
+                        <button class="btn-root task-details__close-btn" id="cancel-condition">Cancel</button>
                     <% end %>
                   </div>
 
@@ -81,9 +81,9 @@
                     <h4>Proof of Execution</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-proof"><%= @task.proof_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "modal-task__form _hide"} do |f| %>
-                        <%= f.text_area :proof_of_execution, id: "input-task-proof" %>
-                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof">save</button>
-                        <button class="btn-root task-details__close-btn" id="cancel-proof">cancel</button>
+                        <%= f.text_area :proof_of_execution, id: "input-task-proof", class: "_no-empty" %>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof">Save</button>
+                        <button class="btn-root task-details__close-btn" id="cancel-proof">Cancel</button>
                     <% end %>
                     <hr>
                   </div>
@@ -504,6 +504,17 @@
             })
             .on('click.preventSavingForm', '.task-details__close-btn', function(event) {
                 event.preventDefault();
+            })
+            .on('input.preventSavingEmptyData', '._no-empty', function() {
+                var $this = $(this),
+                    $saveBtn = $this.parent().find('.task-details__save-btn');
+
+                if ($this.val().trim()) {
+                    $saveBtn.removeClass('_disable');
+                } else {
+                    $saveBtn.addClass('_disable');
+                }
+
             })
             .on('click.saveDiffInBudget', '.modal-task__controls-side .fund-button', function() {
                 var $this = $(this),

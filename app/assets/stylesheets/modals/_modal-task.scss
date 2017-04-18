@@ -90,6 +90,13 @@
     flex-shrink: 0;
   }
 
+  .task-details__save-btn {
+    &._disable {
+      opacity: .6;
+      pointer-events: none;
+    }
+  }
+
 
   &__title-wrap {
     position: relative;
