@@ -237,6 +237,37 @@ var ModalsModule = (function () {
     };
 })();
 
+var ProjectAndTaskSearchModule = (function() {
+    function bindEvents($document) {
+        $document
+            .on('input.userSearch', '#userSearchTasksAndProject', $.debounce(250, function () {
+                var $this = $('#userSearchTasksAndProject'),
+                    searchValue = $this.val(),
+                    $searchResultsList = $('.search-result__list');
+
+                $.ajax({
+                    url: '/projects/autocomplete_user_search?term=' + searchValue,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var results = '';
+
+                        response.forEach(function(item) {
+                            results += '<li class="search-result__item"><a href="' + item.path + '">' + item.title + '</a></li>';
+                        });
+                        $searchResultsList.html(results);
+                    }
+                })
+            }))
+    }
+
+    return {
+        init: function($document) {
+            bindEvents($document);
+        }
+    }
+})();
+
 var UrlModule = (function () {
 
     var paramsArr, taskId, isAlreadyCheckedTaskModal, isAlreadyCheckedTab, tab, isCardClicked;
@@ -338,6 +369,7 @@ var UrlModule = (function () {
 $document.ready(function() {
     $(".best_in_place").best_in_place();
 
+    ProjectAndTaskSearchModule.init($document);
     DateTimePickerModule.init($document);
     UrlModule.init($document);
     ModalsModule.init($document);

@@ -109,10 +109,10 @@ class ProjectsController < ApplicationController
   def autocomplete_user_search
     results = []
     if params[:term].present?
-      projects = Project.fulltext_search(params[:term]).map(&:title)
-      tasks = Task.fulltext_search(params[:term]).map(&:title)
+      projects = Project.fulltext_search(params[:term])
+      tasks = Task.fulltext_search(params[:term])
 
-      results = [projects, tasks].flatten
+      results = AutocompleteResultsPresenter.new(projects, tasks)
     end
     respond_to do |format|
       format.html { render text: results }
