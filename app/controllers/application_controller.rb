@@ -1,11 +1,21 @@
 class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to main_app.root_url, notice: exception.message
+    msg = Rails.env.production? ? 'Ooops. Seems you are not authorized for this action' : exception.message
+    respond_to do |format|
+     format.html { redirect_to main_app.root_url, notice: msg }
+     format.json { render json: { message: msg }, status: :unauthorized }
+     format.js { render json: { message: msg }, status: :unauthorized }
+   end
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    redirect_to main_app.root_url, notice: exception.message
+    msg = Rails.env.production? ? 'Sorry we cannot find what you are looking for !' : exception.message
+    respond_to do |format|
+     format.html { redirect_to main_app.root_url, notice: msg }
+     format.json { render json: { message: msg }, status: :not_found }
+     format.js { render json: { message: msg }, status: :not_found }
+   end
   end
 
   protect_from_forgery with: :exception

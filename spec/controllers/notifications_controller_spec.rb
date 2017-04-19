@@ -106,7 +106,7 @@ RSpec.describe NotificationsController do
 
             xhr :delete, :destroy, id: 444
 
-            expect(response).to redirect_to(root_url)
+            expect(response).to have_http_status(:not_found)
           end
         end
       end

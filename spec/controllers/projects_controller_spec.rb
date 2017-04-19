@@ -111,7 +111,7 @@ describe ProjectsController, type: :request do
       end
     end
   end
-  
+
   describe "#create" do
     context "when logged in" do
       before do
@@ -317,6 +317,52 @@ describe ProjectsController, type: :request do
       expect(message_delivery).to receive(:deliver_later).exactly(3).times
 
       make_request
+    end
+  end
+
+
+  describe 'GET /projects/show_task?id=' do
+
+    it 'redirects user to project tasks tab in case of HTML request' do
+      task = create(:task, :with_project)
+      get "/projects/show_task?id=#{task.id}"
+      expect(subject).to redirect_to action: :taskstab, id: task.project.id, tab: :tasks, taskId: task.id
+    end
+  end
+
+  describe 'GET /projects/show_all_teams' do
+
+    it 'redirects user to project teams tab in case of HTML request' do
+      project = create(:project)
+      get "/projects/show_all_teams?id=#{project.id}"
+      expect(subject).to redirect_to action: :taskstab, id: project.id, tab: :team
+    end
+  end
+
+  describe 'GET /projects/show_all_tasks' do
+
+    it 'redirects user to project tasks tab in case of HTML request' do
+      project = create(:project)
+      get "/projects/show_all_tasks?id=#{project.id}"
+      expect(subject).to redirect_to action: :taskstab, id: project.id, tab: :tasks
+    end
+  end
+
+  describe 'GET /projects/:id/plan' do
+
+    it 'redirects user to project plan tab in case of HTML request' do
+      project = create(:project)
+      get "/projects/#{project.id}/plan"
+      expect(subject).to redirect_to action: :taskstab, id: project.id, tab: :plan
+    end
+  end
+
+  describe 'GET /projects/:id/read_from_mediawiki' do
+
+    it 'redirects user to project plan tab in case of HTML request' do
+      project = create(:project)
+      get "/projects/#{project.id}/read_from_mediawiki"
+      expect(subject).to redirect_to action: :taskstab, id: project.id, tab: :plan
     end
   end
 end

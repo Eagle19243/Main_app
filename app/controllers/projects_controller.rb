@@ -103,7 +103,11 @@ class ProjectsController < ApplicationController
     task_comment_ids = @task.task_comments.collect(&:id)
     @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
     project_admin
-    respond_to :js
+    respond_to do |format|
+      format.html { redirect_to controller: 'projects', action: 'taskstab', id: @task.project.id, tab: 'tasks', taskId: @task.id }
+      format.js
+    end
+
   end
 
   def autocomplete_user_search
@@ -320,6 +324,7 @@ class ProjectsController < ApplicationController
     @apply_requests = @project.apply_requests.pending.all
 
     respond_to do |format|
+      format.html { redirect_to controller: 'projects', action: 'taskstab', id: @project.id, tab: 'plan' }
       format.js
     end
   end
@@ -372,12 +377,14 @@ class ProjectsController < ApplicationController
     @reviewing_tasks = tasks.where(state: "reviewing").all
     @done_tasks = tasks.where(state: "completed").all
     respond_to do |format|
+      format.html { redirect_to controller: 'projects', action: 'taskstab', id: @project.id, tab: 'tasks' }
       format.js
     end
   end
 
   def show_all_teams
     respond_to do |format|
+      format.html { redirect_to controller: 'projects', action: 'taskstab', id: @project.id, tab: 'team' }
       format.js
     end
   end
@@ -602,6 +609,7 @@ class ProjectsController < ApplicationController
     end
 
     respond_to do |format|
+      format.html { redirect_to controller: 'projects', action: 'taskstab', id: @project.id, tab: 'plan' }
       format.js
     end
   end
