@@ -133,7 +133,13 @@
               <div class="team-tab__title">
                   Below are the existing teammates for this project. You may choose to join this team below.
                   <a href="<%= t('commons.faq_landing_link') %>">FAQs</a>
+                  <% if @project.followers.any? %>
+                    <span class="follower-badge right">
+                      <%= pluralize(@project.followers.size, 'follower') %>
+                    </span>
+                  <% end %>
               </div>
+
           </div>
           <div class="team-content">
               <div class="center">
