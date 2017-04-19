@@ -137,7 +137,7 @@ class Ability
       end
 
       can :doing, Task do |task|
-        task.accepted? && user.is_teammember_for?(task)
+        task.accepted? && user.is_task_team_member?(task)
       end
 
       can :create_task_comment, Task do

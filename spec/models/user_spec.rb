@@ -32,34 +32,563 @@ RSpec.describe User, type: :model do
   describe 'instance methods' do
     subject { create(:user) }
 
-    describe '#is_lead_editor_for?' do
+    context 'when user is an owner of the project' do
+      let(:project) { create(:project, user: subject) }
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be true
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be true
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user is a pending admin in the project' do
       let(:project) { create(:project) }
 
-      context 'is lead editor of given project' do
-        before do
-          team = create(:team, project: project)
-          create(:team_membership, :lead_editor, team: team, team_member: subject)
-        end
+      before do
+        admin = project.proj_admins.build(user_id: subject.id)
+        admin.save
+      end
 
+      describe '#is_admin_for?' do
         it do
-          expect(subject.is_lead_editor_for?(project)).to be_truthy
+          expect(subject.is_admin_for?(project)).to be false
         end
       end
 
-      context 'is not a team of given project' do
+      describe '#is_project_leader?' do
         it do
-          expect(subject.is_lead_editor_for?(project)).to be_falsy
+          expect(subject.is_project_leader?(project)).to be false
         end
       end
 
-      context 'is an coordinator of the given project' do
-        before do
-          team = create(:team, project: project)
-          create(:team_membership, :coordinator, team: team, team_member: subject)
-        end
-
+      describe '#is_coordinator_for?' do
         it do
-          expect(subject.is_lead_editor_for?(project)).to be_falsy
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be false
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be false
+        end
+      end
+    end
+
+    context 'when user is a accepted admin in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        admin = project.proj_admins.build(user_id: subject.id)
+        admin.save
+        admin.accept!
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be false
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user is a rejected admin in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        admin = project.proj_admins.build(user_id: subject.id)
+        admin.save
+        admin.reject!
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be false
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be false
+        end
+      end
+    end
+
+    context 'when user is a coordinator in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        team = create(:team, project: project)
+        create(:team_membership, :coordinator, team: team, team_member: subject)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be true
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user is a lead editor in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        team = create(:team, project: project)
+        create(:team_membership, :lead_editor, team: team, team_member: subject)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be false
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be true
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user is a teammate in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        team = create(:team, project: project)
+        create(:team_membership, :teammate, team: team, team_member: subject)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be false
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user was a lead_editor and then also became coordinator in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        team = create(:team, project: project)
+        create(:team_membership, :lead_editor, team: team, team_member: subject)
+        create(:team_membership, :coordinator, team: team, team_member: subject)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be true
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be true
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user was a coordinator and then also became a lead_editor in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        team = create(:team, project: project)
+        create(:team_membership, :coordinator, team: team, team_member: subject)
+        create(:team_membership, :lead_editor, team: team, team_member: subject)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be true
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be true
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user is a lead_editor, teammate and coordinator in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        team = create(:team, project: project)
+        create(:team_membership, :coordinator, team: team, team_member: subject)
+        create(:team_membership, :teammate, team: team, team_member: subject)
+        create(:team_membership, :lead_editor, team: team, team_member: subject)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be true
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be true
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be true
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be true
+        end
+      end
+    end
+
+    context 'when user is nobody in the project' do
+      let(:project) { create(:project) }
+
+      before do
+        create(:team, project: project)
+      end
+
+      describe '#is_admin_for?' do
+        it do
+          expect(subject.is_admin_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader?' do
+        it do
+          expect(subject.is_project_leader?(project)).to be false
+        end
+      end
+
+      describe '#is_coordinator_for?' do
+        it do
+          expect(subject.is_coordinator_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_leader_or_coordinator?' do
+        it do
+          expect(subject.is_project_leader_or_coordinator?(project)).to be false
+        end
+      end
+
+      describe '#is_lead_editor_for?' do
+        it do
+          expect(subject.is_lead_editor_for?(project)).to be false
+        end
+      end
+
+      describe '#is_teammate_for?' do
+        it do
+          expect(subject.is_teammate_for?(project)).to be false
+        end
+      end
+
+      describe '#is_project_team_member?' do
+        it do
+          expect(subject.is_project_team_member?(project)).to be false
         end
       end
     end
