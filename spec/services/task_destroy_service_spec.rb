@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'coinbase/wallet'
 
 RSpec.describe TaskDestroyService do
   let(:task) { FactoryGirl.create(:task, :with_user, :with_project) }
@@ -71,6 +72,22 @@ RSpec.describe TaskDestroyService do
           expect(task_existence).to be true
           expect(activity_existence).to be false
         end
+      end
+    end
+
+    context "when task's balance failed to update" do
+      before do
+        allow_any_instance_of(Coinbase::Wallet::Client).to receive(:account) do
+          raise Coinbase::Wallet::APIError
+        end
+      end
+
+      it "raises general error" do
+        service = described_class.new(task, user)
+
+        expect {
+          service.destroy_task
+        }.to raise_error(Payments::BTC::Errors::GeneralError, "Coinbase API error")
       end
     end
   end

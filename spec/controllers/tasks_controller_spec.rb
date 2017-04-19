@@ -237,7 +237,24 @@ RSpec.describe TasksController do
         it 'returns user to tasks page with unsuccessful message' do
           delete(:destroy, id: task.id)
 
-          expect(flash[:alert]).to eq('Error happened while task delete process')
+          expect(flash[:error]).to eq('Error happened during task delete process')
+          expect(response).to redirect_to(
+            taskstab_project_path(project, tab: 'tasks')
+          )
+        end
+      end
+
+      context "when task delete service returns general error" do
+        before do
+          allow_any_instance_of(TaskDestroyService).to receive(:destroy_task) do
+            raise Payments::BTC::Errors::GeneralError, "Coinbase API error"
+          end
+        end
+
+        it 'returns user to tasks page with unsuccessful message' do
+          delete(:destroy, id: task.id)
+
+          expect(flash[:error]).to eq('There is a temporary problem connecting to payment service. Please try again later')
           expect(response).to redirect_to(
             taskstab_project_path(project, tab: 'tasks')
           )
@@ -292,6 +309,15 @@ RSpec.describe TasksController do
       get :completed, id: existing_task.id
 
       expect(assigns(:notice)).to eq("Some Error")
+    end
+
+    it "performs not successful task completion" do
+      allow_any_instance_of(TaskCompleteService).to receive(:complete!).and_raise(
+        Payments::BTC::Errors::GeneralError, "Coinbase API error"
+      )
+      get :completed, id: existing_task.id
+
+      expect(assigns(:notice)).to eq("There is a temporary problem connecting to payment service. Please try again later")
     end
 
     it 'sends an email to the involved users', :aggregate_failures do

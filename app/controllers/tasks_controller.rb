@@ -153,24 +153,22 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
     authorize! :destroy, @task
 
     service = TaskDestroyService.new(@task, current_user)
+    redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
 
-    respond_to do |format|
-      redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
-
-      if service.destroy_task
-        format.html { redirect_to redirect_path, notice: 'Task was successfully destroyed.' }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to redirect_path, alert: 'Error happened while task delete process' }
-        format.json { head :no_content }
-      end
+    if service.destroy_task
+      flash[:notice] = 'Task was successfully destroyed.'
+    else
+      flash[:error] = 'Error happened during task delete process'
     end
+  rescue Payments::BTC::Errors::GeneralError => error
+    ErrorHandlerService.call(error)
+    flash[:error] = UserErrorPresenter.new(error).message
+  ensure
+    redirect_to redirect_path
   end
 
   def refund
@@ -286,7 +284,7 @@ class TasksController < ApplicationController
       format.js
       format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
-  rescue ArgumentError, Payments::BTC::Errors::TransferError => error
+  rescue ArgumentError, Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
     @notice = UserErrorPresenter.new(error).message
 

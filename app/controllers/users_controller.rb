@@ -52,6 +52,10 @@ class UsersController < ApplicationController
       @transactions = []
       @wallet_balance = 0.0
     end
+  rescue Payments::BTC::Errors::GeneralError => error
+    ErrorHandlerService.call(error)
+    flash[:error] = UserErrorPresenter.new(error).message
+    redirect_to root_path
   end
 
   private

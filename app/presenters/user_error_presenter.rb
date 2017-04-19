@@ -21,6 +21,9 @@ class UserErrorPresenter
     "Payments::BTC::Errors::TransferError" => {
       "Not found" => "Not enough funds on the balance to perform this operation",
       "Please enter a valid email or Bitcoin address" => "Please enter a valid Bitcoin address"
+    },
+    "Payments::BTC::Errors::GeneralError" => {
+      "Coinbase API error" => "There is a temporary problem connecting to payment service. Please try again later"
     }
   }
 
