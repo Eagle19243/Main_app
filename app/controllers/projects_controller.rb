@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
     session[:success_contacts] = nil
     @array = params[:emails].split(',')
     @array.each do |key|
-      InvitationMailer.invite_user_for_project(key, current_user.name, Project.find(session[:idd]).title, session[:idd]).deliver_later
+      InvitationMailer.invite_user_for_project(key, current_user.name, session[:idd]).deliver_later
     end
     session[:success_contacts] = "Project link has been shared  successfully with your friends!"
     session[:project_id] = session[:idd]
@@ -59,8 +59,7 @@ class ProjectsController < ApplicationController
           format.js {}
         else
           begin
-            InvitationMailer.invite_user_for_project(params['email'], current_user.name,
-                                                     Project.find(params['project_id']).title, params['project_id']).deliver_later
+            InvitationMailer.invite_user_for_project(params['email'], current_user.name, params['project_id']).deliver_later
             format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
             @notice = "Project link has been sent to #{params[:email]}"
             format.js {}

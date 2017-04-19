@@ -6,7 +6,7 @@
   <body>
     <p>
       <bold><%= @user_name %> invited you for to a task </bold>
-      <a href="<%=task_path(id: @task.id, taskId: @task.id, tab: 'tasks' )  %>"> <%= @task.title %> </a>
+      <a href="<%=task_url(id: @task.id, taskId: @task.id, tab: 'tasks' )  %>"> <%= @task.title %> </a>
     </p>
   </body>
 </html>
