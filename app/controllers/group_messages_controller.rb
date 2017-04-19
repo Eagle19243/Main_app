@@ -125,7 +125,7 @@ class GroupMessagesController < ApplicationController
       if group_message.attachment.blank?
         redirect_to group_messages_path
       else
-        send_file group_message.attachment.path, :x_sendfile => true        
+        send_file group_message.attachment.url, :x_sendfile => true
       end
     else
       redirect_to group_messages_path
