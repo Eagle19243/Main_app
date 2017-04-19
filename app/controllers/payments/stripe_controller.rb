@@ -36,7 +36,7 @@ class Payments::StripeController < ApplicationController
     end
 
     render json: { success: 'Thanks for your payment' }, status: 200
-  rescue Payments::BTC::Errors::TransferError => error
+  rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
     render json: { error: UserErrorPresenter.new(error).message }, status: 500
   end

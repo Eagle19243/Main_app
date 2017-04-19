@@ -26,7 +26,7 @@ feature "Project Page Team Tab", js: true do
 
     context "When you navigate to 'Team' tab" do
       before do
-        find(".tabs-menu__inner li a[data-tab='Team']").trigger("click")
+        find(".tabs-menu__inner li a[data-tab='team']").trigger("click")
       end
 
       scenario "Then the user's card is displayed" do

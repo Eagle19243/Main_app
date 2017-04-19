@@ -3,7 +3,7 @@
     <% if profile_comment.commenter.picture? %>
       <a href=<%="/users/#{comment.commenter_id}"%>><%= image_tag(profile_comment.commenter.picture, size: "69x69") %></a>
     <% else %>
-      <a href=<%="/users/#{profile_comment.commenter_id}"%>><%= gravatar_for(profile_comment.commenter, 69)%></a>
+      <a href=<%="/users/#{profile_comment.commenter_id}"%>><%= gravatar_for_user(profile_comment.commenter, 69)%></a>
     <%end%>
     <span class="name"><%= profile_comment.commenter.name %></span>
   </div>

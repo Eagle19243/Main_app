@@ -4,7 +4,7 @@
 
     <%else%>
 
-    <%= link_to gravatar_for(user), user, data: { no_turbolink: true } %>
+    <%= link_to gravatar_for_user(user, 100), user, data: { no_turbolink: true } %>
     <%end%>
 
 	<br>

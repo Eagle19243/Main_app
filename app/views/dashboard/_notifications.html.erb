@@ -4,7 +4,7 @@
     <% if @user.picture? %>
       <%= image_tag(@user.picture, size: "123x123") %>
     <% else %>
-      <%= gravatar_for(@user, 123)%>
+      <%= gravatar_for_user(@user, 123)%>
     <%end%>
   </div>
   <div class="lin2-contents medium-10 columns">

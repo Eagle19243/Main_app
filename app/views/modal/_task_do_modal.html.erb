@@ -1,24 +1,35 @@
 <div id="taskDoModal" class="modal-default modal-do-task" role="dialog" tabindex="-1">
     <div class="modal-default__content">
         <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Explain why you want to do this task.</h4>
-        <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
-            <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
-            <%= form.text_area :application, class:'f-default__textarea' %>
-            <%= form.hidden_field :free, value: false %>
-            <br />
-            <% if user_signed_in? %>
-              <button  type="submit" id="do-request-button" class="btn-root">Submit Application</button>
-            <% else %>
-              <a href="/users/sign_in" class="btn-root">Login</a>
+        <div class="modal-do-task__wrapper _border-bottom">
+            <div class="modal-do-task__row _project">
+                Project: <span class="modal-do-task__project"></span>
+            </div>
+            <div class="modal-do-task__row _task">
+                Task: <span class="modal-do-task__task"></span>
+            </div>
+            <div class="modal-do-task__row _description">
+                Description: <span class="modal-do-task__description"></span>
+            </div>
+        </div>
+        <div class="modal-do-task__wrapper">
+            <div class="modal-do-task__subtitle">Please explain below why you feel you are the right person to perform this task:</div>
+            <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
+                <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
+                <%= form.text_area :application, class:'f-default__textarea' %>
+                <%= form.hidden_field :free, value: false %>
+                <br />
+                <% if user_signed_in? %>
+                  <button  type="submit" id="do-request-button" class="btn-root">Submit Application</button>
+                <% else %>
+                  <a href="/users/sign_in" class="btn-root">Login</a>
+                <% end %>
             <% end %>
-        <% end %>
-    </div>
-</div>
 
-<div id="taskDoModalResponse" class="modal-default modal-do-task-response" role="dialog" tabindex="-1">
-    <div class="modal-default__content">
-        <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Explain why you want to do this task.</h4>
+            <div class="modal-do-task__question">
+                Questions? Read our
+                <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
+            </div>
+        </div>
     </div>
 </div>

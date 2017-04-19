@@ -38,7 +38,7 @@ class Chatroom < ActiveRecord::Base
     if chatroom.present? && chatroom.validate_access_for(current_user)
       group_messages = chatroom.group_messages
     else
-      if current_user.is_team_member_for?(project)
+      if current_user.is_project_team_member?(project)
         chatroom = Chatroom.create_chatroom_with_groupmembers(project.team_members, 1, project)
         group_messages = []
       end
@@ -54,7 +54,7 @@ class Chatroom < ActiveRecord::Base
     if chatroom.present?
       group_messages = chatroom.group_messages
     else
-      if current_user.is_team_member_for?(project)
+      if current_user.is_project_team_member?(project)
         chatroom = Chatroom.create_chatroom_with_groupmembers([current_user, recipient_user], 2, project)
         group_messages = []
       end

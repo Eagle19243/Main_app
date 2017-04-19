@@ -17,7 +17,7 @@ xfeature "Notification After submitting a do request", js: true do
 
     context "When you visit the task page" do
       before do
-        visit taskstab_project_path(@project, tab: 'Tasks', taskId: @task.id)
+        visit taskstab_project_path(@project, tab: 'tasks', taskId: @task.id)
       end
 
       context "When you click 'Do' button" do

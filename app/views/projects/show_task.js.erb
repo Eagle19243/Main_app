@@ -113,9 +113,13 @@ $(document).ready(function() {
         $form.toggleClass('_hide');
     });
 
-    $(document).on('click.closeForm', '.task-details__close-btn, .task-details__save-btn', function() {
+    $(document).on('click.closeForm', '.task-details__close-btn, .task-details__save-btn', function(event) {
         var $that = $(this),
             $form = $that.parent('form');
+
+        if (!$form.find('._no-empty').val().trim()) {
+            event.preventDefault();
+        }
 
         $form.siblings('.js-toggleForm').removeClass('_hide');
         $form.addClass('_hide');

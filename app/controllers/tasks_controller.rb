@@ -113,7 +113,7 @@ class TasksController < ApplicationController
     service = TaskCreateService.new(create_task_params, current_user, project)
 
     respond_to do |format|
-      redirect_path = taskstab_project_path(project, tab: 'Tasks')
+      redirect_path = taskstab_project_path(project, tab: 'tasks')
 
       if service.create_task
         format.html { redirect_to redirect_path, notice: 'Task was successfully created.' }
@@ -153,24 +153,22 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1
-  # DELETE /tasks/1.json
   def destroy
     authorize! :destroy, @task
 
     service = TaskDestroyService.new(@task, current_user)
+    redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
 
-    respond_to do |format|
-      redirect_path = taskstab_project_path(@task.project, tab: 'Tasks')
-
-      if service.destroy_task
-        format.html { redirect_to redirect_path, notice: 'Task was successfully destroyed.' }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to redirect_path, alert: 'Error happened while task delete process' }
-        format.json { head :no_content }
-      end
+    if service.destroy_task
+      flash[:notice] = 'Task was successfully destroyed.'
+    else
+      flash[:error] = 'Error happened during task delete process'
     end
+  rescue Payments::BTC::Errors::GeneralError => error
+    ErrorHandlerService.call(error)
+    flash[:error] = UserErrorPresenter.new(error).message
+  ensure
+    redirect_to redirect_path
   end
 
   def refund
@@ -178,7 +176,9 @@ class TasksController < ApplicationController
   end
 
   def accept
-    if !@task.accepted? && @task.accept!
+    authorize! :accept, @task
+
+    if @task.accept!
       @notice = "Task accepted"
       # the user that suggested the task might not be a follower neither a team_member
       (@task.project.interested_users + [@task.user]).uniq.each do |user|
@@ -190,12 +190,11 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
   def doing
-
     authorize! :doing, @task
 
     if @task.suggested_task?
@@ -217,7 +216,7 @@ class TasksController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
@@ -246,7 +245,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_url(@task.project, tab: 'Tasks') }
+      format.html { redirect_to taskstab_project_url(@task.project, tab: 'tasks') }
     end
   end
 
@@ -265,7 +264,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
@@ -283,22 +282,22 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
-  rescue ArgumentError, Payments::BTC::Errors::TransferError => error
+  rescue ArgumentError, Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
     @notice = UserErrorPresenter.new(error).message
 
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'Tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
   end
 
   def send_email
     InvitationMailer.invite_user(params['email'], current_user.name, Task.find(params['task_id'])).deliver_later
-    flash[:success] = "Task link has been send to #{params[:email]}"
-    redirect_to task_path(params['task_id'])
+    @notice = "Task link has been sent to #{params[:email]}"
+    respond_to :js
   end
 
   def removeMember

@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
   validates_format_of     :email, with: Devise.email_regexp, allow_blank: true, if: :email_changed?
 
   validates_presence_of     :password, if: :password_required?
-  validates_confirmation_of :password, if: :password_required?
+  validates_confirmation_of :password,  message: "doesn't match", if: :password_required?
 
   # Override
   validates_length_of       :password, within: Devise.password_length, allow_blank: true, if: ->(user) { user.errors[:password_confirmation].blank? }
@@ -234,41 +234,83 @@ class User < ActiveRecord::Base
     end
   end
 
-  def is_admin_for? proj
-    proj.user_id == self.id || proj_admins.where(project_id: proj.id).exists?
+  # Method reports whether current user is an admin of the given project
+  #
+  # User is considered as an admin in project in any of these two cases:
+  #
+  #   * user is a creator of the project
+  #   * user is invited admin of the project
+  #
+  # Returns boolean value
+  def is_admin_for?(project)
+    project.user_id == id || proj_admins.accepted.exists?(project_id: project.id)
   end
 
-  def is_coordinator_for?(project)
-    team_membership = project.team_memberships.find_by(team_member_id: self.id)
-    team_membership.present? && team_membership.coordinator?
-  end
-
-  def is_lead_editor_for? proj
-    team_membership = proj.team_memberships.find_by(team_member_id: self.id)
-    team_membership.present? && team_membership.lead_editor?
-  end
-
-  def is_teammate_for? proj
-    if proj.team.team_memberships.where(:team_member_id => self.id).present?
-      return (proj.team.team_memberships.where(:team_member_id => self.id).first.role == "teammate")
-    else
-      return false
-    end
-  end
-
-  def is_team_member_for?(project)
-    project.user_id == self.id || proj_admins.where(project_id: project.id).exists? || project.team.team_memberships.where(:team_member_id => self.id).present?
-  end
-
+  # Method reports whether current user is a project leader in the given project
+  #
+  # Returns boolean value
   def is_project_leader?(project)
     project.user.id == self.id
   end
 
+  # Method reports whether current user is a coordinator in the given project
+  #
+  # Returns boolean value
+  def is_coordinator_for?(project)
+    project.team_memberships.exists?(
+      team_member_id: id,
+      role: TeamMembership::COORDINATOR_ID
+    )
+  end
+
+  # Method reports whether current user is either:
+  #
+  #  * project leader
+  #  * coordinator
+  #
+  # (any of the following) in the given project
+  #
+  # Returns boolean value
   def is_project_leader_or_coordinator?(project)
     is_project_leader?(project) || is_coordinator_for?(project)
   end
 
-  def is_teammember_for?(task)
+  # Method reports whether current user is a lead editor in the given project
+  #
+  # Returns boolean value
+  def is_lead_editor_for?(project)
+    project.team_memberships.exists?(
+      team_member_id: id,
+      role: TeamMembership::LEAD_EDITOR_ID
+    )
+  end
+
+  # Method reports whether current user is a teammate in the given project
+  #
+  # Returns boolean value
+  def is_teammate_for?(project)
+    project.team_memberships.exists?(
+      team_member_id: id,
+      role: TeamMembership::TEAM_MATE_ID
+    )
+  end
+
+  # Method reports whether current user is involved in the given project by
+  # either of these ways:
+  #
+  #   * user is an admin in this project
+  #   * user is a teammate
+  #   * user is a lead_editor
+  #   * user is a leader
+  #   * user is a coordinator
+  #
+  # Returns boolean value
+  def is_project_team_member?(project)
+    is_admin_for?(project) ||
+      project.team_memberships.exists?(team_member_id: id)
+  end
+
+  def is_task_team_member?(task)
     task_memberships = task.project.team.team_memberships
     task_memberships.collect(&:team_member_id).include? self.id
   end

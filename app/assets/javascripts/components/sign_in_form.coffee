@@ -30,6 +30,7 @@
               }
         dataType: 'JSON'
         success: () =>
+          sessionStorage.setItem('showMessageAfterSignedIn', true)
           window.location.replace window.location.origin + '/home'
         error: (response) =>
           @performNotSuccessResult response

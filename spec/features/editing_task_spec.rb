@@ -21,7 +21,7 @@ feature "Edit a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
 
           @pending_section = all(".trello-column")[1]
@@ -55,7 +55,7 @@ feature "Edit a Task", js: true do
                 @title = "new title"
                 @form.fill_in "task[title]", with: @title
 
-                @form.click_button "save"
+                @form.click_button "Save"
                 wait_for_ajax
               end
 
@@ -67,7 +67,7 @@ feature "Edit a Task", js: true do
                 before do
                   visit project_path(@project)
 
-                  find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+                  find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
                   wait_for_ajax
 
                   pending_section = all(".trello-column")[1]
@@ -101,7 +101,7 @@ feature "Edit a Task", js: true do
                 @condition = "new condition"
                 @form.fill_in "task[condition_of_execution]", with: @condition
 
-                @form.click_button "save"
+                @form.click_button "Save"
                 wait_for_ajax
               end
 
@@ -113,7 +113,7 @@ feature "Edit a Task", js: true do
                 before do
                   visit project_path(@project)
 
-                  find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+                  find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
                   wait_for_ajax
 
                   pending_section = all(".trello-column")[1]
@@ -147,7 +147,7 @@ feature "Edit a Task", js: true do
                 @proof = "new proof"
                 @form.fill_in "task[proof_of_execution]", with: @proof
 
-                @form.click_button "save"
+                @form.click_button "Save"
                 wait_for_ajax
               end
 
@@ -159,7 +159,7 @@ feature "Edit a Task", js: true do
                 before do
                   visit project_path(@project)
 
-                  find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+                  find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
                   wait_for_ajax
 
                   pending_section = all(".trello-column")[1]
@@ -193,7 +193,7 @@ feature "Edit a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
 
           @pending_section = all(".trello-column")[1]
@@ -227,7 +227,7 @@ feature "Edit a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
 
           @pending_section = all(".trello-column")[1]

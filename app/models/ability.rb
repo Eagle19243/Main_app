@@ -49,7 +49,7 @@ class Ability
   def initializeDoRequestsPermissions(user)
     if user
       can [:accept, :reject], DoRequest do |do_request|
-        can :manage_requests, do_request.project
+        can? :manage_requests, do_request.project
       end
     end
   end
@@ -124,6 +124,10 @@ class Ability
         !task.any_fundings? && can?(:update, task)
       end
 
+      can :accept, Task do |task|
+        (task.pending? || task.suggested_task?) && user.is_project_leader_or_coordinator?(task.project)
+      end
+
       can :reviewing, Task do |task|
         user.can_submit_task?(task)
       end
@@ -133,7 +137,7 @@ class Ability
       end
 
       can :doing, Task do |task|
-        task.accepted? && user.is_teammember_for?(task)
+        task.accepted? && user.is_task_team_member?(task)
       end
 
       can :create_task_comment, Task do

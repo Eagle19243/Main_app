@@ -12,7 +12,7 @@ xfeature 'Notification After rejected a task', js: true do
   context 'as project leader' do
     before do
       login_as(@project_leader, scope: :user, run_callbacks: false)
-      visit taskstab_project_path(@project, tab: 'Tasks')
+      visit taskstab_project_path(@project, tab: 'tasks')
     end
 
     context 'delete a task' do

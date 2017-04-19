@@ -11,7 +11,7 @@ class UserWalletTransactionsController < ApplicationController
 
     @message = "#{params[:amount]} BTC has been successfully sent to #{transfer.address_to}."
     redirect_to my_wallet_user_url(current_user), notice: @message
-  rescue Payments::BTC::Errors::TransferError => error
+  rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
     @message = UserErrorPresenter.new(error).message
     redirect_to my_wallet_user_url(current_user), alert: @message
@@ -42,7 +42,7 @@ class UserWalletTransactionsController < ApplicationController
       ).deliver_later if task.fully_funded?
     end
     render json: { success: "#{params[:amount]} BTC has been successfully sent to task's balance" }, status: 200
-  rescue Payments::BTC::Errors::TransferError => error
+  rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
     render json: { error: UserErrorPresenter.new(error).message }, status: 500
   end

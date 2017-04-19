@@ -272,7 +272,7 @@
 
 .project-tab-wrapper {
 
-  #Team {
+  .tabs-wrapper__team {
     padding: 20px;
     background-color: #fff;
     max-width: 1200px;
@@ -796,12 +796,13 @@
 }
 
 .section-add-task {
-  a {
+  button {
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.1em;
     color: #777;
     display: block;
     padding: 10px;
+    background: none;
 
     &:hover,
     &:focus {
@@ -815,7 +816,8 @@
 
   &:hover {
     background-color: #ddd;
-    a {
+    button {
+      background: none;
       color: #555;
     }
   }
@@ -913,6 +915,11 @@
         padding: 0 !important;
         text-align: left;
         line-height: 1em !important;
+      }
+      td {
+        &._hide {
+          display: none;
+        }
       }
       tr.value {
         td {

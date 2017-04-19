@@ -10,6 +10,14 @@ every 10.minutes do
   rake "weserve:update_wallets_balance"
 end
 
+every 10.minutes do
+  rake "weserve:check_reserve_wallet_balance"
+end
+
+every 1.day do
+  rake "weserve:update_tx_hash_for_transactions"
+end
+
 every 1.week do
   rake "weserve:update_wallets_receiver_address"
 end

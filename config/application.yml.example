@@ -1,3 +1,4 @@
+admin_notification_email:                       # Weserve email which is used to receive critical notifications
 coinbase_api_key:                               # specify coinbase api key
 coinbase_api_secret:                            # specify coinbase api secret
 mediawiki_secret:                               # local mediawiki installation secret

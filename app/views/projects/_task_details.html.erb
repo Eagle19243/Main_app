@@ -48,14 +48,13 @@
   <div class="modal-content modal-task__content">
     <button id="task-popup-close" type="button" class="modal-default__close"></button>
     <div class="task-details">
-        <div id="task-related-messages"></div>
         <div class="modal-task__title-wrap">
           <% if can?(:update, @task) %>
             <h2 class="modal-default__title js-toggleForm" id="task-title"><%= @task.title %></h2>
             <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "modal-task__form _hide"} do |f| %>
-              <%= f.text_field :title, id: "input-task-title" %>
-              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">save</button>
-              <button class="btn-root task-details__close-btn">cancel</button>
+              <%= f.text_field :title, id: "input-task-title", class: "_no-empty" %>
+              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">Save</button>
+              <button class="btn-root task-details__close-btn">Cancel</button>
             <% end %>
           <% else %>
             <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
@@ -72,9 +71,9 @@
                     <h4>Specifications</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
-                        <%= f.text_area :condition_of_execution, id: "input-task-condition" %>
-                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition">save</button>
-                        <button class="btn-root task-details__close-btn" id="cancel-condition">cancel</button>
+                        <%= f.text_area :condition_of_execution, id: "input-task-condition", class: "_no-empty" %>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition">Save</button>
+                        <button class="btn-root task-details__close-btn" id="cancel-condition">Cancel</button>
                     <% end %>
                   </div>
 
@@ -82,9 +81,9 @@
                     <h4>Proof of Execution</h4>
                     <p class="modal-task__task-info js-toggleForm" id="task-proof"><%= @task.proof_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "modal-task__form _hide"} do |f| %>
-                        <%= f.text_area :proof_of_execution, id: "input-task-proof" %>
-                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof">save</button>
-                        <button class="btn-root task-details__close-btn" id="cancel-proof">cancel</button>
+                        <%= f.text_area :proof_of_execution, id: "input-task-proof", class: "_no-empty" %>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof">Save</button>
+                        <button class="btn-root task-details__close-btn" id="cancel-proof">Cancel</button>
                     <% end %>
                     <hr>
                   </div>
@@ -154,10 +153,10 @@
                   <% if user_signed_in? %>
                     <% if @task.suggested_task? %>
                         <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
-                        <button type="button" title="FUND" class="btn-root _dark" data-modal="#suggested_task_model_for_fund">DO</button>
+                        <button type="button" title="FUND" class="btn-root _dark do-button" data-modal="#suggested_task_model_for_fund">DO</button>
                     <% elsif @task.accepted? %>
-                        <button type="button" title="FUND" class="btn-root" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
-                        <button type="button" title="DO" class="btn-root _dark _do-model-popup" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
+                        <button type="button" title="FUND" class="btn-root fund-button" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                        <button type="button" title="DO" class="btn-root _dark _do-popup-button do-button" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
                     <% end %>
                   <% end %>
 
@@ -174,10 +173,16 @@
                         <div class="modal-task__card-value _data">
                             <%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>
                         </div>
-                        <div class="modal-task__card-value _data">
+                        <div class="modal-task__card-value _data _raised _hide">
                             <%= satoshi_balance_in_btc(@task.current_fund) %>
                         </div>
-                        <div id="task-budget" class="modal-task__card-value _data _budget-id">
+                        <div class="modal-task__card-value _data _amount-left-btc">
+                            <%= satoshi_balance_in_btc(@task.funds_needed_to_fulfill_budget) %>
+                        </div>
+                        <div class="modal-task__card-value _data _amount-left-usd _hide">
+                            <%= satoshi_balance_in_usd(@task.funds_needed_to_fulfill_budget) %>
+                        </div>
+                        <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
                             <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
 
                             <% if can? :update_budget, @task %>
@@ -188,7 +193,9 @@
                     <div class="modal-task__card-titles">
                         <div class="modal-task__card-value">Funded</div>
                         <div class="modal-task__card-value">Teammates</div>
-                        <div class="modal-task__card-value">Raised</div>
+                        <div class="modal-task__card-value _hide">Raised</div>
+                        <div class="modal-task__card-value">Left</div>
+                        <div class="modal-task__card-value _hide">Left, USD</div>
                         <div class="modal-task__card-value">Budget</div>
                     </div>
                     <div class="modal-task__card-estimation">
@@ -245,7 +252,7 @@
             <hr>
 
                 <div class="approve-block mb20">
-                  <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
+                  <% if can? :accept, @task %>
                       <a href="javascript:void(0)" class="approve-link mb10" id="approveTaskPopover" tabindex="0" data-trigger="focus" data-placement="top">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                         Approve
@@ -264,6 +271,7 @@
                 <div class="button-group">
                   <div class="btn-left">
                     <% if user_signed_in? && (can? :create_or_destory_task_attachment, @task) %>
+                        <div id="task-related-messages" class="modal-task__attachment-error"></div>
                         <%= form_for @task_attachment, :url => url_for(:controller => 'task_attachments', :action => 'create'), :remote => true, html: {multipart: true} do |f| %>
                             <%= f.hidden_field :task_id, :value => @task.id %>
                             <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
@@ -369,7 +377,7 @@
                     <% if team_membership.team_member.picture? %>
                         <%= image_tag(team_membership.team_member.picture, size: "35x35") %>
                     <% else %>
-                        <%= gravatar_for(team_membership.team_member, 35) %>
+                        <%= gravatar_for_user(team_membership.team_member, 35) %>
                     <% end %>
                     <%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %>
                   </div>
@@ -410,9 +418,8 @@
 
     <span class="modal-invite__or">OR</span>
     <div class="modal-default__text" id="response"></div>
-
     <%= form_tag(tasks_send_email_path, remote: true, id: 'send-task-email', :class => 'invite-email-wrapper mb30') do %>
-        <input type="hidden" name="project_id" value="<%= @task.id rescue nil %>">
+        <input type="hidden" name="task_id" value="<%= @task.id rescue nil %>">
         <div class="f-default__joined">
             <div class="f-default__joined-col _wide">
               <% session[:idd] = @task.id %>
@@ -444,7 +451,7 @@
   </div>
 </div>
 
-    <% if user_signed_in? && (current_user.id == @task.project.user_id && @task.suggested_task?) %>
+    <% if can? :accept, @task %>
 
         <div id="approveTaskPopoverTitle" class="hidden">
           <b>Are you sure?</b>
@@ -492,7 +499,7 @@
 
         $(document)
             .on('click.hideEditIcon', '.page-wrapper', function(e) {
-                if (!$(e.target).parent().hasClass('_budget-id')) {
+                if (!$(e.target).parent().hasClass('_budget')) {
                     $(this).find('.btn-edit').show();
                 }
             })
@@ -505,6 +512,42 @@
             .on('click.preventSavingForm', '.task-details__close-btn', function(event) {
                 event.preventDefault();
             })
+            .on('input.preventSavingEmptyData', '._no-empty', function() {
+                var $this = $(this),
+                    $saveBtn = $this.parent().find('.task-details__save-btn');
 
+                if ($this.val().trim()) {
+                    $saveBtn.removeClass('_disable');
+                } else {
+                    $saveBtn.addClass('_disable');
+                }
+
+            })
+            .on('click.saveDiffInBudget', '.modal-task__controls-side .fund-button', function() {
+                var $this = $(this),
+                    $card = $this.parent(),
+                    amountLeftBTC = parseFloat($card.find('._amount-left-btc').text(), 10),
+                    amountLeftUSD = parseFloat($card.find('._amount-left-usd').text(), 10);
+
+                $('.modal-fund__needed._btc').text('[BTC needed ' + amountLeftBTC.toFixed(3).toString() + ']');
+                $('.modal-fund__needed._usd').text('[$ needed ' + amountLeftUSD.toFixed(3).toString() + ']');
+            })
+            .on('click.saveDataForDoModal', '.do-button', function() {
+                var $this = $(this),
+                    projectTitle = $('.project-title').text(),
+                    $card = $this.closest('.card-wrapper'),
+                    taskTitle = $('#task-title').text(),
+                    taskDescription = '<%= @task.description %>'
+
+                if (!taskDescription) {
+                    $('.modal-do-task__row._description').hide();
+                } else {
+                    $('.modal-do-task__row._description').show();
+                }
+
+                $('.modal-do-task__project').text(projectTitle);
+                $('.modal-do-task__task').text(taskTitle);
+                $('.modal-do-task__description').text(taskDescription);
+            })
     })
 </script>

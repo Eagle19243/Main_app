@@ -7,7 +7,7 @@
               <% if message.user.picture? %>
                   <%= image_tag(message.user.picture) %>
               <% else %>
-                  <%= gravatar_for(message.user, 35) %>
+                  <%= gravatar_for_user(message.user, 35) %>
               <% end %>
             </a>
           </div>

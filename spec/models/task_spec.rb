@@ -56,4 +56,31 @@ RSpec.describe Task, :type => :model do
       expect(task.wallet).to be_present
     end
   end
+
+  describe '#funds_needed_to_fulfill_budget' do
+    it "returns budget if there is no any funding" do
+      task = create(:task, budget: 0.012)
+      expect(task.funds_needed_to_fulfill_budget).to eq(1_200_000)
+    end
+
+    it "returns difference between budget and current_fund" do
+      task = create(:task, budget: 0.012, current_fund: 550_000)
+      expect(task.funds_needed_to_fulfill_budget).to eq(650_000)
+    end
+
+    it "returns zero if task 100% funded" do
+      task = create(:task, budget: 0.012, current_fund: 1_200_000)
+      expect(task.funds_needed_to_fulfill_budget).to eq(0)
+    end
+
+    it "returns zero if task funded for the more than 100%" do
+      task = create(:task, budget: 0.012, current_fund: 2_200_000)
+      expect(task.funds_needed_to_fulfill_budget).to eq(0)
+    end
+
+    it "returns zero if task is already completed" do
+      task = create(:task, :completed, budget: 0.012, current_fund: 0)
+      expect(task.funds_needed_to_fulfill_budget).to eq(0)
+    end
+  end
 end

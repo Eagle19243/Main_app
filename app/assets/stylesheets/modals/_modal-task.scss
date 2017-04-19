@@ -90,6 +90,13 @@
     flex-shrink: 0;
   }
 
+  .task-details__save-btn {
+    &._disable {
+      opacity: .6;
+      pointer-events: none;
+    }
+  }
+
 
   &__title-wrap {
     position: relative;
@@ -104,6 +111,17 @@
     line-height: 1.5;
     &._hide {
       display: none;
+    }
+  }
+
+  &__attachment-error {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    &._error {
+      color: red
+    }
+    &._success {
+      color: green
     }
   }
 
@@ -213,6 +231,9 @@
           &-amount {
             text-align: center;
           }
+        }
+        ._hide {
+          display: none;
         }
       }
     }

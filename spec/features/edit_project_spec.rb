@@ -24,7 +24,7 @@ feature 'Edit project text', js: true do
       expect(page).to have_selector("#editSource")
       find('#projectInviteModal .modal-default__close').trigger('click')
       wait_for_ajax
-      click_pseudo_link 'Revisions'
+      click_pseudo_link 'Review contributions'
       wait_for_ajax
       expect(page).to have_selector('.revision-histories-body')
       expect(page).to have_selector('.revisions-compare-edit-link')

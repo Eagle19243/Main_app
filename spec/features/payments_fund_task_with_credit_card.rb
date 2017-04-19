@@ -17,7 +17,7 @@ feature "Project Page Plan Tab", js: true do
       before do
         visit project_path(@project)
         click_link("Tasks")
-        @task_area = find("#Tasks")
+        @task_area = find(".tabs-wrapper__tasks")
       end
 
       scenario "Then you can see 'Fund' button on the task tab" do

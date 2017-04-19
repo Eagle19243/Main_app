@@ -1,4 +1,4 @@
-$('#Plan').hide();
+$('.tabs-wrapper__plan').hide();
 $('#sourceEditor').show();
 $("#sourceEditor #editorContents").html("<%= escape_javascript(render partial: 'textarea_editor', locals: {contents: @contents}) %>");
 <% if @revision_id %>

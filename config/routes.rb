@@ -6,7 +6,11 @@ Rails.application.routes.draw do
       username == ENV['delayed_job_username'] && password == ENV['delayed_job_password']
     end
   end
-  
+
+  if Rails.env.development?
+    mount MailPreview => 'mail_view'
+  end
+
   resources :group_messages, only: [:index, :create]
   post 'group_messages/get_chatroom'
   post 'group_messages/refresh_chatroom_messages'

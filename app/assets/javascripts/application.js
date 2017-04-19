@@ -98,10 +98,10 @@ var TabsModule = (function () {
                 UrlModule.setTab(tab);
                 $document.find('.tabcontent').hide();
                 $document.find('.m-tabs__link').removeClass('active');
-                document.getElementById(tab).style.display = "block";
+                $('.tabs-wrapper__' + tab).show();
                 $that.addClass('active');
                 $('#sourceEditor').hide();
-                tab === "Team" ? $('.get-invo-btn').show() : $('.get-invo-btn').hide();
+                tab === "team" ? $('.get-invo-btn').show() : $('.get-invo-btn').hide();
                 paramsArr.map(function (item) {
                     if (item.indexOf('taskId=') === 0) {
                         taskId = item.split('=')[1];
@@ -112,7 +112,7 @@ var TabsModule = (function () {
                     $('#welcomeToTeamModal').fadeOut(300);
                     setTimeout(function () {
                         $html.removeClass('_open-modal');
-                        if ($that.data('tab') === 'Tasks') {
+                        if ($that.data('tab') === 'tasks') {
                             $('#tab-tasks').addClass('active');
                         } else {
                             $('#tab-plan').addClass('active');
@@ -237,6 +237,37 @@ var ModalsModule = (function () {
     };
 })();
 
+var ProjectAndTaskSearchModule = (function() {
+    function bindEvents($document) {
+        $document
+            .on('input.userSearch', '#userSearchTasksAndProject', $.debounce(250, function () {
+                var $this = $('#userSearchTasksAndProject'),
+                    searchValue = $this.val(),
+                    $searchResultsList = $('.search-result__list');
+
+                $.ajax({
+                    url: '/projects/autocomplete_user_search?term=' + searchValue,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var results = '';
+
+                        response.forEach(function(item) {
+                            results += '<li class="search-result__item"><a href="' + item.path + '">' + item.title + '</a></li>';
+                        });
+                        $searchResultsList.html(results);
+                    }
+                })
+            }))
+    }
+
+    return {
+        init: function($document) {
+            bindEvents($document);
+        }
+    }
+})();
+
 var UrlModule = (function () {
 
     var paramsArr, taskId, isAlreadyCheckedTaskModal, isAlreadyCheckedTab, tab, isCardClicked;
@@ -296,7 +327,7 @@ var UrlModule = (function () {
                 break;
             }
         }
-        if (!tab) $('[data-tab="Plan"]').trigger('click');
+        if (!tab) $('[data-tab="plan"]').trigger('click');
         isAlreadyCheckedTab = true;
     }
 
@@ -338,6 +369,7 @@ var UrlModule = (function () {
 $document.ready(function() {
     $(".best_in_place").best_in_place();
 
+    ProjectAndTaskSearchModule.init($document);
     DateTimePickerModule.init($document);
     UrlModule.init($document);
     ModalsModule.init($document);

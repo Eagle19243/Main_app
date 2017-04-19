@@ -4,15 +4,26 @@ module Payments::BTC
   # Service applies more strict validation rules and then calls
   # +Payments::BTC::FundBtcAddress+ to initiate a transfer.
   class FundTask
-    MIN_AMOUNT = Task::MINIMUM_DONATION_SIZE
+    MIN_AMOUNT = Task::MINIMUM_DONATION_SIZE # in satoshi
 
     attr_reader :amount, :task, :user, :transfer
 
+    # Initialize +FundTask+ service which transfers coins from a user to a task
+    #
+    # Arguments:
+    #
+    #   * amount - value to send (in satoshi)
+    #   * task   - task to send coins to
+    #   * user   - user to charge coins from
     def initialize(amount:, task:, user:)
       raise Payments::BTC::Errors::TransferError, "Task argument is invalid" unless task.is_a?(Task)
       raise Payments::BTC::Errors::TransferError, "User argument is invalid" unless user.is_a?(User)
       raise Payments::BTC::Errors::TransferError, "User's wallet doesn't exist" unless user.wallet
-      raise Payments::BTC::Errors::TransferError, "Amount can't be less than minimum allowed size" unless amount >= MIN_AMOUNT
+
+      unless amount >= MIN_AMOUNT
+        raise Payments::BTC::Errors::TransferError,
+          "Amount can't be less than minimum allowed size (#{min_amount_in_btc} BTC)"
+      end
 
       unless task.wallet
         Payments::BTC::CreateWalletService.call("Task", task.id)
@@ -36,6 +47,10 @@ module Payments::BTC
     end
 
     private
+    def min_amount_in_btc
+      Payments::BTC::Converter.convert_satoshi_to_btc(MIN_AMOUNT)
+    end
+
     def create_user_wallet_transaction(transaction)
       UserWalletTransaction.create!(
         amount: amount,

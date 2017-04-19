@@ -11,7 +11,13 @@
             <div class="f-default__row">
               <%= form_tag("/user_wallet_transactions/send_to_task_address", method: "post", remote: true , class: 'f-default f-donate') do %>
                 <input type="hidden" id="wallet_transaction_task_id" name="task_id"  required class="form-control"/>
-                <label class="f-default__label" for="wallet_transaction_amount">Enter <span class="js-current-currency">USD</span> Amount to Send <span <span class="modal-fund__error _wallet">(BTC amount is bigger than wallet balance)</span></label>
+                <label class="f-default__label" for="wallet_transaction_amount">
+                    Enter
+                    <span class="js-current-currency">USD</span>
+                    Amount to Send
+                    <span class="modal-fund__needed _btc"></span>
+                    <span class="modal-fund__needed _usd _active"></span>
+                    </label>
                 <input type="number" step="0.001" min="<%= min_fund_budget_in_btc %>" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field modal-fund__input" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
               <% end %>
@@ -43,7 +49,7 @@
                     <% if current_user.picture? %>
                         <%= image_tag(current_user.picture, class: "modal-fund__avatar") %>
                     <% else %>
-                        <%= gravatar_for_fund(current_user, 44) %>
+                        <%= gravatar_for_user(current_user, 44) %>
                     <% end %>
                     <div class="modal-fund__field-wrap">
                       <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
@@ -174,6 +180,15 @@
 
           $that.addClass('_active').siblings().removeClass('_active');
           donationObj.isUSD = index === 1;
+
+          if (donationObj.isUSD) {
+            $('.modal-fund__needed._usd').addClass('_active');
+            $('.modal-fund__needed._btc').removeClass('_active');
+          } else {
+            $('.modal-fund__needed._usd').removeClass('_active');
+            $('.modal-fund__needed._btc').addClass('_active');
+          }
+
           $currentCurrency.text(getCurrency());
           $walletTransactionAmount.trigger('keyup');
 
@@ -262,14 +277,14 @@
             $walletTransactionAmount.val('');
             $('.btn-root._donate').addClass('_disable');
             $errorFundModal.find('.error-fund-modal__message').text(response.success);
-            $errorFundModal.find('.error-fund-modal__title').text('Success!');
+            $errorFundModal.find('.error-fund-modal__title').removeClass('_error').addClass('_success').text('Success!');
             showFundModal();
         }
 
         function handleError(response) {
             $('.btn-root._donate').removeClass('_disable');
             $errorFundModal.find('.error-fund-modal__message').text(response.responseJSON.error);
-            $errorFundModal.find('.error-fund-modal__title').text('Error');
+            $errorFundModal.find('.error-fund-modal__title').removeClass('_success').addClass('_error').text('Error');
             showFundModal();
         }
 

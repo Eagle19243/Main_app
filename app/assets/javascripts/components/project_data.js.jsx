@@ -1,6 +1,6 @@
 var data = [
     { id: '1', title: 'Description'},
-    { id: '2', title: 'Tasks' },
+    { id: '2', title: 'tasks' },
     { id: '3', title: 'NewsFeed' },
     { id: '4', title: 'Publish' }
 ]

@@ -73,23 +73,23 @@
         <div class="col-lg-12 col-md-12 col-sm-12 tabs-menu__inner">
           <ul class="nav nav-pills nav-left m-tabs">
             <li>
-              <%= link_to plan_project_path(id: @project.id), data: {tab: 'Plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
+              <%= link_to plan_project_path(id: @project.id), data: {tab: 'plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
                 Plan
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'Tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
+              <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
                   Tasks<span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_teams_path(id: @project.id), data: {tab: 'Team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+              <%= link_to projects_show_all_teams_path(id: @project.id), data: {tab: 'team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
                   Team<span class="count"><%= @team_memberships_count %></span>
               <% end %>
             </li>
             <% if can? :manage_requests, @project %>
               <li>
-                <%= link_to requests_project_path(@project), data: {tab: 'Requests'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+                <%= link_to requests_project_path(@project), data: {tab: 'requests'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
                     Requests<span class="count"><%= @requests_count %></span>
                 <% end %>
               </li>
@@ -117,23 +117,29 @@
       </div>
 
       <div class="tabs-wrapper">
-        <div id="Plan" class="tabcontent">
+        <div class="tabs-wrapper__plan tabcontent">
           <%= render partial: 'projects/tabcontent/plan', locals: {project: @project, is_blocked: @is_blocked, mediawiki_api_base_url: @mediawiki_api_base_url, contents: @contents, sourcing_tasks: @sourcing_tasks, tasks_count: @tasks_count, apply_requests: @apply_requests} %>
         </div>
 
-        <div id="Tasks" class="tabcontent">
+        <div class="tabs-wrapper__tasks tabcontent">
           <div class="center">
             <%= image_tag("loading.gif", :alt => "rss feed") %>
           </div>
         </div>
 
 
-        <div id="Team" class="tabcontent">
+        <div class="tabs-wrapper__team tabcontent">
           <div clas="row">
               <div class="team-tab__title">
                   Below are the existing teammates for this project. You may choose to join this team below.
                   <a href="<%= t('commons.faq_landing_link') %>">FAQs</a>
+                  <% if @project.followers.any? %>
+                    <span class="follower-badge right">
+                      <%= pluralize(@project.followers.size, 'follower') %>
+                    </span>
+                  <% end %>
               </div>
+
           </div>
           <div class="team-content">
               <div class="center">
@@ -142,7 +148,7 @@
           </div>
         </div>
 
-        <div id="Requests" class="tabcontent"></div>
+        <div class="tabs-wrapper__requests tabcontent"></div>
       </div>
     </div>
   </div>
@@ -231,7 +237,7 @@
     });
   });
 
-  $('._do-model-popup').on('click', function () {
+  $('._do-popup-button').on('click', function () {
     $('#task-do-request-popup').val($(this).attr('id'));
   });
 
@@ -295,7 +301,7 @@
   // });
 
   function populateModalRevisionInfo(revision_id, selector) {
-    var revisionTr = $('#Plan tr[data-revision="' + revision_id + '"]');
+    var revisionTr = $('.tabs-wrapper__plan tr[data-revision="' + revision_id + '"]');
     var rDate = $(revisionTr).data('revision-date');
     var rUser = $(revisionTr).data('revision-user');
     var rUserPic = $(revisionTr).data('revision-user-picture');

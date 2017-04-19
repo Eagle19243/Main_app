@@ -2,7 +2,10 @@ $("#task-related-messages").html("");
 $("#task-related-messages").html("<%= escape_javascript(@notice) %>");
 
 <% if @task_attachment.persisted? %>
+    $("#task-related-messages").removeClass('_error').addClass('_success');
     $("#task-attachments-div").append("<%= escape_javascript(render :partial => 'upload_task_attachement') %>");
+<% else %>
+    $("#task-related-messages").removeClass('_success').addClass('_error');
 <% end %>
 
 $("#task-related-messages").addClass("task-messages");

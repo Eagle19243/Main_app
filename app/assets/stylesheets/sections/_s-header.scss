@@ -95,7 +95,39 @@
       margin-left: 14px;
     }
 
+    .search-result {
+      &__wrapper {
+        width: 100%;
+        position: absolute;
+      }
+      &__list {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        &:empty {
+          display: none;
+        }
+      }
+      &__item {
+        a {
+          display: inline-block;
+          width: 100%;
+          background-color: #fff;
+          padding: 2px 0 2px 20px;
+          font-family: 'Roboto', sans-serif;
+          color: #555;
+          font-size: 14px;
+          &:hover {
+            background-color: lightgrey;
+          }
+        }
+      }
+    }
     .search-box-wrapper {
+      position: relative;
       margin: 0 10px;
       padding: 0;
 

@@ -5,6 +5,7 @@
 - PostgreSQL
 - NodeJS 4.x
 - [Mediawiki](https://mediawiki.org) 1.25+
+
 # Components
 
 Main application is a RoR website, but it depends on set of 3rd paty tools:

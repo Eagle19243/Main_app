@@ -34,6 +34,7 @@ RSpec.describe UserWalletTransactionsController do
     describe '#send_to_task_address' do
       let(:project) { FactoryGirl.create(:project) }
       let(:task) { FactoryGirl.create(:task, :with_wallet, project: project) }
+      let(:min_amount_in_btc) { Payments::BTC::Converter.convert_satoshi_to_btc(Payments::BTC::FundTask::MIN_AMOUNT) }
 
       context 'tranfer error' do
         it do
@@ -50,6 +51,21 @@ RSpec.describe UserWalletTransactionsController do
         end
       end
 
+      context 'tranfer general error' do
+        it do
+          allow_any_instance_of(
+            Payments::BTC::FundTask
+          ).to receive(:submit!) { raise Payments::BTC::Errors::GeneralError, 'Coinbase API error' }
+
+          post :send_to_task_address, amount: 20, task_id: task.id, format: 'json'
+
+          aggregate_failures("json is correct") do
+            expect(response.status).to eq(500)
+            expect(response.body).to include_json(error: 'There is a temporary problem connecting to payment service. Please try again later')
+          end
+        end
+      end
+
       context 'satoshi_amount' do
         context 'blank' do
           it do
@@ -58,7 +74,7 @@ RSpec.describe UserWalletTransactionsController do
             aggregate_failures("json is correct") do
               expect(response.status).to eq(500)
               expect(response.body).to include_json(
-                error: "Amount can't be less than minimum allowed size"
+                error: "Amount can't be less than minimum allowed size (#{min_amount_in_btc} BTC)"
               )
             end
           end
@@ -71,7 +87,7 @@ RSpec.describe UserWalletTransactionsController do
             aggregate_failures("json is correct") do
               expect(response.status).to eq(500)
               expect(response.body).to include_json(
-                error: "Amount can't be less than minimum allowed size"
+                error: "Amount can't be less than minimum allowed size (#{min_amount_in_btc} BTC)"
               )
             end
           end
@@ -151,6 +167,20 @@ RSpec.describe UserWalletTransactionsController do
 
           expect(response).to redirect_to(redirect_url)
           expect(message).to include('Some Error')
+        end
+      end
+
+      context 'tranfer error' do
+        it do
+          allow_any_instance_of(
+            Payments::BTC::FundBtcAddress
+          ).to receive(:submit!) { raise Payments::BTC::Errors::GeneralError, 'Coinbase API error' }
+
+          post :send_to_any_address, amount: 20, wallet_transaction_user_wallet: 'user_wallet'
+          message = assigns(:message)
+
+          expect(response).to redirect_to(redirect_url)
+          expect(message).to include('There is a temporary problem connecting to payment service. Please try again later')
         end
       end
 

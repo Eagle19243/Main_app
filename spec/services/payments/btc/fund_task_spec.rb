@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Payments::BTC::FundTask do
   let(:task) { FactoryGirl.create(:task, :with_associations) }
   let(:amount) { described_class::MIN_AMOUNT }
+  let(:min_amount_in_btc) { Payments::BTC::Converter.convert_satoshi_to_btc(amount) }
   let(:user) { User.find(task.user_id) }
   let!(:wallet) { create(:wallet, wallet_id: "30a21ed2-4f04-57ae-9d21-becb751138f4", wallet_owner_id: user.id, wallet_owner_type: 'User') }
 
@@ -52,7 +53,7 @@ RSpec.describe Payments::BTC::FundTask do
           described_class.new(amount: invalid_amount, task: task, user: user)
         }.to raise_error(
           Payments::BTC::Errors::TransferError,
-          "Amount can't be less than minimum allowed size"
+          "Amount can't be less than minimum allowed size (#{min_amount_in_btc} BTC)"
         )
       end
     end

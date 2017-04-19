@@ -66,7 +66,7 @@ var Tabs = React.createClass({
                                 </div>
                             )
                         }
-                        else if (tab.title === 'Tasks'){
+                        else if (tab.title === 'tasks'){
                             return (
                                 <div className={'content ' + activeClass + ' center'} key={tab.id} >
                                     <span>Task Panel will Be Displayed Here.</span>

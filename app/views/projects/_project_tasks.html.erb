@@ -22,7 +22,9 @@
       <% if current_user %>
         <% unless current_user.is_project_leader_or_coordinator?(@project) %>
           <div class="section-add-task">
-              <a id="suggest-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task</a>
+            <button id="suggest-new-task" type="button" title="FUND" data-modal="#newTaskModal">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Suggest a Task
+            </button>
           </div>
         <% end %>
       <% else %>
@@ -50,13 +52,13 @@
 
                     <% if user_signed_in? %>
                       <div class="fund-do-btns">
-                        <button type="button" title="FUND" class='btn-root' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
-                        <button type="button" title="DO" class='btn-root _dark _do-model-popup' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
+                        <button type="button" title="FUND" class='btn-root fund-button' onclick="fundPopup(<%= task.id %>)" id="<%= task.id %>" data-modal="#taskFundModal">FUND</button>
+                        <button type="button" title="DO" class='btn-root _dark _do-popup-button do-button' id="<%= task.id %>" onclick="doPopup(<%= task.id %>)" data-modal="#taskDoModal">DO</button>
                       </div>
                     <% else %>
                       <div class="fund-do-btns">
                         <button type="button" title="FUND" class='btn-root sign_in_a' data-modal="#registerModal">FUND</button>
-                        <button type="button" title="DO" class='btn-root _dark _do-model-popup sign_in_a' data-modal="#registerModal">DO</button>
+                        <button type="button" title="DO" class='btn-root _dark _do-popup-button sign_in_a' data-modal="#registerModal">DO</button>
                       </div>
                     <% end %>
                   </div>
@@ -68,7 +70,9 @@
       <% if user_signed_in? %>
         <% if current_user.is_project_leader?(@project) || current_user.is_coordinator_for?(@project) %>
             <div class="section-add-task">
-              <a id="add-new-task"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task</a>
+                <button id="add-new-task" type="button" title="FUND" data-modal="#newTaskModal">
+                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add a Task
+                </button>
             </div>
         <% end %>
       <% end %>
@@ -148,12 +152,10 @@
 
 <script type="text/javascript">
   $("#suggest-new-task").click(function() {
-    $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('suggested_task');
   });
 
   $("#add-new-task").click(function() {
-    $("#newTaskModal").modal('show');
     $("#newTaskModal #task_state").val('accepted');
   });
 </script>
@@ -183,5 +185,31 @@
         })
         .on('click.declineRemoveTask', '#removeTask ._decline', function () {
             $modalRemoveTask.trigger('click');
+        })
+        .on('click.saveDiffInBudget', '.fund-do-btns .fund-button', function() {
+            var $this = $(this),
+                $card = $this.closest('.card-wrapper'),
+                amountLeftBTC = parseFloat($card.find('._amount-left-btc').text(), 10),
+                amountLeftUSD = parseFloat($card.find('._amount-left-usd').text(), 10);
+
+            $('.modal-fund__needed._btc').text('[BTC needed ' + amountLeftBTC.toFixed(3).toString() + ']');
+            $('.modal-fund__needed._usd').text('[$ needed ' + amountLeftUSD.toFixed(3).toString() + ']');
+        })
+        .on('click.saveDataForDoModal', '.do-button', function() {
+            var $this = $(this),
+                projectTitle = $('.project-title').text(),
+                $card = $this.closest('.card-wrapper'),
+                taskTitle = $card.find('.card-title h5').text(),
+                taskDescription = $card.find('.card-title p').text();
+
+            if (!taskDescription) {
+                $('.modal-do-task__row._description').hide();
+            } else {
+                $('.modal-do-task__row._description').show();
+            }
+
+            $('.modal-do-task__project').text(projectTitle);
+            $('.modal-do-task__task').text(taskTitle);
+            $('.modal-do-task__description').text(taskDescription);
         })
 </script>

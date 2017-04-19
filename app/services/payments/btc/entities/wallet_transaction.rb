@@ -21,6 +21,14 @@ module Payments::BTC
       def outgoing?
         !incoming?
       end
+
+      def pending?
+        !completed?
+      end
+
+      def completed?
+        status == "completed"
+      end
     end
   end
 end

@@ -9,6 +9,7 @@
       <div class="t-transactions__row _head">
         <div class="t-transactions__th">Date</div>
         <div class="t-transactions__th">Description</div>
+        <div class="t-transactions__th">Status</div>
         <div class="t-transactions__th">Amount</div>
       </div>
 
@@ -37,6 +38,9 @@
                 </div>
               <% end %>
 
+              <div class="t-transactions__td _tar">
+                <%= transaction.status %>
+              </div>
               <div class="t-transactions__td _tar">
                 <div class="t-transactions__expense"><%= satoshi_balance_in_btc(transaction.amount) %></div>
                 <div class="t-transactions__value">$ <%= satoshi_balance_in_usd(transaction.amount) %></div>

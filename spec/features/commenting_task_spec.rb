@@ -4,7 +4,7 @@ shared_examples "existing comment after page reload" do
   before do
     visit project_path(@project)
 
-    find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+    find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
     wait_for_ajax
 
     funding_section = all(".trello-column .pr-card")[0]
@@ -48,7 +48,7 @@ feature "Create a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
 
           @funding_section = all(".trello-column .pr-card")[0]
@@ -151,7 +151,7 @@ feature "Create a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
 
           @pending_section = all(".trello-column .pr-card")[0]
@@ -189,7 +189,7 @@ feature "Create a Task", js: true do
 
       context "When you click 'Task' button" do
         before do
-          find("ul.m-tabs li a[data-tab='Tasks']").trigger("click")
+          find("ul.m-tabs li a[data-tab='tasks']").trigger("click")
           wait_for_ajax
 
           @pending_section = all(".trello-column")[1]
