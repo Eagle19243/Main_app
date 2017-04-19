@@ -5,8 +5,8 @@
   </head>
   <body>
     <p>
-      <bold><%= @user_name %> Invited You for </bold>
-      <a href="<%=task_path(@task.id)  %>"> <%= @task.title %> </a>
+      <bold><%= @user_name %> invited you for to a task </bold>
+      <a href="<%=task_path(id: @task.id, taskId: @task.id, tab: 'tasks' )  %>"> <%= @task.title %> </a>
     </p>
   </body>
 </html>

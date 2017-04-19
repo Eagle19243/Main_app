@@ -5,8 +5,8 @@
   </head>
   <body>
     <p>
-      <bold><%= @user_name %> Invited You To, </bold>
-      <a href= <%= @orignal_url.concat("/projects/#{@URL}/taskstab")%>> <%= @title %> </a>
+      <bold><%= @user_name %> invited you to a project </bold>
+      <a href=<%= project_path(id: @project.id) %>> <%= @project.title %> </a>
     </p>
   </body>
 </html>
