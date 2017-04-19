@@ -28,4 +28,12 @@ namespace :weserve do
     updater = Payments::BTC::BulkUpdater.new
     updater.update_all_wallets_receiver_address!
   end
+
+  desc 'Checks reserve wallet balance and norifies admin in case balance is too low'
+  task check_reserve_wallet_balance: :environment do
+    if ENV['reserve_wallet_id'].present?
+      reerve_wallet_balance  = Payments::BTC::WalletHandler.new.get_wallet_balance(ENV['reserve_wallet_id'])
+      ApplicationMailer.reserve_wallet_low_balance(reerve_wallet_balance).deliver_later if reerve_wallet_balance <= 50_000_000
+    end
+  end
 end

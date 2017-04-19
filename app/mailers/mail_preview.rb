@@ -1,5 +1,9 @@
 class MailPreview < MailView
 
+  def reserve_wallet_low_balance
+    ApplicationMailer.reserve_wallet_low_balance(50_000_000)
+  end
+
   def task_share_email
     email = 'new_user@test.com'
     user_name = 'inviting_user'
