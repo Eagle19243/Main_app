@@ -1,24 +1,27 @@
 module Payments::BTC
   class FundTaskFromReserveWallet
-    attr_reader :task, :user, :usd_amount, :satoshi_amount,
+    attr_reader :task, :user, :usd_amount, :usd_commission_amount,
+                :usd_amount_to_send, :satoshi_amount,
                 :stripe_token, :card_id, :save_card,
                 :reserve_wallet_id, :skip_wallet_transaction
 
-    MIN_AMOUNT = Task::MINIMUM_DONATION_SIZE
+    MIN_AMOUNT = 15.0 # USD
 
     def initialize(task:, user:, usd_amount:, stripe_token:, card_id:, save_card:)
       @task = task
       @user = user
       @usd_amount = usd_amount
-      @satoshi_amount = calculate_satoshi_amount(usd_amount)
       @stripe_token = stripe_token
       @card_id = card_id
       @save_card = save_card
-
       @skip_wallet_transaction    = ENV['skip_wallet_transaction'].to_s.strip
       @reserve_wallet_id          = ENV['reserve_wallet_id'].to_s.strip
 
       validate_params!
+
+      @usd_commission_amount = calculate_commission_amount(usd_amount)
+      @usd_amount_to_send = usd_amount - usd_commission_amount
+      @satoshi_amount = calculate_satoshi_amount(usd_amount_to_send)
     end
 
     def submit!
@@ -48,8 +51,9 @@ module Payments::BTC
     def validate_params!
       raise Payments::BTC::Errors::TransferError, "Environment configuration is incorrect. Please check ENV variables" if disabled_wallet_transactions? && reserve_wallet_id.present?
       raise Payments::BTC::Errors::TransferError, "Environment configuration is incorrect. Please check ENV variables" if enabled_wallet_transactions? && reserve_wallet_id.blank?
-      raise Payments::BTC::Errors::TransferError, "Amount can't be blank" unless satoshi_amount > 0
-      raise Payments::BTC::Errors::TransferError, "Amount can't be less than minimum donation" unless satoshi_amount >= MIN_AMOUNT
+      raise Payments::BTC::Errors::TransferError, "Amount type is incorrect" unless usd_amount.is_a?(Numeric)
+      raise Payments::BTC::Errors::TransferError, "Amount can't be blank" unless usd_amount > 0
+      raise Payments::BTC::Errors::TransferError, "Amount can't be less than minimum donation ($#{MIN_AMOUNT})" unless usd_amount >= MIN_AMOUNT
     end
 
     def stripe_service
@@ -85,6 +89,10 @@ module Payments::BTC
 
     def calculate_satoshi_amount(usd_amount)
       Payments::BTC::Converter.convert_usd_to_satoshi(usd_amount)
+    end
+
+    def calculate_commission_amount(usd_amount)
+      Payments::BTC::CommissionCalculator.new(usd_amount).commission_in_usd
     end
 
     def btc_transfer

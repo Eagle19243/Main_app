@@ -1,6 +1,24 @@
 require 'rails_helper'
 
 RSpec.shared_examples "validating amount" do
+  let(:min_amount) { Payments::BTC::FundTaskFromReserveWallet::MIN_AMOUNT }
+
+  it "raise an error when amount is not a number" do
+    expect {
+      described_class.new(
+        task: task,
+        user: user,
+        usd_amount: "50.00",
+        stripe_token: stripe_token,
+        card_id: card_id,
+        save_card: save_card
+      )
+    }.to raise_error(
+      Payments::BTC::Errors::TransferError,
+      "Amount type is incorrect"
+    )
+  end
+
   it "raise an error when amount is 0" do
     expect {
       described_class.new(
@@ -18,18 +36,20 @@ RSpec.shared_examples "validating amount" do
   end
 
   it "raise an error when amount is less than min donation size" do
+    invalid_amount = min_amount - 0.1
+
     expect {
       described_class.new(
         task: task,
         user: user,
-        usd_amount: 5,
+        usd_amount: invalid_amount,
         stripe_token: stripe_token,
         card_id: card_id,
         save_card: save_card
       )
     }.to raise_error(
       Payments::BTC::Errors::TransferError,
-      "Amount can't be less than minimum donation"
+      "Amount can't be less than minimum donation ($#{min_amount})"
     )
   end
 end
@@ -38,7 +58,7 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:task) { FactoryGirl.create(:task, :with_associations) }
   let(:user) { FactoryGirl.create(:user) }
-  let(:usd_amount) { "23.88" }
+  let(:usd_amount) { 23.88 }
   let(:stripe_token) { stripe_helper.generate_card_token }
   let(:card_id) { "card-id" }
   let(:save_card) { "true" }
@@ -60,16 +80,28 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
         it_behaves_like "validating amount"
 
         it "allows service object initialization" do
-          expect {
-            described_class.new(
-              task: task,
-              user: user,
-              usd_amount: 100.0,
-              stripe_token: stripe_token,
-              card_id: card_id,
-              save_card: save_card
-            )
-          }.not_to raise_error
+          service = described_class.new(
+            task: task,
+            user: user,
+            usd_amount: 100.0,
+            stripe_token: stripe_token,
+            card_id: card_id,
+            save_card: save_card
+          )
+
+          aggregate_failures("service object is correct") do
+            expect(service.task).to eq(task)
+            expect(service.user).to eq(user)
+            expect(service.usd_amount).to eq(100.0)
+            expect(service.stripe_token).to eq(stripe_token)
+            expect(service.card_id).to eq(card_id)
+            expect(service.save_card).to eq(save_card)
+            expect(service.skip_wallet_transaction).to eq("true")
+            expect(service.reserve_wallet_id).to eq("")
+            expect(service.usd_commission_amount).to eq(9.41)
+            expect(service.usd_amount_to_send).to eq(90.59)
+            expect(service.satoshi_amount).to eq(7_371_273)
+          end
         end
       end
 
@@ -115,7 +147,7 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
               expect(db_record).not_to be_nil
 
               aggregate_failures("created record in db is correct") do
-                expect(db_record.amount.to_s).to eq(fund_task_service.usd_amount)
+                expect(db_record.amount).to eq(fund_task_service.usd_amount)
                 expect(db_record.amount_in_satoshi).to eq(fund_task_service.satoshi_amount.to_s)
                 expect(db_record.stripe_token).to eq(fund_task_service.stripe_token)
                 expect(db_record.stripe_response_id).to eq("test_ch_3")
@@ -230,10 +262,14 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
             expect(task_fund_service.task).to eq(task)
             expect(task_fund_service.user).to eq(user)
             expect(task_fund_service.usd_amount).to eq(usd_amount)
-            expect(task_fund_service.satoshi_amount).to eq(1943106)
+            expect(task_fund_service.usd_commission_amount).to eq(2.45)
+            expect(task_fund_service.usd_amount_to_send).to eq(21.43)
+            expect(task_fund_service.satoshi_amount).to eq(1743750)
             expect(task_fund_service.stripe_token).to eq(stripe_token)
             expect(task_fund_service.card_id).to eq(card_id)
             expect(task_fund_service.save_card).to eq(save_card)
+            expect(task_fund_service.skip_wallet_transaction).to eq("")
+            expect(task_fund_service.reserve_wallet_id).to eq("30a21ed2-4f04-57ae-9d21-becb751138f4")
           end
         end
       end
@@ -297,7 +333,7 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
                   expect(db_record).not_to be_nil
 
                   aggregate_failures("created record in db is correct") do
-                    expect(db_record.amount.to_s).to eq(fund_task_service.usd_amount)
+                    expect(db_record.amount).to eq(fund_task_service.usd_amount)
                     expect(db_record.amount_in_satoshi).to eq(fund_task_service.satoshi_amount.to_s)
                     expect(db_record.stripe_token).to eq(fund_task_service.stripe_token)
                     expect(db_record.stripe_response_id).to eq("test_ch_3")
