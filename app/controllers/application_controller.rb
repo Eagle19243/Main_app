@@ -21,7 +21,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   around_filter :set_current_user
   after_action :flash_to_headers
-  before_action :basic_http_auth
 
   def after_sign_in_path_for(resource)
     # projects_path
@@ -73,12 +72,6 @@ class ApplicationController < ActionController::Base
 
   def wallet_handler
     Payments::BTC::WalletHandler.new
-  end
-
-  def basic_http_auth
-    if Rails.env.staging? && ENV['HTTP_BASIC_AUTHENTICATION_PASSWORD'].present?
-      http_basic_authenticate_with :name => 'weserve', :password => ENV.fetch("HTTP_BASIC_AUTHENTICATION_PASSWORD")
-    end
   end
 
   helper_method :service_action, :service_name
