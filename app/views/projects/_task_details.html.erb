@@ -168,9 +168,6 @@
                   <div class="modal-task__card">
                     <div class="modal-task__card-values">
                         <div class="modal-task__card-value _data">
-                            <%= @task.funded %>
-                        </div>
-                        <div class="modal-task__card-value _data">
                             <%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>
                         </div>
                         <div class="modal-task__card-value _data _raised _hide">
@@ -191,10 +188,9 @@
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
-                        <div class="modal-task__card-value">Funded</div>
                         <div class="modal-task__card-value">Teammates</div>
                         <div class="modal-task__card-value _hide">Raised</div>
-                        <div class="modal-task__card-value">Left</div>
+                        <div class="modal-task__card-value">Needed</div>
                         <div class="modal-task__card-value _hide">Left, USD</div>
                         <div class="modal-task__card-value">Budget</div>
                     </div>
