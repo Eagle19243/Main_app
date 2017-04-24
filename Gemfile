@@ -60,6 +60,7 @@ gem "delayed_job_web"
 gem 'daemons'
 gem 'coinbase'
 gem "mail_view", "~> 2.0.4"
+gem 'rack-rewrite', '~> 1.5.0'
 
 # Ajax File Uploading
 gem 'remotipart'
