@@ -181,7 +181,7 @@
     // document.getElementsById('task-do-request-popup').val(id);
   }
 
-  <% if user_signed_in? && current_user.is_admin_for?(@project)%>
+  <% if user_signed_in? && can?(:update, @project) %>
     $('.welcome-banner').addClass('_signed-in');
   <% end %>
 </script>
