@@ -3,7 +3,7 @@
 <div class='welcome-banner'>
   <div class="project_picture">
     <%= image_tag(@project.picture, data: { 'object-fit': "cover" } ) %>
-    <% if user_signed_in? && current_user.id == @project.user_id %>
+    <% if user_signed_in? && can?(:update, @project) %>
       <a class="btn-edit btn-edit-image" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
     <% end %>
   </div>
@@ -25,19 +25,18 @@
 
             </div>
             <div class="b-project-info__title">
-              <%= best_in_place_if user_signed_in? && current_user.is_admin_for?(@project), @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :class => "project-title", :activator => '#title-pencil' %>
-              <% if user_signed_in? && current_user.is_admin_for?(@project) %>
-              <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
+              <%= best_in_place_if user_signed_in? && can?(:update, @project), @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :class => "project-title", :activator => '#title-pencil' %>
+              <% if user_signed_in? && can?(:update, @project) %>
+                <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
               <% end %>
             </div>
             <a class="b-project-info__city">
               <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
               </svg>
-              <%= best_in_place_if user_signed_in? && current_user.is_admin_for?(@project), @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
-              <% if user_signed_in? && current_user.is_admin_for?(@project) %>
-              <%#= @project.country %>
-              <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="country-pencil"></span>
+              <%= best_in_place_if user_signed_in? && can?(:update, @project), @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
+              <% if user_signed_in? && can?(:update, @project) %>
+                <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="country-pencil"></span>
               <% end %>
             </a>
 

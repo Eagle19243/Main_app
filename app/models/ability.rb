@@ -56,18 +56,23 @@ class Ability
 
   def initializeProjectsPermissions(user)
     can [:read, :search_results, :user_search, :autocomplete_user_search, :taskstab, :show_project_team, :get_in], Project
+
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
+
       can [:update, :change_leader, :accept, :reject ], Project do |project|
         user.is_project_leader?(project)
       end
+
       can [:revisions, :revision_action, :block_user, :unblock_user, :switch_approval_status], Project do |project|
         user.is_project_leader?(project) || user.is_lead_editor_for?(project)
       end
+
       can :manage_requests, Project do |project|
         user.is_project_leader?(project) || user.is_coordinator_for?(project)
       end
-      can :archived, Project if user.admin?
+
+      can [:archived, :update], Project if user.admin?
       can :destroy, Project, :user_id => user.id
     end
   end
