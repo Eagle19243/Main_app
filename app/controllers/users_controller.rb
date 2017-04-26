@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+
     respond_to do |format|
       if @user.update_attributes(update_params)
         format.html {
@@ -64,7 +65,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:picture, :email, :password, :bio,
     :city, :phone_number, :bio, :facebook_url, :twitter_url,
     :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
-    :linkedin_url, :picture_cache)
+    :linkedin_url, :picture_cache, :background_picture)
   end
 
   def secure_params

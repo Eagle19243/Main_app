@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   mount_uploader :picture, PictureUploader
   crop_uploaded :picture
 
+  mount_uploader :background_picture, PictureUploader
+  crop_uploaded :background_picture
+
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
   def set_default_role
