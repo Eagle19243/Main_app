@@ -60,8 +60,12 @@ class Ability
     if user
       can [:create, :discussions, :follow, :unfollow, :rate, :accept_change_leader, :reject_change_leader, :my_projects], Project
 
-      can [:update, :change_leader, :accept, :reject ], Project do |project|
+      can [:change_leader, :accept, :reject ], Project do |project|
         user.is_project_leader?(project)
+      end
+
+      can :update, Project do |project|
+        user.is_project_leader?(project) || user.is_lead_editor_for?(project)
       end
 
       can [:revisions, :revision_action, :block_user, :unblock_user, :switch_approval_status], Project do |project|
