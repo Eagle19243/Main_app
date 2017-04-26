@@ -17,7 +17,6 @@
     position: relative;
 
     .f-new-message__submit {
-      margin-top: 10px;
       padding: 0 30px;
       font-family: 'Roboto', sans-serif;
       font-size: 1em;
@@ -39,16 +38,27 @@
     }
   }
 
+  &__send {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+
   &__attach {
-    position: absolute;
-    bottom: 20px;
-    right: 0;
+    &-error {
+      margin-top: 3px;
+      &._error {
+        color: red;
+      }
+    }
 
     span {
       font-family: 'Libre Franklin', sans-serif;
       font-size: 1em;
       color: #555;
       display: inline-block;
+      width: auto;
       background: transparent;
       border: none;
     }
