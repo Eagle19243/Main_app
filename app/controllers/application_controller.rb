@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
   end
 
   def basic_http_auth
-    if Rails.env.staging? && ENV['HTTP_BASIC_AUTHENTICATION_PASSWORD'].present?
+    if ENV['HTTP_BASIC_AUTHENTICATION_PASSWORD'].present?
       authenticate_or_request_with_http_basic do |user, password|
         user == 'weserve' && password == ENV["HTTP_BASIC_AUTHENTICATION_PASSWORD"]
       end
