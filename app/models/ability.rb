@@ -118,6 +118,7 @@ class Ability
     can :read, Task
 
     if user
+      can :create_task_comment, Task
 
       can :create, Task do |task|
         (task.suggested_task? && !user.is_project_leader_or_coordinator?(task.project)) ||
@@ -133,6 +134,10 @@ class Ability
         !task.any_fundings? && can?(:update, task)
       end
 
+      can :update_deadline, Task do |task|
+        task.incompleted? && (user.is_project_leader_or_coordinator?(task.project) || user.admin?)
+      end
+
       can :accept, Task do |task|
         (task.pending? || task.suggested_task?) && user.is_project_leader_or_coordinator?(task.project)
       end
@@ -145,12 +150,12 @@ class Ability
         task.reviewing? && (user.is_project_leader_or_coordinator?(task.project))
       end
 
-      can :doing, Task do |task|
-        task.accepted? && user.is_task_team_member?(task)
+      can :incomplete, Task do |task|
+        ((task.doing? && task.deadline < Time.current) || task.reviewing?) && (user.is_project_leader_or_coordinator?(task.project) || user.admin?)
       end
 
-      can :create_task_comment, Task do
-        true
+      can :doing, Task do |task|
+        task.accepted? && user.is_task_team_member?(task)
       end
 
       can :create_or_destory_task_attachment, Task do |task|

@@ -14,6 +14,13 @@
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>
+                    <div class="fund-do-btns">
+                      <% if user_signed_in? %>
+                        <% if can? :destroy, task %>
+                          <button type="button" title="Delete" data-delete-url='<%= task_path(task.id) %>' class='btn-root _dark _delete' data-modal="#removeTask">Delete</button>
+                        <% end %>
+                      <% end %>
+                    </div>
                   </div>
                 </div>
             <% end %>
@@ -179,8 +186,12 @@
             currentTaskUrl = $(this).data('deleteUrl');
         })
         .on('click.agreeRemoveTask', '#removeTask ._agree', function () {
-            $.get(currentTaskUrl, function(data) {
-                window.location.reload();
+            $.ajax({
+                type: "DELETE",
+                url: currentTaskUrl,
+                success: function(data) {
+                  location.reload();
+                }
             });
         })
         .on('click.declineRemoveTask', '#removeTask ._decline', function () {

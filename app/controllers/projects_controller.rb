@@ -368,13 +368,15 @@ class ProjectsController < ApplicationController
   end
 
   def show_all_tasks
-    tasks = @project.tasks.all
-    @tasks_count =tasks.count
-    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
-    @doing_tasks = tasks.where(state: "doing").all
-    @suggested_tasks = tasks.where(state: "suggested_task").all
-    @reviewing_tasks = tasks.where(state: "reviewing").all
-    @done_tasks = tasks.where(state: "completed").all
+    tasks = @project.tasks
+
+    @tasks_count      = tasks.count
+    @sourcing_tasks   = tasks.where(state: %w(pending accepted incompleted))
+    @doing_tasks      = tasks.doing
+    @suggested_tasks  = tasks.suggested_task
+    @reviewing_tasks  = tasks.reviewing
+    @done_tasks       = tasks.completed
+
     respond_to do |format|
       format.html { redirect_to controller: 'projects', action: 'taskstab', id: @project.id, tab: 'tasks' }
       format.js
