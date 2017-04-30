@@ -11,9 +11,12 @@
             <div class="modal-do-task__row _description">
                 Description: <span class="modal-do-task__description"></span>
             </div>
+            <div class="modal-do-task__row _amount">
+                Amount to be received per volunteer: <span class="modal-do-task__amount"></span>
+            </div>
         </div>
         <div class="modal-do-task__wrapper">
-            <div class="modal-do-task__subtitle">Please explain below why you feel you are the right person to perform this task:</div>
+            <div class="modal-do-task__subtitle">Why are you the right person to complete this task?</div>
             <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
                 <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
                 <%= form.text_area :application, class:'f-default__textarea' %>

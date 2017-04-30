@@ -179,6 +179,9 @@
                         <div class="modal-task__card-value _data _amount-left-usd _hide">
                             <%= satoshi_balance_in_usd(@task.funds_needed_to_fulfill_budget) %>
                         </div>
+                        <div class="modal-task__card-value _data _per-amount _hide">
+                            <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>
+                        </div>
                         <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
                             <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
 
@@ -540,7 +543,8 @@
                     projectTitle = $('.project-title').text(),
                     $card = $this.closest('.card-wrapper'),
                     taskTitle = $('#task-title').text(),
-                    taskDescription = '<%= @task.description %>'
+                    taskDescription = '<%= @task.description %>',
+                    perAmount = '<%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>';
 
                 if (!taskDescription) {
                     $('.modal-do-task__row._description').hide();
@@ -551,6 +555,7 @@
                 $('.modal-do-task__project').text(projectTitle);
                 $('.modal-do-task__task').text(taskTitle);
                 $('.modal-do-task__description').text(taskDescription);
+                $('.modal-do-task__amount').text(perAmount);
             })
     })
 </script>

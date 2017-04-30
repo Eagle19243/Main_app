@@ -212,6 +212,7 @@
                 $card = $this.closest('.card-wrapper'),
                 taskTitle = $card.find('.card-title h5').text(),
                 taskDescription = $card.find('.card-title p').text();
+                perAmount = $card.find('.card-report__data._per-amount').text();
 
             if (!taskDescription) {
                 $('.modal-do-task__row._description').hide();
@@ -222,5 +223,6 @@
             $('.modal-do-task__project').text(projectTitle);
             $('.modal-do-task__task').text(taskTitle);
             $('.modal-do-task__description').text(taskDescription);
+            $('.modal-do-task__amount').text(perAmount);
         })
 </script>
