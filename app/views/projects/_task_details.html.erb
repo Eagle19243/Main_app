@@ -116,11 +116,14 @@
                 </div>
             <% else %>
                 <div class="task-desc">
-
-                  <h4>Specifications</h4>
-                  <p><%= @task.condition_of_execution %></p>
-                  <h4>Proof of Execution</h4>
-                  <p><%= @task.proof_of_execution %></p>
+                  <div class="modal-task__desc-block">
+                      <h4>Specifications</h4>
+                      <p><%= @task.condition_of_execution %></p>
+                  </div>
+                  <div class="modal-task__desc-block">
+                      <h4>Proof of Execution</h4>
+                      <p><%= @task.proof_of_execution %></p>
+                  </div>
                   <hr>
                   <%= render ("projects/task_comment") %>
 
@@ -158,6 +161,9 @@
                         <button type="button" title="FUND" class="btn-root fund-button" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
                         <button type="button" title="DO" class="btn-root _dark _do-popup-button do-button" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
                     <% end %>
+                  <% else %>
+                        <button type="button" title="FUND" class="btn-root sign_up_a" data-modal="#registerModal">Fund</button>
+                        <button type="button" title="FUND" class="btn-root _dark do-button sign_up_a" data-modal="#registerModal">DO</button>
                   <% end %>
 
                   <div class="progress">
