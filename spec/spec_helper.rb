@@ -1,6 +1,7 @@
 require 'fivemat'
 require 'factory_girl_rails'
 require 'aasm/rspec'
+require 'cancan/matchers'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

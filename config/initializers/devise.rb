@@ -17,8 +17,8 @@ Devise.setup do |config|
   config.navigational_formats = ['*/*', :html]
   config.sign_out_via = :delete
 
-  config.omniauth :facebook, ENV["facebook_app_id"], ENV["facebook_secret_key"]
+  config.omniauth :facebook, ENV["facebook_app_id"], ENV["facebook_secret_key"], image_size: { width: 400, height: 400 }
   config.omniauth :twitter, ENV["twitter_app_id"], ENV["twitter_secret_key"]
-  config.omniauth :google_oauth2, ENV["gapp_id"], ENV["gapp_secret_key"], { access_type: "offline", approval_prompt: "", skip_jwt: true }
+  config.omniauth :google_oauth2, ENV["gapp_id"], ENV["gapp_secret_key"], { access_type: "offline", approval_prompt: "", skip_jwt: true, image_size: { width: 400, height: 400 } }
 
 end

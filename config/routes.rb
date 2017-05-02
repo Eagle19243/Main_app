@@ -101,7 +101,7 @@ Rails.application.routes.draw do
   resources :wikis
   resources :tasks, except: [:index, :new, :edit] do
     member do
-      get :accept, :reject, :doing, :reviewing, :completed, :refund
+      get :accept, :reject, :doing, :reviewing, :completed, :refund, :incomplete
       delete '/members/:team_membership_id', to: 'tasks#removeMember', as: :remove_task_member
     end
   end

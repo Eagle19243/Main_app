@@ -209,7 +209,7 @@
           display: flex;
           width: 100%;
         }
-        &-value, &-estimation {
+        &-value {
           font-family: 'Libre Franklin', sans-serif;
           color: $grey-clr;
           font-size: 0.9em;
@@ -222,13 +222,6 @@
             color: #333;
             font-size: 1em;
             font-weight: bold;
-            text-align: center;
-          }
-        }
-        &-estimation {
-          margin-top: 20px;
-
-          &-amount {
             text-align: center;
           }
         }

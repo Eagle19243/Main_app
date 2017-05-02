@@ -43,10 +43,10 @@ class GroupMessagesController < ApplicationController
       respond_to do |format|
         if @group_message.save
           @group_message.create_user_message_read_flags_for_all_groupmembers_except(current_user)
-          format.json { render :show, status: :created, location: @group_message }
           format.js
         else
-          format.json { render json: @group_message.errors, status: :unprocessable_entity }
+          @notice = "Failed to uploaded attachment. Allowed types: #{AttachmentUploader::SUPPORTED_FILE_EXTENSIONS.join(", ")}"
+          format.js
         end
       end
     end

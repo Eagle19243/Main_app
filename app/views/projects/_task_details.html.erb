@@ -179,6 +179,9 @@
                         <div class="modal-task__card-value _data _amount-left-usd _hide">
                             <%= satoshi_balance_in_usd(@task.funds_needed_to_fulfill_budget) %>
                         </div>
+                        <div class="modal-task__card-value _data _per-amount _hide">
+                            <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>
+                        </div>
                         <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
                             <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
 
@@ -193,9 +196,6 @@
                         <div class="modal-task__card-value">Needed</div>
                         <div class="modal-task__card-value _hide">Left, USD</div>
                         <div class="modal-task__card-value">Budget</div>
-                    </div>
-                    <div class="modal-task__card-estimation">
-                      <div class="modal-task__card-estimation-amount">Per member amount: <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %> BTC</div>
                     </div>
                   </div>
 
@@ -287,12 +287,19 @@
                                 </button>
                             <% end %>
                         <% end %>
+                        <% if can? :incomplete, @task %>
+                          <%= link_to incomplete_task_path(@task.id), data: { confirm: 'Do you confirm that you have reviewed the task and that it is incompleted?' } do %>
+                              <button>
+                                <i class="fa fa-times" aria-hidden="true"></i>Mark As Incompleted
+                              </button>
+                          <% end %>
+                        <% end %>
                         <% if can? :completed, @task %>
-                            <%= link_to completed_task_path(@task.id), data: {confirm: 'do you confirm that you have reviewed the task and that it is completed?'} do %>
-                                <button>
-                                  <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
-                                </button>
-                            <% end %>
+                          <%= link_to completed_task_path(@task.id), data: {confirm: 'Do you confirm that you have reviewed the task and that it is completed?' } do %>
+                              <button>
+                                <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
+                              </button>
+                          <% end %>
                         <% end %>
                     <% end %>
 
@@ -301,7 +308,7 @@
 
                     <% if user_signed_in? && (can? :destroy, @task) %>
                         <%= link_to @task, method: :delete, data: {confirm: 'Are you sure?'} do %>
-                            <button class= 'delete-task' type="button" title="Delete" data-delete-url='<%= reject_task_path(@task.id) %>' data-modal="#removeTask">
+                            <button class= 'delete-task' type="button" title="Delete" data-delete-url='<%= task_path(@task) %>' data-modal="#removeTask">
                               <i class="fa fa-trash-o" aria-hidden="true"></i>
                               Delete Task
                             </button>
@@ -533,7 +540,8 @@
                     projectTitle = $('.project-title').text(),
                     $card = $this.closest('.card-wrapper'),
                     taskTitle = $('#task-title').text(),
-                    taskDescription = '<%= @task.description %>'
+                    taskDescription = '<%= @task.description %>',
+                    perAmount = '<%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>';
 
                 if (!taskDescription) {
                     $('.modal-do-task__row._description').hide();
@@ -544,6 +552,7 @@
                 $('.modal-do-task__project').text(projectTitle);
                 $('.modal-do-task__task').text(taskTitle);
                 $('.modal-do-task__description').text(taskDescription);
+                $('.modal-do-task__amount').text(perAmount);
             })
     })
 </script>

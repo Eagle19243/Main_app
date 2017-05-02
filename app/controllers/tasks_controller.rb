@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund]
-  before_action :validate_user, only: [:accept, :doing]
+  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund, :incomplete]
+  before_action :validate_user, only: [:accept, :doing, :incomplete]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
   protect_from_forgery :except => :update
-  before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed]
+  before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed, :incomplete]
 
 
   def validate_team_member
@@ -168,7 +168,10 @@ class TasksController < ApplicationController
     ErrorHandlerService.call(error)
     flash[:error] = UserErrorPresenter.new(error).message
   ensure
-    redirect_to redirect_path
+    respond_to do |format|
+      format.js   { head :no_content }
+      format.html { redirect_to redirect_path }
+    end
   end
 
   def refund
@@ -198,30 +201,30 @@ class TasksController < ApplicationController
     authorize! :doing, @task
 
     if @task.suggested_task?
-      @notice = "You can't Do this Task"
+      flash[:alert] = "You can't Do this Task"
     else
       if @task.not_fully_funded_or_less_teammembers?
-        @notice = "You have not met your goal either in the number of teammates or in funding"
+        flash[:alert] = "You have not met your goal either in the number of teammates or in funding"
       else
         # if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
         if @task.start_doing!
           @task.project.interested_users.each do |user|
             NotificationMailer.task_started(acting_user: current_user, task: @task, receiver: user).deliver_later
           end
-          @notice = "Task Status changed to Doing"
+          flash[:notice] =  "Task Status changed to Doing"
         else
-          @notice = "Error in Moving Task"
+          flash[:alert] = "Error in Moving Task"
         end
       end
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
+      format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks') }
     end
   end
 
   def reject
-    authorize! :destroy, @task
+    authorize! :reject, @task
     current_state_of_task = @task.state
 
     if @task.reject! && @task.destroy
@@ -250,7 +253,6 @@ class TasksController < ApplicationController
   end
 
   def reviewing
-
     authorize! :reviewing, @task
 
     if current_user.can_submit_task?(@task) && @task.begin_review!
@@ -292,6 +294,13 @@ class TasksController < ApplicationController
       format.js
       format.html { redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: @notice }
     end
+  end
+
+  def incomplete
+    authorize! :incomplete, @task
+
+    @task.incomplete!
+    redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: 'Task was successfully mark as incompleted'
   end
 
   def send_email
