@@ -73,13 +73,13 @@
           </td>
           <td class="revision-history__mark">
             <% if history['status'] == 'approved' %>
-              <a href="/projects/<%= project.id %>/revision_action?type=unapprove&rev=<%= history['revision_id'] %>" class="mr10 revision-unapprove">
-                <i class="fa fa-star" aria-hidden="true"></i>Unapprove
-              </a>
+              <button data-revision-id="<%= history['revision_id'] %>" class="revision-history__mark-btn _approve">
+                <span class="revision-history__mark-title">Approved</span>
+              </button>
             <% else %>
-              <a href="/projects/<%= project.id %>/revision_action?type=approve&rev=<%= history['revision_id'] %>" class='revision-approve'>
-                <i class="fa fa-star _active" aria-hidden="true"></i>Mark as approved
-              </a>
+              <button data-revision-id="<%= history['revision_id'] %>" class="revision-history__mark-btn">
+                <span class="revision-history__mark-title"></span>
+              </button>
             <% end %>
           </td>
         </tr>
@@ -87,3 +87,31 @@
     </tbody>
   </table>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $(document).off('click.toggleApprove', '.revision-history__mark button');
+        $(document)
+            .on('click.toggleApprove', '.revision-history__mark button', function(e) {
+                e.preventDefault();
+                var $this = $(this),
+                    revisionId = $this.data('revision-id'),
+                    isCurrentStateApproved = $this.hasClass('_approve'),
+                    url = isCurrentStateApproved ? "/projects/<%= project.id %>/revision_action?type=unapprove&rev=" + revisionId:
+                                                   "/projects/<%= project.id %>/revision_action?type=approve&rev=" + revisionId;
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function() {
+                        $this.toggleClass('_approve');
+                        if (isCurrentStateApproved) {
+                            $this.find('span').html('');
+                        } else {
+                            $this.find('span').text('Approved');
+                        }
+                    }
+                })
+            })
+    })
+</script>

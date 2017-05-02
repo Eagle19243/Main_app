@@ -471,15 +471,47 @@ div.progress {
 
   .table {
     .revision-history__mark {
-      &._hide a {
-        opacity: 0;
-        pointer-events: none;
+      &-btn {
+        background: none;
+        padding: 0;
+        &:hover,
+        &:focus {
+          background: none;
+          color: #000;
+        }
+        &._approve {
+          .revision-history__mark-title {
+            &:after {
+              display: block;
+            }
+          }
+        }
       }
-      i {
-        color: #cccccc;
-        margin-right: 3px;
-        &._active {
-          color: #464646;
+      &-title {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        &:before {
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 3px;
+          content: '';
+          width: 20px;
+          height: 20px;
+          background-color: #fff;
+          border-radius: 20px;
+          border: 1px solid gray;
+        }
+        &:after {
+          position: absolute;
+          display: none;
+          content: '';
+          background-color: #5d5d5d;
+          border-radius: 50%;
+          left: 5px;
+          top: 6px;
+          width: 10px;
+          height: 10px;
         }
       }
     }
