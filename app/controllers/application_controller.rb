@@ -90,6 +90,11 @@ class ApplicationController < ActionController::Base
 
     messages ||= {}
 
+    logger.debug "@@@@@@@@@@@@@@@@@ debug flash @@@@@@@@@@@@@@@@@@"
+    logger.debug "@ #{ request.original_url } @"
+    logger.debug "@ #{ flash.to_hash } @"
+    logger.debug "@@@@@@@@@@@@@@@@@ debug flash end @@@@@@@@@@@@@@@@@@"
+
     flash.each do |type, msg|
       css_type = 'alert'
       css_type = 'success' if type.to_s == 'notice'
