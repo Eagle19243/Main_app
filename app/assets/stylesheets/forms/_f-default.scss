@@ -175,6 +175,9 @@
       transition: background .2s linear;
       margin-right: 8px;
       position: relative;
+      &._error {
+        border: 1px solid red;
+      }
       &:before {
         content: '';
         position: absolute;

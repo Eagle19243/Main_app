@@ -198,11 +198,23 @@
           updateConversion();
           $donateBtn.addClass('_disable');
         })
-        .on('input.inputAmount', '.modal-fund__input', function() {
-            var currentValue = $(this).val(),
+        .on('click.termOfUseClick', '.payment-form__method', function() {
+            var $this = $(this),
+                donateValue = $('.modal-fund__input').val(),
                 $donateBtn = $('.btn-root._donate');
 
-            if (currentValue) {
+            if (donateValue && $this.is(':checked')) {
+                $donateBtn.removeClass('_disable');
+            } else {
+                $donateBtn.addClass('_disable');
+            }
+        })
+        .on('input.inputAmount', '.modal-fund__input', function() {
+            var currentValue = $(this).val(),
+                $donateBtn = $('.btn-root._donate'),
+                isTermOfUseChecked = $('.payment-form__method').is(':checked');
+
+            if (currentValue && isTermOfUseChecked) {
                 $donateBtn.removeClass('_disable');
             } else {
                 $donateBtn.addClass('_disable');
@@ -217,9 +229,17 @@
         <% if user_signed_in? %>
           .on('click.sendForm', '.btn-root._donate', function () {
             var val = $walletTransactionAmount.val(),
-                $donateBtn = $('.btn-root._donate');
+                $donateBtn = $('.btn-root._donate'),
+                isTermOfUseChecked = $('.payment-form__method').is(':checked');
 
-            if (val) {
+            if (!isTermOfUseChecked) {
+                $('.f-default__checkbox-pseudo').addClass('_error');
+                return;
+            } else {
+                $('.f-default__checkbox-pseudo').removeClass('_error');
+            }
+
+            if (val && isTermOfUseChecked) {
                 $donateBtn.addClass('_disable');
                 if ($creditCardTab.hasClass('_active')) {
                     setTimeout(function() {
