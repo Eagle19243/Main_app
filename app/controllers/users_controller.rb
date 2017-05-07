@@ -19,17 +19,14 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
+    @user.attributes = update_params
+    return render json: { alert: "Unable to update user." }, status: 422 if @user.invalid?
+
+    @user.save
+    current_user.create_activity(@user, 'updated')
     respond_to do |format|
-      if @user.update_attributes(update_params)
-        format.html {
-          current_user.create_activity(@user, 'updated')
-          redirect_to(@user, :notice => 'User was successfully updated.')
-        }
-        format.json { respond_with_bip(@user) }
-      else
-        redirect_to users_path, :alert => "Unable to update user."
-        format.json { respond_with_bip(@user) }
-      end
+      format.js { render json: true, status: 201 }
+      format.html { render :show }
     end
   end
 
@@ -62,8 +59,8 @@ class UsersController < ApplicationController
   private
 
   def update_params
-    params.require(:user).permit(:picture, :email, :password, :bio,
-    :city, :phone_number, :bio, :facebook_url, :twitter_url,
+    params.require(:user).permit(:first_name, :last_name, :picture, :email, :password, :bio,
+    :city, :state, :phone_number, :bio, :facebook_url, :twitter_url, :skype_id, :facebook_id, :linkedin_id, :twitter_id,
     :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
     :linkedin_url, :picture_cache, :background_picture)
   end

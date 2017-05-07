@@ -352,12 +352,16 @@
 }
 
 .btn-edit-image {
+  position: absolute;
+  min-width: 180px;
+  text-align: left;
+  right: -180px;
+  color: #000;
+  display: none;
   &._profile {
-    color: #000;
     bottom: -10px;
   }
   &._background {
-    color: #000;
     bottom: 20px;
   }
 }

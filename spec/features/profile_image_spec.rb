@@ -18,37 +18,44 @@ feature "Profile Image", js: true do
         @edit_link = find(".btn-edit-image._profile")
       end
 
-      scenario "Then 'Edit My Profile Image' link appeared" do
-        expect(@edit_link).to be_visible
+      scenario "Then 'Edit My Profile Image' link not appeared" do
+        expect(@edit_link).not_to be_visible
       end
 
-      context "When you click 'Edit My Profile Image' link" do
-        before do
-          @edit_link.click
-          wait_for_ajax
-
-          @modal = find(".modal-edit-img")
-        end
-
-        scenario "Then 'Edit Profile Image' modal appeared" do
-          expect(@modal).to be_visible
-        end
-
-        context "When you choose another image and click 'SAVE CHANGES' button" do
+        context "When you hover mouse on the profile image" do
           before do
-            @image = "user_photo.png"
-            @modal.attach_file 'user[picture]', Rails.root + "spec/fixtures/#{@image}"
-            wait_for_ajax
-
-            @modal.click_button "Save Changes"
+            @image_div = find(".profile-hero__avatar-wrapper")
+            @image_div.hover
           end
 
-          scenario "Then your profile image has been changed" do
-            @image_div = find(".profile-hero__user-portrait._signed-in")
-            expect(@image_div).to have_xpath("//img[contains(@src, @image)]")
+          context "When you click 'Edit My Profile Image' link" do
+            before do
+              @edit_link.click
+              wait_for_ajax
+
+              @modal = find(".modal-edit-img._avatar")
+            end
+
+            scenario "Then 'Edit Profile Image' modal appeared" do
+              expect(@modal).to be_visible
+            end
+
+            context "When you choose another image and click 'SAVE CHANGES' button" do
+              before do
+                @image = "user_photo.png"
+                @modal.attach_file 'user[picture]', Rails.root + "spec/fixtures/#{@image}"
+                wait_for_ajax
+
+                @modal.click_button "Save Changes"
+              end
+
+              scenario "Then your profile image has been changed" do
+                @image_div = find(".dropdown-toggle.pr-user")
+                expect(@image_div).to have_xpath("//img[contains(@src, @image)]")
+              end
+            end
           end
         end
-      end
     end
   end
 

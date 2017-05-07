@@ -36,6 +36,26 @@
       <%= image_tag(@user.projects.first.picture, data: { 'object-fit': "cover" }) if @user.projects.count != 0 %>
     </div>
     <div class="profile-hero__content">
+      <% if user_signed_in? && current_user.id == @user.id %>
+        <button class="profile-hero__edit-button" type="button" data-modal="#editProfileModal"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+      <% end %>
+        <div class="profile-hero__avatar-wrapper">
+            <% if @user.picture? %>
+                <div class="profile-hero__avatar" style="background-image: url('<%= @user.picture %>')">
+                    <% if user_signed_in? && current_user.id == @user.id %>
+                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
+                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
+                    <% end %>
+                </div>
+            <% else %>
+                <div class="profile-hero__avatar" style="background-image: url('<%= gravatar_for_user(@user) %>')">
+                    <% if user_signed_in? && current_user.id == @user.id %>
+                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
+                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
       <div class="profile-hero__user-name-wrap">
         <div class="profile-hero__user-name">
           <%= @user.name %>
@@ -43,62 +63,56 @@
       </div>
 
       <div class="profile-hero__user-location-wrap">
-        <div class="profile-hero__user-location">
+
           <% if (current_user && current_user.id == @user.id) %>
-            <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
-            </svg>
-            <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
-            <a id="edit-location-pencil" href="javascript:void(0)" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+            <div class="profile-hero__user-location">
+              <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
+              </svg>
+              <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
+              <a id="edit-location-pencil" href="javascript:void(0)" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+            </div>
           <% else %>
-            <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
-            </svg>&nbsp;&nbsp;<%= @user.city %>
+            <% if (!@user.city.blank?) %>
+              <div class="profile-hero__user-location">
+                <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
+                </svg>
+                <%= @user.city %>
+              </div>
+            <% end %>
           <% end %>
-        </div>
       </div>
 
       <dl class="profile-hero__dl">
         <div class="profile-hero__dl-item">
-          <dd class="profile-hero__dd"><%= @user.projects.count %></dd>
-          <dt class="profile-hero__dt">Project</br>Leads</dt>
+          <div class="profile-hero__dt">Project Leads</div>
+          <div class="profile-hero__dd"><%= @user.projects.count %></div>
         </div>
         <div class="profile-hero__dl-item">
-          <dd class="profile-hero__dd"><%= @user.completed_tasks_count %></dd>
-          <dt class="profile-hero__dt">Completed</br>Tasks</dt>
+          <div class="profile-hero__dt">Completed Tasks</div>
+          <div class="profile-hero__dd"><%= @user.completed_tasks_count %></div>
         </div>
         <div class="profile-hero__dl-item">
-          <dd class="profile-hero__dd"><%= @user.funded_projects_count %></dd>
-          <dt class="profile-hero__dt">Projects</br>Funded</dt>
+          <div class="profile-hero__dt">Projects Funded</div>
+          <div class="profile-hero__dd"><%= @user.funded_projects_count %></div>
         </div>
       </dl>
-    </div>
 
-    <div class="profile-hero__user-portrait">
-      <% if @user.picture? %>
-        <%= image_tag(@user.picture) %>
-      <% else %>
-        <%= gravatar_for_user(@user)%>
-      <%end%>
-
-      <% if user_signed_in? && current_user.id == @user.id %>
-        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
-        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
-      <% end %>
-    </div>
-
-    <div class="profile-hero__user-trans-btns">
-      <% if current_user && current_user.id == @user.id %>
-          <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
-      <% end %>
-      <% if current_user && current_user.id != @user.id %>
-        <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn" do %>
-          <svg focusable="false" version="1.1" class="svg-envelope">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
-          </svg>Message
+      <div class="profile-hero__user-trans-btns">
+        <% if current_user && current_user.id == @user.id %>
+            <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
         <% end %>
-      <% end %>
+        <% if current_user && current_user.id != @user.id %>
+          <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn" do %>
+            <svg focusable="false" version="1.1" class="svg-envelope">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
+            </svg>Message
+          <% end %>
+        <% end %>
+      </div>
     </div>
+
   </div>
 
   <div class="bio-wrapper">
@@ -188,11 +202,14 @@
 
 <%= render "profile_edit_dialog" %>
 <%= render "profile_edit_bcg_dialog" %>
+<%= render "profile_edit_bcg_dialog" %>
+<%= render "modal/edit_profile_modal" %>
+<%= render "modal/profile_edit_response_modal" %>
 
 <script>
 
   <% if user_signed_in? && current_user.id == @user.id %>
-    $('.profile-hero__user-portrait').addClass('_signed-in');
+    $('.profile-hero__avatar').addClass('_signed-in');
   <% end %>
 
   $('#wallet_transaction_amount').keypress(function(eve) {

@@ -13,7 +13,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    min-height: 292px;
+    min-height: 260px;
     &:before {
       content: '';
       display: block;
@@ -22,35 +22,46 @@
       bottom: 0;
       left: 0;
       right: 0;
-
-      background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-      background-image: -moz-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-      background-image: -ms-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-      background-image: repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
       -webkit-background-size: 3px 3px;
       -moz-background-size: 3px 3px;
       background-size: 3px 3px;
     }
     img {
-      height: 292px;
+      height: 260px;
       width: 100%;
       object-fit: cover;
     }
   }
   &__content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    right: 0;
-    // background: rgba(74,74,74,.7);
+    background-color: #fff;
     text-align: center;
-    padding-bottom: 73px;
-    padding-top: 14px;
+    padding-bottom: 30px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    max-width: 720px;
+    margin: -100px auto 0;
+    position: relative;
+  }
+  &__avatar {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-position: center center;
+    background-size: cover;
+    &-wrapper {
+      margin: -75px auto 0;
+      &:hover {
+        .btn-edit-image {
+          display: block;
+        }
+      }
+    }
   }
   &__user-name {
     font-size: 32px;
-    color: #fff;
+    color: #000;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     text-shadow: 1px 1px 4px rgba(0,0,0,.4);
@@ -62,28 +73,49 @@
       padding: 0 50px;
     }
   }
+  &__edit-button {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    right: 5px;
+    top: 5px;
+    text-align: center;
+    border: 1px solid gray;
+    color: gray;
+    border-radius: 50%;
+    background: none;
+    &:hover,
+    &:focus {
+      background: none;
+      color: #000;
+      border: 1px solid #000;
+    }
+  }
   &__user-location {
     text-shadow: 1px 1px 4px rgba(0,0,0,.4);
     position: relative;
     font-size: 14px;
     color: rgba(255,255,255,.5);
-    color: #fff;
+    color: #000;
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
-
-    .svg-marker {
-      width: 8px;
+    &:empty {
+      display: none;
+    }
+    .svg-map-icon {
+      width: 13px;
       height: 12px;
-      fill: #fff;
-      position: relative;
-      left: 3px;
-      top: 1px;
+      fill: #000;
     }
 
     &-wrap {
       text-align: center;
       max-width: 240px;
       margin: 0 auto 21px;
+      &:empty {
+        display: none;
+      }
       &:hover {
         .btn-edit {
           opacity: 1;
@@ -102,7 +134,7 @@
 
     .btn-edit {
       display: block;
-      color: #fff;
+      color: #000;
       font-size: 0.8em;
       cursor: pointer;
       pointer-events: none;
@@ -155,31 +187,28 @@
 
 
   &__dl {
-    display: inline-flex;
+    display: flex;
     font-family: 'Libre Franklin', sans-serif;
-    margin: 0;
     position: relative;
-    right: -10px;
+    justify-content: center;
+    margin: 0 0 40px;
   }
   &__dl-item {
-    display: flex;
     align-items: center;
-    min-width: 120px;
+    min-width: 130px;
   }
   &__dd {
     padding-right: 7px;
     text-shadow: 1px 2px 4px rgba(0,0,0,.5);
     font-size: 32px;
-    color: #fff;
+    color: #000;
     margin: 0;
   }
   &__dt {
     padding-right: 5px;
-    text-shadow: 1px 2px 4px rgba(0,0,0,.5);
     font-size: 11px;
-    color: #fff;
+    color: #000;
     margin: 0;
-    text-align: left;
     font-weight: 400;
   }
   &__user-portrait {
@@ -201,10 +230,6 @@
   }
 
   &__user-trans-btns {
-    position: absolute;
-    right: 5.5%;
-    bottom: 14px;
-
     svg {
       fill: #000;
       display: inline-block;
@@ -271,13 +296,13 @@
   }
   .bio-wrapper {
     display: block;
-    width: 40%;
+    width: 720px;
     margin: auto;
-    padding-top: 30px;
+    text-align: center;
 
     h3 {
       font-family: 'Roboto', sans-serif;
-      font-size: 1.2em;
+      font-size: 24px;
       font-weight: 600;
       color: #000;
 
