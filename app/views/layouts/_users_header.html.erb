@@ -197,6 +197,9 @@ $(document).ready(function() {
                 hideDropdowns();
             }
         })
+        .on('click.closeDropdownOnClick', '.dropdown-menu a', function() {
+            $('.dropdown-menu').hide();
+        })
         .on('keydown', '.search-project-box', function(event) {
            if (event.which === 13) {
               event.preventDefault();

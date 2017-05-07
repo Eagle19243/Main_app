@@ -35,7 +35,7 @@
   &__right {
     display: flex;
     align-items: center;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
 
     .svg-arrow-down {
       width: 11px;
@@ -57,7 +57,7 @@
       }
 
       a {
-        font-family: 'Roboto';
+        font-family: 'Roboto', sans-serif;
         color: #333;
         display: block;
         text-decoration: none;
@@ -65,14 +65,18 @@
       }
 
       .dropdown-menu {
+        left: -35px;
+        top: 30px;
         li {
           background-color: #fff;
           text-align: left;
-          padding: 5px 10px;
 
           &:hover,
           &:focus {
             background-color: #eee;
+          }
+          a {
+            padding: 8px 30px;
           }
           a:hover,
           a:focus {
@@ -80,7 +84,9 @@
           }
 
           &.border-top {
-            padding: 8px 10px;
+            a {
+              padding: 10px 30px
+            }
           }
         }
       }
