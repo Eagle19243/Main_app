@@ -33,7 +33,7 @@
 <div class="profile-wrapper">
   <div class="profile-hero">
     <div class="profile-hero__img-wrapper">
-      <%= image_tag(@user.projects.first.picture, data: { 'object-fit': "cover" }) if @user.projects.count != 0 %>
+      <%= image_tag(@user.background_picture, data: { 'object-fit': "cover" }) if @user.projects.count != 0 %>
     </div>
     <div class="profile-hero__content">
       <% if user_signed_in? && current_user.id == @user.id %>
@@ -252,8 +252,18 @@
     if(input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function(e) {
-        $('#user_picture_cropbox').attr('src', e.target.result);
+        $('.f-edit-bcg__image img').attr('src', e.target.result);
         $('.jcrop-holder img').attr('src', e.target.result);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function previewBackgroundImage(input) {
+    if(input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('.f-edit-bcg__image img').attr('src', e.target.result);
       };
       reader.readAsDataURL(input.files[0]);
     }

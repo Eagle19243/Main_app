@@ -3,9 +3,9 @@
       <button class="modal-default__close" type="button"></button>
       <h3 class="modal-default__title">Edit Background Image</h3>
       <%= form_for(@user, :html => {:class => 'f-edit-bcg'}) do |f| %>
-        <% if @user.projects.first&.picture? %>
+        <% if @user.background_picture? %>
           <div class="f-edit-bcg__image">
-            <%= image_tag(@user.projects.first.picture, data: { 'object-fit': "cover" }) if @user.projects.count != 0 %>
+            <%= image_tag(@user.background_picture, data: { :class => 'modal-edit-bcg__img', 'object-fit': "cover" }) %>
           </div>
         <% end %>
 
