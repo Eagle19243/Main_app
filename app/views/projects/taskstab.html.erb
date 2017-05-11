@@ -111,6 +111,11 @@
                     <% end %>
                 <% end %>
             <% end %>
+            <% if !user_signed_in? %>
+                <button type="button" class="btn-root sign_up_a" data-modal="#registerModal">Get involved</button>
+            <% elsif !current_user.is_admin_for?(@project) %>
+                <button type="button" class="btn-root" data-modal="#welcomeToTeamModal">Get involved</button>
+            <% end %>
           </div>
 
         </div>

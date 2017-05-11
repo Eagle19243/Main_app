@@ -18,7 +18,7 @@ feature "Project Page", js: true do
     end
 
     scenario "Then you can see the project manager's image" do
-      expect(page.find(".b-project-info__user")).to have_xpath("//img[contains(@src, @project.user.picture.file.filename)]")
+      expect(page.find(".b-project-info__user-avatar")).to have_xpath("//img[contains(@src, @project.user.picture.file.filename)]")
     end
 
     scenario "Then you can see the project title" do
