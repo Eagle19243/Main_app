@@ -16,30 +16,7 @@
     </div>
 
     <a type="button" class="btn-root _small hidden-mobile header-align" data-modal="#startProjectModal">Start a Project</a>
-    <div class="header-dropdown">
-        <div class="header-dropdown__title js-dropdown">
-            Explore
-            <svg focusable="false" version="1.1" class="svg-arrow-down">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
-            </svg>
-        </div>
-        <ul class="header-dropdown__list js-dropdown-list">
-            <li class="header-dropdown__item">
-                <a class="projects-link" href="<%= projects_path %>">Active Projects</a>
-            </li>
-            <li class="header-dropdown__item">
-                <a href="<%= t('commons.about_links') %>">About</a>
-            </li>
-            <li class="header-dropdown__item">
-                <a href="<%= t('commons.improve_the_platform') %>">Improve the Platform</a>
-            </li>
-            <li class="header-dropdown__item">
-                <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
-            </li>
-        </ul>
-    </div>
-    <!--<%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>-->
-
+    <a type="button" class="btn-root _small hidden-mobile header-align _active-project" href="<%= projects_path %>">Active Projects</a>
   </div>
 
   <div class="s-header__right">
@@ -74,7 +51,7 @@
       </div>
     <% end %>
 
-    <div class="dropdown user-dropdown show-desktop">
+    <div class="dropdown user-dropdown show-desktop js-dropdown">
       <a class="dropdown-toggle pr-user" type="button" data-toggle="dropdown">
         <% if current_user.picture? %>
             <%= image_tag(current_user.picture, size: "30x30", class: "pr-user__img", data: {object_fit:"cover"}) %>
@@ -89,7 +66,7 @@
           </svg>
         </span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu js-dropdown-list">
         <li><%= link_to 'My Profile', user_path(current_user) %></li>
         <li><%= link_to 'My Projects', my_projects_path %></li>
         <li><a href="/users/<%= current_user.id %>/my_wallet">My Wallet</a></li>
@@ -100,6 +77,22 @@
           <%= link_to 'Logout', destroy_user_session_path, :method => 'delete' %>
         </li>
       </ul>
+      <div class="header-dropdown">
+          <div class="header-dropdown__title js-dropdown">
+              ?
+          </div>
+          <ul class="header-dropdown__list js-dropdown-list">
+              <li class="header-dropdown__item">
+                  <a href="<%= t('commons.about_links') %>">About</a>
+              </li>
+              <li class="header-dropdown__item">
+                  <a href="<%= t('commons.improve_the_platform') %>">Improve the Platform</a>
+              </li>
+              <li class="header-dropdown__item">
+                  <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
+              </li>
+          </ul>
+      </div>
     </div>
 
     <a href="javascript:void(0)" class="btn-mobile hamburger show-tablet">
