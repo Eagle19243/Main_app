@@ -21,6 +21,36 @@ RSpec.describe Task, :type => :model do
       task = create(:task, deadline: "2017-03-24 11:17:46 UTC")
       expect(task).to be_persisted
     end
+
+    it "is not possible to create a task with a budget lower than the minimum specified" do
+      expect {
+        create(:task, budget: Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET - 1))
+      }.to raise_error(
+        ActiveRecord::RecordInvalid,
+        "Validation failed: Budget must be greater than or equal to " + Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET).to_s
+      )
+    end
+
+    it "is possilbe to create a task with a correct budget" do
+      task = build(:task, budget: Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET - 1))
+      expect(task.save).to be false
+      task.budget = Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET)
+      expect(task.save).to be true
+    end
+
+    it "is not possible to set a nil budget for a valid task" do
+      task = create(:task)
+      task.budget = nil
+      task.valid?
+      expect(task.errors.messages.keys).to eq([:budget])
+    end
+
+    it "is not possible to set a budget that is lower than the minimum specified for a vaild task" do
+      task = create(:task)
+      task.budget = Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET - 1)
+      task.valid?
+      expect(task.errors.messages.keys).to eq([:budget])
+    end
   end
 
   describe 'state transitions' do

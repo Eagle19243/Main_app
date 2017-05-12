@@ -89,8 +89,9 @@ RSpec.describe TaskCompleteService, vcr: { cassette_name: 'coinbase' } do
         end
 
         it "prevents service initialization" do
+          invalid_task = FactoryGirl.build(:task, :with_associations, :with_wallet, task_attributes)
           expect {
-            described_class.new(task)
+            described_class.new(invalid_task)
           }.to raise_error(ArgumentError, "Task's budget is too low and cannot been transfered")
         end
       end

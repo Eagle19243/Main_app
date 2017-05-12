@@ -63,6 +63,7 @@ class Task < ActiveRecord::Base
   validates :condition_of_execution, presence: true
   validates :proof_of_execution, presence: true
   validates :satoshi_budget, presence: true
+  validates :budget, presence: true, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }
   validates :deadline, presence: true
   validates :target_number_of_participants, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
