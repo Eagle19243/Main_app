@@ -72,6 +72,9 @@
       .dropdown-menu {
         left: -35px;
         top: 30px;
+        &._active {
+          display: block;
+        }
         li {
           background-color: #fff;
           text-align: left;

@@ -51,8 +51,8 @@
       </div>
     <% end %>
 
-    <div class="dropdown user-dropdown show-desktop js-dropdown">
-      <a class="dropdown-toggle pr-user" type="button" data-toggle="dropdown">
+    <div class="dropdown user-dropdown show-desktop ">
+      <a class="dropdown-toggle pr-user js-dropdown" type="button">
         <% if current_user.picture? %>
             <%= image_tag(current_user.picture, size: "30x30", class: "pr-user__img", data: {object_fit:"cover"}) %>
         <% else %>
@@ -182,8 +182,16 @@ $(document).ready(function() {
 
     $(document)
         .on('click.dropdownToggle', '.js-dropdown', function() {
-            $(this).toggleClass('_active');
-            $(this).siblings('.js-dropdown-list').toggleClass('_active');
+            var isDropdownActive = $(this).siblings('.js-dropdown-list').hasClass('_active');
+
+            hideDropdowns();
+            if (isDropdownActive) {
+                $(this).removeClass('_active');
+                $(this).siblings('.js-dropdown-list').removeClass('_active');
+            } else {
+                $(this).addClass('_active');
+                $(this).siblings('.js-dropdown-list').addClass('_active');
+            }
         })
         .on('click.hideDropdown', function(e) {
             if (!$(e.target).closest('.js-dropdown-list').length && !$(e.target).closest('.js-dropdown').length) {
