@@ -24,11 +24,11 @@
       <td class="card-report__data _per-amount _hide"><%= satoshi_balance_in_btc(task.planned_amount_per_member) %></td>
     </tr>
     <tr class="items">
-      <td>Teammates </td>
-      <td class="_hide">Raised</td>
-      <td>Needed</td>
-      <td class="_hide">Left, USD</td>
-      <td>Budget</td>
+      <td><%= t('.teammates') %></td>
+      <td class="_hide"><%= t('.raised') %></td>
+      <td><%= t('.needed') %></td>
+      <td class="_hide"><%= t('.left_in_usd') %></td>
+      <td><%= t('.budget') %></td>
     </tr>
   </table>
 </div>

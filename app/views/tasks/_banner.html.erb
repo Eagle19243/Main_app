@@ -2,14 +2,14 @@
   <div class="project_picture">
     <%= image_tag(@project.picture, data: { 'object-fit': "cover" } ) %>
     <% if user_signed_in? && can?(:update, @project) %>
-      <a class="btn-edit btn-edit-image" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit Project Image</a>
+      <a class="btn-edit btn-edit-image" onclick="projectImgEdit();"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;<%= t('.edit_project_image') %></a>
     <% end %>
   </div>
   <div class="welcome-banner__content">
     <div class="row _profile">
         <div class="col">
             <div class="b-project-info__title">
-                <%= best_in_place_if user_signed_in? && can?(:update, @project), @project, :title, :ok_button => "Save", :cancel_button => "Cancel", :class => "project-title", :activator => '#title-pencil' %>
+                <%= best_in_place_if user_signed_in? && can?(:update, @project), @project, :title, :ok_button => t('commons.save'), :cancel_button => t('commons.cancel'), :class => "project-title", :activator => '#title-pencil' %>
                 <% if user_signed_in? && can?(:update, @project) %>
                     <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="title-pencil"></span>
                 <% end %>
@@ -18,7 +18,7 @@
                 <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-marker"></use>
                 </svg>
-                <%= best_in_place_if user_signed_in? && can?(:update, @project), @project, :country, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#country-pencil' %>
+                <%= best_in_place_if user_signed_in? && can?(:update, @project), @project, :country, :ok_button => t('commons.save'), :cancel_button => t('commons.cancel'), :activator => '#country-pencil' %>
                 <% if user_signed_in? && can?(:update, @project) %>
                     <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="country-pencil"></span>
                 <% end %>
@@ -31,14 +31,14 @@
 
                 <table>
                     <tr class="value">
-                        <td><%= @project.funded_percentages rescue 0 %></td>
-                        <td><%= @project.team_relations_string %></td>
-                        <td>฿ <%= btc_balance(@project.funded_budget) %></td>
+                      <td><%= @project.funded_percentages rescue 0 %></td>
+                      <td><%= @project.team_relations_string %></td>
+                      <td>฿ <%= btc_balance(@project.funded_budget) %></td>
                     </tr>
                     <tr class="items">
-                        <td>Funded</td>
-                        <td>Teammates</td>
-                        <td>Raised</td>
+                      <td><%= t('commons.funded') %></td>
+                      <td><%= t('commons.teammates') %></td>
+                      <td><%= t('commons.raised') %></td>
                     </tr>
                 </table>
             </div>
@@ -52,7 +52,7 @@
                 <% end %>
             </div>
             <p class="b-project-info__user-name">
-                <span>by <%= link_to @project.user.name, user_path(@project.user) %></span>
+              <span><%= t('commons.by') %> <%= link_to @project.user.name, user_path(@project.user) %></span>
             </p>
         </div>
     </div>

@@ -19,7 +19,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.under_review_task.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.under_review_task.subject'))
     end
 
     it 'has the correct body' do
@@ -45,7 +45,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.comment.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.comment.subject'))
     end
 
     it 'has the correct body' do
@@ -68,7 +68,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.revision_approved.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.revision_approved.subject'))
     end
 
     it 'has the correct body' do
@@ -88,7 +88,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.task_started.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.task_started.subject'))
     end
 
 
@@ -113,7 +113,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.accept_new_task.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.accept_new_task.subject'))
     end
 
     it 'has the correct body' do
@@ -138,7 +138,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.notify_user_for_rejecting_new_task.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.notify_user_for_rejecting_new_task.subject'))
     end
 
     it 'has the correct body' do
@@ -162,7 +162,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.notify_others_for_rejecting_new_task.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.notify_others_for_rejecting_new_task.subject'))
     end
 
     it 'has the correct body' do
@@ -187,7 +187,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.task_deleted.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.task_deleted.subject'))
     end
 
     it 'has the correct body' do
@@ -212,7 +212,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.notification.task_completed.subject'))
+      expect(email.subject).to eq(I18n.t('notification_mailer.task_completed.subject'))
     end
 
     it 'has the correct body' do

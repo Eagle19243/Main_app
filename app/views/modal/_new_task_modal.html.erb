@@ -2,7 +2,7 @@
   <div class="modal-default__content">
       <button type="button" class="modal-default__close" data-dismiss="modal"></button>
 
-      <h2 class="modal-default__title">Suggest New Task</h2>
+      <h2 class="modal-default__title"><%= t('.suggest_new_task') %></h2>
 
       <%= simple_form_for(Task.new) do |f| %>
         <%= f.error_notification %>
@@ -10,7 +10,7 @@
         <%= render 'shared/error_messages', object: f.object %>
 
         <div class="f-default__row">
-          <label class="f-default__label" for="task_title">Title</label>
+          <label class="f-default__label" for="task_title"><%= t('commons.title') %></label>
           <input class="f-default__field" required="required" maxlength="200" aria-required="true" type="text" name="task[title]" id="task_title">
         </div>
 
@@ -23,29 +23,29 @@
           <div class="f-default__col-wrap">
             <div class="f-default__col">
               <label class="f-default__label" for="task_description">
-                Budget
+                <%= t('commons.budget') %>
                 <span class="b-tooltip__element">(?)
                     <div class="b-tooltip__content">
-                        Total budget of task in Bitcoins.
+                      <%= t('.budget_in_bitcoin') %>
                     </div>
                 </span>
-                , min <%= min_fund_budget_in_btc %> BTC</label>
+                , <%= t('commons.min') %> <%= min_fund_budget_in_btc %> BTC</label>
               <input class="f-default__field modal-new-task__btc-amount numeric decimal required" required="required" min="<%= min_fund_budget_in_btc %>" value="<% min_fund_budget_in_btc %>" maxlength="10" aria-required="true" type="number" step="0.001" name="task[budget]" id="task_budget">
               <span id="new_task_btc" class="f-default__convert"></span>
             </div>
             <div class="f-default__col">
               <label class="f-default__label" for="task_description">
-                  People Needed
+                  <%= t('.people_needed') %>
                   <span class="b-tooltip__element">(?)
                       <div class="b-tooltip__content">
-                          Total number of participants needed to work on this task.
+                        <%= t('.total_participant') %>
                       </div>
                   </span>
               </label>
               <input class="f-default__field modal-new-task__member_amount numeric integer required" required="required" maxlength="5" aria-required="true" type="number" step="1" min="1" value="1" name="task[target_number_of_participants]" id="task_target_number_of_participants">
             </div>
             <div class="f-default__col _estimation">
-              <label class="f-default__label" for="task_description">Estimated per member amount<span>&nbsp;</label>
+              <label class="f-default__label" for="task_description"><%= t('.estimate_amount_per_member') %><span>&nbsp;</label>
               <div class="modal-new-task__team-member-estimation"></div>
               <span id="new_task_btc_per_member" class="f-default__convert"></span>
             </div>
@@ -54,10 +54,10 @@
 
         <div class="f-default__row b-tooltip">
           <label class="f-default__label" for="task_condition_of_execution">
-            Specifications
+            <%= t('.specifications') %>
             <span class="b-tooltip__element">(?)
                 <div class="b-tooltip__content">
-                    Provide general description of this task.
+                  <%= t('.general_description') %>
                 </div>
             </span>
           </label>
@@ -66,10 +66,10 @@
 
         <div class="f-default__row b-tooltip">
           <label class="f-default__label" for="task_proof_of_execution">
-            Proof of Execution
+            <%= t('.proof_of_execution') %>
             <span class="b-tooltip__element">(?)
                 <div class="b-tooltip__content">
-                    Specify conditions to consider this task as completed.
+                    <%= t('.condition_as_completed') %>
                 </div>
             </span>
           </label>
@@ -77,7 +77,7 @@
         </div>
 
         <div class="f-default__row">
-          <label class="f-default__label" for="deadline_field">Deadline</label>
+          <label class="f-default__label" for="deadline_field"><%= t('commons.deadline') %></label>
           <div class='input-group date deadline_picker'>
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar">
@@ -89,7 +89,7 @@
           <input type='hidden' name="task[state]" id="task_state" value="">
         </div>
 
-        <button class="btn-root">Create Task</button>
+        <button class="btn-root"><%= t('commons.create_task') %></button>
       <% end %>
   </div>
 </div>

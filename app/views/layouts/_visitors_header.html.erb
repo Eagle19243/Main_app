@@ -15,13 +15,13 @@
       <% end %>
     </div>
 
-    <a class="header-link border-link ml30 hidden-mobile sign_up_a" data-modal="#registerModal" id="start_project_link">Start a Project</a>
-    <a class="header-link border-link hidden-mobile header-align _active-project" href="<%= projects_path %>">Active Projects</a>
+    <a class="header-link border-link ml30 hidden-mobile sign_up_a" data-modal="#registerModal" id="start_project_link"><%= t('commons.start_a_project') %></a>
+    <a class="header-link border-link hidden-mobile header-align _active-project" href="<%= projects_path %>"><%= t('commons.active_projects') %></a>
 
     <div class="pull-right register-group">
         <div class="search-box-wrapper show-desktop">
             <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
-                <input type="text" class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="Search Causes, Places, or Keyword">
+                <input type="text" class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>">
                 <button type="button" name="" class="btn-search btn-reset">
                     <svg focusable="false" version="1.1" class="svg-search">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-search"></use>
@@ -32,9 +32,9 @@
               <ul class="search-result__list"></ul>
             </div>
         </div>
-      <a data-modal="#registerModal" class="show-desktop sign_in_a">Login</a>
-      <span class="show-desktop">or</span>
-      <a data-modal="#registerModal" class="border-link show-desktop sign_up_a">Register</a>
+      <a data-modal="#registerModal" class="show-desktop sign_in_a"><%= t('commons.login') %></a>
+      <span class="show-desktop"><%= t('commons.or') %></span>
+      <a data-modal="#registerModal" class="border-link show-desktop sign_up_a"><%= t('commons.register') %></a>
       <a href="javascript:void(0)" class="btn-mobile hamburger show-tablet text-right">
         <i class="fa fa-bars" aria-hidden="true"></i>
       </a>
@@ -46,15 +46,15 @@
               ?
           </div>
           <ul class="header-dropdown__list js-dropdown-list">
-              <li class="header-dropdown__item">
-                  <a href="<%= t('commons.about_links') %>">About</a>
-              </li>
-              <li class="header-dropdown__item">
-                  <a href="<%= t('commons.improve_the_platform') %>">Improve the Platform</a>
-              </li>
-              <li class="header-dropdown__item">
-                  <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
-              </li>
+            <li class="header-dropdown__item">
+                <%= link_to t('commons.about'), '/projects/1/taskstab?tab=plan' %>
+            </li>
+            <li class="header-dropdown__item">
+                <%= link_to t('commons.improve_the_platform'), '/projects/1/taskstab?tab=tasks' %>
+            </li>
+            <li class="header-dropdown__item">
+                <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
+            </li>
           </ul>
       </div>
     </div>
@@ -64,16 +64,16 @@
 <div class="mobile-menu display-none">
   <ul class="mobile-menu-list">
     <li class="border-bottom show-mobile">
-      <a class="sign_up_a" data-modal="#registerModal" id="start_project_link">Start a Project</a>
+      <a class="sign_up_a" data-modal="#registerModal" id="start_project_link"><%= t('commons.start_a_project') %></a>
     </li>
     <li class="border-bottom show-mobile">
       <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true} %>
     </li>
     <li class="border-bottom">
-      <a data-modal="#registerModal" class="sign_in_a">Login</a>
+      <a data-modal="#registerModal" class="sign_in_a"><%= t('commons.login') %></a>
     </li>
     <li>
-      <a class="sign_up_a" data-modal="#registerModal">Register</a>
+      <a class="sign_up_a" data-modal="#registerModal"><%= t('commons.register') %></a>
     </li>
   </ul>
 </div>

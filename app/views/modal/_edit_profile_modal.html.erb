@@ -1,7 +1,7 @@
 <div id="editProfileModal" class="modal-default modal-edit-profile" role="dialog" tabindex="-1">
   <div class="modal-default__content">
     <button type="button" class="modal-default__close"></button>
-    <h2 class="modal-default__title ">Edit intro</h2>
+    <h2 class="modal-default__title "><%= t('.title') %></h2>
 
     <form class="modal-edit-profile__form">
         <div class="modal-edit-profile__row _general">
@@ -12,66 +12,66 @@
                     </button>
                 </div>
             <% else %>
-                <div class="modal-edit-profile__avatar" style="background-image: url('<%= gravatar_for_user(@user) %>')">
+                <div class="modal-edit-profile__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')">
                     <button class="modal-edit-profile__avatar-edit" data-modal="#profile-img-edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
                 </div>
             <% end %>
             <div class="modal-edit-profile__general">
-                <div class="modal-edit-profile__title">General</div>
+                <div class="modal-edit-profile__title"><%= t('commons.general') %></div>
                 <div class="modal-edit-profile__row-wrapper">
                     <div class="modal-edit-profile__col">
-                        <div class="modal-edit-profile__subtitle">First name</div>
+                        <div class="modal-edit-profile__subtitle"><%= t('commons.first_name') %></div>
                         <input type="text" class="modal-edit-profile__input _first-name" value="<%= @user.first_name %>">
                     </div>
                     <div class="modal-edit-profile__col">
-                        <div class="modal-edit-profile__subtitle">Last name</div>
+                        <div class="modal-edit-profile__subtitle"><%= t('commons.last_name') %></div>
                         <input type="text" class="modal-edit-profile__input _last-name" value="<%= @user.last_name %>">
                     </div>
                 </div>
                 <div class="modal-edit-profile__row-wrapper">
                     <div class="modal-edit-profile__col">
-                        <div class="modal-edit-profile__subtitle">City</div>
+                        <div class="modal-edit-profile__subtitle"><%= t('commons.city') %></div>
                         <input type="text" class="modal-edit-profile__input _city" value="<%= @user.city %>">
                     </div>
                     <div class="modal-edit-profile__col">
-                        <div class="modal-edit-profile__subtitle">State</div>
+                        <div class="modal-edit-profile__subtitle"><%= t('commons.state') %></div>
                         <input type="text" class="modal-edit-profile__input _state" value="<%= @user.state %>">
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-edit-profile__row">
-            <div class="modal-edit-profile__title">Social</div>
+            <div class="modal-edit-profile__title"><%= t('commons.social') %></div>
             <div class="modal-edit-profile__row-wrapper _three-col">
                 <div class="modal-edit-profile__col">
-                    <div class="modal-edit-profile__subtitle">Linkedin</div>
+                    <div class="modal-edit-profile__subtitle"><%= t('commons.linkedin') %></div>
                     <input type="text" class="modal-edit-profile__input _linkedin" value="<%= @user.linkedin_id %>">
                 </div>
                 <div class="modal-edit-profile__col">
-                    <div class="modal-edit-profile__subtitle">Facebook</div>
+                    <div class="modal-edit-profile__subtitle"><%= t('commons.facebook') %></div>
                     <input type="text" class="modal-edit-profile__input _facebook" value="<%= @user.facebook_id %>">
                 </div>
                 <div class="modal-edit-profile__col">
-                    <div class="modal-edit-profile__subtitle" >Twitter</div>
+                    <div class="modal-edit-profile__subtitle" ><%= t('commons.twitter') %></div>
                     <input type="text" class="modal-edit-profile__input _twitter" value="<%= @user.twitter_id %>">
                 </div>
             </div>
         </div>
         <div class="modal-edit-profile__row">
-            <div class="modal-edit-profile__title">Contacts<span> (Your contact informations are only visible to your teammates)</span></div>
+            <div class="modal-edit-profile__title"><%= t('commons.contacts') %><span> (<%= t('commons.contacts_privacy') %>)</span></div>
             <div class="modal-edit-profile__row-wrapper _three-col">
                 <div class="modal-edit-profile__col">
-                    <div class="modal-edit-profile__subtitle">Email</div>
+                    <div class="modal-edit-profile__subtitle"><%= t('commons.email') %></div>
                     <input type="text" class="modal-edit-profile__input _email" value="<%= @user.email %>" disabled>
                 </div>
                 <div class="modal-edit-profile__col">
-                    <div class="modal-edit-profile__subtitle">Phone</div>
+                    <div class="modal-edit-profile__subtitle"><%= t('commons.phone') %></div>
                     <input type="text" class="modal-edit-profile__input _phone" value="<%= @user.phone_number %>">
                 </div>
                 <div class="modal-edit-profile__col">
-                    <div class="modal-edit-profile__subtitle">Skype</div>
+                    <div class="modal-edit-profile__subtitle"><%= t('commons.skype') %></div>
                     <input type="text" class="modal-edit-profile__input _skype" value="<%= @user.skype_id %>">
                 </div>
             </div>
@@ -79,12 +79,12 @@
         <div class="modal-edit-profile__row">
             <div class="modal-edit-profile__row-wrapper">
                 <div class="modal-edit-profile__bio">
-                    <div class="modal-edit-profile__subtitle">Bio</div>
+                    <div class="modal-edit-profile__subtitle"><%= t('commons.bio') %></div>
                     <textarea class="modal-edit-profile__textarea _bio"><%= @user.bio %></textarea>
                 </div>
             </div>
         </div>
-        <button type="submit" class="modal-edit-profile__save btn-root">Save</button>
+        <button type="submit" class="modal-edit-profile__save btn-root"><%= t('commons.save') %></button>
     </form>
   </div>
 </div>
@@ -118,12 +118,12 @@
                     method: 'PUT',
                     data: userNewData,
                     success: function(res) {
-                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text('Profile was updated');
+                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_success_message') %>");
                         $('#editProfileModal').fadeOut();
                         $('#profileEditResponse').fadeIn();
                     },
                     error: function(res) {
-                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text('Profile wasn\'t updated. Try one more time');
+                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_fail_message') %>");
                         $('#profileEditResponse').fadeIn();
                     }
                 })

@@ -1,12 +1,12 @@
 <div class="row s-group-messages margin-none">
   <div class="s-group-messages__nav">
 
-    <div class="s-group-messages__nav-title">Teams channels:</div>
+    <div class="s-group-messages__nav-title"><%= t('.team_channels') %>:</div>
     <div class="s-group-messages__menu">
       <div class="s-group-messages__submenu">
-        <div class="s-group-messages__submenu-title">My project:</div>
+        <div class="s-group-messages__submenu-title"><%= t('commons.my_projects') %>:</div>
         <ul class="s-group-messages__submenu-list">
-          <% unless @user_projects.blank? %>
+          <% if @user_projects.present? %>
               <% @user_projects.each.with_index do |project, index| %>
                 <li class="s-group-messages__submenu-item"><a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a></li>
               <% end %>
@@ -17,7 +17,7 @@
 
     <div class="s-group-messages__menu">
       <div class="s-group-messages__submenu">
-        <div class="s-group-messages__submenu-title">Team members:</div>
+        <div class="s-group-messages__submenu-title"><%= t('.team_members') %>:</div>
         <ul class="s-group-messages__submenu-list">
             <%= render 'group_messages/project_team' %>
         </ul>
@@ -25,7 +25,7 @@
     </div>
     <div class="s-group-messages__menu">
         <div class="s-group-messages__submenu">
-            <div class="s-group-messages__submenu-title">Direct messages:</div>
+            <div class="s-group-messages__submenu-title"><%= t('.direct_messages') %>:</div>
             <ul class="s-group-messages__submenu-list _project-team-members">
               <%= render 'group_messages/one_to_one_members' %>
             </ul>
@@ -33,24 +33,24 @@
     </div>
 
     <div class="s-group-messages__user-search">
-        <span data-toggle="modal" data-target="#searchUser"><i class="fa fa-plus"></i>&nbsp;&nbsp;Search for user</span>
+        <span data-toggle="modal" data-target="#searchUser"><i class="fa fa-plus"></i>&nbsp;&nbsp;<%= t('.search_for_user') %></span>
     </div>
 
     <div class="s-group-messages__search-form">
         <%= form_tag(group_messages_search_user_path, :method => "get", remote: true, id: "search-form") do %>
-            <%= text_field_tag :search, params[:search], class: "search-query", placeholder: "Find or Start a conversation", data: {autocomplete: autocomplete_user_name_group_messages_path, :id_element => '#some_element'} %>
+            <%= text_field_tag :search, params[:search], class: "search-query", placeholder: t('.find_start_conversation'), data: { autocomplete: autocomplete_user_name_group_messages_path, :id_element => '#some_element' } %>
         <% end %>
     </div>
   </div>
   <div class="s-group-messages__content">
     <div class="s-group-messages__chat-title">
-      <%= render partial: 'group_messages/chatroom_info', locals: {chatroom: @chatroom} %>
+      <%= render partial: 'group_messages/chatroom_info', locals: { chatroom: @chatroom } %>
     </div>
     <div class="s-group-messages__messages">
       <%= render 'group_messages/all_messages' %>
     </div>
     <div id='message-form-div'>
-      <% unless @chatroom.blank? %>
+      <% if @chatroom.present? %>
           <%= render 'group_messages/form' %>
       <% end %>
     </div>

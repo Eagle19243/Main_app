@@ -1,0 +1,24 @@
+en:
+  notification_mailer:
+    task_deleted:
+      subject: 'Task was deleted'
+    comment:
+      subject: 'Comment for task received'
+    revision_approved:
+      subject: 'Approved version of project changed'
+    task_started:
+      subject: 'Task has started'
+    accept_new_task:
+      subject: 'Task was approved'
+    under_review_task:
+      subject: 'Task finished and is under review'
+    notify_user_for_rejecting_new_task:
+      subject: 'Task was not approved'
+    notify_others_for_rejecting_new_task:
+      subject: 'Task was not approved'
+    invite_admin:
+      subject: "Invitation For Project"
+    suggest_task:
+      subject: "Suggeted Task"
+    task_completed:
+      subject: 'Task has been completed'

@@ -1,0 +1,8 @@
+en:
+  tasks:
+    banner:
+      edit_project_image: "Edit Project Image"
+      funded: "Funded"
+      teammates: "Teammates"
+      raised: "Raised"
+      get_involved: "Get involved"

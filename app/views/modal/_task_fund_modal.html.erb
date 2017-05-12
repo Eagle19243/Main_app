@@ -1,20 +1,20 @@
 <div id="taskFundModal" class="modal-default modal-fund" role="dialog" tabindex="-1">
-  <div id="fund-loading"> loading ...   <%= image_tag("loading.gif", :alt => "rss feed") %> </div>
+  <div id="fund-loading"><%= t('commons.loading') %><%= image_tag("loading.gif", :alt => "rss feed") %> </div>
   <div class="modal-fund__inner">
 
     <div class="modal-fund__content">
       <div class="modal-fund__top">
         <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Make a donation</h4>
+        <h4 class="modal-default__title"><%= t('.title') %></h4>
 
         <div class="modal-fund__form-wrap" id="user-btc-view">
             <div class="f-default__row">
               <%= form_tag("/user_wallet_transactions/send_to_task_address", method: "post", remote: true , class: 'f-default f-donate') do %>
                 <input type="hidden" id="wallet_transaction_task_id" name="task_id"  required class="form-control"/>
                 <label class="f-default__label" for="wallet_transaction_amount">
-                    Enter
-                    <span class="js-current-currency">USD</span>
-                    Amount to Send
+                    <%= t('commons.enter') %>
+                    <span class="js-current-currency"><%= t('commons.usd') %></span>
+                    <%= t('.amount_to_send') %>
                     <span class="modal-fund__needed _btc"></span>
                     <span class="modal-fund__needed _usd _active"></span>
                     </label>
@@ -23,8 +23,8 @@
               <% end %>
             </div>
             <div class="f-default__row _space-between">
-                <button type="button" class="btn-root js-change-payment-type _wallet _bitcoin" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
-                <button type="button" class="btn-root js-change-payment-type _active _credit" id="donate-with-credit-card" value="save">Donate with credit card</button>
+                <button type="button" class="btn-root js-change-payment-type _wallet _bitcoin" id="save-wallet-teansaction" value="save"><%= t('.donate_with_bitcoin') %></button>
+                <button type="button" class="btn-root js-change-payment-type _active _credit" id="donate-with-credit-card" value="save"><%= t('.donate_with_card') %></button>
             </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
         <div class="modal-fund__bottom-content">
           <div class="modal-fund__tabs">
             <div class="modal-fund__tab-wrap">
-              <button class="modal-fund__tab" type="button">Use your WeServe.io wallet</button>
+              <button class="modal-fund__tab" type="button"><%= t('.use_weserve_wallet') %></button>
             </div>
 
           <% if user_signed_in? %>
@@ -42,9 +42,9 @@
 
                   <div class="modal-fund__signed">
                     <div class="modal-fund__signed-label">
-                        <span>Signed in as</span>
+                        <span><%= t('commons.sign_in_as') %></span>
                         <span class="modal-fund__user-name"><%= current_user.name %></span>
-                        <%= link_to 'Not you?', destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
+                        <%= link_to t('commons.not_you?'), destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
                     </div>
                     <% if current_user.picture? %>
                         <%= image_tag(current_user.picture, class: "modal-fund__avatar") %>
@@ -52,19 +52,19 @@
                         <%= gravatar_for_user(current_user, 44) %>
                     <% end %>
                     <div class="modal-fund__field-wrap">
-                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
+                      <div class="modal-fund__balance"><%= t('commons.btc_wallet') %> (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
                       </svg>
                     </div>
 
-                    <a class="modal-fund__wallet" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
+                    <a class="modal-fund__wallet" href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a>
                   </div>
               </div>
             </div>
-            <button type="button" class="btn-root _donate _dark _disable">Donate - BTC <span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
+            <button type="button" class="btn-root _donate _dark _disable"><%= t('.donate') %><span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
           <% else %>
-            <button type="button" class="btn-root _sign-in _dark">Sign in</button>
+            <button type="button" class="btn-root _sign-in _dark"><%= t('commons.sign_in') %></button>
           <% end %>
 
           </div>
@@ -72,7 +72,7 @@
         <div class="modal-fund__bottom-content _active">
           <div class="modal-fund__stripe">
             <div class="modal-fund__stripe-top">
-              <div class="modal-fund__stripe-title">Pay with your credit card via stripe</div>
+              <div class="modal-fund__stripe-title"><%= t('.pay_with_stripe') %></div>
               <div class="modal-fund__stripe-cards">
                 <%= image_tag('payments/dc-pay@2x.png') %>
                 <%= image_tag('payments/jcb-pay@2x.png') %>
@@ -85,7 +85,7 @@
             <% if user_signed_in? %>
               <%= render :template => '/payments/stripe/new' %>
             <% else %>
-              <button type="button" class="btn-root _sign-in _dark">Sign in</button>
+              <button type="button" class="btn-root _sign-in _dark"><%= t('commons.sign_in') %></button>
             <% end %>
           </div>
         </div>

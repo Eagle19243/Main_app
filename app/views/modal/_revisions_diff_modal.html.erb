@@ -2,37 +2,37 @@
 
   <div class="modal-default__content">
       <button type="button" class="modal-default__close"></button>
-      <h3 class="modal-default__title">Difference between revisions</h3>
+      <h3 class="modal-default__title"><%= t('.title') %></h3>
       <div class="modal-body">
         <div class="modal-body-header">
           <div class="row">
 
             <div class="col-md-6 modal-revision-info modal-revision-info--left">
               <div class="modal-revision-title">
-                Revision as of <span></span>
-                <a class="modal-revision-edit-link"><i class="fa fa-pencil"></i> Edit</a>
+                <%= t('.revision_as_of') %> <span></span>
+                <a class="modal-revision-edit-link"><i class="fa fa-pencil"></i> <%= t('commons.edit') %></a>
               </div>
               <div class="modal-revision-user">
                 <img src="" />
-                <a href="#" class="modal-revision-user-link">Anonymous</a>
+                <a href="#" class="modal-revision-user-link"><%= t('commons.anonymous') %></a>
                 <a class="modal-revision-user-message">
                   <i class="fa fa-comment-o"></i>
-                  Message
+                  <%= t('commons.message') %>
                 </a>
               </div>
             </div>
 
             <div class="col-md-6 modal-revision-info modal-revision-info--right">
               <div class="modal-revision-title">
-                Revision as of <span></span>
-                <a class="modal-revision-edit-link"><i class="fa fa-pencil"></i> Edit</a>
+                <%= t('.revision_as_of') %> <span></span>
+                <a class="modal-revision-edit-link"><i class="fa fa-pencil"></i> <%= t('commons.edit') %></a>
               </div>
               <div class="modal-revision-user">
                 <img src="" />
-                <a href="#" class="modal-revision-user-link">Anonymous</a>
+                <a href="#" class="modal-revision-user-link"><%= t('commons.anonymous') %></a>
                 <a class="modal-revision-user-message">
                   <i class="fa fa-comment-o"></i>
-                  Message
+                  <%= t('commons.message') %>
                 </a>
               </div>
             </div>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="modal-body-diff">
-          Loading, please wait ..
+          <%= t('commons.loading_please_wait') %>
         </div>
       </div>
   </div>

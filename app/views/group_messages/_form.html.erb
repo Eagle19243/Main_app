@@ -14,15 +14,15 @@
           <%= image_tag 'loading.gif' %>
         </div>
         <%= f.hidden_field :chatroom_id, value: @chatroom.id %>
-        <%= f.text_area :message, :placeholder => 'Write message' %>
+        <%= f.text_area :message, :placeholder => t('.write_message') %>
         <%= f.file_field :attachment, :style => 'display:none', id: 'file-attachment-button' %>
         <div class="f-new-message__send">
-            <%= f.submit 'Send', class: 'f-new-message__submit' %>
+            <%= f.submit t('commons.send'), class: 'f-new-message__submit' %>
 
             <div class="f-new-message__attach">
                 <span class="postfix text-default">
                     <i class="fa fa-paperclip fa-2x" title="Attach file" aria-hidden="true" id="file-attachment-icon"></i>
-                    Add Attachment
+                    <%= t('commons.add_attachment') %>
                 </span>
             </div>
         </div>

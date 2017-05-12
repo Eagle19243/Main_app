@@ -74,9 +74,7 @@
         </div>
       </div>
       <div class="s-how-work__info">
-        As the Project Leader, you maintain control over the collaboration at all times, so
-        your project development reflects your own vision. You build momentum with the crowd through
-        the achievement of small tasks.
+        <%= t('landing.hero-collaboration-text') %>
       </div>
     </div>
   </section>
@@ -85,67 +83,67 @@
       <div class="s-landing__wrapper">
           <ul class="b-landing-plan__list">
               <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title">INNOVATORS</div>
+                  <div class="b-landing-plan__title"><%= t('landing.innovators.title') %></div>
                   <div class="b-landing-plan__content _center">
                       <div class="b-landing-plan__subtitle">
-                          <span>Create</span> your Prototype
+                        <%= t('landing.innovators.create_prototype_html').html_safe %>
                       </div>
                       <p class="b-landing-plan__info">
-                         Build a team.
+                        <%= t('landing.innovators.build_team') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          Finance tasks.
+                        <%= t('landing.innovators.finance_task') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          Collect feedback.
+                        <%= t('landing.innovators.feedback') %>
                       </p>
                   </div>
               </li>
               <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title">Bloggers</div>
+                  <div class="b-landing-plan__title"><%= t('landing.bloggers.title') %></div>
                   <div class="b-landing-plan__content">
                       <div class="b-landing-plan__subtitle">
-                          <span>Report</span> on the future
+                        <%= t('landing.bloggers.report_on_the_future_html').html_safe %>
                       </div>
                       <p class="b-landing-plan__info">
-                         Publish an idea and your audience will implement it in the world.
+                         <%= t('landing.bloggers.publish_idea') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          Generate verified content on what is about to happen.
+                        <%= t('landing.bloggers.generate_content') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          See your writing drive action. Translate your written ideas into tangible results.
+                        <%= t('landing.bloggers.translate_ideas') %>
                       </p>
                   </div>
               </li>
               <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title">STUDENTS</div>
+                  <div class="b-landing-plan__title"><%= t('landing.students.title') %></div>
                   <div class="b-landing-plan__content">
                       <div class="b-landing-plan__subtitle">
-                          <span>Build</span> your own lab
+                        <%= t('landing.students.build_lab_html').html_safe %>
                       </div>
                       <p class="b-landing-plan__info">
-                         Bridge the gap between theory and action.
+                        <%= t('landing.students.theory_and_action') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          Publicize and expand your academic projects.
+                        <%= t('landing.students.academic_projects') %>
                       </p>
                   </div>
               </li>
               <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title">Activists</div>
+                  <div class="b-landing-plan__title"><%= t('landing.activists.title') %></div>
                   <div class="b-landing-plan__content">
                       <div class="b-landing-plan__subtitle">
-                          <span>Serve</span> as a leader
+                        <%= t('landing.activists.serve_as_leader_html').html_safe %>
                       </div>
                       <p class="b-landing-plan__info">
-                          Turn your supporters into an organized task force.
+                        <%= t('landing.activists.supporter') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          Multiply your effectiveness with collaborative action, rather than mere protest.
+                        <%= t('landing.activists.multiply_effectiveness') %>
                       </p>
                       <p class="b-landing-plan__info">
-                          Emerge as a leader through concrete action rather than just talking and lip service.
+                        <%= t('landing.activists.emerge_leadership') %>
                       </p>
                   </div>
               </li>
@@ -171,9 +169,9 @@
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-group"></use>
                         </svg>
                     </div>
-                    <div class="s-landing__tabs-title">ENGAGE YOUR AUDIENCE</div>
+                    <div class="s-landing__tabs-title"><%= t('landing.engage_audience.title') %></div>
                     <div class="s-landing__tabs-info">
-                        Turn your followers into contributors, and increase trust and support to your project.
+                      <%= t('landing.engage_audience.description') %>
                     </div>
                     <div class="s-landing__tabs-button">
                       <% if user_signed_in? %>
@@ -192,9 +190,9 @@
                     <div class="s-landing__tabs-logo">
                       <%= image_tag("icons/icon-coa.png") %>
                     </div>
-                    <div class="s-landing__tabs-title">BE INCLUSIVE</div>
+                    <div class="s-landing__tabs-title"><%= t('landing.inclusive.title') %></div>
                     <div class="s-landing__tabs-info">
-                        Bring diverse people together in unique efforts to achieve common goals.
+                        <%= t('landing.inclusive.description') %>
                     </div>
                     <div class="s-landing__tabs-button">
                       <% if user_signed_in? %>
@@ -215,9 +213,9 @@
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-market"></use>
                         </svg>
                     </div>
-                    <div class="s-landing__tabs-title">TEST YOUR MARKET</div>
+                    <div class="s-landing__tabs-title"><%= t('landing.test_market.title') %></div>
                     <div class="s-landing__tabs-info">
-                        Build an active community around a concrete story. Get community feedback and improvement.
+                      <%= t('landing.test_market.description') %>
                     </div>
                     <div class="s-landing__tabs-button">
                       <% if user_signed_in? %>
@@ -233,7 +231,7 @@
 
   <div class="s-landing__features">
     <div class="s-landing__wrapper">
-        <div class="s-landing__title">Gain Independence</div>
+        <div class="s-landing__title"><%= t('landing.independent.title') %></div>
         <ul class="s-landing__features-list">
              <li class="s-landing__features-item">
                  <div class="s-landing__features-logo">
@@ -241,9 +239,9 @@
                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-corruption"></use>
                      </svg>
                  </div>
-                 <div class="s-landing__features-title">ANTI-CORRUPTION</div>
+                 <div class="s-landing__features-title"><%= t('landing.independent.anti_curruption.title') %></div>
                  <div class="s-landing__features-info">
-                     Build powerful action for your community without having to belong to the ruling clubs and emerge as an independent leader.
+                     <%= t('landing.independent.anti_curruption.description') %>
                  </div>
              </li>
              <li class="s-landing__features-item">
@@ -252,9 +250,9 @@
                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-list-search"></use>
                      </svg>
                  </div>
-                 <div class="s-landing__features-title">TRANSPARENCY</div>
+                 <div class="s-landing__features-title"><%= t('landing.independent.transparency.title') %></div>
                  <div class="s-landing__features-info">
-                     Projects are open for public review, so you may channel the wisdom of the crowd. This makes you accountable but it also protects you and your project as independent and legitimate.
+                     <%= t('landing.independent.transparency.description') %>
                  </div>
              </li>
              <li class="s-landing__features-item">
@@ -263,9 +261,9 @@
                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-bitcoin-logo"></use>
                      </svg>
                  </div>
-                 <div class="s-landing__features-title">BITCOIN PAYMENT</div>
+                 <div class="s-landing__features-title"><%= t('landing.independent.bitcoin_payment.title') %></div>
                  <div class="s-landing__features-info">
-                     Fund a project anywhere in the world with a multi-national team.
+                     <%= t('landing.independent.bitcoin_payment.description') %>
                  </div>
              </li>
         </ul>

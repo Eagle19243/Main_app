@@ -1,35 +1,3 @@
-
-<div id="fund-transfer-wallet" class="reveal-modal" data-reveal aria-labelledby="inviteTitle" aria-hidden="true" role="dialog">
-  <div>
-    <a class="close-reveal-modal" aria-label="Close">&times;</a>
-    <div class="fund-do">
-      <div class="row">
-        <center><h4 >Transfer BTC to Any Wallet</h4></center>
-        <center>  <div style="background-color: red ;font-size: large ;margin:0 3%"  id="response-from-wallet"></div></center>
-        <div class="large-1 medium-1 small-0 columns"></div>
-        <%= form_tag("/user_wallet_transactions/create", method: "post" ,remote:true ) do %>
-          <center>
-            <div class="form-group" style="margin:0 3%">
-              <label class="control-label" >Amount</label>
-              <input type="text" id="wallet_transaction_amount" name="amount"  class="form-control" required="true" placeholder='Enter USD Amount to Send'/>
-              <span id="wallet_btc"style="color: darkorange"></span>
-            </div>
-          </center>
-          <center>
-            <div class="form-group" style="margin:0 3%">
-              <label class="control-label" >User Wallet</label>
-              <input type="text" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control" placeholder='Please Enter Receiver Wallet Address' />
-            </div>
-          </center>
-          <div class="form-group" style="margin:0 3%">
-            <button type="submit" class="  btn btn-primary btn-danger" id="save-wallet-teansaction" style="margin: 10px" value="save">Save</button>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="profile-wrapper">
   <div class="profile-hero">
     <div class="profile-hero__img-wrapper">
@@ -43,15 +11,15 @@
             <% if @user.picture? %>
                 <div class="profile-hero__avatar" style="background-image: url('<%= @user.picture %>')">
                     <% if user_signed_in? && current_user.id == @user.id %>
-                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
-                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
+                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_bg_img') %></a>
+                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_profile_img') %></a>
                     <% end %>
                 </div>
             <% else %>
-                <div class="profile-hero__avatar" style="background-image: url('<%= gravatar_for_user(@user) %>')">
+                <div class="profile-hero__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')">
                     <% if user_signed_in? && current_user.id == @user.id %>
-                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Background Image</a>
-                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> Edit My Profile Image</a>
+                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_bg_img') %></a>
+                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_profile_img') %></a>
                     <% end %>
                 </div>
             <% end %>
@@ -69,11 +37,11 @@
               <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
               </svg>
-              <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: "Cancel", cancel_button_class: "btn btn-default button-margin-right", ok_button: "Save", ok_button_class: "btn btn-default button-margin-right" %>
-              <a id="edit-location-pencil" href="javascript:void(0)" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="Edit"></a>
+              <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: t('commons.cancel'), cancel_button_class: "btn btn-default button-margin-right", ok_button: t('commons.save'), ok_button_class: "btn btn-default button-margin-right" %>
+              <a id="edit-location-pencil" href="javascript:void(0)" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="<%= t('commons.edit') %>"></a>
             </div>
           <% else %>
-            <% if (!@user.city.blank?) %>
+            <% if @user.city.present? %>
               <div class="profile-hero__user-location">
                 <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
@@ -86,28 +54,28 @@
 
       <dl class="profile-hero__dl">
         <div class="profile-hero__dl-item">
-          <div class="profile-hero__dt">Project Leads</div>
+          <div class="profile-hero__dt"><%= t('.project_leads') %></div>
           <div class="profile-hero__dd"><%= @user.projects.count %></div>
         </div>
         <div class="profile-hero__dl-item">
-          <div class="profile-hero__dt">Completed Tasks</div>
+          <div class="profile-hero__dt"><%= t('.completed_task') %></div>
           <div class="profile-hero__dd"><%= @user.completed_tasks_count %></div>
         </div>
         <div class="profile-hero__dl-item">
-          <div class="profile-hero__dt">Projects Funded</div>
+          <div class="profile-hero__dt"><%= t('.project_funded') %></div>
           <div class="profile-hero__dd"><%= @user.funded_projects_count %></div>
         </div>
       </dl>
 
       <div class="profile-hero__user-trans-btns">
         <% if current_user && current_user.id == @user.id %>
-            <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
+            <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a>
         <% end %>
         <% if current_user && current_user.id != @user.id %>
           <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn" do %>
             <svg focusable="false" version="1.1" class="svg-envelope">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
-            </svg>Message
+            </svg><%= t('commons.message') %>
           <% end %>
         <% end %>
       </div>
@@ -116,29 +84,29 @@
   </div>
 
   <div class="bio-wrapper">
-    <h3 class="bio-header">
-      BIO
+    <h3 class="bio-header text-uppercase">
+      <%= t('commons.bio') %>
       <% if (current_user && current_user.id == @user.id) %>
           <i class="fa fa-pencil" id="bio-edit-pencil"></i>
       <% end %>
     </h3>
     <p class="profile-bio">
       <% if (current_user && current_user.id == @user.id) %>
-        <%= best_in_place @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: "Cancel", cancel_button_class: "button", ok_button: "Save", ok_button_class: "button ok-button" %>
+        <%= best_in_place @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: t('commons.cancel'), cancel_button_class: "button", ok_button: t('commons.save'), ok_button_class: "button ok-button" %>
       <% end %>
     </p>
   </div>
 
   <div class="profile-projects">
     <div class="l-project-cards">
-      <h3 class="l-project-cards__title">Projects</h3>
+      <h3 class="l-project-cards__title"><%= t('commons.projects') %></h3>
       <ul class="l-project-cards__list">
         <% @user.projects.each do |project| %>
           <li class="l-project-cards__item">
             <div class="b-project-card">
 
               <div class="b-project-card__top">
-                <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap' ,data: { no_turbolink: false } do%>
+                <%= link_to taskstab_project_path(project), class: 'b-project-card__img-wrap' ,data: { no_turbolink: false } do %>
                   <%= image_tag(project.picture.url, data: { 'object-fit': "cover" }) %>
                 <% end %>
                 <div class="b-project-card__user-link">
@@ -152,7 +120,7 @@
 
               </div>
               <div class="b-project-card__middle">
-                <%= link_to project.title, taskstab_project_path(project), data: {no_turbolink: false}, class: "b-project-card__title" %>
+                <%= link_to project.title, taskstab_project_path(project), data: { no_turbolink: false }, class: "b-project-card__title" %>
 
                 <div class="b-project-card__location">
                   <svg focusable="false" version="1.1" class="svg-marker" aria-hidden="true">
@@ -182,10 +150,10 @@
                       <td>฿ <%= btc_balance(project.funded_budget) %></td>
                     </tr>
                     <tr class="items">
-                      <td>Funded</td>
-                      <td>Teammates</td>
-                      <td>Completed</td>
-                      <td>Raised</td>
+                      <td><%= t('commons.funded') %></td>
+                      <td><%= t('commons.teammates') %></td>
+                      <td><%= t('commons.completed') %></td>
+                      <td><%= t('commons.raised') %></td>
                     </tr>
                   </table>
                 </div>
@@ -270,4 +238,3 @@
   }
 
 </script>
-

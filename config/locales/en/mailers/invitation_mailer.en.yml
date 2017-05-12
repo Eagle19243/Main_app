@@ -1,0 +1,20 @@
+en:
+  invitation_mailer:
+    invite_leader:
+      subject: "Invitation for Project"
+      greeting: "Dear %{user_name}"
+      body: "You received an invitation for a leader role of project from %{from}. Please click following link to accept or reject the invitation. Thank you."
+    invite_user_for_project:
+      subject: "Invitation For Project"
+      body: "%{user_name} invited you to a project"
+    invite_user:
+      subject: "Invitation For Task"
+      body: "%{user_name} invited you for to a task"
+    notify_previous_leader_for_new_leader:
+      subject: "New leader accepted invitation"
+      greeting: "Dear %{previous_leader_name}"
+      body_html: "%{new_leader_name} accepted your invite to become leader of project %{project_url}"
+    welcome_user:
+      subject: "Welcome to Weserve"
+      greeting: "Dear %{user_name}"
+      body: "Welcome to WeServe.io We're happy to see you're here. Plan your great project and organize a great Team! Thanks"

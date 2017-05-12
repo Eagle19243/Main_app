@@ -3,6 +3,7 @@ en:
     hero-title: "Turn your followers into a task force"
     hero-subtitle: "Share your vision and your audience will make it happen"
     hero-collaboration-title: "Engage your social network to"
+    hero-collaboration-text: "As the Project Leader, you maintain control over the collaboration at all times, so your project development reflects your own vision. You build momentum with the crowd through the achievement of small tasks."
     hero-collaboration-item-expand: "expand your idea into a plan of action"
     hero-collaboration-item-breakdown: "Break-down your project into tasks"
     hero-collaboration-item-fund: "Fund your tasks"
@@ -27,3 +28,46 @@ en:
     hero-footer-corruption-text_html: "Build powerful actions for your community without having to belong to the ruling clubs, and without being bound by political or financial partisanship."
     hero-footer-transparency-title: "Transparency"
     hero-footer-transparency-text_html: "Projects are open for public reviews, and constant feedback. So your project is protected by the crowd and gains legitimacy."
+    innovators:
+      title: "INNOVATORS"
+      create_prototype_html: "<span>Create</span> your Prototype"
+      build_team: "Build a team."
+      finance_task: "Finance tasks."
+      feedback: "Collect feedback."
+    bloggers:
+      title: "Bloggers"
+      report_on_the_future_html: "<span>Report</span> on the future"
+      publish_idea: "Publish an idea and your audience will implement it in the world."
+      generate_content: "Generate verified content on what is about to happen."
+      translate_ideas: "See your writing drive action. Translate your written ideas into tangible results."
+    students:
+      title: "STUDENTS"
+      build_lab_html: "<span>Build</span> your own lab"
+      theory_and_action: "Bridge the gap between theory and action."
+      academic_projects: "Publicize and expand your academic projects."
+    activists:
+      title: "Activists"
+      serve_as_leader_html: "<span>Serve</span> as a leader"
+      supporter: "Turn your supporters into an organized task force."
+      multiply_effectiveness: "Multiply your effectiveness with collaborative action, rather than mere protest."
+      emerge_leadership: "Emerge as a leader through concrete action rather than just talking and lip service."
+    engage_audience:
+      title: "ENGAGE YOUR AUDIENCE"
+      description: "Turn your followers into contributors, and increase trust and support to your project."
+    inclusive:
+      title: "BE INCLUSIVE"
+      description: "Bring diverse people together in unique efforts to achieve common goals."
+    test_market:
+      title: "TEST YOUR MARKET"
+      description: "Build an active community around a concrete story. Get community feedback and improvement."
+    independent:
+      title: "Gain Independence"
+      anti_curruption:
+        title: "ANTI-CORRUPTION"
+        description: "Build powerful action for your community without having to belong to the ruling clubs and emerge as an independent leader."
+      transparency:
+        title: "TRANSPARENCY"
+        description: "Projects are open for public review, so you may channel the wisdom of the crowd. This makes you accountable but it also protects you and your project as independent and legitimate."
+      bitcoin_payment:
+        title: "BITCOIN PAYMENT"
+        description: "Fund a project anywhere in the world with a multi-national team."

@@ -5,13 +5,13 @@
 
   <section class="s-wallet">
     <div class="container-own">
-      <h1 class="s-wallet__title">My Wallet</h1>
+      <h1 class="s-wallet__title"><%= t('.title') %></h1>
 
       <% if @wallet %>
         <%= render 'user_receive_address_section' %>
         <%= render 'user_transactions' %>
       <% else %>
-        <h2>We are creating wallet for you. Please come back in a few minutes</h2>
+        <h2><%= t('.no_wallet_message') %></h2>
       <% end %>
 
       <% if @wallet %>

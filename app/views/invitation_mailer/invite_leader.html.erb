@@ -4,11 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Dear <%= @user_name %></h1>
+    <h1><%= t('.greeting', user_name: @user_name)  %></h1>
     <p>
-      You received an invitation for a leader role of project from <%= @from %>.
-      Please click following link to accept or reject the invitation.
-      Thank you.
+      <%= t('.body', from: @from)  %>
     </p>
     <p>
       <%= @url %>

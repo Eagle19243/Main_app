@@ -3,35 +3,35 @@
         <button type="button" class="modal-default__close"></button>
         <div class="modal-do-task__wrapper _border-bottom">
             <div class="modal-do-task__row _project">
-                Project: <span class="modal-do-task__project"></span>
+                <%= t('.project') %>: <span class="modal-do-task__project"></span>
             </div>
             <div class="modal-do-task__row _task">
-                Task: <span class="modal-do-task__task"></span>
+                <%= t('.task') %>: <span class="modal-do-task__task"></span>
             </div>
             <div class="modal-do-task__row _description">
-                Description: <span class="modal-do-task__description"></span>
+                <%= t('.description') %>: <span class="modal-do-task__description"></span>
             </div>
             <div class="modal-do-task__row _amount">
-                Amount to be received per volunteer: <span class="modal-do-task__amount"></span>
+                <%= t('.amount_per_volunteer') %>: <span class="modal-do-task__amount"></span>
             </div>
         </div>
         <div class="modal-do-task__wrapper">
-            <div class="modal-do-task__subtitle">Why are you the right person to complete this task?</div>
+            <div class="modal-do-task__subtitle"><%= t('.why_right_person?') %></div>
             <%= form_for @do_request=DoRequest.new, :remote => true, html: {id: 'Do-request-form', multipart: true}, method: :post do |form| %>
                 <%= form.hidden_field :task_id, value:'' , id:'task-do-request-popup'%>
                 <%= form.text_area :application, class:'f-default__textarea' %>
                 <%= form.hidden_field :free, value: false %>
                 <br />
                 <% if user_signed_in? %>
-                  <button  type="submit" id="do-request-button" class="btn-root">Submit Application</button>
+                  <button  type="submit" id="do-request-button" class="btn-root"><%= t('.submit') %></button>
                 <% else %>
-                  <a href="/users/sign_in" class="btn-root">Login</a>
+                  <a href="/users/sign_in" class="btn-root"><%= t('commons.login') %></a>
                 <% end %>
             <% end %>
 
             <div class="modal-do-task__question">
-                Questions? Read our
-                <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
+                <%= t('.read_our') %>
+                <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
             </div>
         </div>
     </div>
