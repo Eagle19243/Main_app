@@ -546,8 +546,8 @@
                     amountLeftBTC = parseFloat($card.find('._amount-left-btc').text(), 10),
                     amountLeftUSD = parseFloat($card.find('._amount-left-usd').text(), 10);
 
-                $('.modal-fund__needed._btc').text('[BTC needed ' + amountLeftBTC.toFixed(3).toString() + ']');
-                $('.modal-fund__needed._usd').text('[$ needed ' + amountLeftUSD.toFixed(3).toString() + ']');
+                $('.modal-fund__needed._btc').text('( ' + amountLeftBTC.toFixed(3).toString() + '฿ needed )');
+                $('.modal-fund__needed._usd').text('( ' + amountLeftUSD.toFixed(3).toString() + '$ needed )');
             })
             .on('click.saveDataForDoModal', '.do-button', function() {
                 var $this = $(this),

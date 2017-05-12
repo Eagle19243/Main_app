@@ -188,7 +188,7 @@
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
       var current_btc = '<%=  Payments::BTC::Converter.current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" ฿";
       eve.preventDefault();
     }
 
@@ -199,7 +199,7 @@
       document.getElementById("wallet_btc").innerHTML = '';
       var usd = document.getElementById("wallet_transaction_amount");
       var current_btc = '<%=  Payments::BTC::Converter.current_btc_rate  %>'
-      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" BTC";
+      document.getElementById("wallet_btc").innerHTML= usd.value+" USD = " +(usd.value/current_btc)+" ฿";
 
     });
 
