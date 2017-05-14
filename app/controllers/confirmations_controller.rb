@@ -28,5 +28,4 @@ class ConfirmationsController < Devise::ConfirmationsController
         domain: domain
     }
   end
-
 end

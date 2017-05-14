@@ -18,7 +18,7 @@ RSpec.describe PaymentMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.payment.fully_funded_task.subject'))
+      expect(email.subject).to eq(I18n.t('payment_mailer.fully_funded_task.subject'))
     end
 
     it 'has the correct body' do
@@ -43,7 +43,7 @@ RSpec.describe PaymentMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.payment.fund_task.subject'))
+      expect(email.subject).to eq(I18n.t('payment_mailer.fund_task.subject'))
     end
 
     it 'has the correct body' do

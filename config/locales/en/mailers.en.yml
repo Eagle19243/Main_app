@@ -1,21 +1,2 @@
 en:
   mailers:
-    payment:
-      fund_task:
-        subject: 'Task funded'
-      fully_funded_task:
-        subject: 'Task was fully funded'
-    request:
-      apply_to_get_involved_in_project:
-        subject: '%{request_type} application received'
-      positive_response_in_project_involvement:
-        subject: 'Your %{request_type} application was successful'
-      negative_response_in_project_involvement:
-        subject: '%{request_type} application response'
-      to_do_task:
-        subject: 'Application to DO task received'
-      accept_to_do_task:
-        subject: 'Your application for the task was approved'
-      reject_to_do_task:
-        subject: 'Task application response'
-      

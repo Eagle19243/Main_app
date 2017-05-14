@@ -1,0 +1,25 @@
+en:
+  request_mailer:
+    apply_to_get_involved_in_project:
+      subject: "%{request_type} application received"
+      greeting: "Dear %{leader_name},"
+      body_html: "<p>%{applicant_name} has submitted an application as %{request_type} for the project %{project_url}.</p>
+                  <p>please click the %{request_tab_url} to review incoming requests.</p>"
+    positive_response_in_project_involvement:
+      subject: "Your %{request_type} application was successful"
+      body_html: "Your application to become a %{request_type} for project %{project_url} was accepted by %{leader_name}."
+    negative_response_in_project_involvement:
+      subject: "%{request_type} application response"
+      body_html: "Sorry, but your application to become a %{request_type} for project %{project_url} was declined by %{leader_name}."
+    to_do_task:
+      subject: "Application to DO task received"
+      body_html: "<p>%{requester_name} applied for the task %{task_title} and need to be reviewed.</p>
+                  <p>please click the %{request_tab_url} to review incoming requests.</p>"
+    accept_to_do_task:
+      subject: "Your application for the task was approved"
+      greeting: "Dear %{requester_name}"
+      body_html: "Your application for task %{task_title} in project %{project_url} was approved."
+    reject_to_do_task:
+      subject: "Task application response"
+      greeting: "Dear %{requester_name}"
+      body_html: "Your application for task %{task_title} in project %{project_url} was rejected."

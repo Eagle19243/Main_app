@@ -11,7 +11,7 @@ class TasksController < ApplicationController
     @task= Task.find(params[:id]) rescue nil
     @task_memberships = @task.team_memberships
     if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
-      @notice = " you are not allowed to do this opration "
+      @notice = t('.not_allowed')
       respond_to do |format|
         format.js
         format.html { redirect_to task_path(@task.id), notice: @notice }
@@ -25,7 +25,7 @@ class TasksController < ApplicationController
       redirect_to '/'
     else
       if !(current_user.id == @task.project.user_id && @task.reviewing?)
-        @notice = " you are not allowed to do this opration "
+        @notice = t('.not_allowed')
         respond_to do |format|
           format.js
           format.html { redirect_to task_path(@task.id), notice: @notice }
@@ -116,10 +116,10 @@ class TasksController < ApplicationController
       redirect_path = taskstab_project_path(project, tab: 'tasks')
 
       if service.create_task
-        format.html { redirect_to redirect_path, notice: 'Task was successfully created.' }
+        format.html { redirect_to redirect_path, notice: t('.notice_message') }
         format.json { render :show, status: :created, location: service.task }
       else
-        format.html { redirect_to redirect_path, alert: "Task was not created" }
+        format.html { redirect_to redirect_path, alert: t('.alert_message') }
         format.json { render json: service.task.errors, status: :unprocessable_entity }
       end
     end
@@ -142,7 +142,7 @@ class TasksController < ApplicationController
       if @task.update(update_task_params)
         current_user.create_activity(@task, 'edited')
 
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
+        format.html { redirect_to @task, notice: t('.notice_message') }
         format.json { render :show, status: :ok, location: @task }
         format.js
       else
@@ -160,9 +160,9 @@ class TasksController < ApplicationController
     redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
 
     if service.destroy_task
-      flash[:notice] = 'Task was successfully destroyed.'
+      flash[:notice] = t('.notice_message')
     else
-      flash[:error] = 'Error happened during task delete process'
+      flash[:error] = t('.error_message')
     end
   rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
@@ -175,21 +175,21 @@ class TasksController < ApplicationController
   end
 
   def refund
-    raise NotImplementedError, "Refunds are disabled now"
+    raise NotImplementedError, t('.refunds_disabled')
   end
 
   def accept
     authorize! :accept, @task
 
     if @task.accept!
-      @notice = "Task accepted"
+      @notice = t('.task_accepted')
       # the user that suggested the task might not be a follower neither a team_member
       (@task.project.interested_users + [@task.user]).uniq.each do |user|
         NotificationMailer.accept_new_task(task: @task, receiver: user).deliver_later
       end
       NotificationsService.notify_about_accept_task(@task, @task.user)
     else
-      @notice = "Task was not accepted"
+      @notice = t('.task_not_accepted')
     end
     respond_to do |format|
       format.js
@@ -201,19 +201,19 @@ class TasksController < ApplicationController
     authorize! :doing, @task
 
     if @task.suggested_task?
-      flash[:alert] = "You can't Do this Task"
+      flash[:alert] = t('.cannot_do')
     else
       if @task.not_fully_funded_or_less_teammembers?
-        flash[:alert] = "You have not met your goal either in the number of teammates or in funding"
+        flash[:alert] = t('.goal_not_meet')
       else
         # if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
         if @task.start_doing!
           @task.project.interested_users.each do |user|
             NotificationMailer.task_started(acting_user: current_user, task: @task, receiver: user).deliver_later
           end
-          flash[:notice] =  "Task Status changed to Doing"
+          flash[:notice] =  t('.task_changed_to_doing')
         else
-          flash[:alert] = "Error in Moving Task"
+          flash[:alert] = t('.error_moving')
         end
       end
     end
@@ -228,7 +228,7 @@ class TasksController < ApplicationController
     current_state_of_task = @task.state
 
     if @task.reject! && @task.destroy
-      flash[:notice] = "Task #{@task.title} has been rejected"
+      flash[:notice] = t('.task_rejected', task_title: @task.title)
       NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
 
       if current_state_of_task == 'suggested_task'
@@ -243,7 +243,7 @@ class TasksController < ApplicationController
         end
       end
     else
-      flash[:error] = 'Task was not rejected'
+      flash[:error] = t('.task_not_rejected')
     end
 
     respond_to do |format|
@@ -256,12 +256,12 @@ class TasksController < ApplicationController
     authorize! :reviewing, @task
 
     if current_user.can_submit_task?(@task) && @task.begin_review!
-      @notice = "Task Submitted for Review"
+      @notice = t('.task_submitted')
       @task.project.interested_users.each do |user|
         NotificationMailer.under_review_task(reviewee: current_user, task: @task, receiver: user).deliver_later
       end
     else
-      @notice = "Task Was Not  Submitted for Review"
+      @notice = t('.task_not_sumitted')
     end
 
     respond_to do |format|
@@ -276,7 +276,7 @@ class TasksController < ApplicationController
     service = TaskCompleteService.new(@task)
     service.complete!
 
-    @notice = "Task was successfully completed"
+    @notice = t('.task_completed')
 
     @task.project.interested_users.each do |user|
       NotificationMailer.task_completed(receiver: user, task: @task, reviewer: current_user).deliver_later
@@ -300,12 +300,12 @@ class TasksController < ApplicationController
     authorize! :incomplete, @task
 
     @task.incomplete!
-    redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: 'Task was successfully mark as incompleted'
+    redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: t('.task_incompleted')
   end
 
   def send_email
     InvitationMailer.invite_user(params['email'], current_user.name, Task.find(params['task_id'])).deliver_later
-    @notice = "Task link has been sent to #{params[:email]}"
+    @notice = t('.task_link_sent', email: params[:email])
     respond_to :js
   end
 
@@ -328,7 +328,7 @@ class TasksController < ApplicationController
 
   def validate_user
     unless current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)
-      flash[:error] = 'You are not authorized to do this operation'
+      flash[:error] = t('controllers.unauthorized_message')
       redirect_to taskstab_project_path(@task.project_id)
     end
   end

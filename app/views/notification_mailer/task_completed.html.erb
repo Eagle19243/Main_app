@@ -4,9 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <p>Dear <%= @receiver.name %>,</p>
+    <p><%= t('.greeting', receiver_name: @receiver.name) %></p>
     <p>
-      <%= @reviewer.name %> has reviewed and approved task <%= @task.title %> of project <%= link_to @task.project.title, project_url(@task.project.id)%>.
+      <%= t('.body_html', reviewer_name: @reviewer.name, task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
     </p>
   </body>
 </html>

@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
     @array.each do |key|
       InvitationMailer.invite_user_for_project(key, current_user.name, session[:idd]).deliver_later
     end
-    session[:success_contacts] = "Project link has been shared  successfully with your friends!"
+    session[:success_contacts] = t('.success')
     session[:project_id] = session[:idd]
     session[:email] = "email-success"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
@@ -55,24 +55,24 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       unless params['email'].blank?
         if current_user.blank?
-          @notice = "ERROR: Please sign in to continue."
+          @notice = t('.fail')
           format.js {}
         else
           begin
             InvitationMailer.invite_user_for_project(params['email'], current_user.name, params['project_id']).deliver_later
-            format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Project link has been sent to #{params[:email]}" }
-            @notice = "Project link has been sent to #{params[:email]}"
+            @notice = t('.success', email: params[:email])
+            format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: @notice }
             format.js {}
           rescue => e
-            @notice = "Error ".concat e.inspect
+            @notice = t('commons.error').concat e.inspect
             format.js {}
           end
 
         end
       else
         session[:project_id] = session[:idd]
-        format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: "Please provide receiver email." }
-        @notice = 'Please provide receiver email.'
+        @notice = t('.please_provide_email')
+        format.html { redirect_to controller: 'projects', action: 'taskstab', id: params['project_id'], notice: @notice }
         format.js {}
       end
     end
@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
     session[:project_id] = session[:idd]
     session[:email_failure] = "failure_email"
     redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
-    session[:failure_contacts] = "No, Project invitation Email was sent to your Friends!"
+    session[:failure_contacts] = t('.message')
   end
 
   def show_task
@@ -179,7 +179,7 @@ class ProjectsController < ApplicationController
   def unfollow
     project = Project.find params[:id]
     project.unfollow!(current_user)
-    flash[:notice] = "You stopped following project " + project.title
+    flash[:notice] = t('.success', project_title: project.title)
     redirect_to :my_projects
   end
 
@@ -203,14 +203,12 @@ class ProjectsController < ApplicationController
   # GET /projects/1/taskstab
   def taskstab
     if session[:email] == "email-success"
-      flash[:notice] = "Project link has been shared  successfully with your friends!"
-      flash.discard(:notice)
+      flash.now[:notice] = t('.success')
       session[:email] = nil
     end
 
     if session[:email_failure] == "failure_email"
-      flash[:notice] = "No, Project invitation Email was sent to your Friends!"
-      flash.discard(:notice)
+      flash[:notice] = t('.fail')
       session[:email_failure] = nil
     end
 
@@ -440,8 +438,8 @@ class ProjectsController < ApplicationController
         activity = current_user.create_activity(@project, 'created')
         # activity.user_id = current_user.id
         Chatroom.create_chatroom_with_groupmembers([current_user], 1, @project)
-        format.html { redirect_to @project, notice: 'Project request was sent.' }
-        format.json { render json: {id: @project.id, status: 200, responseText: "Project has been Created Successfully "} }
+        format.html { redirect_to @project, notice: t('.request_sent') }
+        format.json { render json: {id: @project.id, status: 200, responseText: t('.success')} }
         session[:project_id] = @project.id
       else
         Rails.logger.debug "Failed to save new project #{@project}"
@@ -461,7 +459,7 @@ class ProjectsController < ApplicationController
         end
         activity = current_user.create_activity(@project, 'updated')
         activity.user_id = current_user.id
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        format.html { redirect_to @project, notice: t('.success') }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
@@ -477,16 +475,16 @@ class ProjectsController < ApplicationController
     new_leader = User.find_by(email: email)
 
     if new_leader.blank?
-      flash[:error] = "Can't find the user with email address you entered. Please input valid email address."
+      flash[:error] = t('.email_not_found')
     elsif project.change_leader_invitations.pending.any?
-      flash[:notice] = 'You have already invited a new leader for this project.'
+      flash[:notice] = t('.already_invited')
     elsif !project.team.team_members.include?(new_leader)
-      flash[:notice] = 'The user is not a team member of the project. You can only invite team members as a new leader.'
+      flash[:notice] = t('.cannot_invite_non_team_member')
     elsif email != current_user.email
       invitation = project.change_leader_invitations.create!(new_leader: email, sent_at: Time.current)
       InvitationMailer.invite_leader(invitation.id).deliver_later
       NotificationsService.notify_about_change_leader_invitation(current_user, new_leader, project)
-      flash[:notice] = "You sent an invitation for leader role to " + email
+      flash[:notice] = t('.success', email: email)
     end
 
     redirect_to :my_projects
@@ -500,7 +498,7 @@ class ProjectsController < ApplicationController
     puts @project_edit.description
     respond_to do |format|
       if @project_edit.save
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        format.html { redirect_to @project, notice: t('.success') }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
@@ -520,7 +518,7 @@ class ProjectsController < ApplicationController
       @project.description = @project_edit.description
       respond_to do |format|
         if @project.save
-          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+          format.html { redirect_to @project, notice: t('.success') }
           format.json { render json: @project, status: :ok }
         else
           format.html { render :edit }
@@ -532,7 +530,7 @@ class ProjectsController < ApplicationController
     if new_state == "rejected"
       respond_to do |format|
         if @project.save
-          format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+          format.html { redirect_to @project, notice: t('.success') }
           format.json { render json: @project, status: :ok }
         else
           format.html { render :edit }
@@ -549,9 +547,9 @@ class ProjectsController < ApplicationController
       activity.user_id = current_user.id
       @project.user.update_attribute(:role, 'manager')
       #Change all pending projects for user
-      flash[:notice] = "Project Request accepted"
+      flash[:notice] = t('.success')
     else
-      flash[:error] = "Project could not be accepted"
+      flash[:error] = t('.fail')
     end
     redirect_to current_user
   end
@@ -561,9 +559,9 @@ class ProjectsController < ApplicationController
     if @project.reject!
       activity = current_user.create_activity(@project, 'rejected')
       activity.user_id = current_user.id
-      flash[:success] = "Project rejected"
+      flash[:success] = t('.success')
     else
-      flash[:error] = "Project could not be rejected"
+      flash[:error] = t('.fail')
     end
     redirect_to current_user
   end
@@ -575,15 +573,15 @@ class ProjectsController < ApplicationController
     project = Project.find(params[:id])
 
     if type == '0' && current_user.is_lead_editor_for?(project)
-      flash[:notice] = "You are already Lead Editor of this project."
+      flash[:notice] = t('.already_lead_editor')
     elsif type == '1' && current_user.is_coordinator_for?(project)
-      flash[:notice] = "You are already excutor of this project."
+      flash[:notice] = t('.already_coordinator')
     elsif current_user.has_pending_apply_requests?(project, type)
-      flash[:notice] = 'You have submitted a request request already for this project.'
+      flash[:notice] = t('.already_submitted_request')
     else
       RequestMailer.apply_to_get_involved_in_project(applicant: current_user, project: project, request_type: request_type.tr('_', ' ')).deliver_later
       ApplyRequest.create!( user_id: current_user.id,project_id: project.id, request_type: request_type)
-      flash[:notice] = 'Your request has been submitted'
+      flash[:notice] = t('.success')
     end
 
     redirect_to project
@@ -632,7 +630,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to :my_projects, notice: 'Project was successfully destroyed.' }
+      format.html { redirect_to :my_projects, notice: t('.success') }
       format.json { head :no_content }
     end
   end

@@ -15,10 +15,10 @@ class TaskCommentsController < ApplicationController
         task.project.interested_users.each do |user|
           NotificationMailer.comment(task_comment: @comment, receiver: user).deliver_later
         end
-        format.html  { redirect_to :back, success: 'Comment submitted'}
+        format.html  { redirect_to :back, success: t('.success')}
         format.js
       else
-        format.html  { redirect_to :back, success: 'Error While Saving this comment please comment again' }
+        format.html  { redirect_to :back, success: t('.fail') }
         format.js
       end
     end

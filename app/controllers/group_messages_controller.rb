@@ -45,7 +45,7 @@ class GroupMessagesController < ApplicationController
           @group_message.create_user_message_read_flags_for_all_groupmembers_except(current_user)
           format.js
         else
-          @notice = "Failed to uploaded attachment. Allowed types: #{AttachmentUploader::SUPPORTED_FILE_EXTENSIONS.join(", ")}"
+          @notice = t('.fail', allowed_types: AttachmentUploader::SUPPORTED_FILE_EXTENSIONS.join(', '))
           format.js
         end
       end
@@ -126,7 +126,7 @@ class GroupMessagesController < ApplicationController
         redirect_to group_messages_path
       else
         data = open(group_message.attachment.url)
-        send_data data.read, filename:group_message.attachment.file.filename, stream: 'true'        
+        send_data data.read, filename:group_message.attachment.file.filename, stream: 'true'
       end
     else
       redirect_to group_messages_path

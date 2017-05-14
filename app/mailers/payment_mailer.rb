@@ -5,13 +5,13 @@ class PaymentMailer < ApplicationMailer
     @amount = amount
     @payer = payer
 
-    mail(to: @receiver.email, subject: I18n.t('mailers.payment.fund_task.subject'))
+    mail(to: @receiver.email, subject: t('.subject'))
   end
 
   def fully_funded_task(task:, receiver:)
     @receiver = receiver
     @task = task
 
-    mail(to: @receiver.email, subject: I18n.t('mailers.payment.fully_funded_task.subject'))
+    mail(to: @receiver.email, subject: t('.subject'))
   end
 end

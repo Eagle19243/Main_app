@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
-    msg = Rails.env.production? ? 'Ooops. Seems you are not authorized for this action' : exception.message
+    msg = Rails.env.production? ? t('controllers.cancan_access_denied') : exception.message
     respond_to do |format|
      format.html { redirect_to main_app.root_url, notice: msg }
      format.json { render json: { message: msg }, status: :unauthorized }
@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    msg = Rails.env.production? ? 'Sorry we cannot find what you are looking for !' : exception.message
+    msg = Rails.env.production? ? t('controllers.active_record_not_found') : exception.message
     respond_to do |format|
      format.html { redirect_to main_app.root_url, notice: msg }
      format.json { render json: { message: msg }, status: :not_found }
@@ -38,14 +38,12 @@ class ApplicationController < ActionController::Base
 
   def admin_only_mode
     unless current_user.try(:admin?)
-      unless params[:controller] == "visitors" || params[:controller] == "registrations" || params[:controller] == "sessions"
-        redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
-        flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
+      unless params[:controller] == 'visitors' || params[:controller] == 'registrations' || params[:controller] == 'sessions'
+        redirect_to :controller => 'visitors', :action => 'restricted', :alert => t('controllers.admin_only_mode.admin_mode_activated')
       end
 
-      if params[:controller] == "visitors" && params[:action] == "index"
-        redirect_to :controller => "visitors", :action => "restricted", :alert => "Admin only mode activated."
-        flash[:notice] = "Admin only mode activated. You need to be an admin to make changes."
+      if params[:controller] == 'visitors' && params[:action] == 'index'
+        redirect_to :controller => 'visitors', :action => 'restricted', :alert => t('controllers.admin_only_mode.admin_mode_activated')
       end
     end
   end

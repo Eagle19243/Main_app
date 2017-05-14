@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
-</head>
-<body>
+  </head>
+  <body>
     <p>
-      Sorry, but your application to become a <%= @request_type %> for project <%= link_to @project.title, project_url(@project.id) %> was declined by <%= @project.leader.try(:name) %>.
+      <%= t('.body_html', request_type: @request_type, project_url: link_to(@project.title, project_url(@project.id)), leader_name: @project.leader.try(:name)).html_safe %>
     </p>
-</body>
+  </body>
 </html>

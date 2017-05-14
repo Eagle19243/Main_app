@@ -5,7 +5,7 @@
   </head>
   <body>
     <p>
-      <%= @approver.name %> changed the approved version of the project <%= link_to @project.title, project_url(@project.id) %>.
+      <%= t('.body_html', approver_name: @approver.name, project_url: link_to(@project.title, project_url(@project.id))).html_safe %>
     </p>
   </body>
 </html>

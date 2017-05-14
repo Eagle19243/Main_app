@@ -12,11 +12,11 @@ class TaskAttachmentsController < ApplicationController
 
     respond_to do |format|
       if @task_attachment.save
-        @notice = "The Task Attachment has been uploaded."
+        @notice = t('.success')
         format.html { redirect_to task_path(@task_attachment.task_id), notice: @notice }
         format.js
       else
-        @notice = "Failed to uploaded Task Attachment."
+        @notice = t('.fail')
         format.html { redirect_to '/', notice: @notice }
         format.js
       end

@@ -16,10 +16,10 @@ class ProjectCommentsController < ApplicationController
     project = Project.find(params[:project_id])
     @comment = project.project_comments.build(comment_params)
     @comment.user_id = current_user.id
-    
+
     if @comment.save
       set_activity(project, 'created')
-      flash[:success] = 'Your comment has been submitted'
+      flash[:success] = t('.success')
       redirect_to :back
     else
       render :new
@@ -32,7 +32,7 @@ class ProjectCommentsController < ApplicationController
   def update
     if @comment.update_attributes(comment_params)
       set_activity('updated')
-      flash[:success] = 'Comment updated'
+      flash[:success] = t('.success')
       redirect_to @comment.project
     else
       render :edit
@@ -42,7 +42,7 @@ class ProjectCommentsController < ApplicationController
   def destroy
     @comment.destroy
     set_activity('deleted')
-    flash[:success] = 'Comment deleted'
+    flash[:success] = t('.success')
     redirect_to users_path
   end
 

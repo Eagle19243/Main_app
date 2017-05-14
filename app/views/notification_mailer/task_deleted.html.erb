@@ -4,9 +4,11 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <p>Dear <%= @receiver.name %>,</p>
     <p>
-      Task <%=@task_title%> for project <%= link_to @project.title, project_url(@project.id)%> was deleted by <%= @admin.name%>.
+      <%= t('.greeting', receiver_name: @receiver.name) %>
+    </p>
+    <p>
+      <%= t('.body_html', task_title: @task_title, project_url: link_to(@project.title, project_url(@project.id)), admin_name: @admin.name).html_safe %>
     </p>
   </body>
 </html>

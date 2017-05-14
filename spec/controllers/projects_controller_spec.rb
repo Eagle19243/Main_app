@@ -67,7 +67,7 @@ describe ProjectsController, type: :request do
         it 'redirects to the project with the correct notice message', aggregate_failures: true do
           make_request
 
-          expect(flash[:notice]).to eq('You are already excutor of this project.')
+          expect(flash[:notice]).to eq('You are already Coordinator of this project.')
           expect(response).to redirect_to(project)
         end
       end

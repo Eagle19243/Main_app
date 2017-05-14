@@ -1,5 +1,14 @@
 en:
   modal:
+    start_project_modal:
+      title: "Start New Project"
+      project:
+        title: "Title"
+        error_title: "Username is mandatory, please specify one"
+        short_description: "Idea"
+        country: "Location (Where is project located?)"
+        image: "Project Image"
+        choose_a_file: "Choose a file"
     task_fund_modal:
       title: "Make a donation"
       amount_to_send: "Amount to Send"
@@ -61,3 +70,10 @@ en:
       update_fail_message: "Profile wasn't updated. Try one more time"
     profile_edit_response_modal:
       message: "Profile was successfully updated"
+    register_modal:
+      join_weserve_today: "Join WeServe.io Today"
+      password_not_match: "Password confirmation doesn't match"
+      already_have_account?: "Already have an account?"
+      agree_term_html: "By clicking Sign Up or Sign in, you agree to our <a href='/pages/terms_of_use'> Terms of Use </a> and <a href='/pages/privacy_policy'>Privacy Policy</a>."
+      not_receive_confirmation?: "Didn't receive confirmation?"
+      donot_have_account?: "Don't have an account?"

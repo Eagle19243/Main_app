@@ -4,9 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <p>Dear <%= @receiver.name %>,</p>
+    <p><%= t('.greeting', receiver_name: @receiver.name) %></p>
     <p>
-      Task <%=@task_title%> for project <%= link_to @project.title, project_url(@project.id)%> has not been accepted by the project leader.
+      <%= t('.body_html', task_title: @task_title, project_url: link_to(@project.title, project_url(@project.id))).html_safe %>
     </p>
   </body>
 </html>

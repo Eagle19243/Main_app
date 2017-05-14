@@ -22,7 +22,7 @@ RSpec.describe RequestMailer, type: :mailer do
       let(:request_type) { 'Coordinator' }
 
       it 'has the correct subject' do
-        expect(email.subject).to eq(I18n.t('mailers.request.apply_to_get_involved_in_project.subject', request_type: request_type))
+        expect(email.subject).to eq(I18n.t('request_mailer.apply_to_get_involved_in_project.subject', request_type: request_type))
       end
 
       it 'has the correct body' do
@@ -35,7 +35,7 @@ RSpec.describe RequestMailer, type: :mailer do
       let(:request_type) { 'Lead Editor' }
 
       it 'has the correct subject' do
-        expect(email.subject).to eq(I18n.t('mailers.request.apply_to_get_involved_in_project.subject', request_type: request_type))
+        expect(email.subject).to eq(I18n.t('request_mailer.apply_to_get_involved_in_project.subject', request_type: request_type))
       end
 
       it 'has the correct body' do
@@ -61,7 +61,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.request.positive_response_in_project_involvement.subject', request_type: request_type))
+      expect(email.subject).to eq(I18n.t('request_mailer.positive_response_in_project_involvement.subject', request_type: request_type))
     end
 
     it 'has the correct body' do
@@ -86,7 +86,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.request.negative_response_in_project_involvement.subject', request_type: request_type))
+      expect(email.subject).to eq(I18n.t('request_mailer.negative_response_in_project_involvement.subject', request_type: request_type))
     end
 
     it 'has the correct body' do
@@ -111,7 +111,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.request.to_do_task.subject'))
+      expect(email.subject).to eq(I18n.t('request_mailer.to_do_task.subject'))
     end
 
     it 'has the correct body' do
@@ -136,7 +136,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.request.accept_to_do_task.subject'))
+      expect(email.subject).to eq(I18n.t('request_mailer.accept_to_do_task.subject'))
     end
 
     it 'has the correct body' do
@@ -161,7 +161,7 @@ RSpec.describe RequestMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('mailers.request.reject_to_do_task.subject'))
+      expect(email.subject).to eq(I18n.t('request_mailer.reject_to_do_task.subject'))
     end
 
     it 'has the correct body' do

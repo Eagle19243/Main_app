@@ -4,9 +4,11 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <p>Dear <%= @receiver.name %>,</p>
     <p>
-      <%= @acting_user.name %> started task <%= @task.title %> of project <%=link_to(@task.project.title, project_url(@task.project.id))%>.
+      <%= t('.greeting', receiver_name: @receiver.name) %>
+    </p>
+    <p>
+      <%= t('.body_html', user_name: @acting_user.name, task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
     </p>
 </body>
 </html>

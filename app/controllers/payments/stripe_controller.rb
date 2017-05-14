@@ -35,7 +35,7 @@ class Payments::StripeController < ApplicationController
       ).deliver_later if task.fully_funded?
     end
 
-    render json: { success: 'Thanks for your payment' }, status: 200
+    render json: { success: t('controllers.payments.thanks_you') }, status: 200
   rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
     render json: { error: UserErrorPresenter.new(error).message }, status: 500
@@ -45,7 +45,7 @@ class Payments::StripeController < ApplicationController
 
   def check_form_validity
     unless (params.key?(:stripeToken) || params.key?(:card_id)) && params.key?(:amount)
-      render json: { error: "Submitted form parameters are invalid" }, status: 500
+      render json: { error: t('controllers.payments.invalid_parameters') }, status: 500
     end
   end
 
