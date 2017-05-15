@@ -27,10 +27,6 @@
                 <span class="modal-fund__min-donation"></span>
               <% end %>
             </div>
-            <div class="f-default__row _space-between">
-                <button type="button" class="btn-root js-change-payment-type _wallet _bitcoin" id="save-wallet-teansaction" value="save"><%= t('.donate_with_bitcoin') %></button>
-                <button type="button" class="btn-root js-change-payment-type _active _credit" id="donate-with-credit-card" value="save"><%= t('.donate_with_card') %></button>
-            </div>
         </div>
       </div>
 
@@ -67,7 +63,6 @@
                   </div>
               </div>
             </div>
-            <button type="button" class="btn-root _donate _dark _disable">Donate - ฿ <span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
             <button type="button" class="btn-root _donate _dark _disable"><%= t('.donate') %><span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
           <% else %>
             <button type="button" class="btn-root _sign-in _dark"><%= t('commons.sign_in') %></button>
@@ -77,17 +72,6 @@
         </div>
         <div class="modal-fund__bottom-content _active">
           <div class="modal-fund__stripe">
-            <div class="modal-fund__stripe-top">
-              <div class="modal-fund__stripe-title"><%= t('.pay_with_stripe') %></div>
-              <div class="modal-fund__stripe-cards">
-                <%= image_tag('payments/dc-pay@2x.png') %>
-                <%= image_tag('payments/jcb-pay@2x.png') %>
-                <%= image_tag('payments/discover-pay@2x.png') %>
-                <%= image_tag('payments/ae-pay@2x.png') %>
-                <%= image_tag('payments/mc-pay@2x.png') %>
-                <%= image_tag('payments/visa-pay@2x.png') %>
-              </div>
-            </div>
             <% if user_signed_in? %>
               <%= render :template => '/payments/stripe/new' %>
             <% else %>
