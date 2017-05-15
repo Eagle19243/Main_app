@@ -5,7 +5,7 @@
   </head>
   <body>
     <p>
-      <%= t('.body_html', approver_name: @approver.name, project_url: link_to(@project.title, project_url(@project.id))).html_safe %>
+      <%= t('.body_html', approver_name: @approver.display_name, project_url: link_to(@project.title, project_url(@project.id))).html_safe %>
     </p>
   </body>
 </html>

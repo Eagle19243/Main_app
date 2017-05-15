@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get 'tasks/task_fund_info'
 
   resources :group_messages do
-    get :autocomplete_user_name, :on => :collection
+    get :autocomplete_user_username, :on => :collection
   end
   get 'group_messages/search_user'
   post 'projects/send_project_invite_email'

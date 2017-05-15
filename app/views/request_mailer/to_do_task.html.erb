@@ -4,6 +4,6 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-  <%= t('.body_html', requester_name: @requester.name, task_title: @task.title, request_tab_url: link_to(t('commons.link'), taskstab_project_url(@task.project, tab: 'requests'))).html_safe %>
+  <%= t('.body_html', requester_name: @requester.display_name, task_title: @task.title, request_tab_url: link_to(t('commons.link'), taskstab_project_url(@task.project, tab: 'requests'))).html_safe %>
 </body>
 </html>

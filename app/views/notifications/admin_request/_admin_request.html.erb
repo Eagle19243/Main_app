@@ -1,4 +1,4 @@
-<%= link_to notification.origin_user.name, user_path(notification.origin_user) %> applies to become an admin for project
+<%= link_to notification.origin_user.display_name, user_path(notification.origin_user) %> applies to become an admin for project
 <%= link_to source_model.project.title, project_path(source_model.project) %>
 <%# if source_model.pending? %>
     <!--<div id="request-<%#= source_model.id %>">-->

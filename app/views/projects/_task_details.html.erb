@@ -225,7 +225,7 @@
                                 <% else %>
                                     <%= gravatar_for_user(membership.team_member) %>
                                 <% end %>
-                                <div class="team-block__item-name"><%= membership.team_member.name %></div>
+                                <div class="team-block__item-name"><%= membership.team_member.display_name %></div>
                             </a>
                         <% end %>
                     <% end %>
@@ -396,7 +396,7 @@
                     <% else %>
                         <%= gravatar_for_user(team_membership.team_member, 35) %>
                     <% end %>
-                    <%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %>
+                    <%= link_to team_membership.team_member.display_name, user_path(team_membership.team_member) %>
                   </div>
               <% end %></center>
           </div> <!--row ends -->

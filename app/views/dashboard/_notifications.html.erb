@@ -8,7 +8,7 @@
     <%end%>
   </div>
   <div class="lin2-contents medium-10 columns">
-    <h1><%= @user.name %></h1>
+    <h1><%= @user.display_name %></h1>
     <div class="lin2-social ">
       <a href='<%= url_for("http://#{@user.facebook_url}") %>' target="_blank"><i class="icon-facebook"></i></a>
       <a href="<%= url_for("http://#{@user.linkedin_url}") %>" target="_blank"><i class="icon-linkedin"></i></a>

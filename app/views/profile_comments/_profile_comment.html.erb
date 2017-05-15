@@ -5,7 +5,7 @@
     <% else %>
       <a href=<%="/users/#{profile_comment.commenter_id}"%>><%= gravatar_for_user(profile_comment.commenter, 69)%></a>
     <%end%>
-    <span class="name"><%= profile_comment.commenter.name %></span>
+    <span class="name"><%= profile_comment.commenter.display_name %></span>
   </div>
   <div class="medium-10 columns">
     <p><%= profile_comment.comment_text %></p>

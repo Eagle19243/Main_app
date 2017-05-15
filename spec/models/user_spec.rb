@@ -2,28 +2,28 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'validation' do
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_uniqueness_of(:name) }
+    it { is_expected.to validate_presence_of(:username) }
+    it { is_expected.to validate_uniqueness_of(:username) }
 
-    it '#validate_name_unchange' do
-      subject = create(:user, name: 'user_name')
+    it '#validate_username_unchange' do
+      subject = create(:user, username: 'user_name')
 
-      subject.name = 'new_user_name'
+      subject.username = 'new_user_name'
       subject.valid?
 
-      expect(subject.errors[:name]).to include /is not allowed to change/
+      expect(subject.errors[:username]).to include /is not allowed to change/
     end
   end
 
   describe 'user wallet creation' do
     it 'does not assign user wallet on creation' do
-      user = create(:user, name: 'user_name')
+      user = create(:user, username: 'user_name')
       user.reload
       expect(user.wallet).to be_nil
     end
 
     it 'assigns user wallet on creation' do
-      user = create(:user, :with_wallet, name: 'user_name')
+      user = create(:user, :with_wallet, username: 'user_name')
       user.reload
       expect(user.wallet).to be_present
     end

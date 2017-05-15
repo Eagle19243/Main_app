@@ -26,7 +26,7 @@
         </div>
       <div class="profile-hero__user-name-wrap">
         <div class="profile-hero__user-name">
-          <%= @user.name %>
+          <%= @user.display_name %>
         </div>
       </div>
 
@@ -115,7 +115,7 @@
                   <% else %>
                     <%= gravatar_for_user(project.user)%>
                   <%end%>
-                  <%= link_to project.user.name, user_path(project.user)%>
+                  <%= link_to project.user.display_name, user_path(project.user)%>
                 </div>
 
               </div>

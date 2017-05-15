@@ -1,5 +1,5 @@
 class GroupMessagesController < ApplicationController
-  autocomplete :user, :name, :full => true
+  autocomplete :user, :username, :full => true, :display_value => :search_display_results
   skip_before_action :verify_authenticity_token
   before_action :authenticate_user!
   before_action :set_group_message, only: [:show, :edit, :update, :destroy]
@@ -115,7 +115,7 @@ class GroupMessagesController < ApplicationController
   def search_user
     @user = current_user
     if params[:search]
-      @user = User.name_like("%#{params[:search]}%").order('name')
+      @user = User.name_like("%#{params[:search]}%").order('username')
     end
   end
 

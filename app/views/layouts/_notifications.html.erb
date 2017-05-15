@@ -100,7 +100,7 @@
                     </span>
                   </div>
                   <p class="l-dropdown__text">
-                    <span><%= "#{n.origin_user.name} applied as #{source_model.request_type.titleize} for project #{source_model.project.title}"%></span>
+                    <span><%= "#{n.origin_user.display_name} applied as #{source_model.request_type.titleize} for project #{source_model.project.title}"%></span>
                   </p>
                 <% elsif n.pending_do_request? %>
                   <div class="notification-item">
@@ -110,7 +110,7 @@
                     </span>
                   </div>
                   <p class="l-dropdown__text">
-                    <span><%= "#{n.origin_user.name} requested to do this task #{source_model.task.title}. Their cover letter is: #{source_model.application}" %></span>
+                    <span><%= "#{n.origin_user.display_name} requested to do this task #{source_model.task.title}. Their cover letter is: #{source_model.application}" %></span>
                   </p>
                 <% end %>
               </div>
@@ -128,7 +128,7 @@
                   <p class="l-dropdown__text"><%= "Your task "%>
                     <span><%= "#{source_model.title}"%></span>
                     <%= " for "%>
-                      <span><%= "#{source_model.project.title}"%></span><%= " has been suggested to "%><span><%= "#{n.origin_user.name}."%></span>
+                      <span><%= "#{source_model.project.title}"%></span><%= " has been suggested to "%><span><%= "#{n.origin_user.display_name}."%></span>
                     <%=" It's waiting for approval."%>
                   </p>
                 <% elsif n.follow_project? %>
@@ -138,7 +138,7 @@
                       <%= "#{n.created_at.strftime(" %b %d")} "%>
                     </span>
                   </div>
-                  <p class="l-dropdown__text"><span><%= "#{n.origin_user.name}"%></span><%= " followed "%>
+                  <p class="l-dropdown__text"><span><%= "#{n.origin_user.display_name}"%></span><%= " followed "%>
                     <span><%= "#{source_model.title}"%></span>
                   </p>
                 <% end %>
@@ -154,7 +154,7 @@
                       <%= "#{n.created_at.strftime(" %b %d")}"%>
                     </span>
                   </div>
-                  <p class="l-dropdown__text"><%= "#{n.user.name} have created project named "%><span><%= "#{source_model.title}"%></span></p>
+                  <p class="l-dropdown__text"><%= "#{n.user.display_name} have created project named "%><span><%= "#{source_model.title}"%></span></p>
                 <% elsif n.follow_project? %>
                   <div class="notification-item">
                     <span class="l-dropdown__action">Follow Project</span>
@@ -162,7 +162,7 @@
                       <%= "#{n.created_at.strftime(" %b %d")} "%>
                     </span>
                   </div>
-                  <p class="l-dropdown__text"><%= "#{n.user.name} follows project "%><span><%= "#{source_model.title}"%></span></p>
+                  <p class="l-dropdown__text"><%= "#{n.user.display_name} follows project "%><span><%= "#{source_model.title}"%></span></p>
                 <% elsif n.updated_project? %>
                   <div class="notification-item">
                     <span class="l-dropdown__action">Updated Project</span>
@@ -170,7 +170,7 @@
                       <%= "#{n.created_at.strftime(" %b %d")}"%>
                     </span>
                   </div>
-                  <p class="l-dropdown__text"><%= "#{n.user.name} have updated project named "%><span><%= "#{source_model.title}"%></span></p>
+                  <p class="l-dropdown__text"><%= "#{n.user.display_name} have updated project named "%><span><%= "#{source_model.title}"%></span></p>
                 <% end %>
               </div>
             </li>

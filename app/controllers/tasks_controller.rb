@@ -304,7 +304,7 @@ class TasksController < ApplicationController
   end
 
   def send_email
-    InvitationMailer.invite_user(params['email'], current_user.name, Task.find(params['task_id'])).deliver_later
+    InvitationMailer.invite_user(params['email'], current_user.display_name, Task.find(params['task_id'])).deliver_later
     @notice = t('.task_link_sent', email: params[:email])
     respond_to :js
   end

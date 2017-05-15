@@ -30,7 +30,7 @@ feature "Project Page Team Tab", js: true do
       end
 
       scenario "Then the user's card is displayed" do
-        expect(find(".member-box")).to have_content @project.user.name
+        expect(find(".member-box")).to have_content @project.user.display_name
       end
     end
   end

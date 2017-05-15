@@ -4,9 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <h1><%= t('.greeting', previous_leader_name: @previous_leader.name) %></h1>
+    <h1><%= t('.greeting', previous_leader_name: @previous_leader.display_name) %></h1>
     <p>
-      <%= t('.body_html', new_leader_name: @new_leader.name, project_url: link_to(@project.title, project_url(@project.id))).html_safe %>
+      <%= t('.body_html', new_leader_name: @new_leader.display_name, project_url: link_to(@project.title, project_url(@project.id))).html_safe %>
     </p>
   </body>
 </html>

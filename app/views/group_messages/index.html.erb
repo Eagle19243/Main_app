@@ -38,7 +38,7 @@
 
     <div class="s-group-messages__search-form">
         <%= form_tag(group_messages_search_user_path, :method => "get", remote: true, id: "search-form") do %>
-            <%= text_field_tag :search, params[:search], class: "search-query", placeholder: t('.find_start_conversation'), data: { autocomplete: autocomplete_user_name_group_messages_path, :id_element => '#some_element' } %>
+            <%= text_field_tag :search, params[:search], class: "search-query", placeholder: t('.find_start_conversation'), data: { autocomplete: autocomplete_user_username_group_messages_path, :id_element => '#some_element' } %>
         <% end %>
     </div>
   </div>

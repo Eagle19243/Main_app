@@ -12,7 +12,7 @@
 			<%= gravatar_for_user(activity.user) %>
 	  <%end%>
 
-		<%= activity.user.name %>
+		<%= activity.user.display_name %>
 		<%= render partial: "activities/#{activity.targetable_type.underscore}/#{activity.action}", locals: { activity: activity } %>
 		<hr>
 	<%end%>

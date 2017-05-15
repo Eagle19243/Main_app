@@ -48,7 +48,7 @@ feature 'Facebook login', js: true do
       :uid     => "1234",
       :info =>  {
                 :email => user.email,
-                :name => user.name,
+                :name => [user.first_name,user.last_name].join(' '),
                 :image => "http://foo_image"
                 },
       :extra => {

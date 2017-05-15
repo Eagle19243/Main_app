@@ -5,7 +5,7 @@
   </head>
   <body>
     <p>
-      <%= t('.body_html', request_type: @request_type, project_url: link_to(@project.title, project_url(@project.id)), leader_name: @project.leader.try(:name)).html_safe %>
+      <%= t('.body_html', request_type: @request_type, project_url: link_to(@project.title, project_url(@project.id)), leader_name: @project.leader.try(:display_name)).html_safe %>
     </p>
   </body>
 </html>

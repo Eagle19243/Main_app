@@ -110,10 +110,10 @@ class Chatroom < ActiveRecord::Base
       self.project.title
     when 2
       #Direct Message to a Project Team Member
-      "#{self.project.title} - Conversation with #{get_other_messaging_user(current_user).name}"
+      "#{self.project.title} - Conversation with #{get_other_messaging_user(current_user).display_name}"
     when 3
       #Direct Message with no Project
-      "Conversation with #{get_other_messaging_user(current_user).name}"
+      "Conversation with #{get_other_messaging_user(current_user).display_name}"
     end
   end
 

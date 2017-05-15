@@ -30,7 +30,7 @@
                   <br>
               <% end %>
             </div>
-            <span class="l-messages__name"><%= message.user.try(:name) %></span>
+            <span class="l-messages__name"><%= message.user.display_name %></span>
             <span class="l-messages__date"><%= time_ago_in_words(message.created_at) %></span>
             <br>
 

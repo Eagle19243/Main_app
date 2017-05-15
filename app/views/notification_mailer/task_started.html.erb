@@ -5,10 +5,10 @@
 </head>
 <body>
     <p>
-      <%= t('.greeting', receiver_name: @receiver.name) %>
+      <%= t('.greeting', receiver_name: @receiver.display_name) %>
     </p>
     <p>
-      <%= t('.body_html', user_name: @acting_user.name, task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
+      <%= t('.body_html', user_name: @acting_user.display_name, task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
     </p>
 </body>
 </html>

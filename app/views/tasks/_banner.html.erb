@@ -52,7 +52,7 @@
                 <% end %>
             </div>
             <p class="b-project-info__user-name">
-              <span><%= t('commons.by') %> <%= link_to @project.user.name, user_path(@project.user) %></span>
+              <span><%= t('commons.by') %> <%= link_to @project.user.display_name, user_path(@project.user) %></span>
             </p>
         </div>
     </div>

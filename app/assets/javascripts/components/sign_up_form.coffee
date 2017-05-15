@@ -1,6 +1,6 @@
 @SignUpForm = React.createClass
   getInitialState: ->
-    name: ''
+    username: ''
     new_email: ''
     new_password: ''
     password_confirmation: ''
@@ -15,7 +15,7 @@
         utf8: "✓",
         authenticity_token: @state.authenticity_token,
         user: {
-          name: @state.name
+          username: @state.username
           email: @state.new_email,
           password: @state.new_password,
           password_confirmation: @state.password_confirmation
@@ -53,11 +53,11 @@
 #       React.DOM.h3 null, "Sign up"
         React.DOM.div
           className: 'form-group'
-          React.DOM.label null,'Name'
+          React.DOM.label null,'Username'
           React.DOM.input
             type: 'text'
-            name: 'name'
-            value: @state.name
+            name: 'username'
+            value: @state.username
             onChange: @inputChanged
         React.DOM.div
           className: 'form-group'

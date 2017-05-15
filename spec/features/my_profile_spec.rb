@@ -34,7 +34,7 @@ feature "My Profile", js: true do
         end
 
         scenario "Then you can see your profile info in the header part" do
-          expect(@profile_header).to have_content @current_user.name
+          expect(@profile_header).to have_content @current_user.display_name
         end
 
         scenario "Then you can see the list of projects" do

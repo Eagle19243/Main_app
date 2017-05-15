@@ -7,7 +7,7 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <p><%= t('.greeting', leader_name: @leader.name) %></p>
-    <%= t('.body_html', applicant_name: @applicant.name, request_type: @request_type, project_url: project_url, request_tab_url: request_tab_url).html_safe %>
+    <p><%= t('.greeting', leader_name: @leader.display_name) %></p>
+    <%= t('.body_html', applicant_name: @applicant.display_name, request_type: @request_type, project_url: project_url, request_tab_url: request_tab_url).html_safe %>
   </body>
 </html>

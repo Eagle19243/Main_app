@@ -48,7 +48,7 @@
                   <div class="modal-fund__signed">
                     <div class="modal-fund__signed-label">
                         <span><%= t('commons.sign_in_as') %></span>
-                        <span class="modal-fund__user-name"><%= current_user.name %></span>
+                        <span class="modal-fund__user-name"><%= current_user.display_name %></span>
                         <%= link_to t('commons.not_you?'), destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
                     </div>
                     <% if current_user.picture? %>

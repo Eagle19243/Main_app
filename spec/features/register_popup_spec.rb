@@ -19,7 +19,7 @@ feature 'Register popup displaying correctly', type: :feature, js: true do
     expect(modal).to have_link 'Sign In with Twitter'
     expect(modal).to have_link 'Sign In with Facebook'
 
-    expect(modal).to have_field 'name'
+    expect(modal).to have_field 'username'
     expect(modal).to have_field 'new_email'
     expect(modal).to have_field 'new_password'
     expect(modal).to have_field 'password_confirmation'

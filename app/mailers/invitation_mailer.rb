@@ -14,7 +14,7 @@ class InvitationMailer < ApplicationMailer
   def invite_leader(invitation_id)
     @invitation = ChangeLeaderInvitation.find invitation_id
     @from = @invitation.project.user.email
-    @user_name = @invitation.project.user.name
+    @user_name = @invitation.project.user.display_name
     @url = project_url(@invitation.project)
     mail(to: @invitation.new_leader, subject: t('.subject'))
   end
@@ -28,7 +28,7 @@ class InvitationMailer < ApplicationMailer
   end
 
   def welcome_user(email_address)
-    @user_name = User.find_by(email: email_address).name
+    @user_name = User.find_by(email: email_address).display_name
     mail(to: email_address, subject: t('.subject'))
   end
 end

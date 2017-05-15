@@ -4,9 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <p><%= t('.greeting', receiver_name: @receiver.name) %></p>
+    <p><%= t('.greeting', receiver_name: @receiver.display_name) %></p>
     <p>
-      <%= t('.body_html', user_name: @task_comment.user.name, task_url: link_to(@task_comment.task.title, taskstab_project_url(@task_comment.task.project.id, tab: 'tasks', taskId: @task_comment.task.id))).html_safe %>
+      <%= t('.body_html', user_name: @task_comment.user.display_name, task_url: link_to(@task_comment.task.title, taskstab_project_url(@task_comment.task.project.id, tab: 'tasks', taskId: @task_comment.task.id))).html_safe %>
     </p>
     <p><%= t('.comment') %>:</p>>
     <p>

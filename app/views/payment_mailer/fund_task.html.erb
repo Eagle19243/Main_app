@@ -4,9 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <p><%= t('.greeting', receiver_name: @receiver.name) %></p>
+    <p><%= t('.greeting', receiver_name: @receiver.display_name) %></p>
     <p>
-      <%= t('.body_html', payer_name: @payer.name, amount_btc: @amount[:bitcoin], amount_usd: @amount[:usd], task_title: @task.title).html_safe %>
+      <%= t('.body_html', payer_name: @payer.display_name, amount_btc: @amount[:bitcoin], amount_usd: @amount[:usd], task_title: @task.title).html_safe %>
     </p>
 </body>
 </html>

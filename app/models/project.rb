@@ -122,7 +122,7 @@ class Project < ActiveRecord::Base
   end
 
   def all_team_memberships_except(user)
-    self.team_memberships.joins(:team_member).where.not(team_member: user).order('users.name ASC')
+    self.team_memberships.joins(:team_member).where.not(team_member: user).order('users.username ASC')
   end
 
   def get_project_chatroom

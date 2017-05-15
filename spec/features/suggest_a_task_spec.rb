@@ -114,7 +114,7 @@ xfeature "Suggest a Task", js: true do
                   end
 
                   scenario "Then 'Activity' section contains the activity of the current user" do
-                    expect(find("#task-activity")).to have_content "This task was proposed by #{@regular_user.name}"
+                    expect(find("#task-activity")).to have_content "This task was proposed by #{@regular_user.display_name}"
                   end
                 end
               end

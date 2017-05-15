@@ -7,7 +7,7 @@ class ApplyRequest < ActiveRecord::Base
 
   scope :pending, -> { where("accepted_at IS NULL and rejected_at IS NULL") }
   def user_name
-    User.find(self.user_id).name
+    user.display_name
   end
 
   def is_valid?

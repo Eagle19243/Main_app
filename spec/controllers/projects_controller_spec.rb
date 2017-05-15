@@ -6,8 +6,8 @@ describe ProjectsController, type: :request do
     let(:params) { { id: project.id, type: request_type } }
 
     let(:project) { FactoryGirl.create(:base_project, user: leader) }
-    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
 
     before { login_as(user, scope: :user, run_callbacks: false) }
@@ -116,7 +116,7 @@ describe ProjectsController, type: :request do
     context "when logged in" do
       before do
         @picture = Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'photo.png'), 'image/png')
-        @user = FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now)
+        @user = FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now)
         login_as(@user, :scope => :user, :run_callbacks => false)
       end
 
@@ -204,8 +204,8 @@ describe ProjectsController, type: :request do
     let(:params) { { project_id: project.id, leader: { address: new_leader_email } } }
 
     let(:project) { FactoryGirl.create(:base_project) }
-    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
-    let(:new_leader) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
+    let(:new_leader) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
     let(:new_leader_email) { new_leader.email }
 
     before do

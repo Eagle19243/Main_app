@@ -13,7 +13,7 @@
                 <% else %>
                     <%= gravatar_for_user(project.user) %>
                 <% end %>
-                <%= link_to project.user.name, user_path(project.user) %>
+                <%= link_to project.user.display_name, user_path(project.user) %>
             <% else %>
                 <a href="javascript:void">User nolonger exist!</a>
             <% end %>

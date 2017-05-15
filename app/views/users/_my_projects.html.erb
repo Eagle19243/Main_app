@@ -25,7 +25,7 @@
                 <% end %>
               </td>
               <td class="leader">
-                <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.name %></a></span>
+                <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.display_name %></a></span>
                 <a class="pull-right" data-modal="#change-leader-modal" data-id="<%= project.id %>">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
@@ -76,7 +76,7 @@
                   <% else %>
                     <%= gravatar_for_user(project.user)%>
                   <%end%>
-                  <%= link_to project.user.name, user_path(project.user)%>
+                  <%= link_to project.user.display_name, user_path(project.user)%>
                 </div>
 
               </div>

@@ -4,7 +4,6 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    @user.username = @user.name + @user.id.to_s
     if @user.save
       WalletCreationJob.perform_later('User', @user.id) unless @user.wallet
     end
@@ -13,12 +12,12 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:name, :email, :password,
+    params.require(:user).permit(:username, :email, :password,
       :password_confirmation, :current_password, :picture, :company, :country, :description, :first_link, :second_link, :third_link, :fourth_link, :city, :phone_number)
   end
 
   def account_update_params
-    params.require(:user).permit(:name, :email, :password,
+    params.require(:user).permit(:username, :email, :password,
       :password_confirmation, :current_password, :picture, :company,
       :country, :description, :first_link, :second_link, :third_link,
       :fourth_link, :city, :phone_number, :bio, :facebook_url, :twitter_url,
