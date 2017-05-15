@@ -13,11 +13,6 @@ module Payments::BTC
           wallet.update(balance: wallet_handler.get_wallet_balance(wallet.wallet_id)) unless wallet.wallet_owner.is_a?(Task) && wallet.wallet_owner.state =="completed"
         end
       end
-
-      # TODO We want to get rid of current_fund in future but currently is too much coupled up in the system
-      Task.all.find_each do |task|
-        task.update_current_fund! unless task.state == "completed"
-      end
     end
 
     def update_tx_hash_for_transactions!

@@ -21,7 +21,7 @@ class DonationsController < ApplicationController
                                 :actionType => "PAY",
                                 :cancelUrl => request.base_url + "/tasks/#{@donation.task_id}",
                                 :currencyCode => "USD",
-                                :ipnNotificationUrl => payment_notifications_url, #payment_ipn_notify_url, #request.base_url + "/payment_notifications",
+                                :ipnNotificationUrl => 'payment_notifications_url', #payment_ipn_notify_url, #request.base_url + "/payment_notifications",
                                 :receiverList => {
                                     :receiver => [
                                         { :email => "bruno19850511-facilitator@yahoo.com", :amount => amount },
@@ -58,6 +58,6 @@ class DonationsController < ApplicationController
 
   def donation_params
     params.require(:donation).permit(:task_id, :amount, :paypal_email, :PAYKEY,
-                                     :current_fund, :transaction_id, :status, :notification_params, :completed_at )
+                                     :transaction_id, :status, :notification_params, :completed_at )
   end
 end

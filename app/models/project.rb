@@ -88,7 +88,7 @@ class Project < ActiveRecord::Base
   end
 
   def funded_budget
-    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.sum(:current_fund))
+    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.map(&:wallet).compact.map(&:balance).inject(0, &:+))
   end
 
   def funded_percentages

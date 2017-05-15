@@ -24,9 +24,6 @@ RSpec.describe TaskCompleteService, vcr: { cassette_name: 'coinbase' } do
     end
 
     context "with current_fund is not changed" do
-      before do
-        allow_any_instance_of(described_class).to receive(:update_current_fund!).and_return(true)
-      end
 
       it "can be initialized with a valid instance of Task class" do
         service_object = described_class.new(task)
@@ -112,9 +109,6 @@ RSpec.describe TaskCompleteService, vcr: { cassette_name: 'coinbase' } do
   end
 
   describe "#complete!", vcr: { cassette_name: 'bitgo' } do
-    before do
-      allow_any_instance_of(described_class).to receive(:update_current_fund!).and_return(true)
-    end
 
     let(:parameters)                 { {} }
     let(:budget_in_satoshi)          { parameters[:budget] }
@@ -133,9 +127,7 @@ RSpec.describe TaskCompleteService, vcr: { cassette_name: 'coinbase' } do
     end
 
     let(:task) do
-      t = FactoryGirl.create(:task, :with_associations, task_attributes)
-      wallet = FactoryGirl.create(:wallet)
-      t.wallet = wallet
+      t = FactoryGirl.create(:task, :with_associations, :with_wallet, task_attributes)
       t.save
 
       t

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Payments::BTC::BulkUpdater, vcr: { cassette_name: 'coinbase/bulk_updates' }  do
   let(:user) { create(:user) }
-  let(:task) { create(:task, current_fund: 5) }
+  let(:task) { create(:task) }
   let(:bulk_updater) { Payments::BTC::BulkUpdater.new }
 
   before do
@@ -16,14 +16,14 @@ RSpec.describe Payments::BTC::BulkUpdater, vcr: { cassette_name: 'coinbase/bulk_
 
     expect(user.wallet.balance).to eq 2
     expect(task.wallet.balance).to eq 5
-    expect(task.current_fund).to eq 5
+    expect(task.wallet.balance).to eq 5
 
     bulk_updater.update_all_wallets_balance!
     user.reload
     task.reload
     expect(user.wallet.balance).to eq 0
     expect(task.wallet.balance).to eq 0
-    expect(task.current_fund).to eq 0
+    expect(task.wallet.balance).to eq 0
   end
 
   it 'does not update balance for the completed task' do

@@ -68,7 +68,6 @@ Rails.application.routes.draw do
   resources :work_records
   post 'user_wallet_transactions/send_to_any_address'
   post 'user_wallet_transactions/send_to_task_address'
-  get 'payment_notifications/create'
   get 'proj_admins/new'
   get 'proj_admins/create'
   get 'proj_admins/destroy'
@@ -82,7 +81,7 @@ Rails.application.routes.draw do
       get :accept, :reject, :completed, :confirmed, :confirmation_rejected
     end
   end
-  resources :payment_notifications
+
   resources :donations
 
   resources :do_for_frees do
