@@ -74,6 +74,58 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 
 * There is a scpecial task `bundle exec rake admin_wallet:create_wallet_address` to generate reserve wallet automatically
 
+# Translation
+
+Application uses i18n files to render strings in different languages, these files are located in `config/localtes` directory, 
+files for each language are grouped in own sub-directory, eg: `config/locales/en`. Strings are separated by context using own file
+for each context, for example: strings for main page are located in `config/locales/en/landing.en.yml`. Note that each file also
+explicitly indicates language it belongs to by applying `en` suffix to its name.
+ 
+## i18n files format
+
+Locale files are formatted as YAML and usually have hierarchical structure, though, this fact is not important for
+translation process, but you can learn more about YAML [here](http://docs.ansible.com/ansible/YAMLSyntax.html) if you want.
+
+Basically regardless of file structure there are 2 main entities: **key** and **value**, first one is represented as term
+without spaces and located *at left*, second one - wrapped into single or double quotes and contains some text.
+
+Goal of translation process is to translate all **values** but do not touch the keys!
+
+Example: file in english
+
+```yaml
+en:
+  landing:
+    hero-title: "Turn your followers into a task force"
+    hero-subtitle: "<span>Share your</span> vision and your audience will make it happen"
+    hero-collaboration-title: "Engage your social network to"
+    copy_right: "%{year} WeServe.io Beta"
+```
+
+Example: file translated to Russian
+
+```yaml
+en:
+  landing:
+    hero-title: "Превратите ваших последвателей в силу"
+    hero-subtitle: "<span>Поделитесь своей</span> идеей и ваша аудитория воплотит ее"
+    hero-collaboration-title: "Вовлеките ваши социальные связи"
+    copy_right: "%{year} WeServe.io Бета версия"
+```
+
+**Note**: sometime value strings will contain special constructions like `%{year}`, HTML-markup elements like `<span>` or
+links like `http://www.site.com`. You **should not** change these parts in any way so just keep them during translation.
+ 
+## How to translate
+
+Lets say we're going to translate some text on from English to Russian, he is the steps we need to perform:
+
+1. Copy contents of `config/locales/en` into `config/locales/ru`
+2. Rename all files suffixes to `ru` so, for example `landing.en.yml` becomes `landing.ru.yml`
+3. Edit each file and replace all English string content with Russian text following example above
+
+**Note**: you can use [YAML validator](http://www.yamllint.com/) to ensure you did not make an error during translation.
+
 # Troubleshooting
 
 * To be added...
