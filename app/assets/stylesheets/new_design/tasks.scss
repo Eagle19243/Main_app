@@ -897,6 +897,13 @@
       width: 100%;
     }
 
+    &__data {
+      &._btc {
+        font-size: 10px;
+        color: #636363;
+      }
+    }
+
     tbody {
       tr td {
         padding: 0 !important;
