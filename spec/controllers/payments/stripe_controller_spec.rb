@@ -235,7 +235,8 @@ RSpec.describe Payments::StripeController do
               context 'when the task is fully funded' do
                 before do
                   allow(PaymentMailer).to receive(:fully_funded_task).and_return(message_delivery)
-                  task.update_attributes(budget: 200.0, current_fund: 200.0)
+                  task.update_attributes(budget: 200.0)
+                  task.wallet.update_attributes(balance: 200.0)
                 end
 
                 it 'sends an email to the involved users', :aggregate_failures do

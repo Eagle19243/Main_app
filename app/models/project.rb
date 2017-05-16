@@ -88,7 +88,7 @@ class Project < ActiveRecord::Base
   end
 
   def funded_budget
-    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.sum(:current_fund))
+    Payments::BTC::Converter.convert_satoshi_to_btc(tasks.map(&:wallet).compact.map(&:balance).inject(0, &:+))
   end
 
   def funded_percentages
@@ -122,7 +122,7 @@ class Project < ActiveRecord::Base
   end
 
   def all_team_memberships_except(user)
-    self.team_memberships.joins(:team_member).where.not(team_member: user).order('users.name ASC')
+    self.team_memberships.joins(:team_member).where.not(team_member: user).order('users.username ASC')
   end
 
   def get_project_chatroom

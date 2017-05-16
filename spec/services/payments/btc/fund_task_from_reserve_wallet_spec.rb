@@ -56,7 +56,7 @@ end
 
 RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
   let(:stripe_helper) { StripeMock.create_test_helper }
-  let(:task) { FactoryGirl.create(:task, :with_associations) }
+  let(:task) { FactoryGirl.create(:task, :with_associations, :with_wallet) }
   let(:user) { FactoryGirl.create(:user) }
   let(:usd_amount) { 23.88 }
   let(:stripe_token) { stripe_helper.generate_card_token }
@@ -294,7 +294,7 @@ RSpec.describe Payments::BTC::FundTaskFromReserveWallet do
           expect {
             fund_task_service.submit!
           }.to raise_error(
-            Payments::BTC::Errors::TransferError, 
+            Payments::BTC::Errors::TransferError,
             'Not Enough BTC in Reserve wallet. Please Try Again'
           )
         end

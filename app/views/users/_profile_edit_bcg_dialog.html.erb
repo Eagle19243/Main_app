@@ -1,7 +1,7 @@
 <div class="modal-default modal-edit-bcg" id="profile-bcg-edit" role="dialog" tabindex="-1" aria-hidden="true">
   <div class="modal-default__content" role="document">
       <button class="modal-default__close" type="button"></button>
-      <h3 class="modal-default__title">Edit Background Image</h3>
+      <h3 class="modal-default__title"><%= t('.edit_bg_img') %></h3>
       <%= form_for(@user, :html => {:class => 'f-edit-bcg'}) do |f| %>
         <% if @user.background_picture? %>
           <div class="f-edit-bcg__image">
@@ -10,8 +10,8 @@
         <% end %>
 
         <%= f.file_field :background_picture, class: 'btn-upload', onchange: "previewProfileImage(this);"%>
-        <button class="btn-root" name="commit" data-modal-close>Save Changes</button>
-        <button type="button" class="btn-root _dark" data-modal-close>Cancel</button>
+        <button class="btn-root" name="commit" data-modal-close><%= t('commons.save_changes') %></button>
+        <button type="button" class="btn-root _dark" data-modal-close><%= t('commons.cancel') %></button>
       <% end %>
   </div>
 </div>

@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     @user.attributes = update_params
-    return render json: { alert: "Unable to update user." }, status: 422 if @user.invalid?
+    return render json: { alert: t('.fail') }, status: 422 if @user.invalid?
 
     @user.save
     current_user.create_activity(@user, 'updated')
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.destroy
     current_user.create_activities(@user, 'deleted')
-    redirect_to users_path, :notice => "User deleted."
+    redirect_to users_path, notice: t('.success')
   end
 
   def my_wallet

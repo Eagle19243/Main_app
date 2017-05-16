@@ -4,7 +4,6 @@ class ApplicationMailer < ActionMailer::Base
 
   def reserve_wallet_low_balance(satoshi_balance)
     @balance = Payments::BTC::Converter.convert_satoshi_to_btc(satoshi_balance)
-    mail(to: ENV['admin_notification_email'], subject: 'Reserve wallet balance is getting low')
+    mail(to: ENV['admin_notification_email'], subject: t('.subject'))
   end
-
 end

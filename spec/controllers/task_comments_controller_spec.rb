@@ -5,7 +5,7 @@ describe TaskCommentsController, type: :request do
     subject(:make_request) { post("/projects/#{project.id}/tasks/#{task.id}/task_comments", params, { 'HTTP_REFERER' => 'http://www.example.com' }) }
     let(:task) { FactoryGirl.create(:task, project: project) }
     let(:project) { FactoryGirl.create(:base_project, user: user) }
-    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
     let(:only_follower) { FactoryGirl.create(:user, :confirmed_user) }
 
     before do

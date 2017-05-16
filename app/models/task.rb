@@ -63,6 +63,7 @@ class Task < ActiveRecord::Base
   validates :condition_of_execution, presence: true
   validates :proof_of_execution, presence: true
   validates :satoshi_budget, presence: true
+  validates :budget, presence: true, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }
   validates :deadline, presence: true
   validates :target_number_of_participants, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
@@ -95,9 +96,13 @@ class Task < ActiveRecord::Base
     (satoshi_budget - we_serve_part) / target_number_of_participants
   end
 
+  def current_fund
+    wallet ? wallet.balance : 0.0
+  end
+
   def update_current_fund!
-    self.current_fund = wallet.balance if wallet
-    save!
+    return false unless wallet
+    wallet.update_balance!
   end
 
   def budget
@@ -120,11 +125,11 @@ class Task < ActiveRecord::Base
   end
 
   def any_fundings?
-    self.current_fund != 0
+    current_fund > 0
   end
 
   def current_fund_of_task
-    (Payments::BTC::Converter.convert_satoshi_to_btc(current_fund) rescue 0).round.to_s
+    Payments::BTC::Converter.convert_satoshi_to_btc(current_fund).round.to_s
   end
 
   def team_relations_string

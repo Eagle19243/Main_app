@@ -1,17 +1,17 @@
 <%= render 'layouts/messages' %>
 <div class="myprojets-wrapper">
   <div class="myprojets-table">
-    <h2>My Projects</h2>
+    <h2><%= t('commons.my_projects') %></h2>
     <div class="table-responsive mb30 my-projects">
       <table class="table">
         <thead>
           <tr>
-            <th>Project</th>
-            <th>Leader</th>
-            <th>Fund &amp; Needed</th>
-            <th>Team / <br>Needed</th>
-            <th>Tasks to <br>Review</th>
-            <th>Tasks <br>completed</th>
+            <th><%= t('commons.project') %></th>
+            <th><%= t('.leader') %></th>
+            <th><%= t('.fund_and_needed') %></th>
+            <th><%= t('.team_needed_html').html_safe %></th>
+            <th><%= t('.task_reviewed_html').html_safe %></th>
+            <th><%= t('.task_completed_html').html_safe %></th>
             <th></th>
             <th></th>
           </tr>
@@ -25,14 +25,20 @@
                 <% end %>
               </td>
               <td class="leader">
-                <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.name %></a></span>
+                <span class="pull-left"><a href="<%= user_path(project.user) %>"><%= project.user.display_name %></a></span>
                 <a class="pull-right" data-modal="#change-leader-modal" data-id="<%= project.id %>">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
               </td>
               <td class="fund">
-                <span class="pull-left">฿ <%= btc_balance(project.funded_budget) %></span>
-                <span class="pull-right">฿ <%= btc_balance(project.needed_budget) %></span>
+                <div class="pull-left">
+                    <div class="my-project__usd-left">$ <%= Payments::BTC::Converter.convert_btc_to_usd(project.funded_budget) %></div>
+                    <div class="my-project__btc-left">฿ <%= btc_balance(project.funded_budget) %></div>
+                </div>
+                <div class="pull-right">
+                    <div class="my-project__usd-right">$ <%= Payments::BTC::Converter.convert_btc_to_usd(project.needed_budget) %></div>
+                    <div class="my-project__btc-right">฿ <%= btc_balance(project.needed_budget) %></div>
+                </div>
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>" >
                   </div>
@@ -76,7 +82,7 @@
                   <% else %>
                     <%= gravatar_for_user(project.user)%>
                   <%end%>
-                  <%= link_to project.user.name, user_path(project.user)%>
+                  <%= link_to project.user.display_name, user_path(project.user)%>
                 </div>
 
               </div>
@@ -111,10 +117,10 @@
                       <td>฿ <%= btc_balance(project.funded_budget) %></td>
                     </tr>
                     <tr class="items">
-                      <td>Funded</td>
-                      <td>Teammates</td>
-                      <td>Completed</td>
-                      <td>Raised</td>
+                      <td><%= t('commons.funded') %></td>
+                      <td><%= t('commons.teammates') %></td>
+                      <td><%= t('commons.completed') %></td>
+                      <td><%= t('commons.raised') %></td>
                     </tr>
                   </table>
                 </div>
@@ -133,12 +139,12 @@
 <div class="modal-default modal-leader" id="change-leader-modal" role="dialog" aria-hidden="true" tabindex="-1">
   <div class="modal-default__content">
     <button type="button" class="modal-default__close"></button>
-    <h3 class="modal-default__title">Who do you want to give your leader's role to?</h3>
+    <h3 class="modal-default__title"><%= t('.change_role_confirmation') %></h3>
     <%= form_tag change_leader_projects_path, method: "post" do %>
         <%= hidden_field_tag(:project_id) %>
-        <label class="f-default__label" for="leader_address">Enter email:</label>
+        <label class="f-default__label" for="leader_address"><%= t('.enter_email') %>:</label>
         <%= email_field(:leader, :address, :required => true) %>
-        <button class="btn-root" name="commit">Change</button>
+        <button class="btn-root" name="commit"><%= t('commons.change') %></button>
     <% end %>
   </div>
 </div>
@@ -146,18 +152,20 @@
 <div id="modalRemoveProject" class="modal-default modal-remove-project" tabindex="-1">
   <div class="modal-default__content" style="max-width: 900px;">
     <button type="button" class="modal-default__close"></button>
-    <h4 class="modal-default__title">Are you sure you want to delete this project?</h4>
-   <a href=""  id="removeprojectpath" data-method="delete" > <button type='button' class='btn-root _agree'>Ok</button></a>
+    <h4 class="modal-default__title"><%= t('.delete_project_confirmation') %></h4>
+   <a href=""  id="removeprojectpath" data-method="delete" > <button type='button' class='btn-root _agree'><%= t('commons.ok') %></button></a>
 
-    <button type='button' class='btn-root _decline'>Cancel</button>
+    <button type='button' class='btn-root _decline'><%= t('commons.cancel') %></button>
   </div>
 </div>
 
 <script type="text/javascript">
-    var $modalRemoveProject = $('#modalRemoveProject');
-    var remove_project_id = 0
-    function remove_project (id){
-      var remove_project_id = id
+    var $modalRemoveProject = $('#modalRemoveProject'),
+        remove_project_id = 0;
+
+    function remove_project (id) {
+      var remove_project_id = id;
+
       $("#removeprojectpath").attr("href", "/projects/"+id)
     }
     $(document)

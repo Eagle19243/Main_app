@@ -4,17 +4,17 @@
 <% if @change_leader_invitation && @change_leader_invitation.is_valid? %>
     <div class="center-block">
       <p class="bg-info lead text-center">
-        You were invited as a leader for this project. Please review the project and accept.
+        <%= t('.lead_project_invitation') %>
         <br/>
-        <%= link_to "Accept", accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm" %>
-        <%= link_to "Reject", reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm" %>
+        <%= link_to t('commons.accept'), accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm" %>
+        <%= link_to t('commons.reject'), reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm" %>
       </p>
     </div>
 <% end %>
 
 <div id="loading-mask1">
   <div class="modal-content2">
-    <center><h3>Loading...</h3></center>
+    <center><h3><%= t('commons.loading') %></h3></center>
     <center>
         <svg focusable="false" version="1.1" class="svg-loading" aria-hidden="true">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-loading"></use>
@@ -74,23 +74,23 @@
           <ul class="nav nav-pills nav-left m-tabs">
             <li>
               <%= link_to plan_project_path(id: @project.id), data: {tab: 'plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
-                Plan
+                <%= t('.plan_tab_title') %>
               <% end %>
             </li>
             <li>
               <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
-                  Tasks<span class="count"><%= @tasks_count %></span>
+                <%= t('.tasks_tab_title') %><span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
             <li>
               <%= link_to projects_show_all_teams_path(id: @project.id), data: {tab: 'team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
-                  Team<span class="count"><%= @team_memberships_count %></span>
+                <%= t('.team_tab.title')%><span class="count"><%= @team_memberships_count %></span>
               <% end %>
             </li>
             <% if can? :manage_requests, @project %>
               <li>
                 <%= link_to requests_project_path(@project), data: {tab: 'requests'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
-                    Requests<span class="count"><%= @requests_count %></span>
+                  <%= t('.requests_tab_title')%><span class="count"><%= @requests_count %></span>
                 <% end %>
               </li>
             <% end %>
@@ -101,15 +101,20 @@
                 <svg focusable="false" version="1.1" class="svg-share">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-share"></use>
                 </svg>
-                Share/Invite
+                <%= t('commons.share_or_invite') %>
             </button>
             <% if user_signed_in? %>
                 <% if @project.user_id != current_user.id %>
                     <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-root follow-unfollow', method: :post do %>
                         <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
-                        <%= @followed ? "Unfollow" : "Follow" %>
+                        <%= @followed ? t('commons.unfollow') : t('commons.follow') %>
                     <% end %>
                 <% end %>
+            <% end %>
+            <% if !user_signed_in? %>
+                <button type="button" class="btn-root sign_up_a" data-modal="#registerModal">Get involved</button>
+            <% elsif !current_user.is_admin_for?(@project) %>
+                <button type="button" class="btn-root" data-modal="#welcomeToTeamModal">Get involved</button>
             <% end %>
           </div>
 
@@ -131,8 +136,8 @@
         <div class="tabs-wrapper__team tabcontent">
           <div clas="row">
               <div class="team-tab__title">
-                  Below are the existing teammates for this project. You may choose to join this team below.
-                  <a href="<%= t('commons.faq_landing_link') %>">FAQs</a>
+                  <%= t('.team_tab.description') %>
+                  <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
                   <% if @project.followers.any? %>
                     <span class="follower-badge right">
                       <%= pluralize(@project.followers.size, 'follower') %>

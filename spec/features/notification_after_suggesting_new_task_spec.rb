@@ -67,7 +67,7 @@ xfeature "Notification After Suggesting a New Task", js: true do
               end
 
               scenario "Then you can not see the notification" do
-                expect(page).not_to have_content "#{@regular_user.name} suggested a task #{@task.title}"
+                expect(page).not_to have_content "#{@regular_user.display_name} suggested a task #{@task.title}"
               end
 
               scenario "Then the number of unread notifications has been disappeared on the alert" do
@@ -143,7 +143,7 @@ xfeature "Notification After Suggesting a New Task", js: true do
               end
 
               scenario "Then you can see the notification" do
-                expect(page).to have_content "#{@user.name} suggested a task #{@task.title}"
+                expect(page).to have_content "#{@user.display_name} suggested a task #{@task.title}"
               end
 
               scenario "Then the number of unread notifications has been disappeared on the alert" do

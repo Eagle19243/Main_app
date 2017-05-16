@@ -49,8 +49,8 @@ class User < ActiveRecord::Base
   has_many :stripe_payments
   has_one :wallet, as: :wallet_owner
 
-  validate :validate_name_unchange
-  validates :name, presence: true, uniqueness: true
+  validate :validate_username_unchange
+  validates :username, presence: true, uniqueness: true
 
   # Ref: https://github.com/plataformatec/devise/blob/88724e10adaf9ffd1d8dbfbaadda2b9d40de756a/lib/devise/models/validatable.rb
   # Validate everything as using `devise :validatable`
@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   # Override
   validates_length_of       :password, within: Devise.password_length, allow_blank: true, if: ->(user) { user.errors[:password_confirmation].blank? }
 
-  scope :name_like, -> (name) { where('name ILIKE ?', "%#{name}%")}
+  scope :name_like, -> (display_name) { where("username ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{display_name}%", "%#{display_name}%")}
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
@@ -119,7 +119,7 @@ class User < ActiveRecord::Base
 
   def all_dm_chatroom_users
     chatroom_ids = self.chatrooms.where(chatroom_type: 3).pluck(:id)
-    Groupmember.where(chatroom_id: chatroom_ids).where.not(user_id: self.id).collect(&:user).uniq.sort_by(&:name)
+    Groupmember.where(chatroom_id: chatroom_ids).where.not(user_id: self.id).collect(&:user).uniq.sort_by(&:username)
   end
 
   def number_of_unread_messages
@@ -136,7 +136,8 @@ class User < ActiveRecord::Base
       registered_user.assign_attributes(
         provider: auth.provider,
         uid: auth.uid,
-        name: auth.info.name,
+        first_name: auth.info.name.split(' ')[0],
+        last_name: auth.info.name.split(' ')[1],
         facebook_url: auth.extra.link,
         username: "#{auth.info.name}#{auth.uid}",
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
@@ -150,7 +151,8 @@ class User < ActiveRecord::Base
       User.create(
         provider: auth.provider,
         uid: auth.uid,
-        name: auth.info.name,
+        first_name: auth.info.name.split(' ')[0],
+        last_name: auth.info.name.split(' ')[1],
         email: auth.info.email,
         confirmed_at: DateTime.now,
         password: Devise.friendly_token[0, 20],
@@ -171,7 +173,8 @@ class User < ActiveRecord::Base
       registered_user.assign_attributes(
         provider: auth.provider,
         uid: auth.uid,
-        name: auth.info.name,
+        first_name: auth.info.name.split(' ')[0],
+        last_name: auth.info.name.split(' ')[1],
         twitter_url: auth.info.urls.Twitter,
         username: "#{auth.info.name}#{auth.uid}",
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
@@ -187,7 +190,8 @@ class User < ActiveRecord::Base
       User.create(
         provider: auth.provider,
         uid: auth.uid,
-        name: auth.info.name,
+        first_name: auth.info.name.split(' ')[0],
+        last_name: auth.info.name.split(' ')[1],
         email: "#{auth.uid}@twitter.com",
         password: Devise.friendly_token[0, 20],
         confirmed_at: DateTime.now,
@@ -211,7 +215,8 @@ class User < ActiveRecord::Base
       registered_user.assign_attributes(
         provider: access_token.provider,
         uid: access_token.uid,
-        name: access_token.info.name,
+        first_name: access_token.info.name.split(' ')[0],
+        last_name: access_token.info.name.split(' ')[1],
         username: "#{access_token.info.name}#{access_token.uid}",
         company: access_token.extra.raw_info.hd,
         remote_picture_url: access_token.info.image.gsub('http://', 'https://')
@@ -227,7 +232,8 @@ class User < ActiveRecord::Base
         provider: access_token.provider,
         email: data['email'],
         uid: access_token.uid,
-        name: access_token.info.name,
+        first_name: access_token.info.name.split(' ')[0],
+        last_name: access_token.info.name.split(' ')[1],
         confirmed_at: DateTime.now,
         password: Devise.friendly_token[0, 20],
         company: access_token.extra.raw_info.hd,
@@ -339,9 +345,23 @@ class User < ActiveRecord::Base
     task.doing? && (task_memberships.collect(&:team_member_id).include? self.id) && self.is_teammate_for?(task.project)
   end
 
-  # Normal use case, name cannot be changed, need to bypass validation if neccessary
-  def validate_name_unchange
-    errors.add(:name, 'is not allowed to change') if name_changed? && self.persisted?
+  # Normal use case, username cannot be changed, need to bypass validation if neccessary
+  def validate_username_unchange
+    errors.add(:username, 'is not allowed to change') if username_changed? && self.persisted?
+  end
+
+  # if real name(First name + Last name) is not empty, display it instead of username, otherwise keep username
+  def display_name
+    (first_name.blank? || last_name.blank?) ?  username : full_name
+  end
+
+  def full_name
+    [first_name, last_name].join(" ")
+  end
+
+  # Autocomplete display result (used in GroupMessagesController)
+  def search_display_results
+    User.find(id).display_name
   end
 
   protected

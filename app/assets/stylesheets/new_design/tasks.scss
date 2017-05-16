@@ -8,7 +8,7 @@
   position: relative;
   .project_picture {
     position: relative;
-    height: 260px;
+    height: 210px;
     background-size: cover;
     img {
       display: block;
@@ -24,11 +24,6 @@
       bottom: 0;
       left: 0;
       right: 0;
-
-      background-image: -webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-      background-image: -moz-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-      background-image: -ms-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
-      background-image: repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%);
       -webkit-background-size: 3px 3px;
       -moz-background-size: 3px 3px;
       background-size: 3px 3px;
@@ -50,26 +45,6 @@
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
   }
-  a.btn-edit-image {
-    left: auto;
-    right: 6%;    // todo QUESTION: why web-site doesn't have something like container? we should discuss this with designer
-    font-size: 14px;
-    color: #fff;
-    background: transparent;
-    text-shadow: 1px 1px 3px 0 rgba(0,0,0,.5);
-    bottom: 20px;
-    line-height: 40px;
-    font-family: Arial, sans-serif;
-    opacity: 0;
-    transition: opacity .4s;
-    pointer-events: none;
-  }
-  &._signed-in:hover {
-    .btn-edit-image {
-      opacity: 1;
-      pointer-events: all;
-    }
-  }
 
   &__join-btn {
     margin: 10px 0 20px;
@@ -85,12 +60,24 @@
     height: 100%;
     border: 1px solid gray;
     border-radius: 10px;
+    padding: 20px;
     .project-owner {
       font-family: 'Roboto', sans-serif;
       font-size: 1.2em;
       color: #fff;
       text-align: center;
       padding-top: 20px;
+    }
+
+    .row {
+      margin: 0;
+    }
+    .row._profile {
+      display: flex;
+      align-items: center;
+      .col:first-child {
+        flex-grow: 1;
+      }
     }
 
     .project-title {
@@ -150,7 +137,7 @@
     .progress {
       max-width: 320px;
       background-color: #aaa !important;
-      margin-bottom: 16px;
+      margin: 0 auto 16px;
       .progress-bar {
         background-color: #000;
       }
@@ -218,6 +205,10 @@
   padding-top: 20px;
   padding-bottom: 20px;
 
+  &__btc-value {
+    font-size: 14px;
+    color: gray;
+  }
   .progress {
     background-color: #000;
   }
@@ -231,7 +222,7 @@
   tbody {
     margin: auto;
     tr td {
-      padding: 0 5px !important;
+      padding: 0 10px !important;
       text-align: left;
       line-height: 1.5em !important;
       font-size: 11px !important;
@@ -311,10 +302,9 @@
     position: relative;
     width: 100%;
     border-bottom: 2px solid #ddd;
-    padding-top: 10px;
     padding-left: 6%;
     padding-right: 6%;
-    margin: 0;
+    margin: 20px 0 0;
     &__inner {
       font-size: 0;
       margin-bottom: -2px;
@@ -350,7 +340,7 @@
 
       a {
         font-family: 'Roboto', sans-serif;
-        font-size: 1.5em;
+        font-size: 1.6em;
         font-weight: 600;
         color: #000;
         text-transform: uppercase;
@@ -558,6 +548,14 @@
 .content-details {
   position: relative;
   padding: 20px;
+
+  .edit-btn {
+    position: absolute;
+    right: -110px;
+    a {
+      padding: 5px 20px;
+    }
+  }
 
   &__username {
     font-weight: bold;
@@ -901,6 +899,13 @@
   .card-report {
     table {
       width: 100%;
+    }
+
+    &__data {
+      &._btc {
+        font-size: 10px;
+        color: #636363;
+      }
     }
 
     tbody {

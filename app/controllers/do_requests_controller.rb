@@ -1,22 +1,23 @@
 class DoRequestsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
-  def index
-  end
+  def index; end
 
   def new
     @task = Task.find(params[:task_id])
+
     if @task.suggested_task?
-      flash[:error] = "You can not apply for suggested task "
+      flash[:error] = t('.fail')
       redirect_to task_path(@task.id)
     end
+
     @free = params[:free]
     @do_request = DoRequest.new
   end
 
   def create
     task = Task.find(request_params[:task_id])
-    flash[:error] = 'You can not apply for suggested task' if task.suggested_task?
+    flash[:error] = t('.do_requests.new.fail') if task.suggested_task?
 
     @do_request = current_user.do_requests.build(request_params)
     @do_request.project_id = task.project_id
@@ -27,13 +28,13 @@ class DoRequestsController < ApplicationController
       if @do_request.save
         RequestMailer.to_do_task(requester: current_user, task: task).deliver_later
 
-        flash[:notice] = 'Request sent to Project Admin'
-        flash[:notice] = 'Your application to perform this task was submitted successfully. The project leader will notify you once it has been received and a decision is made.' if current_user.id == task.project.user_id
+        flash[:notice] = t('.success_and_sent')
+        flash[:notice] = t('.success_and_will_notify_back') if current_user.id == task.project.user_id
 
         format.js
         format.html { redirect_to @do_request.task }
       else
-        flash[:error] = 'You can not apply twice'
+        flash[:error] = t('.fail_cannot_apply_twice')
 
         format.js
         format.html { redirect_to root_url }
@@ -41,14 +42,13 @@ class DoRequestsController < ApplicationController
     end
   end
 
-  def update
-  end
+  def update; end
 
   def destroy
     @do_request = DoRequest.find(params[:id])
     @do_request.destroy
     respond_to do |format|
-      format.html { redirect_to dashboard_path, notice: 'Task assignment request was successfully destroyed.' }
+      format.html { redirect_to dashboard_path, notice: t('.success') }
       format.json { head :no_content }
     end
 
@@ -75,9 +75,9 @@ class DoRequestsController < ApplicationController
       #task.team_memberships.add(membership)
       TaskMember.create(task_id: task.id, team_membership_id: membership.id)
       RequestMailer.accept_to_do_task(do_request: @do_request).deliver_later
-      flash[:notice] = "Task has been assigned"
+      flash[:notice] = t('.success')
     else
-      flash[:error] = "Task was not assigned to user"
+      flash[:error] = t('.fail')
     end
     redirect_to taskstab_project_path(@do_request.project, tab: 'requests')
   end
@@ -88,9 +88,9 @@ class DoRequestsController < ApplicationController
 
     if @do_request.reject!
       RequestMailer.reject_to_do_task(do_request: @do_request).deliver_later
-      flash[:notice] = 'Request rejected'
+      flash[:notice] = t('.success')
     else
-      flash[:error] = "Was not able to reject request"
+      flash[:error] = t('.fail')
     end
     redirect_to taskstab_project_path(@do_request.project, tab: 'requests')
   end
@@ -100,5 +100,4 @@ class DoRequestsController < ApplicationController
   def request_params
     params.require(:do_request).permit(:application, :task_id, :user_id, :free)
   end
-
 end

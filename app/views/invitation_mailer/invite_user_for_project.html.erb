@@ -5,9 +5,8 @@
   </head>
   <body>
     <p>
-      <bold><%= @user_name %> invited you to a project </bold>
+      <bold><%= t('.body', user_name: @user_name) %> </bold>
       <a href=<%= project_url(id: @project.id) %>> <%= @project.title %> </a>
     </p>
   </body>
 </html>
-

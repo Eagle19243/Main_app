@@ -52,7 +52,7 @@ xfeature "Notification After submitting a do request", js: true do
 
               it "shows do-request notification" do
                 expect(page).to have_content(
-                  "#{@regular_user.name} requested to do this task #{@task.title}. Their cover letter is: #{@cover_letter}"
+                  "#{@regular_user.display_name} requested to do this task #{@task.title}. Their cover letter is: #{@cover_letter}"
                 )
               end
             end

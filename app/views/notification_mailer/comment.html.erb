@@ -4,11 +4,11 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <p>Dear <%= @receiver.name %>,</p>
+    <p><%= t('.greeting', receiver_name: @receiver.display_name) %></p>
     <p>
-      <%= @task_comment.user.name %> added a comment to task <%=link_to(@task_comment.task.title, taskstab_project_url(@task_comment.task.project.id, tab: 'tasks', taskId: @task_comment.task.id))%>.
+      <%= t('.body_html', user_name: @task_comment.user.display_name, task_url: link_to(@task_comment.task.title, taskstab_project_url(@task_comment.task.project.id, tab: 'tasks', taskId: @task_comment.task.id))).html_safe %>
     </p>
-    <p>comment:</p>>
+    <p><%= t('.comment') %>:</p>>
     <p>
       <%= truncate(@task_comment.body, length: 160)%>
     </p>

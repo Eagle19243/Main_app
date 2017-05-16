@@ -25,7 +25,7 @@ feature 'My Projects', js: true do
         project_container = find('.my-projects #project-222')
 
         expect(project_container).to have_content(project.title)
-        expect(project_container).to have_content(user.name)
+        expect(project_container).to have_content(user.display_name)
 
         expect(project_container).to have_content(user.funded_budget.to_f.round(4))
         expect(project_container).to have_content(user.needed_budget.to_f.round(4))
@@ -61,7 +61,7 @@ feature 'My Projects', js: true do
         project_container = find('.followed-projects #project-333')
 
         expect(project_container).to have_content(project.title)
-        expect(project_container).to have_content(user.name)
+        expect(project_container).to have_content(user.display_name)
 
         expect(project_container).to have_content(user.funded_budget.to_f.round(4))
         expect(project_container).to have_content(user.needed_budget.to_f.round(4))

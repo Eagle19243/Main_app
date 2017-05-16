@@ -19,7 +19,7 @@ feature 'Normal Sign up', js: true do
 
         @before_count = User.count
 
-        @modal.fill_in 'name', with: @user.name
+        @modal.fill_in 'username', with: @user.username
         @modal.fill_in 'new_email', with: @user.email
         @modal.fill_in 'new_password', with: @user.password
         @modal.fill_in 'password_confirmation', with: @user.password

@@ -4,9 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
 </head>
 <body>
-    <h6>Dear <%= @requester.name %></h6>
+    <h6><%= t('.greeting', requester_name: @requester.display_name) %></h6>
     <p>
-      Your application for task <%= @task.title %> in project <%= link_to @task.project.title, project_url(@task.project.id) %> was approved.
+      <%= t('.body_html', task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
     </p>
 </body>
 </html>

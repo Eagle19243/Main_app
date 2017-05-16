@@ -10,8 +10,8 @@ class TaskDestroyService
   end
 
   def destroy_task
-    update_current_fund! if task.wallet
-    return false if task_has_funding?
+    task.update_current_fund!
+    return false if task.any_fundings?
 
     ActiveRecord::Base.transaction do
       if task.destroy
@@ -23,17 +23,5 @@ class TaskDestroyService
     end
   end
 
-  private
-  def wallet_handler
-    Payments::BTC::WalletHandler.new
-  end
 
-  def update_current_fund!
-    balance = wallet_handler.get_wallet_balance(task.wallet.wallet_id)
-    task.update_attribute(:current_fund, balance)
-  end
-
-  def task_has_funding?
-    task.current_fund > 0
-  end
 end

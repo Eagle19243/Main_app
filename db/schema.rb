@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430135501) do
+ActiveRecord::Schema.define(version: 20170515080608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -421,7 +421,6 @@ ActiveRecord::Schema.define(version: 20170430135501) do
     t.datetime "updated_at",                                    null: false
     t.datetime "deadline"
     t.integer  "user_id"
-    t.decimal  "current_fund",                  default: 0.0
     t.text     "condition_of_execution"
     t.string   "fileone"
     t.string   "filetwo"
@@ -500,7 +499,6 @@ ActiveRecord::Schema.define(version: 20170430135501) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.string   "name"
     t.integer  "role"
     t.string   "country"
     t.text     "description"
@@ -554,9 +552,9 @@ ActiveRecord::Schema.define(version: 20170430135501) do
   add_index "wallet_transactions", ["task_id"], name: "index_wallet_transactions_on_task_id", using: :btree
 
   create_table "wallets", force: :cascade do |t|
-    t.string  "wallet_id",         null: false
+    t.string  "wallet_id",                       null: false
     t.string  "receiver_address"
-    t.decimal "balance"
+    t.decimal "balance",           default: 0.0
     t.integer "wallet_owner_id"
     t.string  "wallet_owner_type"
   end

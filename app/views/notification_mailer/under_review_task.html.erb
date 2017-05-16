@@ -4,9 +4,11 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <p>Dear <%= @receiver.name %>,</p>
     <p>
-      <%= @reviewee.name %> marked task <%=@task.title%> for project <%= link_to @task.project.title, project_url(@task.project.id)%> as finished.
+      <%= t('.greeting', receiver_name: @receiver.display_name) %>
+    </p>
+    <p>
+      <%= t('.body_html', reviewee_name: @reviewee.display_name, task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
     </p>
   </body>
 </html>

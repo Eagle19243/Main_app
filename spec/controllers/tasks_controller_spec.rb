@@ -42,7 +42,7 @@ RSpec.describe TasksController do
 
   describe '#update' do
     let(:existing_task) do
-      FactoryGirl.create(:task, :with_associations, project: project, user: user)
+      FactoryGirl.create(:task, :with_associations, :with_wallet, project: project, user: user)
     end
 
     let(:update_params) do
@@ -66,7 +66,7 @@ RSpec.describe TasksController do
     end
 
     it 'ignores deadline attribute for task with any funding' do
-      existing_task.update_attribute(:current_fund, 100)
+      existing_task.wallet.update_attribute(:balance, 100)
 
       expect {
         patch(:update, id: existing_task.id, task: update_params)
@@ -83,6 +83,7 @@ RSpec.describe TasksController do
       let(:existing_task) do
         FactoryGirl.create(
           :task,
+          :with_wallet,
           project: project,
           user: user,
           state: 'doing',
@@ -150,6 +151,7 @@ RSpec.describe TasksController do
       let(:existing_task) do
         FactoryGirl.create(
           :task,
+          :with_wallet,
           project: project,
           user: task_user,
           state: 'accepted',
@@ -265,7 +267,7 @@ RSpec.describe TasksController do
 
   describe '#completed' do
     before do
-      allow_any_instance_of(TaskCompleteService).to receive(:update_current_fund!).and_return(true)
+      allow_any_instance_of(Task).to receive(:update_current_fund!).and_return(true)
       project_team = project.create_team(name: "Team#{project.id}")
       TeamMembership.create!(team_member: user, team_id: project_team.id, role: 1)
       TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)

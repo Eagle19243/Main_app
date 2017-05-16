@@ -34,7 +34,7 @@ feature "My Profile", js: true do
         end
 
         scenario "Then you can see your profile info in the header part" do
-          expect(@profile_header).to have_content @current_user.name
+          expect(@profile_header).to have_content @current_user.display_name
         end
 
         scenario "Then you can see the list of projects" do
@@ -43,14 +43,6 @@ feature "My Profile", js: true do
           @projects.each do |project|
             expect(projects_part).to have_content project.title
           end
-        end
-
-        scenario "Then your location is editable" do
-          expect(@profile_header).to have_selector("a#edit-location-pencil")
-        end
-
-        scenario "Then your bio is editable" do
-          expect(@profile_bio).to have_selector("#bio-edit-pencil")
         end
 
 =begin
@@ -78,30 +70,6 @@ feature "My Profile", js: true do
           end
         end
 =end
-
-        context "When you click your bio edit link" do
-          before do
-            @profile_bio.find("#bio-edit-pencil").trigger("click")
-            @bio_form = find(".profile-bio form")
-          end
-
-          scenario "Then your bio is availble to be changed" do
-            expect(@bio_form).to be_visible
-          end
-
-          context "When you change your bio and click 'Save' button" do
-            before do
-              @bio = "new bio"
-              @bio_form.fill_in 'bio', with: @bio
-
-              @bio_form.find('input[type="submit"]').click
-            end
-
-            scenario "Then your bio has been changed" do
-              expect(@profile_bio).to have_content @bio
-            end
-          end
-        end
       end
     end
   end

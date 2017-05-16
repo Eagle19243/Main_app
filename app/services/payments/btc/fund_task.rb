@@ -43,7 +43,7 @@ module Payments::BTC
     def submit!
       transaction = transfer.submit!
       create_user_wallet_transaction(transaction)
-      update_task_balance!
+      task.update_current_fund!
     end
 
     private
@@ -64,13 +64,5 @@ module Payments::BTC
       Payments::BTC::WalletHandler.new
     end
 
-    def update_task_balance!
-      balance = wallet_handler.get_wallet_balance(task.wallet.wallet_id)
-
-      if balance > 0
-        task.wallet.update_attribute(:balance, balance)
-        task.update_attribute(:current_fund, balance)
-      end
-    end
   end
 end

@@ -1,2 +1,3 @@
-<p>Edited a <%= link_to "project", project_path(activity.targetable) %> </p>
-<em><%= activity.targetable.created_at %></em>
+<%= t('activities.index.project.updated', href: link_to(t('commons.project'), project_path(activity.targetable))).html_safe %>
+<br>
+<em><%= activity.created_at %></em>

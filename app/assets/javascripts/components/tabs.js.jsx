@@ -54,7 +54,7 @@ var Tabs = React.createClass({
                                 <div className={'content ' + activeClass}  key={tab.id}>
                                     <div>
                                         <div className="admin-info">
-                                            Created by: <a href={'/users/'+user_id}>{this.props.projectUser.name}</a> {institue}
+                                            Created by: <a href={'/users/'+user_id}>{this.props.projectUser.display_name}</a> {institue}
                                             <div className="prof-pic"></div>
                                         </div>
                                         <div className="project-show-description" data-edit-alert="true">

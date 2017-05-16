@@ -8,8 +8,8 @@ class ApplyRequestsController < ApplicationController
     if @apply_request.request_type == "Lead_Editor"
       project = @apply_request.project
       user    = @apply_request.user
-
-      project.grant_permissions user.username
+      
+      project.grant_permissions user.display_name
     end
 
     role = @apply_request.request_type == "Lead_Editor"? TeamMembership.roles[:lead_editor] : TeamMembership.roles[:coordinator]

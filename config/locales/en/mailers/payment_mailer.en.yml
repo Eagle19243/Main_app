@@ -1,0 +1,10 @@
+en:
+  payment_mailer:
+    fund_task:
+      subject: "Task funded"
+      greeting: "Dear %{receiver_name},"
+      body_html: "%{payer_name} has donated %{amount_btc} BTC/ $ %{amount_usd} to task %{task_title}."
+    fully_funded_task:
+      subject: "Task was fully funded"
+      greeting: "Dear %{receiver_name},"
+      body_html: "Task %{task_title} of project %{project_url} was fully funded."

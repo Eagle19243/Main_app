@@ -41,7 +41,7 @@ module Payments::BTC
         end
 
         save_stripe_payment_in_db!(stripe_response, btc_transaction: transaction)
-        update_task_balance!
+        task.update_current_fund!
       else
         raise_stripe_error!(stripe_service.error)
       end
@@ -138,15 +138,6 @@ module Payments::BTC
 
     def wallet_handler
       Payments::BTC::WalletHandler.new
-    end
-
-    def update_task_balance!
-      balance = wallet_handler.get_wallet_balance(task.wallet.wallet_id)
-
-      if balance > 0
-        task.wallet.update_attribute(:balance, balance)
-        task.update_attribute(:current_fund, balance)
-      end
     end
 
     def raise_not_enough_funds_error!

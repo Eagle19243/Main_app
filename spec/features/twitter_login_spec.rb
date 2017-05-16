@@ -50,7 +50,7 @@ feature 'Twitter login', js: true do
       :uid     => uid,
       :info =>  {
                 :email => user.email,
-                :name => user.name,
+                :name => [user.first_name,user.last_name].join(' '),
                 :image => "http://foo_image",
                 :description => "description",
                 :location => "Germany",

@@ -1,16 +1,16 @@
 <div class="s-wallet__content _active">
   <div class="s-wallet__content-header">
-    <h3 class="s-wallet__subtitle">Transactions</h3>
-    <button class="btn-root js-toggle-content" type="button">Make a transaction</button>
+    <h3 class="s-wallet__subtitle"><%= t('commons.transactions') %></h3>
+    <button class="btn-root js-toggle-content" type="button"><%= t('commons.make_transaction') %></button>
   </div>
 
   <div class="s-wallet__content-main">
     <div class="t-transactions">
       <div class="t-transactions__row _head">
-        <div class="t-transactions__th">Date</div>
-        <div class="t-transactions__th">Description</div>
-        <div class="t-transactions__th">Status</div>
-        <div class="t-transactions__th">Amount</div>
+        <div class="t-transactions__th"><%= t('.date') %></div>
+        <div class="t-transactions__th"><%= t('.description') %></div>
+        <div class="t-transactions__th"><%= t('.status') %></div>
+        <div class="t-transactions__th"><%= t('.amount') %></div>
       </div>
 
       <% if @transactions.any? %>
@@ -24,7 +24,7 @@
                   <%= DateTime.parse(transaction.created_at).strftime('%b %d %Y, %I:%M %p') %>
                 </div>
                 <div class="t-transactions__td">
-                  Recieved From: <%= transaction.address_from %>
+                  <%= t('.recieved_from') %>: <%= transaction.address_from %>
                 </div>
               <% else %>
                 <div class="t-transactions__td">
@@ -34,7 +34,7 @@
                   <%= DateTime.parse(transaction.created_at).strftime('%b %d %Y, %I:%M %p') %>
                 </div>
                 <div class="t-transactions__td">
-                  Sent to: <%= transaction.address_to %>
+                  <%= t('.sent_to') %>: <%= transaction.address_to %>
                 </div>
               <% end %>
 
@@ -48,7 +48,7 @@
             </div>
         <% end %>
       <% else %>
-        No Transaction
+        <%= t('.no_transaction') %>
       <% end %>
     </div>
   </div>

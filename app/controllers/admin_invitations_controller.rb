@@ -23,10 +23,10 @@ class AdminInvitationsController < ApplicationController
       if @admin_invitation.update(status: AdminInvitation.statuses[:accepted])
         TeamService.add_admin_to_project(@admin_invitation.project, @admin_invitation.user)
 
-        flash[:notice] = 'Invitation has been accepted.'
+        flash[:notice] = t('.success')
         format.js { render json: {}, status: :ok }
       else
-        flash[:error] = 'There were some problems preventing invitation from being accepted.'
+        flash[:error] = t('.fail')
         format.js { render json: { success: false } }
       end
     end
@@ -37,10 +37,10 @@ class AdminInvitationsController < ApplicationController
 
     respond_to do |format|
       if @admin_invitation.update(status: AdminInvitation.statuses[:rejected])
-        flash[:notice] = 'Invitation has been rejected.'
+        flash[:notice] = t('.success')
         format.js { render json: {}, status: :ok }
       else
-        flash[:error] = 'There were some problems preventing invitation from being rejected.'
+        flash[:error] = t('.fail')
         format.js { render json: { success: false } }
       end
     end

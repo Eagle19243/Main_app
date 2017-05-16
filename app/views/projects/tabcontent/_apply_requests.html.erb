@@ -18,7 +18,7 @@
         <% apply_requests.each do |apply_request| %>
           <tr>
             <td><%= apply_request.id %></td>
-            <td><%= apply_request.user.name %> (<%= apply_request.user.email %>)</td>
+            <td><%= apply_request.user.display_name %> (<%= apply_request.user.email %>)</td>
             <td><%= apply_request.request_type %></td>
             <td><%= apply_request.created_at %></td>
             <td>

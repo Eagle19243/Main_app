@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ApplyRequestsController, type: :request do
   let(:project) { FactoryGirl.create(:project, user: user) }
-  let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+  let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
   let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
-  let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, name: Faker::Name.name, confirmed_at: Time.now) }
+  let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
 
   before { login_as(user, scope: :user, run_callbacks: false) }
 

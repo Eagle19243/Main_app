@@ -4,12 +4,9 @@
     <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Dear <%= @user_name %></h1>
+    <h1><%= t('.greeting', user_name: @user_name) %></h1>
     <p>
-      Welcome to WeServe.io
-      We're happy to see you're here.
-      Plan your great project and organize a great Team!
-      Thanks
+      <%= t('.body') %>
     </p>
   </body>
 </html>

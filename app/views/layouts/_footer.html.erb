@@ -1,11 +1,11 @@
 
 <div class="landing-footer">
   <div class="about-banner">
-    <a href="<%= t('commons.improve_the_platform') %>">Improve the Platform</a>
+    <%= link_to t('commons.improve_the_platform'), '/projects/1/taskstab?tab=tasks' %>
     <span>&nbsp;&bull;&nbsp;</span>
-    <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
+    <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
     <span>&nbsp;&bull;&nbsp;</span>
-    <a href="<%= t('commons.about_links') %>">About</a>
+    <%= link_to t('commons.about'), '/projects/1/taskstab?tab=plan' %>
   </div>
 
   <div class="social-banner">
@@ -18,13 +18,14 @@
   </div>
 
   <div class="privacy-banner">
-    <%= link_to 'Privacy Policy', pages_privacy_policy_path, data: { no_turbolink: true } %>
+    <%= link_to t('commons.privacy_policy'), pages_privacy_policy_path, data: { no_turbolink: true } %>
     <span>&nbsp;&bull;&nbsp;</span>
-    <%= link_to 'Terms of Use', pages_terms_of_use_path, data: { no_turbolink: true } %>
+    <%= link_to t('commons.term_of_use'), pages_terms_of_use_path, data: { no_turbolink: true } %>
   </div>
 
   <div class="copy-right">
-    &copy;&nbsp;2017 WeServe.io Beta
+    &copy;&nbsp;
+    <%= t('commons.copy_right', year: 2017) %>
   </div>
 
 </div>

@@ -29,7 +29,6 @@ FactoryGirl.define do
       association :project, factory: :base_project
       budget { 100 }
       deadline { 30.days.from_now }
-      association :wallet
     end
 
     trait :with_user do
@@ -41,7 +40,12 @@ FactoryGirl.define do
     end
 
     trait :with_wallet do
-      association :wallet
+      transient do
+        current_fund 0
+      end
+      after(:create)  do |task, evaluator|
+        create(:wallet, balance: evaluator.current_fund, wallet_owner: task)
+      end
     end
   end
 end

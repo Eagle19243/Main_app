@@ -9,7 +9,7 @@
         <%= gravatar_for_user(current_user)%>
     <%end%>
         <br>
-  <%= current_user.name %><br><br>
+  <%= current_user.display_name %><br><br>
 
 
 </div>
@@ -53,7 +53,7 @@
          <%end%>
 
          <% if assignment.completed? && (current_user == assignment.task.project.user || current_user.admin?)%>
-            <%= link_to assignment.user.name, assignment.user %> wants you to verify and confirm his completion of task <%= link_to assignment.task.title, assignment.task %><br>
+            <%= link_to assignment.user.display_name, assignment.user %> wants you to verify and confirm his completion of task <%= link_to assignment.task.title, assignment.task %><br>
             <%= link_to "Reject", confirmation_rejected_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",confirmed_assignment_path(assignment.id), class: "button radius success tiny" %> <hr>
          <%end%>
          <%end%>
@@ -106,7 +106,7 @@
   <%= gravatar_for_user(project.user) %>
     <%end%>
 
-          <%= link_to project.user.name, project.user %> has requested to create project <%= link_to project.title, project %><br>
+          <%= link_to project.user.display_name, project.user %> has requested to create project <%= link_to project.title, project %><br>
 <em><h6 class="subheader">Requested at <%= project.created_at.to_date %></h6></em>
           <br>
 
@@ -130,7 +130,7 @@
 
 
     <% if req.pending? && (current_user == req.task.user || current_user == req.task.project.user) %>
-        <%= link_to req.user.name, req.user %> has requested to do task <%= link_to req.task.title, req.task %><br><br>
+        <%= link_to req.user.display_name, req.user %> has requested to do task <%= link_to req.task.title, req.task %><br><br>
         <%= link_to "Accept", accept_do_request_path(req.id), class: 'button success tiny radius' %> <%= link_to 'Reject', reject_do_request_path(req.id), :data => { :confirm => "Are you sure?" }, class: 'button radius alert tiny right' %><hr>
     <%end%>
 

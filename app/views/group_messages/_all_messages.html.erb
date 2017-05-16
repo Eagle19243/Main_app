@@ -20,17 +20,17 @@
                   <% if %w{jpg png jpg gif bmp}.include?(message.attachment.file.extension) %>
                       <%= image_tag message.attachment.url %>
                       <br>
-                      Download
+                      <%= t('commons.download') %>
                       image: <%= link_to message.attachment.file.filename, group_messages_download_files_path(id: message.id)%>
                   <% else %>
-                      Download
+                      <%= t('commons.download') %>
                       file: <%= link_to message.attachment.file.filename, group_messages_download_files_path(id: message.id) %>
                   <% end %>
                   <br>
                   <br>
               <% end %>
             </div>
-            <span class="l-messages__name"><%= message.user.try(:name) %></span>
+            <span class="l-messages__name"><%= message.user.display_name %></span>
             <span class="l-messages__date"><%= time_ago_in_words(message.created_at) %></span>
             <br>
 
@@ -40,6 +40,6 @@
     </ul>
 <% else %>
     <div class="l-messages__no-message">
-        No Messages
+      <%= t('commons.no_messages') %>
     </div>
 <% end %>

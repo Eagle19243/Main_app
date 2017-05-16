@@ -59,7 +59,7 @@ RSpec.describe TaskCreateService do
     service = described_class.new(task_attributes, user, project)
     expect(service.create_task).to be false
     expect(service.task.errors.first).to eq(
-      [:budget, "must be higher than a minimum budget"]
+      [:budget, "must be greater than or equal to " + Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET).to_s]
     )
   end
 end

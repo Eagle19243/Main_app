@@ -15,37 +15,14 @@
       <% end %>
     </div>
 
-    <a type="button" class="btn-root _small hidden-mobile header-align" data-modal="#startProjectModal">Start a Project</a>
-    <div class="header-dropdown">
-        <div class="header-dropdown__title js-dropdown">
-            Explore
-            <svg focusable="false" version="1.1" class="svg-arrow-down">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
-            </svg>
-        </div>
-        <ul class="header-dropdown__list js-dropdown-list">
-            <li class="header-dropdown__item">
-                <a class="projects-link" href="<%= projects_path %>">Active Projects</a>
-            </li>
-            <li class="header-dropdown__item">
-                <a href="<%= t('commons.about_links') %>">About</a>
-            </li>
-            <li class="header-dropdown__item">
-                <a href="<%= t('commons.improve_the_platform') %>">Improve the Platform</a>
-            </li>
-            <li class="header-dropdown__item">
-                <a href="<%= t('commons.faq_landing_link') %>">FAQ</a>
-            </li>
-        </ul>
-    </div>
-    <!--<%= link_to 'Active Projects', projects_path, data: {no_turbolink: true}, :class => "projects-link hidden-mobile" %>-->
-
+    <a type="button" class="btn-root _small hidden-mobile header-align" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
+    <a type="button" class="btn-root _small hidden-mobile header-align _active-project" href="<%= projects_path %>"><%= t('commons.active_projects') %></a>
   </div>
 
   <div class="s-header__right">
     <div class="search-box-wrapper show-desktop">
       <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
-          <input type="text" class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="Search Causes, Places, or Keyword">
+          <input type="text" class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>">
           <!-- <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %> -->
           <button type="button" name="" class="btn-search btn-reset">
               <svg focusable="false" version="1.1" class="svg-search">
@@ -74,32 +51,48 @@
       </div>
     <% end %>
 
-    <div class="dropdown user-dropdown show-desktop">
-      <a class="dropdown-toggle pr-user" type="button" data-toggle="dropdown">
+    <div class="dropdown user-dropdown show-desktop ">
+      <a class="dropdown-toggle pr-user js-dropdown" type="button">
         <% if current_user.picture? %>
             <%= image_tag(current_user.picture, size: "30x30", class: "pr-user__img", data: {object_fit:"cover"}) %>
         <% else %>
             <%= gravatar_for_user(current_user) %>
         <% end %>
         <span class="user-dropdown__name">
-          <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;</span>
+          <span>Hi,&nbsp;<%= current_user.display_name %>!&nbsp;&nbsp;</span>
 
           <svg focusable="false" version="1.1" class="svg-arrow-down">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
           </svg>
         </span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu js-dropdown-list">
         <li><%= link_to 'My Profile', user_path(current_user) %></li>
         <li><%= link_to 'My Projects', my_projects_path %></li>
-        <li><a href="/users/<%= current_user.id %>/my_wallet">My Wallet</a></li>
+        <li><a href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a></li>
         <% if current_user.admin? %>
             <li><%= link_to 'Archived Projects', archived_projects_path %></li>
         <% end %>
         <li class="border-top">
-          <%= link_to 'Logout', destroy_user_session_path, :method => 'delete' %>
+          <%= link_to t('commons.logout'), destroy_user_session_path, :method => 'delete' %>
         </li>
       </ul>
+      <div class="header-dropdown">
+          <div class="header-dropdown__title js-dropdown">
+              ?
+          </div>
+          <ul class="header-dropdown__list js-dropdown-list">
+              <li class="header-dropdown__item">
+                <%= link_to t('commons.about'), '/projects/1/taskstab?tab=plan' %>
+              </li>
+              <li class="header-dropdown__item">
+                <%= link_to t('commons.improve_the_platform'), '/projects/1/taskstab?tab=tasks' %>
+              </li>
+              <li class="header-dropdown__item">
+                <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
+              </li>
+          </ul>
+      </div>
     </div>
 
     <a href="javascript:void(0)" class="btn-mobile hamburger show-tablet">
@@ -116,10 +109,10 @@
 <div class="mobile-menu display-none">
   <ul class="mobile-menu-list">
     <li class="border-bottom show-mobile">
-      <a data-modal="#startProjectModal">Start a Project</a>
+      <a data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
     </li>
     <li class="border-bottom show-mobile">
-      <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true} %>
+      <%= link_to t('commons.active_projects'), projects_path, data: {no_turbolink: true} %>
     </li>
 
     <li class="border-bottom">
@@ -127,7 +120,7 @@
           <button type="button" name="" type="button">
             <i class="fa fa-search"></i>
           </button>
-          <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %>
+          <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => t('commons.search_placeholder') %>
       <% end %>
     </li>
 
@@ -146,7 +139,7 @@
     <li class="border-bottom">
       <a href="/group_messages">
         <i class="fa fa-envelope-o" aria-hidden="true"></i>
-        <span>Message</span>
+        <span><%= t('commons.message') %></span>
       </a>
     </li>
 
@@ -157,16 +150,16 @@
         <% else %>
           <%= gravatar_for_user(current_user) %>
         <% end %>
-        <span>Hi,&nbsp;<%= current_user.name %>!&nbsp;&nbsp;
+        <span><%= t('commons.hi') %>,&nbsp;<%= current_user.display_name %>!&nbsp;&nbsp;
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
           <i class="fa fa-chevron-down" aria-hidden="true"></i>
         </span>
       </a>
       <div class="mobile-user-submenu">
         <ul>
-          <li><%= link_to 'My Profile', user_path(current_user) %></li>
-          <li><%= link_to 'My Projects', my_projects_path(current_user) %></li>
-          <li><a href="/users/<%= current_user.id %>/my_wallet">My wallet</a></li>
+          <li><%= link_to t('commons.my_profile'), user_path(current_user) %></li>
+          <li><%= link_to t('commons.my_projects'), my_projects_path(current_user) %></li>
+          <li><a href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a></li>
         </ul>
       </div>
     </li>
@@ -179,18 +172,23 @@
 
 
 <script>
-
 $(document).ready(function() {
     var $dropdown = $('.js-dropdown');
-
     if (/group_messages/.test(window.location.href)) {
         $('.btn-bell__counter').hide();
     }
-
     $(document)
         .on('click.dropdownToggle', '.js-dropdown', function() {
-            $(this).toggleClass('_active');
-            $(this).siblings('.js-dropdown-list').toggleClass('_active');
+            var isDropdownActive = $(this).siblings('.js-dropdown-list').hasClass('_active');
+
+            hideDropdowns();
+            if (isDropdownActive) {
+                $(this).removeClass('_active');
+                $(this).siblings('.js-dropdown-list').removeClass('_active');
+            } else {
+                $(this).addClass('_active');
+                $(this).siblings('.js-dropdown-list').addClass('_active');
+            }
         })
         .on('click.hideDropdown', function(e) {
             if (!$(e.target).closest('.js-dropdown-list').length && !$(e.target).closest('.js-dropdown').length) {
@@ -205,15 +203,12 @@ $(document).ready(function() {
               event.preventDefault();
            }
         })
-
     $(window).on('resize', function() {
         hideDropdowns();
     })
-
     function hideDropdowns() {
         $dropdown.removeClass('_active');
         $('.js-dropdown-list').removeClass('_active');
     }
 })
-
 </script>

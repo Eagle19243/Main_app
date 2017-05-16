@@ -1,30 +1,31 @@
 <div id="taskFundModal" class="modal-default modal-fund" role="dialog" tabindex="-1">
-  <div id="fund-loading"> loading ...   <%= image_tag("loading.gif", :alt => "rss feed") %> </div>
+  <div id="fund-loading"><%= t('commons.loading') %><%= image_tag("loading.gif", :alt => "rss feed") %> </div>
   <div class="modal-fund__inner">
 
     <div class="modal-fund__content">
       <div class="modal-fund__top">
         <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Make a donation</h4>
+        <h4 class="modal-default__title"><%= t('.title') %></h4>
 
         <div class="modal-fund__form-wrap" id="user-btc-view">
+            <div class="f-default__row modal-fund__tabs-wrapper">
+                <button type="button" class="modal-fund__tab js-change-payment-type _wallet _bitcoin" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
+                <button type="button" class="modal-fund__tab js-change-payment-type _active _credit" id="donate-with-credit-card" value="save">Donate with credit card</button>
+            </div>
             <div class="f-default__row">
               <%= form_tag("/user_wallet_transactions/send_to_task_address", method: "post", remote: true , class: 'f-default f-donate') do %>
                 <input type="hidden" id="wallet_transaction_task_id" name="task_id"  required class="form-control"/>
                 <label class="f-default__label" for="wallet_transaction_amount">
-                    Enter
-                    <span class="js-current-currency">USD</span>
-                    Amount to Send
+                    <%= t('commons.enter') %>
+                    <span class="js-current-currency"><%= t('commons.usd') %></span>
+                    <%= t('.amount_to_send') %>
                     <span class="modal-fund__needed _btc"></span>
                     <span class="modal-fund__needed _usd _active"></span>
                     </label>
                 <input type="number" step="0.001" min="<%= min_fund_budget_in_btc %>" autocomplete="off" id="wallet_transaction_amount" name="amount" class="f-default__field modal-fund__input" required/>
                 <span id="wallet_btc" class="modal-fund__convert"></span>
+                <span class="modal-fund__min-donation"></span>
               <% end %>
-            </div>
-            <div class="f-default__row _space-between">
-                <button type="button" class="btn-root js-change-payment-type _wallet _bitcoin" id="save-wallet-teansaction" value="save">Donate with bitcoin</button>
-                <button type="button" class="btn-root js-change-payment-type _active _credit" id="donate-with-credit-card" value="save">Donate with credit card</button>
             </div>
         </div>
       </div>
@@ -33,7 +34,7 @@
         <div class="modal-fund__bottom-content">
           <div class="modal-fund__tabs">
             <div class="modal-fund__tab-wrap">
-              <button class="modal-fund__tab" type="button">Use your WeServe.io wallet</button>
+              <button class="modal-fund__tab" type="button"><%= t('.use_weserve_wallet') %></button>
             </div>
 
           <% if user_signed_in? %>
@@ -42,9 +43,9 @@
 
                   <div class="modal-fund__signed">
                     <div class="modal-fund__signed-label">
-                        <span>Signed in as</span>
-                        <span class="modal-fund__user-name"><%= current_user.name %></span>
-                        <%= link_to 'Not you?', destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
+                        <span><%= t('commons.sign_in_as') %></span>
+                        <span class="modal-fund__user-name"><%= current_user.display_name %></span>
+                        <%= link_to t('commons.not_you?'), destroy_user_session_path, :method => 'delete', :class => 'modal-fund__wrong-user btn-reset' %>
                     </div>
                     <% if current_user.picture? %>
                         <%= image_tag(current_user.picture, class: "modal-fund__avatar") %>
@@ -52,40 +53,29 @@
                         <%= gravatar_for_user(current_user, 44) %>
                     <% end %>
                     <div class="modal-fund__field-wrap">
-                      <div class="modal-fund__balance">BTC Wallet (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
+                      <div class="modal-fund__balance"><%= t('commons.btc_wallet') %> (<%= satoshi_balance_in_btc(current_user.current_wallet_balance) %>)</div>
                       <svg focusable="false" version="1.1" class="svg-wallet" aria-hidden="true">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-wallet"></use>
                       </svg>
                     </div>
 
-                    <a class="modal-fund__wallet" href="/users/<%= current_user.id %>/my_wallet">My Wallet</a>
+                    <a class="modal-fund__wallet" href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a>
                   </div>
               </div>
             </div>
-            <button type="button" class="btn-root _donate _dark _disable">Donate - BTC <span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
+            <button type="button" class="btn-root _donate _dark _disable"><%= t('.donate') %><span class="modal-fund__donate-value js-btc-amount">0.00</span></button>
           <% else %>
-            <button type="button" class="btn-root _sign-in _dark">Sign in</button>
+            <button type="button" class="btn-root _sign-in _dark"><%= t('commons.sign_in') %></button>
           <% end %>
 
           </div>
         </div>
         <div class="modal-fund__bottom-content _active">
           <div class="modal-fund__stripe">
-            <div class="modal-fund__stripe-top">
-              <div class="modal-fund__stripe-title">Pay with your credit card via stripe</div>
-              <div class="modal-fund__stripe-cards">
-                <%= image_tag('payments/dc-pay@2x.png') %>
-                <%= image_tag('payments/jcb-pay@2x.png') %>
-                <%= image_tag('payments/discover-pay@2x.png') %>
-                <%= image_tag('payments/ae-pay@2x.png') %>
-                <%= image_tag('payments/mc-pay@2x.png') %>
-                <%= image_tag('payments/visa-pay@2x.png') %>
-              </div>
-            </div>
             <% if user_signed_in? %>
               <%= render :template => '/payments/stripe/new' %>
             <% else %>
-              <button type="button" class="btn-root _sign-in _dark">Sign in</button>
+              <button type="button" class="btn-root _sign-in _dark"><%= t('commons.sign_in') %></button>
             <% end %>
           </div>
         </div>
@@ -107,6 +97,10 @@
 
   $(document).ready(function() {
 
+
+    var MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
+        CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2);
+
     Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
     var $walletTransactionAmount = $('#wallet_transaction_amount'),
@@ -126,7 +120,7 @@
             usd: 0,
             btc: 0
           },
-          isUSD: false
+          isUSD: true
         };
 
     function stripeResponseHandler(status, response) {
@@ -146,11 +140,11 @@
     };
 
     function getCurrency() {
-      return donationObj.isUSD ? 'USD' : 'BTC';
+      return donationObj.isUSD ? 'USD' : '฿';
     }
 
     function getConvertedCurrency() {
-      return !donationObj.isUSD ? 'USD' : 'BTC';
+      return !donationObj.isUSD ? 'USD' : '฿';
     }
 
 
@@ -195,6 +189,7 @@
           $('.modal-fund__bottom-content').removeClass('_active').eq(index).addClass('_active');
           $walletTransactionAmount.val('');
           $('.js-btc-amount').html('');
+          $('.modal-fund__min-donation').html('');
           updateConversion();
           $donateBtn.addClass('_disable');
         })
@@ -212,9 +207,18 @@
         .on('input.inputAmount', '.modal-fund__input', function() {
             var currentValue = $(this).val(),
                 $donateBtn = $('.btn-root._donate'),
-                isTermOfUseChecked = $('.payment-form__method').is(':checked');
+                isTermOfUseChecked = $('.payment-form__method').is(':checked'),
+                $minDonation = $('.modal-fund__min-donation');
 
-            if (currentValue && isTermOfUseChecked) {
+            if (donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC / CURRENT_BTC_RATE))) {
+                $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC / CURRENT_BTC_RATE) + '$');
+            } else if (!donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC))) {
+                $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC) + '฿');
+            } else {
+                $minDonation.html('');
+            }
+
+            if (currentValue && (!donationObj.isUSD || isTermOfUseChecked)) {
                 $donateBtn.removeClass('_disable');
             } else {
                 $donateBtn.addClass('_disable');
@@ -232,14 +236,14 @@
                 $donateBtn = $('.btn-root._donate'),
                 isTermOfUseChecked = $('.payment-form__method').is(':checked');
 
-            if (!isTermOfUseChecked) {
+            if (donationObj.isUSD && !isTermOfUseChecked) {
                 $('.f-default__checkbox-pseudo').addClass('_error');
                 return;
             } else {
                 $('.f-default__checkbox-pseudo').removeClass('_error');
             }
 
-            if (val && isTermOfUseChecked) {
+            if (val && (!donationObj.isUSD || isTermOfUseChecked)) {
                 $donateBtn.addClass('_disable');
                 if ($creditCardTab.hasClass('_active')) {
                     setTimeout(function() {
@@ -320,9 +324,9 @@
           var btc = donationObj.isUSD ? value / current_btc : value;
           var usd = (donationObj.isUSD ? value : value * current_btc).toFixed(2);
           if (donationObj.isUSD) {
-            document.getElementById("wallet_btc").innerHTML= usd + " USD = " + btc + " BTC";
+            document.getElementById("wallet_btc").innerHTML= usd + " USD = " + btc + " ฿";
           } else {
-            document.getElementById("wallet_btc").innerHTML= btc + " BTC = " + usd + " USD";
+            document.getElementById("wallet_btc").innerHTML= btc + " ฿ = " + usd + " USD";
           }
           $btcValue.text(btc.toFixed(5));
           $usdValue.text(usd);

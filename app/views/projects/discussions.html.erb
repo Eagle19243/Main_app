@@ -57,7 +57,7 @@
             <tr>
               <td><%=image_tag(discussion.user.picture_url(:thumb), height: '32', width: '32')  %></td>
               <td>
-                <div style="font-size: 10px; color: grey"><%=discussion.user.name%></div>
+                <div style="font-size: 10px; color: grey"><%=discussion.user.display_name%></div>
                 <div style="font-size: 10px; color: grey"> <%=discussion.created_at.strftime("%m/%d/%y at %l:%M %p")%></div>
               </td>
               <td style="text-align:right;">
@@ -87,7 +87,7 @@
             <tr>
               <td><%=image_tag(discussion.user.picture_url(:thumb), height: '32', width: '32')  %></td>
               <td>
-                <div style="font-size: 10px; color: grey"><%=discussion.user.name%></div>
+                <div style="font-size: 10px; color: grey"><%=discussion.user.display_name%></div>
                 <div style="font-size: 10px; color: grey"> <%=discussion.created_at.strftime("%m/%d/%y at %l:%M %p")%></div>
               </td>
               <td style="text-align:right;">

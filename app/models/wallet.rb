@@ -9,4 +9,11 @@ class Wallet < ActiveRecord::Base
 
   def task_wallet?
   end
+
+  def update_balance!
+    wallet_handler = Payments::BTC::WalletHandler.new
+    self.balance = wallet_handler.get_wallet_balance(wallet_id)
+    save!
+  end
+
 end

@@ -1,36 +1,36 @@
 <div class="s-wallet__content">
-  <button class="s-wallet__back js-toggle-content" type="button">< Transactions</button>
+  <button class="s-wallet__back js-toggle-content" type="button">< <%= t('commons.transactions') %></button>
     <%= form_tag("/user_wallet_transactions/send_to_any_address", method: "post", class: "f-transaction" ) do %>
 
-  <div class="f-transaction__title">Make a transaction</div>
+  <div class="f-transaction__title"><%= t('commons.make_transaction') %></div>
 
     <div class="f-default__row">
       <label class="f-default__label">
-        <span class="f-default__label-text">Bitcoin address or label</span>
+        <span class="f-default__label-text"><%= t('.bitcoin_address') %></span>
         <!--<input type="text" class="f-default__field" required>-->
-        <input type="text" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control" placeholder='Please Enter Receiver Wallet Address' />
+        <input type="text" id="wallet_transaction_user_wallet" name="wallet_transaction_user_wallet"  required="true" class="form-control" placeholder="<%= t('.enter_wallet_address') %>" />
 
       </label>
     </div>
     <div class="f-default__row">
       <label class="f-default__label _btc">
-        <span class="f-default__label-text">Enter amount</span>
+        <span class="f-default__label-text"><%= t('.enter_amount') %></span>
         <!--<input type="number" class="f-default__field numeric integer" required>-->
         <input type="number" id="wallet_transaction_amount" name="amount" class="f-default__field numeric integer _min-donation" step="0.001" min="<%= min_transfer_amount_in_btc %>" required="true" placeholder=''/>
 
         <div class="f-transaction__btc">BTC</div>
       </label>
       <div class="f-transaction__info">
-        Available: <span class="js-btc-value"><%= satoshi_balance_in_btc(@wallet_balance) %></span> BTC
+        <%= t('commons.available') %>: <span class="js-btc-value"><%= satoshi_balance_in_btc(@wallet_balance) %></span> BTC
       </div>
     </div>
     <div class="f-default__row">
       <label class="f-default__label">
-        <span class="f-default__label-text">Optional internal memo</span>
+        <span class="f-default__label-text"><%= t('.optional_memo') %></span>
         <input type="text" class="f-default__field">
       </label>
     </div>
-    <button class="btn-root _dark">Send</button>
+    <button class="btn-root _dark"><%= t('commons.send') %></button>
       <%end %>
   <!--</form>-->
 </div>

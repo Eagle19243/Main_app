@@ -35,7 +35,7 @@
   &__content {
     background-color: #fff;
     text-align: center;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     border: 1px solid gray;
     border-radius: 10px;
     max-width: 720px;
@@ -52,11 +52,6 @@
     background-size: cover;
     &-wrapper {
       margin: -75px auto 0;
-      &:hover {
-        .btn-edit-image {
-          display: block;
-        }
-      }
     }
   }
   &__user-name {
@@ -69,7 +64,7 @@
     display: inline-block;
     &-wrap {
       text-align: center;
-      margin: 0 auto 21px;
+      margin: 0 auto 13px;
       padding: 0 50px;
     }
   }
@@ -100,6 +95,7 @@
     color: #000;
     display: inline-block;
     font-family: 'Libre Franklin', sans-serif;
+    margin-bottom: 10px;
     &:empty {
       display: none;
     }
@@ -191,7 +187,7 @@
     font-family: 'Libre Franklin', sans-serif;
     position: relative;
     justify-content: center;
-    margin: 0 0 40px;
+    margin: 0 0 20px;
   }
   &__dl-item {
     align-items: center;
@@ -288,18 +284,13 @@
     word-break: break-all;
     word-break: break-word;
     overflow: auto;
-    max-height: 230px;
-    text-align: center;
     button {
       display: inline-block;
     }
   }
   .bio-wrapper {
     display: block;
-    width: 720px;
-    margin: auto;
-    text-align: center;
-
+    margin: 0 20px;
     h3 {
       font-family: 'Roboto', sans-serif;
       font-size: 24px;
@@ -378,6 +369,11 @@
     color: #000;
     margin-bottom: 20px;
     font-weight: 600;
+  }
+
+  .my-project__btc-left,
+  .my-project__btc-right {
+    font-size: 12px;
   }
 
   .table {

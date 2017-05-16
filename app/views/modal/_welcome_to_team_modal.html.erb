@@ -1,15 +1,15 @@
 <div id="welcomeToTeamModal" class="modal-default welcome-to-team" role="dialog" tabindex="-1">
     <div class="modal-default__content">
         <button type="button" class="modal-default__close"></button>
-        <h4 class="modal-default__title">Welcome to the team!</h4>
-        <div class="welcome-to-team__title">How to join the team?</div>
+        <h4 class="modal-default__title"><%= t('.title') %></h4>
+        <div class="welcome-to-team__title"><%= t('.how_to_join') %></div>
         <ul class="welcome-to-team__options _center _three-column">
             <li class="welcome-to-team__item">
                 <%= link_to plan_project_path(id: @project.id), data: {tab: 'plan'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
                     <svg focusable="false" version="1.1" class="svg-document">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-document"></use>
                     </svg>
-                    <div class="welcome-to-team__subtitle">Contribute to the plan</div>
+                    <div class="welcome-to-team__subtitle"><%= t('.contribute') %></div>
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
@@ -17,7 +17,7 @@
                     <svg focusable="false" version="1.1" class="svg-idea">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-idea"></use>
                     </svg>
-                    <div class="welcome-to-team__subtitle">Suggest a task</div>
+                    <div class="welcome-to-team__subtitle"><%= t('.suggest_a_task') %></div>
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
@@ -25,34 +25,30 @@
                     <svg focusable="false" version="1.1" class="svg-tools">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-tools"></use>
                     </svg>
-                    <div class="welcome-to-team__subtitle">Do or Fund a tasks</div>
+                    <div class="welcome-to-team__subtitle"><%= t('.do_or_fund') %></div>
                 <% end %>
             </li>
         </ul>
-        <div class="welcome-to-team__title">Looking for a special role?</div>
+        <div class="welcome-to-team__title"><%= t('.looking_for_role') %></div>
         <ul class="welcome-to-team__options _two-column">
             <li class="welcome-to-team__item">
-                <div class="welcome-to-team__subtitle">Become the Lead Editor!</div>
-                <div class="welcome-to-team__info">Lead editor channels collaboration on "Plan" tab, by accepting or rejecting edits from users. Lead editor verifies content quality and checks that information comes from a reliable sources.</div>
+                <div class="welcome-to-team__subtitle"><%= t('.become_lead_editor') %></div>
+                <div class="welcome-to-team__info"><%= t('.lead_editor_description') %></div>
                 <% if !user_signed_in? %>
-                    <a class="button round get-invo-btn" data-modal="#projectSignupModal" }>Apply</a>
+                    <a class="button round get-invo-btn" data-modal="#projectSignupModal" }><%= t('commons.apply') %></a>
                 <% elsif !current_user.is_admin_for?(@project) %>
-                    <%= link_to "Apply", get_in_projects_path(type: "0", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Lead Editor?"} %>
+                    <%= link_to t('commons.apply'), get_in_projects_path(type: "0", id: @project.id), :class => "btn-root", data: { confirm: t('.apply_lead_editor_confirmation') } %>
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
-                <div class="welcome-to-team__subtitle">Become the Coordinator!</div>
+                <div class="welcome-to-team__subtitle"><%= t('.become_coordinator') %></div>
                 <div class="welcome-to-team__info">
-                coordinator controls collaboration on "Task" tab.
-                <p>- edit + approve suggested tasks.</p>
-                <p>- accept user applications to complete tasks.</p>
-                <p>- coordinate and interact with users who complete tasks.</p>
-                <p>- verify task completion.</p>
+                  <%= t('.coordinator_description').html_safe %>
                 </div>
                 <% if !user_signed_in? %>
                     <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply</a>
                 <% elsif !current_user.is_admin_for?(@project) %>
-                    <%= link_to "Apply", get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: {confirm: "Do you want to apply as Coordinator?"} %>
+                    <%= link_to t('commons.apply'), get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: { confirm: t('.apply_coordinator_confirmation') } %>
                 <% end %>
             </li>
         </ul>

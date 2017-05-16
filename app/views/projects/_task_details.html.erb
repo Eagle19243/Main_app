@@ -197,11 +197,15 @@
                             <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>
                         </div>
                         <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
-                            <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
+                            <div class="modal-task__usd-value">$ <%= Payments::BTC::Converter.convert_btc_to_usd(@task.budget) %> </div>
+                            <div class="modal-task__btc-value">
+                                ฿ <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
 
-                            <% if can? :update_budget, @task %>
-                              <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
-                            <% end %>
+                                <% if can? :update_budget, @task %>
+                                  <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
+                                <% end %>
+                            </div>
+
                         </div>
                     </div>
                     <div class="modal-task__card-titles">
@@ -225,7 +229,7 @@
                                 <% else %>
                                     <%= gravatar_for_user(membership.team_member) %>
                                 <% end %>
-                                <div class="team-block__item-name"><%= membership.team_member.name %></div>
+                                <div class="team-block__item-name"><%= membership.team_member.display_name %></div>
                             </a>
                         <% end %>
                     <% end %>
@@ -396,7 +400,7 @@
                     <% else %>
                         <%= gravatar_for_user(team_membership.team_member, 35) %>
                     <% end %>
-                    <%= link_to team_membership.team_member.name, user_path(team_membership.team_member) %>
+                    <%= link_to team_membership.team_member.display_name, user_path(team_membership.team_member) %>
                   </div>
               <% end %></center>
           </div> <!--row ends -->
@@ -546,8 +550,8 @@
                     amountLeftBTC = parseFloat($card.find('._amount-left-btc').text(), 10),
                     amountLeftUSD = parseFloat($card.find('._amount-left-usd').text(), 10);
 
-                $('.modal-fund__needed._btc').text('[BTC needed ' + amountLeftBTC.toFixed(3).toString() + ']');
-                $('.modal-fund__needed._usd').text('[$ needed ' + amountLeftUSD.toFixed(3).toString() + ']');
+                $('.modal-fund__needed._btc').text('( ' + amountLeftBTC.toFixed(3).toString() + '฿ needed )');
+                $('.modal-fund__needed._usd').text('( ' + amountLeftUSD.toFixed(3).toString() + '$ needed )');
             })
             .on('click.saveDataForDoModal', '.do-button', function() {
                 var $this = $(this),

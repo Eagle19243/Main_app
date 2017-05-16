@@ -41,7 +41,7 @@ module UsersHelper
   end
 
   def conversation_companion_name(user, conversation)
-    user.id != conversation.sender.id ? conversation.sender.name : conversation.recipient.name
+    user.id != conversation.sender.id ? conversation.sender.display_name : conversation.recipient.display_name
   end
 
   def project_calculus

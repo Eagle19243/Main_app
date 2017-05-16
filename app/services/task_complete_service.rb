@@ -3,14 +3,12 @@ class TaskCompleteService
 
   def initialize(task)
     @task = task
-
     raise ArgumentError, "Incorrect argument type" unless task.is_a?(Task)
     raise ArgumentError, "Incorrect task state: #{task.state}" unless task.reviewing?
-
-    update_current_fund!
     raise ArgumentError, "Task's budget is too low and cannot been transfered"   if task.satoshi_budget < Task::MINIMUM_FUND_BUDGET
     raise ArgumentError, "Task fund level is too low and cannot been transfered" if task.current_fund < task.satoshi_budget
     raise ArgumentError, "Task's wallet doesn't exist" unless task.wallet.wallet_id
+    @task.update_current_fund! unless Rails.env.test?
   end
 
   def complete!
@@ -44,16 +42,6 @@ class TaskCompleteService
 
   def wallet_handler
     @wallet_handler ||= Payments::BTC::WalletHandler.new
-  end
-
-  def update_current_fund!
-    balance = wallet_handler.get_wallet_balance(task.wallet.wallet_id)
-    if balance > 0
-      task.update_attribute(:current_fund, balance)
-    else
-      raise Payments::BTC::Errors::TransferError,
-        "Task's wallet appears to have pending transactions. If someone recently transferred fund on task's wallet, then it needs time to be approved. If this is the case, please try again later"
-    end
   end
 
   def build_recipients

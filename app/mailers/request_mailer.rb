@@ -5,19 +5,19 @@ class RequestMailer < ApplicationMailer
     @project = project
     @request_type = request_type
 
-    mail(to: @leader.email, subject: I18n.t('mailers.request.apply_to_get_involved_in_project.subject', request_type: @request_type) )
+    mail(to: @leader.email, subject: t('.subject', request_type: @request_type) )
   end
 
   def positive_response_in_project_involvement(apply_request:)
     set_instance_variables_for_project_involvement(apply_request)
 
-    mail(to: @applicant.email, subject: I18n.t('mailers.request.positive_response_in_project_involvement.subject', request_type: @request_type))
+    mail(to: @applicant.email, subject: t('.subject', request_type: @request_type))
   end
 
   def negative_response_in_project_involvement(apply_request:)
     set_instance_variables_for_project_involvement(apply_request)
 
-    mail(to: @applicant.email, subject: I18n.t('mailers.request.negative_response_in_project_involvement.subject', request_type: @request_type))
+    mail(to: @applicant.email, subject: t('.subject', request_type: @request_type))
   end
 
   def to_do_task(requester:, task:)
@@ -25,19 +25,19 @@ class RequestMailer < ApplicationMailer
     @task = task
     leader = @task.project.user
 
-    mail(to: leader.email, subject: I18n.t('mailers.request.to_do_task.subject'))
+    mail(to: leader.email, subject: t('.subject'))
   end
 
   def accept_to_do_task(do_request:)
     set_instance_variables_for_to_do_review(do_request)
 
-    mail(to: @requester.email, subject: I18n.t('mailers.request.accept_to_do_task.subject'))
+    mail(to: @requester.email, subject: t('.subject'))
   end
 
   def reject_to_do_task(do_request:)
     set_instance_variables_for_to_do_review(do_request)
 
-    mail(to: @requester.email, subject: I18n.t('mailers.request.reject_to_do_task.subject'))
+    mail(to: @requester.email, subject: t('.subject'))
   end
 
   private

@@ -1,16 +1,16 @@
 <div class="content-details">
   <div class="row">
 
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
       <% if user_signed_in? %>
-        <div class="row margin-none mb20">
+        <div class="edit-btn row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
             <% if is_blocked == 0 %>
               <% if can? :revisions, project %>
-                <a class="btn-root" id="editSource">Review contributions</a>
+                <a class="btn-root" id="editSource"><%= t('.review_contribution') %></a>
               <% end %>
               <a href="<%= mediawiki_api_base_url %>index.php?title=<%= URI.escape(project.wiki_page_name.gsub(' ', '_')) %>&useskin=weserve&veaction=edit&redirect=<%= URI.encode(taskstab_project_url(project.id)) %>" class="btn-root">
-                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+                <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;<%= t('commons.edit') %>
               </a>
             <% else %>
               <!-- TODO: for blocked users -->
@@ -18,10 +18,10 @@
           </div>
         </div>
       <% else %>
-        <div class="row margin-none mb20">
+        <div class="edit-btn row margin-none mb20">
           <div class="btn-edit-wrapper pull-right">
             <a class="sign_in_a" data-modal="#registerModal" class="btn-edit">
-              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;Edit
+              <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;t('commons.edit')
             </a>
           </div>
         </div>
@@ -33,7 +33,7 @@
       </div>
 
       <div class="project-idea">
-        <strong>Project Idea: &nbsp;&nbsp;</strong>
+        <strong><%= t('.project_idea') %>: &nbsp;&nbsp;</strong>
         <% if user_signed_in? && can?(:update, @project) %>
           <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", id: 'sd_pencil', :cancel_button_class => "pencil_cancel", activator: "#sd_pencil" %>
           <span id="str_length"></span>
