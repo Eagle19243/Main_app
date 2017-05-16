@@ -205,6 +205,10 @@
   padding-top: 20px;
   padding-bottom: 20px;
 
+  &__btc-value {
+    font-size: 14px;
+    color: gray;
+  }
   .progress {
     background-color: #000;
   }
@@ -218,7 +222,7 @@
   tbody {
     margin: auto;
     tr td {
-      padding: 0 5px !important;
+      padding: 0 10px !important;
       text-align: left;
       line-height: 1.5em !important;
       font-size: 11px !important;
