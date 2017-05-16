@@ -42,11 +42,10 @@
                       </div>
                   </span>
               </label>
-              <input class="f-default__field modal-new-task__member_amount numeric integer required" required="required" maxlength="5" aria-required="true" type="number" step="1" min="1" value="1" name="task[target_number_of_participants]" id="task_target_number_of_participants">
+              <input class="f-default__field modal-new-task__member_amount numeric integer required" required="required" disabled maxlength="5" aria-required="true" type="number" step="1" min="1" max="1" value="1" name="task[target_number_of_participants]" id="task_target_number_of_participants">
             </div>
             <div class="f-default__col _estimation">
               <label class="f-default__label" for="task_description"><%= t('.estimate_amount_per_member') %><span>&nbsp;</label>
-              <div class="modal-new-task__team-member-estimation"></div>
               <span id="new_task_btc_per_member" class="f-default__convert"></span>
             </div>
           </div>
