@@ -52,11 +52,6 @@
     background-size: cover;
     &-wrapper {
       margin: -75px auto 0;
-      &:hover {
-        .btn-edit-image {
-          display: block;
-        }
-      }
     }
   }
   &__user-name {

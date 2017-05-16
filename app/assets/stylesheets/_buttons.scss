@@ -351,21 +351,6 @@
   color: #888;
 }
 
-.btn-edit-image {
-  position: absolute;
-  min-width: 180px;
-  text-align: left;
-  right: -180px;
-  color: #000;
-  display: none;
-  &._profile {
-    bottom: -10px;
-  }
-  &._background {
-    bottom: 20px;
-  }
-}
-
 .btn-notify {
   font-size: 14px;
   color: #525252;

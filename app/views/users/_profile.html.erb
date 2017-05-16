@@ -9,19 +9,9 @@
       <% end %>
         <div class="profile-hero__avatar-wrapper">
             <% if @user.picture? %>
-                <div class="profile-hero__avatar" style="background-image: url('<%= @user.picture %>')">
-                    <% if user_signed_in? && current_user.id == @user.id %>
-                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_bg_img') %></a>
-                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_profile_img') %></a>
-                    <% end %>
-                </div>
+                <div class="profile-hero__avatar" style="background-image: url('<%= @user.picture %>')"></div>
             <% else %>
-                <div class="profile-hero__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')">
-                    <% if user_signed_in? && current_user.id == @user.id %>
-                        <a class="btn-edit-image _background" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_bg_img') %></a>
-                        <a class="btn-edit-image _profile" data-modal="#profile-img-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_profile_img') %></a>
-                    <% end %>
-                </div>
+                <div class="profile-hero__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')"></div>
             <% end %>
         </div>
       <div class="profile-hero__user-name-wrap">

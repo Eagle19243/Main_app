@@ -45,26 +45,6 @@
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
   }
-  a.btn-edit-image {
-    left: auto;
-    right: 6%;    // todo QUESTION: why web-site doesn't have something like container? we should discuss this with designer
-    font-size: 14px;
-    color: #fff;
-    background: transparent;
-    text-shadow: 1px 1px 3px 0 rgba(0,0,0,.5);
-    bottom: 20px;
-    line-height: 40px;
-    font-family: Arial, sans-serif;
-    opacity: 0;
-    transition: opacity .4s;
-    pointer-events: none;
-  }
-  &._signed-in:hover {
-    .btn-edit-image {
-      opacity: 1;
-      pointer-events: all;
-    }
-  }
 
   &__join-btn {
     margin: 10px 0 20px;

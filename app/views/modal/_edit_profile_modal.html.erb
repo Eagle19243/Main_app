@@ -10,12 +10,14 @@
                     <button class="modal-edit-profile__avatar-edit" data-modal="#profile-img-edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
+                    <a class="modal-edit-profile__background-edit" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_bg_img') %></a>
                 </div>
             <% else %>
                 <div class="modal-edit-profile__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')">
                     <button class="modal-edit-profile__avatar-edit" data-modal="#profile-img-edit">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </button>
+                    <a class="modal-edit-profile__background-edit" data-modal="#profile-bcg-edit"><i class="fa fa-pencil" aria-hidden="true"></i> <%= t('.edit_bg_img') %></a>
                 </div>
             <% end %>
             <div class="modal-edit-profile__general">

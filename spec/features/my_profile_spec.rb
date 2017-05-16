@@ -45,14 +45,6 @@ feature "My Profile", js: true do
           end
         end
 
-        scenario "Then your location is editable" do
-          expect(@profile_header).to have_selector("a#edit-location-pencil")
-        end
-
-        scenario "Then your bio is editable" do
-          expect(@profile_bio).to have_selector("#bio-edit-pencil")
-        end
-
 =begin
         context "When you click your location edit link" do
           before do

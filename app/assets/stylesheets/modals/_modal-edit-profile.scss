@@ -8,10 +8,17 @@
       align-items: center;
     }
   }
+  &__background-edit {
+    position: absolute;
+    bottom: -20px;
+    color: #000;
+    left: 0;
+    font-size: 12px;
+  }
   &__avatar {
     position: relative;
-    width: 125px;
-    height: 125px;
+    width: 135px;
+    height: 135px;
     border-radius: 50%;
     background-size: cover;
     background-position: center center;

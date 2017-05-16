@@ -66,6 +66,7 @@ en:
       condition_as_completed: "Specify conditions to consider this task as completed."
     edit_profile_modal:
       title: "Edit intro"
+      edit_bg_img: "Edit Background Image"
       update_success_message: "Profile was updated"
       update_fail_message: "Profile wasn't updated. Try one more time"
     profile_edit_response_modal:
