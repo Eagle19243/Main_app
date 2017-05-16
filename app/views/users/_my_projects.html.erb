@@ -31,8 +31,14 @@
                 </a>
               </td>
               <td class="fund">
-                <span class="pull-left">฿ <%= btc_balance(project.funded_budget) %></span>
-                <span class="pull-right">฿ <%= btc_balance(project.needed_budget) %></span>
+                <div class="pull-left">
+                    <div class="my-project__usd-left">$ <%= Payments::BTC::Converter.convert_btc_to_usd(project.funded_budget) %></div>
+                    <div class="my-project__btc-left">฿ <%= btc_balance(project.funded_budget) %></div>
+                </div>
+                <div class="pull-right">
+                    <div class="my-project__usd-right">$ <%= Payments::BTC::Converter.convert_btc_to_usd(project.needed_budget) %></div>
+                    <div class="my-project__btc-right">฿ <%= btc_balance(project.needed_budget) %></div>
+                </div>
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>" >
                   </div>
@@ -154,10 +160,12 @@
 </div>
 
 <script type="text/javascript">
-    var $modalRemoveProject = $('#modalRemoveProject');
-    var remove_project_id = 0
-    function remove_project (id){
-      var remove_project_id = id
+    var $modalRemoveProject = $('#modalRemoveProject'),
+        remove_project_id = 0;
+
+    function remove_project (id) {
+      var remove_project_id = id;
+
       $("#removeprojectpath").attr("href", "/projects/"+id)
     }
     $(document)

@@ -23,7 +23,7 @@ feature "My Projects Archive", js: true do
       context "When you click Delete icon in a project" do
         before do
           @projects_table.find(:xpath, "//button[@onclick='remove_project(#{@project.id})']").trigger('click')
-          @modal = find("#modalRemoveProject", visible: true)
+          @modal = find("#modalRemoveProject")
         end
 
         scenario "Then the confirmation popup appeared" do
