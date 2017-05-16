@@ -27,9 +27,12 @@
               <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
               </svg>
-              <%= best_in_place @user, :city, :as => :input, activator: '#edit-location-pencil', cancel_button: t('commons.cancel'), cancel_button_class: "btn btn-default button-margin-right", ok_button: t('commons.save'), ok_button_class: "btn btn-default button-margin-right" %>
-              <a id="edit-location-pencil" href="javascript:void(0)" class="btn-edit glyphicon glyphicon-pencil" data-toggle="tooltip" title="<%= t('commons.edit') %>"></a>
-            </div>
+              <%= @user.city %>
+
+              <% if @user.state.present? %>
+                / <%= @user.state %>
+              <% end %>
+            </div
           <% else %>
             <% if @user.city.present? %>
               <div class="profile-hero__user-location">
@@ -37,6 +40,9 @@
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
                 </svg>
                 <%= @user.city %>
+                <% if @user.state.present? %>
+                  / <%= @user.state %>
+                <% end %>
               </div>
             <% end %>
           <% end %>
@@ -76,14 +82,9 @@
   <div class="bio-wrapper">
     <h3 class="bio-header text-uppercase">
       <%= t('commons.bio') %>
-      <% if (current_user && current_user.id == @user.id) %>
-          <i class="fa fa-pencil" id="bio-edit-pencil"></i>
-      <% end %>
     </h3>
     <p class="profile-bio">
-      <% if (current_user && current_user.id == @user.id) %>
-        <%= best_in_place @user, :bio, :as => :textarea, activator: '#bio-edit-pencil', cancel_button: t('commons.cancel'), cancel_button_class: "button", ok_button: t('commons.save'), ok_button_class: "button ok-button" %>
-      <% end %>
+        <span> <%= @user.bio %> </span>
     </p>
   </div>
 
