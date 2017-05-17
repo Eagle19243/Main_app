@@ -32,12 +32,12 @@
               </td>
               <td class="fund">
                 <div class="pull-left">
-                    <div class="my-project__usd-left">$ <%= Payments::BTC::Converter.convert_btc_to_usd(project.funded_budget) %></div>
-                    <div class="my-project__btc-left">฿ <%= btc_balance(project.funded_budget) %></div>
+                    <div class="my-project__usd-left">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(project.funded_budget), :precision => 2) %></div>
+                    <div class="my-project__btc-left">฿ <%= number_with_precision(btc_balance(project.funded_budget), :precision => 2) %></div>
                 </div>
                 <div class="pull-right">
-                    <div class="my-project__usd-right">$ <%= Payments::BTC::Converter.convert_btc_to_usd(project.needed_budget) %></div>
-                    <div class="my-project__btc-right">฿ <%= btc_balance(project.needed_budget) %></div>
+                    <div class="my-project__usd-right">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(project.needed_budget), :precision => 2) %></div>
+                    <div class="my-project__btc-right">฿ <%= number_with_precision(btc_balance(project.needed_budget), :precision => 2) %></div>
                 </div>
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>" >
@@ -114,7 +114,10 @@
                       <td><%= project.funded_percentages %></td>
                       <td><%= project.team_relations_string %></td>
                       <td><%= project.tasks_relations_string %></td>
-                      <td>฿ <%= btc_balance(project.funded_budget) %></td>
+                      <td>
+                          <div class="b-project-card__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(project.funded_budget), :precision => 2) %> </div>
+                          <div class="b-project-card__btc-value">฿ <%= number_with_precision(btc_balance(project.funded_budget), :precision => 2) %> </div>
+                      </td>
                     </tr>
                     <tr class="items">
                       <td><%= t('commons.funded') %></td>
