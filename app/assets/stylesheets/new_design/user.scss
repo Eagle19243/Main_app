@@ -289,8 +289,11 @@
     }
   }
   .bio-wrapper {
+    max-width: 1200px;
+    padding: 20px;
     display: block;
-    margin: 0 20px;
+    margin: auto;
+    position: relative;
     h3 {
       font-family: 'Roboto', sans-serif;
       font-size: 24px;
