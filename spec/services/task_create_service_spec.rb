@@ -8,7 +8,7 @@ RSpec.describe TaskCreateService do
       title: "Test Title",
       budget: "0.015",
       deadline: "2017-03-07 17:56 PM",
-      target_number_of_participants: "1",
+      target_number_of_participants: "2",
       proof_of_execution: "Test proof",
       condition_of_execution: "Test condition_of_execution"
     }
@@ -23,6 +23,7 @@ RSpec.describe TaskCreateService do
     expect(service.task.wallet).to be_nil
     expect(service.task).to be_accepted
     expect(service.task.project).to eq(project)
+    expect(service.task.target_number_of_participants).to eq(task_attributes[:target_number_of_participants].to_i)
   end
 
   it "performs suggested task creation when valid parameters are given" do
@@ -47,6 +48,21 @@ RSpec.describe TaskCreateService do
     activity = user.activities.first
     expect(activity.targetable_id).to eq(service.task.id)
     expect(activity.targetable_type).to eq("Task")
+  end
+
+  it "creates a task with 1 participant even if it is not specified or 0" do 
+    task_attributes.merge!(state: "accepted", target_number_of_participants: nil)
+    service = described_class.new(task_attributes, user, project)
+    task_attributes.merge!(target_number_of_participants: 0)
+    service2 = described_class.new(task_attributes, user, project)
+
+    expect(service.create_task).to be true
+    expect(service.task).to be_persisted
+    expect(service.task.wallet).to be_nil
+    expect(service.task).to be_accepted
+    expect(service.task.project).to eq(project)
+    expect(service.task.target_number_of_participants).to eq(1)
+    expect(service2.task.target_number_of_participants).to eq(1)
   end
 
   it "returns false if task's budget is less than a minimum" do
