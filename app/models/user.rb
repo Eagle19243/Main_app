@@ -131,10 +131,9 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_facebook_oauth(auth)
-    user = User.find_by(provider: auth.provider, uid: auth.uid)
-    return user if user.present?
-
-    registered_user = User.find_by(email: auth.info.email)
+    registered_user = User.find_by(provider: auth.provider, uid: auth.uid)
+    registered_user ||= User.find_by(email: auth.info.email)
+    # return user if user.present?
 
     if registered_user
       registered_user.assign_attributes(
@@ -168,10 +167,8 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_twitter_oauth(auth)
-    user = User.find_by(provider: auth.provider, uid: auth.uid)
-    return user if user.present?
-
-    registered_user = auth.info.email ? User.find_by(email: auth.info.email) : nil
+    registered_user = User.find_by(provider: auth.provider, uid: auth.uid)
+    registered_user ||= auth.info.email ? User.find_by(email: auth.info.email) : nil
 
     if registered_user
       registered_user.assign_attributes(
@@ -209,11 +206,9 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_google_oauth2(access_token)
-    user = User.find_by(provider: access_token.provider, uid: access_token.uid)
-    return user if user.present?
-
+    registered_user = User.find_by(provider: access_token.provider, uid: access_token.uid)
     data = access_token.info
-    registered_user = User.find_by(email: data['email'])
+    registered_user ||= User.find_by(email: data['email'])
 
     if registered_user
       registered_user.assign_attributes(
