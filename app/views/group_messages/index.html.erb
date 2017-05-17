@@ -8,7 +8,11 @@
         <ul class="s-group-messages__submenu-list">
           <% if @user_projects.present? %>
               <% @user_projects.each.with_index do |project, index| %>
-                <li class="s-group-messages__submenu-item"><a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a></li>
+                <li class="s-group-messages__submenu-item">
+                    <a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %>
+                        <span><%= project.chatrooms.project_chatrooms.first.user_message_read_flags.unread.for_user_count(current_user) %></span>
+                    </a>
+                </li>
               <% end %>
           <% end %>
         </ul>

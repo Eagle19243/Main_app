@@ -122,6 +122,10 @@ class User < ActiveRecord::Base
     Groupmember.where(chatroom_id: chatroom_ids).where.not(user_id: self.id).collect(&:user).uniq.sort_by(&:username)
   end
 
+  def dm_chatroom_id_shared_with(user)
+    (self.chatrooms.dm_chatrooms.pluck(:id) & user.chatrooms.where(chatroom_type: 3).pluck(:id)).first
+  end
+
   def number_of_unread_messages
     self.user_message_read_flags.unread.count
   end
