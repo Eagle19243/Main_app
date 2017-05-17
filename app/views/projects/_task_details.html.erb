@@ -197,7 +197,7 @@
                             <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>
                         </div>
                         <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
-                            <div class="modal-task__usd-value">$ <%= Payments::BTC::Converter.convert_btc_to_usd(@task.budget) %> </div>
+                            <div class="modal-task__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@task.budget), :precision => 2) %> </div>
                             <div class="modal-task__btc-value">
                                 ฿ <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
 
