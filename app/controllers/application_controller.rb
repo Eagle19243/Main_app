@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
      format.html { redirect_to main_app.root_url, notice: msg }
      format.json { render json: { message: msg }, status: :unauthorized }
      format.js { render json: { message: msg }, status: :unauthorized }
+     format.any { redirect_to main_app.root_url, notice: msg }
    end
   end
 
@@ -15,6 +16,7 @@ class ApplicationController < ActionController::Base
      format.html { redirect_to main_app.root_url, notice: msg }
      format.json { render json: { message: msg }, status: :not_found }
      format.js { render json: { message: msg }, status: :not_found }
+     format.any { redirect_to main_app.root_url, notice: msg }
    end
   end
 
