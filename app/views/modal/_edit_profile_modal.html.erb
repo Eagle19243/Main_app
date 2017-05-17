@@ -121,10 +121,7 @@
                     data: userNewData,
                     success: function(res) {
                         $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_success_message') %>");
-                        $('#profileEditResponse').find('.modal-default__close').on('click.reloadPage', function() {
-                            $(this).off('click.reloadPage');
-                            location.reload();
-                        });
+                        location.reload();
                         $('#editProfileModal').fadeOut();
                         $('#profileEditResponse').fadeIn();
                     },
