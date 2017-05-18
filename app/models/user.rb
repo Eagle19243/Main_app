@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
   validates_length_of       :password, within: Devise.password_length, allow_blank: true, if: ->(user) { user.errors[:password_confirmation].blank? }
 
   scope :name_like, -> (display_name) { where("username ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{display_name}%", "%#{display_name}%")}
+  scope :not_hidden, -> { where(hidden: false) }
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
@@ -361,6 +362,24 @@ class User < ActiveRecord::Base
   # Autocomplete display result (used in GroupMessagesController)
   def search_display_results
     User.find(id).display_name
+  end
+
+  # Hide user and all projects he is a member of
+  def hide!
+    Project.all.each do |project|
+      project.hide! if project.team_members.include? self
+    end
+    self.hidden = true
+    self.save
+  end
+
+  # Un-hide (make visible) user and all projects he is a member of if owners of those projects aren't hidden
+  def un_hide!
+    self.hidden = false
+    self.save
+    Project.all.each do |project|
+      project.un_hide! if ((project.team_members.include? self) && !project.user.hidden)
+    end
   end
 
   protected

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170515080608) do
+ActiveRecord::Schema.define(version: 20170516141510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -345,6 +345,7 @@ ActiveRecord::Schema.define(version: 20170515080608) do
     t.string   "wiki_page_name"
     t.boolean  "is_approval_enabled", default: false
     t.text     "full_description"
+    t.boolean  "hidden",              default: false
   end
 
   add_index "projects", ["deleted_at"], name: "index_projects_on_deleted_at", using: :btree
@@ -534,6 +535,7 @@ ActiveRecord::Schema.define(version: 20170515080608) do
     t.string   "facebook_id"
     t.string   "linkedin_id"
     t.string   "twitter_id"
+    t.boolean  "hidden",                           default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -18,7 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    @featured_projects = Project.where.not(state: "rejected").page params[:page]
+    @featured_projects = Project.where.not(state: "rejected").not_hidden.page params[:page]
 
     if session[:start_by_signup]
       if session[:start_by_signup] == "true"
@@ -648,7 +648,8 @@ class ProjectsController < ApplicationController
     if user_signed_in? && current_user.admin?
       @project = Project.with_deleted.find(params[:id])
     else
-      @project = Project.find(params[:id])
+      @project = Project.not_hidden.find_by(id: params[:id])
+      redirect_to :projects unless @project
     end
 
   end
