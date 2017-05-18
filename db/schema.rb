@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516141510) do
+ActiveRecord::Schema.define(version: 20170518133308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -488,30 +488,30 @@ ActiveRecord::Schema.define(version: 20170516141510) do
   add_index "user_wallet_transactions", ["deleted_at"], name: "index_user_wallet_transactions_on_deleted_at", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                            default: "",    null: false
-    t.string   "encrypted_password",               default: "",    null: false
+    t.string   "email",                             default: "",    null: false
+    t.string   "encrypted_password",                default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                    default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.integer  "role"
     t.string   "country"
     t.text     "description"
     t.string   "picture"
     t.string   "company"
-    t.boolean  "admin",                            default: false
+    t.boolean  "admin",                             default: false
     t.string   "first_link"
     t.string   "second_link"
     t.string   "third_link"
     t.string   "city"
     t.string   "fourth_link"
-    t.string   "phone_number",           limit: 8
+    t.string   "phone_number",           limit: 15
     t.text     "bio"
     t.string   "facebook_url"
     t.string   "twitter_url"
@@ -535,7 +535,7 @@ ActiveRecord::Schema.define(version: 20170516141510) do
     t.string   "facebook_id"
     t.string   "linkedin_id"
     t.string   "twitter_id"
-    t.boolean  "hidden",                           default: false
+    t.boolean  "hidden",                            default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
