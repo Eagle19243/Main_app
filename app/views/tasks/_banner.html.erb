@@ -31,7 +31,6 @@
 
                 <table>
                     <tr class="value">
-                      <td><%= @project.funded_percentages rescue 0 %></td>
                       <td><%= @project.team_relations_string %></td>
                       <td>
                           <div class="task-progress-wrapper__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@project.funded_budget), :precision => 2) %> </div>
@@ -39,7 +38,6 @@
                       </td>
                     </tr>
                     <tr class="items">
-                      <td><%= t('commons.funded') %></td>
                       <td><%= t('commons.teammates') %></td>
                       <td><%= t('commons.raised') %></td>
                     </tr>
