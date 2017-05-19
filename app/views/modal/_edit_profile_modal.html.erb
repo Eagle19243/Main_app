@@ -126,7 +126,7 @@
                         $('#profileEditResponse').fadeIn();
                     },
                     error: function(res) {
-                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_fail_message') %>");
+                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_fail_message').html_safe %>");
                         $('#profileEditResponse').fadeIn();
                     }
                 })

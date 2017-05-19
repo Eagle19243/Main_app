@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
 
   validate :validate_username_unchange
   validates :username, presence: true, uniqueness: true
+  validates :phone_number, length: { maximum: 15 }
 
   # Ref: https://github.com/plataformatec/devise/blob/88724e10adaf9ffd1d8dbfbaadda2b9d40de756a/lib/devise/models/validatable.rb
   # Validate everything as using `devise :validatable`
