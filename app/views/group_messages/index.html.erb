@@ -10,7 +10,9 @@
               <% @user_projects.each.with_index do |project, index| %>
                 <li class="s-group-messages__submenu-item">
                     <a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %>
+                      <%-if project.chatrooms && project.chatrooms.project_chatrooms && project.chatrooms.project_chatrooms.first %>
                         <span><%= project.chatrooms.project_chatrooms.first.user_message_read_flags.unread.for_user_count(current_user) %></span>
+                      <%-end%>
                     </a>
                 </li>
               <% end %>

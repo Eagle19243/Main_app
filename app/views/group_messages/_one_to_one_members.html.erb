@@ -2,7 +2,9 @@
     <% @dm_chatroom_users.each do |user| %>
         <li class="s-group-messages__submenu-item _message">
           <a href="#" class="one-user-chat" id="<%= user.id %>" name=""> <%= user.display_name %> 
-            <span><%= Chatroom.find(user.dm_chatroom_id_shared_with(current_user)).user_message_read_flags.unread.for_user_count(current_user) %></span>
+            <%-if Chatroom.find(user.dm_chatroom_id_shared_with(current_user)) %>
+              <span><%= Chatroom.find(user.dm_chatroom_id_shared_with(current_user)).user_message_read_flags.unread.for_user_count(current_user) %></span>
+            <%-end%>
           </a>
         </li>
     <% end %>
