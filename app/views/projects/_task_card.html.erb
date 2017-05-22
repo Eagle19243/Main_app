@@ -21,7 +21,7 @@
       <td class="card-report__data _amount-left-btc"><%= satoshi_balance_in_btc(task.funds_needed_to_fulfill_budget) %></td>
       <td class="card-report__data _amount-left-usd _hide"><%= satoshi_balance_in_usd(task.funds_needed_to_fulfill_budget) %></td>
       <td class="card-report__data _budget">
-        <div class="card-report__data _usd">$ <%= Payments::BTC::Converter.convert_btc_to_usd(task.budget) %> </div>
+        <div class="card-report__data _usd">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(task.budget), :precision => 2) %> </div>
         <div class="card-report__data _btc">฿ <%= task.budget %></div>
       </td>
       <td class="card-report__data _per-amount _hide"><%= satoshi_balance_in_btc(task.planned_amount_per_member) %></td>

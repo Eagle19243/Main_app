@@ -346,7 +346,7 @@ class TasksController < ApplicationController
   end
 
   def default_attributes
-    %i(references deadline target_number_of_participants
+    %i(references project_id deadline target_number_of_participants
        short_description number_of_participants proof_of_execution title
        description budget user_id condition_of_execution fileone filetwo
        filethree filefour filefive state)

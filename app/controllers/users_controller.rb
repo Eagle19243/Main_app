@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.not_hidden.find(params[:id])
     @profile_comments = @user.profile_comments.limit(3)
   end
 

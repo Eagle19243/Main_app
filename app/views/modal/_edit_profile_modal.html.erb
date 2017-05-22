@@ -70,7 +70,7 @@
                 </div>
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.phone') %></div>
-                    <input type="text" class="modal-edit-profile__input _phone" value="<%= @user.phone_number %>">
+                    <input type="text" class="modal-edit-profile__input _phone" maxlength="15" value="<%= @user.phone_number %>">
                 </div>
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.skype') %></div>
@@ -121,15 +121,12 @@
                     data: userNewData,
                     success: function(res) {
                         $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_success_message') %>");
-                        $('#profileEditResponse').find('.modal-default__close').on('click.reloadPage', function() {
-                            $(this).off('click.reloadPage');
-                            location.reload();
-                        });
+                        location.reload();
                         $('#editProfileModal').fadeOut();
                         $('#profileEditResponse').fadeIn();
                     },
                     error: function(res) {
-                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_fail_message') %>");
+                        $('#profileEditResponse').find('.modal-profile-edit-response__title').text("<%= t('.update_fail_message').html_safe %>");
                         $('#profileEditResponse').fadeIn();
                     }
                 })

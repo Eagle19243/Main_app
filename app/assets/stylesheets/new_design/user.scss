@@ -288,62 +288,49 @@
       display: inline-block;
     }
   }
+  .contacts-wrapper,
   .bio-wrapper {
-    display: block;
-    margin: 0 20px;
     h3 {
       font-family: 'Roboto', sans-serif;
       font-size: 24px;
       font-weight: 600;
       color: #000;
-
-      i {
-        font-size: 1.2em;
-        color: #ddd;
-        margin-left: 5px;
-      }
-
-      p.profile-bio {
-        font-family: 'Libre Franklin', sans-serif;
-        font-size: 1.2em;
-        color: #555;
-        line-height: 1.5em;
-      }
-    }
-
-    input[type="submit"],
-    input[type="button"] {
-      height: 40px;
-      line-height: 40px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 16px;
-      padding: 0;
-      margin: 0;
-      width: 100px;
-      border: 2px solid #000;
-      border-radius: 60px;
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-
-    input[type="submit"] {
-      background-color: #fff;
-      color: #000;
-    }
-
-    input[type="button"] {
-      background-color: #000;
-      color: #fff;
-    }
-
-    .ok-button {
-      margin-right: 5px !important;
     }
   }
 
+  .contacts {
+    &-list {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    &-separator {
+      margin: 0 3px;
+    }
+    &-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    &-value {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: #000;
+    }
+  }
+
+  .bio-wrapper,
+  .contacts-wrapper,
   .profile-projects {
     max-width: 1200px;
-    padding: 20px;
+    padding: 10px 20px;
     display: block;
     margin: auto;
     position: relative;

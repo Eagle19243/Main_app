@@ -8,7 +8,13 @@
         <ul class="s-group-messages__submenu-list">
           <% if @user_projects.present? %>
               <% @user_projects.each.with_index do |project, index| %>
-                <li class="s-group-messages__submenu-item"><a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %></a></li>
+                <li class="s-group-messages__submenu-item">
+                    <a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %>
+                      <%-if project.chatrooms && project.chatrooms.project_chatrooms && project.chatrooms.project_chatrooms.first %>
+                        <span class="s-group-messages__unread-message"><%= project.chatrooms.project_chatrooms.first.user_message_read_flags.unread.for_user_count(current_user) %></span>
+                      <%-end%>
+                    </a>
+                </li>
               <% end %>
           <% end %>
         </ul>
@@ -73,6 +79,8 @@
                 var projectId = $(this).attr('id'),
                     userId = $(this).attr('name'),
                     dataToSend = { project_id: projectId };
+
+                $(this).find('.s-group-messages__unread-message').hide();
 
                 if (userId) {
                     dataToSend.user_id = userId;

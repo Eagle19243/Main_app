@@ -79,6 +79,74 @@
 
   </div>
 
+  <div class="contacts-wrapper">
+          <h3 class="contacts-header text-uppercase">
+              <%= t('commons.contacts') %>
+          </h3>
+          <ul class="contacts-list">
+              <% if @user.phone_number? %>
+                  <li class="contacts-item">
+                      <svg focusable="false" version="1.1" class="svg-phone-icon" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-phone-icon"></use>
+                      </svg>
+                      <span class="contacts-separator">&mdash;</span>
+                      <span class="contacts-value">
+                          <%= @user.phone_number %>
+                      </span>
+                  </li>
+              <% end %>
+
+              <% if @user.skype_id? %>
+                  <li class="contacts-item">
+                      <svg focusable="false" version="1.1" class="svg-skype_id" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-skype"></use>
+                      </svg>
+                      <span class="contacts-separator">&mdash;</span>
+                      <span class="contacts-value">
+                          <%= @user.skype_id %>
+                      </span>
+                  </li>
+              <% end %>
+
+              <% if @user.linkedin_id? %>
+                  <li class="contacts-item">
+                      <svg focusable="false" version="1.1" class="svg-linkedin" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-linkedin"></use>
+                      </svg>
+                      <span class="contacts-separator">&mdash;</span>
+                      <span class="contacts-value">
+                          <%= @user.linkedin_id %>
+                      </span>
+                  </li>
+              <% end %>
+
+              <% if @user.facebook_id? %>
+                  <li class="contacts-item">
+                      <svg focusable="false" version="1.1" class="svg-facebook" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-facebook"></use>
+                      </svg>
+                      <span class="contacts-separator">&mdash;</span>
+                      <span class="contacts-value">
+                          <%= @user.facebook_id %>
+                      </span>
+                  </li>
+              <% end %>
+
+
+              <% if @user.twitter_id? %>
+                  <li class="contacts-item">
+                      <svg focusable="false" version="1.1" class="svg-twitter" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-twitter"></use>
+                      </svg>
+                      <span class="contacts-separator">&mdash;</span>
+                      <span class="contacts-value">
+                          <%= @user.twitter_id %>
+                      </span>
+                  </li>
+              <% end %>
+          </ul>
+      </div>
+
   <div class="bio-wrapper">
     <h3 class="bio-header text-uppercase">
       <%= t('commons.bio') %>

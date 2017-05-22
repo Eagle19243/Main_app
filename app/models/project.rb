@@ -58,6 +58,8 @@ class Project < ActiveRecord::Base
     end
   end
 
+  scope :not_hidden, -> { where(hidden: false) }
+
   # TODO In future it would be a good idea to extract this into the Search object
   def self.fulltext_search(free_text, limit=20)
     # TODO Rails 5 has a OR method
@@ -92,7 +94,7 @@ class Project < ActiveRecord::Base
   end
 
   def funded_percentages
-    needed_budget == 0 ? "100%" : (funded_budget/needed_budget*100).round.to_s + "%"
+    needed_budget == 0 ? "-" : (funded_budget/needed_budget*100).round.to_s + "%"
   end
 
   def accepted_tasks
@@ -177,6 +179,16 @@ class Project < ActiveRecord::Base
 
   def is_approval_enabled?
     self.is_approval_enabled
+  end
+
+  def hide!
+    self.hidden = true
+    self.save
+  end
+
+  def un_hide!
+    self.hidden = false
+    self.save
   end
 
   # Load MediaWiki API Base URL from application.yml
