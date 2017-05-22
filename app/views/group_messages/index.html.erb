@@ -11,7 +11,7 @@
                 <li class="s-group-messages__submenu-item">
                     <a href="#" class="projects-chat" id="<%= project.id %>"><%= project.try(:title) %>
                       <%-if project.chatrooms && project.chatrooms.project_chatrooms && project.chatrooms.project_chatrooms.first %>
-                        <span><%= project.chatrooms.project_chatrooms.first.user_message_read_flags.unread.for_user_count(current_user) %></span>
+                        <span class="s-group-messages__unread-message"><%= project.chatrooms.project_chatrooms.first.user_message_read_flags.unread.for_user_count(current_user) %></span>
                       <%-end%>
                     </a>
                 </li>
@@ -79,6 +79,8 @@
                 var projectId = $(this).attr('id'),
                     userId = $(this).attr('name'),
                     dataToSend = { project_id: projectId };
+
+                $(this).find('.s-group-messages__unread-message').hide();
 
                 if (userId) {
                     dataToSend.user_id = userId;
