@@ -70,7 +70,7 @@
                 </div>
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.phone') %></div>
-                    <input type="text" class="modal-edit-profile__input _phone" value="<%= @user.phone_number %>">
+                    <input type="text" class="modal-edit-profile__input _phone" maxlength="15" value="<%= @user.phone_number %>">
                 </div>
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.skype') %></div>
