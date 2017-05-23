@@ -94,6 +94,11 @@
 <script>
     $(document).ready(function() {
         $(document)
+            .on('keydown.validatePhone', '.modal-edit-profile__input._phone', function(e) {
+                if (e.key.length === 1 && e.key !== '/' && e.key !== '-' && !/\d/.test(e.key)) {
+                    e.preventDefault();
+                }
+            })
             .on('click.saveUserData', '.modal-edit-profile__save', function(e) {
                 e.preventDefault();
 
