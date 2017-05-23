@@ -155,19 +155,19 @@ class TasksController < ApplicationController
 
   def destroy
     authorize! :destroy, @task
+    begin
+      service = TaskDestroyService.new(@task, current_user)
+      redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
 
-    service = TaskDestroyService.new(@task, current_user)
-    redirect_path = taskstab_project_path(@task.project, tab: 'tasks')
-
-    if service.destroy_task
-      flash[:notice] = t('.notice_message')
-    else
-      flash[:error] = t('.error_message')
+      if service.destroy_task
+        flash[:notice] = t('.notice_message')
+      else
+        flash[:error] = t('.error_message')
+      end
+    rescue Payments::BTC::Errors::GeneralError => error
+      ErrorHandlerService.call(error)
+      flash[:error] = UserErrorPresenter.new(error).message
     end
-  rescue Payments::BTC::Errors::GeneralError => error
-    ErrorHandlerService.call(error)
-    flash[:error] = UserErrorPresenter.new(error).message
-  ensure
     respond_to do |format|
       format.js   { head :no_content }
       format.html { redirect_to redirect_path }
