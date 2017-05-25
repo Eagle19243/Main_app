@@ -210,8 +210,8 @@
                 isTermOfUseChecked = $('.payment-form__method').is(':checked'),
                 $minDonation = $('.modal-fund__min-donation');
 
-            if (donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC / CURRENT_BTC_RATE))) {
-                $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC / CURRENT_BTC_RATE) + '$');
+            if (donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC * CURRENT_BTC_RATE))) {
+                $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC * CURRENT_BTC_RATE) + '$');
             } else if (!donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC))) {
                 $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC) + '฿');
             } else {
