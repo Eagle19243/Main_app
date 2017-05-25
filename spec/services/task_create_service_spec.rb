@@ -23,7 +23,7 @@ RSpec.describe TaskCreateService do
     expect(service.task.wallet).to be_nil
     expect(service.task).to be_accepted
     expect(service.task.project).to eq(project)
-    expect(service.task.target_number_of_participants).to eq(task_attributes[:target_number_of_participants].to_i)
+    expect(service.task.target_number_of_participants).to eq(1)
   end
 
   it "performs suggested task creation when valid parameters are given" do

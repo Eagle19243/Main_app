@@ -89,8 +89,8 @@ RSpec.describe TasksController do
           state: 'doing',
           current_fund: 200.0,
           budget: 200.0,
-          number_of_participants: 2,
-          target_number_of_participants: 2
+          number_of_participants: 1,
+          target_number_of_participants: 1
         )
       end
       let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
@@ -157,8 +157,8 @@ RSpec.describe TasksController do
           state: 'accepted',
           current_fund: 200.0,
           budget: 200.0,
-          number_of_participants: 2,
-          target_number_of_participants: 2
+          number_of_participants: 1,
+          target_number_of_participants: 1
         )
       end
       let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
