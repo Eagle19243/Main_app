@@ -79,7 +79,8 @@
 
   </div>
 
-  <div class="contacts-wrapper">
+  <% if @user.is_teammate_with?(current_user) %>
+      <div class="contacts-wrapper">
           <h3 class="contacts-header text-uppercase">
               <%= t('commons.contacts') %>
           </h3>
@@ -136,6 +137,7 @@
               <% end %>
           </ul>
       </div>
+  <% end %>
 
   <div class="bio-wrapper">
     <h3 class="bio-header text-uppercase">

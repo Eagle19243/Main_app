@@ -15,6 +15,46 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'check if user is teammate with (for purposes of contact info)' do
+    let(:project) { create(:project) }
+    let(:first_user) { create(:user) }
+
+    it 'another user on the same project - yes' do
+      second_user = create(:user)
+      TeamService.add_team_member(project.team,first_user,"teammate")
+      TeamService.add_team_member(project.team,second_user,"teammate")
+      expect(first_user.is_teammate_with?(second_user)).to eq(true)
+      expect(second_user.is_teammate_with?(first_user)).to eq(true)
+    end
+
+    it 'himself (even though he isn\'t on any projects) - yes' do
+      expect(first_user.is_teammate_with?(first_user)).to eq(true)
+    end
+
+    it 'a user that isn\'t on any projects - no' do
+      second_user = create(:user)
+      TeamService.add_team_member(project.team,first_user,"teammate")
+      expect(first_user.is_teammate_with?(second_user)).to eq(false)
+      expect(second_user.is_teammate_with?(first_user)).to eq(false)
+    end
+
+    it 'a user that is on a different project - no' do
+      second_user = create(:user)
+      second_project = create(:project)
+      TeamService.add_team_member(project.team,first_user,"teammate")
+      TeamService.add_team_member(second_project.team,second_user,"teammate")
+      expect(first_user.is_teammate_with?(second_user)).to eq(false)
+      expect(second_user.is_teammate_with?(first_user)).to eq(false)
+    end
+
+    it 'the leader of the project - yes' do
+      second_user = project.leader
+      TeamService.add_team_member(project.team,first_user,"teammate")
+      expect(first_user.is_teammate_with?(second_user)).to eq(true)
+      expect(second_user.is_teammate_with?(first_user)).to eq(true)
+    end
+  end
+
   describe 'user wallet creation' do
     it 'does not assign user wallet on creation' do
       user = create(:user, username: 'user_name')

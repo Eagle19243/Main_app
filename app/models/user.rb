@@ -326,6 +326,16 @@ class User < ActiveRecord::Base
     task_memberships.collect(&:team_member_id).include? self.id
   end
 
+  # Returns true if users are teammates in any project (or when compared to self)
+  # Used for displaying contact info
+  def is_teammate_with?(user)
+    return true if self == user
+    teams.each do |team|
+      return true if (team.project.team_members.include? self) && (team.project.team_members.include? user)
+    end
+    return false
+  end
+
   def can_apply_as_admin?(project)
     !self.is_project_leader?(project) && !self.is_team_admin?(project.team) && !self.has_pending_admin_requests?(project)
   end
