@@ -19,6 +19,8 @@ class TaskCreateService
     ActiveRecord::Base.transaction do
       if task.save
         user.create_activity(task, 'created')
+        # Suggesting a task adds user to teammates
+        TeamService.add_team_member(task.project.team, user, "teammate")
         true
       else
         false

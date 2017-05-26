@@ -35,6 +35,9 @@ class Payments::StripeController < ApplicationController
       ).deliver_later if task.fully_funded?
     end
 
+    # Funding a task adds user to teammates
+    TeamService.add_team_member(task.project.team, current_user, "teammate")
+
     render json: { success: t('controllers.payments.thanks_you') }, status: 200
   rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)
