@@ -176,7 +176,6 @@ Rails.application.routes.draw do
   get '/pages/terms_of_use'
 
   devise_for :users, controllers: {
-    passwords: 'passwords',
     sessions: 'sessions',
     registrations: 'registrations',
     omniauth_callbacks: 'omniauth_callbacks',
