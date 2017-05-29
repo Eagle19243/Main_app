@@ -73,6 +73,14 @@ class NotificationMailer < ApplicationMailer
     mail(to: @receiver.email, subject: t('.subject'))
   end
 
+  def task_incomplete(task:, receiver:, reviewer:)
+    @task = task
+    @reviewer = reviewer
+    @receiver = receiver
+
+    mail(to: receiver.email, subject: t('.subject'))
+  end
+
   private
 
   def set_instance_variables_for_rejected_tasks(task_title:, project:, receiver:)

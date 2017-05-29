@@ -300,7 +300,17 @@ class TasksController < ApplicationController
     authorize! :incomplete, @task
 
     @task.incomplete!
-    redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: t('.task_incompleted')
+    @task.project.interested_users.each do |user|
+      NotificationMailer.task_incomplete(reviewer: current_user, task: @task, receiver: user).deliver_later
+    end
+    task_incomplete_activity = Activity.new(
+      user: current_user,
+      action: "incomplete",
+      targetable_id: @task.id,
+      targetable_type: "Task"
+      )
+    task_incomplete_activity.save!
+    redirect_to taskstab_project_path(@task.project, tab: 'tasks'), notice: t('.task_incompleted', task_title: @task.title, project_title: @task.project.title)
   end
 
   def send_email

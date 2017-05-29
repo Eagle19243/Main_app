@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p><%= t('.greeting', receiver_name: @receiver.display_name) %></p>
+    <p>
+      <%= t('.body_html', reviewer_name: @reviewer.display_name, task_title: @task.title, project_url: link_to(@task.project.title, project_url(@task.project.id))).html_safe %>
+    </p>
+  </body>
+</html>

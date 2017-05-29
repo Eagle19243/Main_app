@@ -19,6 +19,14 @@ class MailPreview < MailView
     InvitationMailer.invite_user_for_project(email,user_name,project_id)
   end
 
+  def task_incomplete_email
+    reviewer = User.first
+    receiver = User.first
+    task = Task.first
+
+    NotificationMailer.task_incomplete(reviewer: reviewer, task: task, receiver: receiver)
+  end
+    
   def project_page_text_edited
     editor = User.first
     receiver = User.second
