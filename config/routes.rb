@@ -186,6 +186,17 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :mediawiki do
+        collection do
+          post :page_edited
+        end
+      end
+    end
+  end
+
+
   get 'my_projects', to: 'users#my_projects', as: :my_projects
   root to: 'visitors#landing'
 end

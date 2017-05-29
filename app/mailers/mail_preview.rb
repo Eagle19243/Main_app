@@ -19,4 +19,21 @@ class MailPreview < MailView
     InvitationMailer.invite_user_for_project(email,user_name,project_id)
   end
 
+  def project_page_text_edited
+    editor = User.first
+    receiver = User.second
+    project = Project.first
+
+    ProjectMailer.project_page_text_edited(project_id: project.id, editor_id: editor.id, receiver_id: receiver.id)
+  end
+
+  def project_sub_page_text_edited
+    editor = User.first
+    receiver = User.second
+    project = Project.first
+    sub_page = "Sub Page Title"
+
+    ProjectMailer.project_sub_page_text_edited(project_id: project.id, sub_page: sub_page, editor_id: editor.id, receiver_id: receiver.id)
+  end
+
 end

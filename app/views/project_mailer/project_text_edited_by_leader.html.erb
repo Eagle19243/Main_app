@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" content="text/html" http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p><%= t('.greeting', receiver_display_name: @receiver_display_name) %></p>
+    <p>
+      <%= t('.body_html', project_title: @project_title, receiver_display_name: @receiver_display_name, editor_display_name: @editor_display_name).html_safe %>
+    </p>
+  </body>
+</html>

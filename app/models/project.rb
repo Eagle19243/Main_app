@@ -37,7 +37,7 @@ class Project < ActiveRecord::Base
   SHORT_DESCRIPTION_LIMIT = 250
 
   validates :title, presence: true, length: {minimum: 3, maximum: 60},
-            uniqueness: true
+            uniqueness: {case_sensitive: false}
   validates :wiki_page_name, presence: true, uniqueness: true
   validates :short_description, presence: true, length: {minimum: 3, maximum: SHORT_DESCRIPTION_LIMIT, message: "Has invalid length. Min length is 3, max length is #{SHORT_DESCRIPTION_LIMIT}"}
   accepts_nested_attributes_for :section_details, allow_destroy: true, reject_if: ->(attributes) { attributes['project_id'].blank? && attributes['parent_id'].blank? }
