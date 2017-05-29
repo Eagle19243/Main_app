@@ -197,198 +197,85 @@ class Project < ActiveRecord::Base
   end
 
   # MediaWiki API - Page Read
-  def page_read username
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    begin
-      if username == nil
-        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=read&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      else
-        result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=read&page=#{URI.escape(name)}&user=#{URI.escape(username)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      end
-      parsedResult = JSON.parse(result.body)
-
+  def page_read(username = nil)
+    parsedResult = username.blank? ? get(:read) : get(:read, user: username)
+    return nil if parsedResult.blank?
+    {}.tap do |content|
       if parsedResult["error"]
-        content = Hash.new
         content["status"] = "error"
       else
-        content = Hash.new
         content["revision_id"] = parsedResult["response"]["revision_id"]
         content["non-html"] = parsedResult["response"]["content"]
         content["html"] = parsedResult["response"]["contentHtml"]
         content["is_blocked"] = parsedResult["response"]["is_blocked"]
         content["status"] = "success"
       end
-    rescue
-      return nil
     end
-
-    content
   end
 
   # MediaWiki API - Page Create or Write
-  def page_write user, content
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    begin
-      result = RestClient.post("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=write&page=#{URI.escape(name)}&content=#{content}&format=json", {user: user.username}, {:cookies => Rails.configuration.mediawiki_session})
-    rescue => error
-      Rails.logger.debug "Failed to call Mediawiki api #{error}"
-      return nil
-    end
-    # Return Response Code
-    Rails.logger.debug "Received response from wiki #{result}"
-    JSON.parse(result.body)["response"]["code"]
+  def page_write(user, content)
+    post(:write, { content: content }, user: user.username)
+      .try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Get latest revision
   def get_latest_revision
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    begin
-      # Get history
-      history = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=history&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      latest_revision_id = JSON.parse(history.body)["response"][0]
-
-      # Get the revision content
-      revision = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=revision&page=#{URI.escape(name)}&revision=#{latest_revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-
-      return JSON.parse(revision.body)["response"]["content"]
-    rescue
-      return nil
-    end
+    revision = get_revision(get_history.try(:[], 0))
+    revision.try(:[], 'response').try(:[], 'content')
   end
 
   # MediaWiki API - Get history
   def get_history
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Get history
-    begin
-      history = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=history&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      return JSON.parse(history.body)["response"]
-    rescue
-      return nil
-    end
+    get(:history).try(:[], 'response')
   end
 
   # MediaWiki API - Get revision
-  def get_revision revision_id
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Get revision
-    begin
-      revision = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=revision&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      return JSON.parse(revision.body)["response"]
-    rescue
-      return nil
-    end
+  def get_revision(revision_id)
+    get(:revision, revision: revision_id).try(:[], 'response')
   end
 
   # MediaWiki API - Approve Revision by id
-  def approve_revision revision_id
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Approve
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=approve&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      return JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def approve_revision(revision_id)
+    get(:approve, revision: revision_id).try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Unapprove Revision by id
-  def unapprove_revision revision_id
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Unapprove
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=unapprove&page=#{URI.escape(name)}&revision=#{revision_id}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def unapprove_revision(revision_id)
+    get(:unapprove, revision: revision_id).try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Unapprove approved revision
   def unapprove
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Unapprove
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=unapprove&page=#{URI.escape(name)}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+    get(:unapprove).try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Block user
-  def block_user username
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Block
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=block&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def block_user(username)
+    get(:block, user: username).try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Unblock user
-  def unblock_user username
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Unblock
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=unblock&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def unblock_user(username)
+    get(:unblock, user: username).try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Change page title
-  def rename_page username, old_title
-    return nil unless Rails.configuration.mediawiki_session
-    new_title = set_project_name(self.wiki_page_name, self.title)
-    old_title = old_title.tr(" ", "_")
-
-    # Change page title
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=move&page=#{URI.escape(old_title)}&page_new=#{URI.escape(new_title)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def rename_page(username, old_title)
+    new_title = set_project_name(wiki_page_name, title)
+    old_title = old_title.tr(' ', '_')
+    get(:move, user: username, page: old_title, page_new: new_title)
+      .try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Grant permissions to user
-  def grant_permissions username
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Grant permissions to user
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=grant&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def grant_permissions(username)
+    get(:grant, user: username).try(:[], 'response').try(:[], 'code')
   end
 
   # MediaWiki API - Revoke permissions from user
-  def revoke_permissions username
-    return nil unless Rails.configuration.mediawiki_session
-    name = set_project_name(self.wiki_page_name, self.title)
-    # Revoke permissions from user
-    begin
-      result = RestClient.get("#{Project.load_mediawiki_api_base_url}api.php?action=weserve&method=revoke&page=#{URI.escape(name)}&user=#{username}&format=json", {:cookies => Rails.configuration.mediawiki_session})
-      JSON.parse(result.body)["response"]["code"]
-    rescue
-      return nil
-    end
+  def revoke_permissions(username)
+    get(:revoke, user: username).try(:[], 'response').try(:[], 'code')
   end
 
   private
@@ -397,4 +284,36 @@ class Project < ActiveRecord::Base
     if wiki_page_name.present? then wiki_page_name.tr(" ", "_") else title.strip.tr(" ", "_") end
   end
 
+  def get(action, params)
+    base_request(action, params) do |url, opts|
+      RestClient.get(url, opts)
+    end
+  end
+
+  def post(action, params, data)
+    base_request(action, params) do |url, opts|
+      RestClient.post(url, data, opts)
+    end
+  end
+
+  def base_request(action, params = {})
+    return nil unless Rails.configuration.mediawiki_session
+    params[:action] ||= :weserve
+    params[:method] ||= action
+    params[:format] ||= :json
+    params[:page] ||= set_project_name(wiki_page_name, title)
+
+    base_url = "#{Project.load_mediawiki_api_base_url}api.php?#{to_url(params)}"
+    result = yield base_url,
+                   options.merge(cookies: Rails.configuration.mediawiki_session)
+    Rails.logger.debug "Received response from wiki #{result}"
+    JSON.parse(result.body)
+  rescue => error
+    Rails.logger.debug "Failed to call Mediawiki api #{error}"
+    nil
+  end
+
+  def to_url(params)
+    URI.escape(params.collect { |k, v| "#{k}=#{v}" }.join('&')) if params
+  end
 end
