@@ -324,7 +324,6 @@ class ProjectsController < ApplicationController
   end
 
   def revision_action
-
     authorize! :revision_action, @project
 
     if params[:type] == 'approve'
