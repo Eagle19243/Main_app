@@ -14,7 +14,6 @@ class Task < ActiveRecord::Base
   has_many :task_comments, dependent: :delete_all
   has_many :assignments, dependent: :delete_all
   has_many :do_requests, dependent: :delete_all
-  has_many :donations, dependent: :delete_all
   has_many :task_attachments, dependent: :delete_all
   has_many :team_memberships, through: :task_members, dependent: :destroy
   has_many :task_members

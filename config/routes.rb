@@ -82,8 +82,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :donations
-
   resources :do_for_frees do
     member do
       get :accept, :reject

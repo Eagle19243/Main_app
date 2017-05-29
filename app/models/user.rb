@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
   has_many :do_requests, dependent: :delete_all
   has_many :do_for_frees
   has_many :assignments, dependent: :delete_all
-  has_many :donations
   has_many :proj_admins, dependent: :delete_all
 
   has_many :groupmembers, dependent: :destroy
@@ -70,6 +69,10 @@ class User < ActiveRecord::Base
   scope :name_like, -> (display_name) { where("username ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{display_name}%", "%#{display_name}%")}
   scope :not_hidden, -> { where(hidden: false) }
 
+  def funded_projects_count
+    stripe_payments.joins(:task).pluck('tasks.project_id').uniq.count
+  end
+
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
@@ -110,10 +113,6 @@ class User < ActiveRecord::Base
 
   def completed_tasks_count
     assignments.completed.count
-  end
-
-  def funded_projects_count
-    donations.joins(:task).pluck('tasks.project_id').uniq.count
   end
 
   def get_users_projects_and_team_projects
