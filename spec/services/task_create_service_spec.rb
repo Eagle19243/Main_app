@@ -72,7 +72,6 @@ RSpec.describe TaskCreateService do
     expect(user.is_teammate_for?(project)).to be true
   end
 
-
   it "returns false if task's budget is less than a minimum" do
     task_attributes.merge!(
       state: "accepted",
