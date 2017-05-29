@@ -438,7 +438,7 @@
     </div>
 
     <span class="modal-invite__or">OR</span>
-    <div class="modal-default__text" id="response"></div>
+    <div class="modal-default__text modal-share__response" id="response"></div>
     <%= form_tag(tasks_send_email_path, remote: true, id: 'send-task-email', :class => 'invite-email-wrapper mb30') do %>
         <input type="hidden" name="task_id" value="<%= @task.id rescue nil %>">
         <div class="f-default__joined">

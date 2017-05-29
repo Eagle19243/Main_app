@@ -22,6 +22,9 @@ div.modal-invite { // todo FD: remove div : now I need this because of huge amou
     display: block;
     margin: 20px 0;
   }
+  &__response {
+    color: green;
+  }
   .btn-root {
     white-space: nowrap;
   }
