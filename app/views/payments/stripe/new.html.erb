@@ -33,9 +33,9 @@
 
  <!--If You want a new page for card payment then use  <%#= card_payment_project_task_path %> in action instead of / on popup
  i call JQuery function to fill the action path  -->
-<%#= card_payment_project_task_path %>
+<!-- <%#= card_payment_project_task_path %> -->
 
-<form id="payment-form">
+<form id="payment-form" class="card-payment">
 
   <input type="hidden" class="payment-form__amount js-amount" name="amount"/>
 
@@ -47,7 +47,7 @@
       <!-- Available cards are disabled for now due to errors in JS -->
       <!-- If you want to uncomment it, then do not forget about -->
       <!-- lines below with 'Save' checkbox -->
-      <% if false && @available_credit_cards.present? %>
+      <% if @available_credit_cards.present? %>
         <label class="f-default__label">Saved Cards:</label>
         <br>
       <div class="f-default__row">
@@ -102,13 +102,13 @@
         <!-- Available cards are disabled for now due to errors in JS -->
         <!-- If you want to uncomment it, then do not forget about -->
         <!-- lines above with saved cards rendering -->
-        <!-- <div class="f&#45;default__row _flex"> -->
-        <!--   <label class="f&#45;default__checkbox&#45;label"> -->
-        <!--     <input class="f&#45;default__checkbox&#45;field payment&#45;form__save&#45;card" name="save_card" type="checkbox" value="1"/> -->
-        <!--     <span class="f&#45;default__checkbox&#45;pseudo"></span> -->
-        <!--     <span class="f&#45;default__checkbox&#45;text">Save this card</span> -->
-        <!--   </label> -->
-        <!-- </div> -->
+        <div class="f&#45;default__row _flex">
+          <label class="f&#45;default__checkbox&#45;label">
+            <input class="f&#45;default__checkbox&#45;field payment&#45;form__save&#45;card" name="save_card" type="checkbox" value="1"/>
+            <span class="f&#45;default__checkbox&#45;pseudo"></span>
+            <span class="f&#45;default__checkbox&#45;text">Save this card</span>
+          </label>
+        </div>
       </div>
 
         <!--Commented this may be we use this in future -->

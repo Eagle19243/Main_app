@@ -212,11 +212,11 @@ class ProjectsController < ApplicationController
       session[:email_failure] = nil
     end
 
-    @available_credit_cards = Payments::StripeSources.new.call(user: current_user) if current_user
     @comments, @proj_admins_ids = @project.project_comments.all, @project.proj_admins.ids
     @current_user_id, @rate, @followed = 0, 0, false
 
     if user_signed_in?
+      @available_credit_cards = Payments::StripeSources.new.call(user: current_user)
       @followed = @project.project_users.pluck(:user_id).include? current_user.id
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i

@@ -193,7 +193,6 @@ var ModalsModule = (function () {
             })
             .on('click.closeModalByCloseBtn', '.modal-default__close, [data-modal-close]', function (e) {
                 var hideModal = true;
-
                 $(this).closest('.modal-default').fadeOut(400, function() {
                     $('.modal-default').each(function(index, element) {
                         if ($(element).is(':visible')) {

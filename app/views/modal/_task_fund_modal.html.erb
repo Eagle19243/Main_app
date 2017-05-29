@@ -247,7 +247,13 @@
                 $donateBtn.addClass('_disable');
                 if ($creditCardTab.hasClass('_active')) {
                     setTimeout(function() {
+                      if ($('#payment-form-stripe-no-submit').length > 0) {
+                        sendCreditCardDonate(null);
+                      }
+                      else if ($('#payment-form').length > 0) {
                         createStripeToken();
+                      }
+
                     }, 0);
                 } else {
                     sendBitcoinDonate();
@@ -261,23 +267,23 @@
         }
 
         function sendCreditCardDonate(token) {
-            $.ajax({
-                url: $('#payment-form').attr('action'),
-                method: 'POST',
-                data: {
-                    stripeToken: token,
-                    amount: $('.payment-form__amount').val(),
-                    card_id: $('.available-cards-radio-button').val(),
-                    save_card: $('.payment-form__save-card').val(),
-                    method: $('.payment-form__method').val()
-                }
-            })
-            .success(function(res) {
-                handleSuccess(res);
-            })
-            .error(function(error) {
-                handleError(error);
-            })
+          $.ajax({
+              url: $('form.card-payment').attr('action'),
+              method: 'POST',
+              data: {
+                  stripeToken: token,
+                  amount: $('.payment-form__amount').val(),
+                  card_id: $('input.available-cards-radio-button[name=card_id]:checked').val(),
+                  save_card: $('.payment-form__save-card').val(),
+                  method: $('.payment-form__method').val()
+              }
+          })
+          .success(function(res) {
+              handleSuccess(res);
+          })
+          .error(function(error) {
+              handleError(error);
+          })
         }
 
         function sendBitcoinDonate() {
@@ -300,13 +306,16 @@
         function handleSuccess(response) {
             $walletTransactionAmount.val('');
             $('.btn-root._donate').addClass('_disable');
+            $errorFundModal.addClass('success-fund-transfer')
             $errorFundModal.find('.error-fund-modal__message').text(response.success);
             $errorFundModal.find('.error-fund-modal__title').removeClass('_error').addClass('_success').text('Success!');
             showFundModal();
+            onCloseSuccessMessage();
         }
 
         function handleError(response) {
             $('.btn-root._donate').removeClass('_disable');
+            $errorFundModal.removeClass('success-fund-transfer');
             $errorFundModal.find('.error-fund-modal__message').text(response.responseJSON.error);
             $errorFundModal.find('.error-fund-modal__title').removeClass('_success').addClass('_error').text('Error');
             showFundModal();
@@ -315,6 +324,12 @@
         function showFundModal() {
             $errorFundModal.fadeIn();
             $('html').addClass('_open-modal');
+        }
+
+        function onCloseSuccessMessage() {
+          $('.success-fund-transfer').click('.modal-default__close', function () {
+            $('#taskFundModal').fadeOut();
+          })
         }
 
         function updateConversion(event) {
