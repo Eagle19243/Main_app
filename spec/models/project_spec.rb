@@ -63,4 +63,133 @@ RSpec.describe Project, type: :model do
       expect(project.reload.interested_users).to contain_exactly(only_follower, follower_and_member, leader)
     end
   end
+
+  describe 'MediaWiki API actions', focus: true do
+    let(:project) { create(:project, wiki_page_name: 'test') }
+
+    describe '.page_read', vcr: { cassette_name: 'mediawiki/page_read' } do
+      subject { project.page_read }
+
+      context 'without username' do
+        it 'returns a success result' do
+          expect(subject['status']).to eq 'success'
+          expect(subject['revision_id']).to eq 72
+          expect(subject['non-html']).to eq 'hello'
+          expect(subject['html']).to eq "<p>hello\n</p>"
+          expect(subject['is_blocked']).to eq 0
+        end
+      end
+
+      context 'with username' do
+        subject { project.page_read('homer') }
+        it 'returns a success result' do
+          expect(subject['status']).to eq 'success'
+          expect(subject['revision_id']).to eq 72
+          expect(subject['non-html']).to eq 'hello'
+          expect(subject['html']).to eq "<p>hello\n</p>"
+          expect(subject['is_blocked']).to eq 0
+        end
+      end
+
+      context 'unknown page' do
+        let(:project) { create(:project, wiki_page_name: 'unknown page') }
+        it { expect(subject['status']).to eq 'error' }
+      end
+    end
+
+    describe '.page_write', vcr: { cassette_name: 'mediawiki/page_write' } do
+      let(:user) { create(:user, username: 'homer') }
+      subject { project.page_write(user, 'a test') }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.get_latest_revision',
+             vcr: { cassette_name: 'mediawiki/get_latest_revision' } do
+      subject { project.get_latest_revision }
+
+      it { is_expected.to eq 'a test' }
+    end
+
+    describe '.get_history',
+             vcr: { cassette_name: 'mediawiki/get_latest_revision' } do
+      subject { project.get_history }
+
+      it 'returns an array with revisions' do
+        expect(subject).not_to be_nil
+        expect(subject.count).to eq 5
+      end
+    end
+
+    describe '.get_revision',
+             vcr: { cassette_name: 'mediawiki/get_latest_revision' } do
+      subject { project.get_revision(627) }
+
+      it 'returns the specific revision' do
+        expect(subject['parent_id']).to eq 586
+        expect(subject['author']).to eq 'Homer'
+        expect(subject['timestamp']).to eq '1496099755'
+        expect(subject['comment']).to eq ''
+        expect(subject['diff']).to eq(-3)
+        expect(subject['content']).to eq 'a test'
+        expect(subject['status']).to eq 'unknown'
+      end
+    end
+
+    describe '.approve_revision',
+             vcr: { cassette_name: 'mediawiki/approve_revision' } do
+      subject { project.approve_revision(627) }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.unapprove_revision',
+             vcr: { cassette_name: 'mediawiki/unapprove_revision' } do
+      subject { project.unapprove_revision(627) }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.unapprove', vcr: { cassette_name: 'mediawiki/unapprove' } do
+      subject { project.unapprove }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.block_user',
+             vcr: { cassette_name: 'mediawiki/block_user' } do
+      subject { project.block_user('homer') }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.unblock_user',
+             vcr: { cassette_name: 'mediawiki/unblock_user' } do
+      subject { project.unblock_user('homer') }
+
+      it { is_expected.to eq 201 }
+    end
+
+    describe '.rename_page',
+             vcr: { cassette_name: 'mediawiki/rename_page' } do
+      let(:project) { create(:project, wiki_page_name: 'New Test') }
+      subject { project.rename_page('homer', 'Test') }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.grant_permissions',
+             vcr: { cassette_name: 'mediawiki/grant_permissions' } do
+      subject { project.grant_permissions('homer') }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.revoke_permissions',
+             vcr: { cassette_name: 'mediawiki/revoke_permissions' } do
+      subject { project.revoke_permissions('homer') }
+
+      it { is_expected.to eq 200 }
+    end
+  end
 end

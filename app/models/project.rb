@@ -221,8 +221,8 @@ class Project < ActiveRecord::Base
 
   # MediaWiki API - Get latest revision
   def get_latest_revision
-    revision = get_revision(get_history.try(:[], 0))
-    revision.try(:[], 'response').try(:[], 'content')
+    revision = get_revision(get_history.try(:[], 0).try(:[], 'id'))
+    revision.try(:[], 'content')
   end
 
   # MediaWiki API - Get history
@@ -284,13 +284,13 @@ class Project < ActiveRecord::Base
     if wiki_page_name.present? then wiki_page_name.tr(" ", "_") else title.strip.tr(" ", "_") end
   end
 
-  def get(action, params)
+  def get(action, params = {})
     base_request(action, params) do |url, opts|
       RestClient.get(url, opts)
     end
   end
 
-  def post(action, params, data)
+  def post(action, params = {}, data = {})
     base_request(action, params) do |url, opts|
       RestClient.post(url, data, opts)
     end
@@ -304,8 +304,8 @@ class Project < ActiveRecord::Base
     params[:page] ||= set_project_name(wiki_page_name, title)
 
     base_url = "#{Project.load_mediawiki_api_base_url}api.php?#{to_url(params)}"
-    result = yield base_url,
-                   options.merge(cookies: Rails.configuration.mediawiki_session)
+    Rails.logger.debug "request to wiki: #{base_url}"
+    result = yield base_url, cookies: Rails.configuration.mediawiki_session
     Rails.logger.debug "Received response from wiki #{result}"
     JSON.parse(result.body)
   rescue => error
