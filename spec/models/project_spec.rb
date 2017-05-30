@@ -64,7 +64,7 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  describe 'MediaWiki API actions', vcr: { cassette_name: 'mediawiki' }, focus: true do
+  describe 'MediaWiki API actions', vcr: { cassette_name: 'mediawiki' } do
     let(:project) { create(:project, wiki_page_name: 'test') }
 
     describe '.page_read' do
@@ -178,6 +178,18 @@ RSpec.describe Project, type: :model do
 
     describe '.revoke_permissions' do
       subject { project.revoke_permissions('homer') }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.archive' do
+      subject { project.archive('homer') }
+
+      it { is_expected.to eq 200 }
+    end
+
+    describe '.unarchive' do
+      subject { project.unarchive('homer') }
 
       it { is_expected.to eq 200 }
     end

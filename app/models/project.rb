@@ -278,6 +278,16 @@ class Project < ActiveRecord::Base
     get(:revoke, user: username).try(:[], 'response').try(:[], 'code')
   end
 
+  # MediaWiki API - archive (safe delete) a page
+  def archive(username)
+    get(:delete, user: username).try(:[], 'response').try(:[], 'code')
+  end
+
+  # MediaWiki API - un-archive (restore) a page
+  def unarchive(username)
+    get(:restore, user: username).try(:[], 'response').try(:[], 'code')
+  end
+
   private
 
   def set_project_name(wiki_page_name, title)
