@@ -621,12 +621,14 @@ class ProjectsController < ApplicationController
   def destroy
     authorize! :destroy, @project
 
-    @project.destroy
-    respond_to do |format|
+    if @project.destroy
+      @project.archive(current_user.username)
       activity = current_user.create_activity(@project, 'deleted')
       activity.user_id = current_user.id
-      format.html { redirect_to :my_projects, notice: t('.success') }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to :my_projects, notice: t('.success') }
+        format.json { head :no_content }
+      end
     end
   end
 
