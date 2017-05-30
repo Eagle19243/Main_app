@@ -44,6 +44,8 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :project_edits, :reject_if => :all_blank, :allow_destroy => true
 
+  after_restore :unarchive
+
   aasm column: 'state', whiny_transitions: false do
     state :pending
     state :accepted
@@ -284,7 +286,7 @@ class Project < ActiveRecord::Base
   end
 
   # MediaWiki API - un-archive (restore) a page
-  def unarchive(username)
+  def unarchive(username = User.current_user)
     get(:restore, user: username).try(:[], 'response').try(:[], 'code')
   end
 
