@@ -20,7 +20,7 @@ class TaskCreateService
       if task.save
         user.create_activity(task, 'created')
         # Suggesting a task adds user to teammates
-        TeamService.add_team_member(task.project.team, user, "teammate")
+        TeamService.add_team_member(task.project.team, user, "teammate") unless task.project.team.team_members.include? user
         true
       else
         false
