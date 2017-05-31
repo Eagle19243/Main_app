@@ -76,7 +76,7 @@ class Ability
         user.is_project_leader?(project) || user.is_coordinator_for?(project)
       end
 
-      can [:archived, :update], Project if user.admin?
+      can [:archived, :update, :revisions, :revision_action, :block_user, :unblock_user, :switch_approval_status], Project if user.admin?
       can :destroy, Project, :user_id => user.id
     end
   end

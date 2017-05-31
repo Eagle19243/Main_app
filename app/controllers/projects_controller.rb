@@ -212,14 +212,11 @@ class ProjectsController < ApplicationController
       session[:email_failure] = nil
     end
 
-    @available_credit_cards = Payments::StripeSources.new.call(user: current_user) if current_user
-    @comments = @project.project_comments.all
-    @proj_admins_ids = @project.proj_admins.ids
-    @current_user_id = 0
-    @followed = false
-    @rate = 0
+    @comments, @proj_admins_ids = @project.project_comments.all, @project.proj_admins.ids
+    @current_user_id, @rate, @followed = 0, 0, false
 
     if user_signed_in?
+      @available_credit_cards = Payments::StripeSources.new.call(user: current_user)
       @followed = @project.project_users.pluck(:user_id).include? current_user.id
       @current_user_id = current_user.id
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
@@ -327,7 +324,6 @@ class ProjectsController < ApplicationController
   end
 
   def revision_action
-
     authorize! :revision_action, @project
 
     if params[:type] == 'approve'
@@ -435,8 +431,7 @@ class ProjectsController < ApplicationController
 
         @project_team = @project.create_team(name: "Team#{@project.id}")
         TeamMembership.create(team_member_id: current_user.id, team_id: @project_team.id, role: 1 )
-        activity = current_user.create_activity(@project, 'created')
-        # activity.user_id = current_user.id
+        current_user.create_activity(@project, 'created')
         Chatroom.create_chatroom_with_groupmembers([current_user], 1, @project)
         format.html { redirect_to @project, notice: t('.request_sent') }
         format.json { render json: {id: @project.id, status: 200, responseText: t('.success')} }
@@ -615,7 +610,7 @@ class ProjectsController < ApplicationController
 
   def write_to_mediawiki
     if @project.page_write current_user, params[:data]
-      result = @project.page_read nil
+      @project.page_read nil
     end
 
     respond_to do |format|
@@ -713,6 +708,6 @@ class ProjectsController < ApplicationController
 
   # Fitler wiki page name regarding page title
   def filter_page_name title
-    title.gsub("&", " ").gsub("#", " ").gsub("[", " ").gsub("]", " ").gsub("|", " ").gsub("{", " ").gsub("}", " ").gsub("<", " ").gsub(">", " ").strip
+    title.tr("&#[]{}<>", " ").strip
   end
 end

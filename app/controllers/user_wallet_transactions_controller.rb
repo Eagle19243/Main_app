@@ -41,6 +41,10 @@ class UserWalletTransactionsController < ApplicationController
         receiver: user
       ).deliver_later if task.fully_funded?
     end
+
+    # Funding a task adds user to teammates
+    TeamService.add_team_member(task.project.team, current_user, "teammate")
+
     render json: { success: t('.success', amount: params[:amount]) }, status: 200
   rescue Payments::BTC::Errors::GeneralError => error
     ErrorHandlerService.call(error)

@@ -42,7 +42,10 @@ RSpec.describe UserWalletTransactionsController do
             Payments::BTC::FundTask
           ).to receive(:submit!) { raise Payments::BTC::Errors::TransferError, 'Some Error' }
 
+          expect(user.is_teammate_for?(project)).to eq(false)
           post :send_to_task_address, amount: 20, task_id: task.id, format: 'json'
+
+          expect(user.is_teammate_for?(project)).to eq(false)
 
           aggregate_failures("json is correct") do
             expect(response.status).to eq(500)
@@ -104,9 +107,6 @@ RSpec.describe UserWalletTransactionsController do
           allow(message_delivery).to receive(:deliver_later)
           allow_any_instance_of(Payments::BTC::FundTask).to receive(:submit!) { true }
 
-          project_team = task.project.create_team(name: "Team#{task.id}")
-          TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
-
           task.project.followers << only_follower
           task.project.followers << follower_and_member
           task.project.save!
@@ -121,6 +121,13 @@ RSpec.describe UserWalletTransactionsController do
               success: "20 BTC has been successfully sent to task's balance"
             )
           end
+        end
+
+        it 'makes the founding user a project team member' do
+          expect(user.is_teammate_for?(project)).to eq(false)
+          post :send_to_task_address, task_id: task.id, amount: 20, format: 'json'
+
+          expect(user.is_teammate_for?(project)).to eq(true)
         end
 
         context 'when the task is not fully funded' do

@@ -23,7 +23,7 @@ RSpec.describe TaskCreateService do
     expect(service.task.wallet).to be_nil
     expect(service.task).to be_accepted
     expect(service.task.project).to eq(project)
-    expect(service.task.target_number_of_participants).to eq(task_attributes[:target_number_of_participants].to_i)
+    expect(service.task.target_number_of_participants).to eq(1)
   end
 
   it "performs suggested task creation when valid parameters are given" do
@@ -63,6 +63,13 @@ RSpec.describe TaskCreateService do
     expect(service.task.project).to eq(project)
     expect(service.task.target_number_of_participants).to eq(1)
     expect(service2.task.target_number_of_participants).to eq(1)
+  end
+
+  it "makes the user a teammember of a project after he suggests a task" do 
+    expect(user.is_teammate_for?(project)).to be false
+    service = described_class.new(task_attributes, user, project)
+    expect(service.create_task).to be true 
+    expect(user.is_teammate_for?(project)).to be true
   end
 
   it "returns false if task's budget is less than a minimum" do

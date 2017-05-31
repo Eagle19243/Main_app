@@ -475,11 +475,6 @@ GEM
     parser (2.3.1.4)
       ast (~> 2.2)
     path_expander (1.0.0)
-    paypal-sdk-adaptivepayments (1.117.1)
-      paypal-sdk-core (~> 0.3.0)
-    paypal-sdk-core (0.3.4)
-      multi_json (~> 1.0)
-      xml-simple
     pg (0.19.0)
     poltergeist (1.12.0)
       capybara (~> 2.1)
@@ -803,7 +798,6 @@ DEPENDENCIES
   omniauth-twitter
   omnicontacts
   paranoia (~> 2.0)
-  paypal-sdk-adaptivepayments
   pg
   poltergeist
   pp-adaptive
@@ -848,4 +842,4 @@ DEPENDENCIES
   zeroclipboard-rails
 
 BUNDLED WITH
-   1.14.3
+   1.14.6

@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
   has_many :do_requests, dependent: :delete_all
   has_many :do_for_frees
   has_many :assignments, dependent: :delete_all
-  has_many :donations
   has_many :proj_admins, dependent: :delete_all
 
   has_many :groupmembers, dependent: :destroy
@@ -51,7 +50,8 @@ class User < ActiveRecord::Base
 
   validate :validate_username_unchange
   validates :username, presence: true, uniqueness: true
-  validates :phone_number, length: { maximum: 15 }
+  validates :phone_number, length: { minimum: 5, maximum: 15 }, allow_blank: true
+  validates_format_of :phone_number, with: /\A\+?[0-9]*\z/
 
   # Ref: https://github.com/plataformatec/devise/blob/88724e10adaf9ffd1d8dbfbaadda2b9d40de756a/lib/devise/models/validatable.rb
   # Validate everything as using `devise :validatable`
@@ -68,6 +68,10 @@ class User < ActiveRecord::Base
 
   scope :name_like, -> (display_name) { where("username ILIKE ? OR CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{display_name}%", "%#{display_name}%")}
   scope :not_hidden, -> { where(hidden: false) }
+
+  def funded_projects_count
+    stripe_payments.joins(:task).pluck('tasks.project_id').uniq.count
+  end
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
@@ -109,10 +113,6 @@ class User < ActiveRecord::Base
 
   def completed_tasks_count
     assignments.completed.count
-  end
-
-  def funded_projects_count
-    donations.joins(:task).pluck('tasks.project_id').uniq.count
   end
 
   def get_users_projects_and_team_projects
@@ -323,6 +323,16 @@ class User < ActiveRecord::Base
   def is_task_team_member?(task)
     task_memberships = task.project.team.team_memberships
     task_memberships.collect(&:team_member_id).include? self.id
+  end
+
+  # Returns true if users are teammates in any project (or when compared to self)
+  # Used for displaying contact info
+  def is_teammate_with?(user)
+    return true if self == user
+    teams.each do |team|
+      return true if (team.project.team_members.include? self) && (team.project.team_members.include? user)
+    end
+    return false
   end
 
   def can_apply_as_admin?(project)

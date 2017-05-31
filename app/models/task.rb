@@ -14,7 +14,6 @@ class Task < ActiveRecord::Base
   has_many :task_comments, dependent: :delete_all
   has_many :assignments, dependent: :delete_all
   has_many :do_requests, dependent: :delete_all
-  has_many :donations, dependent: :delete_all
   has_many :task_attachments, dependent: :delete_all
   has_many :team_memberships, through: :task_members, dependent: :destroy
   has_many :task_members
@@ -65,7 +64,8 @@ class Task < ActiveRecord::Base
   validates :satoshi_budget, presence: true
   validates :budget, presence: true, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }
   validates :deadline, presence: true
-  validates :target_number_of_participants, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :number_of_participants, numericality: { only_integer: true, less_than_or_equal_to: 1 }
+  validates :target_number_of_participants, presence: true, numericality: { only_integer: true, equal_to: 1 }
 
   # TODO In future it would be a good idea to extract this into the Search object
   def self.fulltext_search(free_text, limit=10)

@@ -18,10 +18,10 @@
         <!--<input type="number" class="f-default__field numeric integer" required>-->
         <input type="number" id="wallet_transaction_amount" name="amount" class="f-default__field numeric integer _min-donation" step="0.001" min="<%= min_transfer_amount_in_btc %>" required="true" placeholder=''/>
 
-        <div class="f-transaction__btc">BTC</div>
+        <div class="f-transaction__btc">฿</div>
       </label>
       <div class="f-transaction__info">
-        <%= t('commons.available') %>: <span class="js-btc-value"><%= satoshi_balance_in_btc(@wallet_balance) %></span> BTC
+        <%= t('commons.available') %>: <span class="js-btc-value"><%= satoshi_balance_in_btc(@wallet_balance) %></span> ฿
       </div>
     </div>
     <div class="f-default__row">

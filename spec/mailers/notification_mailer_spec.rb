@@ -219,4 +219,29 @@ RSpec.describe NotificationMailer, type: :mailer do
       expect(CGI.unescapeHTML(email.body.to_s)).to include("#{admin.display_name} has reviewed and approved task #{task.title} of project #{link_to project.title, project_url(project.id)}")
     end
   end
+
+  describe '#task_incomplete' do
+    subject(:email) { described_class.task_incomplete(task: task, receiver: leader, reviewer: admin).deliver_now }
+    let(:user) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
+    let(:project) { FactoryGirl.create(:project, user: leader) }
+    let(:leader) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
+    let(:task) { FactoryGirl.create(:task, user: user, project: project, state: 'pending') }
+    let(:admin) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(leader.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('notification_mailer.task_incomplete.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("#{admin.display_name} has reviewed and rejected task #{task.title} of project #{link_to project.title, project_url(project.id)}")
+    end
+  end
 end

@@ -1,0 +1,14 @@
+en:
+  project_mailer:
+    project_text_edited_by_leader:
+      subject: "Project has been edited"
+      greeting: "Dear %{receiver_display_name},"
+      body_html: "%{editor_display_name} edited project %{project_title}."
+    project_text_submitted_for_approval:
+      subject: "Project has been edited"
+      greeting: "Dear %{receiver_display_name},"
+      body_html: "%{editor_display_name} proposed an edited to project %{project_title}."
+    project_text_edited:
+      subject: "Project has been edited"
+      greeting: "Dear %{receiver_display_name},"
+      body_html: "%{editor_display_name} edited project %{project_title}."

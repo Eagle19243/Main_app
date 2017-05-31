@@ -9,6 +9,7 @@ class Payments::StripeController < ApplicationController
 
   def create
     task = Task.find(params[:id])
+
     transfer = Payments::BTC::FundTaskFromReserveWallet.new(
       task:         task,
       user:         current_user,
@@ -17,6 +18,7 @@ class Payments::StripeController < ApplicationController
       card_id:      params[:card_id],
       save_card:    params[:save_card]
     )
+
     transfer.submit!
 
     task.project.interested_users.each do |user|
@@ -34,6 +36,9 @@ class Payments::StripeController < ApplicationController
         receiver: user
       ).deliver_later if task.fully_funded?
     end
+
+    # Funding a task adds user to teammates
+    TeamService.add_team_member(task.project.team, current_user, 'teammate')
 
     render json: { success: t('controllers.payments.thanks_you') }, status: 200
   rescue Payments::BTC::Errors::GeneralError => error

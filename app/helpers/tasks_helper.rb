@@ -17,6 +17,9 @@ module TasksHelper
       if (activity.action == "edited")
         return ("This task was edited by")
       end
+      if (activity.action == "incomplete")
+        return ("This task was reviewed and rejected by")
+      end
     end
     if(activity.targetable_type == "TaskComment")
       return ("This task was commented by")

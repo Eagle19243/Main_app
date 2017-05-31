@@ -25,7 +25,7 @@ en:
     completed:
       task_completed: "Task was successfully completed"
     incomplete:
-      task_incompleted: "Task was successfully mark as incompleted"
+      task_incompleted: "You have reviewed and rejected task %{task_title} of project %{project_title}"
     send_email:
       task_link_sent: "Task link has been sent to %{email}"
     validate_team_member:

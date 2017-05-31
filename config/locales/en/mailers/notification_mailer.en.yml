@@ -46,3 +46,7 @@ en:
       subject: "Task has been completed"
       greeting: "Dear %{receiver_name},"
       body_html: "%{reviewer_name} has reviewed and approved task %{task_title} of project %{project_url}."
+    task_incomplete:
+      subject: "Finished task rejected"
+      greeting: "Dear %{receiver_name},"
+      body_html: "%{reviewer_name} has reviewed and rejected task %{task_title} of project %{project_url}."

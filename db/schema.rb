@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518133308) do
+ActiveRecord::Schema.define(version: 20170526084718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,20 +162,6 @@ ActiveRecord::Schema.define(version: 20170518133308) do
   end
 
   add_index "do_requests", ["task_id", "user_id"], name: "index_do_requests_on_task_id_and_user_id", using: :btree
-
-  create_table "donations", force: :cascade do |t|
-    t.decimal  "amount"
-    t.integer  "task_id"
-    t.integer  "user_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.string   "paypal_email"
-    t.text     "notification_params"
-    t.string   "status"
-    t.string   "transaction_id"
-    t.datetime "completed_at"
-    t.string   "PAYKEY"
-  end
 
   create_table "generate_addresses", force: :cascade do |t|
     t.string   "sender_address"

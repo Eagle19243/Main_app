@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Payments::StripeController do
   render_views
 
-  let(:task) { FactoryGirl.create(:task, :with_associations, :with_wallet) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:task) { FactoryGirl.create(:task, :with_associations, :with_wallet, project_id: project.id) }
   let(:user) { task.user }
-  let(:project) { task.project }
 
   before do
     stub_env('reserve_wallet_id', '30a21ed2-4f04-57ae-9d21-becb751138f4')
@@ -116,6 +116,13 @@ RSpec.describe Payments::StripeController do
               end
             end
 
+            it 'doesn\'t make the user a team member' do
+              expect(user.is_teammate_for?(project)).to eq(false)
+              make_request
+
+              expect(user.is_teammate_for?(project)).to eq(false)
+            end
+
           end
 
           context 'when a new card is entered without persisting it' do
@@ -195,9 +202,6 @@ RSpec.describe Payments::StripeController do
                 allow(PaymentMailer).to receive(:fund_task).and_return(message_delivery)
                 allow(message_delivery).to receive(:deliver_later)
 
-                project_team = task.project.create_team(name: "Team#{task.id}")
-                TeamMembership.create!(team_member: follower_and_member, team_id: project_team.id, role: 0)
-
                 task.project.followers << only_follower
                 task.project.followers << follower_and_member
                 task.project.save!
@@ -212,6 +216,13 @@ RSpec.describe Payments::StripeController do
                     success: 'Thanks for your payment'
                   )
                 end
+              end
+
+              it 'makes the founding user a project team member' do
+                expect(user.is_teammate_for?(project)).to eq(false)
+                make_request
+
+                expect(user.is_teammate_for?(project)).to eq(true)
               end
 
               it 'initializes the stripe payment service with the correct arguments' do

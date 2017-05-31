@@ -7,7 +7,7 @@ class TaskCreateService
     raise ArgumentError, "Incorrect argument type" unless project.is_a?(Project)
 
     @task = project.tasks.new(task_params.merge(user_id: user.id))
-    @task.target_number_of_participants = 1 if !@task.target_number_of_participants || @task.target_number_of_participants < 1
+    @task.target_number_of_participants = 1
     @user = user
     @project = project
   end
@@ -19,6 +19,8 @@ class TaskCreateService
     ActiveRecord::Base.transaction do
       if task.save
         user.create_activity(task, 'created')
+        # Suggesting a task adds user to teammates
+        TeamService.add_team_member(task.project.team, user, "teammate")
         true
       else
         false

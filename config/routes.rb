@@ -82,8 +82,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :donations
-
   resources :do_for_frees do
     member do
       get :accept, :reject
@@ -176,7 +174,6 @@ Rails.application.routes.draw do
   get '/pages/terms_of_use'
 
   devise_for :users, controllers: {
-    passwords: 'passwords',
     sessions: 'sessions',
     registrations: 'registrations',
     omniauth_callbacks: 'omniauth_callbacks',
@@ -188,6 +185,17 @@ Rails.application.routes.draw do
      get  :my_wallet
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :mediawiki do
+        collection do
+          post :page_edited
+        end
+      end
+    end
+  end
+
 
   get 'my_projects', to: 'users#my_projects', as: :my_projects
   root to: 'visitors#landing'
