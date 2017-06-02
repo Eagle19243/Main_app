@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :picture, :email, :password, :bio,
     :city, :state, :phone_number, :bio, :facebook_url, :twitter_url, :skype_id, :facebook_id, :linkedin_id, :twitter_id,
     :picture_crop_x, :picture_crop_y, :picture_crop_w, :picture_crop_h,
-    :linkedin_url, :picture_cache, :background_picture)
+    :linkedin_url, :picture_cache, :background_picture, :preferred_language)
   end
 
   def secure_params
