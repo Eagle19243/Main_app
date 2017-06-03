@@ -19,8 +19,15 @@ class TaskCreateService
     ActiveRecord::Base.transaction do
       if task.save
         user.create_activity(task, 'created')
+        # There are old projects with no team and creating a task adds user to the team, so a team need to be created
+        unless task.project.team
+          @project_team = task.project.create_team(name: "Team#{task.project.id}")
+          TeamMembership.create(team_member_id: task.project.user.id, team_id: @project_team.id, role: 1 )
+          task.project.user.create_activity(task.project, 'created')
+          Chatroom.create_chatroom_with_groupmembers([task.project.user], 1, task.project)
+        end
         # Suggesting a task adds user to teammates
-        TeamService.add_team_member(task.project.team, user, "teammate")
+        TeamService.add_team_member(task.project.team, user, "teammate") unless task.project.team.team_members.include? user
         true
       else
         false
