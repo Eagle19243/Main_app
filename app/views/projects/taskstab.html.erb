@@ -111,6 +111,11 @@
                     <% end %>
                 <% end %>
             <% end %>
+            <% if @is_blocked == 0 %>
+              <% if can? :revisions, @project %>
+                <a class="btn-root" id="editSource"><%= t('.review_contribution') %></a>
+              <% end %>
+            <% end %>
             <% if !user_signed_in? %>
                 <button type="button" class="btn-root sign_up_a" data-modal="#registerModal">Get involved</button>
             <% elsif !current_user.is_admin_for?(@project) %>

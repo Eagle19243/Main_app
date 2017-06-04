@@ -32,13 +32,14 @@
   }
 
   a.btn-edit {
-    background-color: rgba(0, 0, 0, 0.3);
-    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 16px;
     text-decoration: none;
     position: absolute;
     z-index: 1;
-    bottom: 0;
-    left: 0;
+    right: 0;
+    top: 0;
+    border-bottom-left-radius: 5px;
     color: #fff;
     padding: 5px 15px;
     font-family: 'Roboto', sans-serif;
@@ -55,11 +56,8 @@
     text-align: center;
     max-width: 720px;
     margin: -100px auto 0;
-    background-color: #fff;
     height: 100%;
-    border: 1px solid gray;
-    border-radius: 10px;
-    padding: 20px;
+    padding: 0 10px;
     .project-owner {
       font-family: 'Roboto', sans-serif;
       font-size: 1.2em;
@@ -74,6 +72,10 @@
     .row._profile {
       display: flex;
       align-items: center;
+      border: 1px solid gray;
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 20px;
       .col:first-child {
         flex-grow: 1;
       }
@@ -490,28 +492,6 @@
   }
 }
 
-@media(min-width: 1101px) {
-  .project-tab-wrapper {
-    div.btn-wrapper {
-      display: inline-block !important;
-    }
-    div.btn-alt-wrapper {
-      display: none !important;
-    }
-  }
-}
-
-@media(max-width: 1100px) {
-  .project-tab-wrapper {
-    div.btn-wrapper {
-      display: none !important;
-    }
-    div.btn-alt-wrapper {
-      display: inline-block !important;
-    }
-  }
-}
-
 .tabs-wrapper {
   border-top: none;
   background-color: #fff;
@@ -674,10 +654,6 @@
   }
 }
 
-.tasks-summary {
-
-}
-
 .summary-header {
   strong {
     font-family: 'Libre Franklin', sans-serif;
@@ -730,10 +706,10 @@
 .trello-board {
   background-color: #fff;
   padding: 10px 5px;
-
+  font-size: 0;
   .trello-column {
     display: inline-block;
-    width: 19%;
+    width: 20%;
     padding-left: 5px;
     padding-right: 5px;
     vertical-align: text-top;
@@ -743,14 +719,13 @@
 .trello-section {
   background-color: #eee;
   border-radius: 3px;
-
   .section-header {
     padding: 15px 15px 5px;
     text-align: center;
 
     a {
       font-family: 'Roboto', sans-serif;
-      font-size: 1.1em;
+      font-size: 16px;
       color: #000;
       font-weight: 600;
       text-transform: uppercase;
@@ -788,7 +763,7 @@
 .section-add-task {
   button {
     font-family: 'Libre Franklin', sans-serif;
-    font-size: 1.1em;
+    font-size: 16px;
     color: #777;
     display: block;
     padding: 10px;
@@ -883,7 +858,7 @@
     }
     span {
       font-family: 'Libre Franklin', sans-serif;
-      font-size: 1.1em;
+      font-size: 14px;
       color: #aaa;
       padding-right: 10px;
       cursor: pointer;
@@ -927,7 +902,7 @@
         td {
           font-family: 'Libre Franklin', sans-serif;
           color: #333 !important;
-          font-size: 0.9em !important;
+          font-size: 12px !important;
           font-weight: bold;
         }
       }
@@ -935,7 +910,7 @@
         td {
           font-family: 'Libre Franklin', sans-serif;
           color: $grey-clr !important;
-          font-size: 0.8em !important;
+          font-size: 11px !important;
           text-align: left;
         }
       }
@@ -1040,3 +1015,73 @@
   }
 }
 
+
+@media only screen and (max-width: 1170px) {
+  .trello-board {
+    .trello-column {
+      width: 25%;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+
+@media(min-width: 1101px) {
+  .project-tab-wrapper {
+    div.btn-wrapper {
+      display: inline-block !important;
+    }
+    div.btn-alt-wrapper {
+      display: none !important;
+    }
+  }
+}
+
+@media(max-width: 1100px) {
+  .project-tab-wrapper {
+    div.btn-wrapper {
+      display: none !important;
+    }
+    div.btn-alt-wrapper {
+      display: inline-block !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .trello-board {
+    .trello-column {
+      width: 33.333%;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .content-details {
+    padding: 20px 0;
+    .edit-btn {
+      position: static;
+    }
+  }
+  .team-content {
+    .row {
+      margin: 0;
+    }
+  }
+}
+
+@media only screen and (max-width: 710px) {
+  .trello-board {
+    .trello-column {
+      width: 50%;
+    }
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  .trello-board {
+    .trello-column {
+      width: 100%;
+    }
+  }
+}
