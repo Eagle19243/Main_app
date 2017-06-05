@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def gravatar_for_user(user, size = 30, title = user.display_name )
+  def gravatar_for_user(user, size = 30, title = user.display )
     image_tag t('commons.default_user_pic'), size: size.to_s + 'x' + size.to_s, title: title, class: 'img-rounded'
   end
 

@@ -8,10 +8,10 @@
           <% end %>
           <div class="b-project-card__user-link">
             <% if project.user %>
-                <% if project.user.picture %>
+                <% if project.user.picture? %>
                     <%= image_tag(project.user.picture, size: "32x32") %>
                 <% else %>
-                    <%= gravatar_for_user(project.user) %>
+                    <%= gravatar_for_user(project.user.picture) %>
                 <% end %>
                 <%= link_to project.user.display_name, user_path(project.user) %>
             <% else %>
