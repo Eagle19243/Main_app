@@ -272,7 +272,7 @@
               method: 'POST',
               data: {
                   stripeToken: token,
-                  amount: $('.payment-form__amount').val(),
+                  amount: $('#wallet_transaction_amount').val(),
                   card_id: $('input.available-cards-radio-button[name=card_id]:checked').val(),
                   save_card: $('.payment-form__save-card').val(),
                   method: $('.payment-form__method').val()

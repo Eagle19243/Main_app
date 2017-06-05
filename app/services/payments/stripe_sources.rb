@@ -1,7 +1,7 @@
 class Payments::StripeSources
   def call(user:)
     stripe_customer_id = user.stripe_customer_id
-    return [] unless stripe_customer_id
+    return [] if stripe_customer_id.blank?
 
     customer = Stripe::Customer.retrieve(stripe_customer_id)
     customer.sources.map do |source|

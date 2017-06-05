@@ -37,7 +37,7 @@
 
 <form id="payment-form" class="card-payment">
 
-  <input type="hidden" class="payment-form__amount js-amount" name="amount"/>
+  <input type="hidden" class="payment-form__amount js-amount" name="amount" id="payment-form__amount"/>
 
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
@@ -54,7 +54,7 @@
         <div class="f-default__label-wrap">
           <div class="f-default__radio-label available-cards-radio">
           <% @available_credit_cards.each do |card| %>
-              <input type="radio" class="available-cards-radio-button" name="card_id" value="<%= card[:id] %>">
+              <input type="radio" class="available-cards-radio-button" name="card_id" value="<%= card[:id] %>" id="card-<%= card[:last4] %>">
                 <span class="modal-fund__last4">Last 4 digits: <%= card[:last4] %></span>
               <br>
           <% end %>
@@ -114,7 +114,7 @@
         <!--Commented this may be we use this in future -->
         <!--<br/>-->
         <label class="f-default__checkbox-label">
-            <input class="f-default__checkbox-field payment-form__method" name="method" type="checkbox" />
+            <input class="f-default__checkbox-field payment-form__method" id="accept-term" name="method" type="checkbox" />
             <span class="f-default__checkbox-pseudo"></span>
             <span class="f-default__checkbox-text">
                 I've read and accept the
