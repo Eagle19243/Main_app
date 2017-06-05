@@ -23,14 +23,14 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
 
      For OSX: `brew install graphicsmagick` OR  `brew install imagemagick`
 
-     For Ubuntu: `apt-get install graphicsmagick` OR `apt-get install imagemagick` 
+     For Ubuntu: `apt-get install graphicsmagick` OR `apt-get install imagemagick`
 
 * Install PhantomJS browser for acceptance tests:
 
      For OSX: `brew install phantomjs`
 
      For Ubuntu: `apt-get install phantomjs`
- 
+
 * Clone the repository and perform `bundle install`
 
 ### 2. Get necessary tokens
@@ -57,7 +57,7 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 
 ### 6. Configure ENV varialbes
 
-* `mailer_sender` - address of emails sender
+* `weserve_from_email` - address of emails sender
 * `RAILS_ENV` - `production` or `development`
 * `reserve_wallet_id` - **only for production**: address of reserve BTC wallet
 * `reserve_wallet_pass_pharse` - **only for production**: passphrase of reserve BTC wallet
@@ -68,7 +68,7 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 
 # Steps to run test
 
-* Within app directory run `RAILS_ENV=testing bundle exec rspec --format documentation`
+* Within app directory run `RAILS_ENV=test bundle exec rspec --format documentation`
 
 # Tools
 
@@ -76,11 +76,11 @@ This step can be omited for now, ask other developers for Mediawiki credentials.
 
 # Translation
 
-Application uses i18n files to render strings in different languages, these files are located in `config/localtes` directory, 
+Application uses i18n files to render strings in different languages, these files are located in `config/localtes` directory,
 files for each language are grouped in own sub-directory, eg: `config/locales/en`. Strings are separated by context using own file
 for each context, for example: strings for main page are located in `config/locales/en/landing.en.yml`. Note that each file also
 explicitly indicates language it belongs to by applying `en` suffix to its name.
- 
+
 ## i18n files format
 
 Locale files are formatted as YAML and usually have hierarchical structure, though, this fact is not important for
@@ -115,7 +115,7 @@ en:
 
 **Note**: sometime value strings will contain special constructions like `%{year}`, HTML-markup elements like `<span>` or
 links like `http://www.site.com`. You **should not** change these parts in any way so just keep them during translation.
- 
+
 ## How to translate
 
 Lets say we're going to translate some text on from English to Russian, he is the steps we need to perform:
