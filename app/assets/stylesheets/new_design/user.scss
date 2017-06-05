@@ -364,6 +364,8 @@
   }
 
   .table {
+    min-width: 920px;
+    overflow-x: auto;
     thead {
       th {
         font-family: 'Roboto', sans-serif;
