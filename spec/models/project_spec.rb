@@ -64,7 +64,8 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  describe 'MediaWiki API actions', vcr: { cassette_name: 'mediawiki' } do
+  describe 'MediaWiki API actions',
+           vcr: { cassette_name: 'mediawiki', match_requests_on: [:path, :query] } do
     let(:project) { create(:project, wiki_page_name: 'test') }
 
     describe '.page_read' do
