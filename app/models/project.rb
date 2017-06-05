@@ -320,13 +320,13 @@ class Project < ActiveRecord::Base
     params[:page] ||= set_project_name(wiki_page_name, title)
 
     base_url = "#{Project.load_mediawiki_api_base_url}api.php?#{to_url(params)}"
-    puts "request to wiki: #{base_url}"
+    Rails.logger.debug "request to wiki: #{base_url}"
     result = yield base_url, cookies: Rails.configuration.mediawiki_session
-    puts "Received response from wiki #{result}"
+    Rails.logger.debug "Received response from wiki #{result}"
     JSON.parse(result.body)
-  # rescue => error
-  #   Rails.logger.debug "Failed to call Mediawiki api #{error}"
-  #   nil
+  rescue => error
+    Rails.logger.debug "Failed to call Mediawiki api #{error}"
+    nil
   end
 
   def to_url(params)
