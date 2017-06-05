@@ -99,7 +99,8 @@
 
 
     var MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
-        CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2);
+        CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2),
+        MIN_DONATION_USD = 15;
 
     Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
@@ -210,8 +211,8 @@
                 isTermOfUseChecked = $('.payment-form__method').is(':checked'),
                 $minDonation = $('.modal-fund__min-donation');
 
-            if (donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC * CURRENT_BTC_RATE))) {
-                $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC * CURRENT_BTC_RATE) + '$');
+            if (donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_USD))) {
+                $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_USD) + '$');
             } else if (!donationObj.isUSD && (parseFloat(currentValue) < parseFloat(MIN_DONATION_BTC))) {
                 $minDonation.html('Min. donation is ' + parseFloat(MIN_DONATION_BTC) + '฿');
             } else {
@@ -272,7 +273,7 @@
               method: 'POST',
               data: {
                   stripeToken: token,
-                  amount: $('.payment-form__amount').val(),
+                  amount: $('#wallet_transaction_amount').val(),
                   card_id: $('input.available-cards-radio-button[name=card_id]:checked').val(),
                   save_card: $('.payment-form__save-card').val(),
                   method: $('.payment-form__method').val()

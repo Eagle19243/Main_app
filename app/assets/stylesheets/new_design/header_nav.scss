@@ -133,14 +133,12 @@ ul.links-wrapper {
 }
 
 a.header-link {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   color: #333;
   font-size: 13px;
   font-weight: 600;
   position: relative;
   vertical-align: middle;
-  top: -5px;
-
   &:visited,
   &:hover,
   &:focus {
@@ -320,9 +318,6 @@ a.header-link {
     outline:none;
     font-weight: bold;
     font-size: 26px !important;
-    position: relative;
-    top: -7px;
-
     i {
       font-size: 1em;
     }
@@ -338,14 +333,10 @@ a.header-link {
   width: 300px;
 
   .search-project-box button {
-    position: absolute;
     background-color: transparent;
     padding: 5px 10px;
     display: block;
-    top: 2px;
     color: #555;
-    right: 5px;
-    padding-right: 5px;
   }
 
   ul.mobile-menu-list {
@@ -373,7 +364,7 @@ a.header-link {
 
     a {
       display: block;
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       color: #555;
       font-size: 1.3em;
       margin: 0;
@@ -395,6 +386,12 @@ a.header-link {
     }
   }
 
+  .mobile-search {
+    &:hover {
+      background-color: #fff;
+    }
+  }
+
   a,
   a:hover,
   a:focus {
@@ -411,18 +408,15 @@ a.header-link {
     border: none;
     position: relative;
 
-    input {
-      margin: 0;
-    }
-
     input[type="text"] {
       height: 40px;
       line-height: 40px;
       border: none;
       border-radius: 0;
-      padding: 5px 15px 5px 40px;
+      padding: 0;
+      margin: 0 10px;
       border-bottom: 1px solid #ddd;
-      font-family: 'Libre Franklin';
+      font-family: 'Libre Franklin', sans-serif;
 
       &:hover,
       &:focus {
@@ -529,22 +523,5 @@ a.header-link {
   }
   .mobile-menu li.show-mobile {
     display: block;
-  }
-}
-
-.s-header__logo {
-  a {
-    font-family: 'Roboto';
-    font-weight: bold;
-
-    &:hover,
-    &:focus {
-      color: #000;
-      text-decoration: none;
-    }
-  }
-
-  small {
-    font-size: 0.7em;
   }
 }

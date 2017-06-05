@@ -24,6 +24,20 @@ class ApplicationController < ActionController::Base
   around_filter :set_current_user
   after_action :flash_to_headers
   before_action :basic_http_auth
+  before_action :set_locale
+   
+  def set_locale
+    locale = current_user.preferred_language if current_user && (I18n.available_locales.map(&:to_s).include? current_user.preferred_language)
+    I18n.locale = params[:locale] || locale || I18n.default_locale
+  end
+
+  def default_url_options(options = {})
+    if (I18n.default_locale != I18n.locale) && (params[:locale])
+      {locale: I18n.locale}.merge options
+    else
+      {locale: nil}.merge options
+    end
+  end
 
   def after_sign_in_path_for(resource)
     # projects_path

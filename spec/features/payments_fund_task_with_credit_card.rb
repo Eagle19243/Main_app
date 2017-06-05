@@ -1,91 +1,112 @@
 require 'rails_helper'
 
-feature "Project Page Plan Tab", js: true do
+feature 'Project Page Plan Tab', js: true do
+  let(:stripe_helper) { StripeMock.create_test_helper }
+  let!(:user)         { create(:user, :confirmed_user, :with_wallet) }
+  let!(:project)      { create(:project, user: user) }
+  let!(:task)         { create(:task, :with_wallet, project: project) }
+
+  before  { StripeMock.start }
+  after   { StripeMock.stop }
+
   before do
-    @user = FactoryGirl.create(:user, confirmed_at: Time.now)
-    @project = FactoryGirl.create(:project, user: @user)
-    @task = FactoryGirl.create(:task, project: @project)
-    @wallet_address = FactoryGirl.create(:wallet_address, task: @task)
+    card_token = StripeMock.generate_card_token(last4: '4242', exp_year: 2.years.from_now.year)
+    customer = Stripe::Customer.create(source: card_token)
+    user.update(stripe_customer_id: customer.id)
+
+    login_as(user, scope: :user, run_callbacks: false)
+    visit taskstab_project_path(project, tab: 'tasks')
   end
 
-  context "As logged in user" do
-    before do
-      login_as(@user, :scope => :user, :run_callbacks => false)
+  context 'when click on FUND' do
+    let!(:fund_modal) do
+      find('.tabs-wrapper__tasks .pr-card .fund-do-btns', match: :first).click_button 'FUND'
+      find('#taskFundModal', visible: true)
     end
 
-    context "When you visit the project page" do
+    scenario 'fund modal appears' do
+      expect(fund_modal).to be_visible
+    end
+
+    context 'when donate with credit card' do
+      let(:valid_card_number) { '4242424242424242' }
+
       before do
-        visit project_path(@project)
-        click_link("Tasks")
-        @task_area = find(".tabs-wrapper__tasks")
+        # Ignore stubbing bitcoin request
+        allow_any_instance_of(Task).to receive(:update_current_fund!).and_return(true)
+
+        fund_modal.find('#donate-with-credit-card').click
+
+        fund_modal.fill_in('amount', with: 100)
+        fund_modal.fill_in('card_number', with: valid_card_number)
+        fund_modal.fill_in('card_expiry', with: 2.years.from_now.strftime('%m/%Y'))
+        fund_modal.fill_in('card_code', with: 211)
+        fund_modal.find('#accept-term').trigger('click')
       end
 
-      scenario "Then you can see 'Fund' button on the task tab" do
-       expect(@task_area.find(".pr-card .fund-do-btns", match: :first)).to have_content "FUND"
-      end
-
-      context "When you click 'Fund' button" do
+      context 'when new card' do
         before do
-          @task_area.find(".pr-card .fund-do-btns", match: :first).click_button "FUND"
-          @fund_modal = find("#taskFundModal", visible: true)
+          stripe_token = stripe_helper.generate_card_token(card_number: valid_card_number, card_expiry: 2.years.from_now.strftime('%m/%Y'), card_code: 211)
+          script = "Stripe.card = { createToken: function(_ ,callback) { callback(_, {id: \"#{stripe_token}\"}); } }"
+          page.evaluate_script(script)
         end
 
-        scenario "Then the fund modal appeared" do
-          expect(@fund_modal).to be_visible
+        context 'valid card' do
+          scenario 'donate success' do
+            successModal = find('#errorFundModal.success-fund-transfer', visible: true)
+
+            fund_modal.first('button._donate').trigger('click')
+            wait_for_ajax
+
+            expect(successModal).to be_visible
+            expect(successModal).to have_content('Success!')
+            expect(StripePayment.last.amount).to eq(100)
+          end
         end
 
-        scenario "Then you can donate with credit card" do
-          expect(@fund_modal).to have_content "Donate with credit card"
+        context 'invalid card' do
+          scenario 'donate fail' do
+            StripeMock.prepare_card_error(:invalid_number)
+            errorModal = find('#errorFundModal', visible: true)
+
+            fund_modal.first('button._donate').trigger('click')
+            wait_for_ajax
+
+            expect(errorModal).to be_visible
+            expect(errorModal).to have_content('Error The card number is not a valid credit card number')
+          end
         end
 
-        context "When you clcik 'Donate with credit card' button" do
-          before do
-            @valid_card_number = "4242424242424242"
-            @invalid_card_number = "1111111111111111"
-            @expiry = 5.years.from_now.strftime('%m/%Y')
-            @cvv = "211"
+        context 'save card' do
+          scenario 'card save success' do
+            fund_modal.find('.payment-form__save-card').trigger('click')
+            successModal = find('#errorFundModal.success-fund-transfer', visible: true)
 
-            @fund_modal.click_button "Donate with credit card"
-            @card_modal = find(".modal-fund__stripe")
+            fund_modal.first('button._donate').trigger('click')
+            wait_for_ajax
+            user.reload
 
-            @fund_modal.fill_in "amount", with: 10
+            saved_card = Payments::StripeSources.new.call(user: user)[0]
 
-            @card_modal.fill_in('card_expiry', with: @expiry)
-            @card_modal.fill_in('card_code', with: @cvv)
+            expect(successModal).to be_visible
+            expect(successModal).to have_content('Success!')
+            expect(saved_card).not_to be_nil
+            expect(saved_card[:last4]).to eq('4242')
           end
+        end
+      end
 
-          scenario "Then it is available to donate with credit card" do
-            expect(@card_modal).to be_visible
-          end
+      context 'when saved card' do
+        scenario 'takes fund from selected card' do
+          fund_modal.choose('card-4242')
+          fund_modal.fill_in('amount', with: 1000)
+          successModal = find('#errorFundModal.success-fund-transfer', visible: true)
 
-          context "When you fill in the valid card information" do
-            before do
-              allow_any_instance_of(Payments::BTC::WalletHandler).to receive(:get_wallet_balance).and_return(1000)
+          fund_modal.first('button._donate').trigger('click')
 
-              @card_modal.fill_in('card_number', with: @valid_card_number)
-              @card_modal.find("._donate").click
-            end
-
-            scenario "Then you can donate the task with the credit card" do
-              wait_for_ajax
-              sleep 2
-
-              expect(@card_modal).not_to be_visible
-            end
-          end
-
-          context "When you fill in the invalid card information" do
-            before do
-              @card_modal.fill_in('card_number', with: @invalid_card_number)
-
-              @card_modal.find("._donate").click
-            end
-
-            scenario "Then it's failed to donate with the card" do
-              wait_for_ajax
-              expect(@card_modal).to have_content "Your card number is incorrect."
-            end
-          end
+          expect(successModal).to be_visible
+          expect(successModal).to have_content('Success!')
+          expect(StripePayment.last.amount).to eq(1000)
         end
       end
     end

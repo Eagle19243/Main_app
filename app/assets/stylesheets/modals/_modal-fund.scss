@@ -5,7 +5,7 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
   font-size: 0;
   text-align: center;
   z-index: 1050;
-  padding: 67px 15px 67px 0;  // todo Question: Do we need header in modals for not signed users?
+  padding: 67px 15px;
   #fund-loading {
     position: absolute;
     top: 0;
@@ -441,6 +441,59 @@ div.modal-fund { // todo FD: remove div : now I need this because of huge amount
       &._active {
         display: block;
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 690px) {
+  .modal-fund {
+    &__top,
+    &__tab-content,
+    &__stripe-bottom {
+      padding: 42px 30px 30px;
+      .new-card-subform {
+        .f-default {
+          &__checkbox-label {
+            margin-bottom: 0;
+          }
+          &__row {
+            margin-bottom: 10px;
+            &._flex {
+              display: block;
+            }
+          }
+          &__label-wrap {
+            margin: 0 0 10px;
+          }
+        }
+      }
+    }
+    &__tab {
+      width: 100%;
+      max-width: 100%;
+      flex-basis: 100%;
+      margin: 0;
+    }
+    &__tabs-wrapper {
+      display: block;
+      button + button {
+        margin-top: 20px;
+      }
+    }
+    &__tab-wrap {
+      padding: 0;
+    }
+    &__avatar {
+      display: none;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 610px) {
+  .modal-fund {
+    &__wallet {
+      display: block;
     }
   }
 }

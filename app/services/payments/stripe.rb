@@ -75,7 +75,6 @@ class Payments::Stripe
 
   def create_and_charge_new_customer
     customer = Stripe::Customer.create(email: user.email, source: stripe_token)
-
     user.update_attributes(stripe_customer_id: customer.id)
 
     options = {

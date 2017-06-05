@@ -63,17 +63,20 @@
 
   .landing-logo {
     display: inline-block;
-
+    small {
+      font-size: 0.7em;
+    }
     a {
-      font-size: 32px;
-      font-weight: bold;
+      display: inline-block;
+      vertical-align: middle;
       color: #000;
-      text-decoration: none;
+      font-weight: 600;
+      font-size: 32px;
+      font-family: 'Roboto', sans-serif;
 
-      &:hover,
-      &:focus {
-        text-decoration: none;
+      &:hover {
         color: #000;
+        text-decoration: none;
       }
     }
   }
@@ -81,8 +84,7 @@
   .register-group {
     display: flex;
     align-items: center;
-    margin-top: 8px;
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
 
     span {
       padding: 0 20px;
@@ -90,7 +92,7 @@
     }
 
     a {
-      font-family: 'Roboto';
+      font-family: 'Roboto', sans-serif;
       color: #333;
       font-size: 13px;
       font-weight: 600;
@@ -112,6 +114,12 @@
 
   p {
     text-align: left;
+  }
+
+  .btn-root {
+    &:hover {
+      background: none;
+    }
   }
 
   .hero-banner {
@@ -347,8 +355,19 @@
 
 
 @media(max-width: 767px) {
-  .landing-content {
 
+  .landing-header {
+    .header-wrap {
+      display: flex;
+      align-items: center;
+    }
+
+    .register-group {
+      margin-left: auto;
+      margin-top: 0;
+    }
+  }
+  .landing-content {
     .hiw-banner {
       .hiw-flow {
         .flow-img.pt15 {
@@ -428,13 +447,16 @@
   }
 }
 
-@media(max-width: 520px) {
+@media only screen and (max-width: 520px) {
 
-  .landing-content {
-    background-color: rgba(0, 0, 0, 0.6);
+  .landing-header {
+    .landing-logo a {
+      font-size: 22px;
+    }
   }
 
   .landing-content {
+    background-color: rgba(0, 0, 0, 0.6);
     .hero-banner {
       .hero-promo {
         .promo-wrapper {

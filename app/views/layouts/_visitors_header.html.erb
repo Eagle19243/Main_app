@@ -19,7 +19,7 @@
     <a class="header-link border-link hidden-mobile header-align _active-project" href="<%= projects_path %>"><%= t('commons.active_projects') %></a>
 
     <div class="pull-right register-group">
-        <div class="search-box-wrapper show-desktop">
+        <div class="search-box-wrapper show-desktop hidden-mobile">
             <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
                 <input type="text" class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>">
                 <button type="button" name="" class="btn-search btn-reset">
@@ -43,7 +43,7 @@
       </a>
       <div class="header-dropdown">
           <div class="header-dropdown__title js-dropdown">
-              ?
+              <span>?</span>
           </div>
           <ul class="header-dropdown__list js-dropdown-list">
             <li class="header-dropdown__item">
@@ -64,13 +64,21 @@
 <div class="mobile-menu display-none">
   <ul class="mobile-menu-list">
     <li class="border-bottom show-mobile">
-      <a class="sign_up_a" data-modal="#registerModal" id="start_project_link"><%= t('commons.start_a_project') %></a>
+          <a data-modal="#startProjectModal"><%= t('commons.start_a_project') %></a>
     </li>
     <li class="border-bottom show-mobile">
-      <%= link_to 'Active Projects', projects_path, data: {no_turbolink: true} %>
+      <%= link_to t('commons.active_projects'), projects_path, data: {no_turbolink: true} %>
     </li>
     <li class="border-bottom">
       <a data-modal="#registerModal" class="sign_in_a"><%= t('commons.login') %></a>
+    </li>
+    <li class="border-bottom mobile-search">
+      <%= form_tag projects_user_search_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
+          <button type="button" name="" type="button">
+            <i class="fa fa-search"></i>
+          </button>
+          <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => t('commons.search_placeholder') %>
+      <% end %>
     </li>
     <li>
       <a class="sign_up_a" data-modal="#registerModal"><%= t('commons.register') %></a>

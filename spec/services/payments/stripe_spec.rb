@@ -3,12 +3,9 @@ require 'rails_helper'
 RSpec.describe Payments::Stripe do
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:user) { FactoryGirl.create(:user, :confirmed_user) }
-  after { StripeMock.stop }
 
-  before do
-    StripeMock.start
-  end
-
+  before  { StripeMock.start }
+  after   { StripeMock.stop }
 
   describe '.new' do
     let(:args) { {} }

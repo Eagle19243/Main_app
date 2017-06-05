@@ -93,3 +93,13 @@
     }
   }
 }
+
+@media only screen and (max-width: 780px) {
+  .s-group-messages {
+    display: block;
+    &__nav,
+    &__content {
+      width: 100%;
+    }
+  }
+}

@@ -103,8 +103,12 @@ class Project < ActiveRecord::Base
     tasks.where(state: 'accepted')
   end
 
+  def completed_tasks
+    tasks.where(state: 'completed')
+  end
+
   def tasks_relations_string
-    accepted_tasks.count.to_s + " / " + tasks.count.to_s
+    "#{completed_tasks.count} / #{tasks.count}"
   end
 
   def team_relations_string

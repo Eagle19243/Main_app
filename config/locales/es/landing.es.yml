@@ -1,0 +1,73 @@
+es:
+  landing:
+    hero-title: "Convierta a sus seguidores en una fuerza de trabajo"
+    hero-subtitle: "Comparta su visión y su audiencia hará que se vuelva una realidad"
+    hero-collaboration-title: "Ocupe su red social para"
+    hero-collaboration-text: "Como el Líder del Proyecto, usted mantiene el control de la colaboración en todo momento, por lo que el desarrollo de su proyecto refleja su propia visión. Usted crea momento con la multitud a través del logro de pequeñas tareas."
+    hero-collaboration-item-expand: "expanda su idea y conviértala en un plan de acción"
+    hero-collaboration-item-breakdown: "Divida su proyecto en tareas"
+    hero-collaboration-item-fund: "Financie sus tareas"
+    hero-collaboration-item-complete: "Asigne las tareas a multitudes"
+    hero-collaboration-item-review: "Verifique que las tareas se hayan completado"
+    hero-generate-title: "Genere un poder sutil"
+    hero-generate-text_html: "Resuelva inconvenientes con su audiencia;<br>Las acciones dan legitimidad a lo que plantea,<br>así surgirá como un líder independiente."
+    hero-lab-title: "Construya su propio laboratorio"
+    hero-lab-text_html: "Cree puentes sobre las brechas que separan teoría y acción;<br>Publique y expanda sus proyectos académicos."
+    hero-prototype-title: "Cree su Prototipo"
+    hero-prototype-text_html: "Forme un Equipo;<br>Financie las Tareas;<br>Recolecte Opiniones."
+    hero-footer-title: "Cosas que WeServe hace por usted"
+    hero-footer-market-title: "Validación del mercado"
+    hero-footer-market-item-build: "construya una comunidad activa en torno a una historia real"
+    hero-footer-market-item-get: "obtenga opiniones y mejoras de parte de la comunidad"
+    hero-footer-market-item-analyse: "analice el tráfico de su proyecto"
+    hero-footer-stimulate-title: "Estimule a su audiencia"
+    hero-footer-stimulate-text: "Convierta a sus seguidores en actores, e incremente la confianza y el apoyo hacia su proyecto."
+    hero-footer-inclusive-title: "Inclusivo"
+    hero-footer-inclusive-text_html: "WeServe acerca a personas opuestas para un esfuerzo único que permite lograr metas comunes. <br>Los voluntarios pueden devolver la cantidad que han ganado por alguna tarea nueva. Las personas que no puedan ser voluntarios pueden conservar el dinero que han ganado."
+    hero-footer-corruption-title: "Anti Corrupción"
+    hero-footer-corruption-text_html: "Construya acciones poderosas para su comunidad sin tener que pertenecer a los clubes de mayor poder, y sin ataduras a partidismos políticos o financieros."
+    hero-footer-transparency-title: "Transparencia"
+    hero-footer-transparency-text_html: "Los proyectos están disponibles para revisiones del público, y reciben opiniones constantes. Así que su proyecto queda protegido por la multitud y adquiere legitimidad."
+    innovators:
+      title: "INNOVADORES"
+      create_prototype_html: "<span>Cree</span> su Prototipo"
+      build_team: "Forme su Equipo."
+      finance_task: "Financie tareas."
+      feedback: "Obtenga opiniones."
+    bloggers:
+      title: "Bloggers"
+      report_on_the_future_html: "<span>Reporte</span> sobre el futuro"
+      publish_idea: "Publique una idea y su audiencia la implementará en el mundo externo."
+      generate_content: "Genere contenido verificado acerca de lo que ocurrirá."
+      translate_ideas: "Vigile su actuación por escrito. Convierta sus ideas escritas en resultados tangibles."
+    students:
+      title: "ESTUDIANTES"
+      build_lab_html: "<span>Construya</span> su propio laboratorio"
+      theory_and_action: "Cree puentes sobre las brechas que separan teoría y acción."
+      academic_projects: "Publique y expanda sus proyectos académicos."
+    activists:
+      title: "Activistas"
+      serve_as_leader_html: "<span>Actúe</span> como un líder"
+      supporter: "Convierta a sus seguidores en una fuerza de trabajo organizada."
+      multiply_effectiveness: "Multiplique su efectividad con acción colaborativa, en vez de sólo protestas."
+      emerge_leadership: "Surja como líder a través de acciones concretas, en vez de sólo hablar y opinar."
+    engage_audience:
+      title: "OCUPE A SU AUDIENCIA"
+      description: "Convierta a sus seguidores en contribuidores, e incremente la confianza y soporte para su proyecto."
+    inclusive:
+      title: "SEA INCLUSIVO"
+      description: "Atraiga a personas diferentes para realizar esfuerzos únicos que les permitirán alcanzar metas comunes."
+    test_market:
+      title: "PRUEBE SU MERCADO"
+      description: "Construya una comunidad activa alrededor de una historia concreta. Obtenga opiniones y mejoras de parte de la comunidad."
+    independent:
+      title: "Gane independencia"
+      anti_curruption:
+        title: "ANTI-CORRUPCIÓN"
+        description: "Construya acciones poderosas para su comunidad sin tener que pertenecer a los clubes de mayor poder, y emerja como un líder independiente."
+      transparency:
+        title: "TRANSPARENCIA"
+        description: "Los proyectos están disponibles para revisiones del público, así que puede canalizar la sabiduría de la multitud. Esto lo hace responsable pero tambien lo protege a usted y a su proyecto como independiente y legítimo."
+      bitcoin_payment:
+        title: "PAGO CON BITCOIN"
+        description: "Financie un proyecto en cualquier parte del mundo con un equipo multi-nacional."

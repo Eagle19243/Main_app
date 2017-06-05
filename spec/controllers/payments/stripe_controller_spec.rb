@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Payments::StripeController do
   render_views
 
-  let(:project) { FactoryGirl.create(:project) }
-  let(:task) { FactoryGirl.create(:task, :with_associations, :with_wallet, project_id: project.id) }
-  let(:user) { task.user }
+  let(:project) { create(:project) }
+  let(:task)    { create(:task, :with_associations, :with_wallet, project_id: project.id) }
+  let(:user)    { task.user }
 
   before do
     stub_env('reserve_wallet_id', '30a21ed2-4f04-57ae-9d21-becb751138f4')
@@ -14,7 +14,7 @@ RSpec.describe Payments::StripeController do
   describe '#new' do
     subject(:make_request) { get(:new, id: task.id, project_id: project.id) }
 
-    context 'when the user is not signed' do
+    context 'when the user is not signed in' do
       it 'redirects to sign in' do
         make_request
         expect(response).to redirect_to(new_user_session_url)
@@ -40,10 +40,10 @@ RSpec.describe Payments::StripeController do
 
   describe '#create' do
     subject(:make_request) { post :create, params }
-    let(:stripe_helper) { StripeMock.create_test_helper }
+    let(:stripe_helper)    { StripeMock.create_test_helper }
 
-    before { StripeMock.start }
-    after { StripeMock.stop }
+    before  { StripeMock.start }
+    after   { StripeMock.stop }
 
     context 'when the user is not signed' do
       let(:params) { { stripeToken: stripe_helper.generate_card_token, amount: '220.20', project_id: project.id, id: task.id, format: 'json' } }
