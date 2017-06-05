@@ -240,3 +240,20 @@
     display: block;
   }
 }
+
+@media only screen and (max-width: 460px) {
+  .f-default {
+    .modal-start-project & {
+      &__joined {
+        &-col {
+          &._wide {
+            display: none;
+          }
+          &._narrow {
+            flex-basis: 100%;
+          }
+        }
+      }
+    }
+  }
+}
