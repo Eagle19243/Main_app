@@ -5,7 +5,7 @@
       <%= form_for(@user, :html => {:class => 'f-edit-img'}) do |f| %>
         <% if @user.picture? %>
           <div class="f-edit-img__image">
-            <%= f.cropbox :picture %>
+            <%= image_tag(@user.picture) %>
           </div>
         <% else %>
           <div class="f-edit-img__placeholder">

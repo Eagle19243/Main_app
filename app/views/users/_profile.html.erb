@@ -4,79 +4,82 @@
       <%= image_tag(@user.background_picture, data: { 'object-fit': "cover" }) if @user.projects.count != 0 %>
     </div>
     <div class="profile-hero__content">
-      <% if user_signed_in? && current_user.id == @user.id %>
-        <button class="profile-hero__edit-button" type="button" data-modal="#editProfileModal"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-      <% end %>
-        <div class="profile-hero__avatar-wrapper">
-            <% if @user.picture? %>
-                <div class="profile-hero__avatar" style="background-image: url('<%= @user.picture %>')"></div>
-            <% else %>
-                <div class="profile-hero__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')"></div>
-            <% end %>
-        </div>
-      <div class="profile-hero__user-name-wrap">
-        <div class="profile-hero__user-name">
-          <%= @user.display_name %>
-        </div>
-      </div>
-
-      <div class="profile-hero__user-location-wrap">
-
-          <% if (current_user && current_user.id == @user.id) %>
-            <div class="profile-hero__user-location">
-              <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
-              </svg>
-              <%= @user.city %>
-
-              <% if @user.state.present? %>
-                / <%= @user.state %>
-              <% end %>
-            </div
-          <% else %>
-            <% if @user.city.present? %>
-              <div class="profile-hero__user-location">
-                <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
-                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
-                </svg>
-                <%= @user.city %>
-                <% if @user.state.present? %>
-                  / <%= @user.state %>
+      <div class="profile-hero__content-wrapper">
+          <% if user_signed_in? && current_user.id == @user.id %>
+            <button class="profile-hero__edit-button" type="button" data-modal="#editProfileModal"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+          <% end %>
+            <div class="profile-hero__avatar-wrapper">
+                <% if @user.picture? %>
+                    <div class="profile-hero__avatar" style="background-image: url('<%= @user.picture %>')"></div>
+                <% else %>
+                    <div class="profile-hero__avatar" style="background-image: url('<%= image_url(t('commons.default_user_pic')) %>')"></div>
                 <% end %>
-              </div>
+            </div>
+          <div class="profile-hero__user-name-wrap">
+            <div class="profile-hero__user-name">
+              <%= @user.display_name %>
+            </div>
+          </div>
+
+          <div class="profile-hero__user-location-wrap">
+
+              <% if (current_user && current_user.id == @user.id) %>
+                <% if @user.city.present? %>
+                    <div class="profile-hero__user-location">
+                      <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
+                      </svg>
+                      <%= @user.city %>
+
+                      <% if @user.state.present? %>
+                        / <%= @user.state %>
+                      <% end %>
+                    </div>
+                <% end %>
+              <% else %>
+                <% if @user.city.present? %>
+                  <div class="profile-hero__user-location">
+                    <svg focusable="false" version="1.1" class="svg-map-icon" aria-hidden="true">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-map-icon"></use>
+                    </svg>
+                    <%= @user.city %>
+                    <% if @user.state.present? %>
+                      / <%= @user.state %>
+                    <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+          </div>
+
+          <dl class="profile-hero__dl">
+            <div class="profile-hero__dl-item">
+              <div class="profile-hero__dt"><%= t('.project_leads') %></div>
+              <div class="profile-hero__dd"><%= @user.projects.count %></div>
+            </div>
+            <div class="profile-hero__dl-item">
+              <div class="profile-hero__dt"><%= t('.completed_task') %></div>
+              <div class="profile-hero__dd"><%= @user.completed_tasks_count %></div>
+            </div>
+            <div class="profile-hero__dl-item">
+              <div class="profile-hero__dt"><%= t('.project_funded') %></div>
+              <div class="profile-hero__dd"><%= @user.funded_projects_count %></div>
+            </div>
+          </dl>
+
+          <div class="profile-hero__user-trans-btns">
+            <% if current_user && current_user.id == @user.id %>
+                <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a>
             <% end %>
-          <% end %>
-      </div>
-
-      <dl class="profile-hero__dl">
-        <div class="profile-hero__dl-item">
-          <div class="profile-hero__dt"><%= t('.project_leads') %></div>
-          <div class="profile-hero__dd"><%= @user.projects.count %></div>
-        </div>
-        <div class="profile-hero__dl-item">
-          <div class="profile-hero__dt"><%= t('.completed_task') %></div>
-          <div class="profile-hero__dd"><%= @user.completed_tasks_count %></div>
-        </div>
-        <div class="profile-hero__dl-item">
-          <div class="profile-hero__dt"><%= t('.project_funded') %></div>
-          <div class="profile-hero__dd"><%= @user.funded_projects_count %></div>
-        </div>
-      </dl>
-
-      <div class="profile-hero__user-trans-btns">
-        <% if current_user && current_user.id == @user.id %>
-            <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a>
-        <% end %>
-        <% if current_user && current_user.id != @user.id %>
-          <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn" do %>
-            <svg focusable="false" version="1.1" class="svg-envelope">
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
-            </svg><%= t('commons.message') %>
-          <% end %>
-        <% end %>
+            <% if current_user && current_user.id != @user.id %>
+              <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn" do %>
+                <svg focusable="false" version="1.1" class="svg-envelope">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
+                </svg><%= t('commons.message') %>
+              <% end %>
+            <% end %>
+          </div>
       </div>
     </div>
-
   </div>
 
   <% if @user.is_teammate_with?(current_user) %>

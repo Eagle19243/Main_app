@@ -1,5 +1,3 @@
-// ToDo remove these styles after refactoring views/_edit_project_modal.html.erb, looks like there's a form and these styles should be moved there
-
 .modal-edit-img,
 .modal-edit-bcg {
   z-index: 1050;
@@ -12,5 +10,19 @@
   }
   .btn-root + .btn-root {
     margin-left: 30px;
+  }
+}
+
+
+@media only screen and (max-width: 480px) {
+  .modal-edit-img,
+  .modal-edit-bcg {
+    .modal-default__content {
+      width: 100%;
+    }
+    .btn-root + .btn-root {
+      margin-left: 0;
+      margin-top: 10px;
+    }
   }
 }
