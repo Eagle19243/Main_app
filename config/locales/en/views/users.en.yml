@@ -2,7 +2,7 @@ en:
   users:
     my_projects:
       leader: "Leader"
-      fund_and_needed: "Fund & Needed"
+      fund_and_needed: "Funded"
       team_needed_html: "Team / <br>Needed"
       task_reviewed_html: "Tasks to <br>Review"
       task_completed_html: "Tasks <br>completed"
