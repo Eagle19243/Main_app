@@ -11,7 +11,7 @@ feature 'Edit project text', js: true do
 
     scenario 'Redirected to Visual Editor when click Edit on Revisions tab',
              vcr: { cassette_name: 'mediawiki/history',
-                    match_requests_on: [:path, :query] } do
+                    match_requests_on: [:host] }, focus: true do
       click_pseudo_link 'Start a Project'
       @modal = find('div#startProjectModal', visible: true)
       expect(@modal).to be_visible
