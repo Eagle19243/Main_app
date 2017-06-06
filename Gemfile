@@ -125,7 +125,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'faker'
   gem 'sqlite3'
-  gem 'byebug'
+  gem 'pry-byebug'
 end
 
 group :test do
