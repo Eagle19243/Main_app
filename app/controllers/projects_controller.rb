@@ -457,9 +457,9 @@ class ProjectsController < ApplicationController
         format.html { redirect_to @project, notice: t('.success') }
         format.json { render :show, status: :ok, location: @project }
       else
-        format.html { render :edit }
+        flash[:error] = @project.errors.full_messages.join(' - ')
+        format.html { redirect_to @project }
         format.json { render :json => @project.errors.full_messages, :status =>:unprocessable_entity }
-        format.json {respond_with_bip(@project)}
       end
     end
   end

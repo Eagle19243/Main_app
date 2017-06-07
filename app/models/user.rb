@@ -144,8 +144,7 @@ class User < ActiveRecord::Base
         first_name: auth.info.name.split(' ')[0],
         last_name: auth.info.name.split(' ')[1],
         facebook_url: auth.extra.link,
-        username: "#{auth.info.name}#{auth.uid}",
-        remote_picture_url: auth.info.image.gsub('http://', 'https://')
+        username: "#{auth.info.name}#{auth.uid}"
       )
 
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
@@ -179,8 +178,7 @@ class User < ActiveRecord::Base
         first_name: auth.info.name.split(' ')[0],
         last_name: auth.info.name.split(' ')[1],
         twitter_url: auth.info.urls.Twitter,
-        username: "#{auth.info.name}#{auth.uid}",
-        remote_picture_url: auth.info.image.gsub('http://', 'https://')
+        username: "#{auth.info.name}#{auth.uid}"
       )
 
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
@@ -219,9 +217,8 @@ class User < ActiveRecord::Base
         first_name: access_token.info.name.split(' ')[0],
         last_name: access_token.info.name.split(' ')[1],
         username: "#{access_token.info.name}#{access_token.uid}",
-        company: access_token.extra.raw_info.hd,
-        remote_picture_url: access_token.info.image.gsub('http://', 'https://')
-      )
+        company: access_token.extra.raw_info.hd
+        )
 
       registered_user.company = access_token.extra.raw_info.hd unless registered_user.company?
       registered_user.remote_picture_url = access_token.info.image.gsub('http://', 'https://') unless registered_user.picture?
