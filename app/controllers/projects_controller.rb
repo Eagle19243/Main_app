@@ -445,6 +445,8 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    authorize! :update, @project
+
     respond_to do |format|
       old_name = @project.wiki_page_name
       @project.wiki_page_name = filter_page_name project_params["title"] if project_params["title"].present?
