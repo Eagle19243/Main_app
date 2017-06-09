@@ -1,0 +1,56 @@
+es:
+  notification_mailer:
+    task_deleted:
+      subject: "[WeServe] Tarea fue borrada"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "Tarea %{task_title} para el proyecto %{project_url} fue borrada por %{admin_name}."
+    comment:
+      subject: "[WeServe] Comentario para tarea recibido"
+      greeting: "Estimado(a) %{receiver_name},"
+      comment: "Comentario"
+      body_html: "%{user_name} agregó un comentario a la tarea %{task_url}."
+    revision_approved:
+      subject: "[WeServe] Version aprobada del proyecto fue cambiada"
+      body_html: "%{approver_name} cambió la versión aprobada del proyecto %{project_url}."
+    task_started:
+      subject: "[WeServe] Tarea ha comenzado"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "%{user_name} comenzó la tarea %{task_title} del proyecto %{project_url}."
+    accept_new_task:
+      subject: "[WeServe] Tarea fue aprobada"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "La tarea %{task_title} para el proyecto %{project_url} fue aprobada."
+    under_review_task:
+      subject: "[WeServe] Tarea finalizada y bajo revisión"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "%{reviewee_name} marcó la tarea %{task_title} para el proyecto %{project_url} como finalizada."
+    notify_user_for_rejecting_new_task:
+      subject: "[WeServe] Tarea no fue aprobada"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "Su tarea %{task_title} para el proyecto %{project_url} no ha sido aceptada por el lider del proyecto."
+    notify_others_for_rejecting_new_task:
+      subject: "[WeServe] Tarea fue not aprobada"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "La tarea %{task_title} para el proyecto %{project_url} no ha sido aceptada por el lider del proyecto."
+    invite_admin:
+      subject: "[WeServe] Invitación para proyecto"
+      greeting: "Estimado(a) %{user_name}"
+      body: "Ha recibido una invitación para un rol como administrador del proyecto.
+            Por favor acceda al siguiente link para aceptar o rechazar la invitación.
+            Muchas gracias."
+    suggest_task:
+      subject: "[WeServe] Tarea sugerida"
+      greeting: "Estimado(a) %{user_name}"
+      body_html: "%{user_name} sugirió una nueva tarea para el proyecto %{project_url}"
+    task_completed:
+      subject: "[WeServe] Tarea ha sido completada"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "%{reviewer_name} ha revisado y aprobado la tarea %{task_title} del proyecto %{project_url}."
+    task_incomplete:
+      subject: "[WeServe] Tarea ha sido rechazada"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "%{reviewer_name} ha revisado y rechazado la tarea %{task_title} del proyecto %{project_url}."
+    new_message:
+      subject: "[WeServe] Nuevo mensaje de %{user_name}"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "%{user_name} le envió un nuevo mensaje:"

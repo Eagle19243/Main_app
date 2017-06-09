@@ -1,0 +1,7 @@
+<p><%= t('.greeting', receiver_name: @receiver.display_name) %></p>
+<p>
+  <%= t('.body_html', user_name: @from.display_name).html_safe %>
+</p>
+<pre>
+  <%= @message %>
+</pre>

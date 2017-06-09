@@ -390,6 +390,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def online?
+    last_seen_at.present? && last_seen_at > 5.minutes.ago
+  end
+
   protected
 
   # Checks whether a password is needed or not. For validations only.

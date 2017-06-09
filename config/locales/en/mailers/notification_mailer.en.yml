@@ -1,52 +1,56 @@
 en:
   notification_mailer:
     task_deleted:
-      subject: "Task was deleted"
+      subject: "[WeServe] Task was deleted"
       greeting: "Dear %{receiver_name},"
       body_html: "Task %{task_title} for project %{project_url} was deleted by %{admin_name}."
     comment:
-      subject: "Comment for task received"
+      subject: "[WeServe] Comment for task received"
       greeting: "Dear %{receiver_name},"
       comment: "comment"
       body_html: "%{user_name} added a comment to task %{task_url}."
     revision_approved:
-      subject: "Approved version of project changed"
+      subject: "[WeServe] Approved version of project changed"
       body_html: "%{approver_name} changed the approved version of the project %{project_url}."
     task_started:
-      subject: "Task has started"
+      subject: "[WeServe] Task has started"
       greeting: "Dear %{receiver_name},"
       body_html: "%{user_name} started task %{task_title} of project %{project_url}."
     accept_new_task:
-      subject: "Task was approved"
+      subject: "[WeServe] Task was approved"
       greeting: "Dear %{receiver_name},"
       body_html: "Task %{task_title} for project %{project_url} was approved."
     under_review_task:
-      subject: "Task finished and is under review"
+      subject: "[WeServe] Task finished and is under review"
       greeting: "Dear %{receiver_name},"
       body_html: "%{reviewee_name} marked task %{task_title} for project %{project_url} as finished."
     notify_user_for_rejecting_new_task:
-      subject: "Task was not approved"
+      subject: "[WeServe] Task was not approved"
       greeting: "Dear %{receiver_name},"
       body_html: "Your task %{task_title} for project %{project_url} has not been accepted by the project leader."
     notify_others_for_rejecting_new_task:
-      subject: "Task was not approved"
+      subject: "[WeServe] Task was not approved"
       greeting: "Dear %{receiver_name},"
       body_html: "Task %{task_title} for project %{project_url} has not been accepted by the project leader."
     invite_admin:
-      subject: "Invitation For Project"
+      subject: "[WeServe] Invitation For Project"
       greeting: "Dear %{user_name}"
       body: "You received an invitation for a admin role of project.
             Please click following link to accept or reject the invitation.
             Thank you."
     suggest_task:
-      subject: "Suggested Task"
+      subject: "[WeServe] Suggested Task"
       greeting: "Dear %{user_name}"
       body_html: "%{user_name} suggested new task for project %{project_url}"
     task_completed:
-      subject: "Task has been completed"
+      subject: "[WeServe] Task has been completed"
       greeting: "Dear %{receiver_name},"
       body_html: "%{reviewer_name} has reviewed and approved task %{task_title} of project %{project_url}."
     task_incomplete:
-      subject: "Finished task rejected"
+      subject: "[WeServe] Finished task rejected"
       greeting: "Dear %{receiver_name},"
       body_html: "%{reviewer_name} has reviewed and rejected task %{task_title} of project %{project_url}."
+    new_message:
+      subject: "[WeServe] New message from %{user_name}"
+      greeting: "Dear %{receiver_name},"
+      body_html: "%{user_name} sent you a new message:"

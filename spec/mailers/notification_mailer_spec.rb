@@ -244,4 +244,27 @@ RSpec.describe NotificationMailer, type: :mailer do
       expect(CGI.unescapeHTML(email.body.to_s)).to include("#{admin.display_name} has reviewed and rejected task #{task.title} of project #{link_to project.title, project_url(project.id)}")
     end
   end
+
+  describe '#new_message' do
+    subject(:email) { described_class.new_message(group_message.id, user.id).deliver_now }
+    let(:user) { create(:user, :confirmed_user) }
+    let(:chatroom) { create(:chatroom) }
+    let(:group_message) { create(:group_message) }
+
+    it 'sends an email' do
+      expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    end
+
+    it 'has the correct To sender e-mail' do
+      expect(email.to.first).to eq(user.email)
+    end
+
+    it 'has the correct subject' do
+      expect(email.subject).to eq(I18n.t('notification_mailer.new_message.subject'))
+    end
+
+    it 'has the correct body' do
+      expect(CGI.unescapeHTML(email.body.to_s)).to include("#{group_message.user.display_name} sent you a new message:")
+    end
+  end
 end

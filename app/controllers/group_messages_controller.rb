@@ -36,20 +36,14 @@ class GroupMessagesController < ApplicationController
   end
 
   def create
-    chatroom = Chatroom.find(params[:group_message][:chatroom_id])
-    unless (params[:group_message][:message].blank? && params[:group_message][:attachment].blank?) || chatroom.blank?
-      @group_message = chatroom.group_messages.new(group_message_params)
-      @group_message.user = current_user
-      respond_to do |format|
-        if @group_message.save
-          @group_message.create_user_message_read_flags_for_all_groupmembers_except(current_user)
-          format.js
-        else
-          @notice = t('.fail', allowed_types: AttachmentUploader::SUPPORTED_FILE_EXTENSIONS.join(', '))
-          format.js
-        end
-      end
+    @group_message = GroupMessage.new(group_message_params)
+    @group_message.user = current_user
+    if @group_message.save
+      @group_message.create_user_message_read_flags_for_all_groupmembers_except(current_user)
+    else
+      @notice = t('.fail', allowed_types: AttachmentUploader::SUPPORTED_FILE_EXTENSIONS.join(', '))
     end
+    respond_to { |f| f.js }
   end
 
   def update

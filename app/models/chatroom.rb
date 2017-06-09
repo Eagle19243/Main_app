@@ -6,14 +6,14 @@ class Chatroom < ActiveRecord::Base
 
   belongs_to :project
   has_many :groupmembers, dependent: :destroy
-  has_many :users, :through => :groupmembers
+  has_many :users, -> { uniq }, through: :groupmembers
   has_many :group_messages, dependent: :destroy
   has_many :user_message_read_flags, :through => :group_messages
 
   scope :project_chatrooms, -> { where(chatroom_type: 1) }
   scope :project_dm_chatrooms, -> { where(chatroom_type: 2) }
   scope :dm_chatrooms, -> { where(chatroom_type: 3) }
-  
+
 #-------------------------------------------------------------------------------
 # Class Methods
 #-------------------------------------------------------------------------------

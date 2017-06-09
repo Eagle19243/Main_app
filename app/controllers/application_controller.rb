@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   around_filter :set_current_user
+  after_filter :user_activity
   after_action :flash_to_headers
   before_action :basic_http_auth
   before_action :set_locale
@@ -114,5 +115,11 @@ class ApplicationController < ActionController::Base
     response.headers['X-Messages'] = messages.to_json
 
     flash.discard # don't want the flash to appear when you reload page
+  end
+
+  private
+
+  def user_activity
+    current_user.try :update_attribute, :last_seen_at, Time.zone.now
   end
 end

@@ -652,5 +652,24 @@ RSpec.describe User, type: :model do
         end
       end
     end
+
+    describe '.online?' do
+      let(:user) { create(:user) }
+      subject { user.online? }
+
+      context 'user has no connection time' do
+        it { is_expected.to be_falsey }
+      end
+
+      context 'user was seen connected more than five minutes ago' do
+        let(:user) { create(:user, last_seen_at: 6.minutes.ago) }
+        it { is_expected.to be_falsey }
+      end
+
+      context 'user was seen connected less than five minutes ago' do
+        let(:user) { create(:user, last_seen_at: 4.minutes.ago) }
+        it { is_expected.to be_truthy }
+      end
+    end
   end
 end

@@ -81,6 +81,15 @@ class NotificationMailer < ApplicationMailer
     mail(to: receiver.email, subject: t('.subject'))
   end
 
+  def new_message(group_message_id, user_id)
+    group_message = GroupMessage.find(group_message_id)
+    @message = group_message.message
+    @from = group_message.user
+    @receiver = User.find(user_id)
+
+    mail(to: @receiver.email, subject: t('.subject'))
+  end
+
   private
 
   def set_instance_variables_for_rejected_tasks(task_title:, project:, receiver:)
