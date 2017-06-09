@@ -88,22 +88,22 @@
     </a>
 
     <div class="header-dropdown">
-          <div class="header-dropdown__title js-dropdown">
-              <span>?</span>
-          </div>
-          <ul class="header-dropdown__list js-dropdown-list">
-              <li class="header-dropdown__item">
-                <%= link_to t('commons.about'), '/projects/1/taskstab?tab=plan' %>
-              </li>
-              <li class="header-dropdown__item">
-                <%= link_to t('commons.improve_the_platform'), '/projects/1/taskstab?tab=tasks' %>
-              </li>
-              <li class="header-dropdown__item">
-                <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
-              </li>
-          </ul>
+      <div class="header-dropdown__title js-dropdown">
+        <span>?</span>
       </div>
-
+      <ul class="header-dropdown__list js-dropdown-list">
+        <li class="header-dropdown__item">
+          <%= link_to t('commons.about'), '/projects/1/taskstab?tab=plan' %>
+        </li>
+        <li class="header-dropdown__item">
+          <%= link_to t('commons.improve_the_platform'), '/projects/1/taskstab?tab=tasks' %>
+        </li>
+        <li class="header-dropdown__item">
+          <%= link_to t('commons.faq'), 'https://weservehelp.zendesk.com/hc/en-us/categories/115000785847-FAQ' %>
+        </li>
+      </ul>
+    </div>
+    <div class="s-header__lang-select" data-modal="#changeLanguageModal"></div>
   </div>
 </div>
 

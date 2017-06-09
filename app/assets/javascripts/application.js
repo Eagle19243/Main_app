@@ -119,7 +119,11 @@ var TabsModule = (function () {
                         }
                     }, 300)
                 }
-                window.history.pushState(null, null, window.location.pathname + ('?tab=' + (taskId ? 'Tasks&taskId=' + taskId : tab)));
+                if (LanguageModule.isLanguageSet()) {
+                    window.history.pushState(null, null, window.location.pathname + ('?tab=' + (taskId ? 'Tasks&taskId=' + taskId : tab)) + '&locale=' + LanguageModule.getCurrentLanguage());
+                } else {
+                    window.history.pushState(null, null, window.location.pathname + ('?tab=' + (taskId ? 'Tasks&taskId=' + taskId : tab)));
+                }
             });
     }
 
@@ -139,7 +143,8 @@ var RevisionModule = (function() {
                 var $that = $(this),
                     projectId = $that.data('project-id'),
                     username = $that.data('username'),
-                    url = '/projects/' + projectId + ($that.hasClass('_block-user') ? '/block_user?username=' : '/unblock_user?username=') + username;
+                    url = LanguageModule.isLanguageSet() ? '/projects/' + projectId + ($that.hasClass('_block-user') ? '/block_user?username=' : '/unblock_user?username=') + username:
+                                                            '/projects/' + projectId + ($that.hasClass('_block-user') ? '/block_user?username=' : '/unblock_user?username=') + username + '&locale=' + LanguageModule.getCurrentLanguage();
 
                 sessionStorage.setItem('revisionBlockOpen', JSON.stringify(true));
 
@@ -213,7 +218,7 @@ var ModalsModule = (function () {
                 if (e.target === this) UrlModule.closeTaskModal();
             })
             .on('keydown.closeModals', function (e) {
-                if (e.keyCode == 27) {  // todo rewrite when be removed modalsArr
+                if (e.keyCode === 27) {  // todo rewrite when be removed modalsArr
                     for (var i = 0, max = modalsArr.length; i < max; i++) {
                         $(modalsArr[i]).fadeOut();
                     }
@@ -234,6 +239,55 @@ var ModalsModule = (function () {
             togglePreloader(isShow);
         }
     };
+})();
+
+var LanguageModule = (function() {
+
+    function _insertCurrentFlag(svg) {
+        $('.s-header__lang-select').html(svg);
+    }
+    
+    function _getCurrentSvgFlag(flagName) {
+        return '' +
+            '<svg focusable="false" version="1.1" class="svg-' + flagName + '-flag" aria-hidden="true">' +
+                '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-' + flagName + '-flag"></use>' +
+            '</svg>'
+    }
+
+    function _getCurrentLanguage() {
+        return location.href.split('locale=')[1]
+    }
+
+    function _isLanguageSet() {
+        return location.href.indexOf('locale=') >= 0;
+    }
+
+    function detectCurrentLanguage() {
+        switch (location.href.split('locale=')[1]) {
+            case 'en':
+                _insertCurrentFlag(_getCurrentSvgFlag('usa'));
+                break;
+            case 'es':
+                _insertCurrentFlag(_getCurrentSvgFlag('spain'));
+                break;
+            default: 
+                _insertCurrentFlag(_getCurrentSvgFlag('usa'));
+                break;
+        }
+    }
+
+    function bindEvents($document) {
+        $(document).ready(function() {
+            detectCurrentLanguage();
+        })
+    }
+    return {
+        init: function($document) {
+            bindEvents($document);
+        },
+        isLanguageSet: _isLanguageSet,
+        getCurrentLanguage : _getCurrentLanguage
+    }
 })();
 
 var ProjectAndTaskSearchModule = (function() {
@@ -277,7 +331,12 @@ var UrlModule = (function () {
                 if (isCardClicked) return;
                 var taskId = $(this).data('taskId');
                 ModalsModule.togglePreloader(true);
-                window.history.pushState(null, null, window.location.pathname + '?tab=' + tab + '&taskId=' + taskId);
+
+                if (LanguageModule.isLanguageSet()) {
+                    window.history.pushState(null, null, window.location.pathname + '?tab=' + tab + '&taskId=' + taskId + '&locale=' + LanguageModule.getCurrentLanguage());
+                } else {
+                    window.history.pushState(null, null, window.location.pathname + '?tab=' + tab + '&taskId=' + taskId);
+                }
                 isCardClicked = true;
             });
     }
@@ -299,7 +358,12 @@ var UrlModule = (function () {
     }
 
     function closeTaskModal() {
-        window.history.pushState(null, null, window.location.pathname + '?tab=' + tab);
+
+        if (LanguageModule.isLanguageSet()) {
+            window.history.pushState(null, null, window.location.pathname + '?tab=' + tab + '&locale=' + LanguageModule.getCurrentLanguage());
+        } else {
+            window.history.pushState(null, null, window.location.pathname + '?tab=' + tab);
+        }
         taskId = null;
     }
 
@@ -371,6 +435,7 @@ $document.ready(function() {
     ProjectAndTaskSearchModule.init($document);
     DateTimePickerModule.init($document);
     UrlModule.init($document);
+    LanguageModule.init($document);
     ModalsModule.init($document);
     TabsModule.init($document);
     RevisionModule.init($document);
