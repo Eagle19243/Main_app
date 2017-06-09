@@ -1,7 +1,7 @@
 <div class="row">
 
-  <% @project.team.team_memberships.each do |team_membership| %>
-    <%= render "projects/cards/team_membership", team_membership: team_membership %>
+  <% @project.uniq_team_members.each do |team_member| %>
+    <%= render "projects/cards/team_membership", team_member: team_member, team_memberships: team_member.team_memberships.where(team: @project.team) %>
   <% end %>
 
 </div>

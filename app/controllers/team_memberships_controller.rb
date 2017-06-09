@@ -6,23 +6,33 @@ class TeamMembershipsController < ApplicationController
 
     authorize! :update, @team_membership
 
-    if @team_membership.role != "lead_editor" && update_params["role"] == "lead_editor"
-      update_type = "grant"
-    elsif @team_membership.role == "lead_editor" && update_params["role"] != "lead_editor"
-      update_type = "revoke"
-    end
-
-    respond_to do |format|
-      if @team_membership.update(update_params)
-        project = @team_membership.team.project
-        user    = @team_membership.team_member
-
-        project.grant_permissions user.username if update_type == "grant"
-        project.revoke_permissions user.username if update_type == "revoke"
-
+    # When a user has more roles, he can't update his role in a way that he has 2 same roles
+    all_team_memberships = @team_membership.team_member.team_memberships.where(team: @team_membership.team)
+    forbidden_roles = (all_team_memberships - [@team_membership]).map(&:role)
+    if forbidden_roles.include? update_params["role"]
+      respond_to do |format|
         format.json { respond_with_bip(@team_membership) }
-      else
-        format.json { respond_with_bip(@team_membership) }
+      end
+    else
+
+      if @team_membership.role != "lead_editor" && update_params["role"] == "lead_editor"
+        update_type = "grant"
+      elsif @team_membership.role == "lead_editor" && update_params["role"] != "lead_editor"
+        update_type = "revoke"
+      end
+
+      respond_to do |format|
+        if @team_membership.update(update_params)
+          project = @team_membership.team.project
+          user    = @team_membership.team_member
+
+          project.grant_permissions user.username if update_type == "grant"
+          project.revoke_permissions user.username if update_type == "revoke"
+
+          format.json { respond_with_bip(@team_membership) }
+        else
+          format.json { respond_with_bip(@team_membership) }
+        end
       end
     end
   end

@@ -124,7 +124,7 @@ class Project < ActiveRecord::Base
 
   def team_memberships_count
     if self.team.present?
-      self.team.team_memberships.count
+      self.team.team_members.uniq.count
     else
       0
     end
@@ -132,6 +132,11 @@ class Project < ActiveRecord::Base
 
   def all_team_memberships_except(user)
     self.team_memberships.joins(:team_member).where.not(team_member: user).order('users.username ASC')
+  end
+
+  # unique team members with the Leader at the start of the list
+  def uniq_team_members
+    (team_members-[leader]).unshift(leader).uniq
   end
 
   def get_project_chatroom
