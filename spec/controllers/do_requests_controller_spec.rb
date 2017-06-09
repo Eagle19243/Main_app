@@ -35,8 +35,8 @@ describe DoRequestsController, type: :request do
     end
   end
 
-  describe 'GET /do_requests/:id/accept' do
-    subject(:make_request) { get("/do_requests/#{do_request.id}/accept") }
+  describe 'PUT /do_requests/:id/accept' do
+    subject(:make_request) { put("/do_requests/#{do_request.id}/accept") }
     let(:params) { { do_request: { task_id: task.id, application: 'Reason to do the task', free: false } } }
     #let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
     let(:project) { FactoryGirl.create(:base_project, user: leader) }
@@ -69,8 +69,8 @@ describe DoRequestsController, type: :request do
     end
   end
 
-  describe 'GET /do_requests/:id/reject' do
-    subject(:make_request) { get("/do_requests/#{do_request.id}/reject") }
+  describe 'PUT /do_requests/:id/reject' do
+    subject(:make_request) { put("/do_requests/#{do_request.id}/reject") }
     let(:params) { { do_request: { task_id: task.id, application: 'Reason to do the task', free: false } } }
     #let(:user_in_request) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
     let(:project) { FactoryGirl.create(:base_project, user: leader) }

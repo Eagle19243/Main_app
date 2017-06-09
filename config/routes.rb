@@ -23,18 +23,9 @@ Rails.application.routes.draw do
     get :autocomplete_user_username, :on => :collection
   end
   get 'group_messages/search_user'
-  post 'projects/send_project_invite_email'
   post 'tasks/send_email'
-  post 'projects/send_project_email'
-  post 'projects/start_project_by_signup'
-  get 'projects/get_activities'
-  get 'projects/show_all_tasks'
-  get 'projects/show_all_teams'
-  get 'projects/show_all_revision'
-  get 'projects/show_task'
   post 'task_attachments/create'
   post 'task_attachments/destroy_attachment'
-  get 'assignments/update_collaborator_invitation_status'
   resources :profile_comments, only: [:index, :create, :update, :destroy]
   resources :plans
   resources :cards
@@ -68,102 +59,77 @@ Rails.application.routes.draw do
   resources :work_records
   post 'user_wallet_transactions/send_to_any_address'
   post 'user_wallet_transactions/send_to_task_address'
-  get 'proj_admins/new'
-  get 'proj_admins/create'
-  get 'proj_admins/destroy'
-  resources :proj_admins do
+  resources :proj_admins, only: [:create] do
     member do
-      get :accept, :reject
+      put :accept, :reject
     end
   end
-  resources :assignments do
+  resources :assignments, only: [:new, :create] do
     member do
-      get :accept, :reject, :completed, :confirmed, :confirmation_rejected
+      put :accept, :reject, :completed, :confirmed, :confirmation_rejected
     end
-  end
-
-  resources :do_for_frees do
-    member do
-      get :accept, :reject
+    collection do
+      put :update_collaborator_invitation_status
     end
   end
 
-  resources :do_requests do
+  resources :do_requests, only: [:new, :create, :destroy] do
     member do
-      get :accept, :reject
+      put :accept, :reject
     end
   end
 
   resources :activities, only: [:index]
   resources :wikis
-  resources :tasks, except: [:index, :new, :edit] do
+  resources :tasks, only: [:show, :create, :update, :destroy] do
     member do
-      get :accept, :reject, :doing, :reviewing, :completed, :refund, :incomplete
+      put :accept, :reject, :doing, :reviewing, :completed, :refund, :incomplete
       delete '/members/:team_membership_id', to: 'tasks#removeMember', as: :remove_task_member
     end
   end
 
-  resources :discussions, only: [:destroy, :accept] do
+  resources :discussions, only: [:destroy] do
     member do
-      get :accept
+      put :accept
     end
   end
 
   resources :favorite_projects, only: [:create, :destroy]
   resources :home , controller: 'projects'
   resources :projects, :except => [:edit] do
-    resources :tasks do
+    resources :tasks, only: [:show, :create, :update, :destroy] do
       member do
         get :card_payment, to: 'payments/stripe#new'
         post :card_payment, to: 'payments/stripe#create'
       end
       resources :task_comments, only: [:create]
-      resources :assignments
+      resources :assignments, only: [:new, :create]
     end
 
     resources :project_comments
 
     member do
-      get :accept, :reject
-      post :follow
-      get :unfollow
-      post :rate
-      get :discussions
-      get :revisions
-      post :switch_approval_status
-      get :plan
-      get :read_from_mediawiki
-      post :write_to_mediawiki
-      get :revision_action
-      get :unblock_user
-      get :block_user
+      get :discussions, :revisions, :plan, :read_from_mediawiki, :unblock_user,
+          :block_user, :taskstab, :requests, :show_project_team
+      post :follow, :rate, :switch_approval_status, :write_to_mediawiki,
+           :save_edits, :update_edits
+      put :accept, :reject, :unfollow, :revision_action
     end
 
     collection do
-      get :autocomplete_user_search
-      get :archived
-      post :change_leader
-      get :get_in
-    end
-
-    member do
-      get :taskstab, as: :taskstab
-      get :requests, as: :requests
-      get :show_project_team, as: :show_project_team
+      get :get_activities, :show_all_tasks, :show_all_teams, :show_all_revision,
+          :show_task, :autocomplete_user_search, :archived, :search_results,
+          :get_in
+      post :send_project_invite_email, :send_project_email,
+           :start_project_by_signup, :user_search, :change_leader
     end
   end
 
-  resources :change_leader_invitation, only: [:create] do
+  resources :change_leader_invitation, only: [] do
     member do
-      get 'accept'
-      get 'reject'
+      put :accept, :reject
     end
   end
-
-  get '/projects/search_results', to: 'projects#search_results'
-  post '/projects/user_search', to: 'projects#user_search'
-  post '/projects/:id/save-edits', to: 'projects#saveEdit'
-  post '/projects/:id/update-edits', to: 'projects#updateEdit'
 
   get "/oauth2callback" => "projects#contacts_callback"
   get "/callback" => "projects#contacts_callback"

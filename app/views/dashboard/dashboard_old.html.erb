@@ -24,9 +24,9 @@
         <%=link_to assignment.task.title, assignment.task %> | <%= link_to assignment.task.project.title, assignment.task.project %><br>
         Assigned at:  <%= assignment.created_at.to_date %><br>
         Was due at:     <%= (assignment.task.deadline).to_date %><br>
-        Confirmed at 
+        Confirmed at
 
-      
+
        </div>
 
 
@@ -49,12 +49,14 @@
 
        <% if assignment.user == current_user && assignment.pending? %>
        You have been assigned to do task <%=link_to assignment.task.title, assignment %><br>
-         <%= link_to "Reject", reject_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",accept_assignment_path(assignment.id), class: "button radius success tiny" %> <hr>
+         <%= link_to "Reject", reject_assignment_path(assignment.id), :method => :put, :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %>
+         <%= link_to "Accept",accept_assignment_path(assignment.id), :method => :put, class: "button radius success tiny" %> <hr>
          <%end%>
 
          <% if assignment.completed? && (current_user == assignment.task.project.user || current_user.admin?)%>
             <%= link_to assignment.user.display_name, assignment.user %> wants you to verify and confirm his completion of task <%= link_to assignment.task.title, assignment.task %><br>
-            <%= link_to "Reject", confirmation_rejected_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",confirmed_assignment_path(assignment.id), class: "button radius success tiny" %> <hr>
+            <%= link_to "Reject", confirmation_rejected_assignment_path(assignment.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %>
+            <%= link_to "Accept",confirmed_assignment_path(assignment.id), :method => :put, class: "button radius success tiny" %> <hr>
          <%end%>
          <%end%>
 
@@ -66,11 +68,12 @@
          <% if proj_admin.user == current_user && proj_admin.pending? %>
 
            You have been added as auxiliary Admin in project <%= link_to proj_admin.project.title, proj_admin.project %><br>
-         <%= link_to "Reject", reject_proj_admin_path(proj_admin.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept",accept_proj_admin_path(proj_admin.id), class: "button radius success tiny" %> <hr>
+         <%= link_to "Reject", reject_proj_admin_path(proj_admin.id), :method => :put, :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %>
+         <%= link_to "Accept",accept_proj_admin_path(proj_admin.id), :method => :put, class: "button radius success tiny" %> <hr>
          <%end%>
          <%end%>
 
-         
+
 
 
 
@@ -112,7 +115,8 @@
 
 
 
-        <%= link_to "Reject", reject_project_path(project.id), :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %><%= link_to "Accept", accept_project_path(project.id), class: "button radius success tiny" %> <hr>
+        <%= link_to "Reject", reject_project_path(project.id), :method => :put, :data => { :confirm => "Are you sure?" }, class: "button radius tiny alert right" %>
+        <%= link_to "Accept", accept_project_path(project.id), :method => :put, class: "button radius success tiny" %> <hr>
 
          <%end%>
   <%end%>
@@ -131,7 +135,8 @@
 
     <% if req.pending? && (current_user == req.task.user || current_user == req.task.project.user) %>
         <%= link_to req.user.display_name, req.user %> has requested to do task <%= link_to req.task.title, req.task %><br><br>
-        <%= link_to "Accept", accept_do_request_path(req.id), class: 'button success tiny radius' %> <%= link_to 'Reject', reject_do_request_path(req.id), :data => { :confirm => "Are you sure?" }, class: 'button radius alert tiny right' %><hr>
+        <%= link_to "Accept", accept_do_request_path(req.id), :method => :put, class: 'button success tiny radius' %>
+        <%= link_to 'Reject', reject_do_request_path(req.id), :method => :put, :data => { :confirm => "Are you sure?" }, class: 'button radius alert tiny right' %><hr>
     <%end%>
 
   <%end%>
@@ -159,7 +164,7 @@
         Assigned at:  <%= assignment.created_at.to_date %><br>
         Due date:     <%= (assignment.task.deadline).to_date %><br>
 
-        <%= link_to "Completed ?", completed_assignment_path(assignment.id), class:'button radius tiny' %>
+        <%= link_to "Completed ?", completed_assignment_path(assignment.id), :method => :put, class:'button radius tiny' %>
 
        </div>
 

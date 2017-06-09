@@ -13,7 +13,7 @@
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
-                <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
+                <%= link_to show_all_tasks_projects_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
                     <svg focusable="false" version="1.1" class="svg-idea">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-idea"></use>
                     </svg>
@@ -21,7 +21,7 @@
                 <% end %>
             </li>
             <li class="welcome-to-team__item">
-                <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
+                <%= link_to show_all_tasks_projects_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "welcome-to-team__link m-tabs__link" do %>
                     <svg focusable="false" version="1.1" class="svg-tools">
                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-tools"></use>
                     </svg>

@@ -20,7 +20,7 @@
           <tr>
             <td><%= do_request.id %></td>
             <td>
-              <%= link_to projects_show_task_path(id: do_request.task_id), class:'pr-card', data: { task_id: do_request.task_id }, remote: true do %>
+              <%= link_to show_task_projects_path(id: do_request.task_id), class:'pr-card', data: { task_id: do_request.task_id }, remote: true do %>
                 <%= do_request.task.title %>
               <% end %>
             </td>
@@ -28,18 +28,18 @@
             <td><%= do_request.application %></td>
             <td><%= do_request.created_at %></td>
             <td>
-              <a href="<%= accept_do_request_path(do_request.id) %>" class="btn-notify _accept">
+              <%= link_to accept_do_request_path(do_request.id), :method => :put, class: 'btn-notify _accept' do %>
                 <svg focusable="false" version="1.1" class="svg-check">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-check"></use>
                 </svg>
                 Approve
-              </a>
-              <a href="<%= reject_do_request_path(do_request.id) %>" class="btn-notify _reject" title="Delete">
+              <% end %>
+              <%= link_to reject_do_request_path(do_request.id), :method => :put, class: 'btn-notify _reject', title: "Delete" do %>
                 <svg focusable="false" version="1.1" class="svg-times">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-times"></use>
                 </svg>
                 Deny
-              </a>
+              <% end %>
             </td>
           </tr>
         <% end %>

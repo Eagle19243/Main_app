@@ -1,21 +1,28 @@
 class ProjectsController < ApplicationController
 
-  load_and_authorize_resource :except => [:get_activities, :show_all_revision, :show_all_teams, :show_all_tasks, :requests, :project_admin, :send_project_email, :show_task, :send_project_invite_email, :contacts_callback, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup, :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan, :switch_approval_status]
+  load_and_authorize_resource except: [
+    :get_activities, :show_all_revision, :show_all_teams, :show_all_tasks,
+    :requests, :project_admin, :send_project_email, :show_task,
+    :send_project_invite_email, :contacts_callback, :read_from_mediawiki,
+    :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup,
+    :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan,
+    :switch_approval_status
+  ]
 
   autocomplete :projects, :title, :full => true
   autocomplete :users, :name, :full => true
   autocomplete :tasks, :title, :full => true
-  before_action :set_project, only: [:show, :show_all_teams, :show_all_tasks, :requests, :taskstab, :show_project_team, :edit, :update, :destroy, :saveEdit, :updateEdit, :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki, :revision_action, :revisions, :show_all_revision, :block_user, :unblock_user, :plan, :switch_approval_status]
+  before_action :set_gon
+  before_action :set_project, only: [
+    :show, :show_all_teams, :show_all_tasks, :requests, :taskstab,
+    :show_project_team, :edit, :update, :destroy, :save_edits, :update_edits,
+    :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki,
+    :revision_action, :revisions, :show_all_revision, :block_user,
+    :unblock_user, :plan, :switch_approval_status
+  ]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
   skip_before_action :verify_authenticity_token, only: [:rate]
   before_filter :authenticate_user!, only: [:contacts_callback]
-
-  # skip_authorization_check []
-  before_action :set_gon
-
-  def set_gon
-    @short_descr_limit = gon.short_descr_limit = Project::SHORT_DESCRIPTION_LIMIT
-  end
 
   def index
     @featured_projects = Project.where.not(state: "rejected").not_hidden.page params[:page]
@@ -33,10 +40,6 @@ class ProjectsController < ApplicationController
       format.html
       format.js
     end
-  end
-
-  def original_url
-    request.base_url + request.original_fullpath
   end
 
   def send_project_invite_email
@@ -464,7 +467,7 @@ class ProjectsController < ApplicationController
 
   # POST /save-edits
   # POST /save-edits.json
-  def saveEdit
+  def save_edits
     @project_edit = @project.project_edits.create(description: edit_params[:project_edit])
     @project_edit.user = current_user
     puts @project_edit.description
@@ -479,7 +482,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def updateEdit
+  def update_edits
     id_t = params[:project][:editItem][:id]
     new_state = params[:project][:editItem][:new_state]
     puts "id_t: " + id_t
@@ -688,5 +691,9 @@ class ProjectsController < ApplicationController
   # Fitler wiki page name regarding page title
   def filter_page_name title
     title.tr("&#[]{}<>", " ").strip
+  end
+
+  def set_gon
+    @short_descr_limit = gon.short_descr_limit = Project::SHORT_DESCRIPTION_LIMIT
   end
 end

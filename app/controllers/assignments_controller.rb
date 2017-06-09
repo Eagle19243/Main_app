@@ -27,7 +27,7 @@ class AssignmentsController < ApplicationController
     if @assignment.accept!
       @assignment.task.project.follow!(@assignment.user)
       flash[:success] = "Assignment accepted"
-    else 
+    else
       flash[:error] = "Assignment was not accepted"
     end
     redirect_to dashboard_path
@@ -72,9 +72,6 @@ class AssignmentsController < ApplicationController
       flash[:error] = "Comfirmation was not rejected"
     end
     redirect_to dashboard_path
-  end
-
-  def destroy
   end
 
   private

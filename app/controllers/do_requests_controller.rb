@@ -1,8 +1,6 @@
 class DoRequestsController < ApplicationController
   before_action :authenticate_user!
 
-  def index; end
-
   def new
     @task = Task.find(params[:task_id])
 
@@ -41,8 +39,6 @@ class DoRequestsController < ApplicationController
       end
     end
   end
-
-  def update; end
 
   def destroy
     @do_request = DoRequest.find(params[:id])

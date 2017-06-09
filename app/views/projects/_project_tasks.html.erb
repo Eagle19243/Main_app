@@ -10,7 +10,7 @@
 
       <div class="section-content">
         <% @suggested_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
+            <%= link_to show_task_projects_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>
@@ -54,7 +54,7 @@
 
       <div class="section-content">
         <% @sourcing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
+            <%= link_to show_task_projects_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>
@@ -99,7 +99,7 @@
 
       <div class="section-content">
         <% @doing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
+            <%= link_to show_task_projects_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>
@@ -122,7 +122,7 @@
 
       <div class="section-content">
         <% @reviewing_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
+            <%= link_to show_task_projects_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>
@@ -145,7 +145,7 @@
 
       <div class="section-content">
         <% @done_tasks.each do |task| %>
-            <%= link_to projects_show_task_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
+            <%= link_to show_task_projects_path(id: task.id), class:'pr-card', data: { task_id: task.id }, remote: true do %>
                 <div class="trello-cards">
                   <div class="card-wrapper">
                     <%= render partial: 'task_card', locals: { task: task } %>

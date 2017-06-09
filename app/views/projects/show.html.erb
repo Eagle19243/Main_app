@@ -3,8 +3,8 @@
     <p class="bg-info lead text-center">
       You were invited as a leader for this project. Please review the project and accept.
       <br/>
-      <%= link_to "Accept", accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
-      <%= link_to "Reject", reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm"%>
+      <%= link_to "Accept", accept_change_leader_invitation_path(@change_leader_invitation), method: :put, :class => "btn btn-primary btn-sm"%>
+      <%= link_to "Reject", reject_change_leader_invitation_path(@change_leader_invitation), method: :put, :class => "btn btn-primary btn-sm"%>
     </p>
   </div>
 <% end %>

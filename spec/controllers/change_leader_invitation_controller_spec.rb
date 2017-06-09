@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe ChangeLeaderInvitationController, type: :request do
-  describe 'GET /change_leader_invitation/:id/accept' do
-    subject(:make_request) { get("/change_leader_invitation/#{change_leader_invitation.id}/accept") }
+  describe 'PUT /change_leader_invitation/:id/accept' do
+    subject(:make_request) { put("/change_leader_invitation/#{change_leader_invitation.id}/accept") }
     let(:project) { FactoryGirl.create(:project, user: current_leader) }
     let(:current_leader) { FactoryGirl.create(:user, email: Faker::Internet.email, confirmed_at: Time.now) }
     let(:change_leader_invitation) { FactoryGirl.create(:change_leader_invitation, new_leader: new_leader.email, project: project) }

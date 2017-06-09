@@ -6,57 +6,6 @@ class TasksController < ApplicationController
   protect_from_forgery :except => :update
   before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed, :incomplete]
 
-
-  def validate_team_member
-    @task= Task.find(params[:id]) rescue nil
-    @task_memberships = @task.team_memberships
-    if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
-      @notice = t('.not_allowed')
-      respond_to do |format|
-        format.js
-        format.html { redirect_to task_path(@task.id), notice: @notice }
-      end
-    end
-  end
-
-  def validate_admin
-    @task = Task.find(params[:id]) rescue nil
-    if @task.blank?
-      redirect_to '/'
-    else
-      if !(current_user.id == @task.project.user_id && @task.reviewing?)
-        @notice = t('.not_allowed')
-        respond_to do |format|
-          format.js
-          format.html { redirect_to task_path(@task.id), notice: @notice }
-        end
-      end
-    end
-  end
-
-  def get_revision_histories project
-    result = project.get_history
-    @histories = []
-
-    if result
-      result.each do |r|
-        history                = Hash.new
-        history["revision_id"] = r["id"]
-        history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
-        history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
-        history["status"]      = r['status']
-        history["comment"]     = r['comment']
-        history["username"]    = r["author"]
-        history["is_blocked"]  = r["is_blocked"]
-
-        @histories.push(history)
-      end
-      return @histories
-    else
-      return []
-    end
-  end
-
   def show
    # @task = Task.find(params[:id])
     @project = @task.project
@@ -349,5 +298,55 @@ class TasksController < ApplicationController
        short_description number_of_participants proof_of_execution title
        description budget user_id condition_of_execution fileone filetwo
        filethree filefour filefive state)
+  end
+
+  def validate_team_member
+    @task= Task.find(params[:id]) rescue nil
+    @task_memberships = @task.team_memberships
+    if !(@task.doing? && (@task_memberships.collect(&:team_member_id).include? current_user.id))
+      @notice = t('.not_allowed')
+      respond_to do |format|
+        format.js
+        format.html { redirect_to task_path(@task.id), notice: @notice }
+      end
+    end
+  end
+
+  def validate_admin
+    @task = Task.find(params[:id]) rescue nil
+    if @task.blank?
+      redirect_to '/'
+    else
+      if !(current_user.id == @task.project.user_id && @task.reviewing?)
+        @notice = t('.not_allowed')
+        respond_to do |format|
+          format.js
+          format.html { redirect_to task_path(@task.id), notice: @notice }
+        end
+      end
+    end
+  end
+
+  def get_revision_histories(project)
+    result = project.get_history
+    @histories = []
+
+    if result
+      result.each do |r|
+        history                = Hash.new
+        history["revision_id"] = r["id"]
+        history["datetime"]    = DateTime.strptime(r["timestamp"],"%s").strftime("%l:%M %p %^b %d, %Y")
+        history["user"]        = User.find_by_username(r["author"][0].downcase+r["author"][1..-1]) || User.find_by_username(r["author"])
+        history["status"]      = r['status']
+        history["comment"]     = r['comment']
+        history["username"]    = r["author"]
+        history["is_blocked"]  = r["is_blocked"]
+
+        @histories.push(history)
+      end
+      return @histories
+    else
+      return []
+    end
   end
 end

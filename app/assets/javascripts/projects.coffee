@@ -17,13 +17,12 @@ window.saveEdit = (projectId)->
     makeEditable()
   description = $("#proj-desc").text()
   $.ajax({
-     url: '/projects/' + projectId + '/save-edits',
-     dataType: "json",
-     method: 'POST',
-     data: { project: {id: projectId, project_edit: description } }
-    })
-      .then (data)->
-        alertSuccess()
+    url: '/projects/' + projectId + '/save_edits',
+    dataType: "json",
+    method: 'POST',
+    data: { project: {id: projectId, project_edit: description } }
+  }).then (data)->
+    alertSuccess()
 
 window.closeEditAlert=->
   $("#editAlert").remove()
@@ -41,20 +40,19 @@ window.makeEditable = (projectId)->
 window.updateEdit = (projectEditId, new_state)->
   projectId = $("button[data-makes-editable]").data("makes-editable")
   $.ajax({
-     url: '/projects/' + projectId + '/update-edits',
-     dataType: "json",
-     method: 'POST',
-     data: { project: {id: projectId, editItem: {id: projectEditId, new_state: new_state} } }
-   })
-     .then (dt, textStatus, xhr)->
-       console.log(dt)
-       console.log(xhr.status)
-       if xhr.status == 200
-         deleteDiv = "project-edit-" + projectEditId
-         $("#" + deleteDiv).remove()
-         if new_state == "accepted"
-           $("#proj-desc").text(dt.description)
-         alertSuccess()
+    url: '/projects/' + projectId + '/update_edits',
+    dataType: "json",
+    method: 'POST',
+    data: { project: {id: projectId, editItem: {id: projectEditId, new_state: new_state} } }
+  }).then (dt, textStatus, xhr)->
+    console.log(dt)
+    console.log(xhr.status)
+    if xhr.status == 200
+      deleteDiv = "project-edit-" + projectEditId
+      $("#" + deleteDiv).remove()
+      if new_state == "accepted"
+        $("#proj-desc").text(dt.description)
+      alertSuccess()
 
 jQuery ->
   $(document).foundation()
@@ -214,10 +212,10 @@ $ ->
   loading = false
   ajaxIsLoadingIndicator = $('#ajaxLoading')
   scrollToLoadMore = $('#scroll-to-load-more')    # todo FD: look like dead code
-  
+
   $(document).bindWithDelay "scroll", ->
     windowBottom = $(window).scrollTop() + $(window).height()
-    
+
     # SCROLLED TO THE END OF SCREEN: LOADING NEXT PAGE
     if !loading && (windowBottom + 15) >= $(document).height()
       loadItemsFromServer()

@@ -16,7 +16,7 @@ function rejectDiscussion(id) {
 function acceptDiscussion(id) {
     $.ajax({
         url: '/discussions/'+id+'/accept',
-        type: 'GET',
+        type: 'PUT',
         success: function(data) {
             //$('.'+data['field_name']+'-content').html(data['content']);
             //$('#discussion-'+id).remove();

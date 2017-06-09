@@ -274,7 +274,7 @@
                   <% end %>
                   <% if user_signed_in? %>
                     <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)) %>
-                      <%= link_to doing_task_path(@task.id), class: "approve-link" do %>
+                      <%= link_to doing_task_path(@task.id), :method => :put, class: "approve-link" do %>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
                           Start
                       <% end %>
@@ -299,21 +299,21 @@
 
                     <% if user_signed_in? %>
                         <% if current_user.can_submit_task?(@task) %>
-                            <%= link_to reviewing_task_path(@task.id) do %>
+                            <%= link_to reviewing_task_path(@task.id), :method => :put do %>
                                 <button>
                                   <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
                                 </button>
                             <% end %>
                         <% end %>
                         <% if can? :incomplete, @task %>
-                          <%= link_to incomplete_task_path(@task.id), data: { confirm: 'Do you confirm that you have reviewed the task and that it is incompleted?' } do %>
+                          <%= link_to incomplete_task_path(@task.id), :method => :put, data: { confirm: 'Do you confirm that you have reviewed the task and that it is incompleted?' } do %>
                               <button>
                                 <i class="fa fa-times" aria-hidden="true"></i>Mark As Incompleted
                               </button>
                           <% end %>
                         <% end %>
                         <% if can? :completed, @task %>
-                          <%= link_to completed_task_path(@task.id), data: {confirm: 'Do you confirm that you have reviewed the task and that it is completed?' } do %>
+                          <%= link_to completed_task_path(@task.id), :method => :put, data: {confirm: 'Do you confirm that you have reviewed the task and that it is completed?' } do %>
                               <button>
                                 <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
                               </button>
@@ -335,7 +335,7 @@
 
                     <!-- Disable refund feature for now -->
                     <% if false && user_signed_in?  && @task.current_fund > 0 && current_user.id == @task.project.user_id  %>
-                        <%= link_to refund_task_path(@task) do %>
+                        <%= link_to refund_task_path(@task), :method => :put do %>
                             <button>
                               <i class="fa fa-bitcoin" aria-hidden="true"></i>
                               Refund Task
@@ -483,9 +483,9 @@
             <p>Are you sure want to approve this task?</p>
             <p>This is a irreversible action.</p>
             <div class="approve-btns mt10">
-              <a class="approve-btn" href=<%= accept_task_path(@task.id) %> title="approve">
+              <%= link_to accept_task_path(@task.id), :method => :put, class: 'approve-btn', title: 'approve' do %>
                 <i class="fa fa-check"></i>Yes, approve
-              </a>
+              <% end %>
               <a class="approve-btn _close-modal" title="cancel">
                 No
               </a>

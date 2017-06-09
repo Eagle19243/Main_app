@@ -37,7 +37,7 @@
         <span class="modal-invite__or"><%= t('commons.or') %></span>
         <div class="modal-default__text" id="response"></div>
 
-        <%= form_tag(projects_send_project_email_path, remote: true, id: 'send-project-email', :class => 'invite-email-wrapper mb30') do %>
+        <%= form_tag(send_project_email_projects_path, remote: true, id: 'send-project-email', :class => 'invite-email-wrapper mb30') do %>
             <input type="hidden" name="project_id" value="<%= @project.id rescue nil %>">
             <div class="f-default__joined">
                 <div class="f-default__joined-col _wide">

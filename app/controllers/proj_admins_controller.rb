@@ -30,9 +30,6 @@ class ProjAdminsController < ApplicationController
 		redirect_to dashboard_path
 	end
 
-	def destroy
-	end
-
 private
 
 	def set_proj_admin

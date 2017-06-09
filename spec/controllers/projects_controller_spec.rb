@@ -284,8 +284,8 @@ describe ProjectsController, type: :request do
     end
   end
 
-  describe 'POST /projects/:id/revision_action' do
-    subject(:make_request) { get("/projects/#{project.id}/revision_action", params) }
+  describe 'PUT /projects/:id/revision_action' do
+    subject(:make_request) { put("/projects/#{project.id}/revision_action", params) }
     let(:params) { { type: 'approve', rev: 1 } }
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
     let(:project) { FactoryGirl.create(:project, user: leader) }

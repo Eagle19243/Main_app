@@ -6,8 +6,8 @@
       <p class="bg-info lead text-center">
         <%= t('.lead_project_invitation') %>
         <br/>
-        <%= link_to t('commons.accept'), accept_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm" %>
-        <%= link_to t('commons.reject'), reject_change_leader_invitation_path(@change_leader_invitation), :class => "btn btn-primary btn-sm" %>
+        <%= link_to t('commons.accept'), accept_change_leader_invitation_path(@change_leader_invitation), method: :put, :class => "btn btn-primary btn-sm" %>
+        <%= link_to t('commons.reject'), reject_change_leader_invitation_path(@change_leader_invitation), method: :put, :class => "btn btn-primary btn-sm" %>
       </p>
     </div>
 <% end %>
@@ -78,12 +78,12 @@
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_tasks_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
+              <%= link_to show_all_tasks_projects_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
                 <%= t('.tasks_tab_title') %><span class="count"><%= @tasks_count %></span>
               <% end %>
             </li>
             <li>
-              <%= link_to projects_show_all_teams_path(id: @project.id), data: {tab: 'team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+              <%= link_to show_all_teams_projects_path(id: @project.id), data: {tab: 'team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
                 <%= t('.team_tab.title')%><span class="count"><%= @team_memberships_count %></span>
               <% end %>
             </li>
