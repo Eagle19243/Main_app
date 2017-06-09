@@ -74,19 +74,8 @@ class TasksController < ApplicationController
     @tasks_count =tasks.count
     @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
     @done_tasks = tasks.where(state: "completed").count
-    @contents = ''
-    @is_blocked = 0
-    if current_user
-      result = @project.page_read current_user.username
-    else
-      result = @project.page_read nil
-    end
-    if result
-      if result["status"] == 'success'
-        @contents = result["html"]
-        @is_blocked = result["is_blocked"]
-      end
-    end
+
+    @contents, @subpages, @is_blocked = @project.page_info(current_user)
 
     @histories = get_revision_histories @project
 

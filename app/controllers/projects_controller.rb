@@ -226,21 +226,8 @@ class ProjectsController < ApplicationController
     @tasks_count = tasks.size
     @team_memberships_count = @project.team_memberships_count
     @requests_count = ProjectRequestsService.new(@project).requests_count
-    @contents = ''
-    @is_blocked = 0
 
-    if current_user
-      result = @project.page_read current_user.username
-    else
-      result = @project.page_read nil
-    end
-
-    if result
-      if result["status"] == 'success'
-        @contents = result["html"]
-        @is_blocked = result["is_blocked"]
-      end
-    end
+    @contents, @subpages, @is_blocked = @project.page_info(current_user)
 
     @histories = get_revision_histories @project
     # if approved_versions?(@histories) == 0
@@ -296,19 +283,7 @@ class ProjectsController < ApplicationController
     @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
     @mediawiki_api_base_url = Project.load_mediawiki_api_base_url
 
-    @contents = ''
-    @is_blocked = 0
-    if current_user
-      result = @project.page_read current_user.username
-    else
-      result = @project.page_read nil
-    end
-    if result
-      if result["status"] == 'success'
-        @contents = result["html"]
-        @is_blocked = result["is_blocked"]
-      end
-    end
+    @contents, @subpages, @is_blocked = @project.page_info(current_user)
 
     # @histories = get_revision_histories @project
     # if approved_versions?(@histories) == 0

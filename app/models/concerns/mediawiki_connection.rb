@@ -8,13 +8,23 @@ module MediawikiConnection
       parsed_result = username.blank? ? get(:read) : get(:read, user: username)
       return nil if parsed_result.blank?
       return { 'status' => 'error' } if parsed_result['error']
-      {}.tap do |content|
-        content['revision_id'] = parsed_result['response']['revision_id']
-        content['non-html'] = parsed_result['response']['content']
-        content['html'] = parsed_result['response']['contentHtml']
-        content['is_blocked'] = parsed_result['response']['is_blocked']
-        content['status'] = 'success'
+      content = results_to_hash(parsed_result)
+      content["subpages"] = []
+      return content unless parsed_result["response"]["subpages"]
+      parsed_result["response"]["subpages"].each do |subpage|
+        subpage_parsed_result = username.blank? ? get(:read, page: subpage["full_title"]) : get(:read, user: username, page: subpage["full_title"])
+        content["subpages"] << results_to_hash(subpage_parsed_result)
       end
+      content
+    end
+
+    # Returns page info requested multiple times in projects and tasks controllers
+    def page_info(user)
+      result = user ? page_read(user.username) : page_read(nil)
+      if result && result["status"] == 'success'
+        return result["html"], result["subpages"], result["is_blocked"]
+      end
+      return '', [], 0
     end
 
     # MediaWiki API - Page Create or Write
@@ -129,6 +139,16 @@ module MediawikiConnection
 
     def to_url(params)
       URI.escape(params.collect { |k, v| "#{k}=#{v}" }.join('&')) if params
+    end
+
+    def results_to_hash(parsed_result)
+      {}.tap do |content|
+        content['revision_id'] = parsed_result['response']['revision_id']
+        content['non-html'] = parsed_result['response']['content']
+        content['html'] = parsed_result['response']['contentHtml']
+        content['is_blocked'] = parsed_result['response']['is_blocked']
+        content['status'] = 'success'
+      end
     end
   end
 
