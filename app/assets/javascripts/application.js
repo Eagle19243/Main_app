@@ -265,13 +265,13 @@ var LanguageModule = (function() {
     function detectCurrentLanguage() {
         switch (location.href.split('locale=')[1]) {
             case 'en':
-                _insertCurrentFlag(_getCurrentSvgFlag('usa'));
+                _insertCurrentFlag(_getCurrentSvgFlag('uk'));
                 break;
             case 'es':
                 _insertCurrentFlag(_getCurrentSvgFlag('spain'));
                 break;
             default: 
-                _insertCurrentFlag(_getCurrentSvgFlag('usa'));
+                _insertCurrentFlag(_getCurrentSvgFlag('uk'));
                 break;
         }
     }
