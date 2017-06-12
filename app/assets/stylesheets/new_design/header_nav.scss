@@ -139,6 +139,7 @@ a.header-link {
   font-weight: 600;
   position: relative;
   vertical-align: middle;
+  text-transform: uppercase;
   &:visited,
   &:hover,
   &:focus {
@@ -147,19 +148,18 @@ a.header-link {
 }
 
 .border-link {
-  border: 1px solid #333;
-  border-radius: 20px;
   padding: 6px 20px;
 
   &:hover,
   &:focus {
+    background: none;
     text-decoration: none;
   }
 }
 
 
 .links-group {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
 
   > div,
   > a {

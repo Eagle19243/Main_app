@@ -10,14 +10,13 @@ feature 'Projects page is working for anonymous user', type: :feature, js: true 
     visit projects_path
 
     expect(page).to have_text('Browse Projects')
-    expect(page).to have_link('Active Projects')
+    expect(page).to have_link('Explore projects')
   end
 
   scenario 'should redirect to active projects page' do
     visit '/'
 
-    find('.header-dropdown__title.js-dropdown').click
-    click_pseudo_link 'Active Projects'
+    page.find('.header-link._active-project').click
     expect(page).to have_current_path(projects_path)
   end
 end

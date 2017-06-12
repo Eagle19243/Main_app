@@ -19,7 +19,7 @@ feature 'Wallet page working correctly', type: :feature, js: true do
   scenario 'Going to random page on site' do
     visit projects_path
 
-    expect(page).to have_link('Active Projects')
+    expect(page).to have_link('Explore projects')
     expect(page).to have_text('Browse Projects')
   end  
 
@@ -45,7 +45,7 @@ feature 'Wallet page working correctly', type: :feature, js: true do
   scenario 'User logged in goes to random page on site' do
     visit projects_path
 
-    expect(page).to have_link('Active Projects')
+    expect(page).to have_link('Explore projects')
     expect(page).to have_text('Browse Projects')
   end
 

@@ -12,6 +12,19 @@
     padding: 10px 3%;
     position: relative;
   }
+  .btn-root._small {
+    border: none;
+    color: #000;
+    .desktop & {
+      &:hover,
+      &:active,
+      &:focus {
+        border: none;
+        background: none;
+        color: #000;
+      }
+    }
+  }
   &__left {
     display: flex;
     align-items: center;
@@ -32,7 +45,9 @@
       font-size: 32px;
       font-family: 'Roboto', sans-serif;
 
-      &:hover {
+      &:hover,
+      &:active,
+      &:focus {
         color: #000;
         text-decoration: none;
       }
@@ -177,7 +192,7 @@
 
   .header-dropdown {
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 5px;
     position: relative;
     &__list {
       position: absolute;
@@ -207,14 +222,18 @@
         font-family: 'Roboto', sans-serif;
         cursor: pointer;
         border-radius: 50%;
-        color: #fff;
-        background-color: #000;
+        color: #000;
+        background-color: #fff;
         text-align: center;
         font-size: 16px;
         line-height: 24px;
         width: 24px;
         height: 24px;
         padding: 0;
+        &:hover {
+          background-color: #000;
+          color: #fff;
+        }
       }
       &:after {
         display: inline-block;
@@ -226,6 +245,10 @@
       &._active {
         svg {
           transform: rotate(180deg);
+        }
+        span {
+          background-color: #000;
+          color: #fff;
         }
       }
       svg {

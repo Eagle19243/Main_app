@@ -62,7 +62,7 @@ en:
     deadline: "Deadline"
     create_task: "Create Task"
     explore: "Explore"
-    active_projects: "Active Projects"
+    active_projects: "Explore projects"
     search_placeholder: "Search Causes, Places, or Keyword"
     transactions: "Transactions"
     make_transaction: "Make a transaction"
