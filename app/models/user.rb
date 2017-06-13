@@ -150,9 +150,9 @@ class User < ActiveRecord::Base
       registered_user.remote_picture_url = auth.info.image.gsub('http://', 'https://') unless registered_user.picture?
 
       registered_user.save
-      registered_user
+      return registered_user
     else
-      User.create(
+      user = User.create(
         provider: auth.provider,
         uid: auth.uid,
         first_name: auth.info.name.split(' ')[0],
@@ -164,6 +164,8 @@ class User < ActiveRecord::Base
         username: auth.info.name + auth.uid,
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
+      user.create_wallet! unless Rails.env.test?
+      return user
     end
   end
 
@@ -186,9 +188,9 @@ class User < ActiveRecord::Base
       registered_user.country = auth.info.location unless registered_user.country?
 
       registered_user.save
-      registered_user
+      return registered_user
     else
-      User.create(
+      user = User.create(
         provider: auth.provider,
         uid: auth.uid,
         first_name: auth.info.name.split(' ')[0],
@@ -202,6 +204,8 @@ class User < ActiveRecord::Base
         username: "#{auth.info.name}#{auth.uid}",
         remote_picture_url: auth.info.image.gsub('http://', 'https://')
       )
+      user.create_wallet! unless Rails.env.test?
+      return user
     end
   end
 
@@ -224,9 +228,9 @@ class User < ActiveRecord::Base
       registered_user.remote_picture_url = access_token.info.image.gsub('http://', 'https://') unless registered_user.picture?
 
       registered_user.save
-      registered_user
+      return registered_user
     else
-      User.create(
+      user = User.create(
         provider: access_token.provider,
         email: data['email'],
         uid: access_token.uid,
@@ -238,6 +242,8 @@ class User < ActiveRecord::Base
         username: "#{access_token.info.name}#{access_token.uid}",
         remote_picture_url: access_token.info.image.gsub('http://', 'https://')
       )
+      user.create_wallet! unless Rails.env.test?
+      return user
     end
   end
 
@@ -390,6 +396,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def create_wallet!
+    WalletCreationJob.perform_later('User', self.id) unless self.wallet
+  end
+  
   def online?
     last_seen_at.present? && last_seen_at > 5.minutes.ago
   end

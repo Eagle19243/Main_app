@@ -4,9 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     super
-    if @user.save
-      WalletCreationJob.perform_later('User', @user.id) unless @user.wallet
-    end
+    @user.create_wallet! if @user.save
   end
 
   private
