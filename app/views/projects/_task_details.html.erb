@@ -69,6 +69,7 @@
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
                     <h4>Specifications</h4>
+                    <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :condition_of_execution, id: "input-task-condition", class: "_no-empty" %>
@@ -79,6 +80,7 @@
 
                   <div class="modal-task__desc-block">
                     <h4>Proof of Execution</h4>
+                    <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil" style="display: inline-block;"></span>
                     <p class="modal-task__task-info js-toggleForm" id="task-proof"><%= @task.proof_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :proof_of_execution, id: "input-task-proof", class: "_no-empty" %>
@@ -543,6 +545,9 @@
                     $saveBtn.addClass('_disable');
                 }
 
+            })
+            .on('click.openForm', '.task-desc .btn-edit', function() {
+                $(this).siblings('.js-toggleForm').click();
             })
             .on('click.saveDiffInBudget', '.modal-task__controls-side .fund-button', function() {
                 var $this = $(this),
