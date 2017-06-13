@@ -27,6 +27,17 @@
         </div>
       <% end %>
 
+      <div>
+        <% @subpages.each do |subpage| %>
+          <span class="btn-root">
+            <%=subpage["title"]%>
+          </span>
+        <% end %>
+        <span class="btn-root">
+          <%= link_to '+ Add Subpage', create_subpage_project_path(id: project.id, title: "New"), method: :post %>
+        </span>
+      </div>
+
       <div class="clearfix"></div>
       <div class="project-summary">
         <%= contents.html_safe %>

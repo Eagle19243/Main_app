@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
     :send_project_invite_email, :contacts_callback, :read_from_mediawiki,
     :write_to_mediawiki, :revision_action, :revisions, :start_project_by_signup,
     :taskstab, :failure, :get_in, :block_user, :unblock_user, :plan,
-    :switch_approval_status
+    :switch_approval_status, :create_subpage
   ]
 
   autocomplete :projects, :title, :full => true
@@ -18,9 +18,9 @@ class ProjectsController < ApplicationController
     :show_project_team, :edit, :update, :destroy, :save_edits, :update_edits,
     :follow, :rate, :discussions, :read_from_mediawiki, :write_to_mediawiki,
     :revision_action, :revisions, :show_all_revision, :block_user,
-    :unblock_user, :plan, :switch_approval_status
+    :unblock_user, :plan, :switch_approval_status, :create_subpage
   ]
-  before_action :get_project_user, only: [:show, :taskstab, :show_project_team]
+  before_action :get_project_user, only: [:show, :taskstab, :show_project_team, :create_subpage]
   skip_before_action :verify_authenticity_token, only: [:rate]
   before_filter :authenticate_user!, only: [:contacts_callback]
 
@@ -420,6 +420,11 @@ class ProjectsController < ApplicationController
         format.json { render json: @project.errors.full_messages.to_sentence, status: :unprocessable_entity }
       end
     end
+  end
+
+  def create_subpage
+    @project.subpage_write current_user, '', params["title"]
+    redirect_to controller: 'projects', action: 'taskstab', id: session[:idd]
   end
 
   def update

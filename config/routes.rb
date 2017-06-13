@@ -112,7 +112,7 @@ Rails.application.routes.draw do
       get :discussions, :revisions, :plan, :read_from_mediawiki, :unblock_user,
           :block_user, :taskstab, :requests, :show_project_team
       post :follow, :rate, :switch_approval_status, :write_to_mediawiki,
-           :save_edits, :update_edits
+           :save_edits, :update_edits, :create_subpage
       put :accept, :reject, :unfollow, :revision_action
     end
 

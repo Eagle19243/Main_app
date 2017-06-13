@@ -13,7 +13,12 @@ module MediawikiConnection
       return content unless parsed_result["response"]["subpages"]
       parsed_result["response"]["subpages"].each do |subpage|
         subpage_parsed_result = username.blank? ? get(:read, page: subpage["full_title"]) : get(:read, user: username, page: subpage["full_title"])
-        content["subpages"] << results_to_hash(subpage_parsed_result)
+        content["subpages"] << {
+                                 "id" => subpage["id"],
+                                 "title" => subpage["title"],
+                                 "full_title" => subpage["full_title"] ,
+                                 "html" => results_to_hash(subpage_parsed_result)["html"]
+                                }
       end
       content
     end
@@ -30,6 +35,12 @@ module MediawikiConnection
     # MediaWiki API - Page Create or Write
     def page_write(user, content)
       post(:write, { content: content }, user: user.username)
+        .try(:[], 'response').try(:[], 'code')
+    end
+
+    # MediaWiki API - Subpage Create or Write 
+    def subpage_write(user, content, subpage)
+      post(:write_subpage, { content: content }, user: user.username, sub_page: subpage.tr(' ', '_'))
         .try(:[], 'response').try(:[], 'code')
     end
 
