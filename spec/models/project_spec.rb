@@ -196,4 +196,26 @@ RSpec.describe Project, type: :model do
       it { is_expected.to eq 200 }
     end
   end
+
+  describe '.add_team_member' do
+    let(:user) { create(:user) }
+    let(:project) { create(:project) }
+    let(:last_membership) { TeamMembership.last }
+
+    before { project.add_team_member(user) }
+
+    context 'user is not included in members list' do
+      it { expect(project.team_members.size).to eq 2 }
+      it { expect(project.team_members).to include(user) }
+      it { expect(last_membership.team_member).to eq user }
+      it { expect(last_membership[:role]).to eq TeamMembership::TEAM_MATE_ID }
+    end
+
+    context 'user is already in members list' do
+      let(:user) { project.user }
+
+      it { expect(project.team_members.size).to eq 1 }
+      it { expect(project.team_members).to include(user) }
+    end
+  end
 end

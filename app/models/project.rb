@@ -202,4 +202,11 @@ class Project < ActiveRecord::Base
     self.hidden = false
     self.save
   end
+
+  def add_team_member(user)
+    return if team_members.include? user
+    team.team_memberships << TeamMembership.new(
+      team: team, team_member: user, role: TeamMembership::TEAM_MATE_ID
+    )
+  end
 end
