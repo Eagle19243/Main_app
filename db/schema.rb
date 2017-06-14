@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170605081558) do
+ActiveRecord::Schema.define(version: 20170608104220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -422,6 +422,7 @@ ActiveRecord::Schema.define(version: 20170605081558) do
     t.text     "short_description"
     t.boolean  "marker",                        default: false
     t.datetime "deleted_at"
+    t.boolean  "free",                          default: false
   end
 
   add_index "tasks", ["deleted_at"], name: "index_tasks_on_deleted_at", using: :btree
@@ -522,7 +523,6 @@ ActiveRecord::Schema.define(version: 20170605081558) do
     t.string   "linkedin_id"
     t.string   "twitter_id"
     t.boolean  "hidden",                            default: false
-    t.datetime "last_seen_at"
     t.string   "preferred_language",                default: "en"
   end
 

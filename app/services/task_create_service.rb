@@ -14,7 +14,7 @@ class TaskCreateService
 
   def create_task
     return false unless task.valid?
-    return false unless task_budget_is_greater_than_or_equal_to_a_minimum?
+    return false if !task.free? && !task_budget_is_greater_than_or_equal_to_a_minimum?
 
     ActiveRecord::Base.transaction do
       if task.save

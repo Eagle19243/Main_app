@@ -62,6 +62,9 @@
       }
     }
   }
+  &__free {
+    font-family: 'Roboto', sans-serif;
+  }
   &__content-side {
     flex-grow: 1;
     padding-right: 40px;
@@ -204,6 +207,7 @@
       }
 
       .modal-task__card {
+        margin-bottom: 10px;
         .btn-edit {
           display: inline-block;
           vertical-align: middle;

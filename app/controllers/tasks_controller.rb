@@ -80,7 +80,7 @@ class TasksController < ApplicationController
       if @task.update(update_task_params)
         current_user.create_activity(@task, 'edited')
 
-        format.html { redirect_to @task, notice: t('.notice_message') }
+        format.html { render nothing: true }
         format.json { render :show, status: :ok, location: @task }
         format.js
       else
@@ -289,15 +289,21 @@ class TasksController < ApplicationController
     attributes = default_attributes
     attributes.delete(:deadline) if cannot? :update_deadline, @task
     attributes.delete(:budget)   if cannot? :update_budget, @task
+    attributes.delete(:free)     if cannot? :update_budget, @task
 
-    params.require(:task).permit(attributes)
+    result_hash = params.require(:task).permit(attributes)
+    if result_hash["free"]
+      result_hash["free"] = (result_hash["free"] == 'true')
+      result_hash["budget"] = Payments::BTC::Converter.convert_satoshi_to_btc(Task::MINIMUM_FUND_BUDGET) unless result_hash["free"]
+    end
+    result_hash
   end
 
   def default_attributes
     %i(references project_id deadline target_number_of_participants
        short_description number_of_participants proof_of_execution title
        description budget user_id condition_of_execution fileone filetwo
-       filethree filefour filefive state)
+       filethree filefour filefive state free)
   end
 
   def validate_team_member

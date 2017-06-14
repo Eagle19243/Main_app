@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     // Delete events after popup was closed and opens again
     $(document).off('click.showBudgetPopup', '#openEditBudgetPopup');
     $(document).off('submit.sendRequest', '#Do-request-form');
@@ -20,6 +19,7 @@ $(document).ready(function() {
     $(document).off('click.closeInviteModal', '#inviteclose');
     $(document).off('click.openShareModal', '#sharebtn');
     $(document).off('click.openEditTask', '#openEditTaskWarning');
+    $(document).off('click.setTaskState', '.modal-task__free-btn');
 
     $('#product-modal').html("<%= escape_javascript(render :partial => 'task_details') %>");
     ModalsModule.openModal('#myModal');
@@ -166,12 +166,28 @@ $(document).ready(function() {
         $('#team').hide();
     });
 
+    $(document).on('click.setTaskState', '.modal-task__free-btn', function(e) {
+        $.ajax({
+          url: "/tasks/<%= @task.id %>",
+          type: "PUT",
+          data:
+          {
+            task: {
+              free: false
+            }
+          },
+          success: function() {
+            location.reload();
+          }
+        });
+    });
+
     // function that processes your ajax calls...
     (function callAjax() {
       $.ajax({
         url: "/projects/get_activities",
         type: "get",
-        data: {id: <%= @task.id %>},
+        data: { id: <%= @task.id %> },
         success: function () {
           setTimeout(callAjax, 15000);
         }

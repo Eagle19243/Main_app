@@ -54,8 +54,11 @@ es:
       revision_as_of: "Revisión del día"
     block_user_modal:
       confirmation_message: "¿Está seguro de querer bloquear"
+    task_details:
+      make_non_free: "Make non-free"
     new_task_modal:
       suggest_new_task: "Sugiera nuevas tareas"
+      is_task_free: "Free task?"
       budget_in_bitcoin: "Presupuesto total de las tareas en Bitcoins."
       people_needed: "Cantidad de personas requeridas"
       total_participant: "Cantidad total de participantes requeridos para trabajar en esta tarea."

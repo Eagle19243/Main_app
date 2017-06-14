@@ -61,8 +61,8 @@ class Task < ActiveRecord::Base
   validates :title, presence: true
   validates :condition_of_execution, presence: true
   validates :proof_of_execution, presence: true
-  validates :satoshi_budget, presence: true
-  validates :budget, presence: true, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }
+  validates :satoshi_budget, presence: true, unless: :free?  
+  validates :budget, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }, unless: :free?
   validates :deadline, presence: true
   validates :number_of_participants, numericality: { only_integer: true, less_than_or_equal_to: 1 }
   validates :target_number_of_participants, presence: true, numericality: { only_integer: true, equal_to: 1 }
@@ -75,11 +75,15 @@ class Task < ActiveRecord::Base
   end
 
   def not_fully_funded_or_less_teammembers?
-    current_fund < budget ||  number_of_participants < target_number_of_participants
+    !fully_funded? || !enough_teammembers?
+  end
+
+  def enough_teammembers?
+    number_of_participants >= target_number_of_participants
   end
 
   def fully_funded?
-    current_fund >= budget
+    free? || current_fund >= budget
   end
 
   # Returns an estimation in Satoshi how many each participant is going to recieve
@@ -91,6 +95,7 @@ class Task < ActiveRecord::Base
   # real +current_fund+ and `team_memberships.size` need to be used to precise
   # calculations
   def planned_amount_per_member
+    return 0 if free?
     we_serve_part = satoshi_budget * Payments::BTC::Base.weserve_fee
 
     (satoshi_budget - we_serve_part) / target_number_of_participants
@@ -106,6 +111,7 @@ class Task < ActiveRecord::Base
   end
 
   def budget
+    return 0 if free?
     Payments::BTC::Converter.convert_satoshi_to_btc(self.satoshi_budget)
   end
 
@@ -114,11 +120,12 @@ class Task < ActiveRecord::Base
   end
 
   def funded
-    budget == 0 ? "100%" : ((( Payments::BTC::Converter.convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + "%"
+    (budget == 0 || free?) ? "100%" : ((( Payments::BTC::Converter.convert_satoshi_to_btc(current_fund)  rescue 0) / budget) * 100).round.to_s + "%"
   end
 
   def funds_needed_to_fulfill_budget
     return 0 if completed?
+    return 0 if free?
 
     delta = current_fund - satoshi_budget
     delta > 0 ? 0 : delta.abs

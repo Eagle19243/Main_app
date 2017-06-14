@@ -23,6 +23,12 @@
           <div class="f-default__col-wrap">
             <div class="f-default__col">
               <label class="f-default__label" for="task_description">
+                <%= t('.is_task_free') %>
+              </label>
+              <input class="f-default__field modal-new-task__checkbox" type="checkbox" value="true" name="task[free]" id="task_free">
+            </div>
+            <div class="f-default__col">
+              <label class="f-default__label" for="task_description">
                 <%= t('commons.budget') %>
                 <span class="b-tooltip__element">(?)
                     <div class="b-tooltip__content">
@@ -30,7 +36,8 @@
                     </div>
                 </span>
                 , <%= t('commons.min') %> <%= min_fund_budget_in_btc %> ฿</label>
-              <input class="f-default__field modal-new-task__btc-amount numeric decimal required" required="required" min="<%= min_fund_budget_in_btc %>" value="<% min_fund_budget_in_btc %>" maxlength="10" aria-required="true" type="number" step="0.001" name="task[budget]" id="task_budget">
+              </label>
+              <input class="f-default__field modal-new-task__btc-amount numeric decimal required" min="<%= min_fund_budget_in_btc %>" value="<% min_fund_budget_in_btc %>" maxlength="10" aria-required="true" type="number" step="0.001" name="task[budget]" id="task_budget">
               <span id="new_task_btc" class="f-default__convert"></span>
             </div>
             <div class="f-default__col">
@@ -43,10 +50,6 @@
                   </span>
               </label>
               <input class="f-default__field modal-new-task__member_amount numeric integer required" required="required" disabled maxlength="5" aria-required="true" type="number" step="1" min="1" max="1" value="1" name="task[target_number_of_participants]" id="task_target_number_of_participants">
-            </div>
-            <div class="f-default__col _estimation">
-              <label class="f-default__label" for="task_description"><%= t('.estimate_amount_per_member') %><span>&nbsp;</label>
-              <span id="new_task_btc_per_member" class="f-default__convert"></span>
             </div>
           </div>
         </div>
@@ -122,6 +125,17 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
                 updateConversion(e);
               }
         })
+        .on('change.toggleTaskStatus', '.modal-new-task__checkbox', function() {
+            var budgetField = $('.modal-new-task__btc-amount');
+
+            if (budgetField.attr('disabled')) {
+                budgetField.removeAttr('disabled');
+            } else {
+                budgetField.val('');
+                $('.f-default__convert').html('');
+                budgetField.attr('disabled', '');
+            }
+        })
         .on('input.convertToUsd', '#task_budget', function(e) {
             var $that = $(this),
                 currentVal = $that.val();
@@ -130,6 +144,12 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
                 $that.val(currentVal.substring(1));
             }
             updateConversion(e);
+        })
+        .on('submit.createNewTask', '.new_task', function(e) {
+            if (!$('.modal-new-task__checkbox').is(':checked') && !$('.modal-new-task__btc-amount').val()) {
+                $('.error-create-task').fadeIn(300);
+                e.preventDefault();
+            }
         })
         .on('input.estimationPerMember', '.modal-new-task__btc-amount, .modal-new-task__member_amount', function() {
             var budget = parseFloat($btcAmount.val()).toFixed(3),
