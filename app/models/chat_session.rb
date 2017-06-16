@@ -4,10 +4,16 @@ class ChatSession < ActiveRecord::Base
 
   validates_presence_of :requester, :receiver
 
-  before_create :session_state
+  before_create :initial_values
 
-  def session_state(force)
-    self.uuid = SecureRandom.uuid if uuid.nil? || force
+  def initial_values
+    loop do
+      new_uuid = SecureRandom.uuid
+      if ChatSession.find_by_uuid(new_uuid).blank?
+        self.uuid = new_uuid
+        break
+      end
+    end
     self.status = 'pending'
   end
 end
