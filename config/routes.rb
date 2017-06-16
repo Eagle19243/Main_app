@@ -139,6 +139,10 @@ Rails.application.routes.draw do
   get '/pages/privacy_policy'
   get '/pages/terms_of_use'
 
+  namespace :pusher do
+    resources :auth, only: [:create]
+  end
+
   devise_for :users, controllers: {
     sessions: 'sessions',
     registrations: 'registrations',
