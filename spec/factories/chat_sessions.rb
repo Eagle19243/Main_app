@@ -1,8 +1,6 @@
 FactoryGirl.define do
   factory :chat_session do
-    uuid "MyString"
-    status "MyString"
-    requester nil
-    receiver nil
+    requester { create(:user) }
+    receiver { create(:user) }
   end
 end

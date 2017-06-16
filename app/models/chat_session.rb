@@ -7,14 +7,16 @@ class ChatSession < ActiveRecord::Base
   before_create :initial_values
 
   def initial_values
-    loop do
-      new_uuid = SecureRandom.uuid
-      if ChatSession.find_by_uuid(new_uuid).blank?
-        self.uuid = new_uuid
-        break
+    if uuid.blank?
+      loop do
+        new_uuid = SecureRandom.uuid
+        if ChatSession.find_by_uuid(new_uuid).blank?
+          self.uuid = new_uuid
+          break
+        end
       end
     end
-    self.status = 'pending'
+    self.status ||= 'pending'
   end
 
   def participating_user?(user)
