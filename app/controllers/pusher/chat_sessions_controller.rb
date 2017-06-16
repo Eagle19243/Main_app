@@ -1,5 +1,5 @@
 module Pusher
-  class ChatSessionController < ApplicationController
+  class ChatSessionsController < ApplicationController
     def create
       chat_session = ChatSession.new(chat_session_params)
       chat_session.requester = current_user
