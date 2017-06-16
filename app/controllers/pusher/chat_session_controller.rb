@@ -12,6 +12,16 @@ module Pusher
       end
     end
 
+    def update
+      chat_session = ChatSession.find_by_uuid(params[:uuid])
+      if chat_session.update(status: :finished)
+        render json: chat_session.uuid, status: :ok
+      else
+        render json: chat_session.errors.full_messages,
+               status: :unprocessable_entity
+      end
+    end
+
     private
 
     def chat_session_params
