@@ -7,9 +7,9 @@ module Pusher
          chat_session.participating_user?(current_user)
         response = Pusher.authenticate(params[:channel_name],
                                        params[:socket_id])
-        render json: response
+        render json: response, status: :created
       else
-        render text: 'Forbidden', status: '403'
+        render json: 'Forbidden', status: :forbidden
       end
     end
   end
