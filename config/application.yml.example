@@ -1,31 +1,34 @@
 admin_notification_email:                       # Weserve email which is used to receive critical notifications
-coinbase_api_key:                               # specify coinbase api key
-coinbase_api_secret:                            # specify coinbase api secret
-mediawiki_secret:                               # local mediawiki installation secret
-mediawiki_domain:                               # mediawiki domain for cookies in wide format, eg ".example.com"
-mediawiki_api_base_url:                         # base url of mediawiki API, eg "http://mediawiki.local/"
-mediawiki_username:                             # mediawiki API username
-mediawiki_password:                             # mediawiki API password
-weserve_service_fee: "0.05"                     # Weserve commission rate
-weserve_wallet_address:                         # Weserve commission wallet to accept fees
-weserve_from_email:                             # Default email that will be used in a 'from' field when sending emails
-email_provider_username:                        # AWS access ID for email service
-email_provider_password:                        # AWS access secret key for email service
-facebook_app_id:                                # Facebook app ID
-facebook_secret_key:                            # Facebook app secret
-twitter_app_id:                                 # Twitter app ID
-twitter_secret_key:                             # Twitter app secret
-gapp_id:                                        # Google app ID
-gapp_secret_key:                                # Google app secret
 app_secret_key:                                 # Application secret key, generate by `rake secret`
-domain_name:                                    # Application domain name, eg "example.com"
-default_url:                                    # Default url for application, eg: "localhost:3000" (?)
-service_provider: "AWS"                         # Service to store uploads
 aws_access_key_id:                              # AWS access key ID for S3 service
 aws_secret_access_key:                          # AWS access key secret for S3 service
-s3_bucket_region: "us-east-1"                   # S3 bucket region, eg "us-east-1"
 bucket_name: "youserve"                         # S3 bucket name
+coinbase_api_key:                               # specify coinbase api key
+coinbase_api_secret:                            # specify coinbase api secret
 consider_all_requests_local:                    # set to 'true' if you want to display backtrace at production env
-rollbar_key:                                    # key for Rollbar service
+default_url:                                    # Default url for application, eg: "localhost:3000" (?)
+domain_name:                                    # Application domain name, eg "example.com"
+email_provider_password:                        # AWS access secret key for email service
+email_provider_username:                        # AWS access ID for email service
+facebook_app_id:                                # Facebook app ID
+facebook_secret_key:                            # Facebook app secret
+gapp_id:                                        # Google app ID
+gapp_secret_key:                                # Google app secret
+mediawiki_api_base_url:                         # base url of mediawiki API, eg "http://mediawiki.local/"
+mediawiki_domain:                               # mediawiki domain for cookies in wide format, eg ".example.com"
+mediawiki_password:                             # mediawiki API password
+mediawiki_secret:                               # local mediawiki installation secret
+mediawiki_username:                             # mediawiki API username
 newrelic_key:                                   # key for Newrelic service
+pusher_app_id:
+pusher_key:
+pusher_secret:
+rollbar_key:                                    # key for Rollbar service
+s3_bucket_region: "us-east-1"                   # S3 bucket region, eg "us-east-1"
 secret_key_base:                                # RoR secret key
+service_provider: "AWS"                         # Service to store uploads
+twitter_app_id:                                 # Twitter app ID
+twitter_secret_key:                             # Twitter app secret
+weserve_from_email:                             # Default email that will be used in a 'from' field when sending emails
+weserve_service_fee: "0.05"                     # Weserve commission rate
+weserve_wallet_address:                         # Weserve commission wallet to accept fees
