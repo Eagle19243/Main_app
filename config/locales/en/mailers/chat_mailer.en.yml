@@ -1,6 +1,6 @@
 en:
-  notification_mailer:
-    task_deleted:
+  chat_mailer:
+    invite_receiver:
       subject: "[WeServe] %{requester_name} wants to talk with you"
       greeting: "Dear %{receiver_name},"
       body_html: "%{requester_name} have requested to talk with you. Please access to the platform for more info"
