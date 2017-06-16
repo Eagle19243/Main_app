@@ -16,4 +16,8 @@ class ChatSession < ActiveRecord::Base
     end
     self.status = 'pending'
   end
+
+  def participating_user?(user)
+    requester == user || receiver == user
+  end
 end
