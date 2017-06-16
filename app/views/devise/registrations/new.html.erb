@@ -1,5 +1,5 @@
 <% content_for :title do %>
-  Sign Up For WeServe.io
+  <%= t('commons.sign_up_for_weserve') %>
 <% end %>
 
 <div class="register-form-wrapper">
@@ -8,7 +8,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h2 class="modal-default__title">Join In WeServe.io today!</h2>
+          <h2 class="modal-default__title"><%= t('modal.register_modal.join_weserve_today') %></h2>
         </div>
 
         <div class="modal-sign__col-wrap">
@@ -18,16 +18,16 @@
 
           <div class="modal-sign__col">
             <div class="row row-custom" id="sign_up_show">
-              <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+              <%= render 'form' %>
             </div>
           </div>
         </div>
 
         <p class="modal-default__text">
-            By clicking Sign Up or Sign in, you agree to our <a href="/pages/terms_of_use"> Terms of Use </a> and <a href="/pages/privacy_policy">Privacy Policy</a>.
+          <%= t('modal.register_modal.agree_term_html').html_safe %>
         </p>
         <p class="modal-default__text">
-            Already have an account? <%= link_to 'Sign In', new_user_session_path %>
+          <%= t('modal.register_modal.already_have_account?') %> <%= link_to t('.sign_in'), new_user_session_path %>
         </p>
       </div>
     </div>

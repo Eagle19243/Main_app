@@ -34,9 +34,7 @@
             <li class="welcome-to-team__item">
                 <div class="welcome-to-team__subtitle"><%= t('.become_lead_editor') %></div>
                 <div class="welcome-to-team__info"><%= t('.lead_editor_description') %></div>
-                <% if !user_signed_in? %>
-                    <a class="button round get-invo-btn" data-modal="#projectSignupModal" }><%= t('commons.apply') %></a>
-                <% elsif !current_user.is_admin_for?(@project) %>
+                <% if !current_user.is_admin_for?(@project) %>
                     <%= link_to t('commons.apply'), get_in_projects_path(type: "0", id: @project.id), :class => "btn-root", data: { confirm: t('.apply_lead_editor_confirmation') } %>
                 <% end %>
             </li>
@@ -45,9 +43,7 @@
                 <div class="welcome-to-team__info">
                   <%= t('.coordinator_description').html_safe %>
                 </div>
-                <% if !user_signed_in? %>
-                    <a class="button round get-invo-btn" data-modal="#projectSignupModal">Apply</a>
-                <% elsif !current_user.is_admin_for?(@project) %>
+                <% if !current_user.is_admin_for?(@project) %>
                     <%= link_to t('commons.apply'), get_in_projects_path(type: "1", id: @project.id), :class => "btn-root", data: { confirm: t('.apply_coordinator_confirmation') } %>
                 <% end %>
             </li>

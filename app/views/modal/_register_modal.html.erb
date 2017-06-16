@@ -15,10 +15,10 @@
 
       <div class="modal-sign__col">
         <div class="_sign-up" id="sign_up_show">
-          <%= react_component 'SignUpModal', {authenticity_token: form_authenticity_token}%>
+          <%= render 'devise/registrations/form' %>
         </div>
         <div class="_sign-in" id="sign_in_show">
-          <%= react_component 'SignInModal', {authenticity_token: form_authenticity_token}%>
+          <%= render 'devise/sessions/form' %>
         </div>
       </div>
     </div>
