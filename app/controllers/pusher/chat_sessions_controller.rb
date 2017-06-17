@@ -4,7 +4,8 @@ module Pusher
       chat_session = ChatSession.new(chat_session_params)
       chat_session.requester = current_user
       if chat_session.save
-        ChatMailer.invite_receiver(requester.id, receiver.id).deliver_later
+        ChatMailer.invite_receiver(chat_session.requester.id,
+                                   chat_session.receiver.id).deliver_later
         render json: chat_session.uuid, status: :created
       else
         render json: chat_session.errors.full_messages,

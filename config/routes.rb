@@ -141,7 +141,8 @@ Rails.application.routes.draw do
 
   namespace :pusher do
     resources :auth, only: [:create]
-    resources :chat_sessions, only: [:create, :update]
+    resources :chat_sessions, only: [:create]
+    put 'chat_sessions/:uuid' => 'chat_sessions#update', as: :chat_session
   end
 
   devise_for :users, controllers: {
