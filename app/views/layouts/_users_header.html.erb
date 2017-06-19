@@ -22,7 +22,7 @@
   <div class="s-header__right">
     <div class="search-box-wrapper show-desktop">
       <%= form_tag user_search_projects_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
-          <input type="text" name='title' class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>">
+          <input type="text" name='title' class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>" autocomplete="off" >
           <!-- <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %> -->
           <button type="submit" name="" class="btn-search btn-reset">
               <svg focusable="false" version="1.1" class="svg-search">
