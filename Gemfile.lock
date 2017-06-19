@@ -806,6 +806,7 @@ DEPENDENCIES
   progress_bar
   pry-byebug
   pry-rails
+  puma
   quiet_assets
   rack-mini-profiler
   rack-rewrite (~> 1.5.0)
