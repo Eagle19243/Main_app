@@ -64,10 +64,10 @@ class Project < ActiveRecord::Base
   scope :not_hidden, -> { where(hidden: false) }
 
   # TODO In future it would be a good idea to extract this into the Search object
-  def self.fulltext_search(free_text, limit=20)
-    # TODO Rails 5 has a OR method
-    projects = Project.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR full_description ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
-    projects.limit(limit)
+  def self.fulltext_search(free_text, limit = 20)
+    where('title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? '\
+          'OR full_description ILIKE ?', "%#{free_text}%", "%#{free_text}%",
+          "%#{free_text}%", "%#{free_text}%").limit(limit)
   end
 
   def interested_users
