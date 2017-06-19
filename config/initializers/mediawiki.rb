@@ -1,6 +1,5 @@
 require 'rest-client'
 require 'json'
-require 'resolv-replace'
 
 Rails.application.configure do
   # Extract credentials
