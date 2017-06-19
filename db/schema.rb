@@ -523,6 +523,7 @@ ActiveRecord::Schema.define(version: 20170608104220) do
     t.string   "linkedin_id"
     t.string   "twitter_id"
     t.boolean  "hidden",                            default: false
+    t.datetime "last_seen_at"
     t.string   "preferred_language",                default: "en"
   end
 
