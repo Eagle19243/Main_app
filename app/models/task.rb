@@ -4,7 +4,6 @@ class Task < ActiveRecord::Base
 
   acts_as_paranoid
 
-  include AASM
   default_scope -> { order('created_at DESC') }
   mount_uploader :fileone, PictureUploader
   mount_uploader :filetwo, PictureUploader
