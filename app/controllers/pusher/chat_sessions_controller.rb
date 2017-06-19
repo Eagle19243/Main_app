@@ -14,8 +14,9 @@ module Pusher
     end
 
     def update
-      chat_session = ChatSession.find_by_uuid(params[:uuid])
-      if chat_session.update(status: :finished)
+      uuid = params[:channel_name].gsub(/^private-/, '')
+      chat_session = ChatSession.find_by_uuid(uuid)
+      if chat_session.update(status: params[:status])
         render json: chat_session.uuid, status: :ok
       else
         render json: chat_session.errors.full_messages,

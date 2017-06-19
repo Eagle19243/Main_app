@@ -26,11 +26,11 @@ RSpec.describe Pusher::ChatSessionsController do
   describe 'PUT /pusher/chat_sessions' do
     let!(:chat_session) { create(:chat_session, uuid: uuid) }
     let(:uuid) { '12345' }
-    before { put :update, uuid: uuid }
+    before { put :update, channel_name: "private-#{uuid}", status: :connected }
 
     context 'when parameters are valid' do
       it { expect(response.status).to eq(200) }
-      it { expect(chat_session.reload.status).to eq('finished') }
+      it { expect(chat_session.reload.status).to eq('connected') }
     end
   end
 end
