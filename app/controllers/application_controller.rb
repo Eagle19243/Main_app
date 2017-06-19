@@ -20,6 +20,14 @@ class ApplicationController < ActionController::Base
    end
   end
 
+  rescue_from ActionController::ParameterMissing do |exception|
+    msg = Rails.env.production? ? t('users.update.fail') : exception.message
+    respond_to do |format|
+     format.any { redirect_to main_app.root_url, status: 304, notice: msg }
+   end
+  end
+
+
   protect_from_forgery with: :exception
   around_filter :set_current_user
   after_filter :user_activity
