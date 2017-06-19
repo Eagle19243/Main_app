@@ -814,6 +814,7 @@ DEPENDENCIES
   progress_bar
   pry-byebug
   pry-rails
+  puma
   pusher
   quiet_assets
   rack-mini-profiler

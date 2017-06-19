@@ -110,6 +110,9 @@
     position: relative;
     text-align: center;
     margin-bottom: 20px;
+    span.btn-edit {
+      font-size: 18px;
+    }
   }
 
   &__task-info {
