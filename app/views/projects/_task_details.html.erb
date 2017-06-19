@@ -51,6 +51,7 @@
         <div class="modal-task__title-wrap">
           <% if can?(:update, @task) %>
             <h2 class="modal-default__title js-toggleForm" id="task-title"><%= @task.title %></h2>
+            <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
             <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "modal-task__form _hide"} do |f| %>
               <%= f.text_field :title, id: "input-task-title", class: "_no-empty" %>
               <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">Save</button>
@@ -559,7 +560,7 @@
                 }
 
             })
-            .on('click.openForm', '.task-desc .btn-edit', function() {
+            .on('click.openForm', '.modal-task__title-wrap .btn-edit, .task-desc .btn-edit', function() {
                 $(this).siblings('.js-toggleForm').click();
             })
             .on('click.saveDiffInBudget', '.modal-task__controls-side .fund-button', function() {
