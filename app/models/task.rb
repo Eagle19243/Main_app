@@ -70,7 +70,10 @@ class Task < ActiveRecord::Base
   validates :target_number_of_participants, presence: true, numericality: { only_integer: true, equal_to: 1 }
 
   def self.fulltext_search(free_text, limit = 10)
-    common_fulltext_search(free_text, limit, :condition_of_execution)
+    common_fulltext_search(
+      %i(title description short_description condition_of_execution), free_text,
+      limit
+    )
   end
 
   def not_fully_funded_or_less_teammembers?
