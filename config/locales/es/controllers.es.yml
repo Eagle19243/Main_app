@@ -20,6 +20,7 @@ es:
   users:
     update:
       fail: "No es posible actualizar el usuario."
+      file_type_fail: "Selected file is invalid. Allowed types: %{allowed_types}"
     destroy:
       success: "Usuario eliminado."
   task_attachments:

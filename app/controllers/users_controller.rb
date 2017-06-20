@@ -20,13 +20,23 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     @user.attributes = update_params
-    return render json: { alert: t('.fail') }, status: 422 if @user.invalid?
-
-    @user.save
-    current_user.create_activity(@user, 'updated')
-    respond_to do |format|
-      format.js { render json: true, status: 201 }
-      format.html { render :show }
+    if @user.invalid?
+      if @user.errors.messages.include?(:background_picture) || @user.errors.messages.include?(:picture)
+        message = t('.file_type_fail', allowed_types: PictureUploader::SUPPORTED_PICTURE_EXTENSIONS.join(', '))
+      else
+        message = t('.fail')
+      end
+      respond_to do |format|
+        format.js { render json: { alert: message }, status: 422 }
+        format.html { redirect_to @user, notice: message }
+      end
+    else
+      @user.save
+      current_user.create_activity(@user, 'updated')
+      respond_to do |format|
+        format.js { render json: true, status: 201 }
+        format.html { render :show }
+      end
     end
   end
 

@@ -2,6 +2,8 @@
 
 class PictureUploader < CarrierWave::Uploader::Base
 
+  SUPPORTED_PICTURE_EXTENSIONS = %w(jpg jpeg gif png).freeze
+
   include CarrierWave::MiniMagick
   process resize_to_fit: [400, 400]
 
@@ -20,6 +22,6 @@ class PictureUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(jpg jpeg gif png)
+    SUPPORTED_PICTURE_EXTENSIONS
   end
 end

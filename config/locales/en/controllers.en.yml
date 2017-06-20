@@ -20,6 +20,7 @@ en:
   users:
     update:
       fail: "Unable to update user."
+      file_type_fail: "Selected file is invalid. Allowed types: %{allowed_types}"
     destroy:
       success: "User deleted."
   task_attachments:
