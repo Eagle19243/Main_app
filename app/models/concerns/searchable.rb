@@ -7,8 +7,7 @@ module Searchable
         none
       else
         query = fields.map { |f| "#{f} ILIKE ?" }.join(' OR ')
-        params = Array.new(fields.length, "%#{free_text}%")
-        where(query, *params).limit(limit)
+        where(query, *Array.new(fields.length, "%#{free_text}%")).limit(limit)
       end
     end
   end
