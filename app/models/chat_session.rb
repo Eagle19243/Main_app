@@ -22,4 +22,8 @@ class ChatSession < ActiveRecord::Base
   def participating_user?(user)
     requester == user || receiver == user
   end
+
+  def self.find_by_channel(name)
+    find_by_uuid(name.gsub(/^private-/, '')) if name.present?
+  end
 end
