@@ -6,6 +6,7 @@ mediawiki_domain:                               # mediawiki domain for cookies i
 mediawiki_api_base_url:                         # base url of mediawiki API, eg "http://mediawiki.local/"
 mediawiki_username:                             # mediawiki API username
 mediawiki_password:                             # mediawiki API password
+mediawiki_cookie_prefix:                        # mediawiki cookie prefix
 weserve_service_fee: "0.05"                     # Weserve commission rate
 weserve_wallet_address:                         # Weserve commission wallet to accept fees
 weserve_from_email:                             # Default email that will be used in a 'from' field when sending emails
