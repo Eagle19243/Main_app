@@ -156,7 +156,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :mediawiki do
         collection do
-          post 'page_edited/:info', action: :page_edited
+          post :page_edited
         end
       end
     end

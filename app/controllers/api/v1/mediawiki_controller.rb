@@ -2,17 +2,15 @@ class Api::V1::MediawikiController < Api::V1::BaseController
   skip_before_action :verify_authenticity_token
 
   def page_edited
-    params.permit(:info)
-    return bad_request unless params[:info]
     begin
-      info_hash = JSON.parse(params[:info].tr("'", '"'))
+      request_payload = JSON.parse(request.body.read.tr("'", '"'))
     rescue
       return bad_request
     end
-    return render json: { error_message: "Unauthorized" }, status: :unauthorized if info_hash["secret"] != ENV['mediawiki_api_secret']
-    return render json: { error_message: "Unknown type" }, status: :bad_request unless info_hash["type"] == "edit"
+    return render json: { error_message: "Unauthorized" }, status: :unauthorized unless request_payload["secret"] == ENV['mediawiki_api_secret']
+    return render json: { error_message: "Unknown type" }, status: :bad_request unless request_payload["type"] == "edit"
 
-    data = info_hash["data"]
+    data = request_payload["data"]
     page_name, editor_username = data["page_name"], data["editor_name"] if data
 
     send_emails(page_name, editor_username)

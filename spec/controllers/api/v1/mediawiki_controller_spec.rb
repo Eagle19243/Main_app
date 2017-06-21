@@ -14,16 +14,10 @@ RSpec.describe Api::V1::MediawikiController, type: :controller do
                      'approved': false  }
                 }" 
               }
-  let(:params) do
-    {
-      xhr: true,
-      info: info
-    }
-  end
 
   describe 'POST /api/v1/mediawiki/page_edited' do
     subject { response.status }
-    before { post :page_edited, params }
+    before { post :page_edited, info }
 
     context 'Sends a request with correct params' do
       it { is_expected.to eq(200) }
