@@ -3,30 +3,39 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     msg = Rails.env.production? ? t('controllers.cancan_access_denied') : exception.message
     respond_to do |format|
-     format.html { redirect_to main_app.root_url, notice: msg }
-     format.json { render json: { message: msg }, status: :unauthorized }
-     format.js { render json: { message: msg }, status: :unauthorized }
-     format.any { redirect_to main_app.root_url, notice: msg }
-   end
+      format.html { redirect_to main_app.root_url, notice: msg }
+      format.json { render json: { message: msg }, status: :unauthorized }
+      format.js { render json: { message: msg }, status: :unauthorized }
+      format.any { redirect_to main_app.root_url, notice: msg }
+    end
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     msg = Rails.env.production? ? t('controllers.active_record_not_found') : exception.message
     respond_to do |format|
-     format.html { redirect_to main_app.root_url, notice: msg }
-     format.json { render json: { message: msg }, status: :not_found }
-     format.js { render json: { message: msg }, status: :not_found }
-     format.any { redirect_to main_app.root_url, notice: msg }
-   end
+      format.html { redirect_to main_app.root_url, notice: msg }
+      format.json { render json: { message: msg }, status: :not_found }
+      format.js { render json: { message: msg }, status: :not_found }
+      format.any { redirect_to main_app.root_url, notice: msg }
+    end
   end
 
   rescue_from ActionController::ParameterMissing do |exception|
     msg = Rails.env.production? ? t('users.update.fail') : exception.message
     respond_to do |format|
-     format.any { redirect_to main_app.root_url, status: 304, notice: msg }
-   end
+      format.any { redirect_to main_app.root_url, status: 304, notice: msg }
+    end
   end
 
+  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    msg = Rails.env.production? ? t('controllers.unauthorized_message') : exception.message
+    respond_to do |format|
+      format.html { redirect_to main_app.root_url, notice: msg }
+      format.json { render json: { message: msg }, status: :not_found }
+      format.js { render json: { message: msg }, status: :not_found }
+      format.any { redirect_to main_app.root_url, notice: msg }
+    end
+  end
 
   protect_from_forgery with: :exception
   around_filter :set_current_user
