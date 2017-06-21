@@ -97,13 +97,7 @@
 </div>
 
 <script>
-var $estimationData = $('.modal-new-task__team-member-estimation'),
-    $estimationDataInUSD = $('#new_task_btc_per_member')
-        $btcAmount = $('.modal-new-task__btc-amount'),
-        $teamAmount = $('.modal-new-task__member_amount'),
-        MIN_DONATION_BTC = parseFloat('<%= min_fund_budget_in_btc %>').toFixed(3),
-        CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2),
-        WESERVE_FEE = parseFloat('<%= Payments::BTC::Base.weserve_fee %>').toFixed(3);
+    var CURRENT_BTC_RATE = parseFloat('<%= Payments::BTC::Converter.current_btc_rate  %>').toFixed(2);
 
     function updateConversion(e) {
         e.preventDefault();
@@ -151,28 +145,4 @@ var $estimationData = $('.modal-new-task__team-member-estimation'),
                 e.preventDefault();
             }
         })
-        .on('input.estimationPerMember', '.modal-new-task__btc-amount, .modal-new-task__member_amount', function() {
-            var budget = parseFloat($btcAmount.val()).toFixed(3),
-                teamAmount = parseInt($teamAmount.val()),
-                numberOfDonations = parseInt((budget / MIN_DONATION_BTC).toFixed(0));
-
-            if ((isNaN(teamAmount) || teamAmount === 0) || (isNaN(budget) || budget === "0.000")) {
-              $estimationData.html('');
-              $estimationDataInUSD.html('');
-            } else {
-              var transactionSizeInBytes = numberOfDonations * (180 + 113) + (teamAmount + 2) * 34 + 10 + numberOfDonations;
-              var budgetAfterFeesInBTC = (budget - (budget * WESERVE_FEE));
-              var perMemberAmountInBTC = budgetAfterFeesInBTC / teamAmount;
-
-              $estimationData.html(perMemberAmountInBTC.toFixed(3));
-
-              if (perMemberAmountInBTC > 0) {
-                var perMemberAmountInUSD = perMemberAmountInBTC * CURRENT_BTC_RATE;
-
-                $estimationDataInUSD.html(perMemberAmountInBTC.toFixed(3) + " ฿ = " + perMemberAmountInUSD.toFixed(2) + " USD");
-              } else {
-                $estimationDataInUSD.html('');
-              }
-            };
-        });
 </script>
