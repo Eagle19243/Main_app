@@ -262,8 +262,8 @@ var LanguageModule = (function() {
         return location.href.indexOf('locale=') >= 0;
     }
 
-    function detectCurrentLanguage() {
-        switch (location.href.split('locale=')[1]) {
+    function _setUserSelectedLanguage(lang) {
+        switch (lang) {
             case 'en':
                 _insertCurrentFlag(_getCurrentSvgFlag('uk'));
                 break;
@@ -276,15 +276,12 @@ var LanguageModule = (function() {
         }
     }
 
-    function bindEvents($document) {
-        $(document).ready(function() {
-            detectCurrentLanguage();
-        })
-    }
+    function bindEvents() {}
     return {
-        init: function($document) {
-            bindEvents($document);
+        init: function() {
+            bindEvents();
         },
+        setUserSelectedLanguage: _setUserSelectedLanguage,
         isLanguageSet: _isLanguageSet,
         getCurrentLanguage : _getCurrentLanguage
     }
@@ -440,23 +437,3 @@ $document.ready(function() {
     TabsModule.init($document);
     RevisionModule.init($document);
 });
-
-// enhance Turbolinks when necessary
-// https://coderwall.com/p/ii0a_g/page-reload-refresh-every-5-sec-using-turbolinks-js-rails-jquery
-// this code may be removed without harmful side effects
-// https://engineering.onlive.com/2014/02/14/turbolinks-the-best-thing-you-wont-ever-use-in-rails-4/
-// $(document).on('ready page:load', function() {
-//     var REFRESH_INTERVAL_IN_MILLIS = 5000;
-//      if ($('.f-pending-message').length >= 0) {
-//        setTimeout(function(){
-//         //disable page scrolling to top after loading page content
-//         Turbolinks.enableTransitionCache(true);
-//
-//         // pass current page url to visit method
-//         Turbolinks.visit(location.toString());
-//
-//         //enable page scroll reset in case user clicks other link
-//         Turbolinks.enableTransitionCache(false);
-//          }, REFRESH_INTERVAL_IN_MILLIS);
-//     }
-// });
