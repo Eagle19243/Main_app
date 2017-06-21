@@ -1,1 +1,2 @@
-web: puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
+web: export default_url=$HEROKU_APP_NAME.herokuapp.com && puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
+worker: export default_url=$HEROKU_APP_NAME.herokuapp.com && bundle exec rake jobs:work
