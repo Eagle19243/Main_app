@@ -9,7 +9,7 @@ class SessionsController < Devise::SessionsController
   def after_login
     secret = ENV['mediawiki_secret']
     domain = ENV['mediawiki_domain']
-    cookie_prefix = Rails.env.staging? ? 'staging' : ''
+    cookie_prefix = ENV['mediawiki_cookie_prefix']
 
     cookies.permanent["#{cookie_prefix}_ws_user_id"] = {
         value: current_user.id,

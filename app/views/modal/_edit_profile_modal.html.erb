@@ -42,6 +42,15 @@
                         <input type="text" class="modal-edit-profile__input _state" value="<%= @user.state %>">
                     </div>
                 </div>
+                <div class="modal-edit-profile__row-wrapper">
+                    <div class="modal-edit-profile__col">
+                        <div class="modal-edit-profile__subtitle"><%= t('commons.select_language') %></div>
+                        <select class="modal-edit-profile__select _language">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal-edit-profile__row">
@@ -92,7 +101,16 @@
 </div>
 
 <script>
+    function selectLanguage(lang) {
+          location.assign(location.href.split('?locale')[0] + '?locale=es');
+          return false;
+    }
     $(document).ready(function() {
+        var currentLanguage = '<%= @user.preferred_language %>';
+
+        if (currentLanguage) {
+            $('.modal-edit-profile__select').val(currentLanguage);
+        }
         $(document)
             .on('keydown.validatePhone', '.modal-edit-profile__input._phone', function(e) {
                 if (e.key.length === 1 && e.key !== '/' && e.key !== '-' && !/\d/.test(e.key)) {
@@ -114,12 +132,12 @@
                             phone_number: $form.find('._phone').val(),
                             skype_id: $form.find('._skype').val(),
                             facebook_id: $form.find('._facebook').val(),
+                            preferred_language: $form.find('._language').val(),
                             linkedin_id: $form.find('._linkedin').val(),
                             twitter_id: $form.find('._twitter').val(),
                             bio: $form.find('._bio').val()
                         }
                     }
-
                 $.ajax({
                     url: '/users/' +  userId,
                     method: 'PUT',

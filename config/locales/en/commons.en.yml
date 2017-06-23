@@ -72,6 +72,7 @@ en:
     first_name: "First name"
     last_name: "Last name"
     city: "City"
+    select_language: "Select Language"
     state: "State"
     social: "Social"
     linkedin: "Linkedin"

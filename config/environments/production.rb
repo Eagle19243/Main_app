@@ -23,7 +23,7 @@ Rails.application.configure do
     password: ENV["email_provider_password"],
     from: ENV["weserve_from_email"]
   }
-  
+
   config.action_mailer.default_url_options = { :host => ENV["default_url"] }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
@@ -33,5 +33,8 @@ Rails.application.configure do
 
   config.react.variant = :production
   config.react.addons = true
+
+  # https://devcenter.heroku.com/articles/logging#writing-to-your-log
+  config.logger = Logger.new(STDOUT)
 
 end

@@ -11,6 +11,21 @@
 </div>
 
 <script>
+  function sendRequestForChangeLanguage(id, lang) {
+      var userNewData = {
+              user: {
+                  preferred_language: lang,
+              }
+          }
+      $.ajax({
+          url: '/users/' +  id,
+          method: 'PUT',
+          data: userNewData,
+          success: function(res) {
+              location.reload();
+          }
+      })
+  }
   $(document).ready(function() {
     var availableLanguages = [
       {
@@ -46,11 +61,20 @@
     languageListWrapper.html(languageList);
 
     $(document).on('click.selectLanguage', '.modal-change-language__item', function() {
-      var selectedTagName = $(this).data('name');
+      var selectedTagName = $(this).data('name'),
+          currentUserId = null;
+
+      <% if user_signed_in? %>
+          currentUserId = '<%= current_user.id %>';
+      <% end %>
 
       availableLanguages.every(function(lang) {
         if (lang.tagName === selectedTagName) {
-          lang.clickHandler();
+          if (currentUserId) {
+            sendRequestForChangeLanguage(currentUserId, selectedTagName);
+          } else {
+            lang.clickHandler();
+          }
           return;
         }
         return true;

@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
     :unblock_user, :plan, :switch_approval_status, :create_subpage
   ]
   before_action :get_project_user, only: [:show, :taskstab, :show_project_team, :create_subpage]
-  skip_before_action :verify_authenticity_token, only: [:rate]
+  skip_before_action :verify_authenticity_token, only: [:rate, :create]
   before_filter :authenticate_user!, only: [:contacts_callback]
 
   def index

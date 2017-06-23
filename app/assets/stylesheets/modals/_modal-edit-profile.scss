@@ -15,6 +15,12 @@
     left: 0;
     font-size: 12px;
   }
+  &__select {
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    font-family: 'Roboto', sans-serif;
+    background-color: transparent;
+  }
   &__avatar {
     position: relative;
     width: 135px;

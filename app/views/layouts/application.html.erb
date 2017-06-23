@@ -61,5 +61,17 @@
 
     <%= render 'layouts/footer' %>
 
+    <script>
+        $(document).ready(function() {
+            var currentLanguage = location.href.split('locale=')[1];
+
+            <% if user_signed_in? %>
+                currentLanguage = '<%= current_user.preferred_language %>';
+            <% end %>
+
+            LanguageModule.setUserSelectedLanguage(currentLanguage);
+        })
+    </script>
+
   </body>
 </html>

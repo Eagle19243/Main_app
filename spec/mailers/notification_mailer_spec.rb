@@ -248,8 +248,9 @@ RSpec.describe NotificationMailer, type: :mailer do
   describe '#new_message' do
     subject(:email) { described_class.new_message(group_message.id, user.id).deliver_now }
     let(:user) { create(:user, :confirmed_user) }
+    let(:from) { create(:user, :confirmed_user, first_name: 'Homer', last_name: 'Simpson') }
     let(:chatroom) { create(:chatroom) }
-    let(:group_message) { create(:group_message) }
+    let(:group_message) { create(:group_message, user: from) }
 
     it 'sends an email' do
       expect { email }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -260,7 +261,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     it 'has the correct subject' do
-      expect(email.subject).to eq(I18n.t('notification_mailer.new_message.subject'))
+      expect(email.subject).to eq('[WeServe] New message from Homer Simpson')
     end
 
     it 'has the correct body' do
