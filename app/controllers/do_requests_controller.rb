@@ -20,7 +20,6 @@ class DoRequestsController < ApplicationController
     @do_request = current_user.do_requests.build(request_params)
     @do_request.project_id = task.project_id
     @do_request.state = 'pending'
-    @do_request.state = 'accepted' if current_user.id == task.project.user_id
 
     respond_to do |format|
       if @do_request.save

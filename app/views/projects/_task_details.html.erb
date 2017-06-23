@@ -340,13 +340,11 @@
                         <% end %>
                       <% end %>
 
-                    <% if user_signed_in?  && current_user.id == @task.project.user_id  %>
-                      <% if @task.free? %>
-                          <button class="modal-task__free-btn">
-                              <i class="fa fa-check" aria-hidden="true"></i>
-                                <%= t('.make_non_free') %>
-                          </button>
-                      <% end %>
+                    <% if user_signed_in? && @task.free && (@task.state == 'suggested_task' || @task.state == 'accepted') && (current_user.id == @task.project.user_id || current_user.id === @task.user_id)  %>
+                      <button class="modal-task__free-btn">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                            <%= t('.make_non_free') %>
+                      </button>
                     <% end %>
 
                     <!-- Disable refund feature for now -->

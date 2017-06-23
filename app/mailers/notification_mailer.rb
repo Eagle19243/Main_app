@@ -87,7 +87,7 @@ class NotificationMailer < ApplicationMailer
     @from = group_message.user
     @receiver = User.find(user_id)
 
-    mail(to: @receiver.email, subject: t('.subject'))
+    mail(to: @receiver.email, subject: t('.subject', user_name: @from.display_name))
   end
 
   private

@@ -5,25 +5,21 @@ RSpec.describe Api::V1::MediawikiController, type: :controller do
   let(:project) { FactoryGirl.create(:project) }
   let(:secret) { ENV['mediawiki_api_secret'] }
   let(:type) { 'edit' }
-  let(:params) do
-    {
-      xhr: true,
-      secret: secret,
-      type: type,
-      data: {
-        page_name: project.title,
-        editor_name: username,
-        time: 123134324,
-        approved: false
-      }.to_json
-    }
-  end
+  let(:info) { "{'secret':'#{secret}',
+                 'type': '#{type}',
+                 'data':
+                    {'page_name':'#{project.title}',
+                     'editor_name': '#{username}',
+                     'time': 123134324,
+                     'approved': false  }
+                }" 
+              }
 
   describe 'POST /api/v1/mediawiki/page_edited' do
     subject { response.status }
-    before { post :page_edited, params }
+    before { post :page_edited, info }
 
-    context 'Sends a request with correct params', focus: true do
+    context 'Sends a request with correct params' do
       it { is_expected.to eq(200) }
     end
 
@@ -41,5 +37,16 @@ RSpec.describe Api::V1::MediawikiController, type: :controller do
       let(:username) { 'noone' }
       it { is_expected.to eq(404) }
     end
+
+    context 'Sends a request with non existing project' do
+      let(:username) { 'nothing' }
+      it { is_expected.to eq(404) }
+    end
+
+    context 'Sends invalid info' do
+      let(:info) { "invalid" }
+      it { is_expected.to eq(400) }
+    end
+
   end
 end
