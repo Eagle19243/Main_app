@@ -40,3 +40,5 @@ en:
       success: "Your request has been submitted"
     destroy:
       success: "Project was successfully destroyed."
+    user_search:
+      blank: 'Sorry, no results match with your search.'

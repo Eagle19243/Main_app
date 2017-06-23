@@ -138,7 +138,7 @@ class ProjectsController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        flash[:alert] = 'Sorry no results match with your search' if @results.blank?
+        flash[:alert] = t('.blank') if @results.blank?
         render :search_results
       end
       format.js
