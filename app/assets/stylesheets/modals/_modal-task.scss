@@ -275,6 +275,14 @@
 
     .team-block {
       padding-top: 5px;
+      ._free-task & {
+        border-top: 1px solid #eee;
+        margin-top: 10px;
+        padding-top: 10px;
+        h5 {
+          display: inline;
+        }
+      }
       &__item {
         &:hover,
         &:focus {
@@ -284,7 +292,8 @@
           margin-top: 3px;
         }
       }
-      h5 {
+      h5,
+      span {
         font-family: 'Roboto', sans-serif;
         color: #000;
         font-weight: 600;

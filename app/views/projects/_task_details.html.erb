@@ -43,7 +43,12 @@
     <% end %>
   </div>
 </div>
+
+<% if @task.free? %>
+<div id="myModal" class="modal-task modal-default _free-task" tabindex="-1">
+<% else %>
 <div id="myModal" class="modal-task modal-default" tabindex="-1">
+<% end %>
   <!-- Modal content -->
   <div class="modal-content modal-task__content">
     <button id="task-popup-close" type="button" class="modal-default__close"></button>
@@ -166,10 +171,14 @@
                 <div class="fund">
                   <% if user_signed_in? %>
                     <% if @task.suggested_task? %>
-                        <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
+                        <% if !@task.free? %>
+                            <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
+                        <% end %>
                         <button type="button" title="FUND" class="btn-root _dark do-button" data-modal="#suggested_task_model_for_fund">DO</button>
                     <% elsif @task.accepted? %>
-                        <button type="button" title="FUND" class="btn-root fund-button" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                        <% if !@task.free? %>
+                            <button type="button" title="FUND" class="btn-root fund-button" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                        <% end %>
                         <button type="button" title="DO" class="btn-root _dark _do-popup-button do-button" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
                     <% end %>
                   <% else %>
@@ -177,55 +186,58 @@
                         <button type="button" title="FUND" class="btn-root _dark do-button sign_up_a" data-modal="#registerModal">DO</button>
                   <% end %>
 
-                  <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @task.funded %>">
-                    </div>
-                  </div>
 
-                  <div class="modal-task__card">
-                    <div class="modal-task__card-values">
-                        <div class="modal-task__card-value _data">
-                            <%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>
+                  <% if !@task.free? %>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @task.funded %>">
                         </div>
-                        <div class="modal-task__card-value _data _raised _hide">
-                            <%= satoshi_balance_in_btc(@task.current_fund) %>
-                        </div>
-                        <div class="modal-task__card-value _data _amount-left-btc">
-                            <%= satoshi_balance_in_btc(@task.funds_needed_to_fulfill_budget) %>
-                        </div>
-                        <div class="modal-task__card-value _data _amount-left-usd _hide">
-                            <%= satoshi_balance_in_usd(@task.funds_needed_to_fulfill_budget) %>
-                        </div>
-                        <div class="modal-task__card-value _data _per-amount _hide">
-                            <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>
-                        </div>
-                        <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
-                            <div class="modal-task__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@task.budget), :precision => 2) %> </div>
+                      </div>
+                  <% end %>
 
-
-                          <% if !@task.free? %>
-                            <div class="modal-task__btc-value">
-                                ฿ <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
-
-                                <% if can? :update_budget, @task %>
-                                  <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
-                                <% end %>
+                  <% if !@task.free? %>
+                      <div class="modal-task__card">
+                        <div class="modal-task__card-values">
+                            <div class="modal-task__card-value _data">
+                                <%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>
                             </div>
-                          <% end %>
+                            <div class="modal-task__card-value _data _raised _hide">
+                                <%= satoshi_balance_in_btc(@task.current_fund) %>
+                            </div>
+                            <div class="modal-task__card-value _data _amount-left-btc">
+                                <%= satoshi_balance_in_btc(@task.funds_needed_to_fulfill_budget) %>
+                            </div>
+                            <div class="modal-task__card-value _data _amount-left-usd _hide">
+                                <%= satoshi_balance_in_usd(@task.funds_needed_to_fulfill_budget) %>
+                            </div>
+                            <div class="modal-task__card-value _data _per-amount _hide">
+                                <%= satoshi_balance_in_btc(@task.planned_amount_per_member) %>
+                            </div>
+                            <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
+                                <div class="modal-task__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@task.budget), :precision => 2) %> </div>
+                                <div class="modal-task__btc-value">
+                                    ฿ <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
 
+                                    <% if can? :update_budget, @task %>
+                                      <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
+                                    <% end %>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-task__card-titles">
-                        <div class="modal-task__card-value">Teammates</div>
-                        <div class="modal-task__card-value _hide">Raised</div>
-                        <div class="modal-task__card-value">Needed</div>
-                        <div class="modal-task__card-value _hide">Left, USD</div>
-                        <div class="modal-task__card-value">Budget</div>
-                    </div>
-                  </div>
+                        <div class="modal-task__card-titles">
+                            <div class="modal-task__card-value">Teammates</div>
+                            <div class="modal-task__card-value _hide">Raised</div>
+                            <div class="modal-task__card-value">Needed</div>
+                            <div class="modal-task__card-value _hide">Left, USD</div>
+                            <div class="modal-task__card-value">Budget</div>
+                        </div>
+                      </div>
+                  <% end %>
 
                   <div class="team-block mb30">
                     <h5>Team</h5>
+                    <% if @task.free? %>
+                        <span>(<%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>)</span>
+                    <% end %>
                     <% if @task.team_memberships.blank? %>
                         <h2>No Teammate Added Yet</h2>
                     <% else %>
