@@ -39,15 +39,15 @@ class TeamMembershipsController < ApplicationController
 
   def destroy
     @team_membership = TeamMembership.find(params[:id])
-    
+
     authorize! :destroy, @team_membership
-    
+
     respond_to do |format|
       if current_user.id == @team_membership.team.project.user_id || (@team_membership.team.project.user_id != current_user.id && @team_membership.role == 1)
         if @team_membership.destroy
-          
+
           Chatroom.remove_user_from_project_chatroom(@team_membership.team.project, @team_membership.team_member)
-          
+
           format.json { render json: @team_membership.id, status: :ok }
         else
           format.json { render status: :internal_server_error }

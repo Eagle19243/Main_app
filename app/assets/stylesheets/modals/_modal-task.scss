@@ -284,12 +284,37 @@
         }
       }
       &__item {
+        position: relative;
+        display: inline-block;
+        text-align: center;
         &:hover,
         &:focus {
           text-decoration: none;
         }
         &-name {
           margin-top: 3px;
+        }
+        &-delete {
+          top: -5px;
+          right: 5px;
+          position: absolute;
+          z-index: 1;
+          &:after,
+          &:before {
+            display: block;
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 15px;
+            transform-origin: center center;
+            background-color: #d4d4d4;
+           }
+           &:after {
+             transform: rotate(45deg);
+           }
+           &:before {
+             transform: rotate(-45deg);
+           }
         }
       }
       h5,

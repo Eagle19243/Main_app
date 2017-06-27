@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :removeMember, :refund, :incomplete]
+  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :remove_member, :refund, :incomplete]
   before_action :validate_user, only: [:accept, :doing, :incomplete]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
@@ -257,13 +257,37 @@ class TasksController < ApplicationController
     respond_to :js
   end
 
-  def removeMember
-    @team_membership = TeamMembership.find(params[:team_membership_id])
+  def remove_member
+    authorize! :remove_member, @task
+
+    @team_membership = @task.team_memberships.find(params[:team_membership_id])
+
     respond_to do |format|
-      if @task.team_memberships.destroy(@team_membership)
-        format.json { render json: @team_membership.id, status: :ok }
-      else
-        format.json { render status: :internal_server_error }
+      TeamMembership.transaction do
+        begin
+          # Must give reason to remove a member
+          if params[:reason]
+            assignee = @team_membership.team_member
+
+            @team_membership.update!(deleted_reason: params[:reason])
+            @team_membership.destroy!
+
+            current_user.create_activity(@team_membership, 'deleted')
+            NotificationMailer.notify_assignee_on_removing_from_task(assignee, @task).deliver_later
+
+            @task.project.interested_users.each do |user|
+              NotificationMailer.notify_interested_user_on_removing_from_task(assignee, user, @task).deliver_later
+            end
+
+            flash[:notice] = t('.success')
+            format.json { render json: @team_membership.id, status: :ok }
+          else
+            flash[:error] = t('.fail')
+            format.json { render json: @team_membership.errors, status: :unprocessable_entity }
+          end
+        rescue
+          format.json { render json: @team_membership.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

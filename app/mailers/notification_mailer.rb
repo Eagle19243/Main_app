@@ -81,6 +81,21 @@ class NotificationMailer < ApplicationMailer
     mail(to: receiver.email, subject: t('.subject'))
   end
 
+  def notify_assignee_on_removing_from_task(assignee, task)
+    @assignee = assignee
+    @task = task
+
+    mail(to: @assignee.email, subject: t('.subject'))
+  end
+
+  def notify_interested_user_on_removing_from_task(assignee, interested_user, task)
+    @interested_user = interested_user
+    @assignee = assignee
+    @task = task
+
+    mail(to: interested_user.email, subject: t('.subject'))
+  end
+
   def new_message(group_message_id, user_id)
     group_message = GroupMessage.find(group_message_id)
     @message = group_message.message

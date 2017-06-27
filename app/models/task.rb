@@ -103,6 +103,15 @@ class Task < ActiveRecord::Base
     (satoshi_budget - we_serve_part) / target_number_of_participants
   end
 
+  def activities
+    # We can do one query, but I think it will be harder to understand
+    task_activities = Activity.where(targetable_id: self.id, targetable_type: 'Task')
+    task_comments_activities = Activity.where(targetable_id: task_comments.ids, targetable_type: 'TaskComment')
+    remove_task_assignee_activities = Activity.where(targetable_id: team_memberships.only_deleted.ids, targetable_type: 'TeamMembership')
+
+    Activity.where(id: (task_activities.ids + task_comments_activities.ids + remove_task_assignee_activities.ids))
+  end
+
   def current_fund
     wallet ? wallet.balance : 0.0
   end

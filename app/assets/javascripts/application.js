@@ -170,10 +170,15 @@ var RevisionModule = (function() {
 var ModalsModule = (function () {
 
     var modalsArr = ["#team", "#suggested_task_popup", "#share", "#myModal2", ".modal-default", "#popup-for-free-paid", "#modalVerification", "#registerModal"]; // todo try to remove this
+    var _scope = null;
 
     function openModal(modalSelector) {
         $(modalSelector).fadeIn();
         $html.addClass('_open-modal');
+    }
+
+    function _clearScope() {
+        _scope = null;
     }
 
     function togglePreloader(isShow) {
@@ -188,7 +193,12 @@ var ModalsModule = (function () {
             .on('click.openModal', '[data-modal]', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                $($(this).data('modal')).fadeIn();
+
+                var modal = $($(this).data('modal')),
+                    modalScope = $(this).data('modalScope');
+
+                modal.fadeIn();
+                _scope = modalScope;
                 $html.addClass('_open-modal');
             })
             .on('click.closeModalByOverlay', '.modal-default', function (e) {
@@ -235,9 +245,11 @@ var ModalsModule = (function () {
         openModal: function (modalSelector) {
           openModal(modalSelector);
         },
+        clearScope: _clearScope,
         togglePreloader: function (isShow) {
             togglePreloader(isShow);
-        }
+        },
+        getScope: function() { return _scope }
     };
 })();
 

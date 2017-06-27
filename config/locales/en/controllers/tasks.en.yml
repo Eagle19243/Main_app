@@ -34,3 +34,6 @@ en:
       not_allowed: "You are not allowed to do this opration"
     refund:
       refunds_disabled: "Refunds are disabled now"
+    remove_member:
+      success: "Assignee has been removed"
+      fail: "Must give reason"
