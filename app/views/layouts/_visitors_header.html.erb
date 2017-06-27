@@ -19,19 +19,7 @@
     <a class="header-link border-link hidden-mobile header-align _active-project" href="<%= projects_path %>"><%= t('commons.active_projects') %></a>
 
     <div class="pull-right register-group">
-        <div class="search-box-wrapper show-desktop hidden-mobile">
-            <%= form_tag user_search_projects_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
-                <input type="text" class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>">
-                <button type="button" name="" class="btn-search btn-reset">
-                    <svg focusable="false" version="1.1" class="svg-search">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-search"></use>
-                    </svg>
-                </button>
-            <% end %>
-            <div class="search-result__wrapper show-desktop">
-              <ul class="search-result__list"></ul>
-            </div>
-        </div>
+      <%= render 'layouts/autocomplete' %>
       <a data-modal="#registerModal" class="show-desktop sign_in_a"><%= t('commons.login') %></a>
       <a data-modal="#registerModal" class="border-link show-desktop sign_up_a"><%= t('commons.register') %></a>
       <a href="javascript:void(0)" class="btn-mobile hamburger show-tablet text-right">
@@ -99,11 +87,6 @@ $(document).ready(function() {
             if (!$(e.target).closest('.js-dropdown-list').length && !$(e.target).closest('.js-dropdown').length) {
                 hideDropdowns();
             }
-        })
-        .on('keydown', '.search-project-box', function(event) {
-           if (event.which === 13) {
-              event.preventDefault();
-           }
         })
 
     $(window).on('resize', function() {

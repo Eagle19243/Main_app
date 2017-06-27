@@ -64,7 +64,7 @@ class Project < ActiveRecord::Base
 
   scope :not_hidden, -> { where(hidden: false) }
 
-  def self.fulltext_search(free_text, limit = 20)
+  def self.fulltext_search(free_text, limit = 10)
     common_fulltext_search(
       %i(title description short_description full_description), free_text, limit
     )

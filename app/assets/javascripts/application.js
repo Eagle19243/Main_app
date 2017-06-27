@@ -256,7 +256,7 @@ var LanguageModule = (function() {
     function _insertCurrentFlag(svg) {
         $('.s-header__lang-select').html(svg);
     }
-    
+
     function _getCurrentSvgFlag(flagName) {
         return '' +
             '<svg focusable="false" version="1.1" class="svg-' + flagName + '-flag" aria-hidden="true">' +
@@ -280,7 +280,7 @@ var LanguageModule = (function() {
             case 'es':
                 _insertCurrentFlag(_getCurrentSvgFlag('spain'));
                 break;
-            default: 
+            default:
                 _insertCurrentFlag(_getCurrentSvgFlag('uk'));
                 break;
         }
@@ -308,14 +308,9 @@ var ProjectAndTaskSearchModule = (function() {
                 $.ajax({
                     url: '/projects/autocomplete_user_search?term=' + searchValue,
                     type: 'GET',
-                    dataType: 'json',
+                    dataType: 'html',
                     success: function (response) {
-                        var results = '';
-
-                        response.forEach(function(item) {
-                            results += '<li class="search-result__item"><a href="' + item.path + '">' + item.title + '</a></li>';
-                        });
-                        $searchResultsList.html(results);
+                        $searchResultsList.html(response);
                     }
                 })
             }))

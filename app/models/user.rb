@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Searchable
   enum role: [:user, :vip, :admin, :manager, :moderator]
   after_initialize :set_default_role, :if => :new_record?
 
@@ -410,6 +411,12 @@ class User < ActiveRecord::Base
 
   def online?
     last_seen_at.present? && last_seen_at > 5.minutes.ago
+  end
+
+  def self.fulltext_search(free_text, limit = 10)
+    common_fulltext_search(
+      %i(username first_name last_name bio), free_text, limit
+    )
   end
 
   protected

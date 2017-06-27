@@ -1,4 +1,4 @@
-class AutocompleteProjectPresenter
+class AutocompleteProjectPresenter < ApplicationPresenter
   attr_reader :project
 
   def initialize(project)
@@ -15,7 +15,8 @@ class AutocompleteProjectPresenter
   end
 
   private
+
   def path
-    Rails.application.routes.url_helpers.project_path(project.id)
+    url_helpers.project_path(project.id)
   end
 end
