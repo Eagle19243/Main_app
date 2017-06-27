@@ -52,7 +52,7 @@ class Task < ActiveRecord::Base
     end
 
     event :incomplete do
-      transitions :from => [:doing, :reviewing], :to => :incompleted
+      transitions :from => [:doing, :reviewing], :to => :accepted
     end
 
     event :complete do
