@@ -136,16 +136,12 @@ class ProjectsController < ApplicationController
       tasks = Task.fulltext_search(params[:title])
       @results = [projects, tasks].flatten
     end
-    unless @results.blank?
-      respond_to do |format|
-        # format.html {render  :search_results}
-        format.js
+    respond_to do |format|
+      format.html do
+        flash[:alert] = t('.blank') if @results.blank?
+        render :search_results
       end
-    else
-      respond_to do |format|
-        format.js
-        # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
-      end
+      format.js
     end
   end
 

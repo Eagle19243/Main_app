@@ -1,7 +1,9 @@
 class Task < ActiveRecord::Base
+  include AASM
+  include Searchable
+
   acts_as_paranoid
 
-  include AASM
   default_scope -> { order('created_at DESC') }
   mount_uploader :fileone, PictureUploader
   mount_uploader :filetwo, PictureUploader
@@ -61,17 +63,17 @@ class Task < ActiveRecord::Base
   validates :title, presence: true
   validates :condition_of_execution, presence: true
   validates :proof_of_execution, presence: true
-  validates :satoshi_budget, presence: true, unless: :free?  
+  validates :satoshi_budget, presence: true, unless: :free?
   validates :budget, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }, unless: :free?
   validates :deadline, presence: true
   validates :number_of_participants, numericality: { only_integer: true, less_than_or_equal_to: 1 }
   validates :target_number_of_participants, presence: true, numericality: { only_integer: true, equal_to: 1 }
 
-  # TODO In future it would be a good idea to extract this into the Search object
-  def self.fulltext_search(free_text, limit=10)
-    # TODO Rails 5 has a OR method
-    tasks = Task.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR condition_of_execution ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
-    tasks.limit(limit)
+  def self.fulltext_search(free_text, limit = 10)
+    common_fulltext_search(
+      %i(title description short_description condition_of_execution), free_text,
+      limit
+    )
   end
 
   def not_fully_funded_or_less_teammembers?
