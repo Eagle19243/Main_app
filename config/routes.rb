@@ -84,7 +84,7 @@ Rails.application.routes.draw do
   resources :tasks, only: [:show, :create, :update, :destroy] do
     member do
       put :accept, :reject, :doing, :reviewing, :completed, :refund, :incomplete
-      delete '/members/:team_membership_id', to: 'tasks#removeMember', as: :remove_task_member
+      delete '/members/:team_membership_id', to: 'tasks#remove_member', as: :remove_task_member
     end
   end
 

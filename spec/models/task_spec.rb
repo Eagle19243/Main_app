@@ -113,4 +113,24 @@ RSpec.describe Task, :type => :model do
       expect(task.funds_needed_to_fulfill_budget).to eq(0)
     end
   end
+
+  describe '#activities' do
+    let!(:task) { create(:task) }
+
+    let!(:task_activity)          { create(:activity, targetable: task) }
+    let!(:task_comment_activity)  { create(:activity, :task_comment, task: task) }
+    let!(:task_assignee_activity) { create(:activity, :team_membership, task: task) }
+
+    before do
+      team_membership =  task_assignee_activity.targetable
+      team_membership.update(deleted_reason: 'replace new assignee')
+      team_membership.destroy
+    end
+
+    it do
+      expect(task.activities).to include(task_activity)
+      expect(task.activities).to include(task_comment_activity)
+      expect(task.activities).to include(task_assignee_activity)
+    end
+  end
 end

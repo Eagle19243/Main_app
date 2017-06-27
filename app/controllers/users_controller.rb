@@ -27,8 +27,9 @@ class UsersController < ApplicationController
         message = t('.fail')
       end
       respond_to do |format|
+        flash[:error] = message
         format.js { render json: { alert: message }, status: 422 }
-        format.html { redirect_to @user, notice: message }
+        format.html { redirect_to @user }
       end
     else
       @user.save

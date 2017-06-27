@@ -1,7 +1,9 @@
 class Task < ActiveRecord::Base
+  include AASM
+  include Searchable
+
   acts_as_paranoid
 
-  include AASM
   default_scope -> { order('created_at DESC') }
   mount_uploader :fileone, PictureUploader
   mount_uploader :filetwo, PictureUploader
@@ -50,7 +52,7 @@ class Task < ActiveRecord::Base
     end
 
     event :incomplete do
-      transitions :from => [:doing, :reviewing], :to => :incompleted
+      transitions :from => [:doing, :reviewing], :to => :accepted
     end
 
     event :complete do
@@ -61,17 +63,17 @@ class Task < ActiveRecord::Base
   validates :title, presence: true
   validates :condition_of_execution, presence: true
   validates :proof_of_execution, presence: true
-  validates :satoshi_budget, presence: true, unless: :free?  
+  validates :satoshi_budget, presence: true, unless: :free?
   validates :budget, numericality: { greater_than_or_equal_to: Payments::BTC::Converter.convert_satoshi_to_btc(MINIMUM_FUND_BUDGET) }, unless: :free?
   validates :deadline, presence: true
   validates :number_of_participants, numericality: { only_integer: true, less_than_or_equal_to: 1 }
   validates :target_number_of_participants, presence: true, numericality: { only_integer: true, equal_to: 1 }
 
-  # TODO In future it would be a good idea to extract this into the Search object
-  def self.fulltext_search(free_text, limit=10)
-    # TODO Rails 5 has a OR method
-    tasks = Task.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR condition_of_execution ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
-    tasks.limit(limit)
+  def self.fulltext_search(free_text, limit = 10)
+    common_fulltext_search(
+      %i(title description short_description condition_of_execution), free_text,
+      limit
+    )
   end
 
   def not_fully_funded_or_less_teammembers?
@@ -99,6 +101,15 @@ class Task < ActiveRecord::Base
     we_serve_part = satoshi_budget * Payments::BTC::Base.weserve_fee
 
     (satoshi_budget - we_serve_part) / target_number_of_participants
+  end
+
+  def activities
+    # We can do one query, but I think it will be harder to understand
+    task_activities = Activity.where(targetable_id: self.id, targetable_type: 'Task')
+    task_comments_activities = Activity.where(targetable_id: task_comments.ids, targetable_type: 'TaskComment')
+    remove_task_assignee_activities = Activity.where(targetable_id: team_memberships.only_deleted.ids, targetable_type: 'TeamMembership')
+
+    Activity.where(id: (task_activities.ids + task_comments_activities.ids + remove_task_assignee_activities.ids))
   end
 
   def current_fund

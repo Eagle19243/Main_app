@@ -1,5 +1,6 @@
 class Project < ActiveRecord::Base
   include Discussable
+  include Searchable
   include MediawikiConnection
   include AASM
 
@@ -63,11 +64,10 @@ class Project < ActiveRecord::Base
 
   scope :not_hidden, -> { where(hidden: false) }
 
-  # TODO In future it would be a good idea to extract this into the Search object
-  def self.fulltext_search(free_text, limit=20)
-    # TODO Rails 5 has a OR method
-    projects = Project.where("title ILIKE ? OR description ILIKE ? OR short_description ILIKE ? OR full_description ILIKE ?", "%#{free_text}%", "%#{free_text}%", "%#{free_text}%","%#{free_text}%")
-    projects.limit(limit)
+  def self.fulltext_search(free_text, limit = 10)
+    common_fulltext_search(
+      %i(title description short_description full_description), free_text, limit
+    )
   end
 
   def interested_users
@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
     if team.nil?
       return tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
     else
-      return team.team_memberships.count.to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+      return team_memberships_count.to_s + " / " + tasks.sum(:target_number_of_participants).to_s
     end
     # self.team.team_memberships.count.to_s
     #tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s

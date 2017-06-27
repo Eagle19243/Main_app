@@ -24,10 +24,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      -webkit-background-size: 3px 3px;
-      -moz-background-size: 3px 3px;
-      background-size: 3px 3px;
-      background-color: rgba(74,74,74,.7);
+      background-color: rgba(#4a4a4a, .3);
     }
   }
 
@@ -876,6 +873,11 @@
   }
 
   .comment-wrapper {
+    &._free-task {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
     span {
       font-family: 'Libre Franklin', sans-serif;
       font-size: 1.1em;

@@ -1,4 +1,4 @@
-class AutocompleteTaskPresenter
+class AutocompleteTaskPresenter < ApplicationPresenter
   attr_reader :task
 
   def initialize(task)
@@ -15,7 +15,9 @@ class AutocompleteTaskPresenter
   end
 
   private
+
   def path
-    Rails.application.routes.url_helpers.taskstab_project_path(task.project_id, tab: 'Tasks', taskId: task.id)
+    url_helpers.taskstab_project_path(task.project_id, tab: 'Tasks',
+                                                       taskId: task.id)
   end
 end

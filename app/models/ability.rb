@@ -17,7 +17,6 @@ class Ability
 
   def initializeTeamMembershipsPermissions(user)
     if user
-
       can [:create, :update], TeamMembership do |team_membership|
         user.is_project_leader?(team_membership.team.project)
       end
@@ -25,7 +24,6 @@ class Ability
       can [:destroy], TeamMembership do |team_membership|
         (user.is_project_leader?(team_membership.team.project) && team_membership.team_member != user) || (user.is_coordinator_for?(team_membership.team.project) && team_membership.role == 'teammate')
       end
-
     end
   end
 
@@ -160,6 +158,11 @@ class Ability
 
       can :create_or_destory_task_attachment, Task do |task|
         user.is_project_leader?(task.project) || user.is_coordinator_for?(task.project) || (task.team_memberships.collect(&:team_member_id).include? user.id) || (task.suggested_task? && (user.id == task.user_id))
+      end
+
+      can :remove_member, Task do |task|
+        %w(pending accepted incompleted).include?(task.state) &&
+        (user.admin? || user.is_project_leader_or_coordinator?(task.project))
       end
 
       if user.admin?

@@ -3,35 +3,55 @@
   <p><%= task.description %></p>
 </div>
 
-<div class="comment-wrapper">
+
+<% if task.free? %>
+    <div class="comment-wrapper _free-task">
+<% else %>
+    <div class="comment-wrapper">
+<% end %>
   <span><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;<%= task.task_comments.count %></span>
   <span><i class="fa fa-paperclip" aria-hidden="true"></i>&nbsp;<%= task.task_attachments.count %></span>
 </div>
 
-<div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
-  </div>
-</div>
+<% if !task.free? %>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= task.funded %>">
+      </div>
+    </div>
+<% end %>
 
 <div class="card-report">
   <table>
     <tr class="value">
       <td><%= task.number_of_participants%> / <%= task.target_number_of_participants %></td>
       <td class="card-report__data _raised _hide"><%= satoshi_balance_in_btc(task.current_fund) %></td>
-      <td class="card-report__data _amount-left-btc"><%= satoshi_balance_in_btc(task.funds_needed_to_fulfill_budget) %></td>
+
+      <% if !task.free? %>
+        <td class="card-report__data _amount-left-btc"><%= satoshi_balance_in_btc(task.funds_needed_to_fulfill_budget) %></td>
+      <% end %>
+
       <td class="card-report__data _amount-left-usd _hide"><%= satoshi_balance_in_usd(task.funds_needed_to_fulfill_budget) %></td>
-      <td class="card-report__data _budget">
-        <div class="card-report__data _usd">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(task.budget), :precision => 2) %> </div>
-        <div class="card-report__data _btc">฿ <%= task.budget %></div>
-      </td>
+
+      <% if !task.free? %>
+          <td class="card-report__data _budget">
+            <div class="card-report__data _usd">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(task.budget), :precision => 2) %> </div>
+            <div class="card-report__data _btc">฿ <%= task.budget %></div>
+          </td>
+      <% end %>
       <td class="card-report__data _per-amount _hide"><%= satoshi_balance_in_btc(task.planned_amount_per_member) %></td>
     </tr>
     <tr class="items">
       <td><%= t('.teammates') %></td>
       <td class="_hide"><%= t('.raised') %></td>
-      <td><%= t('.needed') %></td>
+      <% if !task.free? %>
+          <td><%= t('.needed') %></td>
+      <% end %>
+
       <td class="_hide"><%= t('.left_in_usd') %></td>
-      <td><%= t('.budget') %></td>
+
+      <% if !task.free? %>
+          <td><%= t('.budget') %></td>
+      <% end %>
     </tr>
   </table>
 </div>

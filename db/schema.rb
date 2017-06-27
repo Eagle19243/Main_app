@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170619144536) do
+ActiveRecord::Schema.define(version: 20170623071454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -446,9 +446,12 @@ ActiveRecord::Schema.define(version: 20170619144536) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.integer  "role",           default: 0
+    t.datetime "deleted_at"
+    t.text     "deleted_reason"
   end
 
-  add_index "team_memberships", ["team_id", "team_member_id", "role"], name: "team_membership_team_member_role_index", unique: true, using: :btree
+  add_index "team_memberships", ["deleted_at"], name: "index_team_memberships_on_deleted_at", using: :btree
+  add_index "team_memberships", ["team_id", "team_member_id", "role"], name: "team_membership_team_member_role_index", using: :btree
   add_index "team_memberships", ["team_id"], name: "index_team_memberships_on_team_id", using: :btree
   add_index "team_memberships", ["team_member_id"], name: "index_team_memberships_on_team_member_id", using: :btree
 

@@ -96,23 +96,11 @@
   }
 }
 
-.purr {
-  position: fixed;
-  top: 630px;
-  right: 300px;
-  width: 250px;
-  padding: 20px;
-  background-color: #FCC;
-  border: solid 2px #C66;
-  z-index: 1050;
-  &:first-letter {text-transform: uppercase;}
-}
-
 // ~~~~~~~~~~~~~~~~~~~~
 //   Project preview
 // ~~~~~~~~~~~~~~~~~~~~
 .image-with-title {
-  background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(garden.jpeg) no-repeat 30% 60%;
+  background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5));
   position: relative;
   transition: 0.2s ease all;
 
@@ -147,7 +135,6 @@
     position: absolute;
 
     &:before {
-      background: url("https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/globe.png");
       background-size: contain;
       content: '';
       display: inline-block;

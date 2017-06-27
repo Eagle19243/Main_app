@@ -1,14 +1,17 @@
 class TeamMembership < ActiveRecord::Base
-  enum role: [ :teammate, :leader,  :lead_editor, :coordinator]
+  acts_as_paranoid
 
-  belongs_to :team
-  belongs_to :team_member, foreign_key: "team_member_id", class_name: "User"
-  has_many :tasks, through: :task_members, dependent: :destroy
-  has_many :task_members
+  enum role: [ :teammate, :leader,  :lead_editor, :coordinator]
 
   COORDINATOR_ID = roles["coordinator"].freeze
   LEAD_EDITOR_ID = roles["lead_editor"].freeze
   TEAM_MATE_ID   = roles["teammate"].freeze
+
+  belongs_to :team
+  belongs_to :team_member, foreign_key: "team_member_id", class_name: "User"
+
+  has_many :tasks, through: :task_members
+  has_many :task_members
 
   def self.get_roles
     humanize_roles = []
@@ -19,5 +22,4 @@ class TeamMembership < ActiveRecord::Base
     end
     humanize_roles
   end
-
 end

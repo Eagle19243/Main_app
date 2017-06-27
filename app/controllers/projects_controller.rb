@@ -113,16 +113,17 @@ class ProjectsController < ApplicationController
   end
 
   def autocomplete_user_search
-    results = []
+    @results = []
     if params[:term].present?
-      projects = Project.fulltext_search(params[:term])
-      tasks = Task.fulltext_search(params[:term])
+      projects = Project.fulltext_search(params[:term], 4)
+      tasks = Task.fulltext_search(params[:term], 4)
+      users = User.fulltext_search(params[:term], 4)
 
-      results = AutocompleteResultsPresenter.new(projects, tasks)
+      @results = AutocompleteResultsPresenter.new(projects, tasks, users).results
     end
     respond_to do |format|
-      format.html { render text: results }
-      format.json { render json: results.to_json, status: :ok }
+      format.html { render partial: 'autocomplete_user_search' }
+      format.json { render json: @results.to_json, status: :ok }
     end
   end
 
@@ -134,18 +135,18 @@ class ProjectsController < ApplicationController
       # TODO I think here we should have 2 objects projects and tasks, not 1 single result object
       projects = Project.fulltext_search(params[:title])
       tasks = Task.fulltext_search(params[:title])
-      @results = [projects, tasks].flatten
+      users = User.fulltext_search(params[:title])
+      
+      @results = [projects, tasks, users].flatten.sort_by do |result|
+        (result.try(:title) || result.try(:username)).underscore
+      end
     end
-    unless @results.blank?
-      respond_to do |format|
-        # format.html {render  :search_results}
-        format.js
+    respond_to do |format|
+      format.html do
+        flash[:alert] = t('.blank') if @results.blank?
+        render :search_results
       end
-    else
-      respond_to do |format|
-        format.js
-        # format.html {render  :search_results ,alert: 'Sorry no results match with your search'}
-      end
+      format.js
     end
   end
 
@@ -197,9 +198,9 @@ class ProjectsController < ApplicationController
   end
 
   def get_activities
-    @task=Task.find(params[:id])
-    task_comment_ids = @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC').limit(30)
+    @task = Task.find(params[:id])
+    @activities = @task.activities.order(created_at: :desc).limit(30)
+
     respond_to :js
   end
 

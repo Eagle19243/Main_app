@@ -23,6 +23,10 @@
     font-size: 14px;
     line-height: 35px;
   }
+  &__checkbox {
+    border: none;
+    width: 20px;
+  }
 }
 
 @media only screen and (max-width: 780px) {

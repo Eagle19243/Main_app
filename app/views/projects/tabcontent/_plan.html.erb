@@ -33,10 +33,9 @@
       </div>
 
       <div class="project-idea">
-        <strong><%= t('.project_idea') %>: &nbsp;&nbsp;</strong>
+        <strong><%= t('.project_idea') %>:&nbsp;</strong>
         <% if user_signed_in? && can?(:update, @project) %>
           <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", id: 'sd_pencil', :cancel_button_class => "pencil_cancel", activator: "#sd_pencil" %>
-          <span id="str_length"></span>
         <% else %>
           <%= @project.short_description %>
         <% end %>

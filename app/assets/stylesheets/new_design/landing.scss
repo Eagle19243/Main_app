@@ -98,6 +98,9 @@
       font-weight: 600;
       margin-left: 10px;
       text-transform: uppercase;
+      &.search-result__link{
+        margin-left: 0px;
+      }
     }
   }
 }
