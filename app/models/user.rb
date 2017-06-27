@@ -116,7 +116,15 @@ class User < ActiveRecord::Base
   end
 
   def get_users_projects_and_team_projects
-    (self.projects + self.teams.collect{ |t| t.project }).uniq
+    (projects + teams.includes(:project).collect(&:project)).uniq
+  end
+
+  def projects_team_memberships
+    TeamMembership.where(id: TeamMembership.select(
+      'max(team_memberships.id) as id'
+    ).joins(:team).where(
+      teams: { project_id: get_users_projects_and_team_projects }
+    ).where.not(team_member_id: id).group(:team_member_id))
   end
 
   def all_dm_chatroom_users
@@ -399,7 +407,7 @@ class User < ActiveRecord::Base
   def create_wallet!
     WalletCreationJob.perform_later('User', self.id) unless self.wallet
   end
-  
+
   def online?
     last_seen_at.present? && last_seen_at > 5.minutes.ago
   end
