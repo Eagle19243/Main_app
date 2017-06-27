@@ -218,4 +218,41 @@ RSpec.describe Project, type: :model do
       it { expect(project.team_members).to include(user) }
     end
   end
+
+  describe '.team_relations_string' do
+    let(:user) { project.user }
+    let(:project) { create(:project) }
+    let(:team) { create(:team, project: project) }
+
+    context 'one user' do
+      it 'with one role' do
+        expect(project.team_relations_string).to eq(User.all.count.to_s + ' / ' + project.tasks.sum(:target_number_of_participants).to_s)
+      end
+      it 'with more roles' do
+        team.team_memberships << TeamMembership.new(
+          team: team, team_member: user, role: TeamMembership::COORDINATOR_ID
+        )
+        expect(project.team_relations_string).to eq(User.all.count.to_s + ' / ' + project.tasks.sum(:target_number_of_participants).to_s)
+      end
+    end
+
+    context 'two users' do
+      let(:user2) { create(:user) }
+      before { project.add_team_member(user2) }
+
+      it 'one role each' do
+        expect(project.team_relations_string).to eq(User.all.count.to_s + ' / ' + project.tasks.sum(:target_number_of_participants).to_s)
+      end
+      it 'more roles each' do
+        team.team_memberships << TeamMembership.new(
+          team: team, team_member: user, role: TeamMembership::COORDINATOR_ID
+        )
+        team.team_memberships << TeamMembership.new(
+          team: team, team_member: user2, role: TeamMembership::LEAD_EDITOR_ID
+        )
+        expect(project.team_relations_string).to eq(User.all.count.to_s + ' / ' + project.tasks.sum(:target_number_of_participants).to_s)
+      end
+    end
+
+  end
 end
