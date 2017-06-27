@@ -215,7 +215,8 @@
                             <div id="task-budget" class="modal-task__card-value _data _budget-id _budget">
                                 <div class="modal-task__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@task.budget), :precision => 2) %> </div>
                                 <div class="modal-task__btc-value">
-                                    ฿ <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :activator => '#task-budget' %>
+
+                                    ฿ <%= best_in_place_if can?(:update_budget, @task), @task, :budget, :classes => 'budget-edit', :activator => '#task-budget' %>
 
                                     <% if can? :update_budget, @task %>
                                       <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
@@ -550,6 +551,17 @@
                 if (!$(e.target).parent().hasClass('_budget')) {
                     $(this).find('.btn-edit').show();
                 }
+            })
+            .on('ajax:success', '.budget-edit', function(e) {
+                var taskId = '<%= @task.id %>',
+                    taskCard = $('[data-task-id="' + taskId + '"]'),
+                    currentBtc = '<%=  Payments::BTC::Converter.current_btc_rate  %>',
+                    btcValue = parseFloat($(this).text()),
+                    usdValue = parseFloat((btcValue * currentBtc).toFixed(2));
+
+                $('.modal-task__usd-value').html('$ ' + usdValue);
+                taskCard.find('.card-report__data._usd').html('$ ' + usdValue);
+                taskCard.find('.card-report__data._btc').html('฿ ' + btcValue);
             })
             .on('click.closeModal', '.approve-btn._close-modal', function(e) {
                 e.preventDefault();
