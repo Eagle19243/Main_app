@@ -278,7 +278,7 @@ RSpec.describe TasksController do
         expect(response.status).to eq(200)
       end
 
-      fit 'creates an activity' do
+      it 'creates an activity' do
         expect(Activity.count).to eq 1
       end
     end
