@@ -9,7 +9,7 @@ class AutocompleteUserPresenter < ApplicationPresenter
     {
       type: 'user',
       id: user.id,
-      title: user.username,
+      title: user.username || '',
       path: path
     }
   end

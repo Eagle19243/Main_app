@@ -126,6 +126,12 @@ class Task < ActiveRecord::Base
     Payments::BTC::Converter.convert_satoshi_to_btc(self.satoshi_budget)
   end
 
+  def funded_percentage
+    division = current_fund / budget
+    division = 0 if division.nan?
+    100 * division
+  end
+
   def budget=(satoshi_budget)
     self.satoshi_budget =  Payments::BTC::Converter.convert_btc_to_satoshi(satoshi_budget)
   end
