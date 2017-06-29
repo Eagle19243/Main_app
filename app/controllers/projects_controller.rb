@@ -137,7 +137,7 @@ class ProjectsController < ApplicationController
       tasks = Task.fulltext_search(params[:title])
       users = User.fulltext_search(params[:title])
       @results = [projects, tasks, users].flatten.sort_by do |result|
-        (result.try(:title) || result.try(:username)).underscore
+        (result.try(:title) || result.try(:username) || '').underscore
       end
     end
     respond_to do |format|

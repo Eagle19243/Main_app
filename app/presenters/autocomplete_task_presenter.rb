@@ -9,7 +9,7 @@ class AutocompleteTaskPresenter < ApplicationPresenter
     {
       type: 'task',
       id: task.id,
-      title: task.title,
+      title: task.title || '',
       path: path
     }
   end
