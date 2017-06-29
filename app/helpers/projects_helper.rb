@@ -51,6 +51,13 @@ module ProjectsHelper
   def get_project_team(chatroom_id)
       team_members_id = Groupmember.where(chatroom_id: chatroom_id).collect(&:user_id) rescue nil
       User.where(id:team_members_id ) rescue nil
+  end
 
+  def autocomplete_class_for(type)
+    case type
+    when 'project' then return 'glyphicon glyphicon-list-alt'
+    when 'task' then return 'glyphicon glyphicon-tasks'
+    when 'user' then return 'glyphicon glyphicon-user'
+    end
   end
 end

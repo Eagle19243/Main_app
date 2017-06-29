@@ -63,6 +63,24 @@
           <%#=link_to result.title ,task_path(result.id) %>
         </div>
       <% end %>
+      <% if result.is_a? User %>
+        <div class="picture-wrapper">
+          <% if result.background_picture.present? %>
+              <a class="image-with-title" href="<%= user_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.background_picture.url %>) no-repeat center center">
+                <% if result.picture.present? %>
+                  <div class="profile-hero__avatar _signed-in" style="background-image: url('<%= result.picture.url %>')" />
+                <% end %>
+              </a>
+          <% else %>
+              <a class="image-with-title" href="<%= user_path(result)%>">
+              </a>
+          <% end %>
+          </a>
+        </div>
+        <div class="project-info">
+          <h4 class="project-title"><%= result.username %></h4>
+        </div>
+      <% end %>
       </div>
     </div>
   <% end %>

@@ -18,7 +18,11 @@ class GroupMessagesController < ApplicationController
       @chatroom, @group_messages = Chatroom.get_or_create_dm_chatroom_group_messages(current_user, User.find(params[:user_id]))
     else
       if @user_projects.any?
-        @chatroom, @team_memberships, @group_messages = Chatroom.get_or_create_project_chatroom_team_memberships_group_messages(@user_projects.first, current_user)
+        @chatroom, @team_memberships, @group_messages =
+          Chatroom.get_or_create_project_chatroom_team_memberships_group_messages(
+            @user_projects.first, current_user
+          )
+        @team_memberships = current_user.projects_team_memberships
       else
         @group_messages = []
       end

@@ -20,21 +20,7 @@
   </div>
 
   <div class="s-header__right">
-    <div class="search-box-wrapper show-desktop">
-      <%= form_tag user_search_projects_path, :method => :post, :remote => true, :id => 'search-form', :class => "search-project-box" do %>
-          <input type="text" name='title' class="search-box-wrapper__input" id="userSearchTasksAndProject" placeholder="<%= t('commons.search_placeholder') %>" autocomplete="off" >
-          <!-- <%= autocomplete_field_tag :title, nil, autocomplete_user_search_projects_path, :placeholder => "Search Causes, Places, or Keyword" %> -->
-          <button type="submit" name="" class="btn-search btn-reset">
-              <svg focusable="false" version="1.1" class="svg-search">
-                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-search"></use>
-              </svg>
-          </button>
-      <% end %>
-      <div class="search-result__wrapper show-desktop">
-        <ul class="search-result__list"></ul>
-      </div>
-    </div>
-
+    <%= render 'layouts/autocomplete' %>
     <%= link_to group_messages_path, data: {no_turbolink: true}, :class => 'btn-reset btn-notification' do %>
       <svg focusable="false" version="1.1" class="svg-envelope">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
@@ -59,7 +45,7 @@
             <%= gravatar_for_user(current_user) %>
         <% end %>
         <span class="user-dropdown__name">
-          <span>Hi,&nbsp;<%= current_user.display_name %>!&nbsp;&nbsp;</span>
+          <span><%= t('commons.hi', name: current_user.display_name) %></span>
 
           <svg focusable="false" version="1.1" class="svg-arrow-down">
               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-down"></use>
@@ -67,8 +53,8 @@
         </span>
       </a>
       <ul class="dropdown-menu js-dropdown-list">
-        <li><%= link_to 'My Profile', user_path(current_user) %></li>
-        <li><%= link_to 'My Projects', my_projects_path %></li>
+        <li><%= link_to t('commons.my_profile'), user_path(current_user) %></li>
+        <li><%= link_to t('commons.my_projects'), my_projects_path %></li>
         <li><a href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a></li>
         <% if current_user.admin? %>
             <li><%= link_to 'Archived Projects', archived_projects_path %></li>
@@ -152,7 +138,8 @@
         <% else %>
           <%= gravatar_for_user(current_user) %>
         <% end %>
-        <span><%= t('commons.hi') %>,&nbsp;<%= current_user.display_name %>!&nbsp;&nbsp;
+        <span>
+          <%= t('commons.hi', name: current_user.display_name) %>
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
           <i class="fa fa-chevron-down" aria-hidden="true"></i>
         </span>

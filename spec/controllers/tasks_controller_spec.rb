@@ -265,6 +265,35 @@ RSpec.describe TasksController do
     end
   end
 
+  describe '#remove_member' do
+    let(:task)            { create(:task, :pending, project: project) }
+    let(:team_membership) { create(:team_membership, :task, task: task) }
+
+    context 'reason given' do
+      before do
+        delete :remove_member, id: task.id, team_membership_id: team_membership.id, reason: 'need new member', format: :json
+      end
+
+      it 'removes success' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'creates an activity' do
+        expect(Activity.count).to eq 1
+      end
+    end
+
+    context 'no reason given' do
+      before do
+        delete :remove_member, id: task.id, team_membership_id: team_membership.id, format: :json
+      end
+
+      it "doesn't remove member" do
+        expect(response.status).to eq(422)
+      end
+    end
+  end
+
   describe '#completed' do
     before do
       allow_any_instance_of(Task).to receive(:update_current_fund!).and_return(true)

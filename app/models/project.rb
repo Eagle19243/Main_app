@@ -64,7 +64,7 @@ class Project < ActiveRecord::Base
 
   scope :not_hidden, -> { where(hidden: false) }
 
-  def self.fulltext_search(free_text, limit = 20)
+  def self.fulltext_search(free_text, limit = 10)
     common_fulltext_search(
       %i(title description short_description full_description), free_text, limit
     )
@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
     if team.nil?
       return tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s
     else
-      return team.team_memberships.count.to_s + " / " + tasks.sum(:target_number_of_participants).to_s
+      return team_memberships_count.to_s + " / " + tasks.sum(:target_number_of_participants).to_s
     end
     # self.team.team_memberships.count.to_s
     #tasks.sum(:number_of_participants).to_s + " / " + tasks.sum(:target_number_of_participants).to_s

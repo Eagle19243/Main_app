@@ -28,8 +28,6 @@
 //= require components
 //= require zeroclipboard
 //= require jquery-ui
-//= require jquery.purr
-//= require best_in_place.purr
 //= require jquery.validate.min
 //= require jquery.slimscroll
 //= require cocoon
@@ -170,10 +168,15 @@ var RevisionModule = (function() {
 var ModalsModule = (function () {
 
     var modalsArr = ["#team", "#suggested_task_popup", "#share", "#myModal2", ".modal-default", "#popup-for-free-paid", "#modalVerification", "#registerModal"]; // todo try to remove this
+    var _scope = null;
 
     function openModal(modalSelector) {
         $(modalSelector).fadeIn();
         $html.addClass('_open-modal');
+    }
+
+    function _clearScope() {
+        _scope = null;
     }
 
     function togglePreloader(isShow) {
@@ -188,7 +191,12 @@ var ModalsModule = (function () {
             .on('click.openModal', '[data-modal]', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                $($(this).data('modal')).fadeIn();
+
+                var modal = $($(this).data('modal')),
+                    modalScope = $(this).data('modalScope');
+
+                modal.fadeIn();
+                _scope = modalScope;
                 $html.addClass('_open-modal');
             })
             .on('click.closeModalByOverlay', '.modal-default', function (e) {
@@ -235,9 +243,11 @@ var ModalsModule = (function () {
         openModal: function (modalSelector) {
           openModal(modalSelector);
         },
+        clearScope: _clearScope,
         togglePreloader: function (isShow) {
             togglePreloader(isShow);
-        }
+        },
+        getScope: function() { return _scope }
     };
 })();
 
@@ -246,7 +256,7 @@ var LanguageModule = (function() {
     function _insertCurrentFlag(svg) {
         $('.s-header__lang-select').html(svg);
     }
-    
+
     function _getCurrentSvgFlag(flagName) {
         return '' +
             '<svg focusable="false" version="1.1" class="svg-' + flagName + '-flag" aria-hidden="true">' +
@@ -270,7 +280,7 @@ var LanguageModule = (function() {
             case 'es':
                 _insertCurrentFlag(_getCurrentSvgFlag('spain'));
                 break;
-            default: 
+            default:
                 _insertCurrentFlag(_getCurrentSvgFlag('uk'));
                 break;
         }
@@ -298,14 +308,9 @@ var ProjectAndTaskSearchModule = (function() {
                 $.ajax({
                     url: '/projects/autocomplete_user_search?term=' + searchValue,
                     type: 'GET',
-                    dataType: 'json',
+                    dataType: 'html',
                     success: function (response) {
-                        var results = '';
-
-                        response.forEach(function(item) {
-                            results += '<li class="search-result__item"><a href="' + item.path + '">' + item.title + '</a></li>';
-                        });
-                        $searchResultsList.html(results);
+                        $searchResultsList.html(response);
                     }
                 })
             }))

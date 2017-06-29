@@ -9,7 +9,7 @@ en:
     knowledge_base_landing_link: "https://weservehelp.zendesk.com/hc/en-us/categories/115000785867-Knowledge-Base"
     login: "Login"
     logout: "Logout"
-    hi: "Hi"
+    hi: "Hi, %{name}!"
     register: "Register"
     task: "task"
     article: "article"

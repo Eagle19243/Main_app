@@ -54,3 +54,11 @@ es:
       subject: "[WeServe] Nuevo mensaje de %{user_name}"
       greeting: "Estimado(a) %{receiver_name},"
       body_html: "%{user_name} le envió un nuevo mensaje:"
+    notify_assignee_on_removing_from_task:
+      subject: "[WeServe] You were removed from a task"
+      greeting: "Dear %{user_name}"
+      body: "You were removed from task %{task_title}."
+    notify_interested_user_on_removing_from_task:
+      subject: "[WeServe] Task member was removed"
+      greeting: "Dear %{user_name}"
+      body: "%{assignee_name} was removed from task %{task_title}."

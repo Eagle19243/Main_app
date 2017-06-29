@@ -15,5 +15,15 @@ FactoryGirl.define do
     trait :coordinator do
       role    { 'coordinator' }
     end
+
+    trait :task do
+      transient do
+        task { create(:task) }
+      end
+
+      after(:create) do |team_membership, evaluator|
+        create(:task_member, task: evaluator.task, team_membership: team_membership)
+      end
+    end
   end
 end

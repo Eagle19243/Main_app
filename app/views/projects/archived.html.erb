@@ -1,7 +1,7 @@
 <section class="s-projects">
   <div class="s-projects__container">
     <div class="s-projects__heading">
-      <h2 class="s-projects__title">Archived Projects</h2>
+      <h2 class="s-projects__title"><%= t('.title') %></h2>
       <div id="paginator">
           <%= paginate @featured_projects, remote: true %>
       </div>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="load-more">
-      <h5>Scroll Down To Load More</h5>
+      <h5><%= t('.scroll_down') %></h5>
     </div>
   </div>
 </section>

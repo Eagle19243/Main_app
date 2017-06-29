@@ -1,0 +1,39 @@
+es:
+  tasks:
+    # create:
+    #   notice_message: "Task was successfully created."
+    #   alert_message: "Task was not created"
+    # update:
+    #   notice_message: "Task was successfully updated."
+    # destroy:
+    #   notice_message: "Task was successfully destroyed."
+    #   error_message: "Error happened during task delete process"
+    # accept:
+    #   task_accepted: "Task accepted"
+    #   task_not_accepted: "Task was not accepted"
+    # doing:
+    #   cannot_do: "You can't Do this Task"
+    #   goal_not_meet: "You have not met your goal either in the number of teammates or in funding"
+    #   task_changed_to_doing: "Task Status changed to Doing"
+    #   error_moving: "Error in Moving Task"
+    # reject:
+    #   task_rejected: "Task %{task_title} has been rejected"
+    #   task_not_rejected: "Task was not rejected"
+    # reviewing:
+    #   task_submitted: "Task Submitted for Review"
+    #   task_not_sumitted: "Task Was Not  Submitted for Review"
+    # completed:
+    #   task_completed: "Task was successfully completed"
+    # incomplete:
+    #   task_incompleted: "You have reviewed and rejected task %{task_title} of project %{project_title}"
+    # send_email:
+    #   task_link_sent: "Task link has been sent to %{email}"
+    # validate_team_member:
+    #   not_allowed: "You are not allowed to do this opration"
+    # validate_admin:
+    #   not_allowed: "You are not allowed to do this opration"
+    # refund:
+    #   refunds_disabled: "Refunds are disabled now"
+    # remove_member:
+    #   success: "Assignee has been removed"
+    #   fail: "Must give reason"

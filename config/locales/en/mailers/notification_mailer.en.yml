@@ -38,6 +38,14 @@ en:
       body: "You received an invitation for a admin role of project.
             Please click following link to accept or reject the invitation.
             Thank you."
+    notify_assignee_on_removing_from_task:
+      subject: "[WeServe] You were removed from a task"
+      greeting: "Dear %{user_name}"
+      body: "You were removed from task %{task_title}."
+    notify_interested_user_on_removing_from_task:
+      subject: "[WeServe] Task member was removed"
+      greeting: "Dear %{user_name}"
+      body: "%{assignee_name} was removed from task %{task_title}."
     suggest_task:
       subject: "[WeServe] Suggested Task"
       greeting: "Dear %{user_name}"
