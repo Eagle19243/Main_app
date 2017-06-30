@@ -1,29 +1,77 @@
 <div class="row row-custom" id="sign_in_show">
   <div class="row row-custom">
     <div class="register-form">
+      <div class="alert-box round alert _hidden">
+        <span></span>
+        <a class="close">x</a>
+      </div>
       <div class="abc">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'register-form') do |f| %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => 'form-signin'}) do |f| %>
           <div class="form-group">
             <%= f.label :email %><br />
-            <%= f.email_field :email, autofocus: true  %>
+            <%= f.email_field :email, autofocus: true, class: 'sign-in-form__email' %>
           </div>
+
+
 
           <div class="form-group">
             <%= f.label :password %><br />
-            <%= f.password_field :password, autocomplete: "off" %>
+            <%= f.password_field :password, autocomplete: "off", class: 'sign-in-form__password' %>
           </div>
 
           <% if devise_mapping.rememberable? %>
             <div class="checkbox">
               <label>
-                <%= f.check_box :remember_me %>
+                <%= f.check_box :remember_me, class: 'sign-in-form__remember' %>
                 <%= User.human_attribute_name('remember_me') %>
               </label>
             </div>
           <% end %>
-          <%= f.submit t('devise.sessions.new.sign_in'), class: 'btn btn-primary normal-button' %>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token, class: 'sign-in-form__token' %>
+          <button type="submit" class="btn btn-primary normal-button"><%= t('devise.sessions.new.sign_in') %></button>
         <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $document
+            .on('click.hideAlert', '.alert-box .close', function() {
+                $('.alert-box').fadeOut(1000);
+            })
+            .on('submit.login', 'form.form-signin', function(e) {
+                e.preventDefault();
+
+                var url = '<%= session_path(resource_name) %>';
+                var loginData = {
+                    authenticity_token: $('.sign-in-form__token').val(),
+                    user: {
+                        email: $('.sign-in-form__email').val(),
+                        password: $('.sign-in-form__password').val(),
+                        remember_me: $('.sign-in-form__remember').val()
+                    }
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: loginData,
+                    success: function() {
+                        location.reload();
+                    },
+                    error: function(e) {
+                        $('.alert-box').removeClass('_hidden');
+                        $('.alert-box span').text(e.responseText);
+                        var timeout = setTimeout(function() {
+                            $('.alert-box').fadeOut(1000);
+                            clearTimeout(timeout);
+                        }, 10000);
+                    }
+                })
+
+
+            })
+    })
+</script>
