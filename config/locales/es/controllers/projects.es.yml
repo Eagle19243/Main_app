@@ -40,3 +40,5 @@ es:
     #   success: "Your request has been submitted"
     # destroy:
     #   success: "Project was successfully destroyed."
+    user_search:
+      blank: 'No hay resultados para tu búsqueda.'
