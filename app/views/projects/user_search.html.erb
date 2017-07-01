@@ -18,6 +18,18 @@
             <a class="image-with-title" href="<%= taskstab_project_path(result)%>">
           <% end %>
               <h4 class="project-title"><%= result.title %></h4>
+              <span class="project-leader">
+                <% if result.user %>
+                    <% if result.user.picture? %>
+                        <%= image_tag(result.user.picture, size: "32x32") %>
+                    <% else %>
+                        <%= gravatar_for_user(result.user.picture) %>
+                    <% end %>
+                    <%= result.user.display_name %>
+                <% else %>
+                    User nolonger exist!
+                <% end %>
+              </span>
               <span class="project-country">
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <%= result.country %>
@@ -26,24 +38,28 @@
         </div>
         <div class="project-info">
           <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
-          <% if result.tasks.count > 0 %>
-            <% task = result.tasks.first %>
-            <div class="tasks hide-mobile">
-              <p class="example-task">Example task <span>(<%= result.tasks.count %> total)</span></p>
-              <div class="task">
-                <p class="task-description"><%= truncate(task.description, :length => 120, :omission => '...') %></p>
-                <div class="progress-bar">
-                  <div class="current-progress" style="width: <%= task.funded_percentage %>%"></div>
-                </div>
-                <span class="left">
-                  <strong>$<%= task.current_fund.to_i %></strong> funded
-                </span>
-                <span class="right">
-                  <strong><%= task.funded_percentage.to_i %></strong>% of goal
-                </span>
-              </div>
-            </div>
-          <% end %>
+          <div class="">
+            <p class="example-task">
+              <%= t('commons.teammates') %>:
+              <span><%= result.team_relations_string %></span>
+            </p>
+          </div>
+          <div class="">
+            <p class="example-task">
+              <%= t('commons.completed') %>:
+              <span><%= result.tasks_relations_string %></span>
+            </p>
+          </div>
+          <div class="">
+            <p class="example-task">
+              <%= t('commons.raised') %>:
+              <span>
+                $ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(result.funded_budget), :precision => 2) %>
+                /
+                ฿ <%= number_with_precision(btc_balance(result.funded_budget), :precision => 2) %>
+              </span>
+            </p>
+          </div>
         </div>
       <% end %>
       <% if (result.class.to_s.eql?('Task')) %>
