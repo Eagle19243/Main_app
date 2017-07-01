@@ -28,5 +28,6 @@ s3_bucket_region: "us-east-1"                   # S3 bucket region, eg "us-east-
 bucket_name: "youserve"                         # S3 bucket name
 consider_all_requests_local:                    # set to 'true' if you want to display backtrace at production env
 rollbar_key:                                    # key for Rollbar service
+rollbar_post_client_item:                       # key for Rollbar service (client-side)
 newrelic_key:                                   # key for Newrelic service
 secret_key_base:                                # RoR secret key
