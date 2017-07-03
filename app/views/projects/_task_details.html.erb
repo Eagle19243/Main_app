@@ -244,7 +244,9 @@
                     <% else %>
                         <% @task.team_memberships.each do |membership| %>
                             <a class="team-block__item" href="/users/<%= membership.team_member.id %>">
-                                <div class="team-block__item-delete" data-modal="#taskDeleteMember" data-modal-scope='{ "member_id": <%= membership.id %>, "task_id": <%= @task.id %>}'></div>
+                                <% if can?(:remove_member, @task) %>
+                                  <div class="team-block__item-delete" data-modal="#taskDeleteMember" data-modal-scope='{ "member_id": <%= membership.id %>, "task_id": <%= @task.id %>}'></div>
+                                <% end %>
                                 <% if membership.team_member.picture? %>
                                     <%= image_tag(membership.team_member.picture) %>
                                 <% else %>
