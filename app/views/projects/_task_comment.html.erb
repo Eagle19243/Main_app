@@ -1,5 +1,8 @@
 <div class="comment" id="Task-comments">
-  <h5><i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;&nbsp;Comments</h5>
+  <h5>
+    <i class="fa fa-comment-o" aria-hidden="true"></i>
+    <%= t('.title') %>
+  </h5>
   <% @task_comments.each do |comment| %>
       <div class="comment-view">
         <div class="profile-image">
@@ -21,7 +24,7 @@
           <% end %>
 
           <P><%= comment.body %></P>
-          <h6><%= comment.created_at.to_formatted_s(:long) if !comment.created_at.nil? %></h6>
+          <h6><%= l(comment.created_at, format: :long) if !comment.created_at.nil? %></h6>
           <!--<a href="#">Reply</a>-->
         </div>
       </div>

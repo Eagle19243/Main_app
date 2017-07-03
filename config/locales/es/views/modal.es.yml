@@ -54,8 +54,6 @@ es:
       revision_as_of: "Revisión del día"
     block_user_modal:
       confirmation_message: "¿Está seguro de querer bloquear"
-    task_details:
-      make_non_free: "Make non-free"
     new_task_modal:
       suggest_new_task: "Sugiera nuevas tareas"
       is_task_free: "Free task?"
@@ -80,3 +78,7 @@ es:
       agree_term_html: "Al hacer clic en Registrarse o Iniciar Sesión, acepta nuestros <a href='/pages/terms_of_use'> Términos de Uso </a> y <a href='/pages/privacy_policy'>Política de Privacidad</a>."
       not_receive_confirmation?: "¿No recibió la confimación?"
       donot_have_account?: "¿No tiene una cuenta?"
+    warring_pop_up:
+      title: 'No puedes cambiar la descripción de la tarea. Un miembro del equipo se encuentra trabajando en ella.'
+    edit_budget:
+      title: '¡Cambiar presupuesto!'
