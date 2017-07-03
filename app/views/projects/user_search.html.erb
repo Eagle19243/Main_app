@@ -9,32 +9,27 @@
   <% @results.each do |result| %>
     <div class="project-wrapper">
       <div class="project-showcase">
-      <% if (result.class.to_s.eql?('Project')) %>
+      <% if result.is_a? Project %>
         <div class="picture-wrapper">
-          <% if result && result.picture? %>
-            <a class="image-with-title" href="<%=taskstab_project_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.picture.url %>) no-repeat center center">
-            </a>
-          <% else %>
-            <a class="image-with-title" href="<%= taskstab_project_path(result)%>">
+          <%= link_to taskstab_project_path(result), class: "image-with-title", style: result.picture_style do %>
+            <h4 class="project-title"><%= result.title %></h4>
+            <span class="project-leader">
+              <% if result.user %>
+                  <% if result.user.picture? %>
+                      <%= image_tag(result.user.picture, size: "32x32") %>
+                  <% else %>
+                      <%= gravatar_for_user(result.user.picture) %>
+                  <% end %>
+                  <%= result.user.display_name %>
+              <% else %>
+                  User nolonger exist!
+              <% end %>
+            </span>
+            <span class="project-country">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <%= result.country %>
+            </span>
           <% end %>
-              <h4 class="project-title"><%= result.title %></h4>
-              <span class="project-leader">
-                <% if result.user %>
-                    <% if result.user.picture? %>
-                        <%= image_tag(result.user.picture, size: "32x32") %>
-                    <% else %>
-                        <%= gravatar_for_user(result.user.picture) %>
-                    <% end %>
-                    <%= result.user.display_name %>
-                <% else %>
-                    User nolonger exist!
-                <% end %>
-              </span>
-              <span class="project-country">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <%= result.country %>
-              </span>
-            </a>
         </div>
         <div class="project-info">
           <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
@@ -62,7 +57,7 @@
           </div>
         </div>
       <% end %>
-      <% if (result.class.to_s.eql?('Task')) %>
+      <% if result.is_a? Task %>
         <div class="picture-wrapper">
           <% if result && result.project.picture? %>
               <a class="image-with-title" href="<%= taskstab_project_path(result.project_id, tab: 'tasks', taskId: result.id) %>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.project.picture.url %>) no-repeat center center">
