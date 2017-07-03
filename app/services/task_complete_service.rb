@@ -40,6 +40,9 @@ class TaskCompleteService
   private
   def mark_task_as_completed!
     task.complete!
+    task.assignments.each do |assignment|
+      assignment.complete!
+    end
   end
 
   def wallet_handler
