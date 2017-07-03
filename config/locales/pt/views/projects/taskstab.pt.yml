@@ -1,0 +1,10 @@
+pt:
+  projects:
+    taskstab:
+      lead_project_invitation: "Você foi convidado como líder para este projeto. Por favor, reveja o projeto e aceite."
+      plan_tab_title: "Plano"
+      tasks_tab_title:  "Tarefas"
+      requests_tab_title:  "Solicitações"
+      team_tab:
+        title:  "Equipe"
+        description: "Abaixo estão os companheiros de equipe existentes para este projeto. Você pode escolher juntar-se ao time abaixo."

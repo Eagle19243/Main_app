@@ -3,39 +3,41 @@
   <!-- Modal content -->
   <div class="modal-content2 yes modal-default__content">
     <button id="inviteclose" class="modal-default__close"></button>
-    <h4 class="modal-default__title">Add / Invite People</h4>
-    <h6 class="modal-invite__subtitle">Type in the e-mail address of the person you like to invite</h6>
+    <h4 class="modal-default__title"><%= t('.title') %></h4>
+    <h6 class="modal-invite__subtitle"><%= t('.invite_subtitle') %></h6>
     <%= form_tag(:controller => "tasks", :action => "send_email") do %>
       <div class="f-default__joined">
         <div class="f-default__joined-col _wide">
           <input type="hidden" name="task_id" value="<%= @task.id %>">
-          <input type="email" name="email" placeholder="E-mail address" class="f-default__field _joined-left">
+          <input type="email" name="email" placeholder="<%= t('.email_placeholder') %>" class="f-default__field _joined-left">
         </div>
         <div class="f-default__joined-col _narrow">
-          <button class="btn-root _joined-right _dark">Add / Invite</button>
+          <button class="btn-root _joined-right _dark"><%= t('.invite_button') %></button>
         </div>
       </div>
 
-      <span class="modal-invite__or">OR</span>
+      <span class="modal-invite__or">
+        <%= t('commons.or') %>
+      </span>
 
       <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
         <ul class="l-share__list">
           <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
-            <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+            <a class="btn-share" href="#" data-site="facebook" title="<%= t('.share_fb') %>" onclick="return SocialShareButton.share(this);">
               <i class="fa fa-facebook"></i>
-              <span>Share on Facebook</span>
+              <span><%= t('.share_fb') %></span>
             </a>
           </li>
           <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
-            <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+            <a class="btn-share" rel="nofollow " data-site="twitter" title="<%= t('.share_twitter') %>" href="#" onclick="return SocialShareButton.share(this);">
               <i class="fa fa-twitter"></i>
-              <span>Share on twitter</span>
+              <span><%= t('.share_twitter') %></span>
             </a>
           </li>
           <li class="l-share__item" data-title="<%= @task.title %>" get-url-from-location="true">
-            <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+            <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="<%= t('.share_gplus') %>" href="#">
               <i class="fa fa-google-plus"></i>
-              <span>Share on Google Plus</span>
+              <span><%= t('.share_gplus') %></span>
             </a>
           </li>
         </ul>
@@ -59,8 +61,8 @@
             <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
             <%= form_for @task, :remote => true, html: {id: "task-update-title-form", class: "modal-task__form _hide"} do |f| %>
               <%= f.text_field :title, id: "input-task-title", class: "_no-empty" %>
-              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title">Save</button>
-              <button class="btn-root task-details__close-btn">Cancel</button>
+              <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-title"><%= t('commons.save') %></button>
+              <button class="btn-root task-details__close-btn"><%= t('commons.cancel') %></button>
             <% end %>
           <% else %>
             <h2 class="modal-default__title" id="task-title"><%= @task.title %></h2>
@@ -74,24 +76,24 @@
 
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
-                    <h4>Specifications</h4>
+                    <h4><%= t('.specifications') %></h4>
                     <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
                     <p class="modal-task__task-info js-toggleForm" id="task-condition"><%= @task.condition_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-condition-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :condition_of_execution, id: "input-task-condition", class: "_no-empty" %>
-                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition">Save</button>
-                        <button class="btn-root task-details__close-btn" id="cancel-condition">Cancel</button>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-condition"><%= t('commons.save') %></button>
+                        <button class="btn-root task-details__close-btn" id="cancel-condition"><%= t('commons.cancel') %></button>
                     <% end %>
                   </div>
 
                   <div class="modal-task__desc-block">
-                    <h4>Proof of Execution</h4>
+                    <h4><%= t('.proof_of_execution') %></h4>
                     <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil" style="display: inline-block;"></span>
                     <p class="modal-task__task-info js-toggleForm" id="task-proof"><%= @task.proof_of_execution %></p>
                     <%= form_for @task, :remote => true, html: {id: "task-update-proof-form", class: "modal-task__form _hide"} do |f| %>
                         <%= f.text_area :proof_of_execution, id: "input-task-proof", class: "_no-empty" %>
-                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof">Save</button>
-                        <button class="btn-root task-details__close-btn" id="cancel-proof">Cancel</button>
+                        <button name="button" class="btn-root task-details__save-btn" type="submit" id="task-update-proof"><%= t('commons.save') %></button>
+                        <button class="btn-root task-details__close-btn" id="cancel-proof"><%= t('commons.cancel') %></button>
                     <% end %>
                     <hr>
                   </div>
@@ -113,7 +115,7 @@
                               <%= f.hidden_field :task_id, value: @task.id %>
                               <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
                               <%= f.hidden_field :user_id, value: current_user.id %>
-                              <button type="submit" name="commit" value="Send"> Send</button>
+                              <button type="submit" name="commit" value="<%= t('commons.send') %>"> <%= t('commons.send') %></button>
                               &nbsp;&nbsp;
                               <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                               <div id="attachment-div"></div>
@@ -125,11 +127,11 @@
             <% else %>
                 <div class="task-desc">
                   <div class="modal-task__desc-block">
-                      <h4>Specifications</h4>
+                      <h4><%= t('.specifications') %></h4>
                       <p><%= @task.condition_of_execution %></p>
                   </div>
                   <div class="modal-task__desc-block">
-                      <h4>Proof of Execution</h4>
+                      <h4><%= t('.proof_of_execution') %></h4>
                       <p><%= @task.proof_of_execution %></p>
                   </div>
                   <hr>
@@ -143,7 +145,7 @@
                               <%= f.hidden_field :task_id, value: @task.id %>
                               <%= f.file_field :attachment, id: 'task-comment-attachment', style: "display: none" %>
 
-                              <button type="submit" name="commit" value="Send"> Send</button>
+                              <button type="submit" name="commit" value="<%= t('commons.send') %>"> <%= t('commons.send') %></button>
                               &nbsp;&nbsp;
                               <a href="#" id="task-comment-attachment-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></a>
                               <div id="attachment-div"></div>
@@ -152,11 +154,7 @@
                     </div>
                   <% else %>
                     <div class="modal-task__invite">
-                        Please
-                        <a class="sign_in_a" data-modal="#registerModal">login</a>
-                        or
-                        <a class="sign_up_a" data-modal="#registerModal">sign-up</a>
-                        to add comments
+                      <%= t('.login_or_signup_html') %>
                     </div>
                   <% end %>
                 </div>
@@ -172,18 +170,18 @@
                   <% if user_signed_in? %>
                     <% if @task.suggested_task? %>
                         <% if !@task.free? %>
-                            <button type="button" title="FUND" class="btn-root" data-modal="#suggested_task_model_for_fund">Fund</button>
+                            <button type="button" title="<%= t('commons.fund') %>" class="btn-root" data-modal="#suggested_task_model_for_fund"><%= t('commons.fund') %></button>
                         <% end %>
-                        <button type="button" title="FUND" class="btn-root _dark do-button" data-modal="#suggested_task_model_for_fund">DO</button>
+                        <button type="button" title="<%= t('commons.do') %>" class="btn-root _dark do-button" data-modal="#suggested_task_model_for_fund"><%= t('commons.do') %></button>
                     <% elsif @task.accepted? %>
                         <% if !@task.free? %>
-                            <button type="button" title="FUND" class="btn-root fund-button" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal">Fund</button>
+                            <button type="button" title="<%= t('commons.fund') %>" class="btn-root fund-button" onclick="fundPopup(<%= @task.id %>)" id="<%= @task.id %>" data-modal="#taskFundModal"><%= t('commons.fund') %></button>
                         <% end %>
-                        <button type="button" title="DO" class="btn-root _dark _do-popup-button do-button" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal">DO</button>
+                        <button type="button" title="<%= t('commons.do') %>" class="btn-root _dark _do-popup-button do-button" id="<%= @task.id %>" onclick="doPopup(<%= @task.id %>)" data-modal="#taskDoModal"><%= t('commons.do') %></button>
                     <% end %>
                   <% else %>
-                        <button type="button" title="FUND" class="btn-root sign_up_a" data-modal="#registerModal">Fund</button>
-                        <button type="button" title="FUND" class="btn-root _dark do-button sign_up_a" data-modal="#registerModal">DO</button>
+                        <button type="button" title="<%= t('commons.fund') %>" class="btn-root sign_up_a" data-modal="#registerModal"><%= t('commons.fund') %></button>
+                        <button type="button" title="<%= t('commons.do') %>" class="btn-root _dark do-button sign_up_a" data-modal="#registerModal"><%= t('commons.do') %></button>
                   <% end %>
 
 
@@ -225,22 +223,22 @@
                             </div>
                         </div>
                         <div class="modal-task__card-titles">
-                            <div class="modal-task__card-value">Teammates</div>
-                            <div class="modal-task__card-value _hide">Raised</div>
-                            <div class="modal-task__card-value">Needed</div>
-                            <div class="modal-task__card-value _hide">Left, USD</div>
-                            <div class="modal-task__card-value">Budget</div>
+                            <div class="modal-task__card-value"><%= t('commons.teammates') %></div>
+                            <div class="modal-task__card-value _hide"><%= t('commons.raised') %></div>
+                            <div class="modal-task__card-value"><%= t('commons.needed') %></div>
+                            <div class="modal-task__card-value _hide"><%= t('commons.left') %></div>
+                            <div class="modal-task__card-value"><%= t('commons.budget') %></div>
                         </div>
                       </div>
                   <% end %>
 
                   <div class="team-block mb30">
-                    <h5>Team</h5>
+                    <h5><%= t('.team') %></h5>
                     <% if @task.free? %>
                         <span>(<%= @task.number_of_participants %>/<%= @task.target_number_of_participants %>)</span>
                     <% end %>
                     <% if @task.team_memberships.blank? %>
-                        <h2>No Teammate Added Yet</h2>
+                      <h2><%= t('.no_teammate') %></h2>
                     <% else %>
                         <% @task.team_memberships.each do |membership| %>
                             <a class="team-block__item" href="/users/<%= membership.team_member.id %>">
@@ -257,7 +255,7 @@
                   </div>
 
                   <div class="deadline-block">
-                      <h5>Deadline</h5>
+                      <h5><%= t('commons.deadline') %></h5>
 
                       <% if can?(:update_deadline, @task) %>
                           <div class="deadline-group">
@@ -270,7 +268,7 @@
 
                                           <input type='text' name="task[deadline]" class="form-control" id="deadline_field" required="required" aria-required="true" placeholder='<%= @task.deadline.strftime("%Y-%m-%d %I:%M %p") %>' />
                                       </div>
-                                      <button class="btn-root" name="button" type="submit" id="task-update-deadline">update</button>
+                                      <button class="btn-root" name="button" type="submit" id="task-update-deadline"><%= t('commons.update') %></button>
                                   <% end %>
                               </div>
                           </div>
@@ -290,14 +288,14 @@
                   <% if can? :accept, @task %>
                       <a href="javascript:void(0)" class="approve-link mb10" id="approveTaskPopover" tabindex="0" data-trigger="focus" data-placement="top">
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
-                        Approve
+                        <%= t('commons.approve') %>
                       </a>
                   <% end %>
                   <% if user_signed_in? %>
                     <% if @task.accepted? && (current_user.is_project_leader?(@task.project) || current_user.is_coordinator_for?(@task.project)) %>
                       <%= link_to doing_task_path(@task.id), :method => :put, class: "approve-link" do %>
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp;&nbsp;
-                          Start
+                          <%= t('commons.start') %>
                       <% end %>
                     <% end %>
                   <% end %>
@@ -312,7 +310,7 @@
                             <!--<input type="file" name="task_attachment[attachment]" id="file1" style="display: none;">-->
                             <input type="file" name="task_attachment[attachment]" id="file1"/>
                             <button type="button" class="attachment">
-                              <i class="fa fa-paperclip" aria-hidden="true"></i>Add attachment
+                              <i class="fa fa-paperclip" aria-hidden="true"></i><%= t('commons.add_attachment') %>
                             </button>
                             <%= f.submit "upload", class: "btn btn-primary", id: "upload-button" %>
                         <% end %>
@@ -322,27 +320,27 @@
                         <% if current_user.can_submit_task?(@task) %>
                             <%= link_to reviewing_task_path(@task.id), :method => :put do %>
                                 <button>
-                                  <i class="fa fa-check" aria-hidden="true"></i>Submit for Review
+                                  <i class="fa fa-check" aria-hidden="true"></i><%= t('.submit_review') %>
                                 </button>
                             <% end %>
                         <% end %>
                         <% if can? :incomplete, @task %>
-                          <%= link_to incomplete_task_path(@task.id), :method => :put, data: { confirm: 'Do you confirm that you have reviewed the task and that it is incompleted?' } do %>
+                          <%= link_to incomplete_task_path(@task.id), :method => :put, data: { confirm: t('.mark_incomplete_confirmation') } do %>
                               <button>
-                                <i class="fa fa-times" aria-hidden="true"></i>Mark As Incompleted
+                                <i class="fa fa-times" aria-hidden="true"></i><%= t('.mark_incomplete') %>
                               </button>
                           <% end %>
                         <% end %>
                         <% if can? :completed, @task %>
-                          <%= link_to completed_task_path(@task.id), :method => :put, data: {confirm: 'Do you confirm that you have reviewed the task and that it is completed?' } do %>
+                          <%= link_to completed_task_path(@task.id), :method => :put, data: {confirm: t('.mark_completed_confirmation') } do %>
                               <button>
-                                <i class="fa fa-check" aria-hidden="true"></i>Mark As Completed
+                                <i class="fa fa-check" aria-hidden="true"></i><%= t('.mark_completed') %>
                               </button>
                           <% end %>
                         <% end %>
                     <% end %>
 
-                    <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i>Share/Invite</button>
+                    <button id="sharebtn"><i class="fa fa-share" aria-hidden="true"></i><%= t('commons.share_or_invite') %></button>
                     <!-- <button id="teambtn"><i class="fa fa-user" aria-hidden="true"></i>Teams</button> -->
 
                     <% if user_signed_in? && (can? :destroy, @task) %>
@@ -366,7 +364,7 @@
                         <%= link_to refund_task_path(@task), :method => :put do %>
                             <button>
                               <i class="fa fa-bitcoin" aria-hidden="true"></i>
-                              Refund Task
+                              <%= t('.make_non_free') %>
                             </button>
                         <% end %>
                     <% end %>
@@ -374,7 +372,7 @@
                 </div>
 
                 <div class="attachments" id="task-attachments-div">
-                  <h5>Attachments</h5>
+                  <h5><%= t('.attachments') %></h5>
                   <% @task_attachments.each do |attachment| %>
                       <div class="attachment">
                         <!--<iframe src="<%#= attachment.attachment_url %>" width="90" height="90" scrolling="no">-->
@@ -386,11 +384,11 @@
                           <img src="http://placehold.it/150x150">
                         <% end %>
                         <h4><%= attachment.attachment.file.filename %></h4>
-                        <span>Added <%= attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
+                        <span><%= t '.added', date: attachment.created_at.strftime("%b  %d,%Y %r") %></span><br>
                         <div class="attachment-actions">
-                          <%= link_to "Open", attachment.attachment_url, target: '_blank' %>
+                          <%= link_to t('commons.open'), attachment.attachment_url, target: '_blank' %>
                           <% if user_signed_in? && (can? :create_or_destory_task_attachment, @task) %>
-                              <a href="#" name="delete_attachment" id="<%= attachment.id %>">Remove</a>
+                              <a href="#" name="delete_attachment" id="<%= attachment.id %>"><%= t('commons.remove') %></a>
                           <% end %>
                         </div>
                       </div>
@@ -440,32 +438,38 @@
 <div id="share" class="modal modal-share modal-default" tabindex="-1">
   <div class="modal-content2 yes modal-default__content">
     <button type="button" class="modal-default__close"></button>
-    <h2 class="modal-default__title">Share/Invite People to Participate</h2>
+    <h2 class="modal-default__title">
+      <%= t('.share_invite_title') %>
+    </h2>
     <div class="l-share" data-title="<%= @task.title %> :" data-url="<%= task_url(@task.id) %>" data-img="" data-desc="" data-popup="" data-via="">
-      <h5 class="l-share__title">Share on social media</h5>
+      <h5 class="l-share__title">
+        <%= t('.share_invite_subtitle') %>
+      </h5>
       <ul class="l-share__list">
         <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
-          <a class="btn-share" href="#" data-site="facebook" title="Share to Facebook" onclick="return SocialShareButton.share(this);">
+          <a class="btn-share" href="#" data-site="facebook" title="<%= t('.share_fb') %>" onclick="return SocialShareButton.share(this);">
             <i class="fa fa-facebook"></i>
-            <span>Share on Facebook</span>
+            <span><%= t('.share_fb') %></span>
           </a>
         </li>
         <li class="l-share__item" data-title="<%= @task.title %> :" get-url-from-location="true">
-          <a class="btn-share" rel="nofollow " data-site="twitter" title="Share to Twitter" href="#" onclick="return SocialShareButton.share(this);">
+          <a class="btn-share" rel="nofollow " data-site="twitter" title="<%= t('.share_twitter') %>" href="#" onclick="return SocialShareButton.share(this);">
             <i class="fa fa-twitter"></i>
-            <span>Share on twitter</span>
+            <span><%= t('.share_twitter') %></span>
           </a>
         </li>
         <li class="l-share__item" data-title="<%= @task.title %>" get-url-from-location="true">
-          <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="Share to Google+" href="#">
+          <a class="btn-share" rel="nofollow " data-site="google_plus" class="social-share-button-google_plus" onclick="return SocialShareButton.share(this);" title="<%= t('.share_gplus') %>" href="#">
             <i class="fa fa-google-plus"></i>
-            <span>Share on Google Plus</span>
+            <span><%= t('.share_gplus') %></span>
           </a>
         </li>
       </ul>
     </div>
 
-    <span class="modal-invite__or">OR</span>
+    <span class="modal-invite__or">
+      <%= t('commons.or') %>
+    </span>
     <div class="modal-default__text modal-share__response" id="response"></div>
     <%= form_tag(tasks_send_email_path, remote: true, id: 'send-task-email', :class => 'invite-email-wrapper mb30') do %>
         <input type="hidden" name="task_id" value="<%= @task.id rescue nil %>">
@@ -476,25 +480,29 @@
               <!-- <a onclick="document.getElementById('send-project-email-button1').click()" class="btn-invite" id="send-project-email-button">Invite</a> -->
             </div>
             <div class="f-default__joined-col _narrow">
-              <%= submit_tag 'Invite', :class => 'btn-root _joined-right _dark' %>
+              <%= submit_tag t('commons.invite'), :class => 'btn-root _joined-right _dark' %>
             </div>
         </div>
     <% end %>
 
     <div id="contacts">
       <div class="contact-importers" id ="tab">
-        <p class="modal-default__text">Import your contacts from</p>
+        <p class="modal-default__text">
+          <%= t('.import_contact_from') %>
+        </p>
         <span class="contact-importer">
           <span class="loading-trigger" data-source="gmail"  id="gmail-icon">
-            <%= link_to image_tag("gmail.png", :alt => "Gmail Contacts"), contacts_gmail_path %>
+            <%= link_to image_tag("gmail.png", :alt => t('.gmail_contacts')), contacts_gmail_path %>
           </span>
         </span>
         <span class="contact-importer">
           <span class="loading-trigger" data-source="yahoo" id="yahoo">
-            <%= link_to image_tag("yahoo.png", :alt => "Yahoo Contacts"), contacts_yahoo_path %>
+            <%= link_to image_tag("yahoo.png", :alt => t('.yahoo_contacts')), contacts_yahoo_path %>
           </span>
         </span>
-        <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">Invite</button>
+        <button class="btn-invite" id="send-project-email-button1" style="margin-left:60%; display: none">
+          <%= t('commons.invite') %>
+        </button>
       </div>
     </div>
   </div>
@@ -503,19 +511,19 @@
     <% if can? :accept, @task %>
 
         <div id="approveTaskPopoverTitle" class="hidden">
-          <b>Are you sure?</b>
+          <b><%= t('commons.are_you_sure') %></b>
         </div>
 
         <div id="approveTaskPopoverContent" class="hidden">
           <div class="popover-content">
-            <p>Are you sure want to approve this task?</p>
-            <p>This is a irreversible action.</p>
+            <%= t('.approve_task_description_html') %>
             <div class="approve-btns mt10">
               <%= link_to accept_task_path(@task.id), :method => :put, class: 'approve-btn', title: 'approve' do %>
-                <i class="fa fa-check"></i>Yes, approve
+                <i class="fa fa-check"></i>
+                <%= t('.accept_approvation') %>
               <% end %>
               <a class="approve-btn _close-modal" title="cancel">
-                No
+                <%= t('commons.no') %>
               </a>
             </div>
           </div>

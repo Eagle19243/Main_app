@@ -1,4 +1,7 @@
-<h5><i class="fa fa-list" aria-hidden="true"></i>&nbsp;&nbsp;Activity</h5>
+<h5>
+  <i class="fa fa-list" aria-hidden="true"></i>
+  <%= t('.title') %>
+</h5>
 <% @activities.each do |activity | %>
   <div class="activity-block">
     <div >
@@ -8,10 +11,11 @@
         <%= gravatar_for_user(activity.user) %>
       <%end%>
 
-      <p style = "display: inline-block" ><%= get_activity_detail(activity)%>&nbsp;</p><p style = "display: inline-block"><%= activity.user.display_name %></p>
+      <p style = "display: inline-block" ><%= get_activity_detail(activity)%>&nbsp;</p>
+      <p style = "display: inline-block"><%= activity.user.display_name %></p>
       <% if activity.targetable_type == 'TeamMembership' && activity.deleted? %>
-      <% targetable = activity.archived_targetable %>
-      <p>Reason: <%= targetable.deleted_reason %></p>
+        <% targetable = activity.archived_targetable %>
+        <p><%= t('.reason', reason: targetable.deleted_reason) %></p>
       <% end %>
       <br><h6><%= "#{activity.created_at.strftime(" %b %d , %Y ")} " %></h6>
     </div>

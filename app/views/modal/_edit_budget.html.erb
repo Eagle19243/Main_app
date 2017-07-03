@@ -3,10 +3,12 @@
 <div id="editBudgetPopup" class="modal-default modal-do-task" role="dialog" style="z-index: 1050" tabindex="-1">
   <div class="modal-default__content">
     <button type="button" class="modal-default__close"></button>
-    <h4 class="modal-default__title">Change Budget!</h4>
+    <h4 class="modal-default__title">
+      <%= t('.title') %>
+    </h4>
     <p id="task-budget-response" class="text-default" style="color: red; text-align: center;"></p>
     <div class="edit-budget">
-      <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :ok_button => "Save", :cancel_button => "Cancel", :activator => '#budget-pencil' %>
+      <%= best_in_place_if user_signed_in? &&  current_user.id == @task.project.user_id, @task, :budget, :ok_button => t('commons.save') , :cancel_button => t('commons.cancel'), :activator => '#budget-pencil' %>
       <% if user_signed_in? && current_user.id == @task.project.user_id %>
           <span class="btn-edit glyphicon glyphicon-pencil" aria-hidden="true" id="budget-pencil"></span>
       <% end %>

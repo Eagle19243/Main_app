@@ -1,0 +1,36 @@
+en:
+  projects:
+    task_details:
+      accept_approvation: 'Yes, approve'
+      added: 'Added %{date}'
+      attachments: 'Attachments'
+      email_placeholder: 'E-mail address'
+      gmail_contacts: 'Gmail Contacts'
+      import_contact_from: "Import your contacts from"
+      invite_button: "Add / Invite"
+      invite_subtitle: "Type in the e-mail address of the person you like to invite"
+      make_non_free: "Make non-free"
+      mark_completed: "Mark As Completed"
+      mark_completed_confirmation: 'Do you confirm that you have reviewed the task and that it is completed?'
+      mark_incomplete: "Mark As Incompleted"
+      mark_incomplete_confirmation: 'Do you confirm that you have reviewed the task and that it is incompleted?'
+      no_teammate: "No Teammate Added Yet"
+      proof_of_execution: "Proof of Execution"
+      refund_task: 'Refund Task'
+      share_fb: "Share on Facebook"
+      share_gplus: "Share on Google +"
+      share_invite_subtitle: 'Share on social media'
+      share_invite_title: 'Share/Invite People to Participate'
+      share_twitter: "Share on Twitter"
+      specifications: "Specifications"
+      submit_review: "Submit for Review"
+      team: "Team"
+      title: "Add / Invite People"
+      yahoo_contacts: 'Yahoo Contacts'
+      approve_task_description_html: |
+        <p>Are you sure want to approve this task?</p>
+        <p>This is a irreversible action.</p>
+      login_or_signup_html: |
+        Please <a class="sign_in_a" data-modal="#registerModal">login</a>
+        or <a class="sign_up_a" data-modal="#registerModal">sign-up</a>
+        to add comments

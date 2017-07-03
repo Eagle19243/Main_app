@@ -54,8 +54,6 @@ en:
       revision_as_of: "Revision as of"
     block_user_modal:
       confirmation_message: "Are you sure you want to block"
-    task_details:
-      make_non_free: "Make non-free"
     new_task_modal:
       suggest_new_task: "Suggest New Task"
       is_task_free: "Free task?"
@@ -81,3 +79,7 @@ en:
       agree_term_html: "By clicking Sign Up or Sign in, you agree to our <a href='/pages/terms_of_use'> Terms of Use </a> and <a href='/pages/privacy_policy'>Privacy Policy</a>."
       not_receive_confirmation?: "Didn't receive confirmation?"
       donot_have_account?: "Don't have an account?"
+    warring_pop_up:
+      title: "You can't change task description team member are working on this task."
+    edit_budget:
+      title: 'Change Budget!'

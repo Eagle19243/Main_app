@@ -20,19 +20,22 @@ module TasksHelper
 
   def task_activity_detail(activity)
     if activity.created?
-      'This task was proposed by'
+      t('.task_proposed_by')
     elsif activity.edited?
-      'This task was edited by'
+      t('.task_edited_by')
     elsif activity.incomplete?
-      'This task was reviewed and rejected by'
+      t('.task_reviewed_and_rejected_by')
     end
   end
 
   def task_comments_activity_detail(_activity)
-    'This task was commented by'
+    t('.task_commented_by')
   end
 
   def team_membership_activity_detail(activity)
-    "#{activity.archived_targetable.team_member.display_name} was removed from this task by" if activity.deleted?
+    if activity.deleted?
+      t('.member_removed_from_task',
+        member: activity.archived_targetable.team_member.display_name)
+    end
   end
 end
