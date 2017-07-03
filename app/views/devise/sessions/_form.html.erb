@@ -61,7 +61,7 @@
                     data: loginData,
                     dataType: 'JSON',
                     success: function() {
-                        location.reload();
+                      window.location.replace(window.location.origin + '/home')
                     },
                     error: function(e) {
                         $('.alert-box').css({ display: 'block' });
