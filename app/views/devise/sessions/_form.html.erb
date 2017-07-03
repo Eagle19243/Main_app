@@ -46,6 +46,7 @@
 
                 var url = '<%= session_path(resource_name) %>';
                 var loginData = {
+                    utf8: "✓",
                     authenticity_token: $('.sign-in-form__token').val(),
                     user: {
                         email: $('.sign-in-form__email').val(),
@@ -58,12 +59,14 @@
                     type: 'POST',
                     url: url,
                     data: loginData,
+                    dataType: 'JSON',
                     success: function() {
                         location.reload();
                     },
                     error: function(e) {
+                        $('.alert-box').css({ display: 'block' });
                         $('.alert-box').removeClass('_hidden');
-                        $('.alert-box span').text(e.responseText);
+                        $('.alert-box span').text(JSON.parse(e.responseText).error);
                         var timeout = setTimeout(function() {
                             $('.alert-box').fadeOut(1000);
                             clearTimeout(timeout);
