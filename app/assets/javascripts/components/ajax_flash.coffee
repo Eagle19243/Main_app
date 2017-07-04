@@ -15,13 +15,11 @@ show_ajax_message = (msg, type) ->
 
 $(document).ready ->
   if JSON.parse(sessionStorage.getItem('showMessageAfterRegister'))
-    show_ajax_message('A message with a confirmation link has been sent' +
-      ' to your email address. Please follow the link to' +
-      ' activate your account.', 'success')
+    show_ajax_message($("#after-sign-up-message").text(), 'success')
     sessionStorage.removeItem('showMessageAfterRegister')
 
   if sessionStorage.getItem('showMessageAfterSignedIn')
-    show_ajax_message('Signed in successfully.', 'success')
+    show_ajax_message($("#after-sign-in-message").text(), 'success')
     sessionStorage.removeItem('showMessageAfterSignedIn')
 
 $(document).ajaxComplete (event, request) ->

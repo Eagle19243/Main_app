@@ -70,7 +70,7 @@
                     data: registerData,
                     success: function() {
                         sessionStorage.setItem('showMessageAfterRegister', JSON.stringify(true))
-                        window.location.replace(window.location.origin + '/home')
+                        window.location.replace(window.location.origin + "/home?locale=<%= I18n.locale %>")
                     },
                     error: function(e) {
                         var errors = JSON.parse(e.responseText).errors,

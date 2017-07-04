@@ -61,7 +61,8 @@
                     data: loginData,
                     dataType: 'JSON',
                     success: function() {
-                      window.location.replace(window.location.origin + '/home')
+                      sessionStorage.setItem('showMessageAfterSignedIn', JSON.stringify(true))
+                      window.location.replace(window.location.origin + "/home?locale=<%= I18n.locale %>")
                     },
                     error: function(e) {
                         $('.alert-box').css({ display: 'block' });
