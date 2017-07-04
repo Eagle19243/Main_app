@@ -31,3 +31,5 @@ rollbar_key:                                    # key for Rollbar service
 rollbar_post_client_item:                       # key for Rollbar service (client-side)
 newrelic_key:                                   # key for Newrelic service
 secret_key_base:                                # RoR secret key
+PUBLISHABLE_KEY_STRIPE:                         # Stripe publishable key
+SECRET_KEY_STRIPE:                              # Stripe secret key
