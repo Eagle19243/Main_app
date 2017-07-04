@@ -37,3 +37,5 @@ en:
     remove_member:
       success: "Assignee has been removed"
       fail: "Must give reason"
+    show:
+      fail: "Task not found"

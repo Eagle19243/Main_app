@@ -7,8 +7,7 @@ class TasksController < ApplicationController
   before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed, :incomplete]
 
   def show
-   # @task = Task.find(params[:id])
-    @project = @task.project
+    @task ? (@project = @task.project) : (return redirect_to root_path, alert: t('.fail'))
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0

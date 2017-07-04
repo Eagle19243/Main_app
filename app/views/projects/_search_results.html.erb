@@ -34,13 +34,13 @@
               <div class="task">
                 <p class="task-description"><%= truncate(task.description, :length => 120, :omission => '...') %></p>
                 <div class="progress-bar">
-                  <div class="current-progress" style="width: <%= 100 * (task.current_fund/task.budget) %>%"></div>
+                  <div class="current-progress" style="width: <%= task.funded_percentage %>%"></div>
                 </div>
                 <span class="left">
                   <strong>$<%= task.current_fund.to_i %></strong> funded
                 </span>
                 <span class="right">
-                  <strong><%= (100 * (task.current_fund/task.budget)).to_i %></strong>% of goal
+                  <strong><%= task.funded_percentage.to_i %></strong>% of goal
                 </span>
               </div>
             </div>

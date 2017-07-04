@@ -5,8 +5,7 @@
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="hero-promo">
           <div class="promo-wrapper">
-            <h1><%= t('landing.hero-title') %></h1>
-            <p><%= t('landing.hero-subtitle') %></p>
+            <h1><%= t('landing.hero-title') %> <span><%= t('landing.hero-subtitle') %></span></h1>
             <div class="hero-start">
                 <% if user_signed_in? %>
                     <button class="btn-root _transparent" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></button>
@@ -79,84 +78,6 @@
     </div>
   </section>
 
-  <div class="b-landing-plan">
-      <div class="s-landing__wrapper">
-          <ul class="b-landing-plan__list">
-              <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title"><%= t('landing.innovators.title') %></div>
-                  <div class="b-landing-plan__content _center">
-                      <div class="b-landing-plan__subtitle">
-                        <%= t('landing.innovators.create_prototype_html').html_safe %>
-                      </div>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.innovators.build_team') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.innovators.finance_task') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.innovators.feedback') %>
-                      </p>
-                  </div>
-              </li>
-              <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title"><%= t('landing.bloggers.title') %></div>
-                  <div class="b-landing-plan__content">
-                      <div class="b-landing-plan__subtitle">
-                        <%= t('landing.bloggers.report_on_the_future_html').html_safe %>
-                      </div>
-                      <p class="b-landing-plan__info">
-                         <%= t('landing.bloggers.publish_idea') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.bloggers.generate_content') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.bloggers.translate_ideas') %>
-                      </p>
-                  </div>
-              </li>
-              <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title"><%= t('landing.students.title') %></div>
-                  <div class="b-landing-plan__content">
-                      <div class="b-landing-plan__subtitle">
-                        <%= t('landing.students.build_lab_html').html_safe %>
-                      </div>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.students.theory_and_action') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.students.academic_projects') %>
-                      </p>
-                  </div>
-              </li>
-              <li class="b-landing-plan__item">
-                  <div class="b-landing-plan__title"><%= t('landing.activists.title') %></div>
-                  <div class="b-landing-plan__content">
-                      <div class="b-landing-plan__subtitle">
-                        <%= t('landing.activists.serve_as_leader_html').html_safe %>
-                      </div>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.activists.supporter') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.activists.multiply_effectiveness') %>
-                      </p>
-                      <p class="b-landing-plan__info">
-                        <%= t('landing.activists.emerge_leadership') %>
-                      </p>
-                  </div>
-              </li>
-          </ul>
-
-          <% if user_signed_in? %>
-              <button class="btn-root _transparent" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></button>
-          <% else %>
-              <button class="btn-root _transparent sign_up_a" data-modal="#registerModal"><%= t('commons.start_a_project') %></a>
-          <% end %>
-      </div>
-  </div>
-
     <div class="s-landing__tabs">
         <div class="s-landing__wrapper">
             <div class="s-landing__tabs-item">
@@ -208,11 +129,6 @@
                     <%= image_tag("carousel/carousel_1.jpg") %>
                 </div>
                 <div class="s-landing__tabs-right">
-                    <div class="s-landing__tabs-logo">
-                        <svg focusable="false" version="1.1" class="svg-market" aria-hidden="true">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-market"></use>
-                        </svg>
-                    </div>
                     <div class="s-landing__tabs-title"><%= t('landing.test_market.title') %></div>
                     <div class="s-landing__tabs-info">
                       <%= t('landing.test_market.description') %>
@@ -264,6 +180,17 @@
                  <div class="s-landing__features-title"><%= t('landing.independent.bitcoin_payment.title') %></div>
                  <div class="s-landing__features-info">
                      <%= t('landing.independent.bitcoin_payment.description') %>
+                 </div>
+             </li>
+             <li class="s-landing__features-item">
+                 <div class="s-landing__features-logo">
+                    <div class="s-landing__tabs-logo">
+                      <%= image_tag("icons/icon-coa-white.png") %>
+                    </div>
+                 </div>
+                 <div class="s-landing__features-title"><%= t('landing.independent.power.title') %></div>
+                 <div class="s-landing__features-info">
+                     <%= t('landing.independent.power.description') %>
                  </div>
              </li>
         </ul>

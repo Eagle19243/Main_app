@@ -13,6 +13,18 @@ RSpec.describe User, type: :model do
 
       expect(subject.errors[:username]).to include /is not allowed to change/
     end
+
+    it 'email validation' do
+      email_no_dot = build(:user, email: 'test@no-dot')
+      email_no_at = build(:user, email: 'test.noat')
+      email_correct = build(:user, email: 'test@correct.email')
+
+      expect(email_no_dot.valid?).to eq(false)
+      expect(email_no_dot.errors.messages).to include(:email)
+      expect(email_no_at.valid?).to eq(false)
+      expect(email_no_at.errors.messages).to include(:email)
+      expect(email_correct.valid?).to eq(true)
+    end
   end
 
   describe 'check if user is teammate with (for purposes of contact info)' do

@@ -9,7 +9,7 @@ class AutocompleteProjectPresenter < ApplicationPresenter
     {
       type: 'project',
       id: project.id,
-      title: project.title,
+      title: project.title || '',
       path: path
     }
   end

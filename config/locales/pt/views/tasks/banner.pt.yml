@@ -1,0 +1,8 @@
+pt:
+  tasks:
+    banner:
+      edit_project_image: "Edite a imagem do projeto"
+      funded: "Financiado"
+      teammates: "Companheiros de equipe"
+      raised: "Recolhido"
+      get_involved: "Envolva-se"

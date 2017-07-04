@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
     self.role ||= :user
   end
 
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -59,7 +61,7 @@ class User < ActiveRecord::Base
   # Except for validates_length_of password which is done only if no errors on password_confirmation were found
   validates_presence_of   :email, if: :email_required?
   validates_uniqueness_of :email, allow_blank: true, if: :email_changed?
-  validates_format_of     :email, with: Devise.email_regexp, allow_blank: true, if: :email_changed?
+  validates_format_of     :email, with: VALID_EMAIL_REGEX, allow_blank: true, if: :email_changed?
 
   validates_presence_of     :password, if: :password_required?
   validates_confirmation_of :password,  message: "doesn't match", if: :password_required?
