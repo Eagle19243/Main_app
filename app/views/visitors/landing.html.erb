@@ -5,8 +5,7 @@
       <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="hero-promo">
           <div class="promo-wrapper">
-            <h1><%= t('landing.hero-title') %></h1>
-            <p><%= t('landing.hero-subtitle') %></p>
+            <h1><%= t('landing.hero-title') %> <span><%= t('landing.hero-subtitle') %></span></h1>
             <div class="hero-start">
                 <% if user_signed_in? %>
                     <button class="btn-root _transparent" data-modal="#startProjectModal"><%= t('commons.start_a_project') %></button>
