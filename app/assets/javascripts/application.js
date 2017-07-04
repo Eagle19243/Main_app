@@ -280,6 +280,9 @@ var LanguageModule = (function() {
             case 'es':
                 _insertCurrentFlag(_getCurrentSvgFlag('spain'));
                 break;
+            case 'pt':
+                _insertCurrentFlag(_getCurrentSvgFlag('portugal'));
+                break;
             default:
                 _insertCurrentFlag(_getCurrentSvgFlag('uk'));
                 break;
