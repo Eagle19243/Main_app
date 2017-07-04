@@ -1,12 +1,12 @@
 en:
   landing:
     hero-title: "Turn your followers into a task force"
-    hero-subtitle: "Share your vision and your audience will make it happen"
+    hero-subtitle: "To build powerful public actions."
     hero-collaboration-title: "Engage your social network to"
     hero-collaboration-text: "As the Project Leader, you maintain control over the collaboration at all times, so your project development reflects your own vision. You build momentum with the crowd through the achievement of small tasks."
     hero-collaboration-item-expand: "expand your idea into a plan of action"
     hero-collaboration-item-breakdown: "Break-down your project into tasks"
-    hero-collaboration-item-fund: "Fund your tasks"
+    hero-collaboration-item-fund: "Get funding"
     hero-collaboration-item-complete: "Crowdsource tasks"
     hero-collaboration-item-review: "Verify task completion"
     hero-generate-title: "Generate Soft Power"
@@ -21,7 +21,7 @@ en:
     hero-footer-market-item-get: "get community feedback and improvement"
     hero-footer-market-item-analyse: "analyse traffic on your project"
     hero-footer-stimulate-title: "Stimulate your Audience"
-    hero-footer-stimulate-text: "Turn your followers into actors, and increase trust and support to your project."
+    hero-footer-stimulate-text: "Turn your followers into actors, and increase trust build trust around your project project."
     hero-footer-inclusive-title: "Inclusive"
     hero-footer-inclusive-text_html: "WeServe brings contrasting people together in a unique efforts to achieve common goals.<br>Volunteers can refund the amount they earned towards a new task. People who cannot afford to volunteer may keep the money they earned."
     hero-footer-corruption-title: "Anti Corruption"
@@ -53,21 +53,25 @@ en:
       emerge_leadership: "Emerge as a leader through concrete action rather than just talking and lip service."
     engage_audience:
       title: "ENGAGE YOUR AUDIENCE"
-      description: "Turn your followers into contributors, and increase trust and support to your project."
+      description: "Turn your followers into contributors, build trust around your project."
     inclusive:
       title: "BE INCLUSIVE"
       description: "Bring diverse people together in unique efforts to achieve common goals."
     test_market:
-      title: "TEST YOUR MARKET"
+      title: "GROW YOUR EXPERTISE"
       description: "Build an active community around a concrete story. Get community feedback and improvement."
     independent:
       title: "Gain Independence"
+      title: "Gain Independence"
       anti_curruption:
         title: "ANTI-CORRUPTION"
-        description: "Build powerful action for your community without having to belong to the ruling clubs and emerge as an independent leader."
+        description: "Build powerful action for your community without having to belong to the ruling party and emerge as an independent leader."
       transparency:
         title: "TRANSPARENCY"
         description: "Projects are open for public review, so you may channel the wisdom of the crowd. This makes you accountable but it also protects you and your project as independent and legitimate."
       bitcoin_payment:
         title: "BITCOIN PAYMENT"
-        description: "Fund a project anywhere in the world with a multi-national team."
+        description: "Fund a project anywhere in the world with a transnational team."
+      power:
+        title: "POWER"
+        description: "Multiply your affectiveness with coordinated action rather than more protest. Emerge as a public leader through concrete action while others just talk."
