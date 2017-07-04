@@ -29,19 +29,19 @@
                     </div>
                 </div>
 
-                <table>
-                    <tr class="value">
-                      <td><%= @project.team_relations_string %></td>
-                      <td>
-                          <div class="task-progress-wrapper__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@project.funded_budget), :precision => 2) %> </div>
-                          <div class="task-progress-wrapper__btc-value">฿ <%= number_with_precision(btc_balance(@project.funded_budget), :precision => 2) %> </div>
-                      </td>
-                    </tr>
-                    <tr class="items">
-                      <td><%= t('commons.teammates') %></td>
-                      <td><%= t('commons.raised') %></td>
-                    </tr>
-                </table>
+                <div class="b-project-info__data">
+                    <div class="b-project-info__data-item">
+                        <div class="b-project-info__data-value"><%= @project.team_relations_string %></div>
+                        <div class="b-project-info__data-title"><%= t('commons.teammates') %></div>
+                    </div>
+                    <div class="b-project-info__data-item">
+                        <div class="b-project-info__data-value">
+                            <div class="b-project-info__data-usd">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@project.funded_budget), :precision => 2) %></div>
+                            <div class="b-project-info__data-btc">฿ <%= number_with_precision(btc_balance(@project.funded_budget), :precision => 2) %></div>
+                        </div>
+                        <div class="b-project-info__data-title"><%= t('commons.raised') %></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col">

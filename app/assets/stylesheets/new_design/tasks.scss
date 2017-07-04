@@ -213,38 +213,6 @@
   .progress {
     background-color: #000;
   }
-
-  table {
-    display: inline;
-    width: auto;
-    text-align: center;
-  }
-
-  tbody {
-    margin: auto;
-    tr td {
-      padding: 0 10px !important;
-      text-align: left;
-      line-height: 1.5em !important;
-      font-size: 11px !important;
-    }
-    tr.value {
-      td {
-        font-family: 'Libre Franklin', sans-serif;
-        color: #000 !important;
-        font-weight: normal;
-        font-size: 1.4em !important;
-      }
-    }
-    tr.items {
-      td {
-        font-family: 'Libre Franklin', sans-serif;
-        color: #000 !important;
-        text-align: left;
-        font-size: 1em;
-      }
-    }
-  }
 }
 
 .project-detail-wrapper {
@@ -1066,6 +1034,9 @@
         flex-grow: 1;
       }
     }
+    .progress {
+      max-width: none;
+    }
   }
 
   .project-tab-wrapper {
@@ -1090,6 +1061,20 @@
       }
       &__inner {
         padding: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .project-tab-wrapper {
+    .tabs-menu {
+      .project-btn-group {
+        .btn-root {
+          font-size: 10px;
+          padding: 5px;
+          border-width: 1px;
+        }
       }
     }
   }
