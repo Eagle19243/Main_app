@@ -71,31 +71,6 @@
     <div class="project-tab-wrapper">
       <div class="row tabs-menu">
         <div class="col-lg-12 col-md-12 col-sm-12 tabs-menu__inner">
-          <ul class="nav nav-pills nav-left m-tabs">
-            <li>
-              <%= link_to plan_project_path(id: @project.id), data: {tab: 'plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
-                <%= t('.plan_tab_title') %>
-              <% end %>
-            </li>
-            <li>
-              <%= link_to show_all_tasks_projects_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
-                <%= t('.tasks_tab_title') %><span class="count"><%= @tasks_count %></span>
-              <% end %>
-            </li>
-            <li>
-              <%= link_to show_all_teams_projects_path(id: @project.id), data: {tab: 'team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
-                <%= t('.team_tab.title')%><span class="count"><%= @team_memberships_count %></span>
-              <% end %>
-            </li>
-            <% if can? :manage_requests, @project %>
-              <li>
-                <%= link_to requests_project_path(@project), data: {tab: 'requests'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
-                  <%= t('.requests_tab_title')%><span class="count"><%= @requests_count %></span>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
-
           <div class="project-btn-group">
             <button type="button" data-modal="#projectInviteModal" class="btn-root">
                 <svg focusable="false" version="1.1" class="svg-share">
@@ -122,7 +97,30 @@
                 <button type="button" class="btn-root" data-modal="#welcomeToTeamModal">Get involved</button>
             <% end %>
           </div>
-
+          <ul class="nav nav-pills nav-left m-tabs">
+            <li>
+              <%= link_to plan_project_path(id: @project.id), data: {tab: 'plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
+                <%= t('.plan_tab_title') %>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to show_all_tasks_projects_path(id: @project.id), data: {tab: 'tasks'}, remote: true, class: "tablinks border-right-none m-tabs__link", id: "tab-tasks" do %>
+                <%= t('.tasks_tab_title') %><span class="count"><%= @tasks_count %></span>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to show_all_teams_projects_path(id: @project.id), data: {tab: 'team'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+                <%= t('.team_tab.title')%><span class="count"><%= @team_memberships_count %></span>
+              <% end %>
+            </li>
+            <% if can? :manage_requests, @project %>
+              <li>
+                <%= link_to requests_project_path(@project), data: {tab: 'requests'}, remote: true, class: "tablinks border-right-none m-tabs__link" do %>
+                  <%= t('.requests_tab_title')%><span class="count"><%= @requests_count %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
 

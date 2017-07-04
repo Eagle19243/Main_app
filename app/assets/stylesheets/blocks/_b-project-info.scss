@@ -121,3 +121,11 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .b-project-info {
+    &__user-avatar {
+      margin-top: -72.5px;
+    }
+  }
+}
