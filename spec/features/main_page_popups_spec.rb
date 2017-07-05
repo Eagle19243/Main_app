@@ -14,10 +14,10 @@ feature 'Main page popups' do
     expect(modal).to have_link 'Sign In with Twitter'
     expect(modal).to have_link 'Sign In with Facebook'
 
-    expect(modal).to have_field 'username'
-    expect(modal).to have_field 'new_email'
-    expect(modal).to have_field 'new_password'
-    expect(modal).to have_field 'password_confirmation'
+    expect(modal).to have_field 'user_username'
+    expect(modal).to have_field 'user_email'
+    expect(modal).to have_field 'user_password'
+    expect(modal).to have_field 'user_password_confirmation'
     expect(modal).to have_button 'Sign up'
   end
 
@@ -26,6 +26,6 @@ feature 'Main page popups' do
 
     find('.header-link._active-project').click
 
-    expect(page).to have_current_path(projects_path)
+    expect(page).to have_current_path(projects_path, only_path: true)
   end
 end

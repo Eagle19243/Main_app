@@ -5,14 +5,17 @@ feature 'Sing_in working on  "/users/sign_in" ' , js: true do
 
   scenario 'user logs in at "/users/sign_in" 'do
     visit '/users/sign_in'
-    find(:xpath ,'//*[@id="sign_in_show"]/div/div/div/div[2]/form/div[1]/input' , match: :first).set(user.email)
-    find(:xpath ,'//*[@id="sign_in_show"]/div/div/div/div[2]/form/div[2]/input' , match: :first).set(user.password)
+    wrapper = find("#projects-search-results")
+    sign_in_form = wrapper.find('#new_user')
 
-    find('#sign_in_show button[name="commit"]', match: :first).click
+    sign_in_form.fill_in 'user_email', with: user.email
+    sign_in_form.fill_in 'user_password', with: user.password
+    sign_in_form.click_button 'Sign in'
+
     sleep 1
 
     expect(page).to have_no_content 'Invalid Email or password.'
-    expect(current_path).to eq('/home')
+    expect(page).to have_current_path('/home', only_path: true)
     expect(page).to have_content('Signed in successfully.')
   end
 end
