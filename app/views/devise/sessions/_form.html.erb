@@ -17,6 +17,10 @@
           <div class="form-group">
             <%= f.label :password %><br />
             <%= f.password_field :password, autocomplete: "off", class: 'sign-in-form__password' %>
+
+            <div class="forgot-link">
+              <%= link_to t('devise.passwords.forgot_password?'), new_user_password_path %>
+            </div>
           </div>
 
           <% if devise_mapping.rememberable? %>

@@ -66,6 +66,7 @@ en:
         forgot_your_password: Forgot your password?
         we_will_send_password_reset_instructions: We'll send password reset instructions.
         send_me_reset_password_instructions: Send me reset password instructions
+      forgot_password?: Forgot password?
       no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
       send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
       send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
