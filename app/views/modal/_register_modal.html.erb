@@ -32,3 +32,100 @@
     <p class="modal-default__text _sign-in"><a href="/users/confirmation/new" > <%= t('.not_receive_confirmation?') %></a></p>
   </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $document
+            .on('click.hideAlert', '.alert-box .close', function() {
+                $('.alert-box').fadeOut(1000);
+            })
+            .on('submit.login', 'form.form-signin', function(e) {
+                e.preventDefault();
+
+                var url = '<%= session_path(resource_name) %>';
+                var loginData = {
+                    utf8: "✓",
+                    authenticity_token: $('.sign-in-form__token').val(),
+                    user: {
+                        email: $('.sign-in-form__email').val(),
+                        password: $('.sign-in-form__password').val(),
+                        remember_me: $('.sign-in-form__remember').val()
+                    }
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: loginData,
+                    dataType: 'JSON',
+                    success: function() {
+                      sessionStorage.setItem('showMessageAfterSignedIn', JSON.stringify(true))
+                      window.location.replace(window.location.origin + "/home?locale=<%= I18n.locale %>")
+                    },
+                    error: function(e) {
+                        $('.alert-box').css({ display: 'block' });
+                        $('.alert-box').removeClass('_hidden');
+                        $('.alert-box span').text(JSON.parse(e.responseText).error);
+                        var timeout = setTimeout(function() {
+                            $('.alert-box').fadeOut(1000);
+                            clearTimeout(timeout);
+                        }, 10000);
+                    }
+                })
+
+
+            })
+    })
+</script>
+
+<script>
+    $(document).ready(function() {
+        $document
+            .on('submit.login', 'form.form-registration', function(e) {
+                e.preventDefault();
+
+                var url = '<%= registration_path(resource_name) %>';
+                var registerData = {
+                    utf8: "✓",
+                    authenticity_token: $('.sign-in-form__token').val(),
+                    user: {
+                        username: $('.register-form__username').val(),
+                        email: $('.register-form__email').val(),
+                        password: $('.register-form__password').val(),
+                        password_confirmation: $('.register-form__password-confirm').val()
+                    }
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'JSON',
+                    data: registerData,
+                    success: function() {
+                        sessionStorage.setItem('showMessageAfterRegister', JSON.stringify(true))
+                        window.location.replace(window.location.origin + "/home?locale=<%= I18n.locale %>")
+                    },
+                    error: function(e) {
+                        var errors = JSON.parse(e.responseText).errors,
+                            error = '';
+
+                        for (var errorType in errors) {
+                            if (errors[errorType].length) {
+                                error += errorType[0].toUpperCase() + errorType.slice(1) + ' ' + errors[errorType][0] + ' <br /> ';
+                            }
+                        }
+
+                        $('.alert-box').css({ display: 'block' });
+                        $('.alert-box').removeClass('_hidden');
+                        $('.alert-box span').html(error);
+                        var timeout = setTimeout(function() {
+                            $('.alert-box').fadeOut(1000);
+                            clearTimeout(timeout);
+                        }, 10000);
+                    }
+                })
+
+
+            })
+    })
+</script>
