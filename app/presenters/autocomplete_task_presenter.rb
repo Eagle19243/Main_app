@@ -17,7 +17,7 @@ class AutocompleteTaskPresenter < ApplicationPresenter
   private
 
   def path
-    url_helpers.taskstab_project_path(task.project_id, tab: 'Tasks',
+    url_helpers.taskstab_project_path(task.project_id, tab: 'tasks',
                                                        taskId: task.id)
   end
 end

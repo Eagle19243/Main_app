@@ -1,0 +1,97 @@
+<!--<div class="project-page-info">-->
+  <!--<h3>Search Results</h3>-->
+  <!--<p>See what other people are doing with YouServe, and get involved.</p>-->
+  <!--<%#= link_to 'Make a new project', new_project_path, class: "hero-button" %>-->
+<!--</div>-->
+
+<div class="content projects project-search-wrapper">
+  <h3 class="result-title">Search Results</h3>
+  <% @results.each do |result| %>
+    <div class="project-wrapper">
+      <div class="project-showcase">
+      <% if result.is_a? Project %>
+        <div class="picture-wrapper">
+          <%= link_to taskstab_project_path(result), class: "image-with-title", style: result.picture_style do %>
+            <h4 class="project-title"><%= result.title %></h4>
+            <span class="project-leader">
+              <% if result.user %>
+                  <% if result.user.picture? %>
+                      <%= image_tag(result.user.picture, size: "32x32") %>
+                  <% else %>
+                      <%= gravatar_for_user(result.user.picture) %>
+                  <% end %>
+                  <%= result.user.display_name %>
+              <% else %>
+                  User nolonger exist!
+              <% end %>
+            </span>
+            <span class="project-country">
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <%= result.country %>
+            </span>
+          <% end %>
+        </div>
+        <div class="project-info">
+          <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
+          <div class="">
+            <p class="example-task">
+              <%= t('commons.teammates') %>:
+              <span><%= result.team_relations_string %></span>
+            </p>
+          </div>
+          <div class="">
+            <p class="example-task">
+              <%= t('commons.completed') %>:
+              <span><%= result.tasks_relations_string %></span>
+            </p>
+          </div>
+          <div class="">
+            <p class="example-task">
+              <%= t('commons.raised') %>:
+              <span>
+                $ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(result.funded_budget), :precision => 2) %>
+                /
+                ฿ <%= number_with_precision(btc_balance(result.funded_budget), :precision => 2) %>
+              </span>
+            </p>
+          </div>
+        </div>
+      <% end %>
+      <% if result.is_a? Task %>
+        <div class="picture-wrapper">
+          <% if result && result.project.picture? %>
+              <a class="image-with-title" href="<%= taskstab_project_path(result.project_id, tab: 'tasks', taskId: result.id) %>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.project.picture.url %>) no-repeat center center">
+              </a>
+          <% else %>
+              <a class="image-with-title" href="<%= taskstab_project_path(result.project_id, tab: 'tasks', taskId: result.id) %>">
+          <% end %>
+          <h4 class="project-title"><%= result.title %></h4>
+          </a>
+        </div>
+        <div class="project-info">
+          <p><%= truncate(result.short_description, :length => 175, :omission => '...') %></p>
+          <%#=link_to result.title ,task_path(result.id) %>
+        </div>
+      <% end %>
+      <% if result.is_a? User %>
+        <div class="picture-wrapper">
+          <% if result.background_picture.present? %>
+              <a class="image-with-title" href="<%= user_path(result)%>" style="background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), url(<%= result.background_picture.url %>) no-repeat center center">
+                <% if result.picture.present? %>
+                  <div class="profile-hero__avatar _signed-in" style="background-image: url('<%= result.picture.url %>')" ></div>
+                <% end %>
+              </a>
+          <% else %>
+              <a class="image-with-title" href="<%= user_path(result)%>">
+              </a>
+          <% end %>
+          </a>
+        </div>
+        <div class="project-info">
+          <h4 class="project-title"><%= result.username %></h4>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -142,8 +142,7 @@ class ProjectsController < ApplicationController
     end
     respond_to do |format|
       format.html do
-        flash[:alert] = t('.blank') if @results.blank?
-        render :search_results
+        flash.now[:alert] = t('.blank') if @results.blank?
       end
       format.js
     end
