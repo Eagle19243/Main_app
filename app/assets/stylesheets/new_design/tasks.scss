@@ -29,13 +29,14 @@
   }
 
   a.btn-edit {
-    background-color: rgba(0, 0, 0, 0.3);
-    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 16px;
     text-decoration: none;
     position: absolute;
     z-index: 1;
-    bottom: 0;
-    left: 0;
+    right: 0;
+    top: 0;
+    border-bottom-left-radius: 5px;
     color: #fff;
     padding: 5px 15px;
     font-family: 'Roboto', sans-serif;
@@ -52,11 +53,8 @@
     text-align: center;
     max-width: 720px;
     margin: -100px auto 0;
-    background-color: #fff;
     height: 100%;
-    border: 1px solid gray;
-    border-radius: 10px;
-    padding: 20px;
+    padding: 0 10px;
     .project-owner {
       font-family: 'Roboto', sans-serif;
       font-size: 1.2em;
@@ -71,6 +69,10 @@
     .row._profile {
       display: flex;
       align-items: center;
+      border: 1px solid gray;
+      border-radius: 10px;
+      background-color: #fff;
+      padding: 20px;
       .col:first-child {
         flex-grow: 1;
       }
@@ -208,38 +210,6 @@
   .progress {
     background-color: #000;
   }
-
-  table {
-    display: inline;
-    width: auto;
-    text-align: center;
-  }
-
-  tbody {
-    margin: auto;
-    tr td {
-      padding: 0 10px !important;
-      text-align: left;
-      line-height: 1.5em !important;
-      font-size: 11px !important;
-    }
-    tr.value {
-      td {
-        font-family: 'Libre Franklin', sans-serif;
-        color: #000 !important;
-        font-weight: normal;
-        font-size: 1.4em !important;
-      }
-    }
-    tr.items {
-      td {
-        font-family: 'Libre Franklin', sans-serif;
-        color: #000 !important;
-        text-align: left;
-        font-size: 1em;
-      }
-    }
-  }
 }
 
 .project-detail-wrapper {
@@ -252,10 +222,15 @@
 
 .project-tab-wrapper {
 
-  .tabs-wrapper__team {
-    padding: 20px;
-    background-color: #fff;
-    max-width: 1200px;
+  .tabs-wrapper {
+    &__team {
+      padding: 20px;
+      background-color: #fff;
+      max-width: 1200px;
+    }
+    &__tasks {
+      overflow-x: auto;
+    }
   }
 
   .team-content {
@@ -302,14 +277,15 @@
     padding-right: 6%;
     margin: 20px 0 0;
     &__inner {
-      font-size: 0;
-      margin-bottom: -2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+      flex-wrap: wrap;
     }
 
     .project-btn-group {
-      display: inline-block;
-      float: right;
-
+      flex-grow: 1;
       .btn-root {
         margin: 0 5px;
         font-size: 14px;
@@ -320,14 +296,9 @@
   }
 
   ul.nav {
-    margin: 0;
-    text-align: left;
-    display: inline-block;
-    position: relative;
-
+    flex-grow: 1;
     li {
-      padding: 10px 10px 0px;
-
+      padding: 10px 10px 0;
       &:hover {
         a {
           background-color: transparent;
@@ -342,8 +313,7 @@
         text-transform: uppercase;
         border: none;
         border-radius: 0;
-        padding: 0;
-        padding-bottom: 10px;
+        padding: 0 0 10px 0;
         position: relative;
 
         @extend .hover__border-bottom;
@@ -483,28 +453,6 @@
 
     i.fa-star {
       color: #ddd;
-    }
-  }
-}
-
-@media(min-width: 1101px) {
-  .project-tab-wrapper {
-    div.btn-wrapper {
-      display: inline-block !important;
-    }
-    div.btn-alt-wrapper {
-      display: none !important;
-    }
-  }
-}
-
-@media(max-width: 1100px) {
-  .project-tab-wrapper {
-    div.btn-wrapper {
-      display: none !important;
-    }
-    div.btn-alt-wrapper {
-      display: inline-block !important;
     }
   }
 }
@@ -671,10 +619,6 @@
   }
 }
 
-.tasks-summary {
-
-}
-
 .summary-header {
   strong {
     font-family: 'Libre Franklin', sans-serif;
@@ -727,10 +671,11 @@
 .trello-board {
   background-color: #fff;
   padding: 10px 5px;
-
+  font-size: 0;
+  min-width: 1200px;
   .trello-column {
     display: inline-block;
-    width: 19%;
+    width: 20%;
     padding-left: 5px;
     padding-right: 5px;
     vertical-align: text-top;
@@ -740,14 +685,13 @@
 .trello-section {
   background-color: #eee;
   border-radius: 3px;
-
   .section-header {
     padding: 15px 15px 5px;
     text-align: center;
 
     a {
       font-family: 'Roboto', sans-serif;
-      font-size: 1.1em;
+      font-size: 16px;
       color: #000;
       font-weight: 600;
       text-transform: uppercase;
@@ -785,7 +729,7 @@
 .section-add-task {
   button {
     font-family: 'Libre Franklin', sans-serif;
-    font-size: 1.1em;
+    font-size: 16px;
     color: #777;
     display: block;
     padding: 10px;
@@ -880,7 +824,7 @@
     }
     span {
       font-family: 'Libre Franklin', sans-serif;
-      font-size: 1.1em;
+      font-size: 14px;
       color: #aaa;
       padding-right: 10px;
       cursor: pointer;
@@ -924,7 +868,7 @@
         td {
           font-family: 'Libre Franklin', sans-serif;
           color: #333 !important;
-          font-size: 0.9em !important;
+          font-size: 12px !important;
           font-weight: bold;
         }
       }
@@ -932,7 +876,7 @@
         td {
           font-family: 'Libre Franklin', sans-serif;
           color: $grey-clr !important;
-          font-size: 0.8em !important;
+          font-size: 11px !important;
           text-align: left;
         }
       }
@@ -1037,3 +981,98 @@
   }
 }
 
+@media(min-width: 1101px) {
+  .project-tab-wrapper {
+    div.btn-wrapper {
+      display: inline-block !important;
+    }
+    div.btn-alt-wrapper {
+      display: none !important;
+    }
+  }
+}
+
+@media(max-width: 1100px) {
+  .project-tab-wrapper {
+    div.btn-wrapper {
+      display: none !important;
+    }
+    div.btn-alt-wrapper {
+      display: inline-block !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .content-details {
+    padding: 20px 0;
+    .edit-btn {
+      position: static;
+    }
+  }
+  .team-content {
+    .row {
+      margin: 0;
+    }
+  }
+
+  .tabs-wrapper {
+    padding: 0 10px;
+  }
+
+  .trello-board {
+    padding: 10px 0;
+  }
+  .welcome-banner__content {
+    .row._profile {
+      flex-direction: column-reverse;
+      padding-bottom: 0;
+      .col {
+        flex-grow: 1;
+      }
+    }
+    .progress {
+      max-width: none;
+    }
+  }
+
+  .project-tab-wrapper {
+    ul.nav {
+      margin-left: 0;
+      li {
+        a {
+          font-size: 1.2em;
+        }
+      }
+    }
+    .tabs-menu {
+      padding: 0 10px;
+      .project-btn-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        .btn-root {
+          font-size: 12px;
+        }
+      }
+      &__inner {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .project-tab-wrapper {
+    .tabs-menu {
+      .project-btn-group {
+        .btn-root {
+          font-size: 10px;
+          padding: 5px;
+          border-width: 1px;
+        }
+      }
+    }
+  }
+}

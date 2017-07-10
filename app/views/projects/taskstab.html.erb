@@ -71,6 +71,32 @@
     <div class="project-tab-wrapper">
       <div class="row tabs-menu">
         <div class="col-lg-12 col-md-12 col-sm-12 tabs-menu__inner">
+          <div class="project-btn-group">
+            <button type="button" data-modal="#projectInviteModal" class="btn-root">
+                <svg focusable="false" version="1.1" class="svg-share">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-share"></use>
+                </svg>
+                <%= t('commons.share_or_invite') %>
+            </button>
+            <% if user_signed_in? %>
+                <% if @project.user_id != current_user.id %>
+                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-root follow-unfollow', method: :post do %>
+                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
+                        <%= @followed ? t('commons.unfollow') : t('commons.follow') %>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <% if @is_blocked == 0 %>
+              <% if can? :revisions, @project %>
+                <a class="btn-root" id="editSource"><%= t('projects.tabcontent.plan.review_contribution') %></a>
+              <% end %>
+            <% end %>
+            <% if !user_signed_in? %>
+                <button type="button" class="btn-root sign_up_a" data-modal="#registerModal">Get involved</button>
+            <% elsif !current_user.is_admin_for?(@project) %>
+                <button type="button" class="btn-root" data-modal="#welcomeToTeamModal">Get involved</button>
+            <% end %>
+          </div>
           <ul class="nav nav-pills nav-left m-tabs">
             <li>
               <%= link_to plan_project_path(id: @project.id), data: {tab: 'plan'}, remote: true, class: "tablinks border-right-none active m-tabs__link", id: "tab-plan" do %>
@@ -95,29 +121,6 @@
               </li>
             <% end %>
           </ul>
-
-          <div class="project-btn-group">
-            <button type="button" data-modal="#projectInviteModal" class="btn-root">
-                <svg focusable="false" version="1.1" class="svg-share">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-share"></use>
-                </svg>
-                <%= t('commons.share_or_invite') %>
-            </button>
-            <% if user_signed_in? %>
-                <% if @project.user_id != current_user.id %>
-                    <%= link_to follow_project_path(@project, follow: !@followed), class: 'btn-root follow-unfollow', method: :post do %>
-                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;&nbsp;
-                        <%= @followed ? t('commons.unfollow') : t('commons.follow') %>
-                    <% end %>
-                <% end %>
-            <% end %>
-            <% if !user_signed_in? %>
-                <button type="button" class="btn-root sign_up_a" data-modal="#registerModal">Get involved</button>
-            <% elsif !current_user.is_admin_for?(@project) %>
-                <button type="button" class="btn-root" data-modal="#welcomeToTeamModal">Get involved</button>
-            <% end %>
-          </div>
-
         </div>
       </div>
 

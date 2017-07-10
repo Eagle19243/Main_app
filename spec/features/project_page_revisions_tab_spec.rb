@@ -17,6 +17,7 @@ feature "Project Page Revisions Tab", js: true do
       before do
         visit project_path(@project)
         @plan_area = find(".tabs-wrapper__plan")
+        @button_tabs = find(".project-btn-group")
         @revision_button = find("#editSource")
 
         @revisions = [
@@ -33,7 +34,7 @@ feature "Project Page Revisions Tab", js: true do
       end
 
       scenario "Then you can see 'Revisions' button" do
-        expect(@plan_area).to have_selector("#editSource")
+        expect(@button_tabs).to have_selector("#editSource")
       end
 
       context "When you click 'Revisions' button" do
