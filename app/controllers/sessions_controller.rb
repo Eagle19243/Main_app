@@ -1,10 +1,8 @@
 class SessionsController < Devise::SessionsController
-
   respond_to :json
 
   after_action :after_login, only: :create
   after_action :after_logout, only: :destroy
-  after_action :reset_session, only: :new
 
   def after_login
     secret = ENV['mediawiki_secret']

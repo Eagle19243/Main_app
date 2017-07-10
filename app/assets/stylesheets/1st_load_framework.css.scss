@@ -17,6 +17,10 @@ $max-width: 980px;
     background-color: $success-green;
   }
 
+  &._hidden {
+    display: none;
+  }
+
   div {
     padding-left: 15px;
   }

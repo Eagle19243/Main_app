@@ -21,7 +21,7 @@ feature 'Wallet page working correctly', type: :feature, js: true do
 
     expect(page).to have_link('Explore projects')
     expect(page).to have_text('Browse Projects')
-  end  
+  end
 
   scenario 'Must be redirected to landing page when clicking logo on site' do
     visit projects_path
@@ -34,10 +34,11 @@ feature 'Wallet page working correctly', type: :feature, js: true do
     visit root_path
     click_pseudo_link 'Login'
     modal = find('div#registerModal', visible: true)
+    sign_in_form = modal.find('._sign-in#sign_in_show')
 
-    modal.fill_in 'email', with: email
-    modal.fill_in 'password', with: password
-    modal.click_button 'Sign in'
+    sign_in_form.fill_in 'user_email', with: email
+    sign_in_form.fill_in 'user_password', with: password
+    sign_in_form.click_button 'Sign in'
 
     expect(page).to have_current_path(root_path)
   end

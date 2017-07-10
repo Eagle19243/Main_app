@@ -195,6 +195,10 @@ var ModalsModule = (function () {
                 var modal = $($(this).data('modal')),
                     modalScope = $(this).data('modalScope');
 
+                if (modal.selector === '#registerModal') {
+                    $('.alert-box.alert').hide();
+                }
+
                 modal.fadeIn();
                 _scope = modalScope;
                 $html.addClass('_open-modal');
