@@ -2,13 +2,8 @@ require 'rack/rewrite'
 require ::File.expand_path('../config/environment', __FILE__)
 
 use Rack::Rewrite do
-  r301 %r{.*}, 'https://staging.weserve.io$&', :scheme => 'http', :if => Proc.new {|rack_env|
-    Rails.env.staging?
-  }
-
-  r301 %r{.*}, 'https://weserve.io$&', :scheme => 'http', :if => Proc.new {|rack_env|
-    Rails.env.production?
-  }
+  r301(/.*/, ->(_match, rack_env) { "https://#{rack_env['SERVER_NAME']}" },
+       scheme: 'http', if: proc { Rails.env.staging? || Rails.env.production? })
 end
 
 run Rails.application
