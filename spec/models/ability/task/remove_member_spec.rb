@@ -4,9 +4,8 @@ RSpec.describe Ability, 'task' do
   let(:user)    { create(:user, :confirmed_user) }
   subject       { Ability.new(user) }
 
-
   describe 'remove_member' do
-    let(:task)    { create(:task) }
+    let(:task)    { create(:task, :with_project) }
     before        { allow(user).to receive(:is_project_leader_or_coordinator?).and_return(false) }
 
     context 'when user has no relation to the project' do
@@ -80,7 +79,10 @@ RSpec.describe Ability, 'task' do
     end
 
     context 'when user is project leader or coordinator of the task project' do
-      before { allow(user).to receive(:is_project_leader_or_coordinator?).and_return(true) }
+      before do
+        allow(user).to receive(:is_project_leader?).and_return(true)
+        allow(user).to receive(:is_lead_editor_for?).and_return(true)
+      end
 
       context 'when task is pending' do
         before { allow(task).to receive(:state).and_return('pending') }

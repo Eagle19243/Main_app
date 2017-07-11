@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   after_action :flash_to_headers
   before_action :basic_http_auth
   before_action :set_locale
-   
+
   def set_locale
     locale_prefered = current_user.preferred_language if current_user && (I18n.available_locales.map(&:to_s).include? current_user.preferred_language)
     locale_param = params[:locale] if (I18n.available_locales.map(&:to_s).include? params[:locale])
@@ -134,6 +134,22 @@ class ApplicationController < ActionController::Base
 
     flash.discard # don't want the flash to appear when you reload page
   end
+
+  # Using resouce out of devise controllers
+  def resource
+    User.new
+  end
+  helper_method :resource
+
+  def resource_name
+    :user
+  end
+  helper_method :resource_name
+
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[resource_name]
+  end
+  helper_method :devise_mapping
 
   private
 

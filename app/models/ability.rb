@@ -162,7 +162,8 @@ class Ability
 
       can :remove_member, Task do |task|
         %w(pending accepted incompleted).include?(task.state) &&
-        (user.admin? || user.is_project_leader_or_coordinator?(task.project))
+          (user.admin? || user.is_project_leader?(task.project) ||
+           user.is_lead_editor_for?(task.project))
       end
 
       if user.admin?

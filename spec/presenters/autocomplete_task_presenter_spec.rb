@@ -13,7 +13,7 @@ RSpec.describe AutocompleteTaskPresenter do
       type: 'task',
       id: task.id,
       title: task.title,
-      path: "/projects/#{task.project_id}/taskstab?tab=Tasks&taskId=#{task.id}"
+      path: "/projects/#{task.project_id}/taskstab?tab=tasks&taskId=#{task.id}"
     })
   end
 end

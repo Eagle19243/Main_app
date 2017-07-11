@@ -120,4 +120,41 @@
       }
     }
   }
+
+  &__data {
+    display: flex;
+    justify-content: center;
+    &-item {
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    &-value {
+      font-family: 'Libre Franklin', sans-serif;
+      color: #000;
+      font-weight: normal;
+      font-size: 1.4em;
+    }
+    &-title {
+      font-family: 'Libre Franklin', sans-serif;
+      color: #000;
+      font-size: 11px;
+    }
+    &-btc {
+      font-size: 14px;
+      color: gray;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .b-project-info {
+    &__user-avatar {
+      margin-top: -72.5px;
+    }
+    &__data {
+      justify-content: space-between;
+    }
+  }
 }

@@ -34,10 +34,11 @@ feature 'Logo working correctly', type: :feature, js: true do
     visit root_path
     click_pseudo_link 'Login'
     modal = find('div#registerModal', visible: true)
+    sign_up_form = modal.find('._sign-in#sign_in_show')
 
-    modal.fill_in 'email', with: email
-    modal.fill_in 'password', with: password
-    modal.click_button 'Sign in'
+    sign_up_form.fill_in 'user_email', with: email
+    sign_up_form.fill_in 'user_password', with: password
+    sign_up_form.click_button 'Sign in'
 
     expect(page).to have_current_path(root_path)
   end

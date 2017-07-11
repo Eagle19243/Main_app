@@ -119,9 +119,9 @@ Rails.application.routes.draw do
     collection do
       get :get_activities, :show_all_tasks, :show_all_teams, :show_all_revision,
           :show_task, :autocomplete_user_search, :archived, :search_results,
-          :get_in
+          :get_in, :user_search
       post :send_project_invite_email, :send_project_email,
-           :start_project_by_signup, :user_search, :change_leader
+           :start_project_by_signup, :change_leader
     end
   end
 
