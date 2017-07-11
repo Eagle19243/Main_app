@@ -19,11 +19,14 @@ feature 'Normal Sign up', js: true do
 
         @before_count = User.count
 
-        @modal.fill_in 'username', with: @user.username
-        @modal.fill_in 'new_email', with: @user.email
-        @modal.fill_in 'new_password', with: @user.password
-        @modal.fill_in 'password_confirmation', with: @user.password
-        @modal.click_button 'Sign up'
+        sign_up_form = @modal.find('#sign_up_show')
+        sign_up_form.fill_in 'user_username', with: @user.username
+        sign_up_form.fill_in 'user_email', with: @user.email
+        sign_up_form.fill_in 'user_password', with: @user.password
+        sign_up_form.fill_in 'user_password_confirmation', with: @user.password
+        sign_up_form.click_button 'Sign up'
+
+        sleep 1
       end
 
       scenario "You have been registered" do
@@ -32,7 +35,7 @@ feature 'Normal Sign up', js: true do
       end
 
       scenario "You have been redirected to the 'Active Projects' page" do
-        expect(page).to have_current_path(home_index_path)
+        expect(page).to have_current_path(home_index_path, only_path: true)
       end
 
       scenario "Successful registration message appeared" do

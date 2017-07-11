@@ -11,7 +11,7 @@ feature 'Sign-in popup displaying correctly', type: :feature, js: true do
     expect(page).to have_text('Turn your followers into a task force')
 
     click_pseudo_link 'Login'
-    
+
     modal = find('div#registerModal', visible: true)
     expect(modal).to be_visible
 
@@ -19,10 +19,10 @@ feature 'Sign-in popup displaying correctly', type: :feature, js: true do
     expect(modal).to have_link 'Sign In with Twitter'
     expect(modal).to have_link 'Sign In with Facebook'
 
-    expect(modal).to have_field 'username'
-    expect(modal).to have_field 'new_email'
-    expect(modal).to have_field 'new_password'
-    expect(modal).to have_field 'password_confirmation'
+    expect(modal).to have_field 'user_username'
+    expect(modal).to have_field 'user_email'
+    expect(modal).to have_field 'user_password'
+    expect(modal).to have_field 'user_password_confirmation'
     expect(modal).to have_button 'Sign up'
   end
 end

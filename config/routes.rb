@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resources :work_records
   post 'user_wallet_transactions/send_to_any_address'
   post 'user_wallet_transactions/send_to_task_address'
+  get 'user_wallet_transactions/send_to_personal_coinbase'
   resources :proj_admins, only: [:create] do
     member do
       put :accept, :reject
@@ -119,9 +120,9 @@ Rails.application.routes.draw do
     collection do
       get :get_activities, :show_all_tasks, :show_all_teams, :show_all_revision,
           :show_task, :autocomplete_user_search, :archived, :search_results,
-          :get_in
+          :get_in, :user_search
       post :send_project_invite_email, :send_project_email,
-           :start_project_by_signup, :user_search, :change_leader
+           :start_project_by_signup, :change_leader
     end
   end
 
@@ -155,7 +156,7 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-     get  :my_wallet
+      get  :my_wallet
     end
   end
 

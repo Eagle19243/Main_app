@@ -125,7 +125,14 @@
     top: 1rem;
     width: 100%;
   }
-
+  .project-leader {
+    top: 3rem;
+    color: $white;
+    font-size: 0.8125rem;
+    font-weight: normal;
+    left: 3rem;
+    position: absolute;
+  }
   .project-country {
     bottom: 1rem;
     color: $white;

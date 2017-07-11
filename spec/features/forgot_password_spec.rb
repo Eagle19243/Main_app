@@ -29,9 +29,9 @@ feature "Forgot Password", js: true do
 
       context "When you fill your email and click 'Reset Password' button" do
         before do
-          find("#new_user").fill_in 'user[email]', with: @user.email
+          find(".forgot-pwd-form #new_user").fill_in 'user[email]', with: @user.email
 
-          find("#new_user .btn-default-weserve").click
+          find(".forgot-pwd-form #new_user .btn-default-weserve").click
         end
 
         scenario "Then the password instruction has been sent to you" do

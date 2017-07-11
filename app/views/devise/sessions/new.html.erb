@@ -16,10 +16,8 @@
               <%= render "modal/social_sign_in" %>
             </div>
 
-            <div class="modal-sign__col">
-              <div class="row row-custom" id="sign_in_show">
-                <%= react_component 'SignInModal', { authenticity_token: form_authenticity_token }%>
-              </div>
+            <div class="modal-sign__col main-form">
+              <%= render 'form' %>
             </div>
         </div>
 

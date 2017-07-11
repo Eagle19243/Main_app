@@ -209,4 +209,12 @@ class Project < ActiveRecord::Base
       team: team, team_member: user, role: TeamMembership::TEAM_MATE_ID
     )
   end
+
+  def picture_style
+    if picture.present?
+      'background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.25) 20%, '\
+                  'transparent 50%, transparent 80%, rgba(0, 0, 0, 0.5)), '\
+                  "url(#{picture.url}) no-repeat center center"
+    end
+  end
 end
