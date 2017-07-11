@@ -17,6 +17,9 @@ en:
       success: "%{amount} BTC has been successfully sent to %{transfer_address}."
     send_to_task_address:
       success: "%{amount} BTC has been successfully sent to task's balance"
+    send_to_personal_coinbase:
+      success: "%{amount} BTC has been successfully sent to %{transfer_address}."
+      error_wallet: "Users wallet was not found"
   users:
     update:
       fail: "Unable to update user."
