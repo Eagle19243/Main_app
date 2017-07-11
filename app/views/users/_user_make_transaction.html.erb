@@ -33,4 +33,23 @@
     <button class="btn-root _dark"><%= t('commons.send') %></button>
       <%end %>
   <!--</form>-->
+    
+<!--  Button for testing -->
+
+<!--     <button class="btn-root _dark coinbase-buton"><%= "Send ALL to personal coinbase wallet" %></button>
 </div>
+<script>
+    $(document).ready(function() {
+      $(".coinbase-buton").click(function () {
+        var response_type = "code";
+        var client_id = "<%=ENV['coinbase_client_id']%>";
+        var redirect_uri = location.origin + "/user_wallet_transactions/send_to_personal_coinbase";
+        var state = "SECURE_RANDOM";
+        var scope = "wallet:user:email";
+
+        $(location).attr('href', 'https://www.coinbase.com/oauth/authorize?response_type=' + response_type + '&client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&state=' + state + '&scope=' + scope);
+      });
+    })
+</script>
+
+ -->
