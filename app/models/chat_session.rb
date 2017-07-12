@@ -26,4 +26,16 @@ class ChatSession < ActiveRecord::Base
   def self.find_by_channel(name)
     find_by_uuid(name.gsub(/^private-/, '')) if name.present?
   end
+
+  def self.for_users(*users)
+    if users.length > 1
+      permuted = users.permutation(2).to_a.flatten
+      query = users.map do
+        '(requester_id = ? AND receiver_id = ?)'
+      end.join(' OR ')
+      where(query, *permuted)
+    else
+      where('requester_id = ? OR receiver_id = ?', users, users)
+    end
+  end
 end

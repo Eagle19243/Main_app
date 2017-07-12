@@ -45,4 +45,18 @@ RSpec.describe ChatSession, type: :model do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '.for_users' do
+    subject { ChatSession.for_users(*users) }
+
+    context 'for a single user' do
+      let(:users) { requester }
+      it { is_expected.to include chat_session }
+    end
+
+    context 'for multiple users' do
+      let(:users) { [requester, receiver] }
+      it { is_expected.to include chat_session }
+    end
+  end
 end
