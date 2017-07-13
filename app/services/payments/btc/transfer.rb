@@ -26,12 +26,13 @@ module Payments::BTC
   # * External transactions to a BTC Address are require some fee
   #   (even if BTC Address is owned by another existing wallet (account))
   class Transfer
-    attr_reader :wallet_id, :address_to, :amount
+    attr_reader :wallet_id, :address_to, :amount, :send_to_email
 
-    def initialize(wallet_id, address_to, amount)
+    def initialize(wallet_id, address_to, amount, send_to_email=nil)
       @wallet_id              = wallet_id
       @address_to             = address_to
       @amount                 = amount
+      @send_to_email          = send_to_email
     end
 
     def submit!
@@ -42,7 +43,13 @@ module Payments::BTC
     def tranfer_implementation
       known_wallet = find_wallet_by_address(address_to)
 
-      if known_wallet
+      if send_to_email
+        CoinbaseInternalTransfer.new(
+          wallet_id,
+          address_to,
+          amount
+        )
+      elsif known_wallet
         InternalTransfer.new(
           wallet_id,
           known_wallet.wallet_id,

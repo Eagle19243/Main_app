@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resources :work_records
   post 'user_wallet_transactions/send_to_any_address'
   post 'user_wallet_transactions/send_to_task_address'
+  get 'user_wallet_transactions/send_to_personal_coinbase'
   resources :proj_admins, only: [:create] do
     member do
       put :accept, :reject
@@ -148,7 +149,7 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-     get  :my_wallet
+      get  :my_wallet
     end
   end
 

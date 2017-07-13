@@ -7,7 +7,7 @@ module Payments::BTC
 
     MIN_AMOUNT = 100_000 # Satoshi
 
-    def initialize(amount:, address_to:, user:)
+    def initialize(amount:, address_to:, user:, send_to_email: nil)
       raise Payments::BTC::Errors::TransferError, "User argument is invalid" unless user.is_a?(User)
       raise Payments::BTC::Errors::TransferError, "User's wallet doesn't exist" unless user.wallet
       raise Payments::BTC::Errors::TransferError, "Amount can't be blank" unless amount > 0
@@ -20,7 +20,8 @@ module Payments::BTC
       @transfer = Payments::BTC::Transfer.new(
         user.wallet.wallet_id,
         address_to,
-        amount
+        amount,
+        send_to_email
       )
     end
 
