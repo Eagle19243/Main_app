@@ -37,7 +37,7 @@ Main application is a RoR website, but it depends on set of 3rd paty tools:
 
 * Create an account at https://www.coinbase.com
 * Generate a development token with full set of permissions
-* Not necessary, but recommended: create app tokens at your Facebook, Twitter and Google accounts
+* Not necessary, but recommended: create app tokens at your [Facebook][1], [Twitter][2] and Google accounts
 
 ### 3. Configure Mediawiki
 
@@ -133,3 +133,5 @@ Lets say we're going to translate some text on from English to Russian, he is th
 -
 
 ...
+[1]: https://developers.facebook.com/apps
+[2]: https://apps.twitter.com/
