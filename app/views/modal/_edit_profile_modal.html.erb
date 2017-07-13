@@ -76,7 +76,7 @@
             <div class="modal-edit-profile__row-wrapper _three-col">
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.email') %></div>
-                    <input type="text" class="modal-edit-profile__input _email" value="<%= @user.email %>">
+                    <input type="text" class="modal-edit-profile__input _email" value="<%= @user.email %>" <%= 'disabled' if current_user.email.present? %> >
                 </div>
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.phone') %></div>
