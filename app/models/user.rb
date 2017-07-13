@@ -168,7 +168,7 @@ class User < ActiveRecord::Base
         uid: auth.uid,
         first_name: auth.info.name.split(' ')[0],
         last_name: auth.info.name.split(' ')[1],
-        email: auth.info.email,
+        email: auth.info.email || '',
         confirmed_at: DateTime.now,
         password: Devise.friendly_token[0, 20],
         facebook_url: auth.extra.link,
@@ -431,6 +431,6 @@ class User < ActiveRecord::Base
   end
 
   def email_required?
-    true
+    false
   end
 end
