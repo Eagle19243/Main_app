@@ -154,7 +154,12 @@ class ApplicationController < ActionController::Base
 
   def check_existing_email_for_user
     if current_user.present? && current_user.email.blank?
-      flash[:error] = t('landing.errors.no_email_html', user_id: current_user.id)
+      if current_user.unconfirmed_email.blank?
+        flash.now[:error] = t('landing.errors.no_email_html',
+                              user_id: current_user.id)
+      else
+        flash.now[:error] = t('landing.errors.unconfirmed_email')
+      end
     end
   end
 

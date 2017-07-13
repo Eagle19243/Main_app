@@ -80,3 +80,4 @@ en:
         Please add your
         <a href="/users/%{user_id}">email address</a>
         to your profile, so we can notify you correctly.
+      unconfirmed_email: An email has been sent to confirm your account.
