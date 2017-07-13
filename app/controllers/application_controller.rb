@@ -136,8 +136,9 @@ class ApplicationController < ActionController::Base
   end
 
   # Using resouce out of devise controllers
+  # https://github.com/plataformatec/devise/wiki/How-To:-Display-a-custom-sign_in-form-anywhere-in-your-app
   def resource
-    User.new
+    @resource ||= User.new
   end
   helper_method :resource
 
