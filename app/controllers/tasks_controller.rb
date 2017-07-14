@@ -66,13 +66,8 @@ class TasksController < ApplicationController
 
   def task_fund_info
     respond_to do |format|
-      format.json do
-        render json: {
-          balance: Payments::BTC::Converter.convert_satoshi_to_btc(
-            @task.current_fund
-          ), task_id: @task.id, project_id: @task.project_id, status: 200
-        }
-      end
+       format.json { render json: { balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
+       format.html { redirect_to root_path, alert: t('tasks.validate_team_member.not_allowed') }
     end
   end
 
