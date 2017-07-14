@@ -1,39 +1,36 @@
 es:
   tasks:
-    # create:
-    #   notice_message: "Task was successfully created."
-    #   alert_message: "Task was not created"
-    # update:
-    #   notice_message: "Task was successfully updated."
-    # destroy:
-    #   notice_message: "Task was successfully destroyed."
-    #   error_message: "Error happened during task delete process"
-    # accept:
-    #   task_accepted: "Task accepted"
-    #   task_not_accepted: "Task was not accepted"
-    # doing:
-    #   cannot_do: "You can't Do this Task"
-    #   goal_not_meet: "You have not met your goal either in the number of teammates or in funding"
-    #   task_changed_to_doing: "Task Status changed to Doing"
-    #   error_moving: "Error in Moving Task"
-    # reject:
-    #   task_rejected: "Task %{task_title} has been rejected"
-    #   task_not_rejected: "Task was not rejected"
-    # reviewing:
-    #   task_submitted: "Task Submitted for Review"
-    #   task_not_sumitted: "Task Was Not  Submitted for Review"
-    # completed:
-    #   task_completed: "Task was successfully completed"
-    # incomplete:
-    #   task_incompleted: "You have reviewed and rejected task %{task_title} of project %{project_title}"
-    # send_email:
-    #   task_link_sent: "Task link has been sent to %{email}"
-    # validate_team_member:
-    #   not_allowed: "You are not allowed to do this opration"
-    # validate_admin:
-    #   not_allowed: "You are not allowed to do this opration"
-    # refund:
-    #   refunds_disabled: "Refunds are disabled now"
-    # remove_member:
-    #   success: "Assignee has been removed"
-    #   fail: "Must give reason"
+    create:
+      notice_message: "La tarea fue creada con éxito."
+      alert_message: "La tarea no fue creada"
+    update:
+      notice_message: "La tarea fue actualizada con éxito."
+    destroy:
+      notice_message: "La tarea fue destruida con éxito."
+      error_message: "Ocurrió un error durante el proceso de eliminación de la tarea"
+    accept:
+      task_accepted: "Tarea aceptada"
+      task_not_accepted: "La tarea no fue aceptada"
+    doing:
+      cannot_do: "No puede hacer esta tarea"
+      goal_not_meet: "No ha alcanzado su meta, bien sea por la cantidad de compañeros de equipo o por los fondos"
+      task_changed_to_doing: "El estado de la tarea cambió a En Curso"
+      error_moving: "Error al mover la tarea"
+    reject:
+      task_rejected: "La tarea %{task_title} ha sido rechazada"
+      task_not_rejected: "La tarea no fue rechazada"
+    reviewing:
+      task_submitted: "Tarea entregada a revisión"
+      task_not_sumitted: "La tarea no fue entregada a revisión"
+    completed:
+      task_completed: "La tarea fue completada con éxito"
+    incomplete:
+      task_incompleted: "La tarea fue exitosamente marcada como incompleta"
+    send_email:
+      task_link_sent: "El vínculo de la tarea ha sido enviado a %{email}"
+    validate_team_member:
+      not_allowed: "No está habilitado para hacer esta operación"
+    validate_admin:
+      not_allowed: "No está habilitado para hacer esta operación"
+    refund:
+      refunds_disabled: "Ahora los reembolsos se han desactivado"

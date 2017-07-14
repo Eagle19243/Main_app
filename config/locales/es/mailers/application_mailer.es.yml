@@ -1,0 +1,5 @@
+es:
+  application_mailer:
+    reserve_wallet_low_balance:
+      subject: "El saldo de la cartera de reserva está bajando"
+      body: "Le notificamos que el saldo de la cartera de reserva está bajando y actualmente tiene un saldo de %{balance} ฿"

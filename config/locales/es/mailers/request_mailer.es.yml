@@ -1,0 +1,25 @@
+es:
+  request_mailer:
+    apply_to_get_involved_in_project:
+      subject: "%{request_type} solicitud recibida"
+      greeting: "Estimado %{leader_name},"
+      body_html: "<p>%{applicant_name} ha realizado una solicitud como %{request_type} para el proyecto %{project_url}.</p>
+                  <p>por favor haga clic en %{request_tab_url} para revisar las solicitudes entrantes.</p>"
+    positive_response_in_project_involvement:
+      subject: "Su solicitud %{request_type} fue exitosa"
+      body_html: "Su solicitud para convertirse en %{request_type} del proyecto %{project_url} fue aceptada por %{leader_name}."
+    negative_response_in_project_involvement:
+      subject: "Respuesta a la solicitud %{request_type}"
+      body_html: "Lo sentimos, pero su solicitud para convertirse en %{request_type} del proyecto %{project_url} fue rechazada por %{leader_name}."
+    to_do_task:
+      subject: "Solicitud para HACER la tarea recibida"
+      body_html: "<p>%{requester_name} aplicó para la tarea %{task_title} y requiere revisión.</p>
+                  <p>por favor haga clic en %{request_tab_url} para revisar las solicitudes entrantes.</p>"
+    accept_to_do_task:
+      subject: "Su solicitud para la tarea ha sido aprobada"
+      greeting: "Estimado %{requester_name}"
+      body_html: "Su solicitud para la tarea %{task_title} en el proyecto %{project_url} fue aprobada."
+    reject_to_do_task:
+      subject: "Respuesta a la solicitud de la tarea"
+      greeting: "Estimado %{requester_name}"
+      body_html: "Su solicitud para la tarea %{task_title} del proyecto %{project_url} fue rechazada."
