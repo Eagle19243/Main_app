@@ -37,7 +37,7 @@
                 </div>
                 <div class="pull-right">
                     <div class="my-project__usd-right">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(project.needed_budget), :precision => 2) %></div>
-                    <div class="my-project__btc-right">฿ <%= number_with_precision(btc_balance(project.needed_budget), :precision => 2) %></div>
+                    <div class="my-project__btc-right">฿ <%= btc_balance(project.needed_budget) %></div>
                 </div>
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= project.funded_percentages %>" >

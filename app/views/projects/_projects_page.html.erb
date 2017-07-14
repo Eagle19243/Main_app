@@ -54,7 +54,7 @@
                 <td><%= project.tasks_relations_string %></td>
                 <td>
                     <div class="b-project-card__usd-value">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(project.funded_budget), :precision => 2) %> </div>
-                    <div class="b-project-card__btc-value">฿ <%= number_with_precision(btc_balance(project.funded_budget), :precision => 2) %> </div>
+                    <div class="b-project-card__btc-value">฿ <%= btc_balance(project.funded_budget) %> </div>
                 </td>
               </tr>
               <tr class="items">

@@ -30,7 +30,6 @@
                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <%= @project.funded_percentages %>">
                     </div>
                 </div>
-
                 <div class="b-project-info__data">
                     <div class="b-project-info__data-item">
                         <div class="b-project-info__data-value"><%= @project.team_relations_string %></div>
@@ -39,7 +38,7 @@
                     <div class="b-project-info__data-item">
                         <div class="b-project-info__data-value">
                             <div class="b-project-info__data-usd">$ <%= number_with_precision(Payments::BTC::Converter.convert_btc_to_usd(@project.funded_budget), :precision => 2) %></div>
-                            <div class="b-project-info__data-btc">฿ <%= number_with_precision(btc_balance(@project.funded_budget), :precision => 2) %></div>
+                            <div class="b-project-info__data-btc">฿ <%= btc_balance(@project.funded_budget) %></div>
                         </div>
                         <div class="b-project-info__data-title"><%= t('commons.raised') %></div>
                     </div>
