@@ -1,13 +1,18 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject, :doing, :task_fund_info, :remove_member, :refund, :incomplete]
+  before_action :set_task, only: [:show, :update, :destroy, :accept, :reject,
+                                  :doing, :task_fund_info, :remove_member,
+                                  :refund, :incomplete]
   before_action :validate_user, only: [:accept, :doing, :incomplete]
   before_action :validate_team_member, only: [:reviewing]
   before_action :validate_admin, only: [:completed]
-  protect_from_forgery :except => :update
-  before_action :authenticate_user!, only: [:send_email, :create, :destroy, :accept, :reject, :doing, :reviewing, :completed, :incomplete]
+  protect_from_forgery except: :update
+  before_action :authenticate_user!, only: [:send_email, :create, :destroy,
+                                            :accept, :reject, :doing,
+                                            :reviewing, :completed, :incomplete]
 
   def show
-    @task ? (@project = @task.project) : (return redirect_to root_path, alert: t('.fail'))
+    return redirect_to root_path, alert: t('.fail') if @task.blank?
+    @project = @task.project
     @comments = @project.project_comments.all
     @proj_admins_ids = @project.proj_admins.ids
     @current_user_id = 0
@@ -19,9 +24,9 @@ class TasksController < ApplicationController
       @rate = @project.project_rates.find_by(user_id: @current_user_id).try(:rate).to_i
     end
     tasks = @project.tasks.all
-    @tasks_count =tasks.count
-    @sourcing_tasks = tasks.where(state: ["pending", "accepted"]).all
-    @done_tasks = tasks.where(state: "completed").count
+    @tasks_count = tasks.count
+    @sourcing_tasks = tasks.where(state: %w(pending accepted)).all
+    @done_tasks = tasks.where(state: 'completed').count
 
     @contents, @subpages, @is_blocked = @project.page_info(current_user)
 
@@ -34,10 +39,7 @@ class TasksController < ApplicationController
     @task_attachment = TaskAttachment.new
     @task_attachments = @task.task_attachments
     @task_memberships = @task.team_memberships
-    task_comment_ids = @task.task_comments.collect(&:id)
-    @activities = Activity.where("(targetable_type= ? AND targetable_id=?) OR (targetable_type= ? AND targetable_id IN (?))", "Task", @task.id, "TaskComment", task_comment_ids).order('created_at DESC')
-  #  project_admin
-  #  redirect_to taskstab_project_path(@task.project.id)
+    @activities = Activity.for_task_and_comments(@task)
   end
 
   # POST /tasks
@@ -64,7 +66,13 @@ class TasksController < ApplicationController
 
   def task_fund_info
     respond_to do |format|
-       format.json { render json: { balance: Payments::BTC::Converter.convert_satoshi_to_btc(@task.current_fund), task_id: @task.id, project_id: @task.project_id , status: 200} }
+      format.json do
+        render json: {
+          balance: Payments::BTC::Converter.convert_satoshi_to_btc(
+            @task.current_fund
+          ), task_id: @task.id, project_id: @task.project_id, status: 200
+        }
+      end
     end
   end
 
@@ -83,7 +91,7 @@ class TasksController < ApplicationController
         format.json { render :show, status: :ok, location: @task }
         format.js
       else
-        format.html { render nothing: true }
+        format.html { head :unprocessable_entity }
         format.json { render json: @task.errors, status: :unprocessable_entity }
         format.js
       end
@@ -139,20 +147,15 @@ class TasksController < ApplicationController
 
     if @task.suggested_task?
       flash[:alert] = t('.cannot_do')
-    else
-      if @task.not_fully_funded_or_less_teammembers?
-        flash[:alert] = t('.goal_not_meet')
-      else
-        # if (current_user.id == @task.project.user_id || @task.is_executer(current_user.id)) && @task.start_doing!
-        if @task.start_doing!
-          @task.project.interested_users.each do |user|
-            NotificationMailer.task_started(acting_user: current_user, task: @task, receiver: user).deliver_later
-          end
-          flash[:notice] =  t('.task_changed_to_doing')
-        else
-          flash[:alert] = t('.error_moving')
-        end
+    elsif @task.not_fully_funded_or_less_teammembers?
+      flash[:alert] = t('.goal_not_meet')
+    elsif @task.start_doing!
+      @task.project.interested_users.each do |user|
+        NotificationMailer.task_started(acting_user: current_user, task: @task, receiver: user).deliver_later
       end
+      flash[:notice] = t('.task_changed_to_doing')
+    else
+      flash[:alert] = t('.error_moving')
     end
     respond_to do |format|
       format.js
@@ -160,34 +163,35 @@ class TasksController < ApplicationController
     end
   end
 
-  def reject
-    authorize! :reject, @task
-    current_state_of_task = @task.state
+  # TODO: It looks this is a deprecated action. Commented in the meantime
+  # def reject
+  #   authorize! :reject, @task
+  #   current_state_of_task = @task.state
 
-    if @task.reject! && @task.destroy
-      flash[:notice] = t('.task_rejected', task_title: @task.title)
-      NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
+  #   if @task.reject! && @task.destroy
+  #     flash[:notice] = t('.task_rejected', task_title: @task.title)
+  #     NotificationsService.notify_about_rejected_task(@task) if current_user == @task.project.user
 
-      if current_state_of_task == 'suggested_task'
-        (@task.project.interested_users - [@task.user]).each do |user|
-          NotificationMailer.notify_others_for_rejecting_new_task(task_title: @task.title, project: @task.project, receiver: user).deliver_later
-        end
+  #     if current_state_of_task == 'suggested_task'
+  #       (@task.project.interested_users - [@task.user]).each do |user|
+  #         NotificationMailer.notify_others_for_rejecting_new_task(task_title: @task.title, project: @task.project, receiver: user).deliver_later
+  #       end
 
-        NotificationMailer.notify_user_for_rejecting_new_task(task_title: @task.title, project: @task.project, receiver: @task.user).deliver_later
-      else
-        @task.project.interested_users.each do |user|
-          NotificationMailer.task_deleted(task_title: @task.title, project: @task.project, receiver: user, admin: current_user).deliver_later
-        end
-      end
-    else
-      flash[:error] = t('.task_not_rejected')
-    end
+  #       NotificationMailer.notify_user_for_rejecting_new_task(task_title: @task.title, project: @task.project, receiver: @task.user).deliver_later
+  #     else
+  #       @task.project.interested_users.each do |user|
+  #         NotificationMailer.task_deleted(task_title: @task.title, project: @task.project, receiver: user, admin: current_user).deliver_later
+  #       end
+  #     end
+  #   else
+  #     flash[:error] = t('.task_not_rejected')
+  #   end
 
-    respond_to do |format|
-      format.js
-      format.html { redirect_to taskstab_project_url(@task.project, tab: 'tasks') }
-    end
-  end
+  #   respond_to do |format|
+  #     format.js
+  #     format.html { redirect_to taskstab_project_url(@task.project, tab: 'tasks') }
+  #   end
+  # end
 
   def reviewing
     authorize! :reviewing, @task

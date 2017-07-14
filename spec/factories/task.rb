@@ -24,6 +24,10 @@ FactoryGirl.define do
       state { 'completed' }
     end
 
+    trait :reviewing do
+      state { 'reviewing' }
+    end
+
     trait :with_associations do
       association :user, :confirmed_user, :with_wallet, factory: :user
       association :project, factory: :base_project
