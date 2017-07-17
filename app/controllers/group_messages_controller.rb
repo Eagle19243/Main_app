@@ -74,7 +74,12 @@ class GroupMessagesController < ApplicationController
   def get_chatroom
 
     project = Project.find(params[:project_id]) if params[:project_id].present?
-    recipient_user = User.find(params[:user_id]) if params[:user_id].present?
+    if params[:user_id].present?
+      recipient_user = User.find(params[:user_id])
+      @chat_sessions = ChatSession.for_users(current_user, recipient_user)
+    else
+      @chat_sessions = ChatSession.for_users(current_user)
+    end
 
     if project.present? && !recipient_user.present?
       #Project Chatroom visible to all team members

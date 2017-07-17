@@ -11,3 +11,7 @@ $("div#message-load-image").hide();
   $("_project-team-members").html("")
   $("_project-team-members").html("<%= escape_javascript(render('group_messages/project_team')) %>");
 <% end %>
+<% if @chat_sessions && @chat_sessions.any? %>
+$(".s-group-messages__chat-sessions").html("");
+$(".s-group-messages__chat-sessions").html("<%= escape_javascript(render('group_messages/chat_sessions')) %>");
+<% end %>

@@ -140,6 +140,13 @@ Rails.application.routes.draw do
   get '/pages/privacy_policy'
   get '/pages/terms_of_use'
 
+  namespace :pusher do
+    put '/chat_sessions' => 'chat_sessions#update', as: :chat_session
+    resources :auth, only: [:create]
+    resources :chat_sessions, only: [:create]
+    resources :messages, only: [:create]
+  end
+
   devise_for :users, controllers: {
     sessions: 'sessions',
     registrations: 'registrations',

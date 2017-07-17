@@ -86,6 +86,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 # Exception monitoring
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
+gem 'pusher'
 
 # A static analysis security vulnerability scanner for Ruby on Rails applications
 group :development do
@@ -144,6 +145,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma', require: false
+  gem 'hirb'
 end
 
 group :development do

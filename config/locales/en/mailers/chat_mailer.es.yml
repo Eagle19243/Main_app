@@ -1,0 +1,6 @@
+es:
+  chat_mailer:
+    invite_receiver:
+      subject: "[WeServe] %{requester_name} quiere hablar contigo"
+      greeting: "Estimado(a) %{receiver_name},"
+      body_html: "%{requester_name} ha solicitado hablar contigo. Por favor ingresa a weserve.io para más información"

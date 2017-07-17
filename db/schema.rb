@@ -97,6 +97,19 @@ ActiveRecord::Schema.define(version: 20170630135955) do
 
   add_index "chat_rooms", ["project_id"], name: "index_chat_rooms_on_project_id", using: :btree
 
+  create_table "chat_sessions", force: :cascade do |t|
+    t.string   "uuid"
+    t.string   "status"
+    t.integer  "requester_id"
+    t.integer  "receiver_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "chat_sessions", ["receiver_id"], name: "index_chat_sessions_on_receiver_id", using: :btree
+  add_index "chat_sessions", ["requester_id"], name: "index_chat_sessions_on_requester_id", using: :btree
+  add_index "chat_sessions", ["uuid"], name: "index_chat_sessions_on_uuid", using: :btree
+
   create_table "chatrooms", force: :cascade do |t|
     t.integer  "project_id"
     t.datetime "created_at",    null: false
