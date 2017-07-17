@@ -31,6 +31,7 @@
         <strong><%= t('.project_idea') %>:&nbsp;</strong>
         <% if user_signed_in? && can?(:update, @project) %>
           <%= best_in_place project, :short_description, :ok_button => "Save", :cancel_button => "Cancel", id: 'sd_pencil', :cancel_button_class => "pencil_cancel", activator: "#sd_pencil" %>
+          <i class="fa fa-pencil" aria-hidden="true"></i>
         <% else %>
           <%= @project.short_description %>
         <% end %>
@@ -44,16 +45,17 @@
 <script>
   $(document).ready(function() {
     $('.best_in_place').best_in_place();
-  })
 
-  $(document).on('click.showRevisions', '#editSource', function() {
-      $.ajax({
-          url: "/projects/<%= project.id %>/revisions",
-          dataType: "script"
-      }).success(function() {
-          if (!$('.approval-switch input').is(':checked')) {
-              $('.revision-history__mark').addClass('_hide');
-          }
-      });
+    $(document)
+        .on('click.showRevisions', '#editSource', function() {
+              $.ajax({
+                  url: "/projects/<%= project.id %>/revisions",
+                  dataType: "script"
+              }).success(function() {
+                  if (!$('.approval-switch input').is(':checked')) {
+                      $('.revision-history__mark').addClass('_hide');
+                  }
+              });
+        })
   })
 </script>
