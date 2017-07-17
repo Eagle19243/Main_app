@@ -41,8 +41,7 @@ class ApplicationController < ActionController::Base
   around_filter :set_current_user
   after_filter :user_activity
   after_action :flash_to_headers
-  before_action :basic_http_auth
-  before_action :set_locale
+  before_action :basic_http_auth, :set_locale, :check_existing_email_for_user
 
   def set_locale
     locale_prefered = current_user.preferred_language if current_user && (I18n.available_locales.map(&:to_s).include? current_user.preferred_language)
@@ -153,6 +152,17 @@ class ApplicationController < ActionController::Base
   helper_method :devise_mapping
 
   private
+
+  def check_existing_email_for_user
+    if current_user.present? && current_user.email.blank?
+      if current_user.unconfirmed_email.blank?
+        flash.now[:error] = t('landing.errors.no_email_html',
+                              user_id: current_user.id)
+      else
+        flash.now[:error] = t('landing.errors.unconfirmed_email')
+      end
+    end
+  end
 
   def user_activity
     current_user.try :update_attribute, :last_seen_at, Time.zone.now

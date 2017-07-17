@@ -71,3 +71,9 @@ es:
       bitcoin_payment:
         title: "PAGO CON BITCOIN"
         description: "Financie un proyecto en cualquier parte del mundo con un equipo multi-nacional."
+    errors:
+      no_email_html: |
+        Por favor agrega tu
+        <a href="/users/%{user_id}">dirección de correo</a>
+        a tu perfil, así podremos notificarte correctamente.
+      unconfirmed_email: Un email ha sido enviado para confirmar tu cuenta.

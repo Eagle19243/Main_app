@@ -76,7 +76,7 @@
             <div class="modal-edit-profile__row-wrapper _three-col">
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.email') %></div>
-                    <input type="text" class="modal-edit-profile__input _email" value="<%= @user.email %>" disabled>
+                    <input type="text" class="modal-edit-profile__input _email" value="<%= @user.email %>" <%= 'disabled' if current_user.email.present? %> >
                 </div>
                 <div class="modal-edit-profile__col">
                     <div class="modal-edit-profile__subtitle"><%= t('commons.phone') %></div>
@@ -128,6 +128,7 @@
                         user: {
                             first_name: $form.find('._first-name').val(),
                             last_name: $form.find('._last-name').val(),
+                            email: $form.find('._email').val(),
                             state: $form.find('._state').val(),
                             city: $form.find('._city').val(),
                             phone_number: $form.find('._phone').val(),
