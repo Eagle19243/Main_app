@@ -327,17 +327,10 @@ a.header-link {
 
 .mobile-menu {
   position: absolute;
-  right: 10px;
+  left: 10px;
   top: 70px;
   z-index: 100;
   width: 300px;
-
-  .search-project-box button {
-    background-color: transparent;
-    padding: 5px 10px;
-    display: block;
-    color: #555;
-  }
 
   ul.mobile-menu-list {
     margin: 0;
@@ -401,34 +394,7 @@ a.header-link {
   .border-bottom {
     border-bottom: 1px solid #ddd;
   }
-  // todo FD: remove dublicate styles
-  form.search-project-box {
-    width: 100%;
-    margin: 0;
-    border: none;
-    position: relative;
 
-    input[type="text"] {
-      height: 40px;
-      line-height: 40px;
-      border: none;
-      border-radius: 0;
-      padding: 0;
-      margin: 0 10px;
-      border-bottom: 1px solid #ddd;
-      font-family: 'Libre Franklin', sans-serif;
-
-      &:hover,
-      &:focus {
-        background-color: #fff;
-      }
-    }
-
-    button {
-      left: 5px;
-      font-size: 1.6em;
-    }
-  }
 
   span.count {
     background-color: #555 !important;
@@ -510,7 +476,7 @@ a.header-link {
 
 @media(min-width: 768px) {
   .mobile-menu li.show-mobile {
-    display: none !important;
+    display: none;
   }
 }
 
@@ -520,8 +486,5 @@ a.header-link {
   }
   .projects-link.hidden-mobile {
     display: none;
-  }
-  .mobile-menu li.show-mobile {
-    display: block;
   }
 }

@@ -25,11 +25,28 @@
       }
     }
   }
+  .search-project-box {
+    &._show-mobile {
+      display: none;
+    }
+  }
   &__left {
     display: flex;
     align-items: center;
     ._active-project {
       margin-left: 10px;
+    }
+    .btn-mobile {
+      display: none;
+      background: none;
+      color: #000;
+      border: 0;
+      cursor: pointer;
+      outline: none;
+      font-weight: bold;
+      font-size: 26px !important;
+      position: relative;
+      text-align: center;
     }
   }
   &__logo {
@@ -174,20 +191,6 @@
         background-color: #fff;
       }
     }
-
-
-    .btn-mobile {
-      color: #000;
-      background: none;
-      color: #000;
-      border: 0;
-      cursor: pointer;
-      outline: none;
-      font-weight: bold;
-      font-size: 26px !important;
-      position: relative;
-      text-align: center;
-    }
   }
 
   .header-dropdown {
@@ -307,6 +310,12 @@
 
 @media(max-width: 1120px) {
   .s-header {
+    &__logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-right: 0;
+    }
     &__right {
       .btn-notification,
       a.show-desktop {
@@ -319,17 +328,42 @@
         display: inline-block;
       }
     }
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .s-header {
+    .search-project-box {
+      width: 100%;
+      position: relative;
+      background-color: #fff;
+      padding: 10px 10px 0;
+      &._show-mobile {
+        display: block;
+      }
+      button {
+        position: absolute;
+        background-color: transparent;
+        color: #000;
+        padding: 0;
+        line-height: 34px;
+        margin-left: 10px;
+        &:hover,
+        &:active {
+          background-color: transparent;
+          color: #000;
+        }
+      }
+      input {
+        text-align: center;
+      }
+    }
+    .btn-mobile {
+      display: block;
+    }
     .hidden-mobile {
       display: none;
     }
+    .mobile-menu li.show-mobile {
+      display: block;
+    }
   }
 }
-
 
 @media only screen and (max-width: 520px) {
   .s-header {

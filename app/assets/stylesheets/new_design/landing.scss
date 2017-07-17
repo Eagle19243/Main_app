@@ -58,7 +58,9 @@
   }
 
   .header-wrap {
-    padding: 10px 3%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
   }
 
   .landing-logo {
@@ -79,11 +81,15 @@
         text-decoration: none;
       }
     }
+    .btn-mobile {
+      display: none;
+    }
   }
 
   .register-group {
     display: flex;
     align-items: center;
+    margin-left: auto;
     font-family: 'Roboto', sans-serif;
 
     span {
@@ -353,20 +359,37 @@
 }
 
 
-
-@media(max-width: 767px) {
-
+@media(max-width: 1120px) {
   .landing-header {
     .header-wrap {
       display: flex;
       align-items: center;
+      position: relative;
     }
 
     .register-group {
       margin-left: auto;
       margin-top: 0;
     }
+    .landing-logo {
+      a {
+        text-align: center;
+      }
+      &__logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .btn-mobile {
+        display: block;
+      }
+    }
   }
+}
+
+@media only screen and (max-width: 767px) {
   .landing-content {
     .hiw-banner {
       .hiw-flow {
@@ -459,7 +482,7 @@
     .hero-banner {
       .hero-promo {
         .promo-wrapper {
-          padding: 20px 0px;
+          padding: 20px 0;
 
           h1 {
             font-size: 30px;
