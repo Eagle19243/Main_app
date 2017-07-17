@@ -881,3 +881,16 @@ div.progress {
   }
 }
 
+@media only screen and (max-width: 740px) {
+
+  .revision-wrapper {
+    .table {
+      .revisions__col {
+        &._hide-mobile {
+          display: none;
+        }
+      }
+    }
+  }
+}
+

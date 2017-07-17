@@ -71,7 +71,7 @@
                 <a class="profile-hero__btn" href="/users/<%= current_user.id %>/my_wallet"><%= t('commons.my_wallet') %></a>
             <% end %>
             <% if current_user && current_user.id != @user.id %>
-              <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn" do %>
+              <%= link_to group_messages_path(user_id: @user.id), class: "profile-hero__btn _hide-mobile" do %>
                 <svg focusable="false" version="1.1" class="svg-envelope">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-envelope"></use>
                 </svg><%= t('commons.message') %>
