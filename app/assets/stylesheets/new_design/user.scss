@@ -486,6 +486,16 @@
   }
 }
 
+@media only screen and (max-width: 740px) {
+  .profile-hero {
+    &__btn {
+      &._hide-mobile {
+        display: none;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 380px) {
   .profile-hero {
     &__dl {

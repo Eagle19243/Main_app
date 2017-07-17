@@ -9,7 +9,7 @@
         </th>
         <th>Time</th>
         <th>Contributors</th>
-        <th></th>
+        <th class="revisions__col _hide-mobile"></th>
         <th></th>
         <th>Approved version</th>
       </tr>
@@ -51,7 +51,7 @@
               <%= link_to 'Anonymous', '' %>
             <% end %>
           </td>
-          <td>
+          <td class="revisions__col _hide-mobile">
             <% if history['user'].present? %>
               <%= link_to group_messages_path(user_id: history['user'].id) do %>
                 <i class="fa fa-comment-o" aria-hidden="true"></i>&nbsp;Message
