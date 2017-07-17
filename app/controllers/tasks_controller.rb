@@ -73,6 +73,7 @@ class TasksController < ApplicationController
           ), task_id: @task.id, project_id: @task.project_id, status: 200
         }
       end
+      format.html { redirect_to root_path, alert: t('tasks.validate_team_member.not_allowed') }
     end
   end
 

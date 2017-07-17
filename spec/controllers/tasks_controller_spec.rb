@@ -538,7 +538,7 @@ RSpec.describe TasksController do
     let(:task) { create(:task) }
 
     it 'returns a successful response' do
-      xhr :get, :task_fund_info, id: task.id
+      xhr :get, :task_fund_info, id: task.id, format: :json
       expect(response.status).to eq(200)
     end
   end
