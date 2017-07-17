@@ -85,6 +85,10 @@
       transition: opacity .2s;
     }
   }
+  &__btns-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
   &__qr-wrap {
     position: absolute;
     opacity: 0;
