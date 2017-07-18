@@ -337,6 +337,11 @@
     }
   }
 
+
+  div.btn-edit-wrapper {
+    float: right;
+  }
+
   div.btn-wrapper,
   div.btn-edit-wrapper,
   div.btn-wiki-wrapper {
@@ -520,6 +525,7 @@
 
 .project-summary {
   font-size: 16px;
+  padding: 0 10px;
   a {
     color: #555;
   }
@@ -1057,6 +1063,9 @@
       &__inner {
         padding: 0;
       }
+    }
+    div.btn-edit-wrapper {
+      float: none;
     }
   }
 }
