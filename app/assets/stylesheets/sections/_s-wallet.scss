@@ -137,11 +137,57 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    .btn-root {
+      &:active,
+      &:focus {
+        background-color: #fff;
+      }
+    }
   }
 }
 
 @media only screen and (max-width: 1040px) {
   .s-wallet {
     margin-left: 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .s-wallet {
+    &__title {
+      text-align: center;
+      font-weight: 600;
+    }
+    &__subtitle {
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    &__top-bar {
+      display: block;
+      text-align: center;
+    }
+    &__btc-address {
+      margin-right: 0;
+    }
+    &__usd {
+      text-align: center;
+    }
+    &__qr {
+      margin: 20px 0;
+    }
+    &__content {
+      &-header {
+        flex-direction: column-reverse;
+        margin-bottom: 0;
+        .s-wallet__subtitle {
+          align-self: flex-start;
+          margin: 40px 0 0;
+        }
+      }
+      &-main {
+        overflow-x: auto;
+        margin-bottom: 40px;
+      }
+    }
   }
 }
