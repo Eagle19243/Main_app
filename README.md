@@ -126,6 +126,10 @@ Lets say we're going to translate some text on from English to Russian, he is th
 
 **Note**: you can use [YAML validator](http://www.yamllint.com/) to ensure you did not make an error during translation.
 
+# Staging
+
+Our staging enviroment is seted up on https://staging.weserve.io , http basic username/password are weserve / w3s3rv3
+
 # Troubleshooting
 
 * To be added...
