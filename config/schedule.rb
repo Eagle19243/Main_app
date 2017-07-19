@@ -21,3 +21,7 @@ end
 every 1.week do
   rake "weserve:update_wallets_receiver_address"
 end
+
+every 1.day, :at => '5:30 am' do
+  rake "task_summary:send_summary_notification"
+end
