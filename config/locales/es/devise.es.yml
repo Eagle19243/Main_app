@@ -55,8 +55,6 @@ es:
         instruction: 'Haga click en el siguiente enlace para desbloquear su cuenta:'
         message: Su cuenta ha sido bloqueada debido a una cantidad excesiva de intentos infructuosos para ingresar.
         subject: "Instrucciones para desbloquear su cuenta"
-      password_change:
-        subject: "Contraseña cambiada"
     omniauth_callbacks:
       failure: "No pudimos autenticarlo de %{kind} debido a \"%{reason}\"."
       success: "La cuenta %{kind} fue autenticada exitosamente."

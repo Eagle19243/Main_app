@@ -13,7 +13,7 @@ es:
       mark_completed: "Marcar como completa"
       mark_completed_confirmation: '¿Confirmas que has revisado la tarea y que está completa?'
       mark_incomplete: "Marcar como incompleta"
-      mark_completed_confirmation: '¿Confirmas que has revisado la tarea y que está incompleta?'
+      mark_incomplete_confirmation: '¿Confirmas que has revisado la tarea y que está incompleta?'
       no_teammate: "No se ha agregado compañero de equipo aún"
       proof_of_execution: "Prueba de ejecución"
       refund_task: 'Reembolsar tarea'
