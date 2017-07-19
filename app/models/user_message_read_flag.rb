@@ -9,5 +9,5 @@ class UserMessageReadFlag< ActiveRecord::Base
   def mark_as_read
     self.update_attribute(:read_status,true)
   end
-  
+
 end

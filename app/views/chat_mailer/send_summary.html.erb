@@ -1,0 +1,7 @@
+<p><%= t('.unread_message', receiver_name: @user.display_name) %></p>
+
+<% @user.user_message_read_flags.unread.each do |msg| %>
+  <pre>
+    <%= msg.group_message.message %>
+  </pre>
+<% end %>
