@@ -3,6 +3,7 @@
     <%= form_tag("/user_wallet_transactions/send_to_any_address", method: "post", class: "f-transaction" ) do %>
         <div class="f-transaction__title"><%= t('commons.make_transaction') %></div>
 
+        <div class="f-transaction__notification">Processing fee of ~0.001 ฿ will be deduced from entered amount by Bitcoin network</div>
         <div class="f-default__row">
             <label class="f-default__label">
                 <span class="f-default__label-text"><%= t('.bitcoin_address') %></span>
