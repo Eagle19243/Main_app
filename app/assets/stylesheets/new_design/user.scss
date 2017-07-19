@@ -354,7 +354,9 @@
   position: relative;
   width: 100%;
   padding: 20px 30px;
-
+  .myprojects__list {
+    display: none;
+  }
   h2 {
     font-family: 'Roboto', sans-serif;
     color: #000;
@@ -492,6 +494,44 @@
       &._hide-mobile {
         display: none;
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .myprojets-wrapper {
+    h2 {
+      text-align: center;
+      font-weight: 600;
+    }
+    .myprojects {
+      &__item {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #7d7d7d;
+        margin-bottom: 10px;
+        a {
+          color: #7d7d7d;
+          font-weight: 400;
+          &:hover {
+            text-decoration: none;
+          }
+          &:visited {
+            color: #7d7d7d;
+          }
+        }
+      }
+      &__list {
+        display: block;
+        margin: 0;
+        list-style-type: none;
+        text-align: center;
+        font-size: 20px;
+        color: #c11f1f;
+        font-family: 'Roboto', sans-serif;
+      }
+    }
+    .my-projects {
+      display: none;
     }
   }
 }

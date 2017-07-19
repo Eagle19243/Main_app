@@ -1,7 +1,16 @@
 <%= render 'layouts/messages' %>
 <div class="myprojets-wrapper">
+  <h2><%= t('commons.my_projects') %></h2>
+  <ul class="myprojects__list">
+    <% @user.projects.each do |project| %>
+        <li class="myprojects__item">
+            <%= link_to project_path(project) do %>
+                <span class="myprojects__item-title"><%= project.title %></span>
+            <% end %>
+        </li>
+    <% end %>
+  </ul>
   <div class="myprojets-table">
-    <h2><%= t('commons.my_projects') %></h2>
     <div class="table-responsive mb30 my-projects">
       <table class="table">
         <thead>
